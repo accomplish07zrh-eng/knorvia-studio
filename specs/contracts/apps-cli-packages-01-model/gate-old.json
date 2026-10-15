@@ -1,0 +1,30 @@
+{
+  "contract": "apps-cli-packages-01-model",
+  "contractVersion": "v1",
+  "node": "v24.14.0",
+  "command": "node --import tsx --test --test-concurrency=1 --test-timeout=120000 <tests/*.test.ts>",
+  "preregisteredDifferences": 0,
+  "assertionsRelaxed": false,
+  "runs": [
+    {
+      "entry": "source",
+      "exitCode": 0,
+      "tests": 68,
+      "pass": 68,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0,
+      "outputTail": "✔ B43 流式工具调用装配器（状态机） (0.4214ms)\n✔ B44 Anthropic 兼容 fetch：请求体归一 (5.5689ms)\n✔ B45 Anthropic 兼容 fetch：响应侧修补 (4.5938ms)\n✔ B46 OpenAI Responses JSON 兼容 (1.1703ms)\nℹ tests 68\nℹ suites 0\nℹ pass 68\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 21449.2936"
+    },
+    {
+      "entry": "dist",
+      "exitCode": 0,
+      "tests": 68,
+      "pass": 68,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0,
+      "outputTail": "✔ B43 流式工具调用装配器（状态机） (0.3793ms)\n✔ B44 Anthropic 兼容 fetch：请求体归一 (3.8398ms)\n✔ B45 Anthropic 兼容 fetch：响应侧修补 (3.6795ms)\n✔ B46 OpenAI Responses JSON 兼容 (0.9659ms)\nℹ tests 68\nℹ suites 0\nℹ pass 68\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 19523.7532"
+    }
+  ]
+}

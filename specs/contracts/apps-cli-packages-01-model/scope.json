@@ -1,0 +1,1098 @@
+{
+  "packageId": "apps-cli-packages-01-model",
+  "milestone": "M2",
+  "scope": "apps/cli/packages/adapters/src/model/**",
+  "upstream": {
+    "repository": "zai-org/ZCode",
+    "revision": "872ad960de7ec172591f7e1952f7849229f94521",
+    "cacheDir": "D:/knorvia studio开发/cache/zcode-872ad960"
+  },
+  "thresholds": {
+    "containmentMax": 0.2,
+    "longestRunMax": 8,
+    "structuralMax": 0.4,
+    "residualBelowLines": 10,
+    "residualMustBeZero": true
+  },
+  "measureNote": "普通模式与声明模式（interface.md + interface-supplement.md 剥离集）对上游固定提交实测；--sql-freeze 与普通模式等价（本目录无 SQL）。",
+  "counts": {
+    "files": 51,
+    "inherited": 44,
+    "inheritedLines": 4823,
+    "allLines": 5052,
+    "failBothModes": 43
+  },
+  "files": [
+    {
+      "path": "apps/cli/packages/adapters/src/model/anthropic-reasoning-metadata.ts",
+      "lines": 18,
+      "inherited": true,
+      "licensing": "independent-replacement",
+      "plain": {
+        "containment": 0.769,
+        "longestRun": 9,
+        "structural": 0.333,
+        "residualLines": 13,
+        "pass": false
+      },
+      "declaration": {
+        "containment": 1,
+        "longestRun": 3,
+        "structural": 0,
+        "residualLines": 7,
+        "strippedLines": 6,
+        "pass": false
+      }
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/anthropic-request-metadata.ts",
+      "lines": 28,
+      "inherited": true,
+      "licensing": "independent-replacement",
+      "plain": {
+        "containment": 0.333,
+        "longestRun": 5,
+        "structural": 0.056,
+        "residualLines": 18,
+        "pass": false
+      },
+      "declaration": {
+        "containment": 0.333,
+        "longestRun": 1,
+        "structural": 0,
+        "residualLines": 3,
+        "strippedLines": 15,
+        "pass": false
+      }
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/anthropic-stream-compat.ts",
+      "lines": 176,
+      "inherited": true,
+      "licensing": "independent-replacement",
+      "plain": {
+        "containment": 0.229,
+        "longestRun": 3,
+        "structural": 0.033,
+        "residualLines": 140,
+        "pass": false
+      },
+      "declaration": {
+        "containment": 0.373,
+        "longestRun": 2,
+        "structural": 0,
+        "residualLines": 51,
+        "strippedLines": 89,
+        "pass": false
+      }
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/empty-completion-retry.ts",
+      "lines": 54,
+      "inherited": true,
+      "licensing": "independent-replacement",
+      "plain": {
+        "containment": 0.878,
+        "longestRun": 16,
+        "structural": 0.389,
+        "residualLines": 41,
+        "pass": false
+      },
+      "declaration": {
+        "containment": 0.923,
+        "longestRun": 3,
+        "structural": 0,
+        "residualLines": 13,
+        "strippedLines": 28,
+        "pass": false
+      }
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/errors.ts",
+      "lines": 51,
+      "inherited": true,
+      "licensing": "independent-replacement",
+      "plain": {
+        "containment": 0.732,
+        "longestRun": 11,
+        "structural": 0.357,
+        "residualLines": 41,
+        "pass": false
+      },
+      "declaration": {
+        "containment": 0.909,
+        "longestRun": 1,
+        "structural": 0,
+        "residualLines": 11,
+        "strippedLines": 30,
+        "pass": false
+      }
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/failure-ai-sdk-provider-error.ts",
+      "lines": 27,
+      "inherited": true,
+      "licensing": "independent-replacement",
+      "plain": {
+        "containment": 0.467,
+        "longestRun": 3,
+        "structural": 0,
+        "residualLines": 15,
+        "pass": false
+      },
+      "declaration": {
+        "containment": 0.5,
+        "longestRun": 1,
+        "structural": 0,
+        "residualLines": 8,
+        "strippedLines": 7,
+        "pass": false
+      }
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/failure-classifier.ts",
+      "lines": 225,
+      "inherited": true,
+      "licensing": "independent-replacement",
+      "plain": {
+        "containment": 0.262,
+        "longestRun": 12,
+        "structural": 0.08,
+        "residualLines": 164,
+        "pass": false
+      },
+      "declaration": {
+        "containment": 0.423,
+        "longestRun": 2,
+        "structural": 0.033,
+        "residualLines": 52,
+        "strippedLines": 112,
+        "pass": false
+      }
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/failure-inspection.ts",
+      "lines": 127,
+      "inherited": true,
+      "licensing": "independent-replacement",
+      "plain": {
+        "containment": 0.202,
+        "longestRun": 2,
+        "structural": 0.01,
+        "residualLines": 99,
+        "pass": false
+      },
+      "declaration": {
+        "containment": 0.444,
+        "longestRun": 2,
+        "structural": 0,
+        "residualLines": 18,
+        "strippedLines": 81,
+        "pass": false
+      }
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/failure-provider-business-codes.ts",
+      "lines": 142,
+      "inherited": true,
+      "licensing": "independent-replacement",
+      "plain": {
+        "containment": 0.447,
+        "longestRun": 14,
+        "structural": 0.077,
+        "residualLines": 114,
+        "pass": false
+      },
+      "declaration": {
+        "containment": 0.575,
+        "longestRun": 14,
+        "structural": 0.097,
+        "residualLines": 80,
+        "strippedLines": 34,
+        "pass": false
+      }
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/failure-tls.ts",
+      "lines": 31,
+      "inherited": false,
+      "licensing": "independent-replacement",
+      "plain": {
+        "containment": 0.167,
+        "longestRun": 3,
+        "structural": 0.1,
+        "residualLines": 24,
+        "pass": true
+      },
+      "declaration": {
+        "containment": 0.111,
+        "longestRun": 1,
+        "structural": 0,
+        "residualLines": 9,
+        "strippedLines": 15,
+        "pass": false
+      }
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/index.ts",
+      "lines": 11,
+      "inherited": false,
+      "licensing": "independent-replacement",
+      "plain": {
+        "containment": 0,
+        "longestRun": 0,
+        "structural": 0,
+        "residualLines": 1,
+        "pass": true
+      },
+      "declaration": {
+        "containment": 0,
+        "longestRun": 0,
+        "structural": 0,
+        "residualLines": 0,
+        "strippedLines": 1,
+        "pass": true
+      }
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/media-transform-policy.ts",
+      "lines": 31,
+      "inherited": true,
+      "licensing": "independent-replacement",
+      "plain": {
+        "containment": 0.333,
+        "longestRun": 5,
+        "structural": 0,
+        "residualLines": 24,
+        "pass": false
+      },
+      "declaration": {
+        "containment": 0.636,
+        "longestRun": 5,
+        "structural": 0,
+        "residualLines": 11,
+        "strippedLines": 13,
+        "pass": false
+      }
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/model-execution.ts",
+      "lines": 318,
+      "inherited": true,
+      "licensing": "independent-replacement",
+      "plain": {
+        "containment": 0.456,
+        "longestRun": 25,
+        "structural": 0.657,
+        "residualLines": 261,
+        "pass": false
+      },
+      "declaration": {
+        "containment": 0.516,
+        "longestRun": 5,
+        "structural": 0,
+        "residualLines": 126,
+        "strippedLines": 135,
+        "pass": false
+      }
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/model-option-map-fetch.ts",
+      "lines": 35,
+      "inherited": true,
+      "licensing": "independent-replacement",
+      "plain": {
+        "containment": 0.375,
+        "longestRun": 9,
+        "structural": 0.118,
+        "residualLines": 24,
+        "pass": false
+      },
+      "declaration": {
+        "containment": 0,
+        "longestRun": 0,
+        "structural": 0,
+        "residualLines": 0,
+        "strippedLines": 24,
+        "pass": true
+      }
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/model-request-headers.ts",
+      "lines": 16,
+      "inherited": true,
+      "licensing": "independent-replacement",
+      "plain": {
+        "containment": 0.455,
+        "longestRun": 3,
+        "structural": 0.091,
+        "residualLines": 11,
+        "pass": false
+      },
+      "declaration": {
+        "containment": 1,
+        "longestRun": 1,
+        "structural": 0,
+        "residualLines": 1,
+        "strippedLines": 10,
+        "pass": false
+      }
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/model.ts",
+      "lines": 116,
+      "inherited": true,
+      "licensing": "independent-replacement",
+      "plain": {
+        "containment": 0.232,
+        "longestRun": 13,
+        "structural": 0.267,
+        "residualLines": 82,
+        "pass": false
+      },
+      "declaration": {
+        "containment": 0.333,
+        "longestRun": 1,
+        "structural": 0,
+        "residualLines": 15,
+        "strippedLines": 67,
+        "pass": false
+      }
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/offpeak-retry.ts",
+      "lines": 28,
+      "inherited": true,
+      "licensing": "independent-replacement",
+      "plain": {
+        "containment": 0.571,
+        "longestRun": 6,
+        "structural": 0.143,
+        "residualLines": 21,
+        "pass": false
+      },
+      "declaration": {
+        "containment": 0.8,
+        "longestRun": 2,
+        "structural": 0,
+        "residualLines": 10,
+        "strippedLines": 11,
+        "pass": false
+      }
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/openai-responses-json-compat.ts",
+      "lines": 36,
+      "inherited": true,
+      "licensing": "independent-replacement",
+      "plain": {
+        "containment": 0.464,
+        "longestRun": 3,
+        "structural": 0.167,
+        "residualLines": 28,
+        "pass": false
+      },
+      "declaration": {
+        "containment": 0.75,
+        "longestRun": 2,
+        "structural": 0,
+        "residualLines": 8,
+        "strippedLines": 20,
+        "pass": false
+      }
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/opencode-session.ts",
+      "lines": 12,
+      "inherited": true,
+      "licensing": "independent-replacement",
+      "plain": {
+        "containment": 0.5,
+        "longestRun": 2,
+        "structural": 0.333,
+        "residualLines": 8,
+        "pass": false
+      },
+      "declaration": {
+        "containment": 0.8,
+        "longestRun": 2,
+        "structural": 0,
+        "residualLines": 5,
+        "strippedLines": 3,
+        "pass": false
+      }
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/provider-finish-business-error.ts",
+      "lines": 47,
+      "inherited": false,
+      "licensing": "independent-replacement",
+      "plain": {
+        "containment": 0.171,
+        "longestRun": 3,
+        "structural": 0.042,
+        "residualLines": 35,
+        "pass": true
+      },
+      "declaration": {
+        "containment": 0.188,
+        "longestRun": 1,
+        "structural": 0,
+        "residualLines": 16,
+        "strippedLines": 19,
+        "pass": true
+      }
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/reasoning-history-normalization.ts",
+      "lines": 68,
+      "inherited": true,
+      "licensing": "independent-replacement",
+      "plain": {
+        "containment": 0.264,
+        "longestRun": 4,
+        "structural": 0.023,
+        "residualLines": 53,
+        "pass": false
+      },
+      "declaration": {
+        "containment": 0.6,
+        "longestRun": 2,
+        "structural": 0,
+        "residualLines": 15,
+        "strippedLines": 38,
+        "pass": false
+      }
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/request-admission.ts",
+      "lines": 42,
+      "inherited": true,
+      "licensing": "independent-replacement",
+      "plain": {
+        "containment": 0.586,
+        "longestRun": 7,
+        "structural": 0.211,
+        "residualLines": 29,
+        "pass": false
+      },
+      "declaration": {
+        "containment": 0.75,
+        "longestRun": 6,
+        "structural": 0,
+        "residualLines": 8,
+        "strippedLines": 21,
+        "pass": false
+      }
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/retry-budget.ts",
+      "lines": 28,
+      "inherited": true,
+      "licensing": "independent-replacement",
+      "plain": {
+        "containment": 0.952,
+        "longestRun": 6,
+        "structural": 1,
+        "residualLines": 21,
+        "pass": false
+      },
+      "declaration": {
+        "containment": 1,
+        "longestRun": 3,
+        "structural": 0,
+        "residualLines": 11,
+        "strippedLines": 10,
+        "pass": false
+      }
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/retry-policy.ts",
+      "lines": 54,
+      "inherited": true,
+      "licensing": "independent-replacement",
+      "plain": {
+        "containment": 0.357,
+        "longestRun": 8,
+        "structural": 0.15,
+        "residualLines": 42,
+        "pass": false
+      },
+      "declaration": {
+        "containment": 0.429,
+        "longestRun": 7,
+        "structural": 0.083,
+        "residualLines": 28,
+        "strippedLines": 14,
+        "pass": false
+      }
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/runner-attribution.ts",
+      "lines": 43,
+      "inherited": true,
+      "licensing": "independent-replacement",
+      "plain": {
+        "containment": 0.313,
+        "longestRun": 4,
+        "structural": 0,
+        "residualLines": 32,
+        "pass": false
+      },
+      "declaration": {
+        "containment": 0.412,
+        "longestRun": 2,
+        "structural": 0,
+        "residualLines": 17,
+        "strippedLines": 15,
+        "pass": false
+      }
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/runner-debug-redaction.ts",
+      "lines": 23,
+      "inherited": false,
+      "licensing": "independent-replacement",
+      "plain": {
+        "containment": 0.188,
+        "longestRun": 3,
+        "structural": 0,
+        "residualLines": 16,
+        "pass": true
+      },
+      "declaration": {
+        "containment": 0.5,
+        "longestRun": 1,
+        "structural": 0,
+        "residualLines": 2,
+        "strippedLines": 14,
+        "pass": false
+      }
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/runner-debug.ts",
+      "lines": 306,
+      "inherited": true,
+      "licensing": "independent-replacement",
+      "plain": {
+        "containment": 0.272,
+        "longestRun": 15,
+        "structural": 0.075,
+        "residualLines": 254,
+        "pass": false
+      },
+      "declaration": {
+        "containment": 0.519,
+        "longestRun": 3,
+        "structural": 0,
+        "residualLines": 52,
+        "strippedLines": 202,
+        "pass": false
+      }
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/runner-diagnostics.ts",
+      "lines": 159,
+      "inherited": true,
+      "licensing": "independent-replacement",
+      "plain": {
+        "containment": 0.659,
+        "longestRun": 19,
+        "structural": 0.214,
+        "residualLines": 132,
+        "pass": false
+      },
+      "declaration": {
+        "containment": 0.778,
+        "longestRun": 17,
+        "structural": 0.147,
+        "residualLines": 63,
+        "strippedLines": 69,
+        "pass": false
+      }
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/runner-generate.ts",
+      "lines": 379,
+      "inherited": true,
+      "licensing": "independent-replacement",
+      "plain": {
+        "containment": 0.547,
+        "longestRun": 12,
+        "structural": 0.037,
+        "residualLines": 289,
+        "pass": false
+      },
+      "declaration": {
+        "containment": 0.529,
+        "longestRun": 3,
+        "structural": 0,
+        "residualLines": 102,
+        "strippedLines": 187,
+        "pass": false
+      }
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/runner-network-headers.ts",
+      "lines": 13,
+      "inherited": true,
+      "licensing": "independent-replacement",
+      "plain": {
+        "containment": 0.111,
+        "longestRun": 1,
+        "structural": 0.111,
+        "residualLines": 9,
+        "pass": false
+      },
+      "declaration": {
+        "containment": 1,
+        "longestRun": 1,
+        "structural": 0,
+        "residualLines": 1,
+        "strippedLines": 8,
+        "pass": false
+      }
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/runner-normalization.ts",
+      "lines": 165,
+      "inherited": true,
+      "licensing": "independent-replacement",
+      "plain": {
+        "containment": 0.433,
+        "longestRun": 6,
+        "structural": 0.013,
+        "residualLines": 127,
+        "pass": false
+      },
+      "declaration": {
+        "containment": 0.694,
+        "longestRun": 3,
+        "structural": 0,
+        "residualLines": 36,
+        "strippedLines": 91,
+        "pass": false
+      }
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/runner-options.ts",
+      "lines": 85,
+      "inherited": true,
+      "licensing": "independent-replacement",
+      "plain": {
+        "containment": 0.683,
+        "longestRun": 9,
+        "structural": 0.243,
+        "residualLines": 60,
+        "pass": false
+      },
+      "declaration": {
+        "containment": 0.737,
+        "longestRun": 3,
+        "structural": 0,
+        "residualLines": 19,
+        "strippedLines": 41,
+        "pass": false
+      }
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/runner-record.ts",
+      "lines": 23,
+      "inherited": true,
+      "licensing": "independent-replacement",
+      "plain": {
+        "containment": 0.813,
+        "longestRun": 8,
+        "structural": 0.412,
+        "residualLines": 16,
+        "pass": false
+      },
+      "declaration": {
+        "containment": 1,
+        "longestRun": 1,
+        "structural": 0,
+        "residualLines": 2,
+        "strippedLines": 14,
+        "pass": false
+      }
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/runner-retry.ts",
+      "lines": 91,
+      "inherited": true,
+      "licensing": "independent-replacement",
+      "plain": {
+        "containment": 0.486,
+        "longestRun": 9,
+        "structural": 0.133,
+        "residualLines": 70,
+        "pass": false
+      },
+      "declaration": {
+        "containment": 0.48,
+        "longestRun": 2,
+        "structural": 0,
+        "residualLines": 25,
+        "strippedLines": 45,
+        "pass": false
+      }
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/runner-runtime-headers.ts",
+      "lines": 36,
+      "inherited": true,
+      "licensing": "independent-replacement",
+      "plain": {
+        "containment": 0.556,
+        "longestRun": 7,
+        "structural": 0.167,
+        "residualLines": 27,
+        "pass": false
+      },
+      "declaration": {
+        "containment": 0.667,
+        "longestRun": 1,
+        "structural": 0,
+        "residualLines": 3,
+        "strippedLines": 24,
+        "pass": false
+      }
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/runner-runtime.ts",
+      "lines": 60,
+      "inherited": true,
+      "licensing": "independent-replacement",
+      "plain": {
+        "containment": 0.6,
+        "longestRun": 11,
+        "structural": 0.526,
+        "residualLines": 40,
+        "pass": false
+      },
+      "declaration": {
+        "containment": 0.423,
+        "longestRun": 4,
+        "structural": 0,
+        "residualLines": 26,
+        "strippedLines": 14,
+        "pass": false
+      }
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/runner-status.ts",
+      "lines": 207,
+      "inherited": true,
+      "licensing": "independent-replacement",
+      "plain": {
+        "containment": 0.447,
+        "longestRun": 20,
+        "structural": 0.084,
+        "residualLines": 161,
+        "pass": false
+      },
+      "declaration": {
+        "containment": 0.478,
+        "longestRun": 2,
+        "structural": 0.037,
+        "residualLines": 46,
+        "strippedLines": 115,
+        "pass": false
+      }
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/runner-stream.ts",
+      "lines": 413,
+      "inherited": true,
+      "licensing": "independent-replacement",
+      "plain": {
+        "containment": 0.357,
+        "longestRun": 4,
+        "structural": 0.011,
+        "residualLines": 328,
+        "pass": false
+      },
+      "declaration": {
+        "containment": 0.286,
+        "longestRun": 1,
+        "structural": 0.019,
+        "residualLines": 140,
+        "strippedLines": 188,
+        "pass": false
+      }
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/runner-telemetry.ts",
+      "lines": 59,
+      "inherited": true,
+      "licensing": "independent-replacement",
+      "plain": {
+        "containment": 0.348,
+        "longestRun": 4,
+        "structural": 0.036,
+        "residualLines": 46,
+        "pass": false
+      },
+      "declaration": {
+        "containment": 0.571,
+        "longestRun": 2,
+        "structural": 0,
+        "residualLines": 14,
+        "strippedLines": 32,
+        "pass": false
+      }
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/runner.ts",
+      "lines": 250,
+      "inherited": true,
+      "licensing": "independent-replacement",
+      "plain": {
+        "containment": 0.383,
+        "longestRun": 20,
+        "structural": 0.087,
+        "residualLines": 175,
+        "pass": false
+      },
+      "declaration": {
+        "containment": 0.238,
+        "longestRun": 2,
+        "structural": 0.026,
+        "residualLines": 63,
+        "strippedLines": 112,
+        "pass": false
+      }
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/stream-idle-timeout.ts",
+      "lines": 98,
+      "inherited": true,
+      "licensing": "independent-replacement",
+      "plain": {
+        "containment": 0.513,
+        "longestRun": 7,
+        "structural": 0.375,
+        "residualLines": 76,
+        "pass": false
+      },
+      "declaration": {
+        "containment": 0.652,
+        "longestRun": 3,
+        "structural": 0,
+        "residualLines": 23,
+        "strippedLines": 53,
+        "pass": false
+      }
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/stream-retry-boundary.ts",
+      "lines": 142,
+      "inherited": true,
+      "licensing": "independent-replacement",
+      "plain": {
+        "containment": 0.321,
+        "longestRun": 3,
+        "structural": 0,
+        "residualLines": 112,
+        "pass": false
+      },
+      "declaration": {
+        "containment": 0.357,
+        "longestRun": 2,
+        "structural": 0,
+        "residualLines": 28,
+        "strippedLines": 84,
+        "pass": false
+      }
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/streaming-tool-call-assembler.ts",
+      "lines": 80,
+      "inherited": true,
+      "licensing": "independent-replacement",
+      "plain": {
+        "containment": 0.25,
+        "longestRun": 3,
+        "structural": 0.021,
+        "residualLines": 60,
+        "pass": false
+      },
+      "declaration": {
+        "containment": 0.333,
+        "longestRun": 1,
+        "structural": 0,
+        "residualLines": 12,
+        "strippedLines": 48,
+        "pass": false
+      }
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/strict-tool-schema.ts",
+      "lines": 70,
+      "inherited": false,
+      "licensing": "independent-replacement",
+      "plain": {
+        "containment": 0.071,
+        "longestRun": 1,
+        "structural": 0.025,
+        "residualLines": 56,
+        "pass": true
+      },
+      "declaration": {
+        "containment": 0.2,
+        "longestRun": 2,
+        "structural": 0,
+        "residualLines": 20,
+        "strippedLines": 36,
+        "pass": false
+      }
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/system-message-compat.ts",
+      "lines": 25,
+      "inherited": false,
+      "licensing": "independent-replacement",
+      "plain": {
+        "containment": 0.167,
+        "longestRun": 3,
+        "structural": 0.067,
+        "residualLines": 18,
+        "pass": true
+      },
+      "declaration": {
+        "containment": 1,
+        "longestRun": 1,
+        "structural": 0,
+        "residualLines": 2,
+        "strippedLines": 16,
+        "pass": false
+      }
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/tool-call-validation.ts",
+      "lines": 22,
+      "inherited": false,
+      "licensing": "independent-replacement",
+      "plain": {
+        "containment": 0.143,
+        "longestRun": 1,
+        "structural": 0,
+        "residualLines": 14,
+        "pass": true
+      },
+      "declaration": {
+        "containment": 0.4,
+        "longestRun": 1,
+        "structural": 0,
+        "residualLines": 5,
+        "strippedLines": 9,
+        "pass": false
+      }
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/tool-input-normalization.ts",
+      "lines": 26,
+      "inherited": true,
+      "licensing": "independent-replacement",
+      "plain": {
+        "containment": 0.684,
+        "longestRun": 8,
+        "structural": 0.111,
+        "residualLines": 19,
+        "pass": false
+      },
+      "declaration": {
+        "containment": 1,
+        "longestRun": 2,
+        "structural": 0,
+        "residualLines": 6,
+        "strippedLines": 13,
+        "pass": false
+      }
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/tool-result-media-projection.ts",
+      "lines": 107,
+      "inherited": true,
+      "licensing": "independent-replacement",
+      "plain": {
+        "containment": 0.405,
+        "longestRun": 8,
+        "structural": 0.185,
+        "residualLines": 84,
+        "pass": false
+      },
+      "declaration": {
+        "containment": 0.567,
+        "longestRun": 6,
+        "structural": 0,
+        "residualLines": 30,
+        "strippedLines": 54,
+        "pass": false
+      }
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/tool-transform.ts",
+      "lines": 129,
+      "inherited": true,
+      "licensing": "independent-replacement",
+      "plain": {
+        "containment": 0.272,
+        "longestRun": 8,
+        "structural": 0.038,
+        "residualLines": 103,
+        "pass": false
+      },
+      "declaration": {
+        "containment": 0.488,
+        "longestRun": 6,
+        "structural": 0.056,
+        "residualLines": 41,
+        "strippedLines": 62,
+        "pass": false
+      }
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/transform.ts",
+      "lines": 207,
+      "inherited": true,
+      "licensing": "independent-replacement",
+      "plain": {
+        "containment": 0.204,
+        "longestRun": 6,
+        "structural": 0.025,
+        "residualLines": 162,
+        "pass": false
+      },
+      "declaration": {
+        "containment": 0.207,
+        "longestRun": 1,
+        "structural": 0,
+        "residualLines": 29,
+        "strippedLines": 133,
+        "pass": false
+      }
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/workflow-model-failure-policy.ts",
+      "lines": 113,
+      "inherited": true,
+      "licensing": "independent-replacement",
+      "plain": {
+        "containment": 0.606,
+        "longestRun": 9,
+        "structural": 0.196,
+        "residualLines": 99,
+        "pass": false
+      },
+      "declaration": {
+        "containment": 0.865,
+        "longestRun": 9,
+        "structural": 0.133,
+        "residualLines": 52,
+        "strippedLines": 47,
+        "pass": false
+      }
+    }
+  ]
+}
