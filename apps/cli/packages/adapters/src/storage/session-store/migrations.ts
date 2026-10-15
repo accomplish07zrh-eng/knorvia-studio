@@ -595,15 +595,15 @@ export const SQLITE_MIGRATIONS: readonly SqliteMigration[] = [
   {
     appVersion: "0.15.2",
     id: "0015_message_part_sequence_backfill_and_guard",
-    // 背景：0014 backfill 之后仍持续出现 NULL sequence
-    // （本机观测 message 1,690 / part 5,933 行，跨 331 sessions），主要嫌疑是旧版本二进制
-    // 并存写同一 DB（其 INSERT 不含 sequence 列）。本迁移做两件事：
-    // 1. 增量 backfill：只补 NULL 行，序号从各 scope 现有 max(sequence)+1 起、按
-    //    time_created/rowid 排——与读路径 fallback（sequence is null 排在非空之后）完全
-    //    一致，backfill 前后 hydrate 顺序不变。不能复用 0014 的 row_number-1 写法：
-    //    它按全量行编号，混排数据下会与既有 sequence 撞号并把 NULL 行重排到前面。
-    // 2. AFTER INSERT 触发器兜底：旧二进制再写入 NULL sequence 时自动补当前 scope 队尾，
-    //    从源头阻止新的 NULL 产生；新代码路径 sequence 恒非空，触发器不生效。
+    // 起因：0014 回填之后仍不断出现 sequence 为 NULL 的行
+    // （本机观测 message 1,690 行、part 5,933 行，横跨 331 个会话），最可能是旧版二进制
+    // 与新版并存、写入时未带 sequence 列。本条迁移只做两件事：
+    // 一、增量补号：只补 NULL 行，序号从各 scope 当前 max(sequence)+1 起，按
+    //    time_created/rowid 排序——与读取路径「NULL 排在非空之后」的兜底一致，
+    //    补号前后 hydrate 顺序不变。不能沿用 0014 的 row_number-1：
+    //    那是按全量行编号，混排时会与既有 sequence 撞号，并把 NULL 行提到前面。
+    // 二、AFTER INSERT 触发器兜底：旧二进制再写入 NULL sequence 时自动补到该 scope 队尾，
+    //    从源头堵住新增 NULL；新代码写入的 sequence 恒非空，触发器不会触发。
     sql: `
       with session_max as (
         select session_id, coalesce(max(sequence), -1) as max_sequence
@@ -683,10 +683,10 @@ export const SQLITE_MIGRATIONS: readonly SqliteMigration[] = [
   {
     appVersion: "0.15.2",
     id: "0016_session_input_ledger",
-    // session_input 账本：输入的 durable 生命周期
-    // admitted -> promoted / cancelled / discarded。队列/唤醒的存在性若只在
-    // 进程内存（事件日志也是内存的），崩溃即静默丢；账本让「queue 消失但不进
-    // history」不可能静默发生，并为输入类 command 提供 durable 幂等。
+    // session_input 账本：记录输入从准入到终态的 durable 生命周期
+    // admitted → promoted / cancelled / discarded。若队列与唤醒只存在于进程内存
+    // （事件日志同样是内存态），崩溃就会静默丢输入；账本让「队列条目消失却没有
+    // 进历史」无法静默发生，并为输入类命令提供 durable 幂等。
     sql: `
       create table if not exists session_input (
         id text primary key,
@@ -712,8 +712,8 @@ export const SQLITE_MIGRATIONS: readonly SqliteMigration[] = [
   {
     appVersion: "0.15.2",
     id: "0017_session_input_start_now_delivery",
-    // 所有 input command 都在执行前落 durable admission，startNow 也需要独立
-    // delivery，不能伪装成 queue。SQLite 不能原地修改 CHECK，必须重建表并保全账本。
+    // 所有 input 命令都在执行前落 durable admission；startNow 也要有独立的
+    // delivery 取值，不能伪装成 queue。SQLite 无法原地改 CHECK，只能重建表并保全账本。
     sql: `
       alter table session_input rename to session_input_before_start_now;
 
@@ -754,9 +754,9 @@ export const SQLITE_MIGRATIONS: readonly SqliteMigration[] = [
   {
     appVersion: "0.15.2",
     id: "0018_session_input_failed_status",
-    // fork bundle 提交后 child runtime 仍可能同步启动失败。该输入已经被 parent
-    // accepted fact 接受，不能伪装成 cancelled/discarded；新增 durable failed 终态，并通过
-    // 重建 CHECK 保证旧库升级后也能写入，重启不会再次消费或改写它。
+    // fork bundle 提交后，child runtime 仍可能启动失败。该输入已被 parent 的
+    // accepted fact 接受，不能伪装成 cancelled/discarded；因此新增 durable 的 failed 终态，
+    // 并重建 CHECK 让旧库升级后也能写入，重启后不再消费或改写它。
     sql: `
       alter table session_input rename to session_input_before_failed_status;
 
@@ -798,35 +798,35 @@ export const SQLITE_MIGRATIONS: readonly SqliteMigration[] = [
     appVersion: "0.16.5",
     id: "0019_dwf_journal",
     // dynamic-workflow 执行引擎的 durable journal。
-    // legacy 的 workflow_* 表只是模板不是家：dwf_* 自成一套，与既有 workflow 机制彼此独立。
-    //
-    // 本条是 beta 前把开发期 0019–0030 十二条迁移**压成的单一基线**：四张表一次建齐、形状即
-    // 0030 之后的终态。中间态（三次为放宽 CHECK 的整表重建、0028 的删列改名）只存在于
-    // 内部预览库里，收敛办法是删掉四张 dwf_* 表并清掉 schema_migration 里的 dwf 记账行，
-    // 下次启动由本条重建。beta 之后本条
-    // 不可再改：runner 按 checksum 记账，历史迁移只能追加。
-    //
-    // 只为占住 0019 这个槽位，让
-    // staging 后续迁移从 0020 起编号，功能分支合回时 ledger 不会撞号。四张表在功能落地前闲置无害。
-    //
-    // 几条刻意为之的设计：
-    // 1) parent_session_id / session_id 是纯 text，不加 FOREIGN KEY——子代理会话跑在内存
-    //    event store 上、没有 session 行，而 runner 开着 pragma foreign_keys = on，真加 FK
-    //    会把合法的 journal 记录挡在门外。dwf_* 之外的任何表都不被引用，也不引用它们。
-    // 2) dwf_run 没有节点上限 / token 预算列：run 级
+    // legacy 的 workflow_* 表只是模板、不是归宿：dwf_* 自成一套，与既有机制互不依赖。
+    // （以下为设计说明）
+    // 本条是把开发期 0019–0030 十二条迁移压成的单一基线，四张表一次建齐，形状即
+    // 0030 之后的终态。中间态（三次放宽 CHECK 的重建、0028 的删列改名）只存在于
+    // 内部预览库；收敛方式是删掉四张 dwf_* 表、清掉 schema_migration 里的 dwf 记账行，
+    // 下次启动由本条重建。beta 之后本条不可再改：
+    // runner 按 checksum 记账，历史迁移只能追加。
+    // （以下为设计说明）
+    // 本条的另一个作用是占住 0019 槽位，让 staging 的后续迁移从 0020 起编号，
+    // 功能分支合回时 ledger 不会撞号；四张表在功能落地前闲置无害。
+    // （以下为设计说明）
+    // 几处刻意为之的设计：
+    // 一、parent_session_id / session_id 用纯 text，不加 FOREIGN KEY——子代理会话跑在内存
+    //    event store 上没有 session 行，而 runner 打开 pragma foreign_keys = on，真加 FK
+    //    会挡掉合法的 journal 记录。dwf_* 之外的表既不引用它们，也不被它们引用。
+    // 二、dwf_run 不设节点上限与 token 预算列：run 级
     //    token 用量只作观察面，即 spent_tokens。
-    // 3) dwf_node 的 unique(run_id, actor_id, actor_seq) 不可实现：putNode 是准入→结算→统计
-    //    回填的 upsert，actor 坐标分散在三个可空列上；每子代理的 actor_seq 唯一性由引擎守。
-    //    report / artifact 行有行无节点：一次写入、status 恒为 completed、actor 三列全空。
-    // 4) 可空列一律「NULL 即缺席」：result_json / name / tool_call_id / args_json /
-    //    resumed_from / resolved_model / message_boundary / artifact_id / input_json 都解码成
-    //    缺席的键（args_json 解成 `{}`），不存哑值。
-    // 5) 索引即查询形状（列序反了就只能全表扫）：
+    // 三、dwf_node 的 unique(run_id, actor_id, actor_seq) 无法实现：putNode 走
+    //    「准入 → 结算 → 统计回填」的 upsert，actor 坐标分散在三个可空列上；
+    //    每子代理的 actor_seq 唯一性由引擎保证。report / artifact 行有行无节点：
+    //    一次写入、status 恒为 completed、actor 三列全空。
+    // 四、可空列一律「NULL 即缺席」：result_json / name / tool_call_id / args_json /
+    //    resumed_from / resolved_model / message_boundary / artifact_id / input_json
+    //    都解码成缺席的键（args_json 解成 {}），不写哑值。
+    // 五、索引即查询形状（列序反了就只能全表扫）：
     //    - dwf_run_cwd_idx：按 cwd 枚举历史 run，「cwd 等值 + time_updated 倒序 + limit」。
-    //    - dwf_node_artifact_idx：本 run 的产物行与按 id 取带标签的 report 行。
-    //    - dwf_event_artifact_idx：看板取数按 journal sequence 分页，取数源是 dwf_event 而不是
-    //      dwf_node；表达式索引（SQLite ≥ 3.9）让它不必扫整条 journal。第三列 sequence 不是
-    //      装饰——没有它规划器宁可走 unique(run_id, sequence) 的自动索引再逐行筛产物。
+    //    - dwf_node_artifact_idx：本 run 的产物行，以及按 id 取带标签的 report 行。
+    //    - dwf_event_artifact_idx：看板按 journal sequence 分页取数，数据源是 dwf_event
+    //      而不是 dwf_node；表达式索引（SQLite ≥ 3.9）让它不必扫整条 journal。
     sql: `
       create table if not exists dwf_run (
         id text primary key,

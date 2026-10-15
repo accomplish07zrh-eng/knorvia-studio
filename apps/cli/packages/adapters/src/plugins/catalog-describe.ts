@@ -9,6 +9,7 @@ import {
   loadMarketplaceManifestSync,
 } from "./catalog-refresh.js";
 import { listInstalledPluginRecords, resolveInstalledPluginRoot } from "./catalog-repository.js";
+import type { DescribeMarketplacePluginInput } from "./catalog-describe-types.js";
 import type {
   DescribeMarketplacePluginResult,
   PluginManifestDisplayMetadata,
@@ -22,25 +23,21 @@ import { diagnosticForError, loadedForRoot } from "./plugin-validation.js";
 
 function displayMetadata(
   manifest: PluginManifest | null,
-): PluginManifestDisplayMetadata | undefined {
+): /* 有内容才透出，否则整体缺席 */ PluginManifestDisplayMetadata | undefined {
   if (!manifest) return undefined;
   const author = normalizeAuthorValue(manifest.author);
-  const result: PluginManifestDisplayMetadata = {
-    ...(author?.name ? { author: author.name } : {}),
-    ...(author?.url ? { authorUrl: author.url } : {}),
-    ...(typeof manifest.homepage === "string" && manifest.homepage
-      ? { homepage: manifest.homepage }
-      : {}),
-    ...(typeof manifest.version === "string" && manifest.version
-      ? { version: manifest.version }
-      : {}),
-  };
+  const result: PluginManifestDisplayMetadata = {};
+  if (author?.name) result.author = author.name;
+  if (author?.url) result.authorUrl = author.url;
+  if (typeof manifest.homepage === "string" && manifest.homepage)
+    result.homepage = manifest.homepage;
+  if (typeof manifest.version === "string" && manifest.version) result.version = manifest.version;
   return Object.keys(result).length ? result : undefined;
 }
 
 function describeRoot(
   root: string,
-  marketplace: string,
+  /* 所属市场标识 */ marketplace: string,
   entry?: PluginMarketplaceEntry,
 ): DescribeMarketplacePluginResult {
   const diagnostics: PluginDiagnostic[] = [];
@@ -69,11 +66,9 @@ function describeRoot(
   return { components, diagnostics, ...(metadata ? { metadata } : {}) };
 }
 
-export async function describeMarketplacePlugin(input: {
-  marketplace: string;
-  name: string;
-  storageRoot: string;
-}): Promise<DescribeMarketplacePluginResult> {
+export async function describeMarketplacePlugin(
+  input: DescribeMarketplacePluginInput,
+): Promise<DescribeMarketplacePluginResult> {
   const id = `${input.name}@${input.marketplace}`;
   try {
     const installed = listInstalledPluginRecords(input.storageRoot).find(
@@ -83,14 +78,17 @@ export async function describeMarketplacePlugin(input: {
       const root = resolveInstalledPluginRoot(input.storageRoot, installed);
       if (directoryExists(root)) {
         const entry = loadMarketplaceManifestSync(
-          input.storageRoot,
-          input.marketplace,
+          /* 市场数据根目录 */ input.storageRoot,
+          /* 市场标识 */ input.marketplace,
         )?.plugins.find((item) => item.name === input.name);
         return describeRoot(root, input.marketplace, entry);
       }
     }
     await ensureMarketplaceManifestAvailable(input);
-    const manifest = loadMarketplaceManifestSync(input.storageRoot, input.marketplace);
+    const manifest = loadMarketplaceManifestSync(
+      /* 市场数据根目录 */ input.storageRoot,
+      /* 市场标识 */ input.marketplace,
+    );
     const entry = manifest?.plugins.find((item) => item.name === input.name);
     if (!manifest || !entry)
       throw new CatalogOperationError("plugin_not_found", `Plugin not found: ${id}`);

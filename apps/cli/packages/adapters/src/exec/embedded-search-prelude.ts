@@ -3,9 +3,10 @@
 import type { ExecutionEmbeddedSearchPrelude, ExecutionShellSelection } from "@knorvia/contracts";
 import { windowsPathToGitBashPath } from "@knorvia/contracts";
 
-type EmbeddedSearchPreludeShellDialect = ExecutionShellSelection["dialect"];
-interface EmbeddedSearchPreludeOptions {
-  shellDialect?: EmbeddedSearchPreludeShellDialect;
+type /* shell 方言别名：取自执行 shell 选择 */ EmbeddedSearchPreludeShellDialect =
+  ExecutionShellSelection["dialect"];
+interface /* 前置脚本选项 */ EmbeddedSearchPreludeOptions {
+  shellDialect?: /* 目标 shell 方言：决定路径改写方式 */ EmbeddedSearchPreludeShellDialect;
 }
 
 function quote(value: string): string {
@@ -15,7 +16,7 @@ function quote(value: string): string {
 function commandPath(
   value: string,
   dialect: EmbeddedSearchPreludeShellDialect | undefined,
-): string {
+): /* 改写后的路径 */ string {
   if (dialect === "git-bash" && /^[a-zA-Z]:[\\/]/.test(value)) {
     return windowsPathToGitBashPath(value);
   }
@@ -67,18 +68,18 @@ function wrapper(name: string, invocation: string): string {
 }
 
 function grepWrapper(invocation: string): string {
-  return [
+  /* 包装体：逐行拼接后 join */ return [
     "grep() {",
     '  case " $* " in',
     '    *" --null-data "*|*" -z "*|*" --config "*|*" --config="*|*" --filter "*|*" --filter="*|*" --view "*|*" --view="*) command grep "$@" ; return $? ;;',
     "  esac",
     `  ${invocation}`,
-    "}",
+    /* 包装体结尾 */ "}",
   ].join("\n");
 }
 
-export function buildEmbeddedSearchPreludeContent(
-  prelude?: ExecutionEmbeddedSearchPrelude,
+export function /* 入口：拼出搜索前置脚本（无内容时 undefined） */ buildEmbeddedSearchPreludeContent(
+  prelude?: /* 前置脚本配置（可缺省） */ ExecutionEmbeddedSearchPrelude,
   options: EmbeddedSearchPreludeOptions = {},
 ): string | undefined {
   if (!prelude || prelude.kind !== "embedded-search") return undefined;

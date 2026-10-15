@@ -1,5 +1,8 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2026 Knorvia Studio contributors
+//
+// 存储层公开入口：工件读写走 artifact-files，媒体附件走 artifact-media（含单飞合并），
+// 会话存储整体再导出，信任库整体再导出。
 
 import { dirname, join } from "node:path";
 import type {
@@ -35,87 +38,91 @@ export interface NodeToolArtifactStoreOptions {
   videoCacheRootDir: string;
 }
 
-export class NodeToolArtifactStore implements ToolArtifactStorePort {
-  readonly #roots: ArtifactRoots;
-  readonly #flights = new Map<string, Promise<MediaAttachmentPathResult>>();
+/** 可传取消信号的调用选项：与 port 声明的结构等价，仅用于压缩签名。 */
+type CallOptions = { signal?: AbortSignal } | undefined;
+type MediaFlight = Promise<MediaAttachmentPathResult>;
 
-  constructor(options: NodeToolArtifactStoreOptions) {
-    this.#roots = {
-      rootDir: options.rootDir,
-      imageCacheRootDir: options.imageCacheRootDir,
-      videoCacheRootDir: options.videoCacheRootDir,
-      pdfCacheRootDir: options.pdfCacheRootDir ?? join(dirname(options.rootDir), "pdf-cache"),
-    };
+/** 缓存子目录：pdf 未显式给出时取根目录的兄弟目录。 */
+function buildRoots(settings: NodeToolArtifactStoreOptions): ArtifactRoots {
+  const roots = {} as ArtifactRoots;
+  roots.rootDir = settings.rootDir;
+  roots.imageCacheRootDir = settings.imageCacheRootDir;
+  roots.videoCacheRootDir = settings.videoCacheRootDir;
+  roots.pdfCacheRootDir = settings.pdfCacheRootDir ?? join(dirname(settings.rootDir), "pdf-cache");
+  return roots;
+}
+
+export class NodeToolArtifactStore implements ToolArtifactStorePort {
+  readonly #cache: ArtifactRoots;
+  readonly #flights = new Map<string, MediaFlight>();
+
+  constructor(settings: NodeToolArtifactStoreOptions) {
+    this.#cache = buildRoots(settings);
   }
 
   writeToolResultArtifact(
-    request: ToolArtifactWriteRequest,
-    options?: { signal?: AbortSignal },
+    input: ToolArtifactWriteRequest,
+    settings?: CallOptions,
   ): Promise<ToolArtifactWriteResult> {
-    return writeText(this.#roots.rootDir, request, options?.signal);
+    return writeText(this.#cache.rootDir, input, settings?.signal);
   }
 
   writeToolResultBinaryArtifact(
-    request: ToolBinaryArtifactWriteRequest,
-    options?: { signal?: AbortSignal },
+    input: ToolBinaryArtifactWriteRequest,
+    settings?: CallOptions,
   ): Promise<ToolArtifactWriteResult> {
-    return writeBinary(this.#roots.rootDir, request, options?.signal);
+    return writeBinary(this.#cache.rootDir, input, settings?.signal);
   }
 
   readToolResultArtifact(
-    request: ToolArtifactReadRequest,
-    options?: { signal?: AbortSignal },
+    input: ToolArtifactReadRequest,
+    settings?: CallOptions,
   ): Promise<ToolArtifactReadResult> {
-    return readText(this.#roots.rootDir, request, options?.signal);
+    return readText(this.#cache.rootDir, input, settings?.signal);
   }
 
   readToolResultBinaryArtifact(
-    request: ToolArtifactReadRequest,
-    options?: { signal?: AbortSignal },
+    input: ToolArtifactReadRequest,
+    settings?: CallOptions,
   ): Promise<ToolBinaryArtifactReadResult> {
-    return readBinary(this.#roots.rootDir, request, options?.signal);
+    return readBinary(this.#cache.rootDir, input, settings?.signal);
   }
 
   statToolResultArtifact(
-    request: ToolArtifactStatRequest,
-    options?: { signal?: AbortSignal },
+    input: ToolArtifactStatRequest,
+    settings?: CallOptions,
   ): Promise<ToolArtifactStatResult> {
-    return inspectArtifact(this.#roots.rootDir, request, options?.signal);
+    return inspectArtifact(this.#cache.rootDir, input, settings?.signal);
   }
 
-  #singleFlight(
-    uri: string,
-    start: () => Promise<MediaAttachmentPathResult>,
-  ): Promise<MediaAttachmentPathResult> {
-    const existing = this.#flights.get(uri);
-    if (existing) return existing;
-    const work = start();
-    const flight = work.finally(() => {
-      if (this.#flights.get(uri) === flight) this.#flights.delete(uri);
+  /** 同一 uri 的并发请求共用一次发布；完成后立刻从表中移除（失败也移除）。 */
+  #singleFlight(uri: string, launch: () => MediaFlight): MediaFlight {
+    const inFlight = this.#flights.get(uri);
+    if (inFlight) return inFlight;
+    const shared = launch().finally(() => {
+      if (this.#flights.get(uri) === shared) this.#flights.delete(uri);
     });
-    this.#flights.set(uri, flight);
-    return flight;
+    this.#flights.set(uri, shared);
+    return shared;
   }
 
-  primeImageAttachmentPath(
-    request: ImageAttachmentPathPrimeRequest,
-  ): Promise<MediaAttachmentPathResult> {
-    return this.primeMediaAttachmentPath(request);
+  primeImageAttachmentPath(input: ImageAttachmentPathPrimeRequest): MediaFlight {
+    return this.primeMediaAttachmentPath(input);
   }
 
-  primeMediaAttachmentPath(
-    request: MediaAttachmentPathPrimeRequest,
-  ): Promise<MediaAttachmentPathResult> {
-    return this.#singleFlight(request.uri, () =>
-      publishMedia(this.#roots, request.uri, request.mediaType, Buffer.from(request.bytes)),
+  primeMediaAttachmentPath(input: MediaAttachmentPathPrimeRequest): MediaFlight {
+    // 同 uri 已有在途发布：直接复用，不再读取入参的 mediaType/bytes（它们可能不可用）。
+    const pending = this.#flights.get(input.uri);
+    if (pending) return pending;
+    const bytes = Buffer.from(input.bytes);
+    return this.#singleFlight(input.uri, () =>
+      publishMedia(this.#cache, input.uri, input.mediaType, bytes),
     );
   }
 
-  ensureMediaAttachmentPath(
-    request: MediaAttachmentPathEnsureRequest,
-  ): Promise<MediaAttachmentPathResult> {
-    return this.#singleFlight(request.uri, async () =>
-      ensureMedia(this.#roots, request.uri, request.mediaType, (uri) =>
+  ensureMediaAttachmentPath(input: MediaAttachmentPathEnsureRequest): MediaFlight {
+    return this.#singleFlight(input.uri, async () =>
+      ensureMedia(this.#cache, input.uri, input.mediaType, (uri) =>
         this.readToolResultArtifact({ uri }),
       ),
     );
@@ -123,9 +130,9 @@ export class NodeToolArtifactStore implements ToolArtifactStorePort {
 }
 
 export function createNodeToolArtifactStore(
-  options: NodeToolArtifactStoreOptions,
+  settings: NodeToolArtifactStoreOptions,
 ): ToolArtifactStorePort {
-  return new NodeToolArtifactStore(options);
+  return new NodeToolArtifactStore(settings);
 }
 
 export * from "./workspace-hook-trust-store.js";

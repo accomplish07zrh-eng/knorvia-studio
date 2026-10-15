@@ -8,7 +8,7 @@ import { ProxyAgent } from "proxy-agent";
 
 const NO_BODY_STATUSES = new Set([204, 205, 304]);
 
-interface NodeExchange {
+interface NodeExchangePlan {
   url: URL;
   method: string;
   headers: Headers;
@@ -33,29 +33,29 @@ function releaseMessage(message: http.IncomingMessage): void {
   }
 }
 
-export function exchangeWithNode(input: NodeExchange): Promise<Response> {
+export function exchangeWithNode(input: NodeExchangePlan): Promise<Response> {
   const secure = input.url.protocol === "https:";
-  const proxy = input.proxyUrl;
+  const proxyTarget = input.proxyUrl;
   let agent: http.Agent | undefined;
-  if (proxy !== undefined) {
+  if (proxyTarget !== undefined) {
     agent = new ProxyAgent({
       ca: input.ca,
-      getProxyForUrl: () => proxy,
+      getProxyForUrl: () => proxyTarget,
       httpsAgent: input.ca ? new https.Agent({ ca: input.ca }) : undefined,
     });
   } else if (secure && input.ca) {
     agent = new https.Agent({ ca: input.ca });
   }
 
-  const outgoing: Record<string, string> = {};
+  const flatHeaders: Record<string, string> = {};
   input.headers.forEach((value, key) => {
-    outgoing[key] = value;
+    flatHeaders[key] = value;
   });
   const noBodyMethod = input.method.toUpperCase() === "HEAD";
   const send = secure ? https.request : http.request;
 
   return new Promise<Response>((resolve, reject) => {
-    let settled = false;
+    let finished = false;
     const request = send(
       {
         hostname: input.url.hostname,
@@ -63,13 +63,13 @@ export function exchangeWithNode(input: NodeExchange): Promise<Response> {
         port: input.url.port || undefined,
         path: input.url.pathname + input.url.search,
         method: input.method,
-        headers: outgoing,
+        headers: flatHeaders,
         signal: input.signal,
         agent,
-        lookup: proxy === undefined ? input.lookup : undefined,
+        lookup: proxyTarget === undefined ? input.lookup : undefined,
       },
       (message) => {
-        if (settled) {
+        if (finished) {
           releaseMessage(message);
           return;
         }
@@ -88,20 +88,20 @@ export function exchangeWithNode(input: NodeExchange): Promise<Response> {
             noBody ? null : (Readable.toWeb(message) as ReadableStream<Uint8Array>),
             { status, statusText: message.statusMessage, headers },
           );
-          settled = true;
+          finished = true;
           // 原异步回调中的 Response 异常会逃出 Promise；空状态也不能强塞 stream。
           if (noBody) releaseMessage(message);
           resolve(response);
         } catch (cause) {
-          settled = true;
+          finished = true;
           releaseMessage(message);
           reject(cause);
         }
       },
     );
     request.on("error", (cause) => {
-      if (settled) return;
-      settled = true;
+      if (finished) return;
+      finished = true;
       reject(cause);
     });
     request.end(input.body);

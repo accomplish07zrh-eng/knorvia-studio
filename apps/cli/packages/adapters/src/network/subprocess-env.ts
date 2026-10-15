@@ -1,5 +1,14 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2026 Knorvia Studio contributors
+//
+// 子进程网络出口：把代理/绕过/CA 三类配置写进子进程环境变量。
+// 形状声明见 subprocess-env-types.ts；本文件保持既有导出面（仅再导出 policy 类型）。
+//
+// 写入规则：
+// 一、Windows 分支下环境变量名大小写不敏感：取值取首个匹配键，删除删掉全部别名。
+// 二、工具透传环境先落地，随后被显式策略覆盖；source 可以就是 env 本身。
+// 三、代理缺 scheme 时补 http://，再同时写入大小写两套变量名。
+// 四、no_proxy 与 CA 证书各自写两套/多套变量名，保证子进程工具链都能读到。
 
 import {
   KNORVIA_AGENT_CA_CERT_ENV_KEY,
@@ -8,34 +17,34 @@ import {
   KNORVIA_TOOL_ENV_PASSTHROUGH_ENV_KEY,
   readKnorviaToolEnvPassthroughEnv,
 } from "@knorvia/shared/runtime-env";
+import type { NetworkEgressEnvOptions, NetworkEgressEnvPolicy } from "./subprocess-env-types.js";
 
-export interface NetworkEgressEnvPolicy {
-  caCertFile?: string;
-  httpProxy?: string;
-  noProxy?: string;
-}
+export type { NetworkEgressEnvPolicy } from "./subprocess-env-types.js";
 
-interface NetworkEgressEnvOptions {
-  network?: NetworkEgressEnvPolicy;
-  platform?: NodeJS.Platform;
-  sourceEnv?: Record<string, string | undefined>;
-  toolEnvPassthrough?: boolean;
-}
+/** 写入代理时覆盖的变量名（大小写两套，顺序即写入顺序）。 */
+const PROXY_ENV_KEYS = "HTTP_PROXY HTTPS_PROXY ALL_PROXY http_proxy https_proxy all_proxy".split(
+  " ",
+);
 
+/** 写入自定义 CA 时覆盖的变量名（Node / OpenSSL / requests / curl / git）。 */
+const CA_ENV_KEYS =
+  "NODE_EXTRA_CA_CERTS SSL_CERT_FILE REQUESTS_CA_BUNDLE CURL_CA_BUNDLE GIT_SSL_CAINFO".split(" ");
+
+/** 取值：Windows 下按不区分大小写的首个匹配键，其余平台直接取同名键。 */
 function sourceValue(
-  source: Record<string, string | undefined>,
+  origin: Record<string, string | undefined>,
   name: string,
-  windows: boolean,
+  foldCase: boolean,
 ): string | undefined {
-  if (!windows) return source[name];
+  if (!foldCase) return origin[name];
   const folded = name.toLowerCase();
-  const key = Object.keys(source).find((entry) => entry.toLowerCase() === folded);
+  const key = Object.keys(origin).find((entry) => entry.toLowerCase() === folded);
   // Windows 首个匹配即决定结果，空值也不能跳到后面的大小写别名。
-  return key === undefined ? undefined : source[key];
+  return key === undefined ? undefined : origin[key];
 }
 
-function removeKey(target: Record<string, string>, name: string, windows: boolean): void {
-  if (!windows) {
+function removeKey(target: Record<string, string>, name: string, foldCase: boolean): void {
+  if (!foldCase) {
     delete target[name];
     return;
   }
@@ -49,74 +58,79 @@ function writeValue(
   target: Record<string, string>,
   name: string,
   value: string,
-  windows: boolean,
+  foldCase: boolean,
 ): void {
-  removeKey(target, name, windows);
+  removeKey(target, name, foldCase);
   target[name] = value;
 }
 
 function nonblankSourceValue(
-  source: Record<string, string | undefined>,
+  origin: Record<string, string | undefined>,
   name: string,
-  windows: boolean,
+  foldCase: boolean,
 ): string | undefined {
-  const value = sourceValue(source, name, windows);
+  const value = sourceValue(origin, name, foldCase);
   return value?.trim() ? value : undefined;
 }
 
+/** 工具透传环境 → 目标 env（可关闭）。 */
+function mergeToolPassthrough(
+  targetEnv: Record<string, string>,
+  origin: Record<string, string | undefined>,
+  foldCase: boolean,
+  enabled: boolean,
+): void {
+  removeKey(targetEnv, KNORVIA_TOOL_ENV_PASSTHROUGH_ENV_KEY, foldCase);
+  if (!enabled) return;
+  for (const [key, value] of Object.entries(readKnorviaToolEnvPassthroughEnv(origin))) {
+    writeValue(targetEnv, key, value, foldCase);
+  }
+}
+
+function writeAll(
+  targetEnv: Record<string, string>,
+  keys: readonly string[],
+  value: string,
+  foldCase: boolean,
+): void {
+  for (const key of keys) writeValue(targetEnv, key, value, foldCase);
+}
+
+/** 代理值：显式策略优先，其次来源环境；缺 scheme 时补 http://。 */
+function proxyValue(
+  origin: Record<string, string | undefined>,
+  policy: NetworkEgressEnvPolicy,
+  foldCase: boolean,
+): string | undefined {
+  const raw =
+    policy.httpProxy?.trim() || sourceValue(origin, KNORVIA_HTTP_PROXY_ENV_KEY, foldCase)?.trim();
+  if (!raw) return undefined;
+  return /^[a-z][a-z0-9+.-]*:\/\//i.test(raw) ? raw : `http://${raw}`;
+}
+
 export function applyNetworkEgressEnv(
-  env: Record<string, string>,
+  targetEnv: Record<string, string>,
   options: NetworkEgressEnvOptions,
 ): Record<string, string> {
   const platform = options.platform ?? process.platform;
-  const source = options.sourceEnv ?? {};
-  const network = options.network ?? {};
-  const windows = platform === "win32";
+  const origin = options.sourceEnv ?? {};
+  const policy = options.network ?? {};
+  const foldCase = platform === "win32";
 
-  removeKey(env, KNORVIA_TOOL_ENV_PASSTHROUGH_ENV_KEY, windows);
-  if (options.toolEnvPassthrough !== false) {
-    for (const [key, value] of Object.entries(readKnorviaToolEnvPassthroughEnv(source))) {
-      writeValue(env, key, value, windows);
-    }
-  }
+  mergeToolPassthrough(targetEnv, origin, foldCase, options.toolEnvPassthrough !== false);
 
   // source 可以就是 env；必须在覆盖和前序写入之后逐项取值，不能提前快照。
-  const proxy =
-    network.httpProxy?.trim() || sourceValue(source, KNORVIA_HTTP_PROXY_ENV_KEY, windows)?.trim();
-  if (proxy) {
-    const value = /^[a-z][a-z0-9+.-]*:\/\//i.test(proxy) ? proxy : `http://${proxy}`;
-    for (const key of [
-      "HTTP_PROXY",
-      "HTTPS_PROXY",
-      "ALL_PROXY",
-      "http_proxy",
-      "https_proxy",
-      "all_proxy",
-    ]) {
-      writeValue(env, key, value, windows);
-    }
-  }
+  const proxy = proxyValue(origin, policy, foldCase);
+  if (proxy) writeAll(targetEnv, PROXY_ENV_KEYS, proxy, foldCase);
 
   const noProxy =
-    network.noProxy?.trim() || nonblankSourceValue(source, KNORVIA_NO_PROXY_ENV_KEY, windows);
-  if (noProxy) {
-    writeValue(env, "NO_PROXY", noProxy, windows);
-    writeValue(env, "no_proxy", noProxy, windows);
-  }
+    policy.noProxy?.trim() || nonblankSourceValue(origin, KNORVIA_NO_PROXY_ENV_KEY, foldCase);
+  if (noProxy) writeAll(targetEnv, ["NO_PROXY", "no_proxy"], noProxy, foldCase);
 
   const ca =
-    network.caCertFile?.trim() ||
-    nonblankSourceValue(source, KNORVIA_AGENT_CA_CERT_ENV_KEY, windows);
-  if (ca) {
-    for (const key of [
-      "NODE_EXTRA_CA_CERTS",
-      "SSL_CERT_FILE",
-      "REQUESTS_CA_BUNDLE",
-      "CURL_CA_BUNDLE",
-      "GIT_SSL_CAINFO",
-    ]) {
-      writeValue(env, key, ca, windows);
-    }
-  }
-  return env;
+    policy.caCertFile?.trim() ||
+    nonblankSourceValue(origin, KNORVIA_AGENT_CA_CERT_ENV_KEY, foldCase);
+  if (ca) writeAll(targetEnv, CA_ENV_KEYS, ca, foldCase);
+
+  return targetEnv;
 }

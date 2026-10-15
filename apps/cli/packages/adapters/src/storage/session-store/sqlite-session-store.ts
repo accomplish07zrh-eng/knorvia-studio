@@ -328,14 +328,15 @@ export class SqliteSessionStore implements SessionApi {
   }
 }
 
-export function createSqliteSessionStore(
-  options: SqliteSessionStoreOptions = {},
-): SqliteSessionStore {
+/** 工厂入参别名：与 port 声明的结构等价，仅用于把签名压成单行。 */
+type FactoryOptions = SqliteSessionStoreOptions;
+
+export function createSqliteSessionStore(options: FactoryOptions = {}): SqliteSessionStore {
   return new SqliteSessionStore(options);
 }
-export function openStartupSqliteSessionStore(
-  options: SqliteSessionStoreOptions = {},
-): SqliteSessionStore {
+
+export function openStartupSqliteSessionStore(options: FactoryOptions = {}): SqliteSessionStore {
   return new SqliteSessionStore(options);
 }
+
 export { getDefaultSessionDbPath };

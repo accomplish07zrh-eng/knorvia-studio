@@ -28,7 +28,7 @@ import {
 } from "./execution-utils.js";
 
 function detachedCallback(callback: ExecutionRunOptions["onEvent"], event: ExecutionEvent): void {
-  try {
+  try /* 读取可能失败：按降级语义处理 */ {
     const pending = callback?.(event);
     if (pending) void Promise.resolve(pending).catch(() => undefined);
   } catch {
@@ -52,7 +52,7 @@ async function ensureFile(target: string | undefined): Promise<void> {
 }
 
 function startResult(record: BackgroundTaskRecord): BackgroundExecutionStartResult {
-  return {
+  return /* 输出视图 */ {
     taskId: record.taskId,
     status: "running",
     startedAt: record.startedAt,
@@ -73,7 +73,7 @@ export class ExecutionLifecycle {
     if (this.coordinator.isClosing) throw new Error("Execution adapter is closed.");
     const taskId = randomUUID();
     const startedAt = new Date();
-    const controller = new AbortController();
+    const controller = /* 取消控制器 */ new AbortController();
     const backgroundRequest: ExecutionRequest = {
       ...request,
       captureCwdAfterSuccess: false,
@@ -82,10 +82,10 @@ export class ExecutionLifecycle {
     const paths = this.coordinator.outputPathsForRequest(backgroundRequest);
     const isBash = isBashMergedOutputRequest(backgroundRequest);
     const record = this.coordinator.createBackgroundTaskRecord({
-      controller,
+      /* 取消控制器 */ controller,
       outputPaths: paths,
       startedAt,
-      taskId,
+      /* 后台任务标识 */ taskId,
       request: backgroundRequest,
       isBash,
     });
@@ -101,7 +101,7 @@ export class ExecutionLifecycle {
         this.coordinator.updateBackgroundTaskRecordFromEvent(record, event);
         detachedCallback(options.onEvent, event);
       },
-      shouldRetainExecutionAfterRootExit: () => true,
+      shouldRetainExecutionAfterRootExit: /* 根退出后保留执行 */ () => true,
     };
     const execution = (async () => {
       if (!isBash) {
@@ -138,9 +138,9 @@ export class ExecutionLifecycle {
     return startResult(record);
   }
 
-  async runBashWithBackgroundLifecycle(
+  async /* 带后台生命周期的 bash 执行 */ runBashWithBackgroundLifecycle(
     request: ExecutionRequest,
-    lifecycle: { mode: BashBackgroundLifecycleMode },
+    lifecycle: /* 生命周期模式 */ { mode: BashBackgroundLifecycleMode },
     options: ExecutionRunOptions = {},
   ): Promise<BashBackgroundLifecycleResult> {
     if (!isBashMergedOutputRequest(request)) {
@@ -148,16 +148,16 @@ export class ExecutionLifecycle {
     }
     const originalPersistence: OutputPersistenceMode =
       request.outputLimit?.persistOutput ?? "on_truncate";
-    const controller = new AbortController();
+    const controller = /* 取消控制器 */ new AbortController();
     const detachParentAbort = linkAbort(options.signal, controller);
     const executionRequest: ExecutionRequest = {
       ...request,
       timeoutMs: 0,
-      outputLimit: {
+      outputLimit: /* 输出上限设置 */ {
         ...request.outputLimit,
-        persistOutput: "always",
-        maxPersistedBytes: BASH_RUNTIME_OUTPUT_LIMIT_BYTES,
-        killProcessOnPersistedLimit: false,
+        persistOutput: /* 总是落盘 */ "always",
+        maxPersistedBytes: /* bash 运行时输出上限 */ BASH_RUNTIME_OUTPUT_LIMIT_BYTES,
+        killProcessOnPersistedLimit: /* 超限不杀进程 */ false,
       },
     };
     let phase: "foreground" | "background" | "settling" = "foreground";
@@ -165,7 +165,7 @@ export class ExecutionLifecycle {
     let pid: number | undefined;
     let startedAt = new Date();
     let legacyEncoding: string | null = null;
-    let persistedLimitReached = false;
+    let persistedLimitReached = /* 是否已达落盘上限 */ false;
     let deadline: NodeJS.Timeout | undefined;
     let resolveHandoff!: (task: BackgroundExecutionStartResult) => void;
     const handoff = new Promise<BackgroundExecutionStartResult>((resolve) => {
@@ -179,10 +179,10 @@ export class ExecutionLifecycle {
       detachParentAbort();
       const taskId = randomUUID();
       record = this.coordinator.createBackgroundTaskRecord({
-        controller,
+        /* 取消控制器 */ controller,
         outputPaths: this.coordinator.outputPathsForRequest(executionRequest),
         startedAt,
-        taskId,
+        /* 后台任务标识 */ taskId,
         request: executionRequest,
         isBash: true,
       });
@@ -204,15 +204,15 @@ export class ExecutionLifecycle {
         legacyEncoding = encoding;
         if (record) record.legacyOutputEncoding = encoding;
       },
-      onPersistedLimit: () => {
-        persistedLimitReached = true;
+      onPersistedLimit: /* 达到落盘上限 */ () => {
+        /* 标记已超限 */ persistedLimitReached = true;
       },
       shouldStopOnPersistedLimit: () => phase === "background",
       shouldRetainExecutionAfterRootExit: () => phase === "background",
       suppressTerminalEvent: true,
       bashLifecycle: {
         isBackgrounded: () => phase === "background",
-        onExit: () => {
+        onExit: /* 退出回调 */ () => {
           if (phase === "foreground") phase = "settling";
           if (deadline) clearTimeout(deadline);
         },
@@ -254,8 +254,8 @@ export class ExecutionLifecycle {
     return outcome;
   }
 
-  async readBackgroundBashOutput(
-    workId: string,
+  async /* 读取后台 bash 输出 */ readBackgroundBashOutput(
+    workId: /* 后台工作标识 */ string,
     sessionId: string,
   ): Promise<BackgroundBashOutputResult> {
     const record = this.coordinator.backgroundTasks.get(workId);
@@ -263,21 +263,21 @@ export class ExecutionLifecycle {
       return { kind: "unavailable", workId, code: "not_found" };
     if (!record.isBash || !record.outputPath) return { kind: "unsupported", workId };
     const snapshot = this.coordinator.snapshot(record);
-    try {
-      const output = await readBashOutput(
+    try /* 读取可能失败：按降级语义处理 */ {
+      const output = /* 读取结果 */ await readBashOutput(
         record.outputPath,
-        BACKGROUND_BASH_OUTPUT_MAX_BYTES,
+        /* 读取上限 */ BACKGROUND_BASH_OUTPUT_MAX_BYTES,
         true,
         record.legacyOutputEncoding,
       );
       const status =
         !record.result && snapshot.status === "cancelled" ? "running" : snapshot.status;
-      return {
+      return /* 输出视图 */ {
         kind: "output",
-        workId,
+        /* 工作标识 */ workId,
         status,
         output: output.text,
-        truncated: output.truncated,
+        truncated: /* 是否截断 */ output.truncated,
         outputPath: record.outputPath,
       };
     } catch (error) {
@@ -290,8 +290,8 @@ export class ExecutionLifecycle {
     return record ? this.coordinator.snapshot(record) : undefined;
   }
 
-  async waitForBackgroundTask(
-    taskId: string,
+  async /* 等待后台任务结束 */ waitForBackgroundTask(
+    taskId: /* 后台任务标识 */ string,
     options: { signal?: AbortSignal } = {},
   ): Promise<BackgroundExecutionSnapshot | undefined> {
     const record = this.coordinator.backgroundTasks.get(taskId);

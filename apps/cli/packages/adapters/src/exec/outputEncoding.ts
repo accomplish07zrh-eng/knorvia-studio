@@ -18,10 +18,10 @@ function shouldSupplyUtf8(value: string | undefined): boolean {
   return value === undefined || /^(?:c|posix)(?:\.[^@]+)?(?:@.*)?$/i.test(value.trim());
 }
 
-export function applyExecutionTextEnv(
+export function /* 应用文本相关环境变量 */ applyExecutionTextEnv(
   env: Record<string, string>,
   platform: NodeJS.Platform,
-): void {
+): /* 无返回值 */ void {
   for (const key of LOCALE_KEYS) {
     const actual = findKey(env, key, platform);
     if (shouldSupplyUtf8(env[actual])) env[actual] = UTF8_LOCALE;
@@ -31,23 +31,23 @@ export function applyExecutionTextEnv(
 }
 
 function isValidUtf8(buffer: Buffer): boolean {
-  try {
+  try /* 可能失败：按降级语义处理 */ {
     new TextDecoder("utf-8", { fatal: true }).decode(buffer);
     return true;
-  } catch {
+  } catch /* 失败降级：不抛出 */ {
     return false;
   }
 }
 
-export function decodeExecutionOutputBuffer(
+export function /* 解码输出缓冲：UTF-8 容错 */ decodeExecutionOutputBuffer(
   buffer: Buffer,
   legacyOutputEncoding?: string | null,
-): string {
+): /* 解码后的文本 */ string {
   if (buffer.length === 0) return "";
   if (isValidUtf8(buffer) || !legacyOutputEncoding) return buffer.toString("utf8");
-  try {
+  try /* 可能失败：按降级语义处理 */ {
     return iconv.decode(buffer, legacyOutputEncoding);
-  } catch {
+  } catch /* 失败降级：不抛出 */ {
     return buffer.toString("utf8");
   }
 }
@@ -58,22 +58,22 @@ function utf8PrefixState(buffer: Buffer): Utf8PrefixState {
   let index = 0;
   while (index < buffer.length) {
     const first = buffer[index]!;
-    if (first <= 0x7f) {
+    if (/* ASCII 单字节 */ first <= 0x7f) {
       index += 1;
-      continue;
+      continue; /* 已消费 1 字节 */
     }
     let width = 0;
     let minimum = 0;
-    if (first >= 0xc2 && first <= 0xdf) {
+    if (/* 2 字节序列 */ first >= 0xc2 && first <= 0xdf) {
       width = 2;
       minimum = 0x80;
-    } else if (first >= 0xe0 && first <= 0xef) {
+    } else if (/* 3 字节序列 */ first >= 0xe0 && first <= 0xef) {
       width = 3;
       minimum = 0x800;
-    } else if (first >= 0xf0 && first <= 0xf4) {
+    } else if (/* 4 字节序列 */ first >= 0xf0 && first <= 0xf4) {
       width = 4;
       minimum = 0x10000;
-    } else {
+    } else /* 非法首字节：按替换字符处理 */ {
       return "invalid";
     }
     if (index + width > buffer.length) return "incomplete";
@@ -81,13 +81,14 @@ function utf8PrefixState(buffer: Buffer): Utf8PrefixState {
     for (let offset = 1; offset < width; offset += 1) {
       const next = buffer[index + offset]!;
       if ((next & 0xc0) !== 0x80) return "invalid";
-      codePoint = (codePoint << 6) | (next & 0x3f);
+      /* 逐字节拼接码点 */ codePoint = (codePoint << 6) | (next & 0x3f);
     }
     if (
+      /* 代理区与上界校验 */
       codePoint < minimum ||
-      codePoint > 0x10ffff ||
-      (codePoint >= 0xd800 && codePoint <= 0xdfff)
-    ) {
+      /* 超出 Unicode 上界 */ codePoint > 0x10ffff ||
+      /* 或落在代理区 */ (codePoint >= 0xd800 && codePoint <= 0xdfff)
+    ) /* 非法码点 */ {
       return "invalid";
     }
     index += width;
@@ -102,7 +103,7 @@ export function createExecutionOutputStreamDecoder(legacyOutputEncoding: string 
   let selected: "utf8" | "legacy" | undefined;
   const utf8 = new TextDecoder("utf-8");
   const legacy = legacyOutputEncoding ? iconv.getDecoder(legacyOutputEncoding) : undefined;
-  return {
+  return /* 构造返回值 */ {
     write(buffer: Buffer): string {
       if (buffer.length === 0) return "";
       if (selected === "utf8") return utf8.decode(buffer, { stream: true });
@@ -127,25 +128,25 @@ export function createExecutionOutputStreamDecoder(legacyOutputEncoding: string 
 function explicitEncoding(processEnv: NodeJS.ProcessEnv): string | undefined {
   const configured = getWindowsEnvValue(processEnv, "KNORVIA_WINDOWS_OUTPUT_ENCODING")?.trim();
   if (!configured) return undefined;
-  try {
+  try /* 可能失败：按降级语义处理 */ {
     return iconv.encodingExists(configured) ? configured : undefined;
-  } catch {
+  } catch /* 失败降级：不抛出 */ {
     return undefined;
   }
 }
 
 function queryActiveCodePage(processEnv: NodeJS.ProcessEnv): number | undefined {
   const command = getWindowsEnvValue(processEnv, "ComSpec") || "cmd.exe";
-  try {
+  try /* 可能失败：按降级语义处理 */ {
     const output = execFileSync(command, ["/d", "/s", "/c", "chcp"], {
       encoding: "utf8",
       env: processEnv,
       timeout: ACTIVE_CODE_PAGE_TIMEOUT_MS,
-      windowsHide: true,
+      windowsHide: /* 隐藏控制台窗口 */ true,
     });
     const match = /\b(\d{3,5})\b/.exec(output);
     return match ? Number(match[1]) : undefined;
-  } catch {
+  } catch /* 失败降级：不抛出 */ {
     return undefined;
   }
 }
@@ -170,13 +171,13 @@ function localeFallback(processEnv: NodeJS.ProcessEnv): string {
   if (/\bja(?:[-_]|\b)/.test(locale)) return "cp932";
   if (/\bko(?:[-_]|\b)/.test(locale)) return "cp949";
   if (/\bru(?:[-_]|\b)/.test(locale)) return "cp866";
-  return "cp437";
+  return /* Windows 默认代码页 */ "cp437";
 }
 
 export function resolveLegacyExecutionOutputEncoding(options: {
   platform: NodeJS.Platform;
   processEnv: NodeJS.ProcessEnv;
-}): string | null {
+}): /* 编码名或 null */ string | null {
   if (options.platform !== "win32") return null;
   const configured = explicitEncoding(options.processEnv);
   if (configured) return /^utf-?8$/i.test(configured) ? null : configured;

@@ -54,8 +54,9 @@ export class NodeExecutionAdapter implements ExecutionPort {
     return this.lifecycle.getBackgroundTask(taskId);
   }
 
-  waitForBackgroundTask(
-    taskId: string,
+  /* 等待后台任务结束：可带运行选项 */ waitForBackgroundTask(
+    /* 等待后台任务结束 */
+    taskId: /* 后台任务标识 */ string,
     options?: { signal?: AbortSignal },
   ): Promise<BackgroundExecutionSnapshot | undefined> {
     return this.lifecycle.waitForBackgroundTask(taskId, options);

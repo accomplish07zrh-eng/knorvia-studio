@@ -1,10 +1,10 @@
-# apps-cli-packages-01 合同（v0：范围与边界）
+# apps-cli-packages-01 合同（v3：范围与边界）
 
 `apps/cli/packages/adapters`（含 browser、commands、config 等子目录）与 `apps/cli/packages/browser-use-plugin` 的替换合同。计划书「每包流程」第一步的产物。
 
-- 分支：`contract/apps-cli-packages-01`（从 `origin/main` @ `6ea4cbe7` 检出）
+- 分支：`contract/apps-cli-packages-01`（从 `origin/main` @ `6ea4cbe7` 检出；替换分支 `replace/apps-cli-packages-01`）
 - 工作树：`wt/exec-3-adapters`
-- 状态：**范围已定，需要重切**（见下）。behavior/interface/callers/tests/stubs/旧门待做。
+- 状态：**范围已定并完成重切**。版本线：v1（合同初版合并 #120/#125 前称 v0）→ v2（B49 环境假设修复，2026-10-12）→ **v3（2026-10-15，Lead 裁决见 issue #149 评论）**：`model/` 移出本包重切为 `apps-cli-packages-01-model`（见文末第十一节），其余范围与 v2 一致。
 
 ## 一、候选范围与继承分类
 
@@ -370,3 +370,22 @@ node specs/contracts/apps-cli-packages-01/tests/run-old-gate.mjs --with-stubs
 3. **每个新文件 ≤ 400 行**（AGENTS.md），并且不能新增包级 `oxlint src` 的问题（见 `known-differences.md` §三）。
 4. **删除顺序**：先用桩替换确认契约测试全部失败（本 PR 已记录），再删旧文件与 `owners.test.mjs`
    （依据 B48），最后跑两道相似度门槛与接入门禁。
+
+## 十一、v3 范围修订：`model/` 移出为独立分包（不在本合同范围的相邻文件）
+
+**依据**：计划书默认裁决表「包太大或依赖成环 → 按依赖重切，单包不超过 60 个文件」。替换阶段实测本包继承数远超上限（model 44 + plugins 33 + mcp 31 + exec 20 + storage 15+），其中 `model/` 整体未开工、边界干净（只被同包内的 provider/exec/workflow 适配层调用，无反向依赖），因此移出（Lead 裁决 2026-10-15，issue #149 评论）。
+
+| 项       | 内容                                                                                                  |
+| -------- | ----------------------------------------------------------------------------------------------------- |
+| 移出范围 | `apps/cli/packages/adapters/src/model/**`（实测 51 个文件，其中继承 44 个，约 6.5k 行）               |
+| 新包 ID  | `apps-cli-packages-01-model`（M2，由 Lead 另派线按「每包流程」从选包+合同做起，不与本包并行改同目录） |
+| 分包总表 | 替换 PR 描述中补一行：`apps-cli-packages-01-model`，44 继承 / 约 6.5k 行                              |
+
+**调用方与依赖衔接**（保持替换期间包边界稳定）：
+
+1. **模块路径不变**：`model/` 仍是 `apps/cli/packages/adapters` 包内的源码目录（`src/model/…`），新包按就地路径替换，`@knorvia/adapters` 的 `./model` 导出面（`package.json` exports）不动；
+2. **包内调用方**：`provider/`、`exec/`、`workflow/` 等适配层通过相对路径 `../model/…` 引用，签名以新包自己的 `interface.md` 为准；本包改写时**不改动**这些引用的模块路径与导出名；
+3. **跨包调用方**：`packages/services` 等经 `@knorvia/adapters/model` 公开入口调用，属稳定兼容面，两个包的替换都不改变它；
+4. **旧门与契约证据**：`model/` 的相似度计分与登记随新包进行；本包 `gate-old.json`/契约测试（118 用例）不覆盖 `model/`，本次移出**不减少**既有契约面。
+
+（v2 → v3：仅范围边界修订；`behavior.md`/`interface.md`/`callers.md` 的 B 条目与用例映射不变，第十一节为新增。）

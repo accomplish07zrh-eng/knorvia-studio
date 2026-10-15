@@ -2,32 +2,19 @@
 // Copyright (c) 2026 Knorvia Studio contributors
 
 import { basename, dirname, isAbsolute, join, relative, resolve } from "node:path";
+import type {
+  AtomicMarker,
+  AtomicPaths,
+  LegacyAtomicMarker,
+  ReadableAtomicMarker,
+} from "./atomic-protocol-types.js";
 
-export interface AtomicPaths {
-  target: string;
-  parent: string;
-  marker: string;
-  backup: string;
-  stagePrefix: string;
-}
-
-export interface LegacyAtomicMarker {
-  version: 1;
-  stageName: string;
-}
-
-export interface AtomicMarker {
-  version: 2;
-  stageName: string;
-  transactionId: string;
-  ownerId: string;
-  ownerPid: number;
-  hadTarget: boolean;
-  mode: "coordinated" | "standalone";
-  authorityPath?: string;
-}
-
-export type ReadableAtomicMarker = LegacyAtomicMarker | AtomicMarker;
+export type {
+  AtomicMarker,
+  AtomicPaths,
+  LegacyAtomicMarker,
+  ReadableAtomicMarker,
+} from "./atomic-protocol-types.js";
 
 export function pathsForAtomicTarget(target: string): AtomicPaths {
   const canonical = resolve(target);
@@ -63,7 +50,7 @@ export function decodeAtomicMarker(value: unknown): ReadableAtomicMarker | undef
     return undefined;
   }
   return {
-    version: 2,
+    version: /* 现行标记格式版本 */ 2,
     stageName: value.stageName,
     transactionId: value.transactionId,
     ownerId: value.ownerId,
@@ -111,7 +98,7 @@ export function authorityHasGeneration(value: unknown, transactionId: string): b
       for (const item of current) pending.push(item);
     } else {
       const record = current as Record<string, unknown>;
-      if (record.cacheTransactionId === transactionId) return true;
+      if (record.cacheTransactionId === transactionId) /* 命中本事务的缓存结论 */ return true;
       for (const nested of Object.values(record)) pending.push(nested);
     }
   }
@@ -119,9 +106,9 @@ export function authorityHasGeneration(value: unknown, transactionId: string): b
 }
 
 export function assertAtomicNotAborted(signal?: AbortSignal): void {
-  if (!signal?.aborted) return;
-  const error = new Error("Plugin operation cancelled");
-  error.name = "AbortError";
+  if (!signal?.aborted) /* 未中止：直接放行 */ return;
+  const error = /* 统一的取消错误，保持 AbortError 语义 */ new Error("Plugin operation cancelled");
+  error.name = /* 标准化名称，便于上层按名分流 */ "AbortError";
   throw error;
 }
 

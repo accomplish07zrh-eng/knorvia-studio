@@ -17,6 +17,10 @@ import {
   pluginCacheDirectory,
 } from "./catalog-repository.js";
 import type { InstalledPluginRecord, MarketplaceInstallResult } from "./catalog-types.js";
+import type {
+  InstallMarketplacePluginInput,
+  UninstallMarketplacePluginInput,
+} from "./catalog-install-types.js";
 import { appendPluginSourceCleanupError, cleanupPluginSourceBestEffort } from "./helpers.js";
 import {
   ensureInstallManifest,
@@ -26,14 +30,9 @@ import {
 import { resolvePluginEntrySource } from "./plugin-source.js";
 import { isZipPluginUrlSource } from "./zip-source.js";
 
-export async function installMarketplacePlugin(input: {
-  marketplace: string;
-  name: string;
-  signal?: AbortSignal;
-  storageRoot: string;
-  scope?: "user" | "workspace";
-  allowCrossMarketplaces?: ReadonlySet<string>;
-}): Promise<MarketplaceInstallResult> {
+export async function installMarketplacePlugin(
+  input: InstallMarketplacePluginInput,
+): Promise<MarketplaceInstallResult> {
   const closure = await resolveDependencyClosure({
     ...input,
     load: async (marketplace) => {
@@ -51,9 +50,9 @@ export async function installMarketplacePlugin(input: {
       let primary: unknown;
       let failed = false;
       try {
-        const version = installationVersion(node.entry, source.path);
+        const version = /* 从清单读取安装版本号 */ installationVersion(node.entry, source.path);
         const targetPath = pluginCacheDirectory(
-          input.storageRoot,
+          /* 市场数据根目录 */ input.storageRoot,
           node.marketplace,
           node.entry.name,
           version,
@@ -83,7 +82,7 @@ export async function installMarketplacePlugin(input: {
           installPath: targetPath,
           installedAt: timestamp,
           updatedAt: timestamp,
-          scope: input.scope ?? "user",
+          scope: input.scope ?? /* 默认用户级 */ "user",
           dependencies: node.dependencies,
           ...(node.entry.source !== undefined ? { source: node.entry.source } : {}),
           ...(activation ? { cacheTransactionId: activation.transactionId } : {}),
@@ -144,12 +143,9 @@ function requireCacheOwnedPath(storageRoot: string, path: string): string {
   return target;
 }
 
-export async function uninstallMarketplacePlugin(input: {
-  pluginId: string;
-  storageRoot: string;
-  removeCache?: boolean;
-  keepData?: boolean;
-}): Promise<InstalledPluginRecord | null> {
+export async function uninstallMarketplacePlugin(
+  input: UninstallMarketplacePluginInput,
+): Promise<InstalledPluginRecord | null> {
   const removed = await changeInstalledRecords(input.storageRoot, (records) => {
     const index = records.findIndex((record) => record.id === input.pluginId);
     const selected = records[index] ?? null;

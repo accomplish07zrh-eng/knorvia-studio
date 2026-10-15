@@ -1,159 +1,108 @@
-import { readdir, stat } from "node:fs/promises";
-import { basename, dirname, extname, join, relative, sep } from "node:path";
+// SPDX-License-Identifier: Apache-2.0
+// 文件搜索的路径规则：类型扩展名表、glob 过滤、候选收集与排序；遍历见 directory-walk。
+import { stat } from "node:fs/promises";
+import { basename, dirname, extname, relative, sep } from "node:path";
 import { createFileSystemError, type FileSystemSearchTextRequest } from "@knorvia/contracts";
-import { aborted } from "./node-file-policy.js";
-export const VCS_NAMES = [".git", ".svn", ".hg", ".bzr", ".jj", ".sl"] as const;
-const vcs = new Set<string>(VCS_NAMES);
+import { walk } from "./directory-walk.js";
+import { glob } from "./glob-compat.js";
+
+// 兼容面：`glob` 与 `walk` 的实现分别下沉 glob-compat / directory-walk，导出名不变。
+export { glob, walk };
+
+export const VCS_NAMES = ".git .svn .hg .bzr .jj .sl".split(" ");
+
+/** 类型 → 扩展名的紧凑描述：`<类型>:<扩展名,扩展名>`，空格分隔。 */
+const TYPE_SPEC =
+  "c:.c,.h cpp:.cc,.cpp,.cxx,.hpp,.hh,.hxx csharp:.cs css:.css go:.go html:.html,.htm " +
+  "java:.java js:.js,.jsx,.mjs,.cjs json:.json,.jsonc markdown:.md,.markdown md:.md,.markdown " +
+  "py:.py python:.py rs:.rs rust:.rs sh:.sh,.bash,.zsh ts:.ts,.tsx,.mts,.cts tsx:.tsx txt:.txt yaml:.yaml,.yml";
+
+/** 解析紧凑描述：每项是 `<类型>:<扩展名,扩展名>`。 */
+function parseTypeSpec(spec: string): Record<string, string[]> {
+  const table: Record<string, string[]> = {};
+  for (const entry of spec.split(" ")) {
+    const separator = entry.indexOf(":");
+    if (separator <= 0) continue;
+    table[entry.slice(0, separator)] = entry.slice(separator + 1).split(",");
+  }
+  return table;
+}
+
+export const TYPE_EXTENSIONS: Record<string, string[]> = parseTypeSpec(TYPE_SPEC);
+
 export interface Candidate {
   path: string;
   mtimeMs: number;
 }
-export function posixRelative(root: string, file: string): string {
-  return relative(root, file).split(sep).join("/");
+
+type FileInfo = Awaited<ReturnType<typeof stat>>;
+
+const POSIX_SEPARATOR = "/";
+
+/** 相对路径统一成 POSIX 分隔符：glob 与结果展示都按 `/` 判定。 */
+export function posixRelative(from: string, target: string): string {
+  const rel = relative(from, target).split(sep);
+  return rel.join(POSIX_SEPARATOR);
 }
-function literal(text: string): string {
-  return text.replace(/[\\^$.*+?()[\]{}|]/g, "\\$&");
+
+/** 类型名归一：去掉前导点并小写。 */
+export function fileType(rawType: string): string {
+  const lowered = rawType.toLowerCase();
+  return lowered.startsWith(".") ? lowered.slice(1) : lowered;
 }
-/** 兼容 glob 的 token scanner；brace 内容是字面 alternatives，不作递归 glob 展开。 */
-export function glob(pattern: string): (relativePath: string, fileName: string) => boolean {
-  const normalized = pattern.replaceAll("\\", "/").replace(/^\.\//, "");
-  const fragments = ["^"];
-  let cursor = 0;
-  while (cursor < normalized.length) {
-    const ch = normalized[cursor]!;
-    if (ch === "*") {
-      if (normalized[cursor + 1] !== "*") {
-        fragments.push("[^/]*");
-        cursor++;
-        continue;
-      }
-      const slash = normalized[cursor + 2] === "/";
-      fragments.push(slash ? "(?:.*/)?" : ".*");
-      cursor += slash ? 3 : 2;
-      continue;
-    }
-    if (ch === "?") {
-      fragments.push("[^/]");
-      cursor++;
-      continue;
-    }
-    if (ch === "{") {
-      const end = normalized.indexOf("}", cursor + 1);
-      if (end > cursor) {
-        fragments.push(
-          "(?:" +
-            normalized
-              .slice(cursor + 1, end)
-              .split(",")
-              .map(literal)
-              .join("|") +
-            ")",
-        );
-        cursor = end + 1;
-        continue;
-      }
-    }
-    fragments.push(literal(ch));
-    cursor++;
-  }
-  const regex = new RegExp(fragments.join("") + "$");
-  return (relativePath, fileName) =>
-    regex.test(relativePath) || (!normalized.includes("/") && regex.test(fileName));
+
+export function matchesType(candidate: string, rawType: string): boolean {
+  const wanted = fileType(rawType);
+  const extension = extname(candidate).toLowerCase();
+  return (TYPE_EXTENSIONS[wanted] ?? ["." + wanted]).includes(extension);
 }
-export const TYPE_EXTENSIONS: Record<string, string[]> = {
-  c: [".c", ".h"],
-  cpp: [".cc", ".cpp", ".cxx", ".hpp", ".hh", ".hxx"],
-  csharp: [".cs"],
-  css: [".css"],
-  go: [".go"],
-  html: [".html", ".htm"],
-  java: [".java"],
-  js: [".js", ".jsx", ".mjs", ".cjs"],
-  json: [".json", ".jsonc"],
-  markdown: [".md", ".markdown"],
-  md: [".md", ".markdown"],
-  py: [".py"],
-  python: [".py"],
-  rs: [".rs"],
-  rust: [".rs"],
-  sh: [".sh", ".bash", ".zsh"],
-  ts: [".ts", ".tsx", ".mts", ".cts"],
-  tsx: [".tsx"],
-  txt: [".txt"],
-  yaml: [".yaml", ".yml"],
-};
-export function fileType(type: string): string {
-  return type.toLowerCase().replace(/^\./, "");
-}
-export function matchesType(path: string, type: string): boolean {
-  const normalized = fileType(type),
-    extension = extname(path).toLowerCase();
-  return (TYPE_EXTENSIONS[normalized] ?? ["." + normalized]).includes(extension);
-}
+
+/** 过滤闭包：glob 与类型两条规则同时满足才保留。 */
 export function filter(
-  root: string,
-  request: FileSystemSearchTextRequest,
+  base: string,
+  query: FileSystemSearchTextRequest,
 ): (path: string) => boolean {
-  const match = request.glob ? glob(request.glob) : undefined;
-  return (path) =>
-    (!match || match(posixRelative(root, path), basename(path))) &&
-    (!request.type || matchesType(path, request.type));
+  const globMatcher = query.glob ? glob(query.glob) : undefined;
+  const wantedType = query.type;
+  return (candidate) =>
+    (!globMatcher || globMatcher(posixRelative(base, candidate), basename(candidate))) &&
+    (!wantedType || matchesType(candidate, wantedType));
 }
-/** 显式目录帧保持旧 DFS 的 readdir/stat 次序，不把遍历状态分散在递归闭包。 */
-export async function walk(
-  root: string,
-  signal: AbortSignal | undefined,
-  visit: (path: string, info: Awaited<ReturnType<typeof stat>>) => Promise<void> | void,
-): Promise<void> {
-  aborted(signal);
-  const stack = [{ path: root, entries: await readdir(root, { withFileTypes: true }), cursor: 0 }];
-  while (stack.length) {
-    const frame = stack[stack.length - 1]!;
-    if (frame.cursor === frame.entries.length) {
-      stack.pop();
-      continue;
-    }
-    aborted(signal);
-    const entry = frame.entries[frame.cursor++]!,
-      child = join(frame.path, entry.name);
-    if (entry.isDirectory()) {
-      if (vcs.has(entry.name)) continue;
-      aborted(signal);
-      stack.push({
-        path: child,
-        entries: await readdir(child, { withFileTypes: true }),
-        cursor: 0,
-      });
-    } else if (entry.isFile()) await visit(child, await stat(child));
-  }
+
+function notFileError(path: string): Error {
+  const message = `Grep search path must be a file or directory: ${path}`;
+  return createFileSystemError({ code: "not_file", message, path });
 }
+
+/** 候选文件：文件直接返回，目录按 DFS 收集后按路径字典序排序。 */
 export async function candidates(
   path: string,
-  info: Awaited<ReturnType<typeof stat>>,
+  info: FileInfo,
   request: FileSystemSearchTextRequest,
   signal?: AbortSignal,
 ): Promise<Candidate[]> {
-  const root = info.isDirectory() ? path : dirname(path),
-    keep = filter(root, request),
-    result: Candidate[] = [];
-  const add = (path: string, info: Awaited<ReturnType<typeof stat>>) => {
-    if (info.isFile() && keep(path)) result.push({ path, mtimeMs: Number(info.mtimeMs) });
+  const root = info.isDirectory() ? path : dirname(path);
+  const keep = filter(root, request);
+  const result: Candidate[] = [];
+  const collect = (candidatePath: string, candidateInfo: FileInfo): void => {
+    if (!candidateInfo.isFile() || !keep(candidatePath)) return;
+    const entry = {} as Candidate;
+    entry.mtimeMs = Number(candidateInfo.mtimeMs);
+    entry.path = candidatePath;
+    result.push(entry);
   };
   if (info.isFile()) {
-    add(path, info);
+    collect(path, info);
     return result;
   }
-  if (!info.isDirectory())
-    throw createFileSystemError({
-      code: "not_file",
-      path,
-      message: `Grep search path must be a file or directory: ${path}`,
-    });
-  await walk(root, signal, add);
-  result.sort((a, b) => a.path.localeCompare(b.path));
+  if (!info.isDirectory()) throw notFileError(path);
+  await walk(root, signal, collect);
+  result.sort((left, right) => left.path.localeCompare(right.path));
   return result;
 }
-export function recent(a: Candidate, b: Candidate): number {
-  const time = b.mtimeMs - a.mtimeMs;
-  return time === 0 ? a.path.localeCompare(b.path) : time;
+
+/** 新近度比较器：时间相同时按路径字典序，保证排序稳定。 */
+export function recent(left: Candidate, right: Candidate): number {
+  const delta = right.mtimeMs - left.mtimeMs;
+  return delta === 0 ? left.path.localeCompare(right.path) : delta;
 }

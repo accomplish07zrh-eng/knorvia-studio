@@ -10,21 +10,14 @@ import {
   normalizeIpAddressLiteral,
 } from "@knorvia/contracts";
 
-export type DnsLookupAddress = { address: string; family: number };
-export type DnsLookup = (
-  hostname: string,
-  options: { all: true; verbatim: true },
-) => Promise<DnsLookupAddress[]>;
+export type { DnsLookupAddress, DnsLookup } from "./public-egress-policy-types.js";
 
-interface PublicEgressLookupOptions {
-  signal?: AbortSignal;
-}
-
-type Completion = (
-  error: NodeJS.ErrnoException | null,
-  address?: string | DnsLookupAddress[],
-  family?: number,
-) => void;
+import type {
+  Completion,
+  DnsLookup,
+  DnsLookupAddress,
+  PublicEgressLookupOptions,
+} from "./public-egress-policy-types.js";
 
 function blocked(url: string, message: string) {
   return createHttpClientError({ code: "egress_blocked", url, message });
@@ -35,17 +28,17 @@ function cancellation(signal: AbortSignal): Error {
 }
 
 async function queryAddresses(
-  hostname: string,
+  targetHost: string,
   dnsLookup: DnsLookup,
   signal?: AbortSignal,
 ): Promise<DnsLookupAddress[]> {
   if (signal?.aborted) throw cancellation(signal);
 
-  const pending = dnsLookup(hostname, { all: true, verbatim: true });
+  const resolving = dnsLookup(targetHost, { all: true, verbatim: true });
   // resolver 可以同步取消后返回已拒绝 Promise；先观察，不能因后面的取消早退而遗落。
-  void pending.catch(() => {});
+  void resolving.catch(() => {});
   if (signal?.aborted) throw cancellation(signal);
-  if (!signal) return pending;
+  if (!signal) return resolving;
   const querySignal = signal;
 
   return new Promise<DnsLookupAddress[]>((resolve, reject) => {
@@ -63,8 +56,8 @@ async function queryAddresses(
     }
 
     querySignal.addEventListener("abort", onAbort, { once: true });
-    void pending.then(
-      (addresses) => finish(() => resolve(addresses)),
+    void resolving.then(
+      (resolved) => finish(() => resolve(resolved)),
       (reason: unknown) => finish(() => reject(reason)),
     );
     if (querySignal.aborted) onAbort();
@@ -72,12 +65,12 @@ async function queryAddresses(
 }
 
 async function resolvePublicAddresses(
-  hostname: string,
+  targetHost: string,
   context: URL,
   dnsLookup: DnsLookup,
   options?: PublicEgressLookupOptions,
 ): Promise<DnsLookupAddress[]> {
-  const host = normalizeIpAddressLiteral(hostname);
+  const host = normalizeIpAddressLiteral(targetHost);
   if (!host) {
     throw blocked(context.toString(), "HTTP public egress requires a hostname");
   }
@@ -90,16 +83,16 @@ async function resolvePublicAddresses(
     throw blocked(context.toString(), "HTTP public egress requires a public hostname");
   }
 
-  const addresses = family
+  const resolved = family
     ? [{ address: host, family }]
     : await queryAddresses(host, dnsLookup, options?.signal);
-  if (addresses.length === 0) {
+  if (resolved.length === 0) {
     throw blocked(
       context.toString(),
       `HTTP public egress DNS lookup returned no addresses for ${host}`,
     );
   }
-  for (const item of addresses) {
+  for (const item of resolved) {
     if (getPublicEgressIpBlockReason(item.address)) {
       throw blocked(
         context.toString(),
@@ -107,9 +100,15 @@ async function resolvePublicAddresses(
       );
     }
   }
-  return addresses;
+  return resolved;
 }
 
+// 实现侧说明（形状见 public-egress-policy-types.ts）：
+// 一、策略只做「目标是否允许出网」判断，不负责重试或超时。
+// 二、解析失败与地址为空都按「禁止」处理，并带上稳定错误码 egress_blocked。
+// 三、取消优先于结果：signal 已取消时立即抛出 signal.reason。
+// 四、解析走注入的 dnsLookup，便于测试与宿主替换。
+// 五、地址归一化与版本判断复用共享工具，本文件不再自行解析 IP 文本。
 export function defaultPublicDnsLookup(): DnsLookup {
   return nodeLookup;
 }
@@ -127,7 +126,7 @@ export function createPublicEgressLookup(
   dnsLookup: DnsLookup,
   options: PublicEgressLookupOptions = {},
 ): NonNullable<http.RequestOptions["lookup"]> {
-  return (hostname, lookupOptions, callback) => {
+  return (targetHost, lookupOptions, callback) => {
     const done = (typeof lookupOptions === "function" ? lookupOptions : callback) as
       | Completion
       | undefined;
@@ -137,13 +136,13 @@ export function createPublicEgressLookup(
     // 回调格式在发起查询时确定，不能被等待期间的 options 修改切换。
     const returnAll =
       lookupOptions !== null && typeof lookupOptions === "object" && lookupOptions.all === true;
-    void resolvePublicAddresses(hostname, context, dnsLookup, options).then(
-      (addresses) => {
+    void resolvePublicAddresses(targetHost, context, dnsLookup, options).then(
+      (resolved) => {
         if (returnAll) {
-          done(null, addresses);
+          done(null, resolved);
           return;
         }
-        const first = addresses[0];
+        const first = resolved[0];
         if (!first) {
           done(blocked(url, "HTTP public egress DNS lookup returned no addresses"));
           return;

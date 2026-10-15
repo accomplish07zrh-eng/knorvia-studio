@@ -1,6 +1,27 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2026 Knorvia Studio contributors
+// OAuth 令牌刷新：在文件锁内做「发现 → 换取 → 发布」，并区分三类失败。
+// 刷新约定：
+// 一、锁前先记下当前 generation；锁内若发现 generation 变了，说明别的进程已刷新，直接复用。
+// 二、无凭据抛 no_credentials；缺 refresh_token 或 clientInformation 抛 no_refresh_token。
+// 三、发现结果优先用缓存；缓存缺失才发起发现，并顺手把结果写回存储。
+// 四、发现阶段的任何失败（含 getter）都按「临时失败」处理，不误判为 grant 失效。
+// 五、交换失败按错误码分流：见 GRANT_FAILURE_TABLE（表驱动，新增码只需加一行）。
+// 六、grant 失效会先失效凭据再抛交互式授权要求；固定 clientId 被拒时提示修配置而非重授权。
+// 七、等锁超时不等于刷新失败：重新读一次凭据，generation 变了就当作已刷新成功。
+// 八、日志事件名与字段名是观测契约，逐字保留；日志不含令牌内容。
 
+// 互补说明（与 oauth-provider / oauth-interactive 的边界）：
+// 一、本模块只负责「换取新令牌」；何时刷新由 oauth-provider 判定（临近过期或 401）。
+// 二、本模块不做交互式授权：需要用户参与时统一抛交互式授权要求错误。
+// 三、锁是文件级（跨进程）：同一凭据文件的并发刷新只会有一个真正执行交换。
+// 四、发布走 publishCanonicalCredentials：generation 由存储层推进，本模块只透传。
+// 五、reactive=true 表示由 401 触发；此时若无法刷新，宁可抛错也不复用旧令牌。
+// 排障补充：
+// 一、refresh.completed 的 refreshTokenRotated=true 表示授权服务器轮换了刷新令牌。
+// 二、refresh.failed 的 oauthErrorCode 为 undefined 表示非 OAuth 错误（多为网络问题）。
+// 三、publishedGeneration 与前一次相同说明发布被存储层判为无变化（幂等写入）。
+// 四、锁等待超时（REFRESH_LOCK_MAX_WAIT_MS）只影响本次尝试，不会破坏凭据文件。
 import { dirname, join } from "node:path";
 import {
   discoverOAuthServerInfo,
@@ -48,173 +69,208 @@ interface ResolvedAuthorization {
   resource?: ExchangeOptions["resource"];
 }
 
+/** grant 失效分流表：错误码 → 失效范围与重新授权原因（新增码只需加一行）。 */
+const GRANT_FAILURE_TABLE = new Map<
+  OAuthErrorCode,
+  { invalidate: "all" | "tokens"; reason: "invalid_client" | "invalid_grant" }
+>([
+  [OAuthErrorCode.InvalidGrant, { invalidate: "tokens", reason: "invalid_grant" }],
+  [OAuthErrorCode.InvalidClient, { invalidate: "all", reason: "invalid_client" }],
+  [OAuthErrorCode.UnauthorizedClient, { invalidate: "all", reason: "invalid_client" }],
+]);
+
+/** 别的进程是否已经刷新过（generation 变了即视为已刷新）。 */
+function refreshedElsewhere(
+  pair: CredentialPairSnapshot | undefined,
+  baselineGeneration: string | undefined,
+): boolean {
+  return Boolean(pair?.tokens && pair.generation !== baselineGeneration);
+}
+
 function currentTokenOrTemporaryError(
-  input: RefreshMcpOAuthTokensInput,
-  current: CredentialPairSnapshot,
-  error: unknown,
+  refresh: RefreshMcpOAuthTokensInput,
+  pair: CredentialPairSnapshot,
+  cause: unknown,
 ): string {
-  if (!input.reactive && current.tokens) return current.tokens.access_token;
-  throw createTemporaryRefreshFailureError({ cause: error, serverName: input.serverName });
+  if (!refresh.reactive && pair.tokens) return pair.tokens.access_token;
+  throw createTemporaryRefreshFailureError({ cause, serverName: refresh.serverName });
+}
+
+/** 发现阶段：缓存优先，缺失才发起发现并写回；返回交换所需的三元组。 */
+async function resolveAuthorization(
+  refresh: RefreshMcpOAuthTokensInput,
+  pair: CredentialPairSnapshot,
+): Promise<ResolvedAuthorization> {
+  const cachedRecord = await loadDiscoveryRecord(
+    refresh.credentialStore,
+    refresh.keyPrefix,
+    pair.issuer ? { expectedIssuer: pair.issuer } : {},
+  );
+  const serverInfo =
+    cachedRecord ??
+    (await discoverOAuthServerInfo(
+      refresh.serverUrl,
+      refresh.fetchFn ? { fetchFn: refresh.fetchFn } : {},
+    ));
+  if (!cachedRecord) {
+    await saveDiscoveryRecord(refresh.credentialStore, refresh.keyPrefix, serverInfo);
+  }
+  const resource = await selectResourceURL(
+    refresh.serverUrl,
+    {} as Parameters<typeof selectResourceURL>[1],
+    serverInfo.resourceMetadata,
+  );
+  // 发现结果的 getter 也属于发现失败；先投影，避免误进入 grant 失效处理。
+  return {
+    authorizationServerUrl: serverInfo.authorizationServerUrl,
+    ...(serverInfo.authorizationServerMetadata
+      ? { metadata: serverInfo.authorizationServerMetadata }
+      : {}),
+    ...(resource ? { resource } : {}),
+  };
+}
+
+/** grant 失效：先按表失效凭据，再抛交互式授权要求（固定 clientId 被拒时提示修配置）。 */
+async function failGrant(
+  refresh: RefreshMcpOAuthTokensInput,
+  pair: CredentialPairSnapshot,
+  grantFailure: { invalidate: "all" | "tokens"; reason: "invalid_client" | "invalid_grant" },
+  cause: unknown,
+): Promise<never> {
+  if (grantFailure.reason === "invalid_client" && refresh.staticClientId) {
+    throw new Error(
+      `MCP server ${refresh.serverName} OAuth client was rejected by the authorization server (invalid_client). The configured clientId is not usable; fix the MCP oauth configuration.`,
+      { cause },
+    );
+  }
+  if (pair.raw) {
+    await invalidateCanonicalCredentials(
+      refresh.credentialStore,
+      refresh.keyPrefix,
+      pair.raw,
+      grantFailure.invalidate,
+    );
+  }
+  throw createInteractiveAuthorizationRequiredError({
+    cause,
+    reason: grantFailure.reason,
+    serverName: refresh.serverName,
+  });
+}
+
+/** 交换并发布：成功记录 completed，失败按错误码表分流。 */
+async function exchangeAndPublish(
+  refresh: RefreshMcpOAuthTokensInput,
+  pair: CredentialPairSnapshot,
+  authServer: ResolvedAuthorization,
+  refreshToken: string,
+  clientInformation: NonNullable<CredentialPairSnapshot["clientInformation"]>,
+): Promise<string> {
+  try {
+    const refreshed = await refreshAuthorization(authServer.authorizationServerUrl, {
+      clientInformation,
+      refreshToken,
+      ...(authServer.metadata ? { metadata: authServer.metadata } : {}),
+      ...(authServer.resource ? { resource: authServer.resource } : {}),
+      ...(refresh.fetchFn ? { fetchFn: refresh.fetchFn } : {}),
+    });
+    const published = await publishCanonicalCredentials(
+      refresh.credentialStore,
+      refresh.keyPrefix,
+      {
+        clientInformation,
+        ...(pair.issuer ? { issuer: pair.issuer } : {}),
+        publishedBy: `refresh:${refresh.keyPrefix}`,
+        tokens: refreshed,
+      },
+    );
+    refresh.logger?.info("MCP OAuth access token refreshed", {
+      event: "mcp.oauth.refresh.completed",
+      credentialKeyPrefix: refresh.keyPrefix,
+      mcpServerName: refresh.serverName,
+      processId: process.pid,
+      publishedGeneration: published.generation.slice(0, LOGGED_GENERATION_LENGTH),
+      reactive: refresh.reactive,
+      refreshTokenRotated: refreshed.refresh_token !== refreshToken,
+      status: "completed",
+    });
+    return refreshed.access_token;
+  } catch (cause) {
+    const oauthErrorCode = cause instanceof OAuthError ? cause.code : undefined;
+    refresh.logger?.warn("MCP OAuth access token refresh failed", {
+      event: "mcp.oauth.refresh.failed",
+      credentialKeyPrefix: refresh.keyPrefix,
+      credentialSource: pair.source,
+      mcpServerName: refresh.serverName,
+      oauthErrorCode,
+      processId: process.pid,
+      reactive: refresh.reactive,
+      status: "failed",
+    });
+    const grantFailure =
+      oauthErrorCode !== undefined
+        ? GRANT_FAILURE_TABLE.get(oauthErrorCode as OAuthErrorCode)
+        : undefined;
+    if (grantFailure) await failGrant(refresh, pair, grantFailure, cause);
+    return currentTokenOrTemporaryError(refresh, pair, cause);
+  }
 }
 
 export async function refreshMcpOAuthTokensUnderLock(
-  input: RefreshMcpOAuthTokensInput,
+  refresh: RefreshMcpOAuthTokensInput,
 ): Promise<string> {
-  const entry = await loadCredentialPair(input.credentialStore, input.keyPrefix);
-  const entryGeneration = entry?.generation;
-  const lockPath = join(
-    dirname(input.credentialStore.filePath),
-    `${sanitizeKeyPrefix(input.keyPrefix)}.refresh`,
+  const beforeLock = await loadCredentialPair(refresh.credentialStore, refresh.keyPrefix);
+  const baselineGeneration = beforeLock?.generation;
+  const refreshLockFile = join(
+    dirname(refresh.credentialStore.filePath),
+    `${sanitizeKeyPrefix(refresh.keyPrefix)}.refresh`,
   );
 
   try {
     return await withFileLock(
-      lockPath,
+      refreshLockFile,
       async () => {
-        const current = await loadCredentialPair(input.credentialStore, input.keyPrefix);
-        if (current?.tokens && current.generation !== entryGeneration) {
-          return current.tokens.access_token;
+        const pair = await loadCredentialPair(refresh.credentialStore, refresh.keyPrefix);
+        if (refreshedElsewhere(pair, baselineGeneration)) {
+          return pair?.tokens?.access_token ?? "";
         }
-        if (!current?.tokens) {
+        if (!pair?.tokens) {
           throw createInteractiveAuthorizationRequiredError({
             reason: "no_credentials",
-            serverName: input.serverName,
+            serverName: refresh.serverName,
           });
         }
         // 刷新令牌只捕获一次；交换与轮换日志复用，且先于 clientInformation 读取。
-        const refreshToken = current.tokens.refresh_token;
-        const clientInformation = current.clientInformation;
+        const refreshToken = pair.tokens.refresh_token;
+        const clientInformation = pair.clientInformation;
         if (!refreshToken || !clientInformation) {
           throw createInteractiveAuthorizationRequiredError({
             reason: "no_refresh_token",
-            serverName: input.serverName,
+            serverName: refresh.serverName,
           });
         }
 
-        let resolved: ResolvedAuthorization;
+        let authServer: ResolvedAuthorization;
         try {
-          const cached = await loadDiscoveryRecord(
-            input.credentialStore,
-            input.keyPrefix,
-            current.issuer ? { expectedIssuer: current.issuer } : {},
-          );
-          const discovered =
-            cached ??
-            (await discoverOAuthServerInfo(
-              input.serverUrl,
-              input.fetchFn ? { fetchFn: input.fetchFn } : {},
-            ));
-          if (!cached) {
-            await saveDiscoveryRecord(input.credentialStore, input.keyPrefix, discovered);
-          }
-          const resource = await selectResourceURL(
-            input.serverUrl,
-            {} as Parameters<typeof selectResourceURL>[1],
-            discovered.resourceMetadata,
-          );
-          // 发现结果的 getter 也属于发现失败；先投影，避免误进入 grant 失效处理。
-          resolved = {
-            authorizationServerUrl: discovered.authorizationServerUrl,
-            ...(discovered.authorizationServerMetadata
-              ? { metadata: discovered.authorizationServerMetadata }
-              : {}),
-            ...(resource ? { resource } : {}),
-          };
-        } catch (error) {
-          return currentTokenOrTemporaryError(input, current, error);
+          authServer = await resolveAuthorization(refresh, pair);
+        } catch (cause) {
+          return currentTokenOrTemporaryError(refresh, pair, cause);
         }
-
-        try {
-          const next = await refreshAuthorization(resolved.authorizationServerUrl, {
-            clientInformation,
-            refreshToken,
-            ...(resolved.metadata ? { metadata: resolved.metadata } : {}),
-            ...(resolved.resource ? { resource: resolved.resource } : {}),
-            ...(input.fetchFn ? { fetchFn: input.fetchFn } : {}),
-          });
-          const published = await publishCanonicalCredentials(
-            input.credentialStore,
-            input.keyPrefix,
-            {
-              clientInformation,
-              ...(current.issuer ? { issuer: current.issuer } : {}),
-              publishedBy: `refresh:${input.keyPrefix}`,
-              tokens: next,
-            },
-          );
-          input.logger?.info("MCP OAuth access token refreshed", {
-            event: "mcp.oauth.refresh.completed",
-            credentialKeyPrefix: input.keyPrefix,
-            mcpServerName: input.serverName,
-            processId: process.pid,
-            publishedGeneration: published.generation.slice(0, LOGGED_GENERATION_LENGTH),
-            reactive: input.reactive,
-            refreshTokenRotated: next.refresh_token !== refreshToken,
-            status: "completed",
-          });
-          return next.access_token;
-        } catch (error) {
-          const oauthErrorCode = error instanceof OAuthError ? error.code : undefined;
-          input.logger?.warn("MCP OAuth access token refresh failed", {
-            event: "mcp.oauth.refresh.failed",
-            credentialKeyPrefix: input.keyPrefix,
-            credentialSource: current.source,
-            mcpServerName: input.serverName,
-            oauthErrorCode,
-            processId: process.pid,
-            reactive: input.reactive,
-            status: "failed",
-          });
-          if (oauthErrorCode === OAuthErrorCode.InvalidGrant) {
-            if (current.raw) {
-              await invalidateCanonicalCredentials(
-                input.credentialStore,
-                input.keyPrefix,
-                current.raw,
-                "tokens",
-              );
-            }
-            throw createInteractiveAuthorizationRequiredError({
-              cause: error,
-              reason: "invalid_grant",
-              serverName: input.serverName,
-            });
-          }
-          if (
-            oauthErrorCode === OAuthErrorCode.InvalidClient ||
-            oauthErrorCode === OAuthErrorCode.UnauthorizedClient
-          ) {
-            if (input.staticClientId) {
-              throw new Error(
-                `MCP server ${input.serverName} OAuth client was rejected by the authorization server (invalid_client). The configured clientId is not usable; fix the MCP oauth configuration.`,
-                { cause: error },
-              );
-            }
-            if (current.raw) {
-              await invalidateCanonicalCredentials(
-                input.credentialStore,
-                input.keyPrefix,
-                current.raw,
-                "all",
-              );
-            }
-            throw createInteractiveAuthorizationRequiredError({
-              cause: error,
-              reason: "invalid_client",
-              serverName: input.serverName,
-            });
-          }
-          return currentTokenOrTemporaryError(input, current, error);
-        }
+        return await exchangeAndPublish(refresh, pair, authServer, refreshToken, clientInformation);
       },
       { lockMaxWaitMs: REFRESH_LOCK_MAX_WAIT_MS },
     );
-  } catch (error) {
-    if (!isKnorviaFileLockTimeoutError(error)) throw error;
-    const recovered = await loadCredentialPair(input.credentialStore, input.keyPrefix);
-    if (recovered?.tokens && recovered.generation !== entryGeneration) {
-      return recovered.tokens.access_token;
+  } catch (cause) {
+    if (!isKnorviaFileLockTimeoutError(cause)) throw cause;
+    const postLock = await loadCredentialPair(refresh.credentialStore, refresh.keyPrefix);
+    if (refreshedElsewhere(postLock, baselineGeneration)) {
+      return postLock?.tokens?.access_token ?? "";
     }
-    throw createTemporaryRefreshFailureError({ cause: error, serverName: input.serverName });
+    throw createTemporaryRefreshFailureError({ cause, serverName: refresh.serverName });
   }
 }
+// 回归提示：
+// 一、改动本模块后请覆盖三条路径：正常刷新、grant 失效（invalid_grant/invalid_client）、锁超时。
+// 二、fixed clientId 被拒时不要失效凭据：提示修配置比重新授权更可预期。
+// 三、发现缓存命中时不应再发起网络发现（可注入 fetchFn 断言调用次数为零）。
+// 四、generation 判定必须用「锁前 vs 锁后」两次快照，不能只比一次。

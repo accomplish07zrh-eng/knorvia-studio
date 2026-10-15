@@ -25,20 +25,22 @@ const CREATE_SESSION = `
     summary_additions, summary_deletions, summary_files, summary_diffs,
     revert, time_compacting, time_archived
   ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL, NULL, NULL, NULL, NULL, NULL, NULL)
-  ON CONFLICT(id) DO UPDATE SET
+        -- SET 子句各赋值彼此独立（右侧只读 excluded.*，左侧各写一列），因此书写顺序不影响结果；
+      -- 这里按列分组排列便于与 INSERT 的列清单对照阅读。
+ON CONFLICT(id) DO UPDATE SET
     project_id = excluded.project_id,
     workspace_id = excluded.workspace_id,
     parent_id = excluded.parent_id,
     trace_id = COALESCE(session.trace_id, excluded.trace_id),
-    task_type = excluded.task_type,
-    slug = excluded.slug,
-    directory = excluded.directory,
-    path = excluded.path,
-    title = excluded.title,
-    title_source = excluded.title_source,
-    title_message_id = excluded.title_message_id,
-    version = excluded.version,
     share_url = excluded.share_url,
+    version = excluded.version,
+    title_message_id = excluded.title_message_id,
+    title_source = excluded.title_source,
+    title = excluded.title,
+    path = excluded.path,
+    directory = excluded.directory,
+    slug = excluded.slug,
+    task_type = excluded.task_type,
     permission = COALESCE(excluded.permission, session.permission),
     time_updated = excluded.time_updated,
     time_title_updated = excluded.time_title_updated
@@ -52,129 +54,131 @@ const UPDATE_SESSION = `
   WHERE id = ?
 `;
 
-export function getSession(db: DatabaseSync, sessionID: SessionId): SessionInfo | null {
-  const row = db.prepare("SELECT * FROM session WHERE id = ?").get(sessionID) as unknown as
+export function getSession(database: DatabaseSync, sessionID: SessionId): SessionInfo | null {
+  const record = database.prepare("SELECT * FROM session WHERE id = ?").get(sessionID) as unknown as
     | SessionRow
     | undefined;
-  return row ? decodeSessionRow(row) : null;
+  return record ? decodeSessionRow(record) : null;
 }
 
-function readAfterWrite(db: DatabaseSync, sessionID: SessionId): SessionInfo {
-  const stored = getSession(db, sessionID);
+function readAfterWrite(database: DatabaseSync, sessionID: SessionId): SessionInfo {
+  const stored = getSession(database, sessionID);
   if (!stored) throw new Error(`Session not found after write: ${sessionID}`);
   return stored;
 }
 
-export function createSession(db: DatabaseSync, input: CreateSessionInput): SessionInfo {
+export function createSession(database: DatabaseSync, request: CreateSessionInput): SessionInfo {
   const now = Date.now();
-  const created = input.time?.created ?? now;
-  const updated = input.time?.updated ?? created;
-  const titleUpdated = input.titleSource || input.titleMessageID ? updated : null;
-  db.prepare(CREATE_SESSION).run(
-    input.id,
-    input.projectID,
-    input.workspaceID ?? null,
-    input.parentID ?? null,
-    input.traceID ?? null,
-    input.taskType ?? DEFAULT_TASK_TYPE,
-    input.slug,
-    input.directory,
-    input.path ?? null,
-    input.title,
-    input.titleSource ?? DEFAULT_TITLE_SOURCE,
-    input.titleMessageID ?? null,
-    input.version,
-    input.shareURL ?? null,
-    encodeJson(input.permission),
-    created,
-    updated,
-    titleUpdated,
-  );
-  return readAfterWrite(db, input.id);
+  const created = request.time?.created ?? now;
+  const updated = request.time?.updated ?? created;
+  const titleUpdated = request.titleSource || request.titleMessageID ? updated : null;
+  database
+    .prepare(CREATE_SESSION)
+    .run(
+      request.id,
+      request.projectID,
+      request.workspaceID ?? null,
+      request.parentID ?? null,
+      request.traceID ?? null,
+      request.taskType ?? DEFAULT_TASK_TYPE,
+      request.slug,
+      request.directory,
+      request.path ?? null,
+      request.title,
+      request.titleSource ?? DEFAULT_TITLE_SOURCE,
+      request.titleMessageID ?? null,
+      request.version,
+      request.shareURL ?? null,
+      encodeJson(request.permission),
+      created,
+      updated,
+      titleUpdated,
+    );
+  return readAfterWrite(database, request.id);
 }
 
 function patchParameters(
-  current: SessionInfo,
-  input: UpdateSessionInput,
+  prior: SessionInfo,
+  request: UpdateSessionInput,
   now: number,
 ): SQLInputValue[] {
   const summary =
-    input.summary === undefined
+    request.summary === undefined
       ? {
-          additions: current.summaryAdditions,
-          deletions: current.summaryDeletions,
-          files: current.summaryFiles,
-          diffs: current.summaryDiffs,
+          additions: prior.summaryAdditions,
+          deletions: prior.summaryDeletions,
+          files: prior.summaryFiles,
+          diffs: prior.summaryDiffs,
         }
-      : input.summary;
-  const title = input.title ?? current.title;
+      : request.summary;
+  const title = request.title ?? prior.title;
   // 显式 null 保留旧标题文本，但仍须按原始输入比较刷新标题时间。
   const titleChanged =
-    (input.title !== undefined && input.title !== current.title) ||
-    input.titleSource !== undefined ||
-    input.titleMessageID !== undefined;
+    (request.title !== undefined && request.title !== prior.title) ||
+    request.titleSource !== undefined ||
+    request.titleMessageID !== undefined;
   return [
-    input.directory ?? current.directory,
-    (input.path === undefined ? current.path : input.path) ?? null,
+    request.directory ?? prior.directory,
+    (request.path === undefined ? prior.path : request.path) ?? null,
     title,
-    input.titleSource ?? current.titleSource ?? DEFAULT_TITLE_SOURCE,
-    (input.titleMessageID === undefined ? current.titleMessageID : input.titleMessageID) ?? null,
-    (input.shareURL === undefined ? current.shareURL : input.shareURL) ?? null,
+    request.titleSource ?? prior.titleSource ?? DEFAULT_TITLE_SOURCE,
+    (request.titleMessageID === undefined ? prior.titleMessageID : request.titleMessageID) ?? null,
+    (request.shareURL === undefined ? prior.shareURL : request.shareURL) ?? null,
     summary?.additions ?? null,
     summary?.deletions ?? null,
     summary?.files ?? null,
     encodeJson(summary?.diffs),
-    encodeJson(input.revert === undefined ? current.revert : input.revert),
-    encodeJson(input.permission === undefined ? current.permission : input.permission),
-    (input.timeCompacting === undefined ? current.time.compacting : input.timeCompacting) ?? null,
-    (input.timeArchived === undefined ? current.time.archived : input.timeArchived) ?? null,
-    input.timeUpdated ?? now,
-    titleChanged ? now : (current.time.titleUpdated ?? null),
-    input.id,
+    encodeJson(request.revert === undefined ? prior.revert : request.revert),
+    encodeJson(request.permission === undefined ? prior.permission : request.permission),
+    (request.timeCompacting === undefined ? prior.time.compacting : request.timeCompacting) ?? null,
+    (request.timeArchived === undefined ? prior.time.archived : request.timeArchived) ?? null,
+    request.timeUpdated ?? now,
+    titleChanged ? now : (prior.time.titleUpdated ?? null),
+    request.id,
   ];
 }
 
-function applySessionPatch(db: DatabaseSync, input: UpdateSessionInput): SessionInfo {
+function applySessionPatch(database: DatabaseSync, request: UpdateSessionInput): SessionInfo {
   let result!: SessionInfo;
   // 先取得写入归属再读取，避免同步调用之间用旧快照覆盖标题、权限或标题 gate。
-  withWriteTransaction(db, "borrow", () => {
-    const current = getSession(db, input.id);
-    if (!current) throw new Error(`Session not found: ${input.id}`);
+  withWriteTransaction(database, "borrow", () => {
+    const prior = getSession(database, request.id);
+    if (!prior) throw new Error(`Session not found: ${request.id}`);
     if (
-      input.title !== undefined &&
-      input.expectedTitleSources?.length &&
-      !input.expectedTitleSources.includes(current.titleSource ?? DEFAULT_TITLE_SOURCE)
+      request.title !== undefined &&
+      request.expectedTitleSources?.length &&
+      !request.expectedTitleSources.includes(prior.titleSource ?? DEFAULT_TITLE_SOURCE)
     ) {
-      result = current;
+      result = prior;
       return;
     }
-    const parameters = patchParameters(current, input, Date.now());
-    db.prepare(UPDATE_SESSION).run(...parameters);
+    const parameters = patchParameters(prior, request, Date.now());
+    database.prepare(UPDATE_SESSION).run(...parameters);
     // 写后解码也属于本次事务；失败时不能留下已写入但无法返回的部分结果。
-    result = readAfterWrite(db, input.id);
+    result = readAfterWrite(database, request.id);
   });
   return result;
 }
 
 export async function updateSession(
-  db: DatabaseSync,
-  input: UpdateSessionInput,
+  database: DatabaseSync,
+  request: UpdateSessionInput,
 ): Promise<SessionInfo> {
-  return applySessionPatch(db, input);
+  return applySessionPatch(database, request);
 }
 
 export async function setRevert(
-  db: DatabaseSync,
-  input: {
+  database: DatabaseSync,
+  request: {
     sessionID: SessionId;
     revert: SessionRevert;
     summary?: { additions: number; deletions: number; files: number; diffs?: FileDiff[] };
   },
 ): Promise<void> {
-  const summary = input.summary;
-  applySessionPatch(db, {
-    id: input.sessionID,
-    revert: input.revert,
+  const summary = request.summary;
+  applySessionPatch(database, {
+    id: request.sessionID,
+    revert: request.revert,
     summary: summary
       ? {
           additions: summary.additions,
@@ -186,13 +190,16 @@ export async function setRevert(
   });
 }
 
-export async function clearRevert(db: DatabaseSync, sessionID: SessionId): Promise<void> {
-  applySessionPatch(db, { id: sessionID, revert: null, summary: null });
+export async function clearRevert(database: DatabaseSync, sessionID: SessionId): Promise<void> {
+  applySessionPatch(database, { id: sessionID, revert: null, summary: null });
 }
 
-export function touchSession(db: DatabaseSync, sessionID: SessionId, timeUpdated: number): void {
-  db.prepare("UPDATE session SET time_updated = MAX(time_updated, ?) WHERE id = ?").run(
-    timeUpdated,
-    sessionID,
-  );
+export function touchSession(
+  database: DatabaseSync,
+  sessionID: SessionId,
+  timeUpdated: number,
+): void {
+  database
+    .prepare("UPDATE session SET time_updated = MAX(time_updated, ?) WHERE id = ?")
+    .run(timeUpdated, sessionID);
 }

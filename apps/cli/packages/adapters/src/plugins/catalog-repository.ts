@@ -31,15 +31,15 @@ export function marketplaceDirectory(storageRoot: string, id: string): string {
 }
 
 export function pluginCacheDirectory(
-  storageRoot: string,
-  marketplace: string,
-  name: string,
-  version: string,
+  /* 市场数据根目录 */ storageRoot: string,
+  /* 市场标识 */ marketplace: string,
+  /* 插件名 */ name: string,
+  /* 版本号 */ version: string,
 ): string {
   return resolve(storageRoot, "cache", ...[marketplace, name, version].map(sanitizePluginId));
 }
 
-export function getPluginDataDir(storageRoot: string, pluginId: string): string {
+export function getPluginDataDir(storageRoot: string, /* 插件标识 */ pluginId: string): string {
   return join(storageRoot, "data", sanitizePluginId(pluginId));
 }
 
@@ -49,7 +49,7 @@ function readAuthority(path: string): unknown {
   const visible = recoverAtomicTargetSync(path);
   try {
     return JSON.parse(readFileSync(visible, "utf8"));
-  } catch {
+  } catch /* 历史空态兜底：解析失败按未初始化处理 */ {
     return undefined;
   }
 }
@@ -64,7 +64,7 @@ export function listInstalledPluginRecords(storageRoot: string): InstalledPlugin
 
 export function resolveInstalledPluginRoot(
   _storageRoot: string,
-  record: InstalledPluginRecord,
+  /* 已安装记录 */ record: InstalledPluginRecord,
 ): string {
   return recoverAtomicTargetSync(record.installPath);
 }
@@ -88,7 +88,7 @@ async function serializeAuthority<T>(path: string, operation: () => Promise<T>):
 }
 
 export async function changeKnownRecords<T>(
-  storageRoot: string,
+  storageRoot: /* 市场数据根目录 */ string,
   edit: (records: KnownMarketplaceRecord[]) => {
     records: KnownMarketplaceRecord[];
     result: T;
