@@ -523,4 +523,123 @@
 
 ---
 
-（H6 起续写：B37…）
+## H6. process/subagent/task-realtime-core 六件（B37–B43）
+
+### B37 进程诊断行契约（`process-diagnostic.ts`）
+
+- 语义常量（逐字冻结）：`KNORVIA_PROCESS_DIAGNOSTIC_PREFIX = "[knorvia-process-exception] "`、
+  `NAME_MAX_CHARS = 128`、`MESSAGE_MAX_CHARS = 4000`、`STACK_MAX_CHARS = 16000`、
+  `MAX_LINE_CHARS = 131072`、`KNORVIA_AGENT_LIFECYCLE_LOG_MARKER = "[agent-lifecycle-reported]"`。
+- schema（strict）：`version` 字面 1、`errorId` uuid、`kind`/`origin` 两值
+  （uncaughtException/unhandledRejection）、`name` 1..128、`message` ≤4000、`stack` ≤16000 可选、
+  `occurredAt` 非负整数。stderr 单行契约（stdout 不可用的启动早期/协议故障场景）。
+- `parseKnorviaProcessDiagnostic(line)`：前缀不符或行超 `131072` → undefined；JSON 解析或 schema
+  失败 → undefined（**诊断旁路不得因损坏帧中断业务协议或退出处理**）。
+
+### B38 进程命名（`process-names.ts`）
+
+- 段清洗：trim→小写→非 `[a-z0-9]` 折 `-`→去首尾 `-`→空则丢→截 24 字符；拼接恒以 `knorvia` 前缀 `-` 连接。
+- 形态：main→`knorvia-main`；gpu→`knorvia-gpu`；host(label?)→`knorvia-host[-label]`；
+  renderer(windowTitle?)：空或 `"Knorvia Studio"`→`…-renderer-main`；`"Resource Manager"`→`…-renderer-resource-manager`；
+  `"Knorvia Studio - X"` 前缀→`…-renderer-remote-X`；其余→`…-renderer-<清洗标题>`；
+  agent(provider, workspacePath?)→`…-agent-<provider>[-<工作区尾段>]`（尾段取路径分段最后一段、
+  空路径不带段）；utility(name?, type="utility")→`…-<type>[-<name>]`。
+- 平台差异：路径分段 `/` 与 `\` 同切。纯函数；无状态；无日志。
+
+### B39 进程资源遥测口径（`processResourceTelemetry.ts`）
+
+- 语义常量（逐字冻结）：`PROCESS_RESOURCE_ROLES` 10 项（main、renderer_main、renderer_guest、gpu、
+  chromium_other、host、scheduler、cli_chat、cli_aux、mcp）、`KNORVIA_CLI_RESOURCE_SAMPLE_INTERVAL_MS = 60000`、
+  `PROCESS_RESOURCE_CLI_LANES` 3 项（chat、plugin、mcp-status）、事件名 3 个
+  （perf_process_window/perf_system_window/perf_tool_exec_resource）、
+  `ARMS_CUSTOM_EVENT_PROPERTY_LIMIT = 20`、三张 property 白名单（全局 4 键 platform/app_version/arms_env/
+  device_mid + 各自字段）、`PROCESS_RESOURCE_FORBIDDEN_PROPERTY_KEY_PATTERN = /pid|path|workspace|session|task|command/i`。
+- `resolveCliProcessResourceRole(lane)`：undefined 或 "chat" → cli_chat，其余 → cli_aux。
+- `checkProcessResourceEventProperties(eventName, properties)`：仅统计 `!== undefined` 的键；
+  `unknownKeys` = 不在白名单、`forbiddenKeys` = 命中禁词正则、`overLimit` = count>20；
+  `ok` = 三者皆否。输出对象键序固定。纯函数；无状态；无日志。
+
+### B40 subagent markdown 选择（`subagent-markdown-selection.ts`）
+
+- `parseSubagentMarkdownSelection(frontmatter)`：`model` 非串 → undefined；trim 后空串或
+  `inherit|main|sonnet|opus|haiku` → undefined；`custom:` 值走解码（providerId 与 modelName 都要非空）
+  否则 `parseModelPickerValue`（抛错→undefined）；`thoughtLevel` 非空则并成
+  `options.reasoningLevel`。**正式读取只接受 model 字段**，旧身份迁移归存储边界。
+- `formatSubagentMarkdownModel(selection)`：providerId 以 `custom:` 开头或含 `/`，或 modelId 含 `$`
+  → `encodeCustomModelValue`；否则 `provider/model`。
+- `migrateStoredModel(value)`（内部）：`custom:` 形态仅当解码出 `builtin:` provider 且可迁移才改写，
+  **模型未变时保留原始编码字节**（含转义大小写）；斜杠形态仅当 provider 以 `builtin:` 开头才迁移，
+  `$` 起属推理后缀**原样保留**。
+- `migrateSubagentMarkdownProvider(content)`：frontmatter 正则容忍 BOM；`model:` 行的标量支持
+  双引号（JSON.parse）、单引号（`''` 转义）、裸文本三种 token，行尾注释保留在 trailing；
+  **迁移值未变则整文件原样返回**；替换只动 body 捕获区（BOM/换行/边界标记/其余 Markdown 逐字节保留）。
+- 平台差异：无。纯函数；无状态；无日志。
+
+### B41 subagent 状态导入（`subagent-state-migration.ts` `importSubagentStateSelections`）
+
+- `builtInNames` 两项序：`Explore`、`general-purpose`。
+- 权威规则：**自有新字段（`builtInModelSelectionOverrides` / `pluginAgentModelSelectionOverrides`）
+  一经在场即为权威值（含空值或损坏值），不回退旧字段**；旧字段（`builtInModelOverrides` +
+  `builtInThoughtLevelOverrides`、`pluginAgentModelOverrides` + `pluginAgentThoughtLevelOverrides`）
+  仅当新字段缺席才参与配对解析（`parseSubagentMarkdownSelection`）。
+- 迁移规则：`selectionForImport(selection, legacy)` 仅在导入时执行——legacy 且 provider 以 `builtin:`
+  开头 → `migrateLegacyModelProviderId`（不可迁移返回原 selection）+ `migrateLegacyOfficialGlmModelId`；
+  运行时不重新解释历史配置。插件侧另要求 id 以 `plugin:` 开头。
+- 输出：`{...input, builtInModelSelectionOverrides, pluginAgentModelSelectionOverrides}`（后两键覆盖）。
+- 幂等：对已迁移数据再导入结果相同。纯函数；无状态；无日志。
+
+### B42 task-realtime 常量与信封面（`task-realtime-core.ts`）
+
+- `resolveWorkspaceKey({workspacePath, workspaceIdentity?})` = `workspaceIdentity?.trim() || workspacePath`
+  （**全链路唯一键规则**，B49 口径同源）。
+- 语义常量（逐字冻结）：`taskRealtimeReasonSchema` **14 项此序**（task_created、user_message_saved、
+  assistant_message_saved、task_status_changed、task_meta_changed、task_model_changed、
+  task_title_changed、task_pinned、task_unpinned、task_archived、task_unarchived、task_deleted、
+  stream_mirror_gap、stream_mirror_owner_lost——切模型/标题更新独立 reason 避免整刷）；
+  deliveryPurpose 2 项（observer/relay_owner）；hostDeliveryKind 2 项（desktop_window/relay_bridge）。
+- 信封（strict 六字段）：eventId/workspacePath/workspaceIdentity?/workspaceKey/traceId/createdAt；
+  watermark（strict）：{runId, opSeq 非负}。
+- 失效事件：`task_snapshot_invalidated`（+taskId）、`workspace_task_list_invalidated`（+taskId?、
+  taskMeta?——meta schema：mode **六值枚举** yolo/plan/edit/auto/autoEdit/build、lastError.attribution
+  共享 `errorAttributionSchema`（旧 schema 曾静默剥离导致手机 replayable 与桌面 snapshot 归因不一致）、
+  changeSummary 严格）。
+- **gate 握手断言口径（事件类金样）**：`workspaceKey` 必须等于 `resolveWorkspaceKey` 计算值
+  （违者 issue：`workspaceKey must match workspaceIdentity fallback rule`）；mirror batch 与 lease 的
+  `runId === traceId`（`runId must match traceId`）。两规则由 superRefine 在 event/delivered/target/
+  owner-command 全面施加。
+
+### B43 mirror/lease/owner-command（`task-realtime-core.ts`）
+
+- 附件判别联合 5 kind：image/audio/video/pdf/file（各自 filename+mimeType；image/video/pdf 有可选
+  sizeBytes/dataBase64/localPath；audio 无 sizeBytes；file 的 `sizeBytes` 必填、多 `textContent`）。
+  **kind 集合是协议面**（video 曾漏配导致手机远控拒合法附件）。
+- mirror：publish op = user_message（messageId、content、attachments?、timestamp 有限数）|
+  stream_event（event: passthrough{type,taskId,traceId}）；`taskStreamMirrorOpSchema` = 同两形态 + `seq` 正整数。
+- mirror target（strict + 双 superRefine）：workspacePath/workspaceIdentity?/workspaceKey/taskId/runId/traceId/
+  ownerClientId?/ownerDeviceLabel?；batch 事件：type="task_stream_mirror_batch" + taskId/runId/owner 可选 +
+  `batchSeq/fromSeq/toSeq` 正整数 + `ops` + `terminal` 布尔（**batchSeq 与 seq 独立轴**）。
+- lease：target = mirror target（同 superRefine）；acquire 请求 + `leaseRequestId`；
+  result 判别 `acquired`：true→{leaseRequestId, acquired:true, ownerHostId}；
+  false→{…, ownerHostId, reason 字面 `"owned_by_other_host"`}。
+- owner command：base（strict）= commandRequestId/workspacePath/workspaceIdentity?/workspaceKey/taskId/runId；
+  7 个 type：stop_generation；respond_permission（permissionRequestId/optionId/response）；
+  respond_elicitation（elicitationRequestId/action∈accept|decline|cancel/content 可选记录）；
+  respond_workspace_hook_review（sessionId/bundleDigest `^[a-f0-9]{64}$/`/reviewFlowId/generation 正整数/
+  interactionId/decision；**remoteSessionId 在场 ⇒ workspaceIdentity 必须在场**，违者 issue：
+  `remote workspace Hook review response requires workspaceIdentity`）；enqueue_task_command
+  （taskCommand = runtime command，单 kind send_prompt）；promote_task_command / cancel_task_command
+  （commandId + clientMode 字面 `"web-remote-replayable"`）。delivery = 七形态 + `requesterHostId`；
+  两者均 superRefine workspaceKey 规则。
+- owner command result：`success` 判别——true→{commandRequestId, taskCommand?}；
+  false→{commandRequestId, error, code?}；errorCode 三值（NO_ACTIVE_TASK_OWNER、
+  STALE_TASK_OWNER_COMMAND、OWNER_COMMAND_FAILED）。
+- 事件总集：`taskRealtimeEventSchema` 三 type 判别 + superRefine（workspaceKey 全量、batch 加 runId 规则）；
+  `taskRealtimeDeliveredEventSchema` = 同三形态各 extend `originHostId` 必填 + `deliveryPurpose?`。
+- **事件类 gate 握手断言口径**：金样覆盖 ① workspaceKey 回退规则（identity trim 空串回退 path）；
+  ② runId=traceId；③ batchSeq/seq 双轴；④ remoteSessionId⇒workspaceIdentity；⑤ lease 判别双态；
+  ⑥ attachment 5-kind 全集；⑦ reason 14 项与 delivered 信封 extend 面。
+- 全部 strict schema：未知字段即拒（协议面逐字）。纯函数；无状态；无日志。
+
+---
+
+（H1–H6 完；B1–B43 齐。下一步：interface.md + interface-appendix、callers.md、tests/fixtures。）
