@@ -1,0 +1,119 @@
+{
+  "contract": "core-tool-handlers-workflow-runs-01",
+  "version": "v1",
+  "root": "apps/cli/packages/core/src/tool/handlers",
+  "measuredFrom": "licensing/current-files.json",
+  "files": [
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run.ts",
+      "classification": "upstream-modified",
+      "lines": 183,
+      "role": "单 run 自适应详情 handler（快照/投影/摘要拼装）"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-format.ts",
+      "classification": "upstream-modified",
+      "lines": 199,
+      "role": "GetWorkflowRun 模型面骨架（summary/run_id/status/result/error/artifacts/routing）"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-format-roster.ts",
+      "classification": "upstream-modified",
+      "lines": 191,
+      "role": "情势三块 <health>/<phases>/<subagents> + <log_tail> 表格渲染"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-roster-output.ts",
+      "classification": "upstream-modified",
+      "lines": 107,
+      "role": "端口视图 → 契约投影（phases/subagents/ask/wait/health）"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-summary.ts",
+      "classification": "upstream-modified",
+      "lines": 119,
+      "role": "确定性 <summary>（贡献表 + 预算裁句）"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-activity-program.ts",
+      "classification": "unreviewed",
+      "lines": 61,
+      "role": "花名册「正在做什么」活动行渲染（按相位分叉）"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/list-workflow-runs.ts",
+      "classification": "upstream-modified",
+      "lines": 149,
+      "role": "ListWorkflowRuns（薄 handler + 单行属性式模型面）"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/list-saved-workflows.ts",
+      "classification": "upstream-modified",
+      "lines": 130,
+      "role": "ListSavedWorkflows（定义清单 + 块式模型面 + 属性转义）"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/list-models.ts",
+      "classification": "upstream-modified",
+      "lines": 82,
+      "role": "ListModels 公开声明面（execute/render 转口）"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/resume-workflow-run.ts",
+      "classification": "upstream-modified",
+      "lines": 223,
+      "role": "ResumeWorkflowRun（失败码表 11–17、六分支、backgrounded 输出）"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/resolve-workflow-question.ts",
+      "classification": "upstream-modified",
+      "lines": 174,
+      "role": "ResolveWorkflowQuestion（失败码表 21–24、四分支、message 原样透传）"
+    }
+  ],
+  "totals": {
+    "files": 11,
+    "lines": 1618,
+    "upstream-modified": 10,
+    "unreviewed": 1,
+    "upstream-unchanged": 0
+  },
+  "notInScope": {
+    "originalNeighbors": [
+      "get-workflow-run-output-fields.ts",
+      "get-workflow-run-snapshot-fields.ts",
+      "get-workflow-run-summary-clauses.ts",
+      "list-models-projection.ts",
+      "list-saved-workflows-model-renderer.ts",
+      "list-workflow-runs-operation.ts"
+    ],
+    "notes": "六个 original 邻居（已独立）经公开入口消费，路径与导出不变；workflow-run-introspection.ts 属 core-tool-handlers-workflow-01 22 件（前向依赖）；index.ts 归 handlers 末包；saved-workflows/** 归 -02；list-saved-workflows 经 ./saved-workflows/index.js 公开入口消费定义存储层。"
+  },
+  "semanticConstants": {
+    "timeoutsMs": {
+      "getWorkflowRun": 10000,
+      "listWorkflowRuns": 10000,
+      "listSavedWorkflows": 10000,
+      "listModels": 10000,
+      "resumeWorkflowRun": 15000,
+      "resolveWorkflowQuestion": 15000
+    },
+    "budgets": {
+      "getWorkflowRunResultBytes": 400000,
+      "getWorkflowRunPersistThresholdChars": 100000,
+      "listAndGuidanceModelBytes": 24000
+    },
+    "failureCodes": {
+      "introspection": [1, 2],
+      "resume": [11, 12, 13, 14, 15, 16, 17],
+      "resolve": [21, 22, 23, 24]
+    },
+    "summary": {
+      "terminates": ["completed", "errored", "stopped"],
+      "ellipsis": "…",
+      "separator": " ",
+      "requiredContributions": 2
+    },
+    "rosterTable": { "columnGap": "  ", "maxColumnWidth": 24, "taskLineIndent": "  " }
+  }
+}
