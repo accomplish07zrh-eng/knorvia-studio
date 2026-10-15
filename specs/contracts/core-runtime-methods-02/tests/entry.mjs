@@ -13,7 +13,7 @@ const mode = (process.env.KNORVIA_CORE_RUNTIME_METHODS_02_ENTRY ?? "source").tri
 export const entryLabel = mode === "dist" ? "dist" : "source";
 
 const coreRoot = resolve(repoRoot, "apps/cli/packages/core");
-const explicitDir = process.env.KNORVIA_CORE_RUNTIME_METHODS_01_DIR?.trim();
+const explicitDir = process.env.KNORVIA_CORE_RUNTIME_METHODS_02_DIR?.trim();
 export const methodsDir = explicitDir
   ? resolve(explicitDir)
   : entryLabel === "dist"
@@ -99,4 +99,39 @@ export async function coreDeps() {
   const namespace = await import(pathToFileURL(base).href);
   modules.set(`${entryLabel}:__deps__`, namespace);
   return namespace;
+}
+
+/** 本包 24 个公开模块（不带扩展名；scope-files.json 同源）。 */
+export const MODULE_PATHS = [
+  "compact",
+  "compact-log-context",
+  "context-history-entries",
+  "context-refresh",
+  "tool-part-metadata",
+  "tool-part-persistence",
+  "turn-guide-drain",
+  "turn-loop-state",
+  "turn-model",
+  "turn-model-step",
+  "turn-model-step-fields",
+  "turn-model-step-operation",
+  "turn-model-step-records",
+  "turn-model-step-recovery",
+  "turn-model-step-usage",
+  "turn-nested-model-usage",
+  "turn-output-token-continuation",
+  "turn-step-finish",
+  "turn-stop",
+  "turn-tool-batch-follow-up",
+  "turn-tool-batch-parts",
+  "turn-tool-usage",
+  "turn-tool-warnings",
+  "turn-tools",
+];
+
+/** 全量加载 24 模块（surface 对照用）。 */
+export async function loadEntryModules() {
+  const out = {};
+  for (const key of MODULE_PATHS) out[key] = await methods(key);
+  return out;
 }
