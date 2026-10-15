@@ -1,47 +1,8 @@
-import type {
-  FileSystemPort,
-  ImageProcessorPort,
-  SessionId,
-  ToolArtifactStorePort,
-  TraceContext,
-  TurnAttachment,
-  TurnId,
-} from "../deps.js";
-import type { ResolvedTurnAttachment } from "../types.js";
-import { resolveInlineMedia } from "./attachment-media-resolver/inline.js";
-import { resolveLocalMedia } from "./attachment-media-resolver/local.js";
+// SPDX-License-Identifier: Apache-2.0
+// 本地/内联媒体分派的兼容面（B7）：实现见 ./attachments/inline-media-readers.js 与
+// ./attachments/local-media-readers.js。
+import * as inline from "./attachments/inline-media-readers.js";
+import * as local from "./attachments/local-media-readers.js";
 
-interface InlineMediaResolverOptions {
-  abortSignal?: AbortSignal;
-  artifactStore?: ToolArtifactStorePort;
-  existingArtifactUri?: string;
-  imageProcessorPort?: ImageProcessorPort;
-  sessionId?: SessionId;
-  traceContext: TraceContext;
-  turnId?: TurnId;
-}
-
-interface LocalMediaResolverOptions extends Omit<
-  InlineMediaResolverOptions,
-  "existingArtifactUri"
-> {
-  fileSystemPort: FileSystemPort;
-  workingDirectory: string;
-}
-
-export function resolveInlineMediaAttachment(
-  attachment: TurnAttachment,
-  index: number,
-  parsedMediaType: string | undefined,
-  options: InlineMediaResolverOptions,
-): Promise<ResolvedTurnAttachment | undefined> {
-  return resolveInlineMedia(attachment, index, parsedMediaType, options);
-}
-
-export function resolveLocalMediaAttachment(
-  attachment: TurnAttachment,
-  index: number,
-  options: LocalMediaResolverOptions,
-): Promise<ResolvedTurnAttachment> {
-  return resolveLocalMedia(attachment, index, options);
-}
+export const resolveInlineMediaAttachment = inline.resolveInlineMediaAttachment;
+export const resolveLocalMediaAttachment = local.resolveLocalMediaAttachment;
