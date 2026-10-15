@@ -41,14 +41,17 @@ function completedResult(overrides: Record<string, unknown> = {}) {
   };
 }
 
+// 工作区根按平台取值：Windows 用盘符路径、POSIX 用根下目录，保证 path-policy 两侧都接受。
+const WORKSPACE_ROOT = process.platform === "win32" ? "C:/ws" : "/ws";
+
 function contextDouble(port: PortDouble, extra: Record<string, unknown> = {}) {
   const ctx = {
     toolCallId: "call-fixture",
     toolName: "Bash",
     executionPort: port,
     abortSignal: new AbortController().signal,
-    workingDirectory: "C:/ws",
-    workspaceRoot: "C:/ws",
+    workingDirectory: WORKSPACE_ROOT,
+    workspaceRoot: WORKSPACE_ROOT,
     ...extra,
   };
   return ctx as unknown as ToolExecutionContext;
@@ -269,7 +272,7 @@ test("applyBashReadFileStateEffects backfills read state from a cat run", async 
   });
   assert.equal(registry.size, 1);
   const [record] = [...registry.values()] as any[];
-  assert.equal(String(record.path).replace(/\\/gu, "/"), "C:/ws/a.txt");
+  assert.equal(String(record.path).replace(/\\/gu, "/"), `${WORKSPACE_ROOT}/a.txt`);
   assert.equal(record.content, "a\nb\n");
   assert.equal(record.revisionId, "rev-1");
   assert.equal(output.staleReadFileStateHint, undefined);
@@ -278,7 +281,7 @@ test("applyBashReadFileStateEffects backfills read state from a cat run", async 
 test("applyBashReadFileStateEffects flags stale reads after a write-marked command", async () => {
   const registry = new Map<string, unknown>();
   registry.set("key", {
-    path: "C:/ws/src/index.ts",
+    path: `${WORKSPACE_ROOT}/src/index.ts`,
     content: "stale",
     mtimeMs: 100,
     readAt: new Date(0),
