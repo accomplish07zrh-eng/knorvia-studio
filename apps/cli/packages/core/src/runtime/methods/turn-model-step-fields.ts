@@ -250,7 +250,7 @@ export function outputLimitError() {
     recoverable: true,
   });
 }
-export interface UsageFields {
+interface UsageFields {
   assistantMessageId: MessageId;
   model: Model;
   modelTraceContext: TraceContext;

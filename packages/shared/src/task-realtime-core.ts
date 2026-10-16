@@ -13,10 +13,11 @@ export {
   taskRealtimeReasonSchema,
   taskRunLeaseAcquireRequestSchema,
   taskRunLeaseResultSchema,
-  taskRunLeaseTargetSchema,
   taskSnapshotInvalidatedEventSchema,
   taskStreamMirrorOpSchema,
   taskStreamMirrorPublishOpSchema,
   taskStreamMirrorTargetSchema,
   workspaceTaskListInvalidatedEventSchema,
 } from "./internal-s03/task-realtime-wire.js";
+
+export { taskStreamMirrorTargetSchema as taskRunLeaseTargetSchema } from "./internal-s03/task-realtime-wire.js";

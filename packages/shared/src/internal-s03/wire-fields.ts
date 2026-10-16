@@ -4,7 +4,7 @@ import { z, type ZodType } from "zod";
 import type { RefinementCtx } from "zod";
 
 export type WireField = readonly [string, ZodType];
-export type WireCheck = (value: any, ctx: RefinementCtx) => void;
+type WireCheck = (value: any, ctx: RefinementCtx) => void;
 
 function shapeFrom(fields: readonly WireField[]): Record<string, ZodType> {
   const shape: Record<string, ZodType> = {};
