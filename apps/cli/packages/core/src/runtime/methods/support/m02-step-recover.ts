@@ -1,0 +1,103 @@
+// SPDX-License-Identifier: Apache-2.0
+// 反应式上下文恢复。每个模型步只尝试一次；熔断直接抛，不再压缩。
+import type { RuntimeMessageEntry } from "../../../agent/message-history.js";
+import { CompactTrigger, TurnMachineImpl, traceContextToLogContext } from "../../deps.js";
+import { createCompactRapidRefillError } from "../../helpers/index.js";
+import type { AgentRuntimeInternal } from "../../internal.js";
+import { layer, report } from "./m02-record.js";
+import {
+  evaluateRapidRefill,
+  MAX_CONSECUTIVE_RAPID_REFILLS,
+  RAPID_REFILL_TOOL_TURN_THRESHOLD,
+  recordCompactHistoryRound,
+  recordCompactSuccess,
+  type CompactLoopTracking,
+  type RapidRefillDecision,
+  type RegularTurnLoopState,
+} from "../turn-loop-state.js";
+
+function breakerFields(
+  loop: RegularTurnLoopState,
+  verdict: RapidRefillDecision,
+  modelStepIndex: number,
+) {
+  const { consecutiveRapidRefills, toolTurnsSinceCompact } = verdict;
+  const event = "compact.rapid_refill_breaker";
+  const module = "core.runtime";
+  const status = "failed";
+  const trigger = CompactTrigger.Reactive;
+  return layer(traceContextToLogContext(loop.turnTraceContext), {
+    event,
+    consecutiveRapidRefills,
+    modelStepIndex,
+    module,
+    status,
+    toolTurnsSinceCompact,
+    trigger,
+  });
+}
+
+function refillError(verdict: RapidRefillDecision) {
+  const { consecutiveRapidRefills, toolTurnsSinceCompact } = verdict;
+  const maxConsecutiveRapidRefills = MAX_CONSECUTIVE_RAPID_REFILLS;
+  const toolTurnThreshold = RAPID_REFILL_TOOL_TURN_THRESHOLD;
+  return createCompactRapidRefillError({
+    consecutiveRapidRefills,
+    maxConsecutiveRapidRefills,
+    toolTurnThreshold,
+    toolTurnsSinceCompact,
+  });
+}
+
+function restartMachine(host: AgentRuntimeInternal, loop: RegularTurnLoopState): void {
+  const opened = TurnMachineImpl.create(
+    host.sessionId,
+    host.turnNumber,
+    loop.input,
+    loop.traceId,
+    loop.turnId,
+  );
+  loop.turnMachine = new TurnMachineImpl(opened.start());
+}
+
+export async function recoverTurnModelContext(
+  host: AgentRuntimeInternal,
+  loop: RegularTurnLoopState,
+  failure: unknown,
+  stepIndex: number,
+  entries: readonly RuntimeMessageEntry[],
+): Promise<boolean> {
+  if (loop.reactiveCompactAttemptedInCurrentModelStep) return false;
+  const memory: CompactLoopTracking | undefined = loop.compactTracking;
+  const verdict = evaluateRapidRefill(memory);
+  if (verdict.shouldBlock === true) {
+    report(
+      host,
+      "warn",
+      "Reactive compact rapid-refill breaker tripped",
+      breakerFields(loop, verdict, stepIndex),
+    );
+    throw refillError(verdict);
+  }
+  loop.reactiveCompactAttemptedInCurrentModelStep = true;
+  const activeEntries = entries;
+  const modelStepIndex = stepIndex;
+  const rapidRefillCount = verdict.consecutiveRapidRefills;
+  const model = loop.model;
+  const turnRequestState = loop.turnRequestState;
+  const packed = { activeEntries, modelStepIndex, rapidRefillCount, model, turnRequestState };
+  const outcome = await host.reactiveCompactAfterContextExceeded(
+    failure,
+    loop.turnTraceContext,
+    loop.events,
+    loop.turnAbortSignal,
+    packed as never,
+  );
+  const accepted = outcome === "compacted";
+  if (accepted) {
+    recordCompactSuccess(loop, verdict);
+    recordCompactHistoryRound(loop);
+    restartMachine(host, loop);
+  }
+  return accepted;
+}

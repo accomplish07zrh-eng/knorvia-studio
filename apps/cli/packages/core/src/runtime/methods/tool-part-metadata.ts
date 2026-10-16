@@ -1,37 +1,43 @@
+// SPDX-License-Identifier: Apache-2.0
+// 工具分部元数据：schema 版本在前，展示、序列化和读档快照按存在与否接在后面。
+import { createMcpToolDisplay } from "../../tool/executor/result-display.js";
 import {
   COMPLETED_TOOL_PART_METADATA_SCHEMA_VERSION,
   type CompletedToolPartMetadata,
   type ToolExecutionResult,
 } from "../deps.js";
-import { createMcpToolDisplay } from "../../tool/executor/result-display.js";
+import { layer } from "./support/m02-record.js";
+
+const SCHEMA = COMPLETED_TOOL_PART_METADATA_SCHEMA_VERSION;
+
+type McpPresentation = { serverName: string; toolName: string; description?: string };
 
 export function mcpToolPartMetadata(
-  presentation: { serverName: string; toolName: string; description?: string } | undefined,
+  presentation: McpPresentation | undefined,
 ): CompletedToolPartMetadata | undefined {
-  const display = createMcpToolDisplay(presentation);
-  return display
-    ? { schemaVersion: COMPLETED_TOOL_PART_METADATA_SCHEMA_VERSION, display }
-    : undefined;
+  const card = createMcpToolDisplay(presentation);
+  if (!card) return;
+  const schemaVersion = SCHEMA;
+  return { schemaVersion, display: card };
+}
+
+function serializationOf(result: ToolExecutionResult): Record<string, unknown> | undefined {
+  const raw = result.serialization;
+  if (!raw) return;
+  const { truncated, originalBytes, returnedBytes, budgetStrategy, artifactPath } = raw;
+  return layer<Record<string, unknown>>(
+    { truncated, originalBytes, returnedBytes, budgetStrategy },
+    artifactPath ? { artifactPath } : undefined,
+  );
 }
 
 export function completedToolPartMetadata(result: ToolExecutionResult): CompletedToolPartMetadata {
-  const serialization = result.serialization
-    ? {
-        truncated: result.serialization.truncated,
-        originalBytes: result.serialization.originalBytes,
-        returnedBytes: result.serialization.returnedBytes,
-        budgetStrategy: result.serialization.budgetStrategy,
-        ...(result.serialization.artifactPath
-          ? { artifactPath: result.serialization.artifactPath }
-          : {}),
-      }
-    : undefined;
-  return {
-    schemaVersion: COMPLETED_TOOL_PART_METADATA_SCHEMA_VERSION,
-    ...(result.display ? { display: result.display } : {}),
-    ...(serialization ? { serialization } : {}),
-    // resume 需要恢复模型当时真实读到的文件快照；只依赖 tool_result 文本
-    // 会把主路径绑死在 provider 展示格式上，所以新 session 结构化持久化 read-state。
-    ...(result.readFileStateMetadata ? { readFileState: result.readFileStateMetadata } : {}),
-  };
+  const serialization = serializationOf(result);
+  const schemaVersion = SCHEMA;
+  return layer<CompletedToolPartMetadata>(
+    { schemaVersion },
+    result.display ? { display: result.display } : undefined,
+    serialization ? { serialization } : undefined,
+    result.readFileStateMetadata ? { readFileState: result.readFileStateMetadata } : undefined,
+  );
 }

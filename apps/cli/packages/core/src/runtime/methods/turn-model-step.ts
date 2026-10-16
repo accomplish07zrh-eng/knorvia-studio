@@ -1,48 +1,87 @@
-import { createMessageId } from "../deps.js";
-import type { ModelToolContract } from "../deps.js";
-import type { RuntimeMessageEntry } from "../../agent/message-history.js";
-import { isTurnCancellationError } from "../helpers/index.js";
-import type { DrainedPendingInputDiagnostics, RunModelTextRequestOptions } from "../types.js";
+// SPDX-License-Identifier: Apache-2.0
+// 回合模型步的外层：先铸助手消息号，再把内部步包进遥测。失败在遥测回调里归类后原样抛出。
+import { createMessageId, type MessageId } from "../deps.js";
+import * as helpers from "../helpers/index.js";
 import type { AgentRuntimeInternal } from "../internal.js";
 import type { RegularTurnLoopState } from "./turn-loop-state.js";
+import type { ModelStepInputs } from "./turn-model-step-fields.js";
 import { performModelStep } from "./turn-model-step-operation.js";
 
-type ModelStepResult = "continue" | "output_continuation" | "break";
+type ModelStepResult = "break" | "continue" | "output_continuation";
+
+const STEP_MARK = {
+  continued: "model_completed",
+  tools: "tool_requested",
+  finished: "turn_completed",
+  aborted: "abort_signal",
+  failedStage: "unhandled",
+  failedCategory: "unknown",
+} as const;
+
+type CompletedLabel = "model_completed" | "tool_requested" | "turn_completed";
+
+type StepProbe = {
+  finishCancelled: (reason: "abort_signal") => void;
+  finishCompleted: (label: CompletedLabel) => void;
+  finishFailed: (stage: "unhandled", category: "unknown", error: unknown) => void;
+  run: <T>(body: () => Promise<T>) => Promise<T>;
+};
+
+function labelFor(outcome: ModelStepResult): CompletedLabel {
+  switch (outcome) {
+    case "output_continuation":
+      return STEP_MARK.continued;
+    case "continue":
+      return STEP_MARK.tools;
+    default:
+      return STEP_MARK.finished;
+  }
+}
+
+function noteStepFailure(probe: StepProbe, error: unknown, signal: AbortSignal): void {
+  const aborted = helpers.isTurnCancellationError(error, signal);
+  if (aborted) {
+    probe.finishCancelled(STEP_MARK.aborted);
+    return;
+  }
+  probe.finishFailed(STEP_MARK.failedStage, STEP_MARK.failedCategory, error);
+}
+
+function openStep(loop: RegularTurnLoopState): {
+  messageId: MessageId;
+  stepId: MessageId;
+  stepIndex: number;
+} {
+  const messageId: MessageId = createMessageId();
+  const stepId = messageId;
+  const stepIndex = loop.modelStepCount;
+  return { messageId, stepId, stepIndex };
+}
+
+async function guardedModelStep(
+  host: AgentRuntimeInternal,
+  loop: RegularTurnLoopState,
+  request: ModelStepInputs,
+  messageId: MessageId,
+  probe: StepProbe,
+): Promise<ModelStepResult> {
+  try {
+    const settled = await performModelStep(host, loop, request, messageId);
+    probe.finishCompleted(labelFor(settled));
+    return settled;
+  } catch (failure) {
+    noteStepFailure(probe, failure, loop.turnAbortSignal);
+    throw failure;
+  }
+}
 
 export async function runModelBackedTurnStep(
   this: AgentRuntimeInternal,
   state: RegularTurnLoopState,
-  options: {
-    drainedSteerForNextRequest?: DrainedPendingInputDiagnostics;
-    latestRealUserMessageIndex?: number;
-    messages: RunModelTextRequestOptions["messages"];
-    sourceEntries: readonly (RuntimeMessageEntry | undefined)[];
-    recordedMessages: RunModelTextRequestOptions["messages"];
-    requestEntries: readonly RuntimeMessageEntry[];
-    tools: ModelToolContract[];
-  },
+  options: ModelStepInputs,
 ): Promise<ModelStepResult> {
-  const assistantMessageId = createMessageId();
-  const telemetry = this.agentTelemetry.step({
-    stepId: assistantMessageId,
-    stepIndex: state.modelStepCount,
-  });
-  return telemetry.run(async () => {
-    try {
-      const outcome = await performModelStep(this, state, options, assistantMessageId);
-      telemetry.finishCompleted(
-        outcome === "output_continuation"
-          ? "model_completed"
-          : outcome === "continue"
-            ? "tool_requested"
-            : "turn_completed",
-      );
-      return outcome;
-    } catch (error) {
-      if (isTurnCancellationError(error, state.turnAbortSignal))
-        telemetry.finishCancelled("abort_signal");
-      else telemetry.finishFailed("unhandled", "unknown", error);
-      throw error;
-    }
-  });
+  const host: AgentRuntimeInternal = this;
+  const opened = openStep(state);
+  const probe = host.agentTelemetry.step({ stepId: opened.stepId, stepIndex: opened.stepIndex });
+  return probe.run(() => guardedModelStep(host, state, options, opened.messageId, probe));
 }
