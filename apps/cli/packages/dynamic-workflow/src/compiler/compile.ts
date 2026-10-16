@@ -10,7 +10,11 @@ import type {
   ScriptLoc,
   WorkflowProgram,
 } from "./compile-types.js";
-import { SCRIPT_FILE_NAME, WORKFLOW_FUNCTION_NAME } from "./compile-types.js";
+import {
+  defaultCompilerOptions,
+  SCRIPT_FILE_NAME,
+  WORKFLOW_FUNCTION_NAME,
+} from "./compile-types.js";
 
 export type {
   CompileDiagnostic,
@@ -26,20 +30,7 @@ const SCRIPT_EPILOGUE_FOOTER = "\n}\nexport {};\n";
 const SCRIPT_HEADER_LINE_COUNT = 1;
 const CODE_INVALID_MODIFIER = 1184;
 
-function buildCompilerOptions(): ts.CompilerOptions {
-  const baseConfig: ts.CompilerOptions = {
-    target: ts.ScriptTarget.ES2022,
-    module: ts.ModuleKind.ESNext,
-    moduleResolution: ts.ModuleResolutionKind.Bundler,
-    lib: ["lib.es2022.d.ts"],
-    types: [],
-    strict: true,
-    noEmit: true,
-    skipLibCheck: true,
-    allowJs: false,
-  };
-  return baseConfig;
-}
+const buildCompilerOptions = defaultCompilerOptions;
 
 const AMBIENT_FIX_ADVICE: Record<string, string> = {
   declare:

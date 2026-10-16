@@ -2,45 +2,52 @@
 
 import type { ScriptLoc } from "../compiler/compile.js";
 
-export type SiteKind = "ask" | "world-read" | "join" | "fan-out" | "source" | "sink";
+// Classification of workflow graph site vertices.
+export type SiteKind =
+  | "ask"
+  | "world-read"
+  | "join"
+  | "fan-out"
+  | "source"
+  | "sink";
 
 export type SiteLoc = ScriptLoc;
 
 export interface NamePattern {
-  head?: string;
-  tail?: string;
+  readonly head?: string;
+  readonly tail?: string;
 }
 
 export interface SiteNode {
-  id: string;
-  kind: SiteKind;
-  loc?: SiteLoc;
-  label: string;
-  labelPattern?: NamePattern;
-  actors?: string[];
-  within?: string;
-  artifactType?: string;
+  readonly id: string;
+  readonly kind: SiteKind;
+  readonly loc?: SiteLoc;
+  readonly label: string;
+  readonly labelPattern?: NamePattern;
+  readonly actors?: string[];
+  readonly within?: string;
+  readonly artifactType?: string;
 }
 
 export interface ActorSite {
-  id: string;
-  loc: SiteLoc;
-  name?: string;
-  namePattern?: NamePattern;
-  within?: string;
+  readonly id: string;
+  readonly loc: SiteLoc;
+  readonly name?: string;
+  readonly namePattern?: NamePattern;
+  readonly within?: string;
 }
 
 export interface SiteEdge {
-  from: string;
-  to: string;
-  kind: "data" | "context";
-  exact: boolean;
-  port?: number;
-  type?: string;
+  readonly from: string;
+  readonly to: string;
+  readonly kind: "data" | "context";
+  readonly exact: boolean;
+  readonly port?: number;
+  readonly type?: string;
 }
 
 export interface SiteGraph {
-  nodes: SiteNode[];
-  actors: ActorSite[];
-  edges: SiteEdge[];
+  readonly nodes: SiteNode[];
+  readonly actors: ActorSite[];
+  readonly edges: SiteEdge[];
 }
