@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: Apache-2.0
 import ts from "typescript";
 import {
   addOcc,
@@ -12,20 +13,11 @@ import {
 import type { EvalContext, Evaluator } from "./taint.js";
 
 /**
- * Destructuring / aliasing bind machinery, split out of the core evaluator (taint.ts) like
- * the call/relay rules in calls.ts and the assignment rules in assign.ts — same `Evaluator`
- * instance, free-function shape. Declarations, for-of/for-in initializers and callback
- * parameters all route through {@link bindPattern}.
+ * Destructuring bind. A live source place aliases statically-known fields, so a later
+ * write through the extracted name is visible on the container. Rest elements and
+ * non-place sources stay value-level (a collapsed or field-selected copy, no alias).
  */
 
-/**
- * Bind a destructuring pattern (or a single name). When `sourcePlace` is a LIVE place,
- * pattern elements selecting a statically-known field ALIAS to that live field (the
- * extracted binding and the container share one object), so `const { o } = wrap; o.f = t`
- * is visible through `wrap.o`. See {@link extractField} for the seed-on-absent handling
- * that preserves opaque containers' collapse-fallback flow. Rest elements and non-place
- * sources keep value semantics (a folded / field-selected clone).
- */
 export function bindPattern(
   ev: Evaluator,
   name: ts.BindingName,
@@ -34,66 +26,93 @@ export function bindPattern(
   sourcePlace?: AbstractValue,
 ): void {
   if (ts.isIdentifier(name)) {
-    const sym = ev.checker.getSymbolAtLocation(name);
-    if (sym !== undefined) ev.s.bindSymbol(sym, value);
+    bindIdentifier(ev, name, value);
     return;
   }
   if (ts.isObjectBindingPattern(name)) {
-    for (const element of name.elements) {
-      if (element.dotDotDotToken !== undefined) {
-        bindPattern(ev, element.name, collapse(value), ctx); // rest: fold, exact preserved (value semantics)
-        continue;
-      }
-      const key = bindingPropertyKey(element);
-      if (sourcePlace !== undefined && key !== undefined) {
-        bindPatternElement(
-          ev,
-          element.name,
-          extractField(ev, sourcePlace, key),
-          element.initializer,
-          ctx,
-        );
-      } else {
-        bindPattern(
-          ev,
-          element.name,
-          key === undefined ? collapse(value) : selectField(value, key),
-          ctx,
-        );
-      }
-    }
+    bindObjectPattern(ev, name, value, ctx, sourcePlace);
     return;
   }
+  bindArrayPattern(ev, name, value, ctx, sourcePlace);
+}
+
+function bindIdentifier(ev: Evaluator, name: ts.Identifier, value: AbstractValue): void {
+  const sym = ev.checker.getSymbolAtLocation(name);
+  if (sym === undefined) return;
+  ev.s.bindSymbol(sym, value);
+}
+
+function bindObjectPattern(
+  ev: Evaluator,
+  pattern: ts.ObjectBindingPattern,
+  value: AbstractValue,
+  ctx: EvalContext,
+  sourcePlace: AbstractValue | undefined,
+): void {
   let index = 0;
-  for (const element of name.elements) {
+  while (index < pattern.elements.length) {
+    const element = pattern.elements[index];
+    index += 1;
+    if (element === undefined) continue;
+    if (element.dotDotDotToken !== undefined) {
+      bindPattern(ev, element.name, collapse(value), ctx);
+      continue;
+    }
+    const key = bindingPropertyKey(element);
+    if (sourcePlace !== undefined && key !== undefined) {
+      bindPatternElement(
+        ev,
+        element.name,
+        extractField(ev, sourcePlace, key),
+        element.initializer,
+        ctx,
+      );
+      continue;
+    }
+    const picked = key === undefined ? collapse(value) : selectField(value, key);
+    bindPattern(ev, element.name, picked, ctx);
+  }
+}
+
+function bindArrayPattern(
+  ev: Evaluator,
+  pattern: ts.ArrayBindingPattern,
+  value: AbstractValue,
+  ctx: EvalContext,
+  sourcePlace: AbstractValue | undefined,
+): void {
+  let slot = 0;
+  let index = 0;
+  while (index < pattern.elements.length) {
+    const element = pattern.elements[index];
+    index += 1;
+    if (element === undefined) continue;
     if (ts.isOmittedExpression(element)) {
-      index += 1;
+      slot += 1;
       continue;
     }
     if (element.dotDotDotToken !== undefined) {
-      bindPattern(ev, element.name, collapse(value), ctx); // rest: value semantics
+      bindPattern(ev, element.name, collapse(value), ctx);
       continue;
     }
+    const key = String(slot);
     if (sourcePlace !== undefined) {
       bindPatternElement(
         ev,
         element.name,
-        extractField(ev, sourcePlace, String(index)),
+        extractField(ev, sourcePlace, key),
         element.initializer,
         ctx,
       );
     } else {
-      bindPattern(ev, element.name, selectField(value, String(index)), ctx);
+      bindPattern(ev, element.name, selectField(value, key), ctx);
     }
-    index += 1;
+    slot += 1;
   }
 }
 
-/**
- * Bind one destructuring element to a LIVE field: a default initializer weak-merges into
- * the field (runtime may bind either the field or the default — a sound over-approx), and
- * the field is passed as both value and source so nested patterns keep aliasing.
- */
+// A default is weak-merged into the live field: runtime may observe either value.
+// The field is both the bound value and the source, so nested patterns keep aliasing.
 function bindPatternElement(
   ev: Evaluator,
   name: ts.BindingName,
@@ -101,32 +120,43 @@ function bindPatternElement(
   initializer: ts.Expression | undefined,
   ctx: EvalContext,
 ): void {
-  if (initializer !== undefined && mergeInto(field, ev.evalExpr(initializer, ctx)))
-    ev.s.changed = true;
+  if (initializer !== undefined) {
+    const initVal = ev.evalExpr(initializer, ctx);
+    if (mergeInto(field, initVal)) ev.s.changed = true;
+  }
   bindPattern(ev, name, field, ctx, field);
 }
 
 /**
- * The live field at `key` of a place, for destructuring aliasing. An existing field is
- * returned as-is (a real sub-object). An ABSENT field is created and SEEDED with the
- * container's own occurrences + placeholders (occs-only) — exactly what a read of the
- * field would collapse to on an opaque container (`const { feedback } = review`), so the
- * extraction never drops taint; and because it is now a shared field, a later write
- * through the extracted binding lands where the container sees it too. Never re-seeds an
- * existing field (that would over-smear a precise sub-object).
+ * Absent fields are created and seeded with the container's own occurrences and
+ * placeholders only — the same labels a collapsed read would have produced — then
+ * `changed` is raised. An existing field is returned as-is and is not re-seeded.
  */
 export function extractField(ev: Evaluator, container: AbstractValue, key: string): AbstractValue {
   const existing = container.fields.get(key);
   if (existing !== undefined) return existing;
   const field = emptyValue();
-  for (const occ of container.occs.values()) addOcc(field, occ);
-  for (const ph of container.phs.values()) addPlaceholder(field, ph);
+  seedLabels(container, field);
   container.fields.set(key, field);
   ev.s.changed = true;
   return field;
 }
 
-/** Read a statically-known field with smear-on-read, else collapse (exact preserved). */
+function seedLabels(container: AbstractValue, field: AbstractValue): void {
+  const occs = container.occs.values();
+  let occStep = occs.next();
+  while (occStep.done !== true) {
+    addOcc(field, occStep.value);
+    occStep = occs.next();
+  }
+  const phs = container.phs.values();
+  let phStep = phs.next();
+  while (phStep.done !== true) {
+    addPlaceholder(field, phStep.value);
+    phStep = phs.next();
+  }
+}
+
 export function selectField(value: AbstractValue, key: string): AbstractValue {
   return readField(value, key);
 }

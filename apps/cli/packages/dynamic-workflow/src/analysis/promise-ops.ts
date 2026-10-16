@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: Apache-2.0
 import ts from "typescript";
 import {
   clearExact,
@@ -11,68 +12,111 @@ import {
 import type { EvalContext, Evaluator } from "./taint.js";
 import { applyPessimistically, recordCall } from "./calls.js";
 
-/**
- * Promise and constructor transfer rules, split out of calls.ts (max-lines): the unknown-`new`
- * keystone with the promise-executor rule, `await` of a thenable, `Promise.reject`, and the
- * script-class constructor application. Same `Evaluator` instance, same contract; they call back into calls.ts's shared primitives.
- */
+const PROMISE_HOST = "Promise";
+const REJECT_MEMBER = "reject";
+const THEN_MEMBER = "then";
 
-/** The taint fed to invocations of function `fn`'s parameters (the promise resolve/reject/
- * continuation pattern). Empty for a non-tracked fn or one whose params are never invoked. */
-function appliedCallbackTaint(ev: Evaluator, fn: ts.Node): AbstractValue {
-  const out = emptyValue();
-  const id = ev.s.fnId.get(fn);
-  if (id === undefined) return out;
-  const paramCount = (ev.s.fnParamSymbols.get(id) ?? []).length;
-  for (let param = 0; param < paramCount; param += 1) {
-    const captured = ev.s.phCallActualsOf(id, param);
-    if (captured !== undefined) mergeInto(out, captured);
-  }
-  return out;
+function grew(ev: Evaluator, delta: boolean): void {
+  if (!delta) return;
+  ev.s.changed = true;
 }
 
-/**
- * `new UnknownThing(args)` (a non-class callee: `new Promise(exec)`, `new Set([x])`): the
- * union of the argument collapses (exact preserved, "strings launder nothing"), PLUS the
- * unknown-call keystone — function-valued args are pessimistically applied (their return
- * summary joins the result) — PLUS the promise-executor rule: whatever a function arg feeds
- * to invocations of its OWN parameters joins the result (`new Promise((resolve) =>
- * resolve(draft))` resolves to `draft`; a `reject(x)` arg lands in the pot too, an
- * over-approximation of the rejection path). Generic: `new X(fn)` may invoke fn and capture
- * what fn's params receive — never special-cased by name.
- */
+// Taint that flowed into invocations of `fn`'s own parameters. Empty when the
+// function is untracked or its parameters are never invoked.
+function callbackFeed(ev: Evaluator, fn: ts.Node): AbstractValue {
+  const id = ev.s.fnId.get(fn);
+  if (id === undefined) return emptyValue();
+  const formals = ev.s.fnParamSymbols.get(id) ?? [];
+  const acc = emptyValue();
+  let param = 0;
+  while (param < formals.length) {
+    const captured = ev.s.phCallActualsOf(id, param);
+    param += 1;
+    if (captured === undefined) continue;
+    mergeInto(acc, captured);
+  }
+  return acc;
+}
+
+function collapseEach(target: AbstractValue, parts: readonly AbstractValue[]): void {
+  let index = 0;
+  while (index < parts.length) {
+    const part = parts[index];
+    index += 1;
+    if (part === undefined) continue;
+    collapseInto(target, part);
+  }
+}
+
+// Sibling data handed to a callback, not the callback function itself. Leaving
+// `fns` in the pot would bind the executor to its own parameter and skip the
+// placeholder capture of `resolve(draft)`.
+function dataPot(seed: AbstractValue): AbstractValue {
+  const pot = clearExact(seed);
+  pot.fns.clear();
+  return pot;
+}
+
+function evaluatedArguments(
+  ev: Evaluator,
+  args: readonly ts.Expression[] | undefined,
+  ctx: EvalContext,
+): AbstractValue[] {
+  if (args === undefined) return [];
+  const samples: AbstractValue[] = [];
+  let index = 0;
+  while (index < args.length) {
+    const arg = args[index];
+    index += 1;
+    if (arg === undefined) continue;
+    samples.push(ev.evalExpr(arg, ctx));
+  }
+  return samples;
+}
+
+function pourFeeds(ev: Evaluator, sample: AbstractValue, out: AbstractValue): void {
+  for (const fn of sample.fns) mergeInto(out, callbackFeed(ev, fn));
+}
+
 export function handleNewUnknown(
   ev: Evaluator,
   node: ts.NewExpression,
   ctx: EvalContext,
 ): AbstractValue {
+  const samples = evaluatedArguments(ev, node.arguments, ctx);
   const out = emptyValue();
-  const argVals = (node.arguments ?? []).map((arg) => ev.evalExpr(arg, ctx));
-  for (const argVal of argVals) collapseInto(out, argVal);
-  // The pot the constructor may feed to a callback arg's params is the sibling DATA, not the
-  // callables themselves (a function arg is the callback being invoked, not data passed to a
-  // sibling), so strip `fns`: otherwise binding a param to the executor's own fn would make
-  // `resolve(draft)` dispatch as the executor and bypass the placeholder-invocation capture.
-  const pot = clearExact(out);
-  pot.fns.clear();
-  for (const argVal of argVals) {
-    applyPessimistically(ev, argVal, pot, ctx, out, node);
-    for (const fn of argVal.fns) mergeInto(out, appliedCallbackTaint(ev, fn));
+  // Argument collapses keep exactness: strings launder nothing.
+  collapseEach(out, samples);
+  const pot = dataPot(out);
+  let index = 0;
+  while (index < samples.length) {
+    const sample = samples[index];
+    index += 1;
+    if (sample === undefined) continue;
+    // Unknown `new` may call function arguments and may capture whatever those
+    // functions feed their own parameters (`new Promise((resolve) => resolve(draft))`).
+    applyPessimistically(ev, sample, pot, ctx, out, node);
+    pourFeeds(ev, sample, out);
   }
   return out;
 }
 
-/**
- * `await e`: model awaiting a thenable = invoking its `then`. When the awaited value carries
- * a tracked `then` method, the promise resolves to whatever that method feeds its continuation
- * callback (`appliedCallbackTaint`): a custom thenable whose `then(onOk)` calls
- * `draft.then(onOk)` resolves to `draft`. When no `then` fn is visible (a plain settled value,
- * or a thenable collapsed past field-sensitivity), the operand's own taint already flows
- * through unchanged — the await is a passthrough, as before.
- *
- * Both exits also RECORD the returned value as the settle oracle for this await. Recording only; the value returned to
- * the evaluator is untouched, so no transfer rule changes.
- */
+function resumeThenable(
+  ev: Evaluator,
+  inner: AbstractValue,
+  ctx: EvalContext,
+): AbstractValue | undefined {
+  const thenField = inner.fields.get(THEN_MEMBER);
+  if (thenField === undefined || thenField.fns.size === 0) return undefined;
+  const out = cloneValue(inner);
+  for (const fn of thenField.fns) {
+    const id = ev.s.fnId.get(fn);
+    if (id !== undefined) ev.s.markCalled(ctx.regionStack, id);
+    mergeInto(out, callbackFeed(ev, fn));
+  }
+  return out;
+}
+
 export function evalAwait(
   ev: Evaluator,
   node: ts.AwaitExpression,
@@ -80,53 +124,43 @@ export function evalAwait(
 ): AbstractValue {
   const at = node.getStart(ev.s.scriptFile);
   const inner = ev.evalExpr(node.expression, ctx);
-  const thenField = inner.fields.get("then");
-  if (thenField === undefined || thenField.fns.size === 0) {
-    ev.s.mergeSink(ev.s.awaitVal, at, inner);
-    return inner;
-  }
-  const out = cloneValue(inner);
-  for (const fn of thenField.fns) {
-    const id = ev.s.fnId.get(fn);
-    if (id !== undefined) ev.s.markCalled(ctx.regionStack, id);
-    mergeInto(out, appliedCallbackTaint(ev, fn));
-  }
-  ev.s.mergeSink(ev.s.awaitVal, at, out);
-  return out;
+  // No visible `then`: the operand already carries the settled taint and await
+  // is a passthrough. A tracked `then` resolves to whatever that method feeds
+  // its continuation. Either value is also the settle oracle; recording does
+  // not change the value handed back to the caller.
+  const resumed = resumeThenable(ev, inner, ctx);
+  const settled = resumed ?? inner;
+  ev.s.mergeSink(ev.s.awaitVal, at, settled);
+  return settled;
 }
 
-/** `Promise.reject(x)` — a rejected promise. Await unwraps it as a THROW, so feed collapse(x)
- * into the global thrown set (read by every catch binding). Returns collapse(x) as before
- * (the unknown-call result), so nothing on the resolved path regresses. */
 export function handlePromiseReject(
   ev: Evaluator,
   node: ts.CallExpression,
   ctx: EvalContext,
 ): AbstractValue {
   const arg = node.arguments[0];
-  const val = arg === undefined ? emptyValue() : collapse(ev.evalExpr(arg, ctx));
-  ev.s.mergeThrown(val);
-  return val;
+  const rejected = arg === undefined ? emptyValue() : collapse(ev.evalExpr(arg, ctx));
+  // Await treats a rejection as a throw, so the operand joins the script-global
+  // thrown set. The call result stays that collapse, matching an unknown call.
+  ev.s.mergeThrown(rejected);
+  return rejected;
 }
 
-/** `Promise.reject` on the global Promise (textual match, mirroring {@link isJsonStringify}). */
 export function isPromiseReject(access: ts.PropertyAccessExpression): boolean {
-  return (
-    ts.isIdentifier(access.expression) &&
-    access.expression.text === "Promise" &&
-    access.name.text === "reject"
-  );
+  const host = access.expression;
+  if (!ts.isIdentifier(host)) return false;
+  if (host.text !== PROMISE_HOST) return false;
+  return access.name.text === REJECT_MEMBER;
 }
 
-/**
- * Apply a script-local constructor `id` for a `new C(args)` (or a `super(args)` in a
- * derived ctor): record the actuals as the constructor's parameter placeholders and
- * write parameter mutations back into place actuals, exactly like an ordinary direct
- * call. The constructor's OWN body (which writes `this.x = param`) is evaluated in the
- * function pass, so the shared instance picks up the placeholder there; here we only
- * seed the actuals. The instance itself is returned by the caller (NewExpression), never
- * this call's result. A direct `new`/`super` keeps exactness (no clearing).
- */
+function calleeApplication(
+  site: ts.Node | undefined,
+): { site: ts.Node; via: "callee" } | undefined {
+  if (site === undefined) return undefined;
+  return { site, via: "callee" };
+}
+
 export function applyConstructor(
   ev: Evaluator,
   id: number,
@@ -135,33 +169,34 @@ export function applyConstructor(
   argPlaces?: (AbstractValue | undefined)[],
   site?: ts.Node,
 ): void {
-  recordCall(
-    ev,
-    id,
-    ctx.regionStack,
-    argVals,
-    argPlaces,
-    site === undefined ? undefined : { site, via: "callee" },
-  );
+  // Direct `new` / `super` keeps exactness. The instance is returned by the
+  // NewExpression; this only seeds the constructor's parameter actuals. The
+  // constructor body itself runs in the function pass.
+  recordCall(ev, id, ctx.regionStack, argVals, argPlaces, calleeApplication(site));
 }
 
-/**
- * Apply an UNRESOLVABLE-heritage constructor (`new D()` where `class D extends mix(Base)`):
- * the base class is produced by a mixin CALL we cannot resolve statically, so the inherited
- * constructor is unreachable. Sound over-approximation: the ctor may store any argument in any
- * field, so smear the collapsed (INEXACT) args into the instance's container-level taint —
- * surfaced by every field read via smear-on-read — and pessimistically apply function-valued
- * args (the keystone: the base ctor may invoke them). Never a drop.
- */
+function smearedArguments(argVals: readonly AbstractValue[]): AbstractValue {
+  const pot = emptyValue();
+  collapseEach(pot, argVals);
+  return clearExact(pot);
+}
+
 export function applyMixinConstructor(
   ev: Evaluator,
   ctx: EvalContext,
   instance: AbstractValue,
   argVals: AbstractValue[],
 ): void {
-  const pot = emptyValue();
-  for (const arg of argVals) collapseInto(pot, arg);
-  const inexact = clearExact(pot);
-  if (mergeInto(instance, inexact)) ev.s.changed = true;
-  for (const arg of argVals) applyPessimistically(ev, arg, inexact, ctx, instance);
+  // The base constructor is an unresolved mixin call, so it may store any
+  // argument in any field and may invoke function arguments. Inexact smear
+  // surfaces on every field read; dropping the arguments would be unsound.
+  const smeared = smearedArguments(argVals);
+  grew(ev, mergeInto(instance, smeared));
+  let index = 0;
+  while (index < argVals.length) {
+    const arg = argVals[index];
+    index += 1;
+    if (arg === undefined) continue;
+    applyPessimistically(ev, arg, smeared, ctx, instance);
+  }
 }

@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: Apache-2.0
+
 import type { ActorEdge, ActorGraph, ActorNode } from "./actor-graph.js";
 import { WORKSPACE_LANE, type CausalityGraph, type Lane, type Step } from "./causality-graph.js";
 import {
@@ -11,471 +13,408 @@ import {
 import type { Handoff, HandoffGraph, HandoffParticipant } from "./handoff-graph.js";
 import type { ActorSite, SiteEdge, SiteGraph, SiteNode } from "./types.js";
 
-/**
- * Pure mermaid emitters for the site graph and its derived actor graph. String
- * builders over the graph types only (same purity rule as actor-graph.ts); the
- * `pnpm charts` task renders these to `charts/` for live viewing.
- *
- * Two mermaid quirks the whole module exists to tame:
- *  - node ids may not contain `#`/`-`, so ids are sanitized (`ask#1` -> `ask_1`)
- *    while the ORIGINAL id is kept in the human-readable label;
- *  - label text is wrapped in double quotes with `"` rewritten to the `#quot;`
- *    entity, and backticks/newlines from user-derived text (agent names, glob
- *    patterns) stripped, so arbitrary script text cannot break the diagram syntax.
- */
-
-/** Mermaid node id: strip everything but word characters (`ask#1` -> `ask_1`). */
-function safeId(id: string): string {
-  return id.replace(/[^A-Za-z0-9_]/g, "_");
+function safeId(raw: string): string {
+  let built = "";
+  for (let cursor = 0; cursor < raw.length; cursor += 1) {
+    const glyph = raw.charAt(cursor);
+    const code = glyph.charCodeAt(0);
+    const digit = code >= 48 && code <= 57;
+    const upper = code >= 65 && code <= 90;
+    const lower = code >= 97 && code <= 122;
+    built += digit || upper || lower || glyph === "_" ? glyph : "_";
+  }
+  return built;
 }
 
-/** Escape user-derived label text: drop backticks/newlines, entity-encode quotes. */
-function escapeLabel(text: string): string {
-  return text
-    .replace(/`/g, "")
-    .replace(/[\r\n]+/g, " ")
-    .replace(/"/g, "#quot;");
-}
-
-/** Wrap already-escaped label content in the double quotes mermaid needs. */
-function quote(content: string): string {
-  return `"${content}"`;
-}
-
-/** Emit a {@link SiteGraph} as a mermaid `flowchart TD`. Deterministic node/edge order. */
-export function siteGraphToMermaid(graph: SiteGraph): string {
-  const lines: string[] = ["flowchart TD"];
-
-  // Lane membership: an ask whose actor set is exactly one actor renders inside that
-  // actor's subgraph; multi-actor (may) and empty-actor asks stay top-level.
-  const laneAsks = new Map<string, SiteNode[]>();
-  const laned = new Set<string>();
-  for (const node of graph.nodes) {
-    if (node.kind === "ask" && node.actors !== undefined && node.actors.length === 1) {
-      const actorId = node.actors[0] as string;
-      const list = laneAsks.get(actorId) ?? [];
-      list.push(node);
-      laneAsks.set(actorId, list);
-      laned.add(node.id);
+function escapeLabel(source: string): string {
+  const noTick = source.split("`").join("");
+  let flat = "";
+  let breaking = false;
+  for (const glyph of noTick) {
+    if (glyph === "\n" || glyph === "\r") {
+      if (breaking === false) flat += " ";
+      breaking = true;
+      continue;
     }
+    breaking = false;
+    flat += glyph === '"' ? "#" + "quot;" : glyph;
   }
-
-  // 1. Lane subgraphs, in actor source order; omit actors with no lane asks.
-  for (const actor of graph.actors) {
-    const asks = laneAsks.get(actor.id);
-    if (asks === undefined || asks.length === 0) continue;
-    lines.push(`  subgraph ${safeId(actor.id)}[${quote(laneTitle(actor))}]`);
-    for (const ask of asks) lines.push(`    ${siteNodeDef(ask, actor.within)}`);
-    lines.push("  end");
-  }
-
-  // 2. Remaining nodes top-level, in canonical node order.
-  for (const node of graph.nodes) {
-    if (laned.has(node.id)) continue;
-    lines.push(`  ${siteNodeDef(node, undefined)}`);
-  }
-
-  // 3. Edges, in canonical edge order.
-  for (const edge of graph.edges) lines.push(`  ${siteEdgeLine(edge)}`);
-
-  // 4. A minimal palette: muted endpoints, world-reads, relays; asks stay default.
-  lines.push(...classDefs(graph));
-  return `${lines.join("\n")}\n`;
+  return flat;
 }
 
-/** Subgraph title: `name (actor#1)`, plus a `  ×N per fan-out#K` marker for a lane family. */
-function laneTitle(actor: ActorSite): string {
-  const name = escapeLabel(actor.name ?? actor.id);
-  const family = actor.within === undefined ? "" : `  ×N per ${actor.within}`;
-  return `${name} (${actor.id})${family}`;
+function quote(label: string): string {
+  return '"' + label + '"';
 }
 
-/**
- * A node definition in the kind's shape. `laneFamily` is the enclosing subgraph's
- * fan-out (undefined at top level); an ask omits its own `per fan-out#K` line only
- * when the lane already carries the same marker, to avoid double-labeling.
- */
-function siteNodeDef(node: SiteNode, laneFamily: string | undefined): string {
-  const id = safeId(node.id);
-  if (node.kind === "source" || node.kind === "sink") {
-    return `${id}([${quote(escapeLabel(node.label))}])`;
-  }
-  if (node.kind === "ask") {
-    const parts = [escapeLabel(node.label), node.id];
-    if (node.within !== undefined && node.within !== laneFamily) parts.push(`per ${node.within}`);
-    return `${id}[${quote(parts.join("<br/>"))}]`;
-  }
-  if (node.kind === "world-read") {
-    const parts = [escapeLabel(node.label), node.id];
-    if (node.within !== undefined) parts.push(`per ${node.within}`);
-    return `${id}[/${quote(parts.join("<br/>"))}/]`;
-  }
-  // join / fan-out: hexagon labeled by the original id (a stable folding target).
-  const parts = [node.id];
-  if (node.kind === "join" && node.within !== undefined) parts.push(`per ${node.within}`);
-  return `${id}{{${quote(parts.join("<br/>"))}}}`;
+function emit(lines: string[], level: number, text: string): void {
+  lines.push("  ".repeat(level) + text);
 }
 
-function siteEdgeLine(edge: SiteEdge): string {
-  const from = safeId(edge.from);
-  const to = safeId(edge.to);
-  // Context edges render as a dotted, arrowhead-less relation (not a flow).
-  if (edge.kind === "context") return `${from} -. context .- ${to}`;
-  const arrow = edge.exact ? "-->" : "-.->";
-  // Label combines the join port (when present) and the producer artifact type,
-  // as `port N · T`; either alone renders bare. Type text is escaped (user-derived).
-  const parts: string[] = [];
-  if (edge.port !== undefined) parts.push(`port ${edge.port}`);
-  if (edge.type !== undefined) parts.push(escapeLabel(edge.type));
-  if (parts.length === 0) return `${from} ${arrow} ${to}`;
-  return `${from} ${arrow}|${quote(parts.join(" · "))}| ${to}`;
+function done(lines: readonly string[]): string {
+  return lines.join("\n").concat("\n");
 }
 
-function classDefs(graph: SiteGraph): string[] {
-  const idsOf = (kinds: SiteNode["kind"][]): string[] =>
-    graph.nodes.filter((node) => kinds.includes(node.kind)).map((node) => safeId(node.id));
-  const out = [
-    "  classDef endpoint fill:#eeeeef,stroke:#9a9aa5,color:#555566;",
-    "  classDef world fill:#e8f0fe,stroke:#4285f4;",
-    "  classDef relay fill:#fff2cc,stroke:#d6b656;",
-  ];
-  const endpoint = idsOf(["source", "sink"]);
-  const world = idsOf(["world-read"]);
-  const relay = idsOf(["join", "fan-out"]);
-  if (endpoint.length > 0) out.push(`  class ${endpoint.join(",")} endpoint;`);
-  if (world.length > 0) out.push(`  class ${world.join(",")} world;`);
-  if (relay.length > 0) out.push(`  class ${relay.join(",")} relay;`);
-  return out;
+function put<T>(
+  lines: string[],
+  level: number,
+  items: readonly T[],
+  render: (item: T) => string,
+): void {
+  for (const item of items) emit(lines, level, render(item));
 }
 
-/** Emit an {@link ActorGraph} as a mermaid `flowchart LR`. Deterministic node/edge order. */
-export function actorGraphToMermaid(graph: ActorGraph): string {
-  const lines: string[] = ["flowchart LR"];
-  for (const node of graph.nodes) lines.push(`  ${actorNodeDef(node)}`);
-  for (const edge of graph.edges) lines.push(`  ${actorEdgeLine(edge)}`);
-  // Muted source/sink endpoints, mirroring the site chart's palette. Only class the
-  // endpoints actually present — the agent-relevance filter may have pruned one.
-  const endpoints = graph.nodes
-    .filter((n) => n.id === "source" || n.id === "sink")
-    .map((n) => safeId(n.id));
-  if (endpoints.length > 0) {
-    lines.push("  classDef endpoint fill:#eeeeef,stroke:#9a9aa5,color:#555566;");
-    lines.push(`  class ${endpoints.join(",")} endpoint;`);
-  }
-  return `${lines.join("\n")}\n`;
+function box(id: string, label: string, kind: "o" | "s" | "h" | "c" | "w"): string {
+  const quoted = quote(label);
+  if (kind === "o") return id + "([" + quoted + "])";
+  if (kind === "h") return id + "{{" + quoted + "}}";
+  if (kind === "c") return id + "[(" + quoted + ")]";
+  if (kind === "w") return id + "[/" + quoted + "/]";
+  return id + "[" + quoted + "]";
 }
 
-function actorNodeDef(node: ActorNode): string {
-  const id = safeId(node.id);
-  if (node.id === "source" || node.id === "sink") return `${id}([${quote(node.id)}])`;
-  if (node.id === "workspace") return `${id}[(${quote("workspace")})]`;
-  // A lane family (actor site inside a fan-out) renders as `×N`.
-  const label = escapeLabel(node.name ?? node.id) + (node.family === undefined ? "" : " ×N");
-  return `${id}[${quote(label)}]`;
+function subgraphOpen(id: string, title: string): string {
+  return "subgraph " + safeId(id) + "[" + quote(title) + "]";
 }
 
-function actorEdgeLine(edge: ActorEdge): string {
-  const from = safeId(edge.from);
-  const to = safeId(edge.to);
-  const arrow = edge.exact ? "-->" : "-.->";
-  // Label is the message types joined `", "`, with a ` ×N` multiplicity suffix when
-  // more than one site edge collapsed here; with no types, the bare `×N` (or nothing).
-  if (edge.types !== undefined && edge.types.length > 0) {
-    const label =
-      edge.types.map(escapeLabel).join(", ") + (edge.count > 1 ? ` ×${edge.count}` : "");
-    return `${from} ${arrow}|${quote(label)}| ${to}`;
-  }
-  if (edge.count > 1) return `${from} ${arrow}|${quote(`×${edge.count}`)}| ${to}`;
-  return `${from} ${arrow} ${to}`;
+function arrowLine(from: string, to: string, arrow: string, label?: string): string {
+  const head = safeId(from) + " " + arrow;
+  if (label === undefined) return head + " " + safeId(to);
+  return head + "|" + quote(label) + "| " + safeId(to);
 }
 
-/**
- * Emit a {@link CausalityGraph} as a mermaid `flowchart LR`: steps grouped into lane
- * subgraphs, the returned artifact as a terminal node, and ONE arrow form — no dashes,
- * no labels, no variants, exactly as the GUI renders it. `sequenceDiagram` was
- * considered and rejected for the same reason as loop frames: its `loop`/`par`/`alt`
- * blocks reintroduce the framing this design removes.
- */
-export function causalityGraphToMermaid(graph: CausalityGraph): string {
-  const lines: string[] = ["flowchart LR"];
+const ENDPOINT_STYLE = ["fill:#eeeeef", "stroke:#9a9aa5", "color:#555566"].join(",");
+const WORLD_STYLE = ["fill:#e8f0fe", "stroke:#4285f4"].join(",");
+const RELAY_STYLE = ["fill:#fff2cc", "stroke:#d6b656"].join(",");
 
-  const byLane = new Map<string, Step[]>();
-  for (const step of graph.steps) {
-    const list = byLane.get(step.lane);
-    if (list === undefined) byLane.set(step.lane, [step]);
-    else list.push(step);
-  }
-
-  for (const lane of graph.lanes) {
-    const steps = byLane.get(lane.id) ?? [];
-    if (steps.length === 0) continue;
-    lines.push(`  subgraph ${safeId(lane.id)}[${quote(causalityLaneTitle(lane))}]`);
-    for (const step of steps) lines.push(`    ${stepNodeDef(step)}`);
-    lines.push("  end");
-  }
-
-  if (graph.sink !== undefined) lines.push(`  sink([${quote("sink")}])`);
-  for (const edge of graph.edges) lines.push(`  ${safeId(edge.from)} --> ${safeId(edge.to)}`);
-  for (const from of graph.sink?.fedBy ?? []) lines.push(`  ${safeId(from)} --> sink`);
-
-  if (graph.sink !== undefined) {
-    lines.push("  classDef endpoint fill:#eeeeef,stroke:#9a9aa5,color:#555566;");
-    lines.push("  class sink endpoint;");
-  }
-  return `${lines.join("\n")}\n`;
+function classDef(name: string, style: string): string {
+  return "classDef " + name + " " + style + ";";
 }
 
-/**
- * Emit the phase quotient as a mermaid `flowchart LR`: one node per phase, the same ONE
- * arrow form as the step graph (self-loops and back edges included — a cycle among the
- * arrows IS the loop), and the sink terminal derived from the phases of the steps that
- * feed the return. Absent vocabulary means no diagram: a script with no `phase()` markers
- * has nothing to draw here and the caller renders the step graph instead.
- */
-export function phaseGraphToMermaid(graph: CausalityGraph): string {
-  const lines: string[] = ["flowchart LR"];
-  const phases = graph.phases ?? [];
-  for (const phase of phases) {
-    lines.push(`  ${safeId(phase.id)}[${quote(escapeLabel(phase.name ?? phase.id))}]`);
-  }
+function classUse(ids: readonly string[], name: string): string {
+  return "class " + ids.join(",") + " " + name + ";";
+}
 
-  // Phase → sink is not an edge in the model (the quotient excludes the sink); it is
-  // derived here from the fed-by steps' phases, in phase order.
-  const phaseOf = new Map(graph.steps.map((step) => [step.id, step.phase]));
-  const feeding = new Set(
-    (graph.sink?.fedBy ?? []).map((id) => phaseOf.get(id)).filter((id) => id !== undefined),
+function paint(lines: string[], name: string, style: string, ids: readonly string[]): void {
+  if (ids.length === 0) return;
+  emit(lines, 1, classDef(name, style));
+  emit(lines, 1, classUse(ids, name));
+}
+
+function terminalsOf(edges: readonly { from: string; to: string }[]): string[] {
+  return [FLOW_ENTRY, FLOW_SINK, FLOW_ABORT].filter((id) =>
+    edges.some((edge) => edge.from === id || edge.to === id),
   );
-  if (graph.sink !== undefined) lines.push(`  sink([${quote("sink")}])`);
-  for (const edge of graph.phaseEdges ?? []) {
-    lines.push(`  ${safeId(edge.from)} --> ${safeId(edge.to)}`);
-  }
-  for (const phase of phases) {
-    if (feeding.has(phase.id)) lines.push(`  ${safeId(phase.id)} --> sink`);
-  }
-
-  if (graph.sink !== undefined) {
-    lines.push("  classDef endpoint fill:#eeeeef,stroke:#9a9aa5,color:#555566;");
-    lines.push("  class sink endpoint;");
-  }
-  return `${lines.join("\n")}\n`;
 }
 
-/**
- * Emit the phase-level CONTROL-FLOW quotient as a mermaid `flowchart LR`: the same phase
- * nodes as {@link phaseGraphToMermaid} so the two diagrams can be read side by side
- * ("what must precede what" vs "where execution can go next"), plus the `entry` / `sink` /
- * `abort` terminals. Arrows between one phase pair merge into one, labeled with the
- * distinct edge kinds behind it (`via` in parentheses); a pair joined only by `next`
- * renders unlabeled. Two phases that ran at the same time get one dashed `alongside` link
- * on top, drawn from the earlier to the later — a node fact about the pair, not a path.
- * Absent vocabulary means no diagram.
- */
-export function phaseFlowToMermaid(flow: ControlFlowGraph): string {
-  const lines: string[] = ["flowchart LR"];
-  const phaseEdges = flow.phaseEdges ?? [];
-  const terminals = [FLOW_ENTRY, FLOW_SINK, FLOW_ABORT].filter((id) =>
-    phaseEdges.some((edge) => edge.from === id || edge.to === id),
+function flowEdgeLabel(link: FlowEdge): string {
+  return link.via === undefined ? link.kind : link.kind + " (" + link.via + ")";
+}
+
+export function siteGraphToMermaid(diagram: SiteGraph): string {
+  const lines: string[] = [];
+  emit(lines, 0, "flowchart TD");
+  const asksByActor = new Map<string, SiteNode[]>();
+  const placed = new Set<string>();
+  for (const site of diagram.nodes) {
+    if (site.kind !== "ask" || site.actors === undefined || site.actors.length !== 1) continue;
+    const owner = site.actors[0];
+    if (owner === undefined) continue;
+    const bucket = asksByActor.get(owner) ?? [];
+    bucket.push(site);
+    asksByActor.set(owner, bucket);
+    placed.add(site.id);
+  }
+  for (const person of diagram.actors) {
+    const owned = asksByActor.get(person.id);
+    if (owned === undefined || owned.length === 0) continue;
+    emit(lines, 1, subgraphOpen(person.id, laneTitle(person)));
+    put(lines, 2, owned, (ask) => siteNodeDef(ask, person.within));
+    emit(lines, 1, "end");
+  }
+  put(
+    lines,
+    1,
+    diagram.nodes.filter((site) => placed.has(site.id) === false),
+    (site) => siteNodeDef(site, undefined),
   );
-  for (const id of terminals) if (id === FLOW_ENTRY) lines.push(`  ${id}([${quote(id)}])`);
-  for (const phase of flow.phases ?? []) {
-    lines.push(`  ${safeId(phase.id)}[${quote(escapeLabel(phase.name ?? phase.id))}]`);
-  }
-  for (const id of terminals) if (id !== FLOW_ENTRY) lines.push(`  ${id}([${quote(id)}])`);
-
-  const byPair = new Map<string, { from: string; to: string; labels: string[] }>();
-  for (const edge of phaseEdges) {
-    const key = `${edge.from}|${edge.to}`;
-    const entry = byPair.get(key) ?? { from: edge.from, labels: [], to: edge.to };
-    const label = flowEdgeLabel(edge);
-    if (!entry.labels.includes(label)) entry.labels.push(label);
-    byPair.set(key, entry);
-  }
-  for (const { from, labels, to } of byPair.values()) {
-    const shown = labels.filter((label) => label !== "next");
-    const arrow = shown.length === 0 ? "-->" : `-->|${quote(shown.join(", "))}|`;
-    lines.push(`  ${safeId(from)} ${arrow} ${safeId(to)}`);
-  }
-  // `alongside` is not a transfer of control, so it is drawn after the arrows and dashed:
-  // one link per pair, from the earlier phase to the later one in phase-table order.
-  const rank = new Map((flow.phases ?? []).map((phase, index) => [phase.id, index]));
-  const drawn = new Set<string>();
-  for (const phase of flow.phases ?? []) {
-    for (const other of phase.alongside ?? []) {
-      const earlier = (rank.get(phase.id) ?? rank.size) < (rank.get(other) ?? rank.size);
-      const from = earlier ? phase.id : other;
-      const to = earlier ? other : phase.id;
-      if (drawn.has(`${from}|${to}`)) continue;
-      drawn.add(`${from}|${to}`);
-      lines.push(`  ${safeId(from)} -.->|${quote("alongside")}| ${safeId(to)}`);
-    }
-  }
-
-  if (terminals.length > 0) {
-    lines.push("  classDef endpoint fill:#eeeeef,stroke:#9a9aa5,color:#555566;");
-    lines.push(`  class ${terminals.join(",")} endpoint;`);
-  }
-  return `${lines.join("\n")}\n`;
+  put(lines, 1, diagram.edges, siteEdgeLine);
+  emit(lines, 1, classDef("endpoint", ENDPOINT_STYLE));
+  emit(lines, 1, classDef("world", WORLD_STYLE));
+  emit(lines, 1, classDef("relay", RELAY_STYLE));
+  const ids = (accept: (site: SiteNode) => boolean): string[] =>
+    diagram.nodes.filter(accept).map((site) => safeId(site.id));
+  const endpoints = ids((site) => site.kind === "source" || site.kind === "sink");
+  const world = ids((site) => site.kind === "world-read");
+  const relays = ids((site) => site.kind === "join" || site.kind === "fan-out");
+  if (endpoints.length > 0) emit(lines, 1, classUse(endpoints, "endpoint"));
+  if (world.length > 0) emit(lines, 1, classUse(world, "world"));
+  if (relays.length > 0) emit(lines, 1, classUse(relays, "relay"));
+  return done(lines);
 }
 
-function flowEdgeLabel(edge: FlowEdge): string {
-  return edge.via === undefined ? edge.kind : `${edge.kind} (${edge.via})`;
+function laneTitle(person: ActorSite): string {
+  const title = escapeLabel(person.name ?? person.id);
+  const family = person.within === undefined ? "" : "  \u00d7N per " + person.within;
+  return title + " (" + person.id + ")" + family;
 }
 
-/** Symbols for nested iteration multiplicity: one enclosing region each, in order. */
-const MULTIPLICITY_SYMBOLS = ["N", "M", "K", "P"] as const;
-
-/** Lane title: `name (actor#1)`, plus `×N·M` when enclosing iterations make it a family. */
-function causalityLaneTitle(lane: Lane): string {
-  const name = escapeLabel(lane.name ?? lane.id);
-  const head = lane.name === undefined ? name : `${name} (${lane.id})`;
-  const families = lane.families ?? [];
-  if (families.length === 0) return head;
-  // Nested iterations MULTIPLY, so depth 2 reads `×N·M`.
-  const factors = families.map((_, index) => MULTIPLICITY_SYMBOLS[index] ?? "N").join("·");
-  return `${head}  ×${factors}`;
+function siteNodeDef(site: SiteNode, laneFamily: string | undefined): string {
+  const safe = safeId(site.id);
+  if (site.kind === "ask") {
+    const chunks = [escapeLabel(site.label), site.id];
+    if (site.within !== undefined && site.within !== laneFamily) chunks.push("per " + site.within);
+    return box(safe, chunks.join("<br/>"), "s");
+  }
+  if (site.kind === "world-read") {
+    const chunks = [escapeLabel(site.label), site.id];
+    if (site.within !== undefined) chunks.push("per " + site.within);
+    return box(safe, chunks.join("<br/>"), "w");
+  }
+  if (site.kind === "source" || site.kind === "sink") return box(safe, escapeLabel(site.label), "o");
+  const chunks = [site.id];
+  if (site.kind === "join" && site.within !== undefined) chunks.push("per " + site.within);
+  return box(safe, chunks.join("<br/>"), "h");
 }
 
-/**
- * A step node: `label`, its site id, and `×N` when its instances coexist — the textual
- * stand-in for the GUI's stacked cards. A `serial` repeat needs no marker: the
- * cycle-closing arrow already carries it.
- */
-function stepNodeDef(step: Step): string {
-  const parts = [escapeLabel(step.label), step.id];
-  if (step.repeat === "stack") parts.push("×N");
-  if (step.lanes !== undefined) parts.push(`may: ${step.lanes.join("|")}`);
-  const body = quote(parts.join("<br/>"));
-  return step.kind === "world-read"
-    ? `${safeId(step.id)}[/${body}/]`
-    : `${safeId(step.id)}[${body}]`;
-}
-
-/**
- * Emit the OCCURRENCE-level control-flow graph as a mermaid `flowchart TD` — the full CFG
- * behind {@link phaseFlowToMermaid}'s quotient. Issue nodes are rectangles labelled by
- * their occurrence id; marks are hexagons labelled by the phase name they switch to; the
- * `entry` / `sink` / `abort` terminals share
- * the endpoint palette of every other chart. When the script declares phases, nodes sit in
- * one subgraph per phase (in `flow.phases` order) so a mark inside a loop reads as a jump
- * between boxes. Edges keep the graph's canonical order and are drawn one arrow per edge —
- * two edges between the same pair (`exit via=break` beside `next`) stay two arrows, because
- * at this level they ARE two ways to get there. `next` renders unlabeled, every other kind
- * carries {@link flowEdgeLabel}. Detached nodes (a never-called body) are dashed.
- */
-export function controlFlowToMermaid(flow: ControlFlowGraph): string {
-  const lines: string[] = ["flowchart TD"];
-  const terminals = [FLOW_ENTRY, FLOW_SINK, FLOW_ABORT].filter((id) =>
-    flow.edges.some((edge) => edge.from === id || edge.to === id),
+function siteEdgeLine(link: SiteEdge): string {
+  if (link.kind === "context") return safeId(link.from) + " -. context .- " + safeId(link.to);
+  const marker = link.exact ? "-->" : "-.->";
+  const chunks: string[] = [];
+  if (link.port !== undefined) chunks.push("port " + String(link.port));
+  if (link.type !== undefined) chunks.push(escapeLabel(link.type));
+  if (chunks.length === 0) return safeId(link.from) + " " + marker + " " + safeId(link.to);
+  return (
+    safeId(link.from) + " " + marker + "|" + quote(chunks.join(" \u00b7 ")) + "| " + safeId(link.to)
   );
-  const phaseName = new Map((flow.phases ?? []).map((phase) => [phase.id, phase.name ?? phase.id]));
-  const nodeDef = (node: FlowNode): string => {
-    const id = safeId(node.id);
-    const tail = node.detached ? "<br/>detached" : "";
-    if (node.kind === "mark") {
-      return `${id}{{${quote(`${escapeLabel(phaseName.get(node.phase) ?? node.phase)}<br/>${node.id}${tail}`)}}}`;
-    }
-    return `${id}[${quote(`${node.id}${tail}`)}]`;
-  };
-
-  if (terminals.includes(FLOW_ENTRY)) lines.push(`  ${FLOW_ENTRY}([${quote(FLOW_ENTRY)}])`);
-  if (flow.phases === undefined) {
-    for (const node of flow.nodes) lines.push(`  ${nodeDef(node)}`);
-  } else {
-    for (const phase of flow.phases) {
-      const members = flow.nodes.filter((node) => node.phase === phase.id);
-      if (members.length === 0) continue;
-      lines.push(`  subgraph ${safeId(phase.id)}[${quote(escapeLabel(phase.name ?? phase.id))}]`);
-      for (const node of members) lines.push(`    ${nodeDef(node)}`);
-      lines.push("  end");
-    }
-  }
-  for (const id of terminals) if (id !== FLOW_ENTRY) lines.push(`  ${id}([${quote(id)}])`);
-
-  for (const edge of flow.edges) {
-    const arrow = edge.kind === "next" ? "-->" : `-->|${quote(flowEdgeLabel(edge))}|`;
-    lines.push(`  ${safeId(edge.from)} ${arrow} ${safeId(edge.to)}`);
-  }
-
-  if (terminals.length > 0) {
-    lines.push("  classDef endpoint fill:#eeeeef,stroke:#9a9aa5,color:#555566;");
-    lines.push(`  class ${terminals.join(",")} endpoint;`);
-  }
-  const marks = flow.nodes.filter((node) => node.kind === "mark").map((node) => safeId(node.id));
-  if (marks.length > 0) {
-    lines.push("  classDef mark fill:#fff2cc,stroke:#d6b656;");
-    lines.push(`  class ${marks.join(",")} mark;`);
-  }
-  const detached = flow.nodes.filter((node) => node.detached).map((node) => safeId(node.id));
-  if (detached.length > 0) {
-    lines.push("  classDef detached stroke-dasharray:4 3,color:#555566;");
-    lines.push(`  class ${detached.join(",")} detached;`);
-  }
-  return `${lines.join("\n")}\n`;
 }
 
-/**
- * Emit a {@link HandoffGraph} as a mermaid `flowchart LR`: one subgraph per phase (in the
- * analyzer's participant order, which IS the stack order), one card per participant, and
- * one arrow per hand-off — solid for a forward hand-off, dashed for a `back` one (all its
- * contributing edges were loop carries), labelled with the artifact `types` when known.
- * The graph itself carries only ids; pass the causality graph's `lanes` / `phases` to
- * label cards and boxes with the author's names, exactly as `serializeHandoffGraph` echoes
- * lane names for readability.
- */
+export function actorGraphToMermaid(diagram: ActorGraph): string {
+  const lines: string[] = [];
+  emit(lines, 0, "flowchart LR");
+  put(lines, 1, diagram.nodes, actorNodeDef);
+  put(lines, 1, diagram.edges, actorEdgeLine);
+  const terminals = diagram.nodes
+    .filter((site) => site.id === "source" || site.id === "sink")
+    .map((site) => safeId(site.id));
+  paint(lines, "endpoint", ENDPOINT_STYLE, terminals);
+  return done(lines);
+}
+
+function actorNodeDef(site: ActorNode): string {
+  const safe = safeId(site.id);
+  if (site.id === "source" || site.id === "sink") return box(safe, site.id, "o");
+  if (site.id === "workspace") return box(safe, "workspace", "c");
+  const family = site.family === undefined ? "" : " \u00d7N";
+  return box(safe, escapeLabel(site.name ?? site.id) + family, "s");
+}
+
+function actorEdgeLine(link: ActorEdge): string {
+  const marker = link.exact ? "-->" : "-.->";
+  if (link.types !== undefined && link.types.length > 0) {
+    const caption = link.types.map((typeName) => escapeLabel(typeName)).join(", ");
+    const suffix = link.count > 1 ? " \u00d7" + String(link.count) : "";
+    return arrowLine(link.from, link.to, marker, caption + suffix);
+  }
+  if (link.count > 1) return arrowLine(link.from, link.to, marker, "\u00d7" + String(link.count));
+  return arrowLine(link.from, link.to, marker);
+}
+
+export function causalityGraphToMermaid(diagram: CausalityGraph): string {
+  const lines: string[] = [];
+  emit(lines, 0, "flowchart LR");
+  const stepsByLane = new Map<string, Step[]>();
+  for (const item of diagram.steps) {
+    const bucket = stepsByLane.get(item.lane);
+    if (bucket === undefined) stepsByLane.set(item.lane, [item]);
+    else bucket.push(item);
+  }
+  for (const band of diagram.lanes) {
+    const members = stepsByLane.get(band.id) ?? [];
+    if (members.length === 0) continue;
+    emit(lines, 1, subgraphOpen(band.id, causalityLaneTitle(band)));
+    put(lines, 2, members, stepNodeDef);
+    emit(lines, 1, "end");
+  }
+  if (diagram.sink !== undefined) emit(lines, 1, box("sink", "sink", "o"));
+  put(lines, 1, diagram.edges, (link) => arrowLine(link.from, link.to, "-->"));
+  put(lines, 1, diagram.sink?.fedBy ?? [], (fromId) => arrowLine(fromId, "sink", "-->"));
+  if (diagram.sink !== undefined) {
+    emit(lines, 1, classDef("endpoint", ENDPOINT_STYLE));
+    emit(lines, 1, classUse(["sink"], "endpoint"));
+  }
+  return done(lines);
+}
+
+function multiplicity(depth: number): string {
+  return ["N", "M", "K", "P"][depth] ?? "N";
+}
+
+function causalityLaneTitle(band: Lane): string {
+  const title = escapeLabel(band.name ?? band.id);
+  const head = band.name === undefined ? title : title + " (" + band.id + ")";
+  const groups = band.families ?? [];
+  if (groups.length === 0) return head;
+  return head + "  \u00d7" + groups.map((_, index) => multiplicity(index)).join("\u00b7");
+}
+
+function stepNodeDef(item: Step): string {
+  const chunks = [escapeLabel(item.label), item.id];
+  if (item.repeat === "stack") chunks.push("\u00d7N");
+  if (item.lanes !== undefined) chunks.push("may: " + item.lanes.join("|"));
+  const safe = safeId(item.id);
+  const caption = chunks.join("<br/>");
+  return item.kind === "world-read" ? box(safe, caption, "w") : box(safe, caption, "s");
+}
+
+export function phaseGraphToMermaid(diagram: CausalityGraph): string {
+  const lines: string[] = [];
+  emit(lines, 0, "flowchart LR");
+  const groups = diagram.phases ?? [];
+  put(lines, 1, groups, (group) => box(safeId(group.id), escapeLabel(group.name ?? group.id), "s"));
+  const ownerOf = new Map(diagram.steps.map((item) => [item.id, item.phase]));
+  const feeding = new Set<string>();
+  for (const id of diagram.sink?.fedBy ?? []) {
+    const owner = ownerOf.get(id);
+    if (owner !== undefined) feeding.add(owner);
+  }
+  if (diagram.sink !== undefined) emit(lines, 1, box("sink", "sink", "o"));
+  put(lines, 1, diagram.phaseEdges ?? [], (link) => arrowLine(link.from, link.to, "-->"));
+  put(
+    lines,
+    1,
+    groups.filter((group) => feeding.has(group.id)),
+    (group) => arrowLine(group.id, "sink", "-->"),
+  );
+  if (diagram.sink !== undefined) {
+    emit(lines, 1, classDef("endpoint", ENDPOINT_STYLE));
+    emit(lines, 1, classUse(["sink"], "endpoint"));
+  }
+  return done(lines);
+}
+
+export function phaseFlowToMermaid(diagram: ControlFlowGraph): string {
+  const lines: string[] = [];
+  emit(lines, 0, "flowchart LR");
+  const links = diagram.phaseEdges ?? [];
+  const terminals = terminalsOf(links);
+  for (const id of terminals) if (id === FLOW_ENTRY) emit(lines, 1, box(id, id, "o"));
+  const groups = diagram.phases ?? [];
+  put(lines, 1, groups, (group) => box(safeId(group.id), escapeLabel(group.name ?? group.id), "s"));
+  for (const id of terminals) if (id !== FLOW_ENTRY) emit(lines, 1, box(id, id, "o"));
+  const grouped = new Map<string, { from: string; labels: string[]; to: string }>();
+  for (const link of links) {
+    const pairKey = link.from + "|" + link.to;
+    const slot = grouped.get(pairKey) ?? { from: link.from, labels: [], to: link.to };
+    const caption = flowEdgeLabel(link);
+    if (slot.labels.includes(caption) === false) slot.labels.push(caption);
+    grouped.set(pairKey, slot);
+  }
+  for (const slot of grouped.values()) {
+    const shown = slot.labels.filter((caption) => caption !== "next");
+    const marker = shown.length === 0 ? "-->" : "-->|" + quote(shown.join(", ")) + "|";
+    emit(lines, 1, safeId(slot.from) + " " + marker + " " + safeId(slot.to));
+  }
+  const rank = new Map(groups.map((group, index) => [group.id, index]));
+  const seenPairs = new Set<string>();
+  for (const group of groups) {
+    for (const peer of group.alongside ?? []) {
+      const groupRank = rank.get(group.id) ?? rank.size;
+      const peerRank = rank.get(peer) ?? rank.size;
+      const fromId = groupRank < peerRank ? group.id : peer;
+      const toId = groupRank < peerRank ? peer : group.id;
+      const pairKey = fromId + "|" + toId;
+      if (seenPairs.has(pairKey)) continue;
+      seenPairs.add(pairKey);
+      emit(lines, 1, safeId(fromId) + " -.->|" + quote("alongside") + "| " + safeId(toId));
+    }
+  }
+  paint(lines, "endpoint", ENDPOINT_STYLE, terminals);
+  return done(lines);
+}
+
+export function controlFlowToMermaid(diagram: ControlFlowGraph): string {
+  const lines: string[] = [];
+  emit(lines, 0, "flowchart TD");
+  const terminals = terminalsOf(diagram.edges);
+  const groups = diagram.phases;
+  const titles = new Map((groups ?? []).map((group) => [group.id, group.name ?? group.id]));
+  if (terminals.includes(FLOW_ENTRY)) emit(lines, 1, box(FLOW_ENTRY, FLOW_ENTRY, "o"));
+  if (groups === undefined) put(lines, 1, diagram.nodes, (site) => flowNodeDef(site, titles));
+  else {
+    for (const group of groups) {
+      const inside = diagram.nodes.filter((site) => site.phase === group.id);
+      if (inside.length === 0) continue;
+      emit(lines, 1, subgraphOpen(group.id, escapeLabel(group.name ?? group.id)));
+      put(lines, 2, inside, (site) => flowNodeDef(site, titles));
+      emit(lines, 1, "end");
+    }
+  }
+  for (const id of terminals) if (id !== FLOW_ENTRY) emit(lines, 1, box(id, id, "o"));
+  put(lines, 1, diagram.edges, (link) => {
+    const marker = link.kind === "next" ? "-->" : "-->|" + quote(flowEdgeLabel(link)) + "|";
+    return safeId(link.from) + " " + marker + " " + safeId(link.to);
+  });
+  paint(lines, "endpoint", ENDPOINT_STYLE, terminals);
+  const marks = diagram.nodes.filter((site) => site.kind === "mark").map((site) => safeId(site.id));
+  const floating = diagram.nodes.filter((site) => site.detached).map((site) => safeId(site.id));
+  paint(lines, "mark", RELAY_STYLE, marks);
+  paint(lines, "detached", "stroke-dasharray:4 3,color:#555566", floating);
+  return done(lines);
+}
+
+function flowNodeDef(site: FlowNode, titles: ReadonlyMap<string, string>): string {
+  const safe = safeId(site.id);
+  const tail = site.detached === true ? "<br/>detached" : "";
+  if (site.kind === "mark") {
+    const title = escapeLabel(titles.get(site.phase) ?? site.phase);
+    return box(safe, title + "<br/>" + site.id + tail, "h");
+  }
+  return box(safe, site.id + tail, "s");
+}
+
 export function handoffGraphToMermaid(
-  graph: HandoffGraph,
-  names: Pick<CausalityGraph, "lanes" | "phases"> = { lanes: [] },
+  diagram: HandoffGraph,
+  catalog: Pick<CausalityGraph, "lanes" | "phases"> = { lanes: [] },
 ): string {
-  const lines: string[] = ["flowchart LR"];
-  const laneName = new Map(names.lanes.map((lane) => [lane.id, lane.name]));
-  const phaseName = new Map(
-    (names.phases ?? []).map((phase) => [phase.id, phase.name ?? phase.id]),
+  const lines: string[] = [];
+  emit(lines, 0, "flowchart LR");
+  const laneTitleById = new Map(catalog.lanes.map((band) => [band.id, band.name]));
+  const phaseTitleById = new Map(
+    (catalog.phases ?? []).map((group) => [group.id, group.name ?? group.id]),
   );
-
-  const byPhase = new Map<string, HandoffParticipant[]>();
-  for (const participant of graph.participants) {
-    const list = byPhase.get(participant.phase);
-    if (list === undefined) byPhase.set(participant.phase, [participant]);
-    else list.push(participant);
+  const peopleByPhase = new Map<string, HandoffParticipant[]>();
+  for (const person of diagram.participants) {
+    const bucket = peopleByPhase.get(person.phase);
+    if (bucket === undefined) peopleByPhase.set(person.phase, [person]);
+    else bucket.push(person);
   }
-  for (const [phase, participants] of byPhase) {
-    lines.push(`  subgraph ${safeId(phase)}[${quote(escapeLabel(phaseName.get(phase) ?? phase))}]`);
-    for (const participant of participants) {
-      lines.push(`    ${participantNodeDef(participant, laneName.get(participant.lane))}`);
-    }
-    lines.push("  end");
+  for (const [phaseId, people] of peopleByPhase) {
+    emit(lines, 1, subgraphOpen(phaseId, escapeLabel(phaseTitleById.get(phaseId) ?? phaseId)));
+    put(lines, 2, people, (person) => participantNodeDef(person, laneTitleById.get(person.lane)));
+    emit(lines, 1, "end");
   }
-  for (const handoff of graph.handoffs) lines.push(`  ${handoffEdgeLine(handoff)}`);
-
-  const workspace = graph.participants
-    .filter((participant) => participant.lane === WORKSPACE_LANE)
-    .map((participant) => safeId(participant.id));
-  if (workspace.length > 0) {
-    lines.push("  classDef world fill:#e8f0fe,stroke:#4285f4;");
-    lines.push(`  class ${workspace.join(",")} world;`);
-  }
-  return `${lines.join("\n")}\n`;
+  put(lines, 1, diagram.handoffs, handoffEdgeLine);
+  const workspaceIds = diagram.participants
+    .filter((person) => person.lane === WORKSPACE_LANE)
+    .map((person) => safeId(person.id));
+  paint(lines, "world", WORLD_STYLE, workspaceIds);
+  return done(lines);
 }
 
-/**
- * A participant card: the lane's name (or id) with its multiplicity — `[i/N]` for a
- * literal-cardinality member, `×N` for a family of unknown size — over the steps it holds.
- * The workspace lane is a cylinder, as in the actor chart.
- */
-function participantNodeDef(participant: HandoffParticipant, name: string | undefined): string {
-  const id = safeId(participant.id);
-  let head = escapeLabel(name ?? participant.lane);
-  if (participant.member !== undefined)
-    head += ` [${participant.member.index + 1}/${participant.member.of}]`;
-  if (participant.many) head += " ×N";
-  const body = quote(`${head}<br/>${participant.steps.join(", ")}`);
-  return participant.lane === WORKSPACE_LANE ? `${id}[(${body})]` : `${id}[${body}]`;
+function participantNodeDef(person: HandoffParticipant, title: string | undefined): string {
+  let head = escapeLabel(title ?? person.lane);
+  if (person.member !== undefined) {
+    head += " [" + (person.member.index + 1) + "/" + person.member.of + "]";
+  }
+  if (person.many === true) head += " \u00d7N";
+  const caption = head + "<br/>" + person.steps.join(", ");
+  const safe = safeId(person.id);
+  return person.lane === WORKSPACE_LANE ? box(safe, caption, "c") : box(safe, caption, "s");
 }
 
-function handoffEdgeLine(handoff: Handoff): string {
-  const from = safeId(handoff.from);
-  const to = safeId(handoff.to);
-  const arrow = handoff.back ? "-.->" : "-->";
-  if (handoff.types === undefined || handoff.types.length === 0) return `${from} ${arrow} ${to}`;
-  return `${from} ${arrow}|${quote(handoff.types.map(escapeLabel).join(", "))}| ${to}`;
+function handoffEdgeLine(link: Handoff): string {
+  const marker = link.back === true ? "-.->" : "-->";
+  if (link.types === undefined || link.types.length === 0) return arrowLine(link.from, link.to, marker);
+  const caption = link.types.map((typeName) => escapeLabel(typeName)).join(", ");
+  return arrowLine(link.from, link.to, marker, caption);
 }

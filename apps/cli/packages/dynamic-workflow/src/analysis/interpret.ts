@@ -1,7 +1,13 @@
+// SPDX-License-Identifier: Apache-2.0
 import ts from "typescript";
 import type { WorkflowProgram } from "../compiler/compile.js";
-import type { SiteTable } from "./sites.js";
-import { provisionalFanoutId, type TaintFacts, type TaintOcc } from "./domain.js";
+import type { ActorSite, AskSite, IterationCandidate, SiteTable } from "./sites.js";
+import {
+  provisionalFanoutId,
+  type PromotedFanout,
+  type TaintFacts,
+  type TaintOcc,
+} from "./domain.js";
 import { computeArtifactTypes, type ArtifactTypes } from "./artifact-types.js";
 import { Evaluator } from "./taint.js";
 import { traceOrder, type OrderTrace } from "./causality-order.js";
@@ -18,160 +24,293 @@ import type {
   CoreTypes,
 } from "./core.js";
 
-/**
- * The fused interpreter: ONE interpretation of
- * the script that produces the {@link AnalysisCore}. Engine schedule:
- *
- *  1. the taint listener runs alone to a fixpoint ({@link Evaluator.converge} — global
- *     env, placeholder summaries, semantics untouched);
- *  2. ONE final temporal walk ({@link traceOrder}) rides the evaluation-order spine,
- *     reading the converged state directly as its oracle ({@link TaintState.emitOracle})
- *     — the settle-certainty judgements need converged facts, so logging events on
- *     earlier iterations would be waste plus per-iteration state resets for nothing.
- *     The order-insensitivity lemma makes this schedule safe: a gen-only, kill-free,
- *     monotone fixpoint's result does not depend on visitation order, so the temporal
- *     walk's evaluation order is not a second semantics.
- *  3. minting ({@link mintCore}) digests everything position- or checker-shaped into
- *     plain data: `within` containment resolved onto sites, provisional `fan-out@order`
- *     ids renamed to final `fan-out#N` everywhere (occurrences and type keys included),
- *     artifact types materialized as strings.
- *
- * Downstream, graph.ts / causality-graph.ts are pure projections of the core — no
- * `typescript` import, no AST, no checker.
- */
-export function interpret(workflow: WorkflowProgram, table: SiteTable): AnalysisCore {
-  const evaluator = new Evaluator(workflow, table);
-  evaluator.converge();
-  const facts = evaluator.s.emitFacts();
-  const oracle = evaluator.s.emitOracle();
-  const trace = traceOrder(workflow, table, oracle);
-  return mintCore(workflow, table, facts, trace, oracle.applications);
+// One script interpretation. Taint runs to a fixpoint first: settle judgements
+// need converged facts, so the temporal walk is a single post-pass over the
+// same state. A gen-only monotone fixpoint does not depend on visitation order,
+// which is why that walk is not a second semantics. Minting is the last use of
+// raw offsets and the checker: `within`, final fan-out ids, and artifact types.
+
+type Applications = ReadonlyMap<ts.Node, ReadonlyMap<ts.Node, ApplicationVia>>;
+
+interface HalfOpen {
+  start: number;
+  end: number;
 }
 
-/** Mint the core: the one place raw offsets and the checker are still consulted. */
+interface TaggedSpan extends HalfOpen {
+  id: string;
+}
+
+function finalFanoutName(index: number): string {
+  return `fan-out#${index + 1}`;
+}
+
+function assignFanoutIds(promoted: readonly { id: string }[]): Map<string, string> {
+  const ids = new Map<string, string>();
+  let index = 0;
+  while (index < promoted.length) {
+    const row = promoted[index];
+    if (row !== undefined) ids.set(row.id, finalFanoutName(index));
+    index += 1;
+  }
+  return ids;
+}
+
+function boundsOf(scriptFile: ts.SourceFile, node: ts.Node): HalfOpen {
+  return { start: node.getStart(scriptFile), end: node.getEnd() };
+}
+
+function covers(span: HalfOpen, pos: number): boolean {
+  return pos >= span.start && pos < span.end;
+}
+
+function seedSpans(
+  cand: IterationCandidate,
+  scriptFile: ts.SourceFile,
+  applications: Applications,
+): HalfOpen[] {
+  const seeds = [boundsOf(scriptFile, cand.body)];
+  const call = cand.call;
+  if (call === undefined) return seeds;
+  const applied = applications.get(call);
+  if (applied === undefined) return seeds;
+  // A non-literal callback has no steps in the argument expression. The
+  // functions applied at the call are the bodies that actually run.
+  for (const [fn, via] of applied) {
+    if (via !== "argument") continue;
+    seeds.push(boundsOf(scriptFile, fn));
+  }
+  return seeds;
+}
+
+function pullApplied(
+  span: HalfOpen,
+  acc: HalfOpen[],
+  seen: Set<ts.Node>,
+  scriptFile: ts.SourceFile,
+  applications: Applications,
+): void {
+  for (const [site, fns] of applications) {
+    if (!covers(span, site.getStart(scriptFile))) continue;
+    for (const fn of fns.keys()) {
+      if (seen.has(fn)) continue;
+      seen.add(fn);
+      acc.push(boundsOf(scriptFile, fn));
+    }
+  }
+}
+
+// Worklist: every function applied at a call inside an already-included span
+// joins the set, transitively. Seeds are not pre-marked, matching the original
+// discovery order (a seed can also be re-discovered from a call).
+function closeApplications(
+  seeds: readonly HalfOpen[],
+  scriptFile: ts.SourceFile,
+  applications: Applications,
+): HalfOpen[] {
+  const acc = seeds.map((span) => ({ start: span.start, end: span.end }));
+  const seen = new Set<ts.Node>();
+  let cursor = 0;
+  while (cursor < acc.length) {
+    const span = acc[cursor];
+    cursor += 1;
+    if (span === undefined) continue;
+    pullApplied(span, acc, seen, scriptFile, applications);
+  }
+  return acc;
+}
+
+function promotedRegions(
+  table: SiteTable,
+  scriptFile: ts.SourceFile,
+  fanoutId: Map<string, string>,
+  applications: Applications,
+): TaggedSpan[] {
+  const collected: TaggedSpan[] = [];
+  for (const cand of table.iterations) {
+    const id = fanoutId.get(provisionalFanoutId(cand.order));
+    if (id === undefined) continue;
+    const spans = closeApplications(
+      seedSpans(cand, scriptFile, applications),
+      scriptFile,
+      applications,
+    );
+    let index = 0;
+    while (index < spans.length) {
+      const span = spans[index];
+      index += 1;
+      if (span === undefined) continue;
+      collected.push({ end: span.end, id, start: span.start });
+    }
+  }
+  return collected;
+}
+
+// Innermost containing span: the greatest start offset. Equal starts keep the
+// earlier span so tie-breaking stays stable.
+function tightestId(spans: readonly TaggedSpan[], pos: number): string | undefined {
+  let best: TaggedSpan | undefined;
+  for (const span of spans) {
+    if (!covers(span, pos)) continue;
+    if (best !== undefined && span.start <= best.start) continue;
+    best = span;
+  }
+  return best === undefined ? undefined : best.id;
+}
+
+function enclosingAt(
+  spans: readonly TaggedSpan[],
+  scriptFile: ts.SourceFile,
+  node: ts.Node,
+): string | undefined {
+  return tightestId(spans, node.getStart(scriptFile));
+}
+
+function askSite(site: AskSite, within: string | undefined): CoreAskSite {
+  const entry = { id: site.id, label: site.label } as CoreAskSite;
+  if (site.labelPattern !== undefined) entry.labelPattern = site.labelPattern;
+  entry.loc = site.loc;
+  entry.order = site.order;
+  if (within !== undefined) entry.within = within;
+  return entry;
+}
+
+function simpleSite(
+  site: { id: string; label: string; loc: CoreSimpleSite["loc"]; order: number; call: ts.Node },
+  spans: readonly TaggedSpan[],
+  scriptFile: ts.SourceFile,
+): CoreSimpleSite {
+  const entry = { id: site.id, label: site.label, loc: site.loc } as CoreSimpleSite;
+  entry.order = site.order;
+  const within = enclosingAt(spans, scriptFile, site.call);
+  if (within !== undefined) entry.within = within;
+  return entry;
+}
+
+function actorSite(
+  site: ActorSite,
+  spans: readonly TaggedSpan[],
+  scriptFile: ts.SourceFile,
+): CoreActorSite {
+  const entry = { id: site.id, loc: site.loc } as CoreActorSite;
+  if (site.name !== undefined) entry.name = site.name;
+  if (site.namePattern !== undefined) entry.namePattern = site.namePattern;
+  entry.order = site.order;
+  const within = enclosingAt(spans, scriptFile, site.call);
+  if (within !== undefined) entry.within = within;
+  return entry;
+}
+
+function fanoutSite(
+  fanout: PromotedFanout,
+  cand: IterationCandidate | undefined,
+  fanoutId: Map<string, string>,
+  spans: readonly TaggedSpan[],
+  scriptFile: ts.SourceFile,
+  checker: ts.TypeChecker,
+): CoreFanoutSite {
+  // Containment is anchored at the iterated expression, which sits outside the
+  // candidate body, so a fan-out does not report itself.
+  const cardinality = cand === undefined ? undefined : literalCardinality(cand.iterated, checker);
+  const within = cand === undefined ? undefined : enclosingAt(spans, scriptFile, cand.iterated);
+  const entry: CoreFanoutSite = {
+    id: fanoutId.get(fanout.id) as string,
+    label: fanout.label,
+    loc: fanout.loc,
+    order: fanout.order,
+  };
+  if (within !== undefined) entry.within = within;
+  if (cardinality !== undefined) entry.cardinality = cardinality;
+  return entry;
+}
+
+function renameOcc(occ: TaintOcc, rename: (site: string) => string): TaintOcc {
+  const next: TaintOcc = { exact: occ.exact, site: rename(occ.site) };
+  if (occ.port !== undefined) next.port = occ.port;
+  return next;
+}
+
+function renameOccs(occs: readonly TaintOcc[], rename: (site: string) => string): TaintOcc[] {
+  const out: TaintOcc[] = [];
+  let index = 0;
+  while (index < occs.length) {
+    const occ = occs[index];
+    index += 1;
+    if (occ !== undefined) out.push(renameOcc(occ, rename));
+  }
+  return out;
+}
+
+function renameKeyed(
+  map: Map<string, TaintOcc[]>,
+  rename: (site: string) => string,
+): Map<string, TaintOcc[]> {
+  const out = new Map<string, TaintOcc[]>();
+  for (const [sink, occs] of map) out.set(sink, renameOccs(occs, rename));
+  return out;
+}
+
+// A fan-out sink whose provisional id never promoted is not a graph node.
+function renameFanoutEdges(
+  facts: TaintFacts,
+  fanoutId: Map<string, string>,
+  rename: (site: string) => string,
+): Map<string, TaintOcc[]> {
+  const fanoutIn = new Map<string, TaintOcc[]>();
+  for (const [provId, occs] of facts.fanoutIn) {
+    const finalId = fanoutId.get(provId);
+    if (finalId === undefined) continue;
+    fanoutIn.set(finalId, renameOccs(occs, rename));
+  }
+  return fanoutIn;
+}
+
+function mintFacts(
+  facts: TaintFacts,
+  fanoutId: Map<string, string>,
+  rename: (site: string) => string,
+): CoreFacts {
+  return {
+    askActor: renameKeyed(facts.askActor, rename),
+    askData: renameKeyed(facts.askData, rename),
+    fanoutIn: renameFanoutEdges(facts, fanoutId, rename),
+    joinIn: renameKeyed(facts.joinIn, rename),
+    returnData: renameOccs(facts.returnData, rename),
+    worldReadData: renameKeyed(facts.worldReadData, rename),
+  };
+}
+
+function mintTypes(types: ArtifactTypes, rename: (site: string) => string): CoreTypes {
+  const siteType = new Map<string, string>();
+  for (const [id, typeName] of types.siteType) siteType.set(rename(id), typeName);
+  return { joinPortTypes: types.joinPortTypes, siteType };
+}
+
 function mintCore(
   workflow: WorkflowProgram,
   table: SiteTable,
   facts: TaintFacts,
   trace: OrderTrace,
-  applications: ReadonlyMap<ts.Node, ReadonlyMap<ts.Node, ApplicationVia>>,
+  applications: Applications,
 ): AnalysisCore {
   const { scriptFile } = workflow;
-
-  // Fan-out ordinals over promoted candidates (already source-ordered), and the rename
-  // from the taint pass's provisional ids. Moved here from graph assembly: the core
-  // speaks final ids only, the provisional vocabulary dies at this boundary.
-  const fanoutId = new Map<string, string>();
-  facts.promoted.forEach((fanout, index) => fanoutId.set(fanout.id, `fan-out#${index + 1}`));
+  const fanoutId = assignFanoutIds(facts.promoted);
   const rename = (site: string): string => fanoutId.get(site) ?? site;
-
-  // Fan-out containment: a site executes once per element when it sits in a promoted
-  // candidate's BODY — lexically, or in the body of a function the candidate's body invokes
-  // (a named callback `xs.map(review)`, a helper called from the inline callback, and so on
-  // transitively, per the call oracle). "Nearest" = the innermost containing span, i.e. the
-  // one with the greatest start offset.
-  const spanOf = (node: ts.Node): { start: number; end: number } => ({
-    end: node.getEnd(),
-    start: node.getStart(scriptFile),
-  });
-  const insideSpan = (pos: number, span: { start: number; end: number }): boolean =>
-    span.start <= pos && pos < span.end;
-  const promotedSpans: Array<{ id: string; start: number; end: number }> = [];
-  for (const cand of table.iterations) {
-    const id = fanoutId.get(provisionalFanoutId(cand.order));
-    if (id === undefined) continue;
-    const seedSpans = [spanOf(cand.body)];
-    if (cand.call !== undefined) {
-      // A non-literal callback's body is the argument expression: no steps live in it, but
-      // the functions applied AT the call do.
-      for (const [fn, via] of applications.get(cand.call) ?? []) {
-        if (via === "argument") seedSpans.push(spanOf(fn));
-      }
-    }
-    // Closure: every function applied at a call site inside a span already in the set.
-    const spans = [...seedSpans];
-    const seen = new Set<ts.Node>();
-    for (let i = 0; i < spans.length; i += 1) {
-      const span = spans[i] as { start: number; end: number };
-      for (const [site, fns] of applications) {
-        if (!insideSpan(site.getStart(scriptFile), span)) continue;
-        for (const fn of fns.keys()) {
-          if (seen.has(fn)) continue;
-          seen.add(fn);
-          spans.push(spanOf(fn));
-        }
-      }
-    }
-    for (const span of spans) promotedSpans.push({ id, ...span });
-  }
-  const within = (pos: number): string | undefined => {
-    let best: { id: string; start: number } | undefined;
-    for (const span of promotedSpans) {
-      if (insideSpan(pos, span) && (best === undefined || span.start > best.start)) {
-        best = { id: span.id, start: span.start };
-      }
-    }
-    return best?.id;
-  };
-  const withinOf = (node: ts.Node): { within?: string } => {
-    const enclosing = within(node.getStart(scriptFile));
-    return enclosing === undefined ? {} : { within: enclosing };
-  };
-
-  const asks: CoreAskSite[] = table.asks.map((site) => ({
-    id: site.id,
-    label: site.label,
-    ...(site.labelPattern === undefined ? {} : { labelPattern: site.labelPattern }),
-    loc: site.loc,
-    order: site.order,
-    ...withinOf(site.call),
-  }));
-  const simple = (site: {
-    id: string;
-    order: number;
-    label: string;
-    loc: CoreSimpleSite["loc"];
-    call: ts.Node;
-  }): CoreSimpleSite => ({
-    id: site.id,
-    label: site.label,
-    loc: site.loc,
-    order: site.order,
-    ...withinOf(site.call),
-  });
-  const actors: CoreActorSite[] = table.actors.map((site) => ({
-    id: site.id,
-    loc: site.loc,
-    ...(site.name === undefined ? {} : { name: site.name }),
-    ...(site.namePattern === undefined ? {} : { namePattern: site.namePattern }),
-    order: site.order,
-    ...withinOf(site.call),
-  }));
-  // A fan-out's own containment is anchored at its iterated expression, which sits
-  // outside its own body — so a candidate never reports itself, only an enclosing one.
-  const candByOrder = new Map(table.iterations.map((cand) => [cand.order, cand]));
+  const spans = promotedRegions(table, scriptFile, fanoutId, applications);
   const checker = workflow.program.getTypeChecker();
-  const fanouts: CoreFanoutSite[] = facts.promoted.map((fanout) => {
-    const cand = candByOrder.get(fanout.order);
-    // 字面量基数也是铸造期的事：它要看被迭代表达式的 AST 与绑定，投影只读一个数。
-    const cardinality = cand === undefined ? undefined : literalCardinality(cand.iterated, checker);
-    return {
-      id: fanoutId.get(fanout.id) as string,
-      label: fanout.label,
-      loc: fanout.loc,
-      order: fanout.order,
-      ...(cand === undefined ? {} : withinOf(cand.iterated)),
-      ...(cardinality === undefined ? {} : { cardinality }),
-    };
-  });
+  const candByOrder = new Map(table.iterations.map((cand) => [cand.order, cand]));
+  const asks = table.asks.map((site) => askSite(site, enclosingAt(spans, scriptFile, site.call)));
+  const actors = table.actors.map((site) => actorSite(site, spans, scriptFile));
+  const fanouts = facts.promoted.map((fanout) =>
+    fanoutSite(fanout, candByOrder.get(fanout.order), fanoutId, spans, scriptFile, checker),
+  );
   const sites: CoreSites = {
     actors,
     asks,
     fanouts,
-    joins: table.joins.map(simple),
-    worldReads: table.worldReads.map(simple),
+    joins: table.joins.map((site) => simpleSite(site, spans, scriptFile)),
+    worldReads: table.worldReads.map((site) => simpleSite(site, spans, scriptFile)),
   };
-
   return {
     facts: mintFacts(facts, fanoutId, rename),
     sites,
@@ -180,44 +319,11 @@ function mintCore(
   };
 }
 
-/** Rewrite every occurrence and every `fanoutIn` key to final ids; drop non-promoted
- * fan-out sinks (a candidate that never promoted is a graph node in nothing — the same
- * `continue` graph assembly used to apply at edge emission). */
-function mintFacts(
-  facts: TaintFacts,
-  fanoutId: Map<string, string>,
-  rename: (site: string) => string,
-): CoreFacts {
-  const renameOccs = (occs: TaintOcc[]): TaintOcc[] =>
-    occs.map((occ) => ({
-      exact: occ.exact,
-      site: rename(occ.site),
-      ...(occ.port === undefined ? {} : { port: occ.port }),
-    }));
-  const renameMap = (map: Map<string, TaintOcc[]>): Map<string, TaintOcc[]> => {
-    const out = new Map<string, TaintOcc[]>();
-    for (const [sink, occs] of map) out.set(sink, renameOccs(occs));
-    return out;
-  };
-  const fanoutIn = new Map<string, TaintOcc[]>();
-  for (const [provId, occs] of facts.fanoutIn) {
-    const finalId = fanoutId.get(provId);
-    if (finalId === undefined) continue;
-    fanoutIn.set(finalId, renameOccs(occs));
-  }
-  return {
-    askActor: renameMap(facts.askActor),
-    askData: renameMap(facts.askData),
-    fanoutIn,
-    joinIn: renameMap(facts.joinIn),
-    returnData: renameOccs(facts.returnData),
-    worldReadData: renameMap(facts.worldReadData),
-  };
-}
-
-/** Rename the fan-out keys of the checker's type answers to final ids. */
-function mintTypes(types: ArtifactTypes, rename: (site: string) => string): CoreTypes {
-  const siteType = new Map<string, string>();
-  for (const [id, type] of types.siteType) siteType.set(rename(id), type);
-  return { joinPortTypes: types.joinPortTypes, siteType };
+export function interpret(workflow: WorkflowProgram, table: SiteTable): AnalysisCore {
+  const evaluator = new Evaluator(workflow, table);
+  evaluator.converge();
+  const facts = evaluator.s.emitFacts();
+  const oracle = evaluator.s.emitOracle();
+  const trace = traceOrder(workflow, table, oracle);
+  return mintCore(workflow, table, facts, trace, oracle.applications);
 }

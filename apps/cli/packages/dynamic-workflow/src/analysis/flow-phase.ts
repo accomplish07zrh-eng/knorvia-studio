@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: Apache-2.0
+
 import { UNPHASED_ID } from "./constants.js";
 import type { OrderTrace } from "./causality-order.js";
 import {
@@ -9,77 +11,126 @@ import {
   type FlowPhase,
 } from "./flow-graph.js";
 
-/**
- * The phase quotient of the control-flow graph — the control-flow counterpart of
- * phase-graph.ts (which quotients the CAUSALITY graph). Same vocabulary, same all-or-nothing
- * contract, different question: this one says where execution can go between phases.
- *
- * `alongside` is folded here too, but it is not an edge and so not part of the quotient:
- * it is the union of the mark nodes' own `alongside` lists, because a phase entered twice
- * with different strands running is entered alongside both.
- */
-
-/** Phases some node carries, in first-reach order, {@link UNPHASED_ID} first when present. */
-export function collectFlowPhases(trace: OrderTrace, nodes: readonly FlowNode[]): FlowPhase[] {
-  const present = new Set(nodes.map((node) => node.phase));
-  const rank = new Map<string, number>(trace.phases.map((phase, index) => [phase.id, index + 1]));
-  rank.set(UNPHASED_ID, 0);
-  const at = (id: string): number => rank.get(id) ?? rank.size;
-  const running = new Map<string, Set<string>>();
-  for (const node of nodes) {
-    if (node.alongside === undefined) continue;
-    const into = running.get(node.phase) ?? new Set<string>();
-    for (const id of node.alongside) if (id !== node.phase) into.add(id);
-    running.set(node.phase, into);
+// Phases that actually appear on a node. Unphased leads; the rest follow first reach.
+export function collectFlowPhases(order: OrderTrace, flowNodes: readonly FlowNode[]): FlowPhase[] {
+  const used = new Set<string>();
+  for (let index = 0; index < flowNodes.length; index += 1) {
+    const flowNode = flowNodes[index];
+    if (flowNode !== undefined) used.add(flowNode.phase);
   }
-  const alongsideOf = (id: string): { alongside?: string[] } => {
-    const ids = [...(running.get(id) ?? [])].sort((a, b) => at(a) - at(b));
-    return ids.length === 0 ? {} : { alongside: ids };
-  };
-  const out: FlowPhase[] = [];
-  if (present.has(UNPHASED_ID)) out.push({ id: UNPHASED_ID, ...alongsideOf(UNPHASED_ID) });
-  for (const phase of trace.phases) {
-    if (present.has(phase.id)) {
-      out.push({ id: phase.id, loc: phase.loc, name: phase.name, ...alongsideOf(phase.id) });
-    }
+  const at = reachOrder(order);
+  const companions = alongsideByPhase(flowNodes);
+  const listed: FlowPhase[] = [];
+  if (used.has(UNPHASED_ID)) listed.push(phaseRecord(UNPHASED_ID, undefined, undefined, companions, at));
+  for (let index = 0; index < order.phases.length; index += 1) {
+    const phase = order.phases[index];
+    if (phase === undefined || !used.has(phase.id)) continue;
+    listed.push(phaseRecord(phase.id, phase.loc, phase.name, companions, at));
   }
-  return out;
+  return listed;
 }
 
-/**
- * Each occurrence edge projected onto the phases of its endpoints. Same-phase edges dissolve
- * unless they are `loop` back edges (a loop living inside one phase is a self-loop);
- * terminals project to themselves. Kinds are kept apart — the renderer merges arrows, the
- * model does not. No transitive reduction: a CFG never is.
- */
+// Same-phase edges drop out unless they are loop backs. Terminals stay themselves.
 export function quotientFlow(
-  nodes: readonly FlowNode[],
-  edges: readonly FlowEdge[],
-  phases: readonly FlowPhase[],
+  flowNodes: readonly FlowNode[],
+  flowEdges: readonly FlowEdge[],
+  phaseList: readonly FlowPhase[],
 ): FlowEdge[] {
-  const phaseOf = new Map<string, string>(nodes.map((node) => [node.id, node.phase]));
-  const rank = new Map<string, number>(phases.map((phase, index) => [phase.id, index]));
-  rank.set(FLOW_ENTRY, -1);
-  rank.set(FLOW_SINK, phases.length);
-  rank.set(FLOW_ABORT, phases.length + 1);
-  const at = (id: string): number => rank.get(id) ?? phases.length + 2;
-  const seen = new Set<string>();
-  const out: FlowEdge[] = [];
-  for (const edge of edges) {
-    const from = phaseOf.get(edge.from) ?? edge.from;
-    const to = phaseOf.get(edge.to) ?? edge.to;
-    if (from === to && edge.kind !== "loop") continue;
-    const key = `${from}|${to}|${edge.kind}|${edge.via ?? ""}`;
-    if (seen.has(key)) continue;
-    seen.add(key);
-    out.push({ from, kind: edge.kind, to, ...(edge.via === undefined ? {} : { via: edge.via }) });
+  const phaseByNode = new Map<string, string>();
+  for (let index = 0; index < flowNodes.length; index += 1) {
+    const flowNode = flowNodes[index];
+    if (flowNode !== undefined) phaseByNode.set(flowNode.id, flowNode.phase);
   }
-  out.sort(
-    (a, b) =>
-      at(a.from) - at(b.from) ||
-      at(a.to) - at(b.to) ||
-      a.kind.localeCompare(b.kind) ||
-      (a.via ?? "").localeCompare(b.via ?? ""),
-  );
-  return out;
+  const at = quotientOrder(phaseList);
+  const taken = new Set<string>();
+  const folded: FlowEdge[] = [];
+  for (let index = 0; index < flowEdges.length; index += 1) {
+    const link = flowEdges[index];
+    if (link === undefined) continue;
+    const origin = phaseByNode.get(link.from) ?? link.from;
+    const dest = phaseByNode.get(link.to) ?? link.to;
+    if (origin === dest && link.kind !== "loop") continue;
+    const key = [origin, dest, link.kind, link.via ?? ""].join("|");
+    if (taken.has(key)) continue;
+    taken.add(key);
+    folded.push(
+      link.via === undefined
+        ? { from: origin, kind: link.kind, to: dest }
+        : { from: origin, kind: link.kind, to: dest, via: link.via },
+    );
+  }
+  folded.sort((left, right) => compareEdges(at, left, right));
+  return folded;
+}
+
+function reachOrder(order: OrderTrace): (id: string) => number {
+  const place = new Map<string, number>();
+  for (let index = 0; index < order.phases.length; index += 1) {
+    const phase = order.phases[index];
+    if (phase !== undefined) place.set(phase.id, index + 1);
+  }
+  place.set(UNPHASED_ID, 0);
+  return (id: string): number => {
+    const placed = place.get(id);
+    return placed === undefined ? place.size : placed;
+  };
+}
+
+function alongsideByPhase(flowNodes: readonly FlowNode[]): Map<string, Set<string>> {
+  const companions = new Map<string, Set<string>>();
+  for (let index = 0; index < flowNodes.length; index += 1) {
+    const flowNode = flowNodes[index];
+    if (flowNode === undefined || flowNode.alongside === undefined) continue;
+    let bucket = companions.get(flowNode.phase);
+    if (bucket === undefined) {
+      bucket = new Set<string>();
+      companions.set(flowNode.phase, bucket);
+    }
+    for (let slot = 0; slot < flowNode.alongside.length; slot += 1) {
+      const id = flowNode.alongside[slot];
+      if (id !== undefined && id !== flowNode.phase) bucket.add(id);
+    }
+  }
+  return companions;
+}
+
+function phaseRecord(
+  id: string,
+  loc: FlowPhase["loc"],
+  name: FlowPhase["name"],
+  companions: Map<string, Set<string>>,
+  at: (id: string) => number,
+): FlowPhase {
+  const ids = [...(companions.get(id) ?? [])];
+  ids.sort((left, right) => at(left) - at(right));
+  if (loc === undefined && name === undefined) {
+    return ids.length === 0 ? { id } : { id, alongside: ids };
+  }
+  return ids.length === 0 ? { id, loc, name } : { id, loc, name, alongside: ids };
+}
+
+function quotientOrder(phaseList: readonly FlowPhase[]): (id: string) => number {
+  const place = new Map<string, number>();
+  for (let index = 0; index < phaseList.length; index += 1) {
+    const phase = phaseList[index];
+    if (phase !== undefined) place.set(phase.id, index);
+  }
+  place.set(FLOW_ENTRY, -1);
+  place.set(FLOW_SINK, phaseList.length);
+  place.set(FLOW_ABORT, phaseList.length + 1);
+  const past = phaseList.length + 2;
+  return (id: string): number => {
+    const placed = place.get(id);
+    return placed === undefined ? past : placed;
+  };
+}
+
+function compareEdges(at: (id: string) => number, left: FlowEdge, right: FlowEdge): number {
+  const fromDelta = at(left.from) - at(right.from);
+  if (fromDelta !== 0) return fromDelta;
+  const toDelta = at(left.to) - at(right.to);
+  if (toDelta !== 0) return toDelta;
+  const kindDelta = left.kind.localeCompare(right.kind);
+  if (kindDelta !== 0) return kindDelta;
+  return (left.via ?? "").localeCompare(right.via ?? "");
 }

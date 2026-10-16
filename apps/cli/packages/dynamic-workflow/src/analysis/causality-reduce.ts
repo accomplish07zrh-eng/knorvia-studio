@@ -1,12 +1,24 @@
+// SPDX-License-Identifier: Apache-2.0
+
 /**
- * Reduce ordering graphs using edge-kind strength. Data and control have equal
- * witness strength, followed by fifo and seq. Carry edges represent one iteration
- * boundary and are tested separately from forward edges.
+ * Remove ordering edges that a surviving path already explains.
+ * Data and control witness each other; fifo also accepts fifo; seq accepts
+ * every forward kind. Carry edges are a later pass: forward closure, exactly
+ * one other eligible carry, then forward closure again. A missing `carryOf`
+ * is data. Self-loops are kept. The input array and edge objects stay put.
  */
 
 export type OrderKind = "data" | "control" | "fifo" | "seq" | "carry";
 
-/** Ordered-pair deduplication ranks; witness eligibility uses separate rules. */
+export interface ReducibleEdge {
+  from: string;
+  to: string;
+  kind: OrderKind;
+  /** Forward kind a carry was built from. Absent values are judged as data. */
+  carryOf?: Exclude<OrderKind, "carry">;
+}
+
+/** Dedup rank only. Witness checks use a separate lattice, not these numbers. */
 export const KIND_RANK: Record<OrderKind, number> = {
   carry: 0,
   control: 4,
@@ -15,107 +27,197 @@ export const KIND_RANK: Record<OrderKind, number> = {
   seq: 1,
 };
 
-export interface ReducibleEdge {
-  from: string;
-  to: string;
-  kind: OrderKind;
-  /** Forward kind used to judge a carry witness; omitted values use data. */
-  carryOf?: Exclude<OrderKind, "carry">;
+interface Slot<E extends ReducibleEdge> {
+  edge: E;
+  live: boolean;
 }
 
-// Witness strength is separate from the public dedup rank.
-const JUSTIFIED_BY: Partial<Record<OrderKind, ReadonlySet<OrderKind>>> = {
-  control: new Set<OrderKind>(["data", "control"]),
-  data: new Set<OrderKind>(["data", "control"]),
-  fifo: new Set<OrderKind>(["data", "control", "fifo"]),
-  seq: new Set<OrderKind>(["data", "control", "fifo", "seq"]),
-};
+interface Portals<E extends ReducibleEdge> {
+  forward: Slot<E>[];
+  carry: Slot<E>[];
+}
+
+interface Indexed<E extends ReducibleEdge> {
+  occurrences: Slot<E>[];
+  forward: Slot<E>[];
+  carry: Slot<E>[];
+  portals: Map<string, Portals<E>>;
+}
+
+const HARD: ReadonlySet<OrderKind> = new Set<OrderKind>(["data", "control"]);
+const FIFO: ReadonlySet<OrderKind> = new Set<OrderKind>(["data", "control", "fifo"]);
+const SEQUENTIAL: ReadonlySet<OrderKind> = new Set<OrderKind>(["data", "control", "fifo", "seq"]);
+
+function witnessesOf(kind: OrderKind): ReadonlySet<OrderKind> | undefined {
+  switch (kind) {
+    case "data":
+    case "control":
+      return HARD;
+    case "fifo":
+      return FIFO;
+    case "seq":
+      return SEQUENTIAL;
+    default:
+      return undefined;
+  }
+}
+
+function portalsFor<E extends ReducibleEdge>(
+  portals: Map<string, Portals<E>>,
+  source: string,
+): Portals<E> {
+  const existing = portals.get(source);
+  if (existing !== undefined) return existing;
+  const created: Portals<E> = { forward: [], carry: [] };
+  portals.set(source, created);
+  return created;
+}
+
+function indexEdges<E extends ReducibleEdge>(edges: readonly E[]): Indexed<E> {
+  const byObject = new Map<E, Slot<E>>();
+  const indexed: Indexed<E> = {
+    occurrences: [],
+    forward: [],
+    carry: [],
+    portals: new Map<string, Portals<E>>(),
+  };
+  let cursor = 0;
+  while (cursor < edges.length) {
+    const edge = edges[cursor];
+    cursor += 1;
+    if (edge === undefined) continue;
+    let slot = byObject.get(edge);
+    if (slot === undefined) {
+      slot = { edge, live: true };
+      byObject.set(edge, slot);
+    }
+    indexed.occurrences.push(slot);
+    const portals = portalsFor(indexed.portals, edge.from);
+    if (edge.kind === "carry") {
+      indexed.carry.push(slot);
+      portals.carry.push(slot);
+    } else {
+      indexed.forward.push(slot);
+      portals.forward.push(slot);
+    }
+  }
+  return indexed;
+}
+
+// Queue search over live forward edges. `block` drops every direct hop of that pair.
+function reachable<E extends ReducibleEdge>(
+  portals: Map<string, Portals<E>>,
+  seeds: Iterable<string>,
+  allowed: ReadonlySet<OrderKind>,
+  block?: { from: string; to: string },
+  goal?: string,
+): Set<string> {
+  const seen = new Set<string>(seeds);
+  if (goal !== undefined && seen.has(goal)) return seen;
+  const queue = [...seen];
+  let head = 0;
+  while (head < queue.length) {
+    const node = queue[head];
+    head += 1;
+    if (node === undefined) continue;
+    const outgoing = portals.get(node)?.forward;
+    if (outgoing === undefined) continue;
+    let hop = 0;
+    while (hop < outgoing.length) {
+      const slot = outgoing[hop];
+      hop += 1;
+      if (slot === undefined || !slot.live || !allowed.has(slot.edge.kind)) continue;
+      const dest = slot.edge.to;
+      if (block !== undefined && node === block.from && dest === block.to) continue;
+      if (seen.has(dest)) continue;
+      seen.add(dest);
+      if (goal !== undefined && dest === goal) return seen;
+      queue.push(dest);
+    }
+  }
+  return seen;
+}
+
+function reduceForward<E extends ReducibleEdge>(indexed: Indexed<E>): void {
+  let cursor = 0;
+  while (cursor < indexed.forward.length) {
+    const slot = indexed.forward[cursor];
+    cursor += 1;
+    if (slot === undefined) continue;
+    const edge = slot.edge;
+    const allowed = witnessesOf(edge.kind);
+    if (allowed === undefined || edge.from === edge.to) continue;
+    const hit = reachable(
+      indexed.portals,
+      [edge.from],
+      allowed,
+      { from: edge.from, to: edge.to },
+      edge.to,
+    );
+    if (hit.has(edge.to)) slot.live = false;
+  }
+}
+
+function carryBasis(edge: ReducibleEdge): OrderKind {
+  return edge.carryOf ?? "data";
+}
+
+function bridgeHeads<E extends ReducibleEdge>(
+  indexed: Indexed<E>,
+  prefix: ReadonlySet<string>,
+  candidate: Slot<E>,
+  allowed: ReadonlySet<OrderKind>,
+): Set<string> {
+  const heads = new Set<string>();
+  for (const node of prefix) {
+    const bridges = indexed.portals.get(node)?.carry;
+    if (bridges === undefined) continue;
+    let cursor = 0;
+    while (cursor < bridges.length) {
+      const bridge = bridges[cursor];
+      cursor += 1;
+      if (bridge === undefined || !bridge.live || bridge === candidate) continue;
+      if (!allowed.has(carryBasis(bridge.edge))) continue;
+      heads.add(bridge.edge.to);
+    }
+  }
+  return heads;
+}
+
+function reduceCarry<E extends ReducibleEdge>(indexed: Indexed<E>): void {
+  let cursor = 0;
+  while (cursor < indexed.carry.length) {
+    const candidate = indexed.carry[cursor];
+    cursor += 1;
+    if (candidate === undefined) continue;
+    const allowed = witnessesOf(carryBasis(candidate.edge));
+    if (allowed === undefined) continue;
+    const prefix = reachable(indexed.portals, [candidate.edge.from], allowed);
+    const heads = bridgeHeads(indexed, prefix, candidate, allowed);
+    const suffix = reachable(indexed.portals, heads, allowed, undefined, candidate.edge.to);
+    if (suffix.has(candidate.edge.to)) candidate.live = false;
+  }
+}
+
+function survivors<E extends ReducibleEdge>(occurrences: readonly Slot<E>[]): E[] {
+  const kept: E[] = [];
+  let cursor = 0;
+  while (cursor < occurrences.length) {
+    const slot = occurrences[cursor];
+    cursor += 1;
+    if (slot !== undefined && slot.live) kept.push(slot.edge);
+  }
+  return kept;
+}
 
 /**
- * Visit forward edges in input order, then carry edges, removing candidates with
- * surviving eligible witnesses. Return original edge references in input order;
- * shared input references share deletion decisions. Inputs are not modified.
+ * Forward edges first, in input order, then carries. Aliased input objects share
+ * one liveness bit, so a repeated reference is deleted everywhere or nowhere.
  */
 export function reduceOrdering<E extends ReducibleEdge>(edges: readonly E[]): E[] {
-  type EdgeState = { edge: E; live: boolean };
-  type Outgoing = { forward: EdgeState[]; carry: EdgeState[] };
-  const identity = new Map<E, EdgeState>();
-  const occurrences: EdgeState[] = [];
-  const forward: EdgeState[] = [];
-  const carry: EdgeState[] = [];
-  const adjacency = new Map<string, Outgoing>();
-
-  // Input occurrences retain their order; aliases share only the liveness decision.
-  edges.forEach((edge) => {
-    let state = identity.get(edge);
-    if (state === undefined) {
-      state = { edge, live: true };
-      identity.set(edge, state);
-    }
-    occurrences.push(state);
-    let outgoing = adjacency.get(edge.from);
-    if (outgoing === undefined) {
-      outgoing = { forward: [], carry: [] };
-      adjacency.set(edge.from, outgoing);
-    }
-    if (edge.kind === "carry") {
-      carry.push(state);
-      outgoing.carry.push(state);
-    } else {
-      forward.push(state);
-      outgoing.forward.push(state);
-    }
-  });
-
-  // Multi-source forward closure, optionally excluding the candidate's direct pair.
-  const reachable = (
-    seeds: Iterable<string>,
-    allowed: ReadonlySet<OrderKind>,
-    omit?: { from: string; to: string },
-    target?: string,
-  ): Set<string> => {
-    const visited = new Set(seeds);
-    if (target !== undefined && visited.has(target)) return visited;
-    const queue = [...visited];
-    for (let cursor = 0; cursor < queue.length; cursor++) {
-      const node = queue[cursor] as string;
-      for (const state of adjacency.get(node)?.forward ?? []) {
-        const edge = state.edge;
-        if (!state.live || !allowed.has(edge.kind)) continue;
-        if (omit !== undefined && node === omit.from && edge.to === omit.to) continue;
-        if (visited.has(edge.to)) continue;
-        visited.add(edge.to);
-        if (target !== undefined && edge.to === target) return visited;
-        queue.push(edge.to);
-      }
-    }
-    return visited;
-  };
-
-  for (const state of forward) {
-    const edge = state.edge;
-    const allowed = JUSTIFIED_BY[edge.kind];
-    if (allowed === undefined || edge.from === edge.to) continue;
-    if (reachable([edge.from], allowed, edge, edge.to).has(edge.to)) state.live = false;
-  }
-
-  // A bridge joins two forward closures; no second carry can enter either closure.
-  for (const candidate of carry) {
-    const edge = candidate.edge;
-    const allowed = JUSTIFIED_BY[edge.carryOf ?? "data"];
-    if (allowed === undefined) continue;
-    const prefix = reachable([edge.from], allowed);
-    const heads = new Set<string>();
-    for (const node of prefix) {
-      for (const bridge of adjacency.get(node)?.carry ?? []) {
-        if (!bridge.live || bridge === candidate) continue;
-        if (allowed.has(bridge.edge.carryOf ?? "data")) heads.add(bridge.edge.to);
-      }
-    }
-    if (reachable(heads, allowed, undefined, edge.to).has(edge.to)) candidate.live = false;
-  }
-
-  const result: E[] = [];
-  for (const state of occurrences) if (state.live) result.push(state.edge);
-  return result;
+  if (edges.length === 0) return [];
+  const indexed = indexEdges(edges);
+  reduceForward(indexed);
+  reduceCarry(indexed);
+  return survivors(indexed.occurrences);
 }

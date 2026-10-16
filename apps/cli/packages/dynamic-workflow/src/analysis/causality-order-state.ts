@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: Apache-2.0
+
 import ts from "typescript";
 import type { ScriptLoc, WorkflowProgram } from "../compiler/compile.js";
 import {
@@ -10,6 +12,8 @@ import type { ApplicationVia } from "./state.js";
 import { UNPHASED_ID, type JumpKind, type TraceRegionKind } from "./constants.js";
 import type {
   ControlFact,
+  IssueEvent,
+  JumpEvent,
   OrderEvent,
   OrderOracle,
   OrderRegion,
@@ -22,13 +26,11 @@ import {
 } from "./causality-order-functions.js";
 import { innermostOpenStrand, type Frame, type StrandRecord } from "./causality-order-strands.js";
 
-// causality-order.ts 顶到 oxlint max-lines 上限（400 行），把 traceOrder 原本以
-// 闭包共享的走查状态拆到本文件：一个显式的 {@link TraceState} 对象（输入索引 + 可变累加器）、
-// 它的构造，以及只读写这份状态的原语（开区域、发 issue / jump、阶段 id 铸造）。各类语法节点
-// 的访问器（walk / loops / calls / settle）都以 `state` 为首参落在同名兄弟模块里；公开面仍从
-// causality-order.ts 导出。
+// Explicit walk trace. Visitors in the sibling modules take this as their first argument.
+// `issued` is global so a later widen can still see steps settled only inside a popped frame.
+// `walkedFns` / `regionByStatement` are per occurrence: a helper inlined twice resolves
+// `return` and `break` against the region opened for that occurrence.
 
-/** The walk's whole shared state: what `traceOrder` used to hold in closure. */
 export interface TraceState {
   readonly scriptFile: ts.SourceFile;
   readonly program: ts.Program;
@@ -36,94 +38,63 @@ export interface TraceState {
   readonly toScriptLoc: WorkflowProgram["toScriptLoc"];
   readonly oracle: OrderOracle;
   readonly body: ts.Block;
-  // --- Site indexes, by call node ---------------------------------------------------
   readonly askByCall: ReadonlyMap<ts.Node, string>;
   readonly readByCall: ReadonlyMap<ts.Node, string>;
   readonly actorByCall: ReadonlyMap<ts.Node, string>;
-  /** Per-element callback calls by CALL node (the fan-out region opens there). */
+  /** Fan-out candidate keyed by the call that applies the per-element callback. */
   readonly candByCall: ReadonlyMap<ts.Node, IterationCandidate>;
-  /** Their inline literals (an iteration construct for the admission test). */
+  /** Same candidates keyed by an inline callback literal. */
   readonly candByCallback: ReadonlyMap<ts.Node, IterationCandidate>;
-  /**
-   * A function applied per element at a candidate call (`xs.map(review)`) encloses its
-   * steps in an iteration exactly as an inline callback literal does.
-   */
+  /** Named callbacks the oracle applies per element (`xs.map(review)`). */
   readonly eachCallbackFns: ReadonlySet<ts.Node>;
   readonly recursive: ReadonlySet<ts.Node>;
-  /**
-   * Only real steps can be ordered. An occurrence set may also carry join and fan-out
-   * labels, which are relays, not things that take time.
-   */
+  /** Ask and world-read ids. Join and fan-out labels are relays, not steps. */
   readonly realSteps: ReadonlySet<string>;
   readonly callByStep: ReadonlyMap<string, ts.Node>;
   readonly iterationAncestorCache: Map<ts.Node, Set<ts.Node>>;
-  // --- Trace accumulators -----------------------------------------------------------
-  readonly events: OrderEvent[];
-  readonly regions: OrderRegion[];
-  readonly controls: ControlFact[];
+  readonly events: Array<OrderEvent>;
+  readonly regions: Array<OrderRegion>;
+  readonly controls: Array<ControlFact>;
   readonly counters: Map<TraceRegionKind, number>;
   readonly issued: Set<string>;
-  // --- Strands: one frame per open asynchronous activation --------------------------
-  // A barrier settles steps for the strand it stands in and for strands spawned later
-  // inside it, never for the spawner — so the settled set is per FRAME (root frame
-  // first) and `isVisiblySettled` asks the whole stack. `issued` stays global: from any
-  // frame's view everything issued earlier is in flight until visibly settled, which is
-  // what widening needs. See causality-order-strands.ts.
-  readonly frames: Frame[];
-  /** Every strand the walk spawned, in spawn order; `joined` is the ones already awaited. */
-  readonly strands: StrandRecord[];
+  readonly frames: Array<Frame>;
+  readonly strands: Array<StrandRecord>;
   readonly joined: Set<string>;
-  /** Which strands a variable may hold the promise of — the syntactic half of the join. */
   readonly strandsBySymbol: Map<ts.Symbol, Set<string>>;
-  // --- Jump-target bookkeeping (control-flow projection) ----------------------------
-  // Innermost-first stacks of the regions a `return` / `throw` lands on, and the region each
-  // loop / switch STATEMENT opened — set while its body is walked, so a helper inlined twice
-  // resolves each occurrence's jumps to that occurrence's own region.
-  readonly returnTargets: string[];
-  readonly throwTargets: string[];
+  readonly returnTargets: Array<string>;
+  readonly throwTargets: Array<string>;
   readonly regionByStatement: Map<ts.Node, string>;
-  /** decl -> the `loop` region its SCC entry opened; where a re-entrant call `recur`s to. */
+  /** Loop region opened for a recursive function's current inline. */
   readonly sccLoopByDecl: Map<ts.Node, string>;
-  /**
-   * Which steps a variable may hold the answer of. The syntactic half of the control
-   * relation: it catches implicit flows the taint oracle cannot see, because a condition
-   * never joins the data contract (`const flag = (await ask()) ? 1 : 2` taints nothing).
-   */
   readonly stepsBySymbol: Map<ts.Symbol, Set<string>>;
   readonly walkedFns: Set<ts.Node>;
-  readonly fnStack: ts.Node[];
-  // --- Phase state: the author's grouping, threaded through the walk ----------------
-  // The extent of `phase("gate")` is REST-OF-BLOCK, so the state is one mutable
-  // "current phase" plus a save/restore around every statement list (`walkStatements`).
-  // Nested blocks and inlined helper bodies therefore inherit it for free, and the
-  // marker's effect dies with the list it stood in — which IS rest-of-block.
+  readonly fnStack: Array<ts.Node>;
   readonly markerByStatement: ReadonlyMap<ts.Node, PhaseMarkerSite>;
-  readonly phases: PhaseInfo[];
+  readonly phases: Array<PhaseInfo>;
   readonly phaseIdByName: Map<string, string>;
   currentPhase: string;
-  /** The root `seq` region id; every other region descends from it. */
   readonly root: string;
-  /** The node visitor, bound to this state so every module can recurse without a cycle. */
   readonly walk: (node: ts.Node, chain: readonly string[]) => void;
 }
 
-/** The script functions the oracle says `node` applies, by `via`, in recording order. */
 export function applicationsAt(
-  state: Pick<TraceState, "oracle" | "scriptFile">,
+  trace: Pick<TraceState, "oracle" | "scriptFile">,
   node: ts.Node,
   via: ApplicationVia,
 ): ScriptFunction[] {
-  const out: ScriptFunction[] = [];
-  for (const [fn, how] of state.oracle.applications.get(node) ?? []) {
+  const recorded = trace.oracle.applications.get(node);
+  if (recorded === undefined) return [];
+  const matched: ScriptFunction[] = [];
+  for (const [fn, how] of recorded) {
     if (how !== via) continue;
-    const decl = asScriptFunction(fn, state.scriptFile);
-    if (decl !== undefined) out.push(decl);
+    const decl = asScriptFunction(fn, trace.scriptFile);
+    if (decl !== undefined) matched.push(decl);
   }
-  return out;
+  return matched;
 }
 
 export function openRegion(
-  state: Pick<TraceState, "counters" | "regions">,
+  trace: Pick<TraceState, "counters" | "regions">,
   kind: TraceRegionKind,
   parent: string | undefined,
   extra: {
@@ -138,84 +109,113 @@ export function openRegion(
     strand?: true;
   },
 ): string {
-  const next = (state.counters.get(kind) ?? 0) + 1;
-  state.counters.set(kind, next);
-  const id = `${kind}#${next}`;
-  state.regions.push({ id, kind, ...(parent === undefined ? {} : { parent }), ...extra });
+  const serial = (trace.counters.get(kind) ?? 0) + 1;
+  trace.counters.set(kind, serial);
+  const id = kind + "#" + String(serial);
+  const region = parent === undefined ? { id, kind, ...extra } : { id, kind, parent, ...extra };
+  trace.regions.push(region);
   return id;
 }
 
-/** Build the state and index the site table; `walk` is the node visitor to bind. */
+function indexCalls<T extends { call: ts.Node; id: string }>(
+  rows: readonly T[],
+): Map<ts.Node, string> {
+  const index = new Map<ts.Node, string>();
+  for (const row of rows) index.set(row.call, row.id);
+  return index;
+}
+
+function indexIterations(rows: readonly IterationCandidate[]): {
+  byCall: Map<ts.Node, IterationCandidate>;
+  byCallback: Map<ts.Node, IterationCandidate>;
+} {
+  const byCall = new Map<ts.Node, IterationCandidate>();
+  const byCallback = new Map<ts.Node, IterationCandidate>();
+  for (const cand of rows) {
+    if (cand.call !== undefined) byCall.set(cand.call, cand);
+    if (cand.callback !== undefined) byCallback.set(cand.callback, cand);
+  }
+  return { byCall, byCallback };
+}
+
+function eachCallbackFunctions(
+  calls: ReadonlyMap<ts.Node, IterationCandidate>,
+  oracle: OrderOracle,
+  scriptFile: ts.SourceFile,
+): Set<ts.Node> {
+  const fns = new Set<ts.Node>();
+  for (const call of calls.keys()) {
+    for (const fn of applicationsAt({ oracle, scriptFile }, call, "argument")) fns.add(fn);
+  }
+  return fns;
+}
+
+function stepCallIndex(table: SiteTable): Map<string, ts.Node> {
+  const index = new Map<string, ts.Node>();
+  const absorb = (rows: readonly { id: string; call: ts.Node }[]): void => {
+    for (const row of rows) index.set(row.id, row.call);
+  };
+  absorb(table.asks);
+  absorb(table.worldReads);
+  return index;
+}
+
+function realStepSet(table: SiteTable): Set<string> {
+  const ids = new Set<string>();
+  for (const site of table.asks) ids.add(site.id);
+  for (const site of table.worldReads) ids.add(site.id);
+  return ids;
+}
+
+function markersByStatement(table: SiteTable): Map<ts.Node, PhaseMarkerSite> {
+  const markers = new Map<ts.Node, PhaseMarkerSite>();
+  for (const marker of table.phases) {
+    const parent = marker.call.parent;
+    if (ts.isExpressionStatement(parent)) markers.set(parent, marker);
+  }
+  return markers;
+}
+
+/** Build indexes and the root `seq` region. `walk` is bound so visitors can recurse. */
 export function createTraceState(
   workflow: WorkflowProgram,
   table: SiteTable,
   oracle: OrderOracle,
-  walk: (state: TraceState, node: ts.Node, chain: readonly string[]) => void,
+  walk: (trace: TraceState, node: ts.Node, chain: readonly string[]) => void,
 ): TraceState {
   const { program, scriptFile, toScriptLoc } = workflow;
   const checker = program.getTypeChecker();
   const body = findWorkflowBody(scriptFile);
-
-  const askByCall = new Map<ts.Node, string>(table.asks.map((site) => [site.call, site.id]));
-  const readByCall = new Map<ts.Node, string>(table.worldReads.map((site) => [site.call, site.id]));
-  const actorByCall = new Map<ts.Node, string>(table.actors.map((site) => [site.call, site.id]));
-  const candByCall = new Map<ts.Node, IterationCandidate>();
-  const candByCallback = new Map<ts.Node, IterationCandidate>();
-  for (const cand of table.iterations) {
-    if (cand.call !== undefined) candByCall.set(cand.call, cand);
-    if (cand.callback !== undefined) candByCallback.set(cand.callback, cand);
-  }
-  const eachCallbackFns = new Set<ts.Node>();
-  for (const call of candByCall.keys()) {
-    for (const fn of applicationsAt({ oracle, scriptFile }, call, "argument"))
-      eachCallbackFns.add(fn);
-  }
-  const recursive = collectRecursiveFunctions(scriptFile, checker, oracle.applications);
-  const realSteps = new Set<string>([
-    ...table.asks.map((site) => site.id),
-    ...table.worldReads.map((site) => site.id),
-  ]);
-  const callByStep = new Map<string, ts.Node>([
-    ...table.asks.map((site) => [site.id, site.call] as const),
-    ...table.worldReads.map((site) => [site.id, site.call] as const),
-  ]);
-
-  const markerByStatement = new Map<ts.Node, PhaseMarkerSite>();
-  for (const marker of table.phases) {
-    if (ts.isExpressionStatement(marker.call.parent))
-      markerByStatement.set(marker.call.parent, marker);
-  }
-
+  const iterations = indexIterations(table.iterations);
   const regions: OrderRegion[] = [];
   const counters = new Map<TraceRegionKind, number>();
   const root = openRegion({ counters, regions }, "seq", undefined, { entered: true });
-
-  const state: TraceState = {
-    actorByCall,
-    askByCall,
+  const trace: TraceState = {
+    actorByCall: indexCalls(table.actors),
+    askByCall: indexCalls(table.asks),
     body,
-    callByStep,
-    candByCall,
-    candByCallback,
+    callByStep: stepCallIndex(table),
+    candByCall: iterations.byCall,
+    candByCallback: iterations.byCallback,
     checker,
     controls: [],
     counters,
     currentPhase: UNPHASED_ID,
-    eachCallbackFns,
+    eachCallbackFns: eachCallbackFunctions(iterations.byCall, oracle, scriptFile),
     events: [],
     fnStack: [],
     frames: [{ region: root, settled: new Set<string>() }],
     issued: new Set<string>(),
     iterationAncestorCache: new Map<ts.Node, Set<ts.Node>>(),
     joined: new Set<string>(),
-    markerByStatement,
+    markerByStatement: markersByStatement(table),
     oracle,
     phaseIdByName: new Map<string, string>(),
     phases: [],
     program,
-    readByCall,
-    realSteps,
-    recursive,
+    readByCall: indexCalls(table.worldReads),
+    realSteps: realStepSet(table),
+    recursive: collectRecursiveFunctions(scriptFile, checker, oracle.applications),
     regionByStatement: new Map<ts.Node, string>(),
     regions,
     returnTargets: [],
@@ -227,63 +227,74 @@ export function createTraceState(
     strandsBySymbol: new Map<ts.Symbol, Set<string>>(),
     throwTargets: [],
     toScriptLoc,
-    walk: (node, chain) => walk(state, node, chain),
+    walk: (node, chain) => {
+      walk(trace, node, chain);
+    },
     walkedFns: new Set<ts.Node>(),
   };
-  return state;
+  return trace;
 }
 
-export function locOf(state: TraceState, node: ts.Node): ScriptLoc {
-  return state.toScriptLoc(node.getStart(state.scriptFile));
+export function locOf(trace: TraceState, node: ts.Node): ScriptLoc {
+  return trace.toScriptLoc(node.getStart(trace.scriptFile));
 }
 
-export function innermost(state: TraceState, chain: readonly string[]): string {
-  return chain[chain.length - 1] ?? state.root;
+export function innermost(trace: TraceState, chain: readonly string[]): string {
+  const last = chain.at(-1);
+  return last === undefined ? trace.root : last;
 }
 
-export function issue(state: TraceState, step: string, chain: readonly string[]): void {
-  state.issued.add(step);
-  // The strand this issue happened in owns the step for the LIFT rule: awaiting a promise
-  // that carries this step's label is evidence that that activation has completed.
-  innermostOpenStrand(state)?.issued.add(step);
-  state.events.push({ at: "issue", phase: state.currentPhase, regions: chain, step });
+export function issue(trace: TraceState, step: string, chain: readonly string[]): void {
+  trace.issued.add(step);
+  const owner = innermostOpenStrand(trace);
+  if (owner !== undefined) owner.issued.add(step);
+  const event: IssueEvent = { at: "issue", phase: trace.currentPhase, regions: chain, step };
+  trace.events.push(event);
 }
 
 export function jump(
-  state: TraceState,
+  trace: TraceState,
   kind: JumpKind,
   target: string,
   chain: readonly string[],
 ): void {
-  state.events.push({ at: "jump", kind, phase: state.currentPhase, regions: chain, target });
+  const event: JumpEvent = {
+    at: "jump",
+    kind,
+    phase: trace.currentPhase,
+    regions: chain,
+    target,
+  };
+  trace.events.push(event);
 }
 
-/** Step ids issued by events at or after `mark`, in issue order, deduped. */
-export function issuesSince(state: TraceState, mark: number): string[] {
-  const out: string[] = [];
-  for (let i = mark; i < state.events.length; i += 1) {
-    const event = state.events[i] as OrderEvent;
-    if (event.at === "issue" && !out.includes(event.step)) out.push(event.step);
+/** Issue ids at or after `mark`, first occurrence order. */
+export function issuesSince(trace: TraceState, mark: number): string[] {
+  const found: string[] = [];
+  const seen = new Set<string>();
+  let cursor = mark;
+  while (cursor < trace.events.length) {
+    const event = trace.events[cursor];
+    cursor += 1;
+    if (event === undefined || event.at !== "issue" || seen.has(event.step)) continue;
+    seen.add(event.step);
+    found.push(event.step);
   }
-  return out;
+  return found;
 }
 
 /**
- * The id a marker names. Same name → same id (names are the key, unlike an actor's);
- * a new name mints `phase#N` at FIRST REACH, so numbering follows evaluation order and
- * a marker in dead code the walk never reaches mints nothing.
- *
- * A marker whose name the collector could not read (non-literal, empty) mints nothing
- * and leaves the current phase alone: those are diagnostics (9004) and the script never
- * reaches this pass, so this is the invariant written down rather than a fallback.
+ * Mint `phase#N` on the first reachable marker of a trimmed name. A repeated name
+ * reuses that id. A missing or blank name mints nothing and does not change phase.
  */
-export function phaseIdOf(state: TraceState, marker: PhaseMarkerSite): string | undefined {
-  const name = marker.name?.trim();
-  if (name === undefined || name === "") return undefined;
-  const existing = state.phaseIdByName.get(name);
-  if (existing !== undefined) return existing;
-  const id = `phase#${state.phases.length + 1}`;
-  state.phaseIdByName.set(name, id);
-  state.phases.push({ id, loc: marker.loc, name });
+export function phaseIdOf(trace: TraceState, marker: PhaseMarkerSite): string | undefined {
+  const raw = marker.name;
+  const trimmed = raw === undefined ? undefined : raw.trim();
+  if (trimmed === undefined || trimmed.length === 0) return undefined;
+  const known = trace.phaseIdByName.get(trimmed);
+  if (known !== undefined) return known;
+  const id = "phase#" + String(trace.phases.length + 1);
+  trace.phaseIdByName.set(trimmed, id);
+  trace.phases.push({ id, loc: marker.loc, name: trimmed });
   return id;
 }

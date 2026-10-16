@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: Apache-2.0
+
 import ts from "typescript";
 import type { TaintOcc } from "./domain.js";
 import { isFunctionLike } from "./sites.js";
@@ -10,9 +12,8 @@ import {
   type AwaitedOperand,
 } from "./causality-order-strands.js";
 
-// Oracle witnesses, barriers and guard bindings share the existing TraceState.
+// Oracle claims, barriers, and guard bindings. The empty claim is shared and must not be mutated.
 
-/** Ordered site claims; empty results share readonly arrays and must not be mutated. */
 interface OracleClaim {
   certain: readonly string[];
   maybe: readonly string[];
@@ -20,189 +21,238 @@ interface OracleClaim {
 
 const NO_CLAIM: OracleClaim = { certain: [], maybe: [] };
 
-/**
- * Cache lexical loop/callback ancestors by node identity. Parent links and iteration
- * indexes must remain stable while this TraceState cache is in use.
- */
-function iterationAncestorsOf(state: TraceState, node: ts.Node): Set<ts.Node> {
-  const cached = state.iterationAncestorCache.get(node);
+type Admission = "issued" | "repetition";
+
+function iterationAncestorsOf(trace: TraceState, node: ts.Node): Set<ts.Node> {
+  const cached = trace.iterationAncestorCache.get(node);
   if (cached !== undefined) return cached;
-  const out = new Set<ts.Node>();
-  for (let cur = node.parent; cur !== undefined; cur = cur.parent) {
-    if (
-      ts.isForStatement(cur) ||
-      ts.isForOfStatement(cur) ||
-      ts.isForInStatement(cur) ||
-      ts.isWhileStatement(cur) ||
-      ts.isDoStatement(cur) ||
-      state.candByCallback.has(cur) ||
-      state.eachCallbackFns.has(cur)
-    ) {
-      out.add(cur);
-    }
+  const found = new Set<ts.Node>();
+  let cursor: ts.Node | undefined = node.parent;
+  while (cursor !== undefined) {
+    if (hostsIteration(trace, cursor)) found.add(cursor);
+    cursor = cursor.parent;
   }
-  state.iterationAncestorCache.set(node, out);
-  return out;
+  trace.iterationAncestorCache.set(node, found);
+  return found;
 }
 
-/**
- * Admit issued requests, or later sites sharing an indexed lexical iteration with
- * the await. Unissued sites outside that shared iteration are excluded.
- */
-function admissionOf(
-  state: TraceState,
-  awaitNode: ts.Node,
-  step: string,
-): "issued" | "repetition" | undefined {
-  if (state.issued.has(step)) return "issued";
-  const call = state.callByStep.get(step);
+function hostsIteration(trace: TraceState, node: ts.Node): boolean {
+  switch (node.kind) {
+    case ts.SyntaxKind.ForStatement:
+    case ts.SyntaxKind.ForOfStatement:
+    case ts.SyntaxKind.ForInStatement:
+    case ts.SyntaxKind.WhileStatement:
+    case ts.SyntaxKind.DoStatement:
+      return true;
+    default:
+      return trace.candByCallback.has(node) || trace.eachCallbackFns.has(node);
+  }
+}
+
+function admitStep(trace: TraceState, awaitNode: ts.Node, step: string): Admission | undefined {
+  if (trace.issued.has(step)) return "issued";
+  const call = trace.callByStep.get(step);
   if (call === undefined) return undefined;
-  const enclosing = iterationAncestorsOf(state, awaitNode);
-  if (enclosing.size === 0) return undefined;
-  for (const ancestor of iterationAncestorsOf(state, call)) {
-    if (enclosing.has(ancestor)) return "repetition";
+  const aroundAwait = iterationAncestorsOf(trace, awaitNode);
+  if (aroundAwait.size === 0) return undefined;
+  for (const ancestor of iterationAncestorsOf(trace, call)) {
+    if (aroundAwait.has(ancestor)) return "repetition";
   }
   return undefined;
 }
 
-/**
- * Classify real, admitted sites in first-witness order, combining duplicate exactness.
- * Only one exact issued site is certain. Repetition stays maybe: boundary iterations
- * can await a seed or leave the final request pending. Guard reads omit temporal
- * admission because they describe control evidence rather than settlement.
- */
+interface SiteRow {
+  issuedFirst: boolean;
+  exact: boolean;
+}
+
 function claimAt(
-  state: TraceState,
-  map: Map<number, TaintOcc[]>,
+  trace: TraceState,
+  map: ReadonlyMap<number, ReadonlyArray<TaintOcc>>,
   at: number,
-  admit?: (step: string) => "issued" | "repetition" | undefined,
+  admit?: (step: string) => Admission | undefined,
 ): OracleClaim {
-  const occs = (map.get(at) ?? []).filter((occ) => state.realSteps.has(occ.site));
-  // First admission owns eligibility; any admitted exact witness can establish exactness.
-  const eligible = new Map<string, boolean>();
-  const exact = new Set<string>();
-  for (const occ of occs) {
-    const how = admit === undefined ? "issued" : admit(occ.site);
-    if (how === undefined) continue;
-    if (!eligible.has(occ.site)) eligible.set(occ.site, how === "issued");
-    if (!exact.has(occ.site) && occ.exact) exact.add(occ.site);
+  const occs = map.get(at);
+  const rows = new Map<string, SiteRow>();
+  if (occs !== undefined) {
+    let cursor = 0;
+    while (cursor < occs.length) {
+      const occ = occs[cursor];
+      cursor += 1;
+      if (occ === undefined || !trace.realSteps.has(occ.site)) continue;
+      const how = admit === undefined ? "issued" : admit(occ.site);
+      if (how === undefined) continue;
+      const prior = rows.get(occ.site);
+      if (prior === undefined) {
+        rows.set(occ.site, { issuedFirst: how === "issued", exact: occ.exact });
+      } else if (occ.exact) {
+        prior.exact = true;
+      }
+    }
   }
-  const sites = [...eligible.keys()];
+  const sites = [...rows.keys()];
   if (sites.length === 0) return NO_CLAIM;
-  const only = sites[0] as string;
-  if (sites.length === 1 && exact.has(only) && eligible.get(only))
+  const only = sites[0];
+  const row = only === undefined ? undefined : rows.get(only);
+  if (
+    sites.length === 1 &&
+    only !== undefined &&
+    row !== undefined &&
+    row.exact &&
+    row.issuedFirst
+  ) {
     return { certain: [only], maybe: [] };
+  }
   return { certain: [], maybe: sites };
 }
 
-/** Read await-position witnesses using the current temporal admission rule. */
-export function settlesAt(state: TraceState, node: ts.Node, at: number): OracleClaim {
-  return claimAt(state, state.oracle.awaitSettles, at, (step) => admissionOf(state, node, step));
+export function settlesAt(trace: TraceState, node: ts.Node, at: number): OracleClaim {
+  return claimAt(trace, trace.oracle.awaitSettles, at, (step) => admitStep(trace, node, step));
+}
+
+function summarySteps(trace: TraceState, regions: readonly string[]): string[] {
+  const steps: string[] = [];
+  let cursor = 0;
+  while (cursor < regions.length) {
+    const region = regions[cursor];
+    cursor += 1;
+    if (region === undefined) continue;
+    const record = trace.strands.find((item) => item.region === region);
+    if (record === undefined) continue;
+    for (const step of record.summary) steps.push(step);
+  }
+  return steps;
+}
+
+function unseen(trace: TraceState, steps: readonly string[]): string[] {
+  const fresh: string[] = [];
+  const local = new Set<string>();
+  for (const step of steps) {
+    if (local.has(step) || isVisiblySettled(trace, step)) continue;
+    local.add(step);
+    fresh.push(step);
+  }
+  return fresh;
+}
+
+function commit(frame: { settled: Set<string> }, steps: readonly string[]): void {
+  for (const step of steps) frame.settled.add(step);
+}
+
+function pushSettle(
+  trace: TraceState,
+  chain: readonly string[],
+  steps: readonly string[],
+  maybe: boolean,
+  joins: readonly string[] | undefined,
+): void {
+  if (joins === undefined) {
+    trace.events.push({ at: "settle", maybe, regions: chain, steps });
+    return;
+  }
+  trace.events.push({ at: "settle", maybe, regions: chain, steps, joins });
 }
 
 /**
- * Settle witnesses and joined summaries in certain-before-maybe order. Visibility
- * spans active frames; writes affect only the current frame. Already-settled claims
- * add no steps. Empty evidence widens to pending issued sites and may overstate order.
- * Joins attach to the first event, including an empty event when only a join remains.
- * Strand ownership and await-operand interpretation stay in joinStrands.
+ * Certain steps are committed before maybe steps are filtered, so a step named
+ * both ways is only certain. No evidence at all widens to every issued step that
+ * is still unsettled on the open frames, and that widen is a may-settle. Joins ride
+ * on the first published event, including an empty certain event when nothing else remains.
  */
 export function barrier(
-  state: TraceState,
+  trace: TraceState,
   certain: readonly string[],
   maybe: readonly string[],
   chain: readonly string[],
   awaited?: AwaitedOperand,
 ): void {
-  const { events, issued } = state;
-  const joins = joinStrands(state, certain, maybe, awaited);
-  const summaryOf = (regions: readonly string[]): string[] =>
-    regions.flatMap((region) => [
-      ...(state.strands.find((record) => record.region === region)?.summary ?? []),
-    ]);
-  const batches: [string[], string[]] = [
-    [...certain, ...summaryOf(joins.certain)],
-    [...maybe, ...summaryOf(joins.maybe)],
-  ];
-  const resolved = batches.some((steps) => steps.length > 0);
+  const joins = joinStrands(trace, certain, maybe, awaited);
+  const certainNamed = [...certain, ...summarySteps(trace, joins.certain)];
+  const maybeNamed = [...maybe, ...summarySteps(trace, joins.maybe)];
+  const hadEvidence = certainNamed.length > 0 || maybeNamed.length > 0;
   const joined = [...joins.certain, ...joins.maybe];
-  const frame = currentFrame(state);
-
-  // Commit one side before reading the next; certain steps become visible to maybe.
-  for (const [index, requests] of batches.entries()) {
-    const fresh: string[] = [];
-    for (const step of requests) {
-      if (!isVisiblySettled(state, step) && !fresh.includes(step)) fresh.push(step);
+  const frame = currentFrame(trace);
+  const certainFresh = unseen(trace, certainNamed);
+  commit(frame, certainFresh);
+  let maybeFresh = unseen(trace, maybeNamed);
+  commit(frame, maybeFresh);
+  if (certainFresh.length === 0 && maybeFresh.length === 0 && !hadEvidence) {
+    maybeFresh = unseen(trace, [...trace.issued]);
+    commit(frame, maybeFresh);
+  }
+  if (certainFresh.length === 0 && maybeFresh.length === 0) {
+    if (joined.length > 0) {
+      trace.events.push({
+        at: "settle",
+        joins: joined,
+        maybe: false,
+        regions: chain,
+        steps: [],
+      });
     }
-    for (const step of fresh) frame.settled.add(step);
-    batches[index] = fresh;
-  }
-  if (batches[0].length === 0 && batches[1].length === 0 && !resolved) {
-    batches[1] = [...issued].filter((step) => !isVisiblySettled(state, step));
-    for (const step of batches[1]) frame.settled.add(step);
-  }
-
-  // Resolve all state changes before publishing; a join with no steps still has an event.
-  if (batches[0].length === 0 && batches[1].length === 0) {
-    if (joined.length > 0)
-      events.push({ at: "settle", joins: joined, maybe: false, regions: chain, steps: [] });
     return;
   }
-  let withJoins: { joins?: string[] } = joined.length === 0 ? {} : { joins: joined };
-  for (const [index, steps] of batches.entries()) {
-    if (steps.length === 0) continue;
-    events.push({ at: "settle", maybe: index === 1, regions: chain, steps, ...withJoins });
-    withJoins = {};
+  let pendingJoins: readonly string[] | undefined = joined.length === 0 ? undefined : joined;
+  if (certainFresh.length > 0) {
+    pushSettle(trace, chain, certainFresh, false, pendingJoins);
+    pendingJoins = undefined;
   }
+  if (maybeFresh.length > 0) pushSettle(trace, chain, maybeFresh, true, pendingJoins);
 }
 
-/** Bind each pattern leaf to ordered step identities; ignore identifiers without symbols. */
-export function bindSteps(state: TraceState, name: ts.BindingName, steps: readonly string[]): void {
+export function bindSteps(trace: TraceState, name: ts.BindingName, steps: readonly string[]): void {
   if (steps.length === 0) return;
-  for (const identifier of boundIdentifiers(name)) {
-    const symbol = state.checker.getSymbolAtLocation(identifier);
+  const identifiers = boundIdentifiers(name);
+  let cursor = 0;
+  while (cursor < identifiers.length) {
+    const identifier = identifiers[cursor];
+    cursor += 1;
+    if (identifier === undefined) continue;
+    const symbol = trace.checker.getSymbolAtLocation(identifier);
     if (symbol === undefined) continue;
-    const set = state.stepsBySymbol.get(symbol) ?? new Set<string>();
-    for (const step of steps) set.add(step);
-    state.stepsBySymbol.set(symbol, set);
+    const bucket = trace.stepsBySymbol.get(symbol) ?? new Set<string>();
+    for (const step of steps) bucket.add(step);
+    trace.stepsBySymbol.set(symbol, bucket);
   }
 }
 
-/**
- * Scan guard bindings without entering nested functions, then merge oracle witnesses.
- * Syntactic and exact singleton controllers take precedence over ambiguous sites.
- * Both inputs are needed for implicit-control and derived-value evidence.
- */
+function appendUnique(into: string[], seen: Set<string>, steps: Iterable<string>): void {
+  for (const step of steps) {
+    if (seen.has(step)) continue;
+    seen.add(step);
+    into.push(step);
+  }
+}
+
 function controllersOf(
-  state: TraceState,
+  trace: TraceState,
   guard: ts.Expression,
 ): { controllers: string[]; maybeControllers: string[] } {
   const controllers: string[] = [];
+  const seen = new Set<string>();
   const scan = (node: ts.Node): void => {
     if (isFunctionLike(node)) return;
     if (ts.isIdentifier(node)) {
-      const symbol = state.checker.getSymbolAtLocation(node);
-      const steps = symbol === undefined ? undefined : state.stepsBySymbol.get(symbol);
-      if (steps !== undefined) {
-        for (const step of steps) if (!controllers.includes(step)) controllers.push(step);
-      }
+      const symbol = trace.checker.getSymbolAtLocation(node);
+      const steps = symbol === undefined ? undefined : trace.stepsBySymbol.get(symbol);
+      if (steps !== undefined) appendUnique(controllers, seen, steps);
       return;
     }
     ts.forEachChild(node, scan);
   };
   scan(guard);
-  const claim = claimAt(state, state.oracle.guardReads, guard.getStart(state.scriptFile));
-  for (const step of claim.certain) if (!controllers.includes(step)) controllers.push(step);
-  return {
-    controllers,
-    maybeControllers: claim.maybe.filter((step) => !controllers.includes(step)),
-  };
+  const claim = claimAt(trace, trace.oracle.guardReads, guard.getStart(trace.scriptFile));
+  appendUnique(controllers, seen, claim.certain);
+  const maybeControllers = claim.maybe.filter((step) => !seen.has(step));
+  return { controllers, maybeControllers };
 }
 
-/** Append a control record only when either controller list has entries. */
-export function recordControl(state: TraceState, guard: ts.Expression, region: string): void {
-  const { controllers, maybeControllers } = controllersOf(state, guard);
-  if (controllers.length > 0 || maybeControllers.length > 0) {
-    state.controls.push({ controllers, maybeControllers, region });
-  }
+export function recordControl(trace: TraceState, guard: ts.Expression, region: string): void {
+  const found = controllersOf(trace, guard);
+  if (found.controllers.length === 0 && found.maybeControllers.length === 0) return;
+  trace.controls.push({
+    controllers: found.controllers,
+    maybeControllers: found.maybeControllers,
+    region,
+  });
 }

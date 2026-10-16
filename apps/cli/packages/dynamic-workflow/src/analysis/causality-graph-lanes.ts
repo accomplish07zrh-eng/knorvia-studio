@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: Apache-2.0
+
 import { KIND_RANK } from "./causality-reduce.js";
 import {
   UNKNOWN_LANE,
@@ -9,134 +11,155 @@ import {
   type Step,
 } from "./causality-graph-types.js";
 
-// Pure finished-graph expansion and fact joins, without compiler or I/O dependencies.
+// Finished-graph lane copies and ordered-pair fact joins. No compiler or I/O.
 
-// Larger candidate sets remain unexpanded.
 const MAY_SET_LANE_CAP = 4;
-
-// Separator in projected lane-copy ids.
 const COPY_SEPARATOR = "~";
 
-/**
- * Expand candidate lane sets after reduction and before phase projection.
- * Return the input unchanged when no step expands. Copies retain their source site
- * and have maybe certainty; FIFO wiring connects equal lanes only.
- */
-export function expandMaySetLanes(graph: CausalityGraph): CausalityGraph {
-  type Endpoint = { certainty?: Certainty; id: string; lane?: string };
-  type Expansion = { copies?: Step[]; original?: Step };
-  const plan = new Map<string, Expansion>();
+interface LaneCopyPlan {
+  copies?: Step[];
+  original?: Step;
+}
 
-  // Only admitted replacements populate the plan before the identity decision.
-  for (const step of graph.steps) {
-    const candidates = step.lanes ?? [];
-    if (candidates.length < 2 || candidates.length > MAY_SET_LANE_CAP) continue;
-    if (candidates.some((candidate) => candidate === WORKSPACE_LANE || candidate === UNKNOWN_LANE))
-      continue;
-    plan.set(step.id, {
-      copies: candidates.map((lane) => ({
-        ...step,
-        certainty: "maybe",
-        id: `${step.id}${COPY_SEPARATOR}${lane}`,
-        lane,
-        source: step.id,
-      })),
-    });
+interface LaneEndpoint {
+  certainty?: Certainty;
+  id: string;
+  lane?: string;
+}
+
+function admitsLaneCopies(unit: Step): boolean {
+  const choices = unit.lanes ?? [];
+  if (choices.length < 2 || choices.length > MAY_SET_LANE_CAP) return false;
+  for (const choice of choices) {
+    if (choice === WORKSPACE_LANE || choice === UNKNOWN_LANE) return false;
   }
-  if (plan.size === 0) return graph;
+  return true;
+}
 
-  // Original lookup and replacements share one entry; a later original cannot erase copies.
-  for (const [id, original] of graph.steps.map((step) => [step.id, step] as const)) {
-    const entry = plan.get(id);
-    if (entry === undefined) plan.set(id, { original });
-    else entry.original = original;
-  }
-  const resolve = (id: string): readonly Endpoint[] => {
-    const entry = plan.get(id);
-    if (entry?.copies !== undefined) return entry.copies;
-    return [{ certainty: entry?.original?.certainty, id, lane: entry?.original?.lane }];
-  };
-
-  const wiring: OrderEdge[] = [];
-  for (const edge of graph.edges) {
-    if (plan.get(edge.from)?.copies === undefined && plan.get(edge.to)?.copies === undefined) {
-      wiring.push(edge);
-      continue;
-    }
-    for (const tail of resolve(edge.from)) {
-      for (const head of resolve(edge.to)) {
-        if (edge.kind === "fifo" && tail.lane !== head.lane) continue;
-        wiring.push({
-          ...edge,
-          certainty: weakest([
-            edge.certainty,
-            tail.certainty ?? edge.certainty,
-            head.certainty ?? edge.certainty,
-          ]),
-          from: tail.id,
-          to: head.id,
-        });
-      }
-    }
-  }
-
-  const placed = graph.steps.flatMap((step) => plan.get(step.id)?.copies ?? [step]);
-  const returned = graph.sink;
+function copyForLane(unit: Step, laneName: string): Step {
+  const id = unit.id + COPY_SEPARATOR + laneName;
   return {
-    edges: wiring,
-    lanes: graph.lanes,
-    regions: graph.regions,
-    steps: placed,
-    ...(returned === undefined
-      ? {}
-      : { sink: { fedBy: returned.fedBy.flatMap((id) => resolve(id).map((node) => node.id)) } }),
+    ...unit,
+    certainty: "maybe",
+    id,
+    lane: laneName,
+    source: unit.id,
   };
 }
 
-/**
- * Join ordered-pair facts in first-key order without mutating input records or phase sets.
- * Higher rank and true exactness win; maybe, absent provenance and non-jump witnesses dominate.
- */
-export function dedupeFacts(facts: readonly Fact[]): Fact[] {
-  const paired = new Map<string, Fact>();
-  for (const fact of facts) {
-    const key = `${fact.from}|${fact.to}`;
-    const prior = paired.get(key);
-    paired.set(
-      key,
-      prior === undefined
-        ? {
-            ...fact,
-            ...(fact.toPhases === undefined ? {} : { toPhases: new Set(fact.toPhases) }),
-          }
-        : joinFact(prior, fact),
-    );
+function indexOriginals(copiesByStep: Map<string, LaneCopyPlan>, units: readonly Step[]): void {
+  for (const unit of units) {
+    const entry = copiesByStep.get(unit.id);
+    if (entry === undefined) {
+      copiesByStep.set(unit.id, { original: unit });
+      continue;
+    }
+    entry.original = unit;
   }
-  return [...paired.values()];
 }
 
-function joinFact(prior: Fact, incoming: Fact): Fact {
-  const kind = KIND_RANK[incoming.kind] > KIND_RANK[prior.kind] ? incoming.kind : prior.kind;
-  const exact =
-    incoming.exact !== undefined && prior.exact === undefined
-      ? incoming.exact
-      : incoming.exact === true
-        ? true
-        : prior.exact;
-  const certainty = incoming.certainty === "maybe" ? "maybe" : prior.certainty;
-  const joined = { ...prior };
-  if (kind !== prior.kind) joined.kind = kind;
-  if (exact !== prior.exact) joined.exact = exact;
-  if (certainty !== prior.certainty) joined.certainty = certainty;
-  if (incoming.viaJump !== true) delete joined.viaJump;
-  if (incoming.toPhases === undefined) delete joined.toPhases;
-  else if (joined.toPhases !== undefined) {
-    for (const phase of incoming.toPhases) joined.toPhases.add(phase);
-  }
-  return joined;
+function resolveLane(copiesByStep: Map<string, LaneCopyPlan>, id: string): readonly LaneEndpoint[] {
+  const entry = copiesByStep.get(id);
+  if (entry?.copies !== undefined) return entry.copies;
+  const original = entry?.original;
+  return [{ certainty: original?.certainty, id, lane: original?.lane }];
 }
 
-/** Return maybe if present, otherwise always, including for an empty input. */
-export function weakest(values: readonly Certainty[]): Certainty {
-  return values.includes("maybe") ? "maybe" : "always";
+function wireEdge(copiesByStep: Map<string, LaneCopyPlan>, link: OrderEdge): OrderEdge[] {
+  const fromCopies = copiesByStep.get(link.from)?.copies;
+  const toCopies = copiesByStep.get(link.to)?.copies;
+  if (fromCopies === undefined && toCopies === undefined) return [link];
+  const routed: OrderEdge[] = [];
+  for (const sourceEnd of resolveLane(copiesByStep, link.from)) {
+    for (const destEnd of resolveLane(copiesByStep, link.to)) {
+      if (link.kind === "fifo" && sourceEnd.lane !== destEnd.lane) continue;
+      routed.push({
+        ...link,
+        certainty: weakest([
+          link.certainty,
+          sourceEnd.certainty ?? link.certainty,
+          destEnd.certainty ?? link.certainty,
+        ]),
+        from: sourceEnd.id,
+        to: destEnd.id,
+      });
+    }
+  }
+  return routed;
+}
+
+export function expandMaySetLanes(input: CausalityGraph): CausalityGraph {
+  const copiesByStep = new Map<string, LaneCopyPlan>();
+  for (const unit of input.steps) {
+    if (!admitsLaneCopies(unit)) continue;
+    const laneNames = unit.lanes ?? [];
+    copiesByStep.set(unit.id, { copies: laneNames.map((laneName) => copyForLane(unit, laneName)) });
+  }
+  if (copiesByStep.size === 0) return input;
+
+  indexOriginals(copiesByStep, input.steps);
+  const routed: OrderEdge[] = [];
+  for (const link of input.edges) routed.push(...wireEdge(copiesByStep, link));
+  const expanded = input.steps.flatMap((unit) => copiesByStep.get(unit.id)?.copies ?? [unit]);
+  const sink = input.sink;
+  return {
+    edges: routed,
+    lanes: input.lanes,
+    regions: input.regions,
+    steps: expanded,
+    ...(sink === undefined
+      ? {}
+      : {
+          sink: {
+            fedBy: sink.fedBy.flatMap((id) => resolveLane(copiesByStep, id).map((node) => node.id)),
+          },
+        }),
+  };
+}
+
+function storedFact(row: Fact): Fact {
+  if (row.toPhases === undefined) return { ...row };
+  return { ...row, toPhases: new Set(row.toPhases) };
+}
+
+function chosenKind(kept: Fact, row: Fact): Fact["kind"] {
+  if (KIND_RANK[row.kind] > KIND_RANK[kept.kind]) return row.kind;
+  return kept.kind;
+}
+
+function chosenExact(kept: Fact, row: Fact): boolean | undefined {
+  if (row.exact !== undefined && kept.exact === undefined) return row.exact;
+  if (row.exact === true) return true;
+  return kept.exact;
+}
+
+function joinFact(kept: Fact, row: Fact): Fact {
+  const kind = chosenKind(kept, row);
+  const exact = chosenExact(kept, row);
+  const certainty = row.certainty === "maybe" ? "maybe" : kept.certainty;
+  const merged = { ...kept };
+  if (kind !== kept.kind) merged.kind = kind;
+  if (exact !== kept.exact) merged.exact = exact;
+  if (certainty !== kept.certainty) merged.certainty = certainty;
+  if (row.viaJump !== true) delete merged.viaJump;
+  if (row.toPhases === undefined) delete merged.toPhases;
+  else if (merged.toPhases !== undefined) {
+    for (const phase of row.toPhases) merged.toPhases.add(phase);
+  }
+  return merged;
+}
+
+export function dedupeFacts(rows: readonly Fact[]): Fact[] {
+  const byPair = new Map<string, Fact>();
+  for (const row of rows) {
+    const key = row.from + "|" + row.to;
+    const kept = byPair.get(key);
+    byPair.set(key, kept === undefined ? storedFact(row) : joinFact(kept, row));
+  }
+  return [...byPair.values()];
+}
+
+export function weakest(samples: readonly Certainty[]): Certainty {
+  if (samples.includes("maybe")) return "maybe";
+  return "always";
 }

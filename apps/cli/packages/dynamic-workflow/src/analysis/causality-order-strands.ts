@@ -1,212 +1,258 @@
+// SPDX-License-Identifier: Apache-2.0
+
 import ts from "typescript";
 import { isGlobalLibValue } from "./callbacks.js";
 import { boundIdentifiers } from "./causality-order-functions.js";
 import type { TraceState } from "./causality-order-state.js";
 
-// 走查原本只有一个全局 `settled` 集合，于是内联的 `async` 体里的 `await` 会替整个
-// 脚本把 step 结算掉——把 `A ∥ B → C` 压成一条串行时间线。改成「每条 strand 一个 frame」之后，记账（strand 记录、frame 栈、被 await 的
-// 位置扫描、join 解析）本该落在 -state / -settle 两个兄弟模块，但它们已经贴着 oxlint
-// max-lines 上限（400 行），所以单开本文件。这里只读写 {@link TraceState}，不递归进 walk；
-// 公开面仍从 causality-order.ts 导出。
+// One settled-set per open activation. The root frame is never a strand. A barrier
+// writes only the innermost frame, so an await inside a strand does not settle the
+// spawner's steps. `at` is a spawn index, not an event index: an event-index mark
+// would let a strand that emits nothing tie with the await inside it and join itself.
 
-/**
- * One open activation's settled set. The root body is the first frame and is never a
- * strand; every strand pushes one more. A step is settled FROM A FRAME'S VIEW when some
- * frame on the stack holds it — which is the whole of the fix: a barrier inside a strand
- * no longer settles anything for the spawner, because the spawner's frame is below it and
- * the strand's frame is popped when the strand closes.
- */
 export interface Frame {
   readonly region: string;
   readonly settled: Set<string>;
 }
 
-/** One strand the walk spawned, in spawn order. */
 export interface StrandRecord {
-  /** The `call` / `fanout` region that IS the strand. */
   readonly region: string;
-  /**
-   * Spawn order: this record's own index in `state.strands`. A barrier joins every strand
-   * with `at >= the count it saw when it took its mark`, which is "spawned while the
-   * operand was evaluated". Deliberately NOT an event index: a strand that emits no event
-   * before the await inside it would then tie with that await's mark, and the barrier
-   * would join the very strand it stands in (`await ask()` as the first statement of an
-   * `async` helper settled the helper's own summary into its own frame).
-   */
   readonly at: number;
-  /** Steps issued inside it (the innermost open strand at each issue) — the lift rule. */
   readonly issued: Set<string>;
-  /** What the strand itself awaited: its frame's settled set at close. */
   summary: ReadonlySet<string>;
-  /** False until the body finished. Only a CLOSED strand can be lifted. */
   closed: boolean;
 }
 
-/** The awaited expression a barrier stands over, with the strand count it started at. */
 export interface AwaitedOperand {
-  /** `state.strands.length` where the operand's evaluation began. */
   mark: number;
   operand: ts.Expression;
 }
 
-/** The frame a fresh settle lands in: the innermost open one. */
-export function currentFrame(state: TraceState): Frame {
-  return state.frames[state.frames.length - 1] as Frame;
+export function currentFrame(trace: TraceState): Frame {
+  const top = trace.frames.at(-1);
+  if (top === undefined) throw new Error("ordering walk has no active frame");
+  return top;
 }
 
-/** True iff some frame on the stack has settled `step` — the freshness test. */
-export function isVisiblySettled(state: TraceState, step: string): boolean {
-  return state.frames.some((frame) => frame.settled.has(step));
+export function isVisiblySettled(trace: TraceState, step: string): boolean {
+  let cursor = 0;
+  while (cursor < trace.frames.length) {
+    const frame = trace.frames[cursor];
+    cursor += 1;
+    if (frame !== undefined && frame.settled.has(step)) return true;
+  }
+  return false;
 }
 
-/** The strand an `issue` belongs to: the innermost one still being walked. */
-export function innermostOpenStrand(state: TraceState): StrandRecord | undefined {
-  for (let i = state.strands.length - 1; i >= 0; i -= 1) {
-    const record = state.strands[i] as StrandRecord;
-    if (!record.closed) return record;
+export function innermostOpenStrand(trace: TraceState): StrandRecord | undefined {
+  let cursor = trace.strands.length;
+  while (cursor > 0) {
+    cursor -= 1;
+    const record = trace.strands[cursor];
+    if (record !== undefined && !record.closed) return record;
   }
   return undefined;
 }
 
-/** Spawn a strand on `region`: record it and push its frame. */
-export function openStrand(state: TraceState, region: string): StrandRecord {
+export function openStrand(trace: TraceState, region: string): StrandRecord {
   const record: StrandRecord = {
-    at: state.strands.length,
+    at: trace.strands.length,
     closed: false,
     issued: new Set<string>(),
     region,
     summary: new Set<string>(),
   };
-  state.strands.push(record);
-  state.frames.push({ region, settled: new Set<string>() });
+  trace.strands.push(record);
+  trace.frames.push({ region, settled: new Set<string>() });
   return record;
 }
 
-/** Close a strand: pop its frame and keep what it awaited as the strand's summary. */
-export function closeStrand(state: TraceState, record: StrandRecord): void {
-  const frame = state.frames.pop();
-  record.summary = frame?.settled ?? new Set<string>();
+export function closeStrand(trace: TraceState, record: StrandRecord): void {
+  const frame = trace.frames.pop();
+  record.summary = frame === undefined ? new Set<string>() : frame.settled;
   record.closed = true;
 }
 
-/** The walk's strand counter: the mark a caller takes before evaluating an expression. */
-export function strandMark(state: TraceState): number {
-  return state.strands.length;
+export function strandMark(trace: TraceState): number {
+  return trace.strands.length;
 }
 
-/** Strand regions spawned at or after `mark`, in spawn order. */
-export function strandsSince(state: TraceState, mark: number): string[] {
-  return state.strands.filter((record) => record.at >= mark).map((record) => record.region);
+export function strandsSince(trace: TraceState, mark: number): string[] {
+  const regions: string[] = [];
+  for (const record of trace.strands) {
+    if (record.at >= mark) regions.push(record.region);
+  }
+  return regions;
 }
 
-/**
- * Bind strand regions to the identifiers a declaration or assignment introduces — the
- * syntactic half of the join, the exact shape `bindSteps` gives steps and for the same
- * reason: `const work = ids.map(async …)` issues nothing at the declaration, so only the
- * binding can tell a later `await Promise.all(work)` which strands `work` stands for.
- */
-export function bindStrands(
-  state: TraceState,
+function addSymbols(
+  trace: TraceState,
   name: ts.BindingName,
-  regions: readonly string[],
+  values: readonly string[],
+  map: Map<ts.Symbol, Set<string>>,
 ): void {
-  if (regions.length === 0) return;
-  for (const identifier of boundIdentifiers(name)) {
-    const symbol = state.checker.getSymbolAtLocation(identifier);
+  if (values.length === 0) return;
+  const identifiers = boundIdentifiers(name);
+  let cursor = 0;
+  while (cursor < identifiers.length) {
+    const identifier = identifiers[cursor];
+    cursor += 1;
+    if (identifier === undefined) continue;
+    const symbol = trace.checker.getSymbolAtLocation(identifier);
     if (symbol === undefined) continue;
-    const set = state.strandsBySymbol.get(symbol) ?? new Set<string>();
-    for (const region of regions) set.add(region);
-    state.strandsBySymbol.set(symbol, set);
+    const bucket = map.get(symbol) ?? new Set<string>();
+    let valueAt = 0;
+    while (valueAt < values.length) {
+      const value = values[valueAt];
+      valueAt += 1;
+      if (value !== undefined) bucket.add(value);
+    }
+    map.set(symbol, bucket);
   }
 }
 
-/** True iff the applied function carries the `async` modifier — what makes a body a strand. */
+export function bindStrands(
+  trace: TraceState,
+  name: ts.BindingName,
+  regions: readonly string[],
+): void {
+  addSymbols(trace, name, regions, trace.strandsBySymbol);
+}
+
 export function isAsyncFunction(decl: ts.Node): boolean {
-  const { modifiers } = decl as { modifiers?: ts.NodeArray<ts.ModifierLike> };
-  return modifiers?.some((modifier) => modifier.kind === ts.SyntaxKind.AsyncKeyword) ?? false;
+  const modifiers = (decl as { modifiers?: ts.NodeArray<ts.ModifierLike> }).modifiers;
+  if (modifiers === undefined) return false;
+  let cursor = 0;
+  while (cursor < modifiers.length) {
+    const modifier = modifiers[cursor];
+    cursor += 1;
+    if (modifier !== undefined && modifier.kind === ts.SyntaxKind.AsyncKeyword) return true;
+  }
+  return false;
 }
 
-/** The promise combinators that adopt each argument, so each argument is an awaited position. */
-const COMBINATORS: ReadonlySet<string> = new Set(["all", "allSettled", "race", "any"]);
+function promiseMethod(name: string): boolean {
+  switch (name) {
+    case "all":
+    case "allSettled":
+    case "race":
+    case "any":
+      return true;
+    default:
+      return false;
+  }
+}
 
-function isPromiseCombinator(state: TraceState, node: ts.CallExpression): boolean {
+function promiseCombinator(trace: TraceState, node: ts.CallExpression): boolean {
   const callee = node.expression;
-  if (!ts.isPropertyAccessExpression(callee) || !COMBINATORS.has(callee.name.text)) return false;
-  return isGlobalLibValue(callee.expression, "Promise", state.checker, state.program);
+  if (!ts.isPropertyAccessExpression(callee) || !promiseMethod(callee.name.text)) return false;
+  return isGlobalLibValue(callee.expression, "Promise", trace.checker, trace.program);
 }
 
-/**
- * The identifiers in an AWAITED POSITION of an awaited expression: the operand itself,
- * each argument of `Promise.all` / `allSettled` / `race` / `any`, each element of an array
- * literal, a spread's operand, and through parentheses and type assertions. Every other
- * expression is OPAQUE — this mirrors how the runtime adopts promises, and it is what
- * keeps `await f(aWork.length)` from joining the strands `aWork` holds.
- */
-function awaitedIdentifiers(state: TraceState, operand: ts.Expression): ts.Identifier[] {
-  const out: ts.Identifier[] = [];
-  const scan = (node: ts.Expression): void => {
-    if (
-      ts.isParenthesizedExpression(node) ||
-      ts.isAsExpression(node) ||
-      ts.isSatisfiesExpression(node) ||
-      ts.isNonNullExpression(node) ||
-      ts.isSpreadElement(node)
-    ) {
-      scan(node.expression);
-      return;
+function unwrapAwaited(node: ts.Expression): ts.Expression | undefined {
+  if (
+    ts.isParenthesizedExpression(node) ||
+    ts.isAsExpression(node) ||
+    ts.isSatisfiesExpression(node) ||
+    ts.isNonNullExpression(node) ||
+    ts.isSpreadElement(node)
+  ) {
+    return node.expression;
+  }
+  return undefined;
+}
+
+function pushReversed(stack: ts.Expression[], nodes: readonly ts.Expression[]): void {
+  let cursor = nodes.length;
+  while (cursor > 0) {
+    cursor -= 1;
+    const node = nodes[cursor];
+    if (node !== undefined) stack.push(node);
+  }
+}
+
+// Depth-first, left to right. Anything that is not an awaited position is opaque,
+// so `await f(work.length)` does not join strands stored in `work`.
+function awaitedIdentifiers(trace: TraceState, operand: ts.Expression): ts.Identifier[] {
+  const found: ts.Identifier[] = [];
+  const stack: ts.Expression[] = [operand];
+  while (stack.length > 0) {
+    const node = stack.pop();
+    if (node === undefined) break;
+    const inner = unwrapAwaited(node);
+    if (inner !== undefined) {
+      stack.push(inner);
+      continue;
     }
     if (ts.isIdentifier(node)) {
-      out.push(node);
-      return;
+      found.push(node);
+      continue;
     }
     if (ts.isArrayLiteralExpression(node)) {
-      for (const element of node.elements) scan(element);
-      return;
+      pushReversed(stack, node.elements);
+      continue;
     }
-    if (ts.isCallExpression(node) && isPromiseCombinator(state, node)) {
-      for (const argument of node.arguments) scan(argument);
+    if (ts.isCallExpression(node) && promiseCombinator(trace, node)) {
+      pushReversed(stack, node.arguments);
     }
-  };
-  scan(operand);
-  return out;
+  }
+  return found;
+}
+
+function takeJoin(trace: TraceState, region: string, side: string[]): void {
+  if (trace.joined.has(region)) return;
+  trace.joined.add(region);
+  side.push(region);
+}
+
+function adoptSpawned(trace: TraceState, awaited: AwaitedOperand, certain: string[]): void {
+  const spawned = strandsSince(trace, awaited.mark);
+  let cursor = 0;
+  while (cursor < spawned.length) {
+    const region = spawned[cursor];
+    cursor += 1;
+    if (region !== undefined) takeJoin(trace, region, certain);
+  }
+  const identifiers = awaitedIdentifiers(trace, awaited.operand);
+  let nameAt = 0;
+  while (nameAt < identifiers.length) {
+    const identifier = identifiers[nameAt];
+    nameAt += 1;
+    if (identifier === undefined) continue;
+    const symbol = trace.checker.getSymbolAtLocation(identifier);
+    const bound = symbol === undefined ? undefined : trace.strandsBySymbol.get(symbol);
+    if (bound === undefined) continue;
+    for (const region of bound) takeJoin(trace, region, certain);
+  }
+}
+
+function holdsStep(record: StrandRecord, steps: readonly string[]): boolean {
+  let cursor = 0;
+  while (cursor < steps.length) {
+    const step = steps[cursor];
+    cursor += 1;
+    if (step !== undefined && record.issued.has(step)) return true;
+  }
+  return false;
 }
 
 /**
- * The strands a barrier waits for, split by the certainty each one's summary settles with,
- * and MARKED JOINED so a second await of the same promise adds nothing (exactly as a
- * second settle of one step already does).
- *
- * Two ways in. SYNTACTIC — spawned while the operand was evaluated, or bound to an
- * identifier in an awaited position of it — settles the summary certainly: the await
- * provably waits for that activation. LIFTED — a closed, not-yet-joined strand one of whose
- * issued steps this barrier claims — settles it with the certainty the claim came in with:
- * the promise reached the await through a container or a helper, and all we know is that
- * something the strand issued has settled.
+ * Certain joins are strands spawned or named by the operand, plus closed strands
+ * whose issued steps this barrier claims for certain. Maybe claims lift the same
+ * way at maybe strength. A region is joined at most once.
  */
 export function joinStrands(
-  state: TraceState,
+  trace: TraceState,
   certain: readonly string[],
   maybe: readonly string[],
   awaited: AwaitedOperand | undefined,
 ): { certain: string[]; maybe: string[] } {
-  const joins: { certain: string[]; maybe: string[] } = { certain: [], maybe: [] };
-  const take = (region: string, side: string[]): void => {
-    if (state.joined.has(region)) return;
-    state.joined.add(region);
-    side.push(region);
-  };
-  if (awaited !== undefined) {
-    for (const region of strandsSince(state, awaited.mark)) take(region, joins.certain);
-    for (const identifier of awaitedIdentifiers(state, awaited.operand)) {
-      const symbol = state.checker.getSymbolAtLocation(identifier);
-      const bound = symbol === undefined ? undefined : state.strandsBySymbol.get(symbol);
-      for (const region of bound ?? []) take(region, joins.certain);
-    }
-  }
-  for (const record of state.strands) {
-    if (!record.closed || state.joined.has(record.region)) continue;
-    if (certain.some((step) => record.issued.has(step))) take(record.region, joins.certain);
-    else if (maybe.some((step) => record.issued.has(step))) take(record.region, joins.maybe);
+  const joins = { certain: [] as string[], maybe: [] as string[] };
+  if (awaited !== undefined) adoptSpawned(trace, awaited, joins.certain);
+  for (const record of trace.strands) {
+    if (!record.closed || trace.joined.has(record.region)) continue;
+    if (holdsStep(record, certain)) takeJoin(trace, record.region, joins.certain);
+    else if (holdsStep(record, maybe)) takeJoin(trace, record.region, joins.maybe);
   }
   return joins;
 }
