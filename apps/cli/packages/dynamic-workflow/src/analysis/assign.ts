@@ -31,6 +31,8 @@ const UNWRAP_LVALUE = new Set<ts.SyntaxKind>([
   ts.SyntaxKind.TypeAssertionExpression,
 ]);
 
+type BindingPattern = ts.ArrayLiteralExpression | ts.ObjectLiteralExpression;
+
 function childExpr(expr: ts.Expression): ts.Expression {
   return (expr as ts.ParenthesizedExpression).expression;
 }
@@ -47,10 +49,46 @@ function note(ev: Evaluator, grew: boolean): void {
   if (grew) ev.s.changed = true;
 }
 
-function isBindingPattern(
-  expr: ts.Expression,
-): expr is ts.ArrayLiteralExpression | ts.ObjectLiteralExpression {
+function isBindingPattern(expr: ts.Expression): expr is BindingPattern {
   return ts.isArrayLiteralExpression(expr) || ts.isObjectLiteralExpression(expr);
+}
+
+interface TargetWrite {
+  target: ts.Expression;
+  value: AbstractValue;
+  place?: AbstractValue;
+}
+
+interface PropWrite {
+  target: ts.PropertyAccessExpression;
+  value: AbstractValue;
+  place?: AbstractValue;
+}
+
+interface ElemWrite {
+  target: ts.ElementAccessExpression;
+  value: AbstractValue;
+  place?: AbstractValue;
+}
+
+interface DynamicWrite {
+  target: ts.ElementAccessExpression;
+  recv: AbstractValue | undefined;
+  value: AbstractValue;
+}
+
+interface FieldWrite {
+  container: AbstractValue;
+  key: string;
+  value: AbstractValue;
+  place?: AbstractValue;
+}
+
+interface SlotWrite {
+  container: AbstractValue;
+  key: string;
+  incoming: AbstractValue;
+  place?: AbstractValue;
 }
 
 class TargetWriter {
@@ -59,11 +97,19 @@ class TargetWriter {
     private readonly ctx: EvalContext,
   ) {}
 
-  write(target: ts.Expression, value: AbstractValue, rhsPlace?: AbstractValue): void {
-    const node = stripParens(target);
-    if (ts.isIdentifier(node)) this.bindName(node, rhsPlace ?? value);
-    else if (ts.isPropertyAccessExpression(node)) this.writeProperty(node, value, rhsPlace);
-    else if (ts.isElementAccessExpression(node)) this.writeElement(node, value, rhsPlace);
+  write(job: TargetWrite): void {
+    const node = stripParens(job.target);
+    if (ts.isIdentifier(node)) {
+      this.bindName(node, job.place ?? job.value);
+      return;
+    }
+    if (ts.isPropertyAccessExpression(node)) {
+      this.writeProperty({ place: job.place, target: node, value: job.value });
+      return;
+    }
+    if (ts.isElementAccessExpression(node)) {
+      this.writeElement({ place: job.place, target: node, value: job.value });
+    }
   }
 
   private bindName(name: ts.Identifier, bound: AbstractValue): void {
@@ -71,50 +117,46 @@ class TargetWriter {
     if (sym !== undefined) this.ev.s.bindSymbol(sym, bound);
   }
 
-  private writeProperty(
-    target: ts.PropertyAccessExpression,
-    value: AbstractValue,
-    rhsPlace?: AbstractValue,
-  ): void {
-    const recv = this.ev.resolvePlace(target.expression, true);
-    const name = target.name.text;
-    if (recv === undefined) mergeIntoRootIdentifier(this.ev, target.expression, value);
-    else this.writeField(recv, name, value, rhsPlace);
+  private writeProperty(job: PropWrite): void {
+    const recv = this.ev.resolvePlace(job.target.expression, true);
+    const name = job.target.name.text;
+    if (recv === undefined) mergeIntoRootIdentifier(this.ev, job.target.expression, job.value);
+    if (recv !== undefined) {
+      this.writeField({ container: recv, key: name, place: job.place, value: job.value });
+    }
     // Set accessors are indexed only by property name. Element writes do not
     // reach them. The receiver object is ignored: any write of this name feeds
     // every setter's first parameter.
-    this.recordSetter(name, value);
+    this.recordSetter(name, job.value);
   }
 
-  private writeElement(
-    target: ts.ElementAccessExpression,
-    value: AbstractValue,
-    rhsPlace?: AbstractValue,
-  ): void {
-    const recv = this.ev.resolvePlace(target.expression, true);
-    const literalKey = staticIndexKey(target.argumentExpression);
-    if (literalKey === undefined) this.writeDynamicIndex(target, recv, value);
-    else if (recv === undefined) mergeIntoRootIdentifier(this.ev, target.expression, value);
-    else this.writeField(recv, literalKey, value, rhsPlace);
+  private writeElement(job: ElemWrite): void {
+    const recv = this.ev.resolvePlace(job.target.expression, true);
+    const literalKey = staticIndexKey(job.target.argumentExpression);
+    if (literalKey === undefined) {
+      this.writeDynamicIndex({ recv, target: job.target, value: job.value });
+      return;
+    }
+    if (recv === undefined) {
+      mergeIntoRootIdentifier(this.ev, job.target.expression, job.value);
+      return;
+    }
+    this.writeField({ container: recv, key: literalKey, place: job.place, value: job.value });
   }
 
   // A computed key can host a facade (`o[await ask()] = v`). The key string is
   // also an observable property name (`for..in`, `Object.keys`), so its taint
   // joins the container beside the written value.
-  private writeDynamicIndex(
-    target: ts.ElementAccessExpression,
-    recv: AbstractValue | undefined,
-    value: AbstractValue,
-  ): void {
-    const keyTaint = collapse(this.ev.evalExpr(target.argumentExpression, this.ctx));
-    const smeared = collapse(value);
-    if (recv === undefined) {
-      mergeIntoRootIdentifier(this.ev, target.expression, keyTaint);
-      mergeIntoRootIdentifier(this.ev, target.expression, value);
-    } else {
-      note(this.ev, mergeInto(recv, keyTaint));
-      note(this.ev, mergeInto(recv, smeared));
+  private writeDynamicIndex(job: DynamicWrite): void {
+    const keyTaint = collapse(this.ev.evalExpr(job.target.argumentExpression, this.ctx));
+    const smeared = collapse(job.value);
+    if (job.recv === undefined) {
+      mergeIntoRootIdentifier(this.ev, job.target.expression, keyTaint);
+      mergeIntoRootIdentifier(this.ev, job.target.expression, job.value);
+      return;
     }
+    note(this.ev, mergeInto(job.recv, keyTaint));
+    note(this.ev, mergeInto(job.recv, smeared));
   }
 
   // A fresh slot adopts a place by reference and stops. Replaying may-alias on
@@ -122,32 +164,22 @@ class TargetWriter {
   // An existing slot is weak-merged, and the place is merged back so a slot
   // fabricated earlier in a loop (`wrap.box.f = t` then `wrap.box = box`) is
   // not stranded. May-alias targets then receive the write inexactly.
-  private writeField(
-    container: AbstractValue,
-    key: string,
-    value: AbstractValue,
-    rhsPlace?: AbstractValue,
-  ): void {
-    const incoming = rhsPlace ?? value;
-    const occupied = container.fields.has(key);
-    if (rhsPlace !== undefined && occupied === false) {
-      container.fields.set(key, incoming);
+  private writeField(job: FieldWrite): void {
+    const incoming = job.place ?? job.value;
+    const occupied = job.container.fields.has(job.key);
+    if (job.place !== undefined && occupied === false) {
+      job.container.fields.set(job.key, incoming);
       this.ev.s.changed = true;
-    } else {
-      this.mergeSlot(container, key, incoming, rhsPlace);
+      return;
     }
+    this.mergeSlot({ container: job.container, incoming, key: job.key, place: job.place });
   }
 
-  private mergeSlot(
-    container: AbstractValue,
-    key: string,
-    incoming: AbstractValue,
-    rhsPlace?: AbstractValue,
-  ): void {
-    const slot = liveField(container, key);
-    if (slot !== incoming) note(this.ev, mergeInto(slot, incoming));
-    if (rhsPlace !== undefined && slot !== rhsPlace) note(this.ev, mergeInto(rhsPlace, slot));
-    note(this.ev, replayMayAliasWrite(container, key, incoming));
+  private mergeSlot(job: SlotWrite): void {
+    const slot = liveField(job.container, job.key);
+    if (slot !== job.incoming) note(this.ev, mergeInto(slot, job.incoming));
+    if (job.place !== undefined && slot !== job.place) note(this.ev, mergeInto(job.place, slot));
+    note(this.ev, replayMayAliasWrite(job.container, job.key, job.incoming));
   }
 
   private recordSetter(name: string, value: AbstractValue): void {
@@ -161,133 +193,192 @@ interface IndexCursor {
   pos: number;
 }
 
+interface PatternWrite {
+  target: ts.Expression;
+  value: AbstractValue;
+  place?: AbstractValue;
+}
+
+interface ArraySlot {
+  element: ts.Expression;
+  value: AbstractValue;
+  place: AbstractValue | undefined;
+  cursor: IndexCursor;
+}
+
+interface ObjectSlot {
+  prop: ts.ObjectLiteralElementLike;
+  value: AbstractValue;
+  place?: AbstractValue;
+}
+
+interface NamedSlot {
+  prop: ts.PropertyAssignment;
+  value: AbstractValue;
+  place?: AbstractValue;
+}
+
+interface FieldTake {
+  target: ts.Expression;
+  value: AbstractValue;
+  place: AbstractValue | undefined;
+  key: string;
+}
+
+interface ShorthandWrite {
+  prop: ts.ShorthandPropertyAssignment;
+  value: AbstractValue;
+  place?: AbstractValue;
+}
+
+interface Defaulted {
+  node: ts.BinaryExpression;
+  carried: AbstractValue;
+  place?: AbstractValue;
+}
+
 class PatternBinder {
   constructor(
     private readonly ev: Evaluator,
     private readonly ctx: EvalContext,
   ) {}
 
-  bind(target: ts.Expression, value: AbstractValue, sourcePlace?: AbstractValue): void {
-    let node = stripParens(target);
+  bind(job: PatternWrite): void {
+    let node = stripParens(job.target);
+    let value = job.value;
     if (ts.isBinaryExpression(node) && node.operatorToken.kind === ts.SyntaxKind.EqualsToken) {
-      value = this.withDefault(node, value, sourcePlace);
+      value = this.withDefault({ carried: value, node, place: job.place });
       node = stripParens(node.left);
     }
-    if (isBindingPattern(node)) this.pattern(node, value, sourcePlace);
-    else new TargetWriter(this.ev, this.ctx).write(node, value, sourcePlace);
+    if (isBindingPattern(node)) {
+      this.pattern({ place: job.place, target: node, value });
+      return;
+    }
+    new TargetWriter(this.ev, this.ctx).write({ place: job.place, target: node, value });
   }
 
-  pattern(target: ts.Expression, value: AbstractValue, sourcePlace?: AbstractValue): void {
-    if (ts.isArrayLiteralExpression(target)) this.arrayPattern(target, value, sourcePlace);
-    else if (ts.isObjectLiteralExpression(target)) this.objectPattern(target, value, sourcePlace);
+  pattern(job: PatternWrite): void {
+    if (ts.isArrayLiteralExpression(job.target)) {
+      this.arrayPattern(job);
+      return;
+    }
+    if (ts.isObjectLiteralExpression(job.target)) this.objectPattern(job);
   }
 
-  private arrayPattern(
-    target: ts.ArrayLiteralExpression,
-    value: AbstractValue,
-    sourcePlace?: AbstractValue,
-  ): void {
+  private arrayPattern(job: PatternWrite): void {
     const cursor: IndexCursor = { pos: 0 };
-    target.elements.forEach((element) => this.arrayHole(element, value, sourcePlace, cursor));
+    const target = job.target as ts.ArrayLiteralExpression;
+    target.elements.forEach((element) => {
+      this.arrayHole({ cursor, element, place: job.place, value: job.value });
+    });
   }
 
   // A hole consumes an index. A rest element does not: the runtime rest starts
   // at the current index, and a later element (illegal in real JS, still in the
   // tree) keeps reading that same index. Place sources alias the live field;
   // everything else copies a value.
-  private arrayHole(
-    element: ts.Expression,
-    value: AbstractValue,
-    sourcePlace: AbstractValue | undefined,
-    cursor: IndexCursor,
-  ): void {
-    const kind = element.kind;
+  private arrayHole(slot: ArraySlot): void {
+    const kind = slot.element.kind;
     if (kind === ts.SyntaxKind.OmittedExpression) {
-      cursor.pos += 1;
-    } else if (kind === ts.SyntaxKind.SpreadElement) {
-      this.bind((element as ts.SpreadElement).expression, collapse(value));
-    } else {
-      this.take(element, value, sourcePlace, String(cursor.pos));
-      cursor.pos += 1;
+      slot.cursor.pos += 1;
+      return;
+    }
+    if (kind === ts.SyntaxKind.SpreadElement) {
+      this.bind({
+        target: (slot.element as ts.SpreadElement).expression,
+        value: collapse(slot.value),
+      });
+      return;
+    }
+    this.take({
+      key: String(slot.cursor.pos),
+      place: slot.place,
+      target: slot.element,
+      value: slot.value,
+    });
+    slot.cursor.pos += 1;
+  }
+
+  private objectPattern(job: PatternWrite): void {
+    const target = job.target as ts.ObjectLiteralExpression;
+    for (const prop of target.properties) {
+      this.objectProp({ place: job.place, prop, value: job.value });
     }
   }
 
-  private objectPattern(
-    target: ts.ObjectLiteralExpression,
-    value: AbstractValue,
-    sourcePlace?: AbstractValue,
-  ): void {
-    for (const prop of target.properties) this.objectProp(prop, value, sourcePlace);
-  }
-
-  private objectProp(
-    prop: ts.ObjectLiteralElementLike,
-    value: AbstractValue,
-    sourcePlace?: AbstractValue,
-  ): void {
-    const kind = prop.kind;
+  private objectProp(job: ObjectSlot): void {
+    const kind = job.prop.kind;
     if (kind === ts.SyntaxKind.SpreadAssignment) {
-      this.bind((prop as ts.SpreadAssignment).expression, collapse(value));
-    } else if (kind === ts.SyntaxKind.ShorthandPropertyAssignment) {
-      this.shorthand(prop as ts.ShorthandPropertyAssignment, value, sourcePlace);
-    } else if (kind === ts.SyntaxKind.PropertyAssignment) {
-      this.namedProp(prop as ts.PropertyAssignment, value, sourcePlace);
+      this.bind({
+        target: (job.prop as ts.SpreadAssignment).expression,
+        value: collapse(job.value),
+      });
+      return;
+    }
+    if (kind === ts.SyntaxKind.ShorthandPropertyAssignment) {
+      this.shorthand({
+        place: job.place,
+        prop: job.prop as ts.ShorthandPropertyAssignment,
+        value: job.value,
+      });
+      return;
+    }
+    if (kind === ts.SyntaxKind.PropertyAssignment) {
+      this.namedProp({
+        place: job.place,
+        prop: job.prop as ts.PropertyAssignment,
+        value: job.value,
+      });
     }
   }
 
-  private namedProp(
-    prop: ts.PropertyAssignment,
-    value: AbstractValue,
-    sourcePlace?: AbstractValue,
-  ): void {
-    if (ts.isComputedPropertyName(prop.name)) this.bind(prop.initializer, collapse(value));
-    else this.take(prop.initializer, value, sourcePlace, prop.name.getText(this.ev.s.scriptFile));
+  private namedProp(job: NamedSlot): void {
+    if (ts.isComputedPropertyName(job.prop.name)) {
+      this.bind({ target: job.prop.initializer, value: collapse(job.value) });
+      return;
+    }
+    this.take({
+      key: job.prop.name.getText(this.ev.s.scriptFile),
+      place: job.place,
+      target: job.prop.initializer,
+      value: job.value,
+    });
   }
 
-  private take(
-    target: ts.Expression,
-    value: AbstractValue,
-    sourcePlace: AbstractValue | undefined,
-    key: string,
-  ): void {
-    const field = sourcePlace === undefined ? undefined : this.ev.extractField(sourcePlace, key);
-    if (field === undefined) this.bind(target, this.ev.selectField(value, key));
-    else this.bind(target, field, field);
+  private take(job: FieldTake): void {
+    const field = job.place === undefined ? undefined : this.ev.extractField(job.place, job.key);
+    if (field === undefined) {
+      this.bind({ target: job.target, value: this.ev.selectField(job.value, job.key) });
+      return;
+    }
+    this.bind({ place: field, target: job.target, value: field });
   }
 
   // `{ x = d }` on a place merges the default into the live field and keeps the
   // alias. Without a place the default is joined by value.
-  private shorthand(
-    prop: ts.ShorthandPropertyAssignment,
-    value: AbstractValue,
-    sourcePlace?: AbstractValue,
-  ): void {
-    const key = prop.name.text;
-    const fallback = prop.objectAssignmentInitializer;
+  private shorthand(job: ShorthandWrite): void {
+    const key = job.prop.name.text;
+    const fallback = job.prop.objectAssignmentInitializer;
     const writer = new TargetWriter(this.ev, this.ctx);
-    if (sourcePlace) {
-      const field = this.ev.extractField(sourcePlace, key);
+    if (job.place) {
+      const field = this.ev.extractField(job.place, key);
       if (fallback) note(this.ev, mergeInto(field, this.ev.evalExpr(fallback, this.ctx)));
-      writer.write(prop.name, field, field);
-    } else {
-      const base = this.ev.selectField(value, key);
-      const chosen =
-        fallback === undefined ? base : unionValues(base, this.ev.evalExpr(fallback, this.ctx));
-      writer.write(prop.name, chosen);
+      writer.write({ place: field, target: job.prop.name, value: field });
+      return;
     }
+    const base = this.ev.selectField(job.value, key);
+    const chosen =
+      fallback === undefined ? base : unionValues(base, this.ev.evalExpr(fallback, this.ctx));
+    writer.write({ target: job.prop.name, value: chosen });
   }
 
   // `[a = d]` / `{ x: a = d }`. When aliasing, `carried` is the live field, so
   // the default merges into it and the alias stays.
-  private withDefault(
-    node: ts.BinaryExpression,
-    carried: AbstractValue,
-    sourcePlace?: AbstractValue,
-  ): AbstractValue {
-    const fallback = this.ev.evalExpr(node.right, this.ctx);
-    if (sourcePlace === undefined) return unionValues(carried, fallback);
-    note(this.ev, mergeInto(carried, fallback));
-    return carried;
+  private withDefault(job: Defaulted): AbstractValue {
+    const fallback = this.ev.evalExpr(job.node.right, this.ctx);
+    if (job.place === undefined) return unionValues(job.carried, fallback);
+    note(this.ev, mergeInto(job.carried, fallback));
+    return job.carried;
   }
 }
 
@@ -301,8 +392,11 @@ class AssignTransfer {
     const written = this.ev.evalExpr(node.right, this.ctx);
     const alias = this.ev.resolvePlace(node.right);
     const left = stripParens(node.left);
-    if (isBindingPattern(left)) new PatternBinder(this.ev, this.ctx).pattern(left, written, alias);
-    else new TargetWriter(this.ev, this.ctx).write(left, written, alias);
+    if (isBindingPattern(left)) {
+      new PatternBinder(this.ev, this.ctx).pattern({ place: alias, target: left, value: written });
+      return written;
+    }
+    new TargetWriter(this.ev, this.ctx).write({ place: alias, target: left, value: written });
     return written;
   }
 
@@ -311,7 +405,10 @@ class AssignTransfer {
   compound(node: ts.BinaryExpression): AbstractValue {
     const incoming = this.ev.evalExpr(node.right, this.ctx);
     const before = this.ev.evalExpr(node.left, this.ctx);
-    new TargetWriter(this.ev, this.ctx).write(stripParens(node.left), incoming);
+    new TargetWriter(this.ev, this.ctx).write({
+      target: stripParens(node.left),
+      value: incoming,
+    });
     return unionValues(before, incoming);
   }
 }
@@ -344,9 +441,9 @@ export function bindForInitializer(
   if (ts.isVariableDeclarationList(initializer)) {
     const head = initializer.declarations.at(0);
     if (head) ev.bindPattern(head.name, value, ctx);
-  } else {
-    new PatternBinder(ev, ctx).bind(initializer, value);
+    return;
   }
+  new PatternBinder(ev, ctx).bind({ target: initializer, value });
 }
 
 // Fold a member-access chain into its leftmost identifier. A nested target whose
