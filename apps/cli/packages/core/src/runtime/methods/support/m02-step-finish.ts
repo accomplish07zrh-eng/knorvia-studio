@@ -4,7 +4,7 @@ import { createPartId, type MessageId, type TraceContext } from "../../deps.js";
 import { toTokenUsageInfo } from "../../helpers/index.js";
 import type { AgentRuntimeInternal } from "../../internal.js";
 import type { RuntimeModelTextResult } from "../../types.js";
-import { assignKeys, type Col } from "./m02-record.js";
+import { type Col } from "./m02-record.js";
 import type { RegularTurnLoopState } from "./m02-loop-state.js";
 
 const MISSING_MODEL = "Model-backed turn step finish requires the loop Model";
@@ -19,23 +19,21 @@ function finishPart(
   request: FinishRequest,
   tokens: ReturnType<typeof toTokenUsageInfo>,
 ) {
-  return assignKeys([
-    ["id", createPartId()],
-    ["sessionID", host.sessionId],
-    ["messageID", request.assistantMessageId],
-    ["type", "step-finish"],
-    ["reason", request.result.finishReason],
-    ["cost", 0],
-    ["tokens", tokens],
-  ]);
+  const { sessionId } = host;
+  const { assistantMessageId, result } = request;
+  return {
+    id: createPartId(),
+    sessionID: sessionId,
+    messageID: assistantMessageId,
+    type: "step-finish" as const,
+    reason: result.finishReason,
+    cost: 0,
+    tokens,
+  };
 }
 
-function assistantClosure(reason: string, tokens: ReturnType<typeof toTokenUsageInfo>) {
-  return assignKeys([
-    ["completed", Date.now()],
-    ["finish", reason],
-    ["tokens", tokens],
-  ]);
+function assistantClosure(finish: string, tokens: ReturnType<typeof toTokenUsageInfo>) {
+  return { completed: Date.now(), finish, tokens };
 }
 
 export async function persistToolModelStepFinish(
