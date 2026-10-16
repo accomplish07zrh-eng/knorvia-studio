@@ -35,15 +35,20 @@ const KIND_STUDIO = ".knorvia-studio/config.json" as const;
 const KIND_EXPLICIT = "explicit" as const;
 const STUDIO_DIR = ".knorvia-studio";
 
-export type WorkspaceHookConfigFileKind =
-  | typeof KIND_PROJECT
-  | typeof KIND_STUDIO
-  | typeof KIND_EXPLICIT;
+type ProjectKind = typeof KIND_PROJECT;
+type StudioKind = typeof KIND_STUDIO;
+type ExplicitKind = typeof KIND_EXPLICIT;
+export type WorkspaceHookConfigFileKind = ProjectKind | StudioKind | ExplicitKind;
 
 const finitePositive = z.number().finite().positive();
 const commandText = z.string().min(1);
 const optionalSwitch = z.boolean().optional();
 const optionalNote = commandText.optional();
+const optionalArguments = z.array(z.string()).optional();
+
+function kindTag<Kind extends "process" | "command">(kind: Kind) {
+  return z.literal(kind);
+}
 
 function loose<Shape extends z.ZodRawShape>(shape: Shape) {
   return z.object(shape).passthrough();
@@ -53,17 +58,21 @@ function locked<Shape extends z.ZodRawShape>(shape: Shape) {
   return z.object(shape).strict();
 }
 
+function pair<A extends z.ZodType, B extends z.ZodType>(left: A, right: B): [A, B] {
+  return [left, right];
+}
+
 export const workspaceHookProcessConfigSchema = loose({
-  type: z.literal("process"),
+  type: kindTag("process"),
   command: commandText,
   enabled: optionalSwitch,
-  args: z.array(z.string()).optional(),
+  args: optionalArguments,
   timeoutMs: finitePositive.optional(),
   statusMessage: optionalNote,
 });
 
 export const workspaceHookCommandConfigSchema = loose({
-  type: z.literal("command"),
+  type: kindTag("command"),
   command: commandText,
   enabled: optionalSwitch,
   async: optionalSwitch,
@@ -73,10 +82,8 @@ export const workspaceHookCommandConfigSchema = loose({
   statusMessage: optionalNote,
 });
 
-const hookDefinition = z.discriminatedUnion("type", [
-  workspaceHookProcessConfigSchema,
-  workspaceHookCommandConfigSchema,
-]);
+const definitionPair = pair(workspaceHookProcessConfigSchema, workspaceHookCommandConfigSchema);
+const hookDefinition = z.discriminatedUnion("type", definitionPair);
 
 export const workspaceHookMatcherConfigSchema = locked({
   matcher: commandText.optional(),
@@ -102,28 +109,23 @@ export const workspaceHooksConfigSchema = locked({
   }).optional(),
 });
 
-export type WorkspaceHookDefinition =
-  | z.output<typeof workspaceHookCommandConfigSchema>
-  | z.output<typeof workspaceHookProcessConfigSchema>;
+type ParsedProcess = z.output<typeof workspaceHookProcessConfigSchema>;
+type ParsedCommand = z.output<typeof workspaceHookCommandConfigSchema>;
+export type WorkspaceHookDefinition = ParsedProcess | ParsedCommand;
 
 export type WorkspaceHooksConfig = z.output<typeof workspaceHooksConfigSchema>;
 
-type PathText = "canonicalPath" | "baseDir" | "path";
-
-export type WorkspaceHookSourceInput = Record<"canonicalPath" | "baseDir", string> & {
-  discoveryOrder: number;
-  configFileKind: WorkspaceHookConfigFileKind;
-  explicitProjectConfig: boolean;
-  editable: boolean;
-  hooks: WorkspaceHooksConfig;
-};
+export type WorkspaceHookSourceInput = Record<"canonicalPath" | "baseDir", string> &
+  Record<"discoveryOrder", number> &
+  Record<"configFileKind", WorkspaceHookConfigFileKind> &
+  Record<"explicitProjectConfig" | "editable", boolean> &
+  Record<"hooks", WorkspaceHooksConfig>;
 
 export type WorkspaceHookRuntimeRoot = Record<"enabled", boolean> &
   Record<"timeoutMs" | "maxOutputBytes", number>;
 
-export type WorkspaceHookConfigPathRef = Record<PathText, string> & {
-  explicitProjectConfig: boolean;
-};
+export type WorkspaceHookConfigPathRef = Record<"path", string> &
+  Record<"explicitProjectConfig", boolean>;
 
 export type WorkspaceHookSourceReadError = { path: string; error: unknown };
 
@@ -132,6 +134,8 @@ type RootSlice = Partial<Pick<WorkspaceHooksConfig, "enabled" | "timeoutMs" | "m
 type TimeoutHook = Pick<WorkspaceHookDefinition, "type" | "timeoutMs"> & { timeout?: number };
 
 type DiscoverRequest = { workingDirectory: string; explicitProjectConfigPath?: string };
+
+type RootChain = readonly (RootSlice | undefined)[];
 
 const FILE_TAILS = [[KIND_PROJECT], [STUDIO_DIR, "config.json"]] as const;
 
@@ -146,14 +150,12 @@ export function resolveWorkspaceHookTimeoutMs(hook: TimeoutHook, defaultTimeoutM
   return atLeastOne(chosen);
 }
 
-export function resolveWorkspaceHookMaxOutputBytes(maxOutputBytes: number): number {
-  return atLeastOne(maxOutputBytes);
+export function resolveWorkspaceHookMaxOutputBytes(limit: number): number {
+  return atLeastOne(limit);
 }
 
-export function resolveWorkspaceHookRuntimeRoot(
-  roots: readonly (RootSlice | undefined)[],
-): WorkspaceHookRuntimeRoot {
-  const folded = roots.reduce<WorkspaceHookRuntimeRoot>(
+export function resolveWorkspaceHookRuntimeRoot(chain: RootChain): WorkspaceHookRuntimeRoot {
+  const folded = chain.reduce<WorkspaceHookRuntimeRoot>(
     (acc, root) => {
       if (!root) return acc;
       const next: WorkspaceHookRuntimeRoot = {
@@ -177,25 +179,29 @@ export function resolveWorkspaceHookRuntimeRoot(
   return clamped;
 }
 
-type GateInput = {
-  sourceEnabled?: boolean;
-  declarationEnabled?: boolean;
-  runtimeHooksEnabled: boolean;
-};
+type GateInput = Partial<Record<"sourceEnabled" | "declarationEnabled", boolean>> &
+  Record<"runtimeHooksEnabled", boolean>;
+
+function flagOn(value: boolean | undefined): boolean {
+  return value !== false;
+}
+
+function gateTuple(
+  sourceRootEnabled: boolean,
+  declarationEnabled: boolean,
+  runtimeHooksEnabled: boolean,
+  configuredEnabled: boolean,
+) {
+  return { sourceRootEnabled, declarationEnabled, runtimeHooksEnabled, configuredEnabled };
+}
 
 export function resolveWorkspaceHookConfiguredGates(input: GateInput) {
-  const sourceRootEnabled = input.sourceEnabled !== false;
-  const declarationEnabled = input.declarationEnabled !== false;
-  // 先读运行时开关给返回字段，与运算再读一次。getter 两次可以不同。
+  const sourceRootEnabled = flagOn(input.sourceEnabled);
+  const declarationEnabled = flagOn(input.declarationEnabled);
+  // 返回值用第一次读到的运行时开关；与运算再读一次，getter 两次可以不同。
   const reportedRuntime = input.runtimeHooksEnabled;
   const configuredEnabled = sourceRootEnabled && declarationEnabled && input.runtimeHooksEnabled;
-  const gates = {
-    sourceRootEnabled,
-    declarationEnabled,
-    runtimeHooksEnabled: reportedRuntime,
-    configuredEnabled,
-  };
-  return gates;
+  return gateTuple(sourceRootEnabled, declarationEnabled, reportedRuntime, configuredEnabled);
 }
 
 function asRecord(value: unknown): Record<string, unknown> | undefined {
@@ -216,13 +222,21 @@ function hookFilesUnder(directories: readonly string[]): string[] {
 function uniqueRefs(refs: readonly WorkspaceHookConfigPathRef[]): WorkspaceHookConfigPathRef[] {
   const seen = new Set<string>();
   const kept: WorkspaceHookConfigPathRef[] = [];
-  for (const ref of refs) {
-    const key = resolve(ref.path);
-    if (seen.has(key)) continue;
-    seen.add(key);
+  for (let index = 0; index < refs.length; index += 1) {
+    const ref = refs[index];
+    if (!ref) continue;
+    const canonical = resolve(ref.path);
+    if (seen.has(canonical)) continue;
+    seen.add(canonical);
     kept.push(ref);
   }
   return kept;
+}
+
+// 一直走到文件系统根都没有 .git 时，候选目录只留起点，不把祖先都算进来。
+function soleDirectory(start: string): string[] {
+  const only = [start];
+  return only;
 }
 
 function climb(start: string, marked: (directory: string) => boolean): string[] {
@@ -232,10 +246,10 @@ function climb(start: string, marked: (directory: string) => boolean): string[] 
     visited.push(cursor);
     if (marked(cursor)) return visited.toReversed();
     const above = dirname(cursor);
-    if (above === cursor) return [start];
+    if (above === cursor) return soleDirectory(start);
     cursor = above;
   }
-  return [start];
+  return soleDirectory(start);
 }
 
 async function climbAsync(
@@ -248,10 +262,10 @@ async function climbAsync(
     visited.push(cursor);
     if (await marked(cursor)) return visited.toReversed();
     const above = dirname(cursor);
-    if (above === cursor) return [start];
+    if (above === cursor) return soleDirectory(start);
     cursor = above;
   }
-  return [start];
+  return soleDirectory(start);
 }
 
 function gitMarker(directory: string): string {
@@ -262,30 +276,23 @@ function looksLikeGit(stats: { isDirectory(): boolean; isFile(): boolean }): boo
   return stats.isFile() || stats.isDirectory();
 }
 
-function quietly(read: () => boolean): boolean {
-  try {
-    return read();
-  } catch {
-    return false;
-  }
-}
-
 function directoryHasGit(directory: string): boolean {
   const marker = gitMarker(directory);
   if (!existsSync(marker)) return false;
-  return quietly(() => looksLikeGit(statSync(marker)));
-}
-
-async function directoryHasGitAsync(directory: string): Promise<boolean> {
   try {
-    const stats = await stat(gitMarker(directory));
-    return looksLikeGit(stats);
+    return looksLikeGit(statSync(marker));
   } catch {
     return false;
   }
 }
 
-function pushExisting(
+async function directoryHasGitAsync(directory: string): Promise<boolean> {
+  const stats = await stat(gitMarker(directory)).catch(() => undefined);
+  if (!stats) return false;
+  return looksLikeGit(stats);
+}
+
+function remember(
   refs: WorkspaceHookConfigPathRef[],
   path: string,
   explicitProjectConfig: boolean,
@@ -294,18 +301,26 @@ function pushExisting(
   if (present) refs.push({ path, explicitProjectConfig });
 }
 
-export function discoverWorkspaceHookConfigPaths(
-  input: DiscoverRequest,
+function absoluteWorkingDirectory(input: DiscoverRequest): string {
+  return resolve(input.workingDirectory);
+}
+
+function gatherSync(
+  directories: readonly string[],
+  explicitPath: string | undefined,
 ): WorkspaceHookConfigPathRef[] {
-  const start = resolve(input.workingDirectory);
-  const directories = climb(start, directoryHasGit);
-  const refs: WorkspaceHookConfigPathRef[] = [];
-  for (const path of hookFilesUnder(directories)) pushExisting(refs, path, false, existsSync(path));
-  if (input.explicitProjectConfigPath !== undefined) {
-    const path = resolve(input.explicitProjectConfigPath);
-    pushExisting(refs, path, true, existsSync(path));
+  const found: WorkspaceHookConfigPathRef[] = [];
+  for (const path of hookFilesUnder(directories)) remember(found, path, false, existsSync(path));
+  if (explicitPath !== undefined) {
+    const explicit = resolve(explicitPath);
+    remember(found, explicit, true, existsSync(explicit));
   }
-  return uniqueRefs(refs);
+  return uniqueRefs(found);
+}
+
+export function discoverWorkspaceHookConfigPaths(input: DiscoverRequest) {
+  const directories = climb(absoluteWorkingDirectory(input), directoryHasGit);
+  return gatherSync(directories, input.explicitProjectConfigPath);
 }
 
 function kindFor(explicit: boolean, fileName: string): WorkspaceHookConfigFileKind {
@@ -322,80 +337,127 @@ function editableProjectFile(workingDirectory: string): string {
   return resolve(workingDirectory, STUDIO_DIR, "config.json");
 }
 
-type SourceRequest = {
-  path: string;
-  workingDirectory: string;
-  hooks: WorkspaceHooksConfig;
-  discoveryOrder: number;
-  explicitProjectConfig?: boolean;
-};
+type SourceRequest = Record<"path" | "workingDirectory", string> &
+  Record<"hooks", WorkspaceHooksConfig> &
+  Record<"discoveryOrder", number> &
+  Partial<Record<"explicitProjectConfig", boolean>>;
+
+function sourceRecord(
+  canonicalPath: string,
+  baseDir: string,
+  discoveryOrder: number,
+  configFileKind: WorkspaceHookConfigFileKind,
+  explicitProjectConfig: boolean,
+  editable: boolean,
+  hooks: WorkspaceHooksConfig,
+): WorkspaceHookSourceInput {
+  const row: WorkspaceHookSourceInput = {
+    canonicalPath,
+    baseDir,
+    discoveryOrder,
+    configFileKind,
+    explicitProjectConfig: explicitProjectConfig,
+    editable,
+    hooks: hooks,
+  };
+  return row;
+}
 
 export function createWorkspaceHookSourceInput(input: SourceRequest): WorkspaceHookSourceInput {
   const absolute = resolve(input.path);
-  const explicitProjectConfig = input.explicitProjectConfig === true;
-  const source: WorkspaceHookSourceInput = {
-    canonicalPath: absolute,
-    baseDir: baseDirFor(absolute),
-    discoveryOrder: input.discoveryOrder,
-    configFileKind: kindFor(explicitProjectConfig, basename(absolute)),
-    explicitProjectConfig,
-    editable: !explicitProjectConfig && absolute === editableProjectFile(input.workingDirectory),
-    hooks: input.hooks,
-  };
-  return source;
+  const markedExplicit = input.explicitProjectConfig === true;
+  return sourceRecord(
+    absolute,
+    baseDirFor(absolute),
+    input.discoveryOrder,
+    kindFor(markedExplicit, basename(absolute)),
+    markedExplicit,
+    !markedExplicit && absolute === editableProjectFile(input.workingDirectory),
+    input.hooks,
+  );
 }
 
-async function pathExists(path: string): Promise<boolean> {
-  const found = await access(path).then(
+async function accessible(path: string): Promise<boolean> {
+  return access(path).then(
     () => true,
     () => false,
   );
-  return found;
 }
 
 async function discoverAsync(input: DiscoverRequest): Promise<WorkspaceHookConfigPathRef[]> {
-  const start = resolve(input.workingDirectory);
-  const directories = await climbAsync(start, directoryHasGitAsync);
-  const refs: WorkspaceHookConfigPathRef[] = [];
+  const directories = await climbAsync(absoluteWorkingDirectory(input), directoryHasGitAsync);
+  const found: WorkspaceHookConfigPathRef[] = [];
   for (const path of hookFilesUnder(directories)) {
-    pushExisting(refs, path, false, await pathExists(path));
+    remember(found, path, false, await accessible(path));
   }
-  if (input.explicitProjectConfigPath !== undefined) {
-    const path = resolve(input.explicitProjectConfigPath);
-    pushExisting(refs, path, true, await pathExists(path));
+  const explicitPath = input.explicitProjectConfigPath;
+  if (explicitPath !== undefined) {
+    const explicit = resolve(explicitPath);
+    remember(found, explicit, true, await accessible(explicit));
   }
-  return uniqueRefs(refs);
+  return uniqueRefs(found);
 }
 
-export async function readWorkspaceHookProjectSources(input: DiscoverRequest): Promise<{
-  sources: WorkspaceHookSourceInput[];
-  errors: WorkspaceHookSourceReadError[];
-}> {
+type SourceList = WorkspaceHookSourceInput[];
+type ReadErrorList = WorkspaceHookSourceReadError[];
+type LoadedSources = Record<"sources", SourceList> & Record<"errors", ReadErrorList>;
+
+function blankRequest(): SourceRequest {
+  return {
+    path: "",
+    workingDirectory: "",
+    hooks: {},
+    discoveryOrder: 0,
+  };
+}
+
+async function loadOne(
+  ref: WorkspaceHookConfigPathRef,
+  workingDirectory: string,
+  discoveryOrder: number,
+): Promise<WorkspaceHookSourceInput | WorkspaceHookSourceReadError | undefined> {
+  let text: string;
+  try {
+    text = await readFile(ref.path, "utf8");
+  } catch (failure: unknown) {
+    return { path: ref.path, error: failure };
+  }
+  try {
+    const root = asRecord(JSON.parse(text) as unknown);
+    if (!root || root.hooks === undefined) return;
+    const hooks = workspaceHooksConfigSchema.parse(root.hooks);
+    const request = blankRequest();
+    request.path = ref.path;
+    request.workingDirectory = workingDirectory;
+    request.hooks = hooks;
+    request.discoveryOrder = discoveryOrder;
+    request.explicitProjectConfig = ref.explicitProjectConfig;
+    return createWorkspaceHookSourceInput(request);
+  } catch (failure: unknown) {
+    return { path: ref.path, error: failure };
+  }
+}
+
+function isReadError(
+  value: WorkspaceHookSourceInput | WorkspaceHookSourceReadError,
+): value is WorkspaceHookSourceReadError {
+  return "error" in value;
+}
+
+export async function readWorkspaceHookProjectSources(
+  input: DiscoverRequest,
+): Promise<LoadedSources> {
   const refs = await discoverAsync(input);
-  const sources: WorkspaceHookSourceInput[] = [];
-  const errors: WorkspaceHookSourceReadError[] = [];
+  const sources: SourceList = [];
+  const errors: ReadErrorList = [];
   for (let index = 0; index < refs.length; index += 1) {
     const ref = refs[index];
     if (!ref) continue;
-    try {
-      const content = await readFile(ref.path, "utf8");
-      const value: unknown = JSON.parse(content);
-      const root = asRecord(value);
-      if (!root || root.hooks === undefined) continue;
-      const hooks = workspaceHooksConfigSchema.parse(root.hooks);
-      sources.push(
-        createWorkspaceHookSourceInput({
-          path: ref.path,
-          workingDirectory: input.workingDirectory,
-          hooks,
-          discoveryOrder: index,
-          explicitProjectConfig: ref.explicitProjectConfig,
-        }),
-      );
-    } catch (error) {
-      const failure: WorkspaceHookSourceReadError = { path: ref.path, error };
-      errors.push(failure);
-    }
+    const loaded = await loadOne(ref, input.workingDirectory, index);
+    if (loaded === undefined) continue;
+    if (isReadError(loaded)) errors.push(loaded);
+    else sources.push(loaded);
   }
-  return { sources, errors };
+  const outcome: LoadedSources = { sources, errors };
+  return outcome;
 }

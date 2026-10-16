@@ -34,15 +34,32 @@ const TRUST_COLUMNS: ReadonlyArray<readonly [string, z.ZodType]> = [
   ["appVersionAtGrant", trimmedText.optional()],
 ];
 
-function columnsToShape(columns: ReadonlyArray<readonly [string, z.ZodType]>) {
-  const shape: z.ZodRawShape = {};
+function columnsToShape<T>(columns: ReadonlyArray<readonly [string, z.ZodType]>): z.ZodType<T> {
+  const shape: Record<string, z.ZodType> = {};
   for (const [key, schema] of columns) shape[key] = schema;
-  return strictFields(shape);
+  // 动态键序在运行时成立，TypeScript 只能看到宽索引。
+  return strictFields(shape as z.ZodRawShape) as unknown as z.ZodType<T>;
 }
 
-export const workspaceHookTrustRecordSchema = columnsToShape(TRUST_COLUMNS);
+type RequiredTrustText =
+  | "workspaceIdentity"
+  | "hookDeclarationDigest"
+  | "grantedAt"
+  | "displayCommandAtGrant"
+  | "sourcePathAtGrant";
 
-export type WorkspaceHookTrustRecord = z.output<typeof workspaceHookTrustRecordSchema>;
+export type WorkspaceHookTrustRecord = Record<RequiredTrustText, string> &
+  Record<"digestAlgorithm", "sha256"> &
+  Record<"decision", "trusted"> &
+  Record<"eventAtGrant", (typeof WORKSPACE_HOOK_EVENT_NAMES)[number]> &
+  Partial<
+    Record<"lastUsedAt" | "bundleDigestAtGrant" | "appVersionAtGrant", string> &
+      Record<"sourceDiscoveryOrderAtGrant" | "matcherIndexAtGrant" | "hookIndexAtGrant", number> &
+      Record<"matcherAtGrant", string | null>
+  >;
+
+export const workspaceHookTrustRecordSchema =
+  columnsToShape<WorkspaceHookTrustRecord>(TRUST_COLUMNS);
 
 function duplicateGrant(
   store: { records: readonly WorkspaceHookTrustRecord[] },
@@ -60,14 +77,20 @@ function duplicateGrant(
   }
 }
 
-const trustFileShape = columnsToShape([
+const trustFileShape = columnsToShape<WorkspaceHookTrustStoreFile>([
   ["schemaVersion", z.literal(WORKSPACE_HOOK_TRUST_STORE_SCHEMA_VERSION)],
   ["records", z.array(workspaceHookTrustRecordSchema)],
 ]);
 
-export const workspaceHookTrustStoreFileSchema = trustFileShape.superRefine(duplicateGrant);
+export type WorkspaceHookTrustStoreFile = Record<
+  "schemaVersion",
+  typeof WORKSPACE_HOOK_TRUST_STORE_SCHEMA_VERSION
+> &
+  Record<"records", WorkspaceHookTrustRecord[]>;
 
-export type WorkspaceHookTrustStoreFile = z.output<typeof workspaceHookTrustStoreFileSchema>;
+export const workspaceHookTrustStoreFileSchema = trustFileShape.superRefine((store, context) => {
+  duplicateGrant(store, context);
+});
 
 type OkTrust = { status: "ok"; file: WorkspaceHookTrustStoreFile };
 type BadTrust = { status: "invalid" };
