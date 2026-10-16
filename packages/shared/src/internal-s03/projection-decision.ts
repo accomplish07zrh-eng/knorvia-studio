@@ -11,11 +11,7 @@ const POLICIES = [
 
 export type ConversationMessageProjectionPolicy = (typeof POLICIES)[number];
 
-const REAL_USER = POLICIES[0];
-const VISIBLE_ASSISTANT = POLICIES[1];
-const PROVIDER_CONTEXT = POLICIES[2];
-const TIMELINE = POLICIES[3];
-const HIDDEN = POLICIES[4];
+const [REAL_USER, VISIBLE_ASSISTANT, PROVIDER_CONTEXT, TIMELINE, HIDDEN] = POLICIES;
 
 type SemanticsFields = {
   kind: string;
@@ -126,7 +122,8 @@ function visibleText(message: ConversationProjectionMessage): string {
 function legacyReminder(text: string): boolean {
   if (text.startsWith(GOAL_CONTINUATION_REMINDER)) return true;
   const generic =
-    text.startsWith(GENERIC_REMINDER) && (text.includes(CONTINUE_GOAL) || text.includes(GOAL_STATE));
+    text.startsWith(GENERIC_REMINDER) &&
+    (text.includes(CONTINUE_GOAL) || text.includes(GOAL_STATE));
   if (generic) return true;
   return text.includes(CONVERSATION_REWIND) || text.includes(WORKSPACE_REWIND);
 }
@@ -216,7 +213,9 @@ const POLICY_STEPS: ReadonlyArray<(view: ProjectionView) => Policy | undefined> 
       : undefined,
   (view) => semanticVerdict(view),
   (view) =>
-    view.info.visibility === "model-only" || modelOnlyCarrier(view.parts) ? PROVIDER_CONTEXT : undefined,
+    view.info.visibility === "model-only" || modelOnlyCarrier(view.parts)
+      ? PROVIDER_CONTEXT
+      : undefined,
   (view) => (projectsTimeline(view.message) ? TIMELINE : undefined),
   (view) => {
     const source = readMessageSource(view.message);

@@ -1,85 +1,105 @@
 // SPDX-License-Identifier: Apache-2.0
 import type { ConversationArtifactType } from "../protocol-v4/rows.js";
 import { MEDIA_PREVIEW_FORMATS } from "../media-preview.js";
+import type { Expand, OptionalField, RequiredField } from "./field-slots.js";
 
-export type ConversationPreviewFileKind =
-  | "markdown"
-  | "html"
-  | "docx"
-  | "xlsx"
-  | "pptx"
-  | "pdf"
-  | "video"
-  | "audio";
+const PREVIEW_FILE_KINDS = [
+  "markdown",
+  "html",
+  "docx",
+  "xlsx",
+  "pptx",
+  "pdf",
+  "video",
+  "audio",
+] as const;
 
-export type ConversationPreviewArtifactType = ConversationArtifactType | "video" | "audio";
+export type ConversationPreviewFileKind = (typeof PREVIEW_FILE_KINDS)[number];
 
-export interface ConversationPreviewFileReference {
-  end: number;
-  kind: ConversationPreviewFileKind;
-  path: string;
-  raw: string;
-  start: number;
+type MediaOnlyArtifact = "video" | "audio";
+export type ConversationPreviewArtifactType = ConversationArtifactType | MediaOnlyArtifact;
+
+type ReferenceShape = {
+  start: RequiredField<number>;
+  end: RequiredField<number>;
+  kind: RequiredField<ConversationPreviewFileKind>;
+  path: RequiredField<string>;
+  raw: RequiredField<string>;
+};
+
+export type ConversationPreviewFileReference = Expand<ReferenceShape>;
+
+type FileChangeShape = {
+  path: RequiredField<string>;
+  state: OptionalField<"active" | "reverted">;
+};
+
+export type ConversationPreviewFileChange = Expand<FileChangeShape>;
+
+type PreviewSourceKind = "user_input_attachment" | "assistant_preview_card";
+
+type CandidateShape = {
+  artifactType: RequiredField<ConversationPreviewArtifactType>;
+  displayName: RequiredField<string>;
+  mimeType: RequiredField<string>;
+  previewKind: RequiredField<ConversationPreviewFileKind>;
+  productTurnId: RequiredField<string>;
+  sourceKind: RequiredField<PreviewSourceKind>;
+  sourceRef: RequiredField<string>;
+  requiresFileChanges: RequiredField<boolean>;
+};
+
+export type ConversationPreviewArtifactCandidate = Expand<CandidateShape>;
+
+type DefinitionShape = {
+  extensions: RequiredField<readonly string[]>;
+  kind: RequiredField<ConversationPreviewFileKind>;
+  mimeType: RequiredField<string>;
+  artifactType: RequiredField<ConversationPreviewArtifactType>;
+};
+
+export type PreviewFileTypeDefinition = Expand<DefinitionShape>;
+
+const CARD_LIMITS = { candidate: 15, visible: 10 } as const;
+export const CONVERSATION_PREVIEW_CARD_CANDIDATE_LIMIT = CARD_LIMITS.candidate;
+export const CONVERSATION_PREVIEW_CARD_VISIBLE_LIMIT = CARD_LIMITS.visible;
+
+type CatalogRow = readonly [
+  readonly string[],
+  ConversationPreviewFileKind,
+  string,
+  ConversationPreviewArtifactType,
+];
+
+function catalogEntry(row: CatalogRow): PreviewFileTypeDefinition {
+  const [extensions, kind, mimeType, artifactType] = row;
+  return { extensions, kind, mimeType, artifactType };
 }
 
-export interface ConversationPreviewFileChange {
-  path: string;
-  state?: "active" | "reverted";
-}
-
-export interface ConversationPreviewArtifactCandidate {
-  artifactType: ConversationPreviewArtifactType;
-  displayName: string;
-  mimeType: string;
-  previewKind: ConversationPreviewFileKind;
-  productTurnId: string;
-  sourceKind: "user_input_attachment" | "assistant_preview_card";
-  sourceRef: string;
-  requiresFileChanges: boolean;
-}
-
-export interface PreviewFileTypeDefinition {
-  extensions: readonly string[];
-  kind: ConversationPreviewFileKind;
-  mimeType: string;
-  artifactType: ConversationPreviewArtifactType;
-}
-
-export const CONVERSATION_PREVIEW_CARD_CANDIDATE_LIMIT = 15;
-export const CONVERSATION_PREVIEW_CARD_VISIBLE_LIMIT = 10;
-
-const DOCUMENT_CATALOG: readonly PreviewFileTypeDefinition[] = [
-  { extensions: [".md"], kind: "markdown", mimeType: "text/markdown", artifactType: "md" },
-  { extensions: [".html", ".htm"], kind: "html", mimeType: "text/html", artifactType: "html" },
-  {
-    extensions: [".docx"],
-    kind: "docx",
-    mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-    artifactType: "docx",
-  },
-  {
-    extensions: [".xlsx"],
-    kind: "xlsx",
-    mimeType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-    artifactType: "xlsx",
-  },
-  {
-    extensions: [".pptx"],
-    kind: "pptx",
-    mimeType: "application/vnd.openxmlformats-officedocument.presentationml.presentation",
-    artifactType: "pptx",
-  },
-  { extensions: [".pdf"], kind: "pdf", mimeType: "application/pdf", artifactType: "pdf" },
+const DOCUMENT_ROWS: readonly CatalogRow[] = [
+  [[".md"], "markdown", "text/markdown", "md"],
+  [[".html", ".htm"], "html", "text/html", "html"],
+  [
+    [".docx"],
+    "docx",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    "docx",
+  ],
+  [[".xlsx"], "xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "xlsx"],
+  [
+    [".pptx"],
+    "pptx",
+    "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+    "pptx",
+  ],
+  [[".pdf"], "pdf", "application/pdf", "pdf"],
 ];
 
 const FILE_CATALOG: readonly PreviewFileTypeDefinition[] = [
-  ...DOCUMENT_CATALOG,
-  ...MEDIA_PREVIEW_FORMATS.map((format) => ({
-    extensions: [format.extension],
-    kind: format.kind,
-    mimeType: format.mediaType,
-    artifactType: format.kind,
-  })),
+  ...DOCUMENT_ROWS.map(catalogEntry),
+  ...MEDIA_PREVIEW_FORMATS.map((format) =>
+    catalogEntry([[format.extension], format.kind, format.mediaType, format.kind]),
+  ),
 ];
 
 const EXTENSION_ALTERNATION =
@@ -117,11 +137,13 @@ function compileScanners() {
 }
 
 const SCANNERS = compileScanners();
+const TRAILING_PUNCTUATION = /[.,;!?，。！？；：、]+$/u;
 const TRAILING_LINE_COLUMN = /:\d+(?::\d+)?$/u;
 const HOME_PREFIX = /^~[\\/]/u;
 const FILE_SCHEME = /^file:\/\//iu;
 const DRIVE_PREFIX = /^[a-zA-Z]:[\\/]/u;
 const DRIVE_URL_PATH = /^\/[a-zA-Z]:\//u;
+const ANGLE_WRAP = /^<|>$/gu;
 const CITATION_MEDIA = new Set<ConversationPreviewFileKind>([
   "docx",
   "xlsx",
@@ -130,12 +152,21 @@ const CITATION_MEDIA = new Set<ConversationPreviewFileKind>([
   "video",
   "audio",
 ]);
+const CHANGE_GATED_KINDS = new Set<ConversationPreviewFileKind>(["markdown", "html"]);
+const CITATION_KIND_MAP: Readonly<Record<string, ConversationPreviewFileKind | undefined>> = {
+  document: "docx",
+  presentation: "pptx",
+  workbook: "xlsx",
+};
+
+function miss(): null {
+  return null;
+}
 
 function cleanToken(value: string): string {
-  return value
-    .trim()
-    .replace(/[.,;!?，。！？；：、]+$/u, "")
-    .replace(TRAILING_LINE_COLUMN, "");
+  const trimmed = value.trim();
+  const unpunctuated = trimmed.replace(TRAILING_PUNCTUATION, "");
+  return unpunctuated.replace(TRAILING_LINE_COLUMN, "");
 }
 
 function toSlashes(value: string): string {
@@ -160,7 +191,7 @@ function foldSegments(value: string, trapAboveRoot: boolean): string | null {
       continue;
     }
     if (kept.length === 0) {
-      if (trapAboveRoot) return null;
+      if (trapAboveRoot) return miss();
       continue;
     }
     kept.pop();
@@ -173,46 +204,45 @@ function foldKey(value: string): string {
   return foldSegments(value, false) ?? "";
 }
 
-function pathFromFileUrl(value: string): string | null {
-  let url: URL;
+function decodePathname(pathname: string): string {
   try {
-    url = new URL(value);
-  } catch {
-    return null;
-  }
-  if (url.protocol !== "file:") return null;
-  let path = url.pathname;
-  try {
-    path = decodeURI(path);
+    return decodeURI(pathname);
   } catch {
     // Malformed percent-encoding stays on the raw pathname.
+    return pathname;
   }
-  if (DRIVE_URL_PATH.test(path)) return path.slice(1);
-  if (url.hostname.length > 0 && url.hostname !== "localhost") return `//${url.hostname}${path}`;
-  return path;
 }
 
-export function resolveConversationPreviewPath(
-  workspacePath: string,
-  rawPath: string,
-): string | null {
+function pathFromFileUrl(value: string): string | null {
+  if (!URL.canParse(value)) return miss();
+  const url = new URL(value);
+  if (url.protocol !== "file:") return miss();
+  const decoded = decodePathname(url.pathname);
+  if (DRIVE_URL_PATH.test(decoded)) return decoded.slice(1);
+  const host = url.hostname;
+  if (host.length > 0 && host !== "localhost") return `//${host}${decoded}`;
+  return decoded;
+}
+
+export function resolveConversationPreviewPath(workspacePath: string, rawPath: string) {
   const cleaned = cleanToken(rawPath);
-  if (cleaned.length === 0 || HOME_PREFIX.test(cleaned)) return null;
-  const path = FILE_SCHEME.test(cleaned) ? pathFromFileUrl(cleaned) : cleaned;
-  if (path === null || path.length === 0) return null;
-  if (isAbsolutePath(path)) return foldKey(path);
-  const relative = foldSegments(path, true);
-  if (relative === null) return null;
+  if (cleaned.length === 0 || HOME_PREFIX.test(cleaned)) return miss();
+  const located = FILE_SCHEME.test(cleaned) ? pathFromFileUrl(cleaned) : cleaned;
+  if (located === null || located.length === 0) return miss();
+  if (isAbsolutePath(located)) return foldKey(located);
+  const relative = foldSegments(located, true);
+  if (relative === null) return miss();
   const root = foldKey(workspacePath).replace(/\/$/u, "");
   return `${root}/${relative}`;
 }
 
-export function getConversationPreviewFileType(path: string): PreviewFileTypeDefinition | null {
-  const lowered = cleanToken(path).toLowerCase();
+export function getConversationPreviewFileType(rawPath: string) {
+  const lowered = cleanToken(rawPath).toLowerCase();
   for (const definition of FILE_CATALOG) {
-    if (definition.extensions.some((extension) => lowered.endsWith(extension))) return definition;
+    const matched = definition.extensions.some((extension) => lowered.endsWith(extension));
+    if (matched) return definition;
   }
-  return null;
+  return miss();
 }
 
 function leafName(path: string): string {
@@ -226,7 +256,9 @@ function leafName(path: string): string {
 function insideWorkspace(workspace: string, target: string): boolean {
   const path = foldKey(target).replace(/\/$/u, "");
   const root = foldKey(workspace).replace(/\/$/u, "");
-  return path === root || path.startsWith(`${root}/`);
+  if (path === root) return true;
+  const prefix = `${root}/`;
+  return path.startsWith(prefix);
 }
 
 function directiveParameter(body: string, name: string): string | undefined {
@@ -236,10 +268,14 @@ function directiveParameter(body: string, name: string): string | undefined {
 }
 
 function citationExpectation(artifactKind: string): ConversationPreviewFileKind | undefined {
-  if (artifactKind === "document") return "docx";
-  if (artifactKind === "presentation") return "pptx";
-  if (artifactKind === "workbook") return "xlsx";
-  return undefined;
+  return CITATION_KIND_MAP[artifactKind];
+}
+
+function citationAllows(kind: ConversationPreviewFileKind, artifactKind: string): boolean {
+  if (!CITATION_MEDIA.has(kind)) return false;
+  const expected = citationExpectation(artifactKind);
+  if (expected === undefined) return true;
+  return kind === expected;
 }
 
 class SpanGuard {
@@ -260,38 +296,53 @@ function spanOf(match: RegExpMatchArray): { from: number; to: number; text: stri
   return { from, to: from + text.length, text };
 }
 
-interface FoundReference {
-  start: number;
-  end: number;
-  kind: ConversationPreviewFileKind;
-  path: string;
-  raw: string;
-}
-
 function admitReference(
-  found: FoundReference[],
+  found: ConversationPreviewFileReference[],
   workspacePath: string,
   raw: string,
   start: number,
   end: number,
   citationKind: string | undefined,
 ): void {
-  const path = resolveConversationPreviewPath(workspacePath, raw);
-  if (path === null) return;
-  const definition = getConversationPreviewFileType(path);
-  if (definition === null) return;
-  if (citationKind !== undefined) {
-    if (!CITATION_MEDIA.has(definition.kind)) return;
-    const expected = citationExpectation(citationKind);
-    if (expected !== undefined && definition.kind !== expected) return;
-  }
-  found.push({ start, end, kind: definition.kind, path, raw });
+  const resolved = resolveConversationPreviewPath(workspacePath, raw);
+  if (resolved === null) return;
+  const fileType = getConversationPreviewFileType(resolved);
+  if (fileType === null) return;
+  if (citationKind !== undefined && !citationAllows(fileType.kind, citationKind)) return;
+  found.push({ start, end, kind: fileType.kind, path: resolved, raw });
+}
+
+function unwrapMarkdownTarget(match: RegExpMatchArray): string {
+  const target = match[2] ?? "";
+  return target.trim().replace(ANGLE_WRAP, "");
+}
+
+function quotedBody(match: RegExpMatchArray): string {
+  const body = match[2] ?? "";
+  return body.trim();
+}
+
+function groupSpan(
+  match: RegExpMatchArray,
+  raw: string,
+  fromEnd: boolean,
+): {
+  start: number;
+  end: number;
+} {
+  const full = spanOf(match);
+  const offset = fromEnd ? full.text.lastIndexOf(raw) : full.text.indexOf(raw);
+  const start = full.from + offset;
+  return { start, end: start + raw.length };
 }
 
 // Citation spans are reserved first so a looser scanner cannot emit the same region again.
-function collectReferences(content: string, workspacePath: string): FoundReference[] {
+function collectReferences(
+  content: string,
+  workspacePath: string,
+): ConversationPreviewFileReference[] {
   const guard = new SpanGuard();
-  const found: FoundReference[] = [];
+  const found: ConversationPreviewFileReference[] = [];
   for (const match of content.matchAll(SCANNERS.citations)) {
     const span = spanOf(match);
     guard.protect(span.from, span.to);
@@ -305,8 +356,14 @@ function collectReferences(content: string, workspacePath: string): FoundReferen
     const span = spanOf(match);
     if (guard.overlaps(span.from, span.to)) continue;
     guard.protect(span.from, span.to);
-    const raw = (match[2] ?? "").trim().replace(/^<|>$/gu, "");
-    admitReference(found, workspacePath, raw, span.from, span.to, undefined);
+    admitReference(
+      found,
+      workspacePath,
+      unwrapMarkdownTarget(match),
+      span.from,
+      span.to,
+      undefined,
+    );
   }
   for (const match of content.matchAll(SCANNERS.fileUrls)) {
     const span = spanOf(match);
@@ -316,20 +373,18 @@ function collectReferences(content: string, workspacePath: string): FoundReferen
   }
   for (const match of content.matchAll(SCANNERS.quotedPaths)) {
     const span = spanOf(match);
-    const raw = (match[2] ?? "").trim();
+    const raw = quotedBody(match);
     if (raw.length === 0 || guard.overlaps(span.from, span.to)) continue;
     guard.protect(span.from, span.to);
-    const inner = span.from + span.text.indexOf(raw);
-    admitReference(found, workspacePath, raw, inner, inner + raw.length, undefined);
+    const inner = groupSpan(match, raw, false);
+    admitReference(found, workspacePath, raw, inner.start, inner.end, undefined);
   }
   for (const match of content.matchAll(SCANNERS.plainPaths)) {
     const raw = match[1] ?? "";
     if (raw.length === 0) continue;
-    const full = spanOf(match);
-    const start = full.from + full.text.lastIndexOf(raw);
-    const end = start + raw.length;
-    if (guard.overlaps(start, end)) continue;
-    admitReference(found, workspacePath, raw, start, end, undefined);
+    const inner = groupSpan(match, raw, true);
+    if (guard.overlaps(inner.start, inner.end)) continue;
+    admitReference(found, workspacePath, raw, inner.start, inner.end, undefined);
   }
   return found;
 }
@@ -342,14 +397,24 @@ function laterFirst(
   return right.end - left.end;
 }
 
-function uniqueByPath(references: readonly FoundReference[]): ConversationPreviewFileReference[] {
+class FirstSeen {
+  private readonly keys = new Set<string>();
+
+  accept(key: string): boolean {
+    if (this.keys.has(key)) return false;
+    this.keys.add(key);
+    return true;
+  }
+}
+
+function uniqueByPath(
+  references: readonly ConversationPreviewFileReference[],
+): ConversationPreviewFileReference[] {
   const ranked = references.slice().sort(laterFirst);
-  const seen = new Set<string>();
+  const gate = new FirstSeen();
   const kept: ConversationPreviewFileReference[] = [];
   for (const reference of ranked) {
-    const key = foldKey(reference.path);
-    if (seen.has(key)) continue;
-    seen.add(key);
+    if (!gate.accept(foldKey(reference.path))) continue;
     kept.push({
       start: reference.start,
       end: reference.end,
@@ -362,10 +427,7 @@ function uniqueByPath(references: readonly FoundReference[]): ConversationPrevie
   return kept;
 }
 
-export function extractConversationPreviewFileReferences(
-  content: string,
-  workspacePath: string,
-): ConversationPreviewFileReference[] {
+export function extractConversationPreviewFileReferences(content: string, workspacePath: string) {
   if (content.trim().length === 0) return [];
   return uniqueByPath(collectReferences(content, workspacePath));
 }
@@ -388,51 +450,79 @@ function partitionChanges(
   return { active, reverted };
 }
 
-export function buildConversationPreviewArtifactCandidatesFromReferences(input: {
-  references: readonly ConversationPreviewFileReference[];
-  productTurnId: string;
-  workspacePath: string;
-  fileChanges?: readonly ConversationPreviewFileChange[];
-  enforceWorkspaceBoundary?: boolean;
-}): ConversationPreviewArtifactCandidate[] {
+type ReferenceBuildShape = {
+  references: RequiredField<readonly ConversationPreviewFileReference[]>;
+  productTurnId: RequiredField<string>;
+  workspacePath: RequiredField<string>;
+  fileChanges: OptionalField<readonly ConversationPreviewFileChange[]>;
+  enforceWorkspaceBoundary: OptionalField<boolean>;
+};
+
+type ReferenceBuildInput = Expand<ReferenceBuildShape>;
+
+function makeCandidate(
+  fileType: PreviewFileTypeDefinition,
+  reference: ConversationPreviewFileReference,
+  productTurnId: string,
+  requiresFileChanges: boolean,
+): ConversationPreviewArtifactCandidate {
+  const artifactType = fileType.artifactType;
+  const displayName = leafName(reference.path);
+  const mimeType = fileType.mimeType;
+  const previewKind = fileType.kind;
+  const sourceKind = "assistant_preview_card" as const;
+  const sourceRef = reference.path;
+  return {
+    artifactType,
+    displayName,
+    mimeType,
+    previewKind,
+    productTurnId,
+    sourceKind,
+    sourceRef,
+    requiresFileChanges,
+  };
+}
+
+export function buildConversationPreviewArtifactCandidatesFromReferences(
+  input: ReferenceBuildInput,
+) {
   const changes = partitionChanges(input.workspacePath, input.fileChanges ?? []);
   const enforceBoundary = input.enforceWorkspaceBoundary !== false;
-  const seen = new Set<string>();
+  const gate = new FirstSeen();
   const produced: ConversationPreviewArtifactCandidate[] = [];
   const ordered = input.references.slice().sort(laterFirst);
   for (const reference of ordered) {
     if (produced.length >= CONVERSATION_PREVIEW_CARD_CANDIDATE_LIMIT) break;
-    const definition = getConversationPreviewFileType(reference.path);
-    if (definition === null) continue;
+    const fileType = getConversationPreviewFileType(reference.path);
+    if (fileType === null) continue;
     const path = foldKey(reference.path);
     if (enforceBoundary && !insideWorkspace(input.workspacePath, path)) continue;
-    const requiresFileChanges = reference.kind === "markdown" || reference.kind === "html";
+    const requiresFileChanges = CHANGE_GATED_KINDS.has(reference.kind);
     if (requiresFileChanges && (!changes.active.has(path) || changes.reverted.has(path))) continue;
-    if (seen.has(path)) continue;
-    seen.add(path);
-    produced.push({
-      artifactType: definition.artifactType,
-      displayName: leafName(reference.path),
-      mimeType: definition.mimeType,
-      previewKind: definition.kind,
-      productTurnId: input.productTurnId,
-      sourceKind: "assistant_preview_card",
-      sourceRef: reference.path,
-      requiresFileChanges,
-    });
+    if (!gate.accept(path)) continue;
+    produced.push(makeCandidate(fileType, reference, input.productTurnId, requiresFileChanges));
   }
   return produced;
 }
 
-export function buildConversationPreviewArtifactCandidates(input: {
-  assistantText: string;
-  productTurnId: string;
-  workspacePath: string;
-  fileChanges?: readonly ConversationPreviewFileChange[];
-}): ConversationPreviewArtifactCandidate[] {
-  const { assistantText, ...rest } = input;
-  return buildConversationPreviewArtifactCandidatesFromReferences({
-    ...rest,
-    references: extractConversationPreviewFileReferences(assistantText, input.workspacePath),
+type TextBuildShape = {
+  assistantText: RequiredField<string>;
+  productTurnId: RequiredField<string>;
+  workspacePath: RequiredField<string>;
+  fileChanges: OptionalField<readonly ConversationPreviewFileChange[]>;
+};
+
+type TextBuildInput = Expand<TextBuildShape>;
+
+export function buildConversationPreviewArtifactCandidates(input: TextBuildInput) {
+  const { assistantText, productTurnId, workspacePath, fileChanges } = input;
+  const references = extractConversationPreviewFileReferences(assistantText, workspacePath);
+  const candidates = buildConversationPreviewArtifactCandidatesFromReferences({
+    references,
+    productTurnId,
+    workspacePath,
+    fileChanges,
   });
+  return candidates;
 }

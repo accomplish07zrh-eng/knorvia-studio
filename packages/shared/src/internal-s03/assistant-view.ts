@@ -45,10 +45,9 @@ export type BuildKnorviaAssistantPresentationOptions = Expand<OptionsShape>;
 
 type ToolIndex = ReadonlyMap<string, KnorviaAssistantPresentationToolCall>;
 
-function indexTools(toolCalls: readonly KnorviaAssistantPresentationToolCall[]): Map<
-  string,
-  KnorviaAssistantPresentationToolCall
-> {
+function indexTools(
+  toolCalls: readonly KnorviaAssistantPresentationToolCall[],
+): Map<string, KnorviaAssistantPresentationToolCall> {
   const byId = new Map<string, KnorviaAssistantPresentationToolCall>();
   for (const call of toolCalls) byId.set(call.toolId, call);
   return byId;
