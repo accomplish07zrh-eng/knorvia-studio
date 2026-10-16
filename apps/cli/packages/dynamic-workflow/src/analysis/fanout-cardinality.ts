@@ -12,16 +12,17 @@ const WRAPPER_KINDS = new Set<ts.SyntaxKind>([
   Kind.TypeAssertionExpression,
 ]);
 
+// In-place writes that make a const array's element count unknowable.
+// Length-changing calls drop or append elements, reordering calls permute them,
+// and filling calls overwrite a span. A read of `.length` is handled separately.
+const LENGTH_CHANGING_CALLS = ["push", "pop", "shift", "unshift", "splice"] as const;
+const REORDERING_CALLS = ["sort", "reverse"] as const;
+const FILLING_CALLS = ["fill", "copyWithin"] as const;
+
 const ARRAY_MUTATION_CALLS = new Set<string>([
-  "push",
-  "pop",
-  "shift",
-  "unshift",
-  "splice",
-  "sort",
-  "reverse",
-  "fill",
-  "copyWithin",
+  ...LENGTH_CHANGING_CALLS,
+  ...REORDERING_CALLS,
+  ...FILLING_CALLS,
 ]);
 
 const PATTERN_CONTAINER_KINDS = new Set<ts.SyntaxKind>([
