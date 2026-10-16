@@ -45,7 +45,7 @@ export function enforceWorkspaceKey(value: KeyedWorkspace, ctx: RefinementCtx): 
   report(ctx, "workspaceKey", WORKSPACE_KEY_RULE);
 }
 
-export function enforceRunTrace(value: TracedRun, ctx: RefinementCtx): void {
+function enforceRunTrace(value: TracedRun, ctx: RefinementCtx): void {
   if (value.runId === value.traceId) return;
   report(ctx, "runId", RUN_TRACE_RULE);
 }

@@ -20,7 +20,6 @@ import {
   attachmentSchema,
   enforceRealtimeEvent,
   enforceTarget,
-  enforceWorkspaceKey,
   plain,
   positive,
   trimmed,
