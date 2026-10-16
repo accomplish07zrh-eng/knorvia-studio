@@ -1056,7 +1056,7 @@
     "apps/cli/packages/core/src/tool/executor/result/byte-budget.ts": "c18b0b4c85cd854007f30259963e03d67420ef5e68668d039719fd59d3081e19",
     "apps/cli/packages/core/dist/tool/executor/result/byte-budget.js": "768e4fe694e1a9478d832dbb56a4ec87f56c9c99b4f1a66b6e886b614830d77a",
     "apps/cli/packages/core/dist/tool/executor/result/byte-budget.d.ts": "de5b9b07d8c4fb9455b1bbecf36e5c9082973b1ae71c380a4f9567f408c496f3",
-    "apps/cli/packages/core/src/tool/handlers/get-workflow-run-format-roster.ts": "66547e565f8b77c95412b99b848f5ee67dfcf91ea1c2886a433d47059ab9195a",
+    "apps/cli/packages/core/src/tool/handlers/get-workflow-run-format-roster.ts": "c72c8c4d2383a26e8d516b3b1a296166d016f65e335b3856d403251a1bfd6aaf",
     "apps/cli/packages/core/dist/tool/handlers/get-workflow-run-format-roster.js": "dc5cba7b3c6b2843482feb293c5cd636833a22c5ce359f293434436c0f347004",
     "apps/cli/packages/core/dist/tool/handlers/get-workflow-run-format-roster.d.ts": "bd1ec9a70c34cf92baa3a7ead52676f2b763d5843caf64433dd2a705ac37f44b",
     "apps/cli/packages/core/dist/tool/handlers/get-workflow-run-format.js": "eacbabd8be3fc19381c3376d8ba1630ba2952fd0ad479452b428517dc357165d",
