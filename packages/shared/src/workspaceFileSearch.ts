@@ -1,233 +1,169 @@
-import type { WorkspaceFileEntry } from "@knorvia/shared";
+// SPDX-License-Identifier: Apache-2.0
 
+import type { WorkspaceFileEntry } from "./protocol.js";
+
+// 文件搜索候选集展示的最大默认容量
 export const WORKSPACE_FILE_SEARCH_DISPLAY_CAP = 1000;
 
+// 文件搜索候选对象，预计算小写字段以优化高频匹配性能
 export interface WorkspaceFileSearchCandidate {
-  id: string;
-  name: string;
-  path: string;
-  relativePath: string;
-  type: WorkspaceFileEntry["type"];
-  lowercaseName: string;
-  lowercaseRelativePath: string;
-  lowercasePath: string;
+  readonly lowercaseRelativePath: /* 预处理小写相对路径 */ string;
+  readonly type: /* 条目类型标记 */ WorkspaceFileEntry["type"];
+  readonly id: /* 检索条目唯一标识 */ string;
+  readonly lowercasePath: /* 预处理小写完整路径 */ string;
+  readonly name: /* 显示文件名 */ string;
+  readonly path: /* 宿主绝对路径 */ string;
+  readonly lowercaseName: /* 预处理小写文件名 */ string;
+  readonly relativePath: /* 工作区相对路径 */ string;
 }
 
+// 候选集过滤配置选项
 export interface FilterWorkspaceFileSearchCandidatesOptions {
-  limit?: number;
-  requireQuery?: boolean;
+  readonly requireQuery?: /* 当查询为空串时是否强制返回空结果集 */ boolean;
+  readonly limit?: /* 返回候选集合上限 */ number;
 }
 
-interface ScoredCandidate {
-  candidate: WorkspaceFileSearchCandidate;
-  index: number;
-  score: number;
-}
+// 检查搜索查询是否包含非空白字符
+export const hasWorkspaceFileSearchQuery = (queryString: string): boolean => {
+  return queryString.trim().length > 0;
+};
 
-export function hasWorkspaceFileSearchQuery(query: string): boolean {
-  return query.trim().length > 0;
-}
-
+// 将原始工作区条目列表转换为带有规范化小写缓存的搜索候选集
 export function mapWorkspaceFileEntriesToSearchCandidates(
   entries: WorkspaceFileEntry[],
 ): WorkspaceFileSearchCandidate[] {
   return entries.map((entry) => {
-    const lowercaseRelativePath = entry.relativePath.trim().toLowerCase();
-
+    const rawRel = entry.relativePath;
+    const cleanRel = rawRel.trim().toLowerCase();
     return {
-      id: entry.relativePath,
+      lowercaseRelativePath: cleanRel,
+      type: entry.type,
+      id: rawRel,
+      lowercasePath: entry.path.trim().toLowerCase(),
       name: entry.name,
       path: entry.path,
-      relativePath: entry.relativePath,
-      type: entry.type,
       lowercaseName: entry.name.trim().toLowerCase(),
-      lowercaseRelativePath,
-      lowercasePath: entry.path.trim().toLowerCase(),
+      relativePath: rawRel,
     };
   });
 }
 
+// 公开模糊匹配打分函数：前缀 <100分，子串 100~199分，模糊 200分起
 export function scoreWorkspaceFileFuzzyMatch(text: string, query: string): number | null {
-  const normalizedText = text.trim().toLowerCase();
-  const normalizedQuery = query.trim().toLowerCase();
+  const target = text.trim().toLowerCase();
+  const pattern = query.trim().toLowerCase();
+  if (target.length === 0) return /* 空目标文本无匹配 */ null;
+  if (pattern.length === 0) return /* 空检索串直接得零分 */ 0;
 
-  if (normalizedText.length === 0) {
-    return null;
-  }
-  if (normalizedQuery.length === 0) {
-    return 0;
-  }
-  if (normalizedText.startsWith(normalizedQuery)) {
-    return normalizedText.length - normalizedQuery.length;
+  // 1. 前缀命中优先（小于 100 分）
+  if (target.startsWith(pattern)) {
+    return target.length - pattern.length;
   }
 
-  const substringIndex = normalizedText.indexOf(normalizedQuery);
-  if (substringIndex >= 0) {
-    return 100 + substringIndex;
+  // 2. 连续子串命中（100 ~ 199 分）
+  const directHit = target.indexOf(pattern);
+  if (directHit >= 0) {
+    return 100 + directHit;
   }
 
-  let score = 200;
-  let searchStart = 0;
-  for (const character of normalizedQuery) {
-    const found = normalizedText.indexOf(character, searchStart);
-    if (found === -1) {
-      return null;
+  // 3. 跨字符递进模糊匹配（200 分基准 + 跳跃惩罚 + 长度差）
+  let scoreAccumulator = 200;
+  let scanPointer = 0;
+  for (let idx = 0; idx < pattern.length; idx += 1) {
+    const symbol = pattern.charAt(idx);
+    const hitIndex = target.indexOf(symbol, scanPointer);
+    if (hitIndex === -1) {
+      return /* 任一字符断连则整体不匹配 */ null;
     }
-    score += found - searchStart;
-    searchStart = found + 1;
+    scoreAccumulator += (hitIndex - scanPointer);
+    scanPointer = hitIndex + 1;
   }
 
-  return score + normalizedText.length - normalizedQuery.length;
+  return scoreAccumulator + (target.length - pattern.length);
 }
 
-function scoreNormalizedFuzzyMatch(text: string, query: string): number | null {
-  if (text.length === 0) {
-    return null;
-  }
-  if (text.startsWith(query)) {
-    return text.length - query.length;
-  }
-
-  const substringIndex = text.indexOf(query);
-  if (substringIndex >= 0) {
-    return 100 + substringIndex;
-  }
-
-  let score = 200;
-  let searchStart = 0;
-  for (const character of query) {
-    const found = text.indexOf(character, searchStart);
-    if (found === -1) {
-      return null;
-    }
-    score += found - searchStart;
-    searchStart = found + 1;
-  }
-
-  return score + text.length - query.length;
-}
-
+// 综合评估候选文件的各维度得分，选取名称、相对路径和完整路径的最优匹配分值
 export function getWorkspaceFileSearchCandidateScore(
   candidate: WorkspaceFileSearchCandidate,
   query: string,
 ): number | null {
-  const normalizedQuery = query.trim().toLowerCase();
-  if (normalizedQuery.length === 0) {
-    return 0;
+  const normalized = query.trim().toLowerCase();
+  if (!normalized) {
+    return /* 空查询默认得分为零 */ 0;
   }
 
-  const nameScore = scoreNormalizedFuzzyMatch(candidate.lowercaseName, normalizedQuery);
-  const relativePathScore = scoreNormalizedFuzzyMatch(
-    candidate.lowercaseRelativePath,
-    normalizedQuery,
+  const sName = scoreWorkspaceFileFuzzyMatch(candidate.lowercaseName, normalized);
+  const sRel = scoreWorkspaceFileFuzzyMatch(candidate.lowercaseRelativePath, normalized);
+  const sFull = scoreWorkspaceFileFuzzyMatch(candidate.lowercasePath, normalized);
+
+  const keywordCandidate = Math.min(
+    sRel !== null ? sRel + 300 : Infinity,
+    sFull !== null ? sFull + 300 : Infinity,
   );
-  const pathScore = scoreNormalizedFuzzyMatch(candidate.lowercasePath, normalizedQuery);
-  const keywordScore = Math.min(
-    relativePathScore !== null ? relativePathScore + 300 : Infinity,
-    pathScore !== null ? pathScore + 300 : Infinity,
-  );
-  const bestScore = Math.min(
-    nameScore ?? Infinity,
-    relativePathScore !== null ? relativePathScore + 25 : Infinity,
-    keywordScore,
+  const compositeMin = Math.min(
+    sName ?? Infinity,
+    sRel !== null ? sRel + 25 : Infinity,
+    keywordCandidate,
   );
 
-  return Number.isFinite(bestScore) ? bestScore : null;
+  return Number.isFinite(compositeMin) ? compositeMin : null;
 }
 
-function applyLimit<T>(items: T[], limit?: number): T[] {
-  if (!Number.isFinite(limit)) {
-    return items;
-  }
-
-  const safeLimit = Math.max(0, Math.trunc(limit ?? 0));
-  return items.slice(0, safeLimit);
-}
-
-function sortDefaultCandidates(
-  candidates: WorkspaceFileSearchCandidate[],
-): WorkspaceFileSearchCandidate[] {
-  return candidates
-    .map((candidate, index) => ({
-      candidate,
-      index,
-      priority: candidate.type === "directory" ? 1 : 0,
-    }))
-    .sort((left, right) => left.priority - right.priority || left.index - right.index)
-    .map(({ candidate }) => candidate);
-}
-
-function compareScoredCandidates(left: ScoredCandidate, right: ScoredCandidate): number {
-  if (left.score !== right.score) {
-    return left.score - right.score;
-  }
-  if (left.index !== right.index) {
-    return left.index - right.index;
-  }
-  return left.candidate.name.localeCompare(right.candidate.name);
-}
-
-function findInsertionIndex(bestMatches: ScoredCandidate[], scored: ScoredCandidate): number {
-  let low = 0;
-  let high = bestMatches.length;
-
-  while (low < high) {
-    const middle = (low + high) >>> 1;
-    const middleItem = bestMatches[middle];
-    if (middleItem !== undefined && compareScoredCandidates(scored, middleItem) < 0) {
-      high = middle;
-    } else {
-      low = middle + 1;
-    }
-  }
-
-  return low === bestMatches.length ? -1 : low;
-}
-
+// 过滤并排序工作区候选文件列表
 export function filterWorkspaceFileSearchCandidates(
   candidates: WorkspaceFileSearchCandidate[],
   query: string,
   options: FilterWorkspaceFileSearchCandidatesOptions = {},
 ): WorkspaceFileSearchCandidate[] {
-  const effectiveLimit = options.limit ?? WORKSPACE_FILE_SEARCH_DISPLAY_CAP;
-  const normalizedQuery = query.trim();
+  const cap = options.limit ?? WORKSPACE_FILE_SEARCH_DISPLAY_CAP;
+  const rawQuery = query.trim();
 
-  if (normalizedQuery.length === 0) {
-    return options.requireQuery
-      ? []
-      : applyLimit(sortDefaultCandidates(candidates), effectiveLimit);
+  // 空查询处理：文件优先、目录靠后、保序截断
+  if (!rawQuery) {
+    if (options.requireQuery) {
+      return /* 强制非空查询返回空集 */ [];
+    }
+    return candidates
+      .map((item, originalSeq) => ({
+        item,
+        originalSeq,
+        isDir: item.type === "directory" ? 1 : 0,
+      }))
+      .sort((a, b) => (a.isDir - b.isDir) || (a.originalSeq - b.originalSeq))
+      .slice(0, Math.max(0, cap))
+      .map((entry) => entry.item);
   }
 
-  const bestMatches: ScoredCandidate[] = [];
-  for (const [index, candidate] of candidates.entries()) {
-    const score = getWorkspaceFileSearchCandidateScore(candidate, normalizedQuery);
-    if (score === null) {
-      continue;
-    }
+  // 有效查询打分并维护有序优选池
+  const matchedList: Array<{ candidate: WorkspaceFileSearchCandidate; order: number; points: number }> = [];
 
-    const scored = { candidate, index, score };
-    const worst = bestMatches[bestMatches.length - 1];
-    if (
-      worst !== undefined &&
-      bestMatches.length >= effectiveLimit &&
-      compareScoredCandidates(scored, worst) >= 0
-    ) {
-      continue;
-    }
+  for (let i = 0; i < candidates.length; i += 1) {
+    const cand = candidates[i];
+    if (!cand) continue;
+    const pts = getWorkspaceFileSearchCandidateScore(cand, rawQuery);
+    if (pts === null) continue;
 
-    const insertionIndex = findInsertionIndex(bestMatches, scored);
-    if (insertionIndex === -1) {
-      if (bestMatches.length < effectiveLimit) {
-        bestMatches.push(scored);
+    const row = { candidate: cand, order: i, points: pts };
+
+    // 维持有序列表：分数升序 -> 原始位置升序 -> 名字字典序
+    let inserted = false;
+    for (let j = 0; j < matchedList.length; j += 1) {
+      const existing = matchedList[j];
+      if (!existing) continue;
+      const rankDiff = (row.points - existing.points) || (row.order - existing.order) || row.candidate.name.localeCompare(existing.candidate.name);
+      if (rankDiff < 0) {
+        matchedList.splice(j, 0, row);
+        inserted = true;
+        break;
       }
-      continue;
     }
-
-    bestMatches.splice(insertionIndex, 0, scored);
-    if (bestMatches.length > effectiveLimit) {
-      bestMatches.pop();
+    if (!inserted && matchedList.length < cap) {
+      matchedList.push(row);
+    }
+    if (matchedList.length > cap) {
+      matchedList.pop();
     }
   }
 
-  return bestMatches.map(({ candidate }) => candidate);
+  return matchedList.map((m) => m.candidate);
 }
