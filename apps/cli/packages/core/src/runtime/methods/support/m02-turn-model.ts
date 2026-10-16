@@ -18,7 +18,7 @@ import { cloneModelSelection } from "../../model-selection.js";
 import type { ModelExecutionContext } from "../../types.js";
 import { createRefreshRuntimeHeadersBeforeModelAttempt } from "../model-runtime-headers.js";
 import { createRuntimeModel, withModelInvocationContext } from "../runtime-model.js";
-import { assignKeys, phrase, report } from "./m02-record.js";
+import { layer, report } from "./m02-record.js";
 
 type TurnModelOptions = {
   selection?: ModelSelection; // 钉住的选择；缺省则读会话
@@ -26,53 +26,40 @@ type TurnModelOptions = {
 };
 
 const SLOT_SUFFIX = ":runtime-model-selection";
-const PERSIST_EVENT = phrase(["session.model_selection.", "persist_failed"]);
-const PERSIST_LABEL = phrase(["Session model selection ", "persistence failed"]);
-const MODULE_NAME = phrase(["core.runtime"]);
-const FAILED_STATUS = phrase(["failed"]);
+const PERSIST_EVENT = "session.model_selection.persist_failed";
+const PERSIST_LABEL = "Session model selection persistence failed";
+const MODULE_NAME = "core.runtime";
+const FAILED_STATUS = "failed";
 
 function pickedSelection(
-  runtime: AgentRuntimeInternal,
+  host: AgentRuntimeInternal,
   options: TurnModelOptions,
 ): ModelSelection | undefined {
   // null 与 undefined 都回落到会话选择，和 ?? 一致。
   const explicit = options.selection;
-  return explicit ?? runtime.getSessionModelSelection();
+  return explicit ?? host.getSessionModelSelection();
 }
 
 function headerRefresh(
-  runtime: AgentRuntimeInternal,
+  host: AgentRuntimeInternal,
   built: Model,
   request: ModelRequest,
 ): ModelInvocationContext {
   const live = getCurrentModelInvocationContext();
-  const traceContext = live?.traceContext ?? runtime.rootTraceContext;
-  const refreshRuntimeHeadersBeforeAttempt = createRefreshRuntimeHeadersBeforeModelAttempt(
-    runtime,
-    assignKeys<Parameters<typeof createRefreshRuntimeHeadersBeforeModelAttempt>[1]>([
-      ["abortSignal", request.abortSignal],
-      ["model", built],
-      ["traceContext", traceContext],
-    ]),
-  );
-  return assignKeys<ModelInvocationContext>([
-    ["refreshRuntimeHeadersBeforeAttempt", refreshRuntimeHeadersBeforeAttempt],
-  ]);
+  const traceContext = live?.traceContext ?? host.rootTraceContext;
+  const refreshRuntimeHeadersBeforeAttempt = createRefreshRuntimeHeadersBeforeModelAttempt(host, {
+    abortSignal: request.abortSignal,
+    model: built,
+    traceContext,
+  });
+  return { refreshRuntimeHeadersBeforeAttempt };
 }
 
-export function createTurnModel(
-  runtime: AgentRuntimeInternal,
-  options: TurnModelOptions = {},
-): Model {
-  const picked = pickedSelection(runtime, options);
-  const built = createRuntimeModel(
-    runtime,
-    assignKeys<Parameters<typeof createRuntimeModel>[1]>([
-      ["selection", picked],
-      ["requestDependencies", options.requestDependencies],
-    ]),
-  );
-  return withModelInvocationContext(built, (request) => headerRefresh(runtime, built, request));
+export function createTurnModel(host: AgentRuntimeInternal, options: TurnModelOptions = {}): Model {
+  const picked = pickedSelection(host, options);
+  const { requestDependencies } = options;
+  const built = createRuntimeModel(host, { selection: picked, requestDependencies });
+  return withModelInvocationContext(built, (request) => headerRefresh(host, built, request));
 }
 
 function sameSlot(leftValue: unknown, rightValue: unknown): boolean {
@@ -80,69 +67,52 @@ function sameSlot(leftValue: unknown, rightValue: unknown): boolean {
 }
 
 export function sameModelSelection(
-  left: ModelSelection | undefined,
-  right: ModelSelection,
+  current: ModelSelection | undefined,
+  incoming: ModelSelection,
 ): boolean {
   // 三路都读完再与，避免提前返回漏掉后续字段的取值。
-  const providerOk = sameSlot(left?.providerId, right.providerId);
-  const modelOk = sameSlot(left?.modelId, right.modelId);
-  const levelOk = sameSlot(left?.options?.reasoningLevel, right.options?.reasoningLevel);
+  const providerOk = sameSlot(current?.providerId, incoming.providerId);
+  const modelOk = sameSlot(current?.modelId, incoming.modelId);
+  const levelOk = sameSlot(current?.options?.reasoningLevel, incoming.options?.reasoningLevel);
   return providerOk ? modelOk && levelOk : false;
 }
 
-function selectionEntry(
-  runtime: AgentRuntimeInternal,
-  selection: ModelSelection,
-): SessionEntryInfo {
+function selectionEntry(host: AgentRuntimeInternal, selection: ModelSelection): SessionEntryInfo {
   const stamped = Date.now();
-  const clock = assignKeys<SessionEntryInfo["time"]>([
-    ["created", stamped],
-    ["updated", stamped],
-  ]);
-  return assignKeys<SessionEntryInfo>([
-    ["id", phrase([runtime.sessionId, SLOT_SUFFIX])],
-    ["sessionID", runtime.sessionId],
-    ["type", SESSION_ENTRY_MODEL_SELECTION],
-    ["touchSession", false],
-    ["time", clock],
-    ["data", selection],
-  ]);
-}
-
-function warnPersist(
-  runtime: AgentRuntimeInternal,
-  selection: ModelSelection,
-  caught: unknown,
-): void {
-  const detail = caught instanceof Error ? caught.message : String(caught);
-  report(
-    runtime,
-    "warn",
-    PERSIST_LABEL,
-    assignKeys([
-      ["error", detail],
-      ["event", PERSIST_EVENT],
-      ["modelId", selection.modelId],
-      ["module", MODULE_NAME],
-      ["providerId", selection.providerId],
-      ["status", FAILED_STATUS],
-      ["thoughtLevel", selection.options?.reasoningLevel],
-    ]),
+  const { sessionId } = host;
+  return layer<SessionEntryInfo>(
+    { id: `${sessionId}${SLOT_SUFFIX}`, sessionID: sessionId },
+    { type: SESSION_ENTRY_MODEL_SELECTION, touchSession: false },
+    { time: { created: stamped, updated: stamped }, data: selection },
   );
 }
 
+function warnPersist(host: AgentRuntimeInternal, selection: ModelSelection, caught: unknown): void {
+  const error = caught instanceof Error ? caught.message : String(caught);
+  const { modelId, providerId, options } = selection;
+  report(host, "warn", PERSIST_LABEL, {
+    error,
+    event: PERSIST_EVENT,
+    modelId,
+    module: MODULE_NAME,
+    providerId,
+    status: FAILED_STATUS,
+    thoughtLevel: options?.reasoningLevel,
+  });
+}
+
 export async function persistRuntimeModelSelection(
-  runtime: AgentRuntimeInternal,
+  host: AgentRuntimeInternal,
   selection: ModelSelection,
 ): Promise<void> {
-  const save = runtime.sessionStore?.saveSessionEntry;
+  const save = host.sessionStore?.saveSessionEntry;
   if (!save) return;
-  const entry = selectionEntry(runtime, selection);
+  const entry = selectionEntry(host, selection);
   // 同步抛出要在这条 async 函数里当场接住。先变成拒绝再 catch，调用方在微任务之前看不到告警。
   try {
-    await save.call(runtime.sessionStore, entry);
+    await save.call(host.sessionStore, entry);
   } catch (caught) {
-    warnPersist(runtime, selection, caught);
+    warnPersist(host, selection, caught);
   }
 }
 
@@ -152,30 +122,30 @@ function selectedEvent(
   hosted: Model,
   applied: ModelSelection,
   prior: ModelSelection | undefined,
-  traceContext: TraceContext,
+  trace: TraceContext,
 ): SelectedEvent {
-  return assignKeys<SelectedEvent>([
-    ["model", hosted],
-    ["modelSelection", applied],
-    ["effectiveReasoningLevel", hosted.options.reasoningLevel],
-    ["previousModelSelection", prior],
-    ["supportedThoughtLevels", hosted.optionSpecs.reasoningLevel.values],
-    ["traceContext", traceContext],
-  ]);
+  return {
+    model: hosted,
+    modelSelection: applied,
+    effectiveReasoningLevel: hosted.options.reasoningLevel,
+    previousModelSelection: prior,
+    supportedThoughtLevels: hosted.optionSpecs.reasoningLevel.values,
+    traceContext: trace,
+  };
 }
 
 async function keepSessionSelection(
-  runtime: AgentRuntimeInternal,
+  host: AgentRuntimeInternal,
   requested: ModelSelection,
   hosted: Model,
   prior: ModelSelection | undefined,
-  traceContext: TraceContext,
+  trace: TraceContext,
 ): Promise<void> {
   const applied = cloneModelSelection(requested);
-  runtime.setSessionModelSelection(applied);
-  await persistRuntimeModelSelection(runtime, applied);
+  host.setSessionModelSelection(applied);
+  await persistRuntimeModelSelection(host, applied);
   const changed = sameModelSelection(prior, applied) === false;
-  if (changed) await runtime.emitModelSelected(selectedEvent(hosted, applied, prior, traceContext));
+  if (changed) await host.emitModelSelected(selectedEvent(hosted, applied, prior, trace));
 }
 
 function patchRequested(intent: TurnInputIntentMetadata): boolean {
@@ -185,40 +155,29 @@ function patchRequested(intent: TurnInputIntentMetadata): boolean {
 }
 
 export async function applySubmissionExecutionState(
-  runtime: AgentRuntimeInternal,
-  intent: TurnInputIntentMetadata | undefined,
-  traceContext: TraceContext,
-  modelExecution?: ModelExecutionContext,
-  preparedModel?: Model,
+  host: AgentRuntimeInternal,
+  submission: TurnInputIntentMetadata | undefined,
+  trace: TraceContext,
+  execution?: ModelExecutionContext,
+  prepared?: Model,
 ): Promise<Model | undefined> {
-  const requested = intent?.modelSelection;
-  const prior = runtime.getSessionModelSelection();
-  let hosted = preparedModel;
+  const requested = submission?.modelSelection;
+  const prior = host.getSessionModelSelection();
+  let hosted = prepared;
   if (requested) {
+    const { requestDependencies } = execution ?? {};
     const hostedModel =
-      hosted ??
-      createTurnModel(
-        runtime,
-        assignKeys<TurnModelOptions>([
-          ["selection", requested],
-          ["requestDependencies", modelExecution?.requestDependencies],
-        ]),
-      );
+      hosted ?? createTurnModel(host, { selection: requested, requestDependencies });
     hosted = hostedModel;
     // execution 只服务这一次请求，不写会话选择，也不发 model-selected。
-    const sessionScoped = modelExecution?.selectionScope !== "execution";
-    if (sessionScoped)
-      await keepSessionSelection(runtime, requested, hostedModel, prior, traceContext);
+    const sessionScoped = execution?.selectionScope !== "execution";
+    if (sessionScoped) await keepSessionSelection(host, requested, hostedModel, prior, trace);
   }
-  if (intent !== undefined && patchRequested(intent)) {
-    await applyRuntimeExecutionState(
-      runtime,
-      intent,
-      assignKeys([
-        ["source", "command"],
-        ["traceContext", traceContext],
-      ]),
-    );
+  if (submission !== undefined && patchRequested(submission)) {
+    await applyRuntimeExecutionState(host, submission, {
+      source: "command" as const,
+      traceContext: trace,
+    });
   }
   return hosted;
 }
