@@ -12,11 +12,112 @@ import {
 } from "./domain.js";
 import type { EvalContext, Evaluator } from "./taint.js";
 
-/**
- * Destructuring bind. A live source place aliases statically-known fields, so a later
- * write through the extracted name is visible on the container. Rest elements and
- * non-place sources stay value-level (a collapsed or field-selected copy, no alias).
- */
+// A pattern is lowered to slots, then one interpreter either aliases a live
+// field or copies a value-level read. Rest never advances an array index;
+// an omitted hole advances the index and emits no slot.
+
+interface BindEnv {
+  readonly ev: Evaluator;
+  readonly ctx: EvalContext;
+  readonly source: AbstractValue | undefined;
+}
+
+type Slot =
+  | { readonly tag: "rest"; readonly name: ts.BindingName }
+  | {
+      readonly tag: "pick";
+      readonly name: ts.BindingName;
+      readonly key: string | undefined;
+      readonly fallback: ts.Expression | undefined;
+    };
+
+function elementTag(element: ts.BindingElement): "rest" | "pick" {
+  return element.dotDotDotToken === undefined ? "pick" : "rest";
+}
+
+function lowerObject(pattern: ts.ObjectBindingPattern): Slot[] {
+  return pattern.elements.map((element): Slot => {
+    if (elementTag(element) === "rest") return { tag: "rest", name: element.name };
+    return {
+      tag: "pick",
+      name: element.name,
+      key: bindingPropertyKey(element),
+      fallback: element.initializer,
+    };
+  });
+}
+
+function lowerArray(pattern: ts.ArrayBindingPattern): Slot[] {
+  const slots: Slot[] = [];
+  pattern.elements.reduce((position, element) => {
+    if (element.kind === ts.SyntaxKind.OmittedExpression) return position + 1;
+    const binding = element;
+    if (elementTag(binding) === "rest") {
+      slots.push({ tag: "rest", name: binding.name });
+      return position;
+    }
+    slots.push({
+      tag: "pick",
+      name: binding.name,
+      key: String(position),
+      fallback: binding.initializer,
+    });
+    return position + 1;
+  }, 0);
+  return slots;
+}
+
+function lower(name: ts.BindingName): Slot[] | undefined {
+  switch (name.kind) {
+    case ts.SyntaxKind.ObjectBindingPattern:
+      return lowerObject(name);
+    case ts.SyntaxKind.ArrayBindingPattern:
+      return lowerArray(name);
+    default:
+      return undefined;
+  }
+}
+
+function noteChanged(ev: Evaluator): void {
+  ev.s.changed ||= true;
+}
+
+function storeIdentifier(env: BindEnv, name: ts.Identifier, value: AbstractValue): void {
+  const symbol = env.ev.checker.getSymbolAtLocation(name);
+  if (symbol !== undefined) env.ev.s.bindSymbol(symbol, value);
+}
+
+function aliasKey(
+  slot: Extract<Slot, { tag: "pick" }>,
+  source: AbstractValue | undefined,
+): string | undefined {
+  return source === undefined ? undefined : slot.key;
+}
+
+function applyFallback(env: BindEnv, field: AbstractValue, fallback: ts.Expression | undefined): void {
+  if (fallback === undefined) return;
+  const supplied = env.ev.evalExpr(fallback, env.ctx);
+  if (mergeInto(field, supplied)) noteChanged(env.ev);
+}
+
+function bindPick(env: BindEnv, slot: Extract<Slot, { tag: "pick" }>, value: AbstractValue): void {
+  const key = aliasKey(slot, env.source);
+  if (key !== undefined && env.source !== undefined) {
+    const field = extractField(env.ev, env.source, key);
+    applyFallback(env, field, slot.fallback);
+    bindPattern(env.ev, slot.name, field, env.ctx, field);
+  } else {
+    const picked = slot.key === undefined ? collapse(value) : selectField(value, slot.key);
+    bindPattern(env.ev, slot.name, picked, env.ctx);
+  }
+}
+
+function runSlots(env: BindEnv, slots: readonly Slot[], value: AbstractValue): void {
+  for (const slot of slots) {
+    if (slot.tag === "rest") bindPattern(env.ev, slot.name, collapse(value), env.ctx);
+    else bindPick(env, slot, value);
+  }
+}
 
 export function bindPattern(
   ev: Evaluator,
@@ -25,138 +126,37 @@ export function bindPattern(
   ctx: EvalContext,
   sourcePlace?: AbstractValue,
 ): void {
-  if (ts.isIdentifier(name)) {
-    bindIdentifier(ev, name, value);
-    return;
-  }
-  if (ts.isObjectBindingPattern(name)) {
-    bindObjectPattern(ev, name, value, ctx, sourcePlace);
-    return;
-  }
-  bindArrayPattern(ev, name, value, ctx, sourcePlace);
-}
-
-function bindIdentifier(ev: Evaluator, name: ts.Identifier, value: AbstractValue): void {
-  const sym = ev.checker.getSymbolAtLocation(name);
-  if (sym === undefined) return;
-  ev.s.bindSymbol(sym, value);
-}
-
-function bindObjectPattern(
-  ev: Evaluator,
-  pattern: ts.ObjectBindingPattern,
-  value: AbstractValue,
-  ctx: EvalContext,
-  sourcePlace: AbstractValue | undefined,
-): void {
-  let index = 0;
-  while (index < pattern.elements.length) {
-    const element = pattern.elements[index];
-    index += 1;
-    if (element === undefined) continue;
-    if (element.dotDotDotToken !== undefined) {
-      bindPattern(ev, element.name, collapse(value), ctx);
-      continue;
+  switch (name.kind) {
+    case ts.SyntaxKind.Identifier:
+      storeIdentifier({ ev, ctx, source: sourcePlace }, name, value);
+      break;
+    case ts.SyntaxKind.ObjectBindingPattern:
+    case ts.SyntaxKind.ArrayBindingPattern: {
+      const slots = lower(name);
+      if (slots !== undefined) runSlots({ ev, ctx, source: sourcePlace }, slots, value);
+      break;
     }
-    const key = bindingPropertyKey(element);
-    if (sourcePlace !== undefined && key !== undefined) {
-      bindPatternElement(
-        ev,
-        element.name,
-        extractField(ev, sourcePlace, key),
-        element.initializer,
-        ctx,
-      );
-      continue;
-    }
-    const picked = key === undefined ? collapse(value) : selectField(value, key);
-    bindPattern(ev, element.name, picked, ctx);
+    default:
+      break;
   }
 }
 
-function bindArrayPattern(
-  ev: Evaluator,
-  pattern: ts.ArrayBindingPattern,
-  value: AbstractValue,
-  ctx: EvalContext,
-  sourcePlace: AbstractValue | undefined,
-): void {
-  let slot = 0;
-  let index = 0;
-  while (index < pattern.elements.length) {
-    const element = pattern.elements[index];
-    index += 1;
-    if (element === undefined) continue;
-    if (ts.isOmittedExpression(element)) {
-      slot += 1;
-      continue;
-    }
-    if (element.dotDotDotToken !== undefined) {
-      bindPattern(ev, element.name, collapse(value), ctx);
-      continue;
-    }
-    const key = String(slot);
-    if (sourcePlace !== undefined) {
-      bindPatternElement(
-        ev,
-        element.name,
-        extractField(ev, sourcePlace, key),
-        element.initializer,
-        ctx,
-      );
-    } else {
-      bindPattern(ev, element.name, selectField(value, key), ctx);
-    }
-    slot += 1;
-  }
+function copyLabels(from: AbstractValue, into: AbstractValue): void {
+  for (const occ of from.occs.values()) addOcc(into, occ);
+  for (const placeholder of from.phs.values()) addPlaceholder(into, placeholder);
 }
 
-// A default is weak-merged into the live field: runtime may observe either value.
-// The field is both the bound value and the source, so nested patterns keep aliasing.
-function bindPatternElement(
-  ev: Evaluator,
-  name: ts.BindingName,
-  field: AbstractValue,
-  initializer: ts.Expression | undefined,
-  ctx: EvalContext,
-): void {
-  if (initializer !== undefined) {
-    const initVal = ev.evalExpr(initializer, ctx);
-    if (mergeInto(field, initVal)) ev.s.changed = true;
-  }
-  bindPattern(ev, name, field, ctx, field);
-}
-
-/**
- * Absent fields are created and seeded with the container's own occurrences and
- * placeholders only — the same labels a collapsed read would have produced — then
- * `changed` is raised. An existing field is returned as-is and is not re-seeded.
- */
 export function extractField(ev: Evaluator, container: AbstractValue, key: string): AbstractValue {
-  const existing = container.fields.get(key);
-  if (existing !== undefined) return existing;
-  const field = emptyValue();
-  seedLabels(container, field);
-  container.fields.set(key, field);
-  ev.s.changed = true;
-  return field;
-}
-
-function seedLabels(container: AbstractValue, field: AbstractValue): void {
-  const occs = container.occs.values();
-  let occStep = occs.next();
-  while (occStep.done !== true) {
-    addOcc(field, occStep.value);
-    occStep = occs.next();
-  }
-  const phs = container.phs.values();
-  let phStep = phs.next();
-  while (phStep.done !== true) {
-    addPlaceholder(field, phStep.value);
-    phStep = phs.next();
-  }
+  const found = container.fields.get(key);
+  if (found !== undefined) return found;
+  const created = emptyValue();
+  copyLabels(container, created);
+  container.fields.set(key, created);
+  noteChanged(ev);
+  return created;
 }
 
 export function selectField(value: AbstractValue, key: string): AbstractValue {
-  return readField(value, key);
+  const picked = readField(value, key);
+  return picked;
 }
