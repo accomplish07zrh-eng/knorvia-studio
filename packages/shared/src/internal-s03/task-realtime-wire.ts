@@ -9,6 +9,75 @@ import { knorviaPermissionResponseSchema } from "../protocol-legacy-types.js";
 import { workspaceHookReviewDecisionSchema } from "../protocol-v4/workspace-hook-review.js";
 import { errorAttributionSchema } from "../protocol-v4/snapshot.js";
 import { looseShape, openShape, strictShape, unionOf, type WireField } from "./wire-fields.js";
+import type {
+  TaskOwnerCommandDelivery,
+  TaskOwnerCommandRequest,
+  TaskOwnerCommandResult,
+  TaskRealtimeDeliveryPurpose,
+  TaskRunLeaseAcquireRequest,
+  TaskRunLeaseResult,
+  TaskSnapshotInvalidatedEvent,
+  TaskStreamMirrorTarget,
+  WorkspaceTaskListInvalidatedEvent,
+} from "../task-realtime.js";
+
+// Field tables keep key order. The published type is the shared contract, which a wide shape cannot name.
+function asWire<T>(schema: z.ZodType): z.ZodType<T> {
+  return schema as unknown as z.ZodType<T>;
+}
+
+// Mirror events keep unknown keys. The output type has to admit `content` the way a passthrough object does.
+type MirrorableWireEvent = {
+  type: string;
+  taskId: string;
+  traceId: string;
+  [extra: string]: unknown;
+};
+
+type UserMessageWire = {
+  kind: "user_message";
+  messageId: string;
+  content: string;
+  attachments?: unknown;
+  timestamp: number;
+};
+
+type StreamEventWire = {
+  kind: "stream_event";
+  event: MirrorableWireEvent;
+};
+
+type PublishOpWire = UserMessageWire | StreamEventWire;
+type MirrorOpWire = (UserMessageWire & { seq: number }) | (StreamEventWire & { seq: number });
+
+type BatchEventWire = {
+  type: "task_stream_mirror_batch";
+  eventId: string;
+  workspacePath: string;
+  workspaceIdentity?: string;
+  workspaceKey: string;
+  traceId: string;
+  createdAt: number;
+  taskId: string;
+  runId: string;
+  ownerClientId?: string;
+  ownerDeviceLabel?: string;
+  batchSeq: number;
+  fromSeq: number;
+  toSeq: number;
+  ops: MirrorOpWire[];
+  terminal: boolean;
+};
+
+type RealtimeEventWire =
+  | TaskSnapshotInvalidatedEvent
+  | WorkspaceTaskListInvalidatedEvent
+  | BatchEventWire;
+
+type DeliveredEventWire = RealtimeEventWire & {
+  originHostId: string;
+  deliveryPurpose?: TaskRealtimeDeliveryPurpose;
+};
 
 const trimmed = z.string().trim().min(1);
 const plain = z.string();
@@ -174,18 +243,22 @@ const invalidationFields: WireField[] = [
   ],
 ];
 
-export const taskSnapshotInvalidatedEventSchema = strictShape([
-  ...invalidationFields,
-  ["type", z.literal("task_snapshot_invalidated")],
-  ["taskId", trimmed],
-]);
+export const taskSnapshotInvalidatedEventSchema = asWire<TaskSnapshotInvalidatedEvent>(
+  strictShape([
+    ...invalidationFields,
+    ["type", z.literal("task_snapshot_invalidated")],
+    ["taskId", trimmed],
+  ]),
+);
 
-export const workspaceTaskListInvalidatedEventSchema = strictShape([
-  ...invalidationFields,
-  ["type", z.literal("workspace_task_list_invalidated")],
-  ["taskId", trimmed.optional()],
-  ["taskMeta", taskMetaSchema.optional()],
-]);
+export const workspaceTaskListInvalidatedEventSchema = asWire<WorkspaceTaskListInvalidatedEvent>(
+  strictShape([
+    ...invalidationFields,
+    ["type", z.literal("workspace_task_list_invalidated")],
+    ["taskId", trimmed.optional()],
+    ["taskMeta", taskMetaSchema.optional()],
+  ]),
+);
 
 function mediaFields(kind: "image" | "video" | "pdf"): WireField[] {
   return [
@@ -247,15 +320,16 @@ function withSequence(fields: readonly WireField[]): WireField[] {
   return [...fields, ["seq", positive]];
 }
 
-export const taskStreamMirrorPublishOpSchema = unionOf("kind", [
-  strictShape(userMessageFields),
-  strictShape(streamEventFields),
-]);
+export const taskStreamMirrorPublishOpSchema = asWire<PublishOpWire>(
+  unionOf("kind", [strictShape(userMessageFields), strictShape(streamEventFields)]),
+);
 
-export const taskStreamMirrorOpSchema = unionOf("kind", [
-  strictShape(withSequence(userMessageFields)),
-  strictShape(withSequence(streamEventFields)),
-]);
+export const taskStreamMirrorOpSchema = asWire<MirrorOpWire>(
+  unionOf("kind", [
+    strictShape(withSequence(userMessageFields)),
+    strictShape(withSequence(streamEventFields)),
+  ]),
+);
 
 const mirrorTargetFields: WireField[] = [
   ["workspacePath", trimmed],
@@ -268,27 +342,30 @@ const mirrorTargetFields: WireField[] = [
   ["ownerDeviceLabel", trimmed.optional()],
 ];
 
-export const taskStreamMirrorTargetSchema = strictShape(mirrorTargetFields, enforceTarget);
+export const taskStreamMirrorTargetSchema = asWire<TaskStreamMirrorTarget>(
+  strictShape(mirrorTargetFields, enforceTarget),
+);
 export const taskRunLeaseTargetSchema = taskStreamMirrorTargetSchema;
 
-export const taskRunLeaseAcquireRequestSchema = strictShape(
-  [...mirrorTargetFields, ["leaseRequestId", trimmed]],
-  enforceTarget,
+export const taskRunLeaseAcquireRequestSchema = asWire<TaskRunLeaseAcquireRequest>(
+  strictShape([...mirrorTargetFields, ["leaseRequestId", trimmed]], enforceTarget),
 );
 
-export const taskRunLeaseResultSchema = unionOf("acquired", [
-  strictShape([
-    ["leaseRequestId", trimmed],
-    ["acquired", z.literal(true)],
-    ["ownerHostId", trimmed],
+export const taskRunLeaseResultSchema = asWire<TaskRunLeaseResult>(
+  unionOf("acquired", [
+    strictShape([
+      ["leaseRequestId", trimmed],
+      ["acquired", z.literal(true)],
+      ["ownerHostId", trimmed],
+    ]),
+    strictShape([
+      ["leaseRequestId", trimmed],
+      ["acquired", z.literal(false)],
+      ["ownerHostId", trimmed],
+      ["reason", z.literal("owned_by_other_host")],
+    ]),
   ]),
-  strictShape([
-    ["leaseRequestId", trimmed],
-    ["acquired", z.literal(false)],
-    ["ownerHostId", trimmed],
-    ["reason", z.literal("owned_by_other_host")],
-  ]),
-]);
+);
 
 const batchFields: WireField[] = [
   ...envelopeFields,
@@ -310,32 +387,36 @@ const eventBranches = [
   strictShape(batchFields),
 ];
 
-export const taskRealtimeEventSchema = unionOf("type", eventBranches, enforceRealtimeEvent);
+export const taskRealtimeEventSchema = asWire<RealtimeEventWire>(
+  unionOf("type", eventBranches, enforceRealtimeEvent),
+);
 
 const deliveryTail: WireField[] = [
   ["originHostId", trimmed],
   ["deliveryPurpose", taskRealtimeDeliveryPurposeSchema.optional()],
 ];
 
-export const taskRealtimeDeliveredEventSchema = unionOf(
-  "type",
-  [
-    strictShape([
-      ...invalidationFields,
-      ["type", z.literal("task_snapshot_invalidated")],
-      ["taskId", trimmed],
-      ...deliveryTail,
-    ]),
-    strictShape([
-      ...invalidationFields,
-      ["type", z.literal("workspace_task_list_invalidated")],
-      ["taskId", trimmed.optional()],
-      ["taskMeta", taskMetaSchema.optional()],
-      ...deliveryTail,
-    ]),
-    strictShape([...batchFields, ...deliveryTail]),
-  ],
-  enforceRealtimeEvent,
+export const taskRealtimeDeliveredEventSchema = asWire<DeliveredEventWire>(
+  unionOf(
+    "type",
+    [
+      strictShape([
+        ...invalidationFields,
+        ["type", z.literal("task_snapshot_invalidated")],
+        ["taskId", trimmed],
+        ...deliveryTail,
+      ]),
+      strictShape([
+        ...invalidationFields,
+        ["type", z.literal("workspace_task_list_invalidated")],
+        ["taskId", trimmed.optional()],
+        ["taskMeta", taskMetaSchema.optional()],
+        ...deliveryTail,
+      ]),
+      strictShape([...batchFields, ...deliveryTail]),
+    ],
+    enforceRealtimeEvent,
+  ),
 );
 
 const ownerBase: WireField[] = [
@@ -427,11 +508,11 @@ function ownerSchemas(extra: readonly WireField[]) {
   return ownerVariants.map((variant) => strictShape([...variant.fields, ...extra], variant.check));
 }
 
-export const taskOwnerCommandRequestSchema = unionOf("type", ownerSchemas([]), enforceWorkspaceKey);
-export const taskOwnerCommandDeliverySchema = unionOf(
-  "type",
-  ownerSchemas([["requesterHostId", trimmed]]),
-  enforceWorkspaceKey,
+export const taskOwnerCommandRequestSchema = asWire<TaskOwnerCommandRequest>(
+  unionOf("type", ownerSchemas([]), enforceWorkspaceKey),
+);
+export const taskOwnerCommandDeliverySchema = asWire<TaskOwnerCommandDelivery>(
+  unionOf("type", ownerSchemas([["requesterHostId", trimmed]]), enforceWorkspaceKey),
 );
 
 export const taskOwnerCommandErrorCodeSchema = wireEnum([
@@ -440,16 +521,18 @@ export const taskOwnerCommandErrorCodeSchema = wireEnum([
   "OWNER_COMMAND_FAILED",
 ]);
 
-export const taskOwnerCommandResultSchema = unionOf("success", [
-  strictShape([
-    ["commandRequestId", trimmed],
-    ["success", z.literal(true)],
-    ["taskCommand", runtimeCommandSchema.optional()],
+export const taskOwnerCommandResultSchema = asWire<TaskOwnerCommandResult>(
+  unionOf("success", [
+    strictShape([
+      ["commandRequestId", trimmed],
+      ["success", z.literal(true)],
+      ["taskCommand", runtimeCommandSchema.optional()],
+    ]),
+    strictShape([
+      ["commandRequestId", trimmed],
+      ["success", z.literal(false)],
+      ["error", plain],
+      ["code", taskOwnerCommandErrorCodeSchema.optional()],
+    ]),
   ]),
-  strictShape([
-    ["commandRequestId", trimmed],
-    ["success", z.literal(false)],
-    ["error", plain],
-    ["code", taskOwnerCommandErrorCodeSchema.optional()],
-  ]),
-]);
+);
