@@ -13,7 +13,7 @@ import {
 import { emptyTokenUsageInfo, toTokenUsageInfo } from "../../helpers/index.js";
 import type { AgentRuntimeInternal } from "../../internal.js";
 import type { RuntimeModelTextResult } from "../../types.js";
-import { assignKeys, type Col } from "./m02-record.js";
+import { type Col } from "./m02-record.js";
 import {
   appendTurnRequestEntries,
   commitAssistantToTurnRequest,
@@ -66,42 +66,31 @@ function stepFinish(
   reason: string,
   tokens: unknown,
 ) {
-  return assignKeys([
-    ["id", createPartId()],
-    ["sessionID", host.sessionId],
-    ["messageID", messageId],
-    ["type", "step-finish"],
-    ["reason", reason],
-    ["cost", 0],
-    ["tokens", tokens],
-  ]);
+  const { sessionId } = host;
+  return {
+    id: createPartId(),
+    sessionID: sessionId,
+    messageID: messageId,
+    type: "step-finish" as const,
+    reason,
+    cost: 0,
+    tokens,
+  };
 }
 
 function successClosure(reason: string, tokens: unknown) {
-  return assignKeys([
-    ["completed", Date.now()],
-    ["finish", reason],
-    ["tokens", tokens],
-  ]);
+  return { completed: Date.now(), finish: reason, tokens };
 }
 
 function failedClosure(reason: string, tokens: unknown, fault: LimitCarrier["error"]) {
-  return assignKeys([
-    ["completed", Date.now()],
-    ["error", fault],
-    ["finish", reason],
-    ["tokens", tokens],
-  ]);
+  return { completed: Date.now(), error: fault, finish: reason, tokens };
 }
 
 export function captureAssistantPersistenceAnchor(
   host: AgentRuntimeInternal,
 ): AssistantPersistenceAnchor {
-  return assignKeys<AssistantPersistenceAnchor>([
-    ["latestAssistantMessageId", host.latestAssistantMessageId],
-    ["latestAssistantTurnId", host.latestAssistantTurnId],
-    ["latestConversationMessageId", host.latestConversationMessageId],
-  ]);
+  const { latestAssistantMessageId, latestAssistantTurnId, latestConversationMessageId } = host;
+  return { latestAssistantMessageId, latestAssistantTurnId, latestConversationMessageId };
 }
 
 function rewindPointers(
@@ -121,12 +110,9 @@ function rewindPointers(
 async function discardAssistant(host: AgentRuntimeInternal, options: KeptAssistant): Promise<void> {
   const store = host.sessionStore;
   if (store) {
-    await store.removeMessage(
-      assignKeys([
-        ["sessionID", host.sessionId],
-        ["messageID", options.assistantMessageId],
-      ]) as never,
-    );
+    const { sessionId } = host;
+    const { assistantMessageId } = options;
+    await store.removeMessage({ sessionID: sessionId, messageID: assistantMessageId } as never);
   }
   rewindPointers(host, options.assistantMessageId, options.assistantPersistenceAnchor);
 }
@@ -204,14 +190,13 @@ export async function persistOutputTokenLimitErrorCarrier(
 async function parkGuides(host: AgentRuntimeInternal, loop: RegularTurnLoopState): Promise<void> {
   const slot = loop.activeTurn;
   if (!slot) return;
-  await host.fallbackPendingGuidesToQueue(
-    assignKeys([
-      ["activeTurn", slot],
-      ["events", loop.events],
-      ["reasonCode", NO_TOOL_BOUNDARY],
-      ["traceContext", loop.turnTraceContext],
-    ]) as never,
-  );
+  const { events, turnTraceContext } = loop;
+  await host.fallbackPendingGuidesToQueue({
+    activeTurn: slot,
+    events,
+    reasonCode: NO_TOOL_BOUNDARY,
+    traceContext: turnTraceContext,
+  } as never);
 }
 
 function sealSuccess(loop: RegularTurnLoopState, assistantMessageId: MessageId): void {
@@ -251,15 +236,22 @@ export async function finishModelStepWithoutToolCalls(
 ): Promise<"continue" | "break"> {
   const host: AgentRuntimeInternal = this;
   if (!loop.model) throw new Error(MISSING_STOP);
-  // includeEmptyAssistant 是后补的键，排在展开字段之后，和 `{...options, includeEmptyAssistant}` 一致。
-  const request = assignKeys<KeptAssistant>([
-    ["assistantPersistenceAnchor", options.assistantPersistenceAnchor],
-    ["assistantCreatedAt", options.assistantCreatedAt],
-    ["assistantMessageId", options.assistantMessageId],
-    ["modelTraceContext", options.modelTraceContext],
-    ["result", options.result],
-    ["includeEmptyAssistant", true],
-  ]);
+  // includeEmptyAssistant 是后补的键，排在其余字段之后。
+  const {
+    assistantPersistenceAnchor,
+    assistantCreatedAt,
+    assistantMessageId,
+    modelTraceContext,
+    result,
+  } = options;
+  const request: KeptAssistant = {
+    assistantPersistenceAnchor,
+    assistantCreatedAt,
+    assistantMessageId,
+    modelTraceContext,
+    result,
+    includeEmptyAssistant: true,
+  };
   const kept = await persistCompletedAssistantStep(host, loop, request);
   if (kept) recordModelHistoryRound(loop);
   if (loop.automationCreateLimitReached) {
