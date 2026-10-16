@@ -17,7 +17,7 @@
 | 黑盒测试 | [`tests/`](tests/)（8 文件 47 断言，源码 + dist 两入口）                                                                | ✅       |
 | 金样     | [`fixtures/`](fixtures/)（①codec 往返含转义 ②workspace-hook 摘要稳定 ③task-realtime gate 握手 ④分享 schema 往返）       | ✅       |
 | 已知差异 | [`known-differences.md`](known-differences.md)（红线清单 + 平台边界）                                                   | ✅       |
-| 合同桩   | [`stubs/`](stubs/)（34 目标，import 即抛 `not implemented: shared-03`）                                                 | ✅       |
+| 合同桩   | 替换落地后已删除 `stubs/`                                                                                               | ✅       |
 | 旧门     | [`gate-old.json`](gate-old.json)                                                                                        | ✅ 见 §3 |
 
 ## 3. 旧门输出（gate-old.json 实测）

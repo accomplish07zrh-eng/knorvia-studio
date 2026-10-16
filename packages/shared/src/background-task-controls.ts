@@ -1,304 +1,373 @@
-export type KnorviaBackgroundTaskControlStatus =
-  | "pending"
-  | "running"
-  | "completed"
-  | "failed"
-  | "killed"
-  | "lost";
+// SPDX-License-Identifier: Apache-2.0
 
-export interface KnorviaBackgroundTaskControlItem {
+/** 后台控制项生命周期。认不出的状态词回落到 running。 */
+const CONTROL_STATUSES = ["pending", "running", "completed", "failed", "killed", "lost"] as const;
+
+export type KnorviaBackgroundTaskControlStatus = (typeof CONTROL_STATUSES)[number];
+
+type ControlKind = "agent" | "bash";
+type Dict = Record<string, unknown>;
+type SlotKind = "text" | "number" | "instant" | "boolean";
+
+interface Found<T> {
+  value: T;
+}
+
+interface AliasGroup {
+  kind: ControlKind;
+  aliases: readonly string[];
+}
+
+interface KindProbe {
+  keys: readonly string[];
+  groups: readonly AliasGroup[];
+  agentWord?: string;
+}
+
+interface OptionalSlot {
+  field:
+    | "toolCallId"
+    | "title"
+    | "stdoutTail"
+    | "stderrTail"
+    | "outputTail"
+    | "startedAt"
+    | "pid"
+    | "elapsedMs"
+    | "cancellable";
+  kind: SlotKind;
+  keys: readonly string[];
+  presence: "truthy" | "defined";
+}
+
+type SlotValue = { text: string; number: number; instant: number; boolean: boolean };
+
+const NAMED_KIND_GROUPS: readonly AliasGroup[] = [
+  { kind: "agent", aliases: ["agent", "local_agent", "subagent", "background_agent"] },
+  {
+    kind: "bash",
+    aliases: ["bash", "local_bash", "shell", "terminal", "background_bash", "background_shell"],
+  },
+];
+
+const CATEGORY_KIND_GROUPS: readonly AliasGroup[] = [
+  { kind: "agent", aliases: ["local_agent", "subagent", "background_agent", "agent_background"] },
+  {
+    kind: "bash",
+    aliases: [
+      "local_bash",
+      "background_bash",
+      "background_shell",
+      "bash_background",
+      "shell_background",
+    ],
+  },
+];
+
+const KIND_PROBES: readonly KindProbe[] = [
+  { keys: ["taskKind", "task_kind", "taskType", "task_type"], groups: NAMED_KIND_GROUPS },
+  { keys: ["toolName", "tool_name"], groups: NAMED_KIND_GROUPS, agentWord: "task" },
+  { keys: ["type", "kind", "category"], groups: CATEGORY_KIND_GROUPS },
+];
+
+const STATUS_TABLE: ReadonlyArray<
+  readonly [KnorviaBackgroundTaskControlStatus, readonly string[]]
+> = [
+  ["pending", ["queued", "scheduled", "starting", "pending"]],
+  ["running", ["running", "in_progress", "started", "active"]],
+  ["completed", ["completed", "complete", "success", "succeeded", "done"]],
+  ["failed", ["failed", "failure", "error", "spawn_error"]],
+  ["killed", ["killed", "cancelled", "canceled", "stopped", "terminated", "timed_out", "timeout"]],
+  ["lost", ["lost", "unknown"]],
+];
+
+const BOOLEAN_TEXT: Readonly<Record<string, boolean>> = {
+  true: true,
+  yes: true,
+  "1": true,
+  false: false,
+  no: false,
+  "0": false,
+};
+
+const DISPLAY_TEXT_KEYS = ["description", "summary", "title", "label"] as const;
+const COMMAND_TEXT_KEYS = ["command", "cmd", "script"] as const;
+const STATUS_TEXT_KEYS = ["status", "state", "phase"] as const;
+const START_KEYS = ["startedAt", "started_at", "startTime", "start_time"] as const;
+const PID_KEYS = ["pid", "processId", "process_id"] as const;
+
+/** 任务 id 族先于作业 id 族，裸 id 垫底，避免同一工具调用里的任务互相覆盖。 */
+const JOB_ID_KEY_GROUPS = [
+  ["taskId", "task_id", "backgroundTaskId", "background_task_id"],
+  ["jobId", "job_id", "backgroundJobId", "background_job_id"],
+  ["id"],
+] as const;
+
+const JOB_ID_KEYS = JOB_ID_KEY_GROUPS.flat();
+
+const OPTIONAL_SLOTS = [
+  { field: "toolCallId", kind: "text", keys: ["toolCallId", "tool_call_id"], presence: "truthy" },
+  {
+    field: "title",
+    kind: "text",
+    keys: ["title", "name", "label", "description"],
+    presence: "truthy",
+  },
+  { field: "stdoutTail", kind: "text", keys: ["stdoutTail", "stdout_tail"], presence: "truthy" },
+  { field: "stderrTail", kind: "text", keys: ["stderrTail", "stderr_tail"], presence: "truthy" },
+  { field: "outputTail", kind: "text", keys: ["outputTail", "output_tail"], presence: "truthy" },
+  { field: "startedAt", kind: "instant", keys: START_KEYS, presence: "defined" },
+  { field: "pid", kind: "number", keys: PID_KEYS, presence: "defined" },
+  {
+    field: "elapsedMs",
+    kind: "number",
+    keys: ["elapsedMs", "elapsed_ms", "durationMs", "duration_ms"],
+    presence: "defined",
+  },
+  { field: "cancellable", kind: "boolean", keys: ["cancellable"], presence: "defined" },
+] as const satisfies readonly OptionalSlot[];
+
+type OptionalControlFields = {
+  [Slot in (typeof OPTIONAL_SLOTS)[number] as Slot["field"]]?: SlotValue[Slot["kind"]];
+};
+
+export type KnorviaBackgroundTaskControlItem = {
   jobId: string;
-  toolCallId?: string;
   command: string;
-  taskKind: "agent" | "bash";
-  cancellable?: boolean;
-  title?: string;
+  taskKind: ControlKind;
   status: KnorviaBackgroundTaskControlStatus;
-  startedAt?: number;
-  elapsedMs?: number;
-  pid?: number;
-  stdoutTail?: string;
-  stderrTail?: string;
-  outputTail?: string;
   raw?: unknown;
+} & OptionalControlFields;
+
+const DEFAULT_VISIBLE_ELAPSED_MS = 30_000;
+
+function found<T>(value: T): Found<T> {
+  return { value };
 }
 
-type BackgroundTaskControlKind = KnorviaBackgroundTaskControlItem["taskKind"];
-type ControlRecord = Record<string, unknown>;
-
-function controlRecord(value: unknown): ControlRecord | undefined {
-  if (value === null || typeof value !== "object" || Array.isArray(value)) {
-    return undefined;
-  }
-  return value as ControlRecord;
+function asDict(value: unknown): Dict | undefined {
+  if (typeof value !== "object" || value === null || Array.isArray(value)) return;
+  return value as Dict;
 }
 
-function firstText(record: ControlRecord, keys: readonly string[]): string | undefined {
-  for (const key of keys) {
-    const candidate = record[key];
-    if (typeof candidate === "string") {
-      const text = candidate.trim();
-      if (text.length > 0) return text;
-    }
-  }
-  return undefined;
-}
-
-function firstNumber(record: ControlRecord, keys: readonly string[]): number | undefined {
-  for (const key of keys) {
-    const candidate = record[key];
-    let number: number;
-    if (typeof candidate === "number") {
-      number = candidate;
-    } else if (typeof candidate === "string" && candidate.trim().length > 0) {
-      number = Number(candidate);
-    } else {
-      continue;
-    }
-    if (Number.isFinite(number)) return number;
-  }
-  return undefined;
-}
-
-function firstBoolean(record: ControlRecord, keys: readonly string[]): boolean | undefined {
-  for (const key of keys) {
-    const candidate = record[key];
-    if (typeof candidate === "boolean") return candidate;
-    if (typeof candidate !== "string") continue;
-    switch (candidate.trim().toLowerCase()) {
-      case "true":
-      case "yes":
-      case "1":
-        return true;
-      case "false":
-      case "no":
-      case "0":
-        return false;
-    }
-  }
-  return undefined;
-}
-
-function firstInstant(record: ControlRecord, keys: readonly string[]): number | undefined {
-  const numeric = firstNumber(record, keys);
-  if (numeric !== undefined) return numeric;
-  for (const key of keys) {
-    const candidate = record[key];
-    if (typeof candidate !== "string" || candidate.trim().length === 0) continue;
-    const timestamp = Date.parse(candidate);
-    if (Number.isFinite(timestamp)) return timestamp;
-  }
-  return undefined;
-}
-
-function controlToken(value: string): string {
+function foldToken(value: string): string {
   return value
     .trim()
     .toLowerCase()
     .replace(/[^a-z0-9]+/gu, "_");
 }
 
-const namedKinds: Readonly<Record<string, BackgroundTaskControlKind>> = {
-  agent: "agent",
-  local_agent: "agent",
-  subagent: "agent",
-  background_agent: "agent",
-  bash: "bash",
-  local_bash: "bash",
-  shell: "bash",
-  terminal: "bash",
-  background_bash: "bash",
-  background_shell: "bash",
-};
-
-const backgroundKinds: Readonly<Record<string, BackgroundTaskControlKind>> = {
-  local_agent: "agent",
-  subagent: "agent",
-  background_agent: "agent",
-  agent_background: "agent",
-  local_bash: "bash",
-  background_bash: "bash",
-  background_shell: "bash",
-  bash_background: "bash",
-  shell_background: "bash",
-};
-
-function kindFromText(
-  text: string | undefined,
-  aliases: Readonly<Record<string, BackgroundTaskControlKind>>,
-): BackgroundTaskControlKind | undefined {
-  if (text === undefined) return undefined;
-  const token = controlToken(text);
-  return Object.prototype.hasOwnProperty.call(aliases, token) ? aliases[token] : undefined;
+function scan<T>(
+  record: Dict,
+  keys: readonly string[],
+  accept: (value: unknown) => Found<T> | undefined,
+): T | undefined {
+  const accepted = keys.map((name) => accept(record[name])).find((item) => item !== undefined);
+  return accepted?.value;
 }
 
-export function resolveKnorviaBackgroundTaskControlKind(
-  value: unknown,
-): BackgroundTaskControlKind | undefined {
-  const record = controlRecord(value);
-  if (record === undefined) return undefined;
-
-  const explicit = kindFromText(
-    firstText(record, ["taskKind", "task_kind", "taskType", "task_type"]),
-    namedKinds,
-  );
-  if (explicit !== undefined) return explicit;
-
-  const tool = firstText(record, ["toolName", "tool_name"]);
-  if (tool !== undefined && controlToken(tool) === "task") return "agent";
-  const toolKind = kindFromText(tool, namedKinds);
-  if (toolKind !== undefined) return toolKind;
-
-  return kindFromText(firstText(record, ["type", "kind", "category"]), backgroundKinds);
+function acceptText(value: unknown): Found<string> | undefined {
+  if (typeof value !== "string") return;
+  const trimmed = value.trim();
+  if (trimmed.length === 0) return;
+  return found(trimmed);
 }
 
-function commandValue(value: unknown): string | undefined {
+function acceptNumber(value: unknown): Found<number> | undefined {
+  const numeric =
+    typeof value === "number"
+      ? value
+      : typeof value === "string" && value.trim() !== ""
+        ? Number(value)
+        : Number.NaN;
+  if (!Number.isFinite(numeric)) return;
+  return found(numeric);
+}
+
+function acceptClock(value: unknown): Found<number> | undefined {
+  if (typeof value !== "string" || value.trim() === "") return;
+  const parsed = Date.parse(value);
+  if (!Number.isFinite(parsed)) return;
+  return found(parsed);
+}
+
+function acceptBoolean(value: unknown): Found<boolean> | undefined {
+  if (typeof value === "boolean") return found(value);
+  if (typeof value !== "string") return;
+  const word = value.trim().toLowerCase();
+  if (!Object.hasOwn(BOOLEAN_TEXT, word)) return;
+  return found(BOOLEAN_TEXT[word] as boolean);
+}
+
+function readInstant(record: Dict, keys: readonly string[]): number | undefined {
+  return scan(record, keys, acceptNumber) ?? scan(record, keys, acceptClock);
+}
+
+function matchAlias(token: string, groups: readonly AliasGroup[]): ControlKind | undefined {
+  const group = groups.find((entry) => entry.aliases.includes(token));
+  return group?.kind;
+}
+
+function probeKind(record: Dict, probe: KindProbe): ControlKind | undefined {
+  const text = scan(record, probe.keys, acceptText);
+  if (text === undefined) return;
+  const token = foldToken(text);
+  if (probe.agentWord !== undefined && token === probe.agentWord) return "agent";
+  return matchAlias(token, probe.groups);
+}
+
+export function resolveKnorviaBackgroundTaskControlKind(value: unknown): ControlKind | undefined {
+  const record = asDict(value);
+  if (!record) return;
+  for (const probe of KIND_PROBES) {
+    const kind = probeKind(record, probe);
+    if (kind !== undefined) return kind;
+  }
+  return;
+}
+
+function commandWords(value: unknown): string | undefined {
   if (typeof value === "string") {
-    const text = value.trim();
-    return text.length > 0 ? text : undefined;
+    const trimmed = value.trim();
+    return trimmed === "" ? undefined : trimmed;
   }
-  if (!Array.isArray(value)) return undefined;
-  const words: string[] = [];
-  for (const entry of value) {
-    if (typeof entry !== "string") continue;
-    const word = entry.trim();
-    if (word.length > 0) words.push(word);
-  }
-  return words.length > 0 ? words.join(" ") : undefined;
+  if (!Array.isArray(value)) return;
+  const words = value.flatMap((entry) => {
+    if (typeof entry !== "string") return [];
+    const trimmed = entry.trim();
+    return trimmed === "" ? [] : [trimmed];
+  });
+  return words.length === 0 ? undefined : words.join(" ");
 }
 
-function recordCommand(record: ControlRecord): string | undefined {
-  for (const key of ["command", "cmd", "script"]) {
-    const command = commandValue(record[key]);
-    if (command !== undefined) return command;
+function commandFromLayer(record: Dict): string | undefined {
+  for (const key of COMMAND_TEXT_KEYS) {
+    const words = commandWords(record[key]);
+    if (words !== undefined) return words;
   }
-  return undefined;
+  return;
 }
 
-function controlCommand(record: ControlRecord): string | undefined {
-  const direct = recordCommand(record);
+function commandFromRecord(record: Dict): string | undefined {
+  const direct = commandFromLayer(record);
   if (direct !== undefined) return direct;
-  const input = controlRecord(record.input);
-  return input === undefined ? undefined : recordCommand(input);
+  const nested = asDict(record.input);
+  if (!nested) return;
+  return commandFromLayer(nested);
 }
 
-const statusGroups: ReadonlyArray<{
-  status: KnorviaBackgroundTaskControlStatus;
-  tokens: readonly string[];
-}> = [
-  { status: "pending", tokens: ["queued", "scheduled", "starting", "pending"] },
-  { status: "running", tokens: ["running", "in_progress", "started", "active"] },
-  { status: "completed", tokens: ["completed", "complete", "success", "succeeded", "done"] },
-  { status: "failed", tokens: ["failed", "failure", "error", "spawn_error"] },
-  {
-    status: "killed",
-    tokens: ["killed", "cancelled", "canceled", "stopped", "terminated", "timed_out", "timeout"],
-  },
-  { status: "lost", tokens: ["lost", "unknown"] },
-];
-
-function controlStatus(text: string | undefined): KnorviaBackgroundTaskControlStatus {
-  if (text !== undefined) {
-    const token = controlToken(text);
-    for (const group of statusGroups) {
-      if (group.tokens.includes(token)) return group.status;
-    }
+function commandForKind(record: Dict, kind: ControlKind): string | undefined {
+  const display = () => scan(record, DISPLAY_TEXT_KEYS, acceptText);
+  const shell = () => commandFromRecord(record);
+  const order = kind === "agent" ? [display, shell] : [shell, display];
+  for (const read of order) {
+    const picked = read();
+    if (picked !== undefined) return picked;
   }
-  return "running";
+  return;
 }
 
-function normalizeControl(value: unknown): KnorviaBackgroundTaskControlItem | undefined {
-  const record = controlRecord(value);
-  if (record === undefined) return undefined;
+function statusFromText(text: string | undefined): KnorviaBackgroundTaskControlStatus {
+  if (text === undefined) return "running";
+  const token = foldToken(text);
+  const row = STATUS_TABLE.find(([, aliases]) => aliases.includes(token));
+  return row?.[0] ?? "running";
+}
+
+function synthesizedJobId(
+  pid: number | undefined,
+  startedAt: number | undefined,
+  command: string,
+): string {
+  const pidLabel = pid === undefined ? "no-pid" : String(pid);
+  const startLabel = startedAt === undefined ? "no-start" : String(startedAt);
+  return `background-task:${pidLabel}:${startLabel}:${command}`;
+}
+
+function readSlot(record: Dict, slot: OptionalSlot): unknown {
+  switch (slot.kind) {
+    case "text":
+      return scan(record, slot.keys, acceptText);
+    case "number":
+      return scan(record, slot.keys, acceptNumber);
+    case "instant":
+      return readInstant(record, slot.keys);
+    case "boolean":
+      return scan(record, slot.keys, acceptBoolean);
+    default:
+      return;
+  }
+}
+
+function fillOptional(item: KnorviaBackgroundTaskControlItem, record: Dict): void {
+  for (const slot of OPTIONAL_SLOTS) {
+    const value = readSlot(record, slot);
+    const present = slot.presence === "truthy" ? Boolean(value) : value !== undefined;
+    if (!present) continue;
+    Object.assign(item, { [slot.field]: value });
+  }
+}
+
+function buildControlItem(payload: unknown): KnorviaBackgroundTaskControlItem | undefined {
+  const record = asDict(payload);
+  if (!record) return;
   const taskKind = resolveKnorviaBackgroundTaskControlKind(record);
-  if (taskKind === undefined) return undefined;
-
-  const displayKeys = ["description", "summary", "title", "label"];
-  const command =
-    taskKind === "agent"
-      ? (firstText(record, displayKeys) ?? controlCommand(record))
-      : (controlCommand(record) ?? firstText(record, displayKeys));
-  if (command === undefined) return undefined;
-
-  const startedAt = firstInstant(record, ["startedAt", "started_at", "startTime", "start_time"]);
-  const pid = firstNumber(record, ["pid", "processId", "process_id"]);
-  // 任务标识优先于工具调用标识：兼容旧后台任务记录，避免同一工具调用下的任务相互覆盖。
-  const jobId =
-    firstText(record, [
-      "taskId",
-      "task_id",
-      "backgroundTaskId",
-      "background_task_id",
-      "jobId",
-      "job_id",
-      "backgroundJobId",
-      "background_job_id",
-      "id",
-    ]) ?? `background-task:${pid ?? "no-pid"}:${startedAt ?? "no-start"}:${command}`;
-  const job: KnorviaBackgroundTaskControlItem = {
-    jobId,
+  if (taskKind === undefined) return;
+  const command = commandForKind(record, taskKind);
+  if (command === undefined) return;
+  const startedAt = readInstant(record, START_KEYS);
+  const pid = scan(record, PID_KEYS, acceptNumber);
+  const chosenId =
+    scan(record, JOB_ID_KEYS, acceptText) ?? synthesizedJobId(pid, startedAt, command);
+  const item: KnorviaBackgroundTaskControlItem = {
+    jobId: chosenId,
     command,
     taskKind,
-    status: controlStatus(firstText(record, ["status", "state", "phase"])),
-    raw: value,
+    status: statusFromText(scan(record, STATUS_TEXT_KEYS, acceptText)),
+    raw: payload,
   };
-
-  const toolCallId = firstText(record, ["toolCallId", "tool_call_id"]);
-  const elapsedMs = firstNumber(record, ["elapsedMs", "elapsed_ms", "durationMs", "duration_ms"]);
-  const title = firstText(record, ["title", "name", "label", "description"]);
-  const cancellable = firstBoolean(record, ["cancellable"]);
-  const stdoutTail = firstText(record, ["stdoutTail", "stdout_tail"]);
-  const stderrTail = firstText(record, ["stderrTail", "stderr_tail"]);
-  const outputTail = firstText(record, ["outputTail", "output_tail"]);
-
-  if (toolCallId) job.toolCallId = toolCallId;
-  if (title) job.title = title;
-  if (stdoutTail) job.stdoutTail = stdoutTail;
-  if (stderrTail) job.stderrTail = stderrTail;
-  if (outputTail) job.outputTail = outputTail;
-  if (startedAt !== undefined) job.startedAt = startedAt;
-  if (pid !== undefined) job.pid = pid;
-  if (elapsedMs !== undefined) job.elapsedMs = elapsedMs;
-  if (cancellable !== undefined) job.cancellable = cancellable;
-  return job;
+  fillOptional(item, record);
+  return item;
 }
 
 export function parseKnorviaBackgroundTaskControlItems(
-  value: unknown,
+  payload: unknown,
 ): KnorviaBackgroundTaskControlItem[] {
-  if (!Array.isArray(value)) return [];
-  const jobs = new Map<string, KnorviaBackgroundTaskControlItem>();
-  for (const entry of value) {
-    const job = normalizeControl(entry);
-    if (job !== undefined) jobs.set(job.jobId, job);
+  if (!Array.isArray(payload)) return [];
+  const byId = new Map<string, KnorviaBackgroundTaskControlItem>();
+  for (const entry of payload) {
+    const item = buildControlItem(entry);
+    if (item) byId.set(item.jobId, item);
   }
-  return Array.from(jobs.values());
+  return [...byId.values()];
 }
 
 export function isActiveKnorviaBackgroundTaskControlItem(
-  job: KnorviaBackgroundTaskControlItem,
+  item: KnorviaBackgroundTaskControlItem,
 ): boolean {
-  return job.status === "running";
+  return item.status === "running";
 }
 
 export function getKnorviaBackgroundTaskControlItemElapsedMs(
-  job: KnorviaBackgroundTaskControlItem,
-  now = Date.now(),
+  item: KnorviaBackgroundTaskControlItem,
+  clock = Date.now(),
 ): number {
-  const clockElapsed = job.startedAt === undefined ? 0 : Math.max(0, now - job.startedAt);
-  return Math.max(clockElapsed, job.elapsedMs ?? 0);
+  const sinceStart = item.startedAt === undefined ? 0 : Math.max(0, clock - item.startedAt);
+  const recorded = item.elapsedMs ?? 0;
+  return sinceStart > recorded ? sinceStart : recorded;
 }
 
 export function collectVisibleKnorviaBackgroundTaskControlItems(
-  jobs: readonly KnorviaBackgroundTaskControlItem[],
-  now = Date.now(),
-  thresholdMs = 30000,
+  items: readonly KnorviaBackgroundTaskControlItem[],
+  clock = Date.now(),
+  thresholdMs = DEFAULT_VISIBLE_ELAPSED_MS,
 ): Array<KnorviaBackgroundTaskControlItem & { elapsedMs: number }> {
-  const visible: Array<KnorviaBackgroundTaskControlItem & { elapsedMs: number }> = [];
-  for (const job of jobs) {
-    if (!isActiveKnorviaBackgroundTaskControlItem(job)) continue;
-    const elapsedMs = getKnorviaBackgroundTaskControlItemElapsedMs(job, now);
-    if (elapsedMs >= thresholdMs) visible.push({ ...job, elapsedMs });
-  }
-  return visible.sort((left, right) => right.elapsedMs - left.elapsedMs);
+  return items
+    .filter((item) => isActiveKnorviaBackgroundTaskControlItem(item))
+    .map((item) => ({
+      ...item,
+      elapsedMs: getKnorviaBackgroundTaskControlItemElapsedMs(item, clock),
+    }))
+    .filter((item) => item.elapsedMs >= thresholdMs)
+    .sort((left, right) => right.elapsedMs - left.elapsedMs);
 }

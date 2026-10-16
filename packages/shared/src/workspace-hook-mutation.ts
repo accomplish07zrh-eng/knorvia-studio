@@ -1,153 +1,211 @@
-import { open, mkdir, readFile, rename, rm } from "node:fs/promises";
+// SPDX-License-Identifier: Apache-2.0
 
+import { mkdir, open, readFile, rename, rm } from "node:fs/promises";
 import { basename, dirname, resolve } from "node:path";
-
-import type { WorkspaceHookBundleSnapshotData } from "./workspace-hook-digest.js";
-
-import { createWorkspaceHookDeclarationDigest } from "./workspace-hook-digest.js";
 
 import {
   workspaceHooksConfigSchema,
   type WorkspaceHookDefinition,
+  type WorkspaceHookEventName,
 } from "./workspace-hook-config.js";
+import { createWorkspaceHookDeclarationDigest } from "./workspace-hook-digest.js";
+import type { WorkspaceHookBundleSnapshotData } from "./workspace-hook-digest.js";
 
-export interface AtomicWorkspaceHookConfigWriteOptions {
-  beforeRename?: () => void | Promise<void>;
-}
+type BeforeRename = () => void | Promise<void>;
+
+export type AtomicWorkspaceHookConfigWriteOptions = {
+  beforeRename?: BeforeRename;
+};
+
+const CODE = {
+  mismatch: "workspace_hooks_snapshot_mismatch",
+  bundle: "workspace_hooks_bundle_changed",
+  unreadable: "workspace_hooks_config_unreadable",
+  writeFailed: "workspace_hooks_config_write_failed",
+} as const;
+
+type MutationCode = (typeof CODE)[keyof typeof CODE];
+
+const MISMATCH_TEXT = {
+  target: "Workspace Hook toggle target is not the current editable project config",
+  root: "Workspace Hook config root is not an object",
+  schema: "Workspace Hook config no longer matches its schema",
+  hooks: "Workspace Hook config has no hooks object",
+  events: "Workspace Hook config has no events object",
+  event: "Workspace Hook event no longer exists",
+  matcher: "Workspace Hook matcher no longer exists",
+  declaration: "Workspace Hook declaration no longer exists",
+  parsed: "Workspace Hook declaration no longer matches its schema",
+  changed: "Workspace Hook declaration changed after review",
+} as const;
+
+const UNREADABLE_TEXT = "Workspace Hook config could not be read";
 
 export class WorkspaceHookMutationError extends Error {
-  constructor(
-    readonly code:
-      | "workspace_hooks_snapshot_mismatch"
-      | "workspace_hooks_bundle_changed"
-      | "workspace_hooks_config_unreadable"
-      | "workspace_hooks_config_write_failed",
-    message: string,
-    options?: ErrorOptions,
-  ) {
+  override name = "WorkspaceHookMutationError";
+  readonly code: MutationCode;
+
+  constructor(code: MutationCode, message: string, options?: ErrorOptions) {
     super(message, options);
-    this.name = "WorkspaceHookMutationError";
+    this.code = code;
   }
 }
+
+type ScratchHandle = {
+  writeFile(payload: string, encoding: "utf8"): Promise<void>;
+  sync(): Promise<void>;
+  close(): Promise<void>;
+};
+
+function scratchPath(filePath: string): string {
+  const folder = dirname(filePath);
+  const nonce = Math.random().toString(16).slice(2);
+  const leaf = `.${basename(filePath)}.${process.pid}.${Date.now()}.${nonce}.tmp`;
+  return resolve(folder, leaf);
+}
+
+async function release(handle: ScratchHandle | undefined): Promise<void> {
+  // 句柄关闭失败不能盖住原来的写入错误。
+  await handle?.close().catch(() => undefined);
+}
+
+async function discard(path: string): Promise<void> {
+  // 临时文件清不掉时仍抛出原始错误。
+  await rm(path, { force: true }).catch(() => undefined);
+}
+
+type WrittenDocument = Record<string, unknown>;
 
 export async function atomicWriteWorkspaceHookConfig(
-  filePath: string,
-  value: Record<string, unknown>,
-  options: AtomicWorkspaceHookConfigWriteOptions = {},
+  destination: string,
+  document: WrittenDocument,
+  settings: AtomicWorkspaceHookConfigWriteOptions = {},
 ): Promise<void> {
-  const directory = dirname(filePath);
-  await mkdir(directory, { recursive: true });
-  const temporaryPath = resolve(
-    directory,
-    `.${basename(filePath)}.${process.pid}.${Date.now()}.${Math.random().toString(16).slice(2)}.tmp`,
-  );
-  let handle: Awaited<ReturnType<typeof open>> | undefined;
+  await mkdir(dirname(destination), { recursive: true });
+  const scratch = scratchPath(destination);
+  let cursor: ScratchHandle | undefined;
   try {
-    handle = await open(temporaryPath, "wx", 0o600);
-    await handle.writeFile(JSON.stringify(value, null, 2) + "\n", "utf8");
-    await handle.sync();
-    await handle.close();
-    handle = undefined;
-    await options.beforeRename?.();
-    await rename(temporaryPath, filePath);
-  } catch (error) {
-    await handle?.close().catch(() => undefined);
-    await rm(temporaryPath, { force: true }).catch(() => undefined);
-    throw error;
+    cursor = await open(scratch, "wx", 0o600);
+    const body = `${JSON.stringify(document, null, 2)}\n`;
+    await cursor.writeFile(body, "utf8");
+    await cursor.sync();
+    await cursor.close();
+    cursor = undefined;
+    const notify = settings.beforeRename;
+    if (notify) await notify();
+    await rename(scratch, destination);
+  } catch (failure) {
+    await release(cursor);
+    await discard(scratch);
+    throw failure;
   }
 }
 
-export async function writeWorkspaceHookConfiguredToggle(input: {
-  configPath: string;
-  snapshot: WorkspaceHookBundleSnapshotData;
-  reviewItemId: string;
-  enabled: boolean;
-  writeOptions?: AtomicWorkspaceHookConfigWriteOptions;
-}): Promise<void> {
-  const configPath = resolve(input.configPath);
-  const entry = input.snapshot.hooks.find((hook) => hook.reviewItemId === input.reviewItemId);
-  const source =
-    entry === undefined ? undefined : input.snapshot.sourceFiles[entry.sourceFileIndex];
-  if (
-    !entry ||
-    !entry.editable ||
-    !source?.editable ||
-    source.configFileKind !== ".knorvia-studio/config.json" ||
-    resolve(source.canonicalPath) !== configPath
-  ) {
-    throw mismatch("Workspace Hook toggle target is not the current editable project config");
-  }
+function rejectSnapshot(message: string): WorkspaceHookMutationError {
+  return new WorkspaceHookMutationError(CODE.mismatch, message);
+}
 
-  let raw: unknown;
-  try {
-    raw = JSON.parse(await readFile(configPath, "utf8"));
-  } catch (error) {
-    // 仅读取和 JSON 解析失败归类为配置不可读，写入失败保留原错误。
-    throw new WorkspaceHookMutationError(
-      "workspace_hooks_config_unreadable",
-      "Workspace Hook config could not be read",
-      { cause: error },
-    );
+function asRecord(value: unknown): Record<string, unknown> | undefined {
+  if (typeof value === "object" && value !== null && !Array.isArray(value)) {
+    return value as Record<string, unknown>;
   }
-  if (!isRecord(raw)) {
-    throw mismatch("Workspace Hook config root is not an object");
-  }
-  const parsedHooks = workspaceHooksConfigSchema.safeParse(raw.hooks);
-  if (!parsedHooks.success) {
-    throw mismatch("Workspace Hook config no longer matches its schema");
-  }
-  const rawHooks = raw.hooks;
-  if (!isRecord(rawHooks)) {
-    throw mismatch("Workspace Hook config has no hooks object");
-  }
-  const rawEvents = rawHooks.events;
-  if (!isRecord(rawEvents)) {
-    throw mismatch("Workspace Hook config has no events object");
-  }
-  const rawEvent = rawEvents[entry.event];
-  if (!Array.isArray(rawEvent)) {
-    throw mismatch("Workspace Hook event no longer exists");
-  }
-  const rawMatcher = rawEvent[entry.matcherIndex];
-  if (!isRecord(rawMatcher) || !Array.isArray(rawMatcher.hooks)) {
-    throw mismatch("Workspace Hook matcher no longer exists");
-  }
-  const rawDeclaration = rawMatcher.hooks[entry.hookIndex];
-  if (!isRecord(rawDeclaration)) {
-    throw mismatch("Workspace Hook declaration no longer exists");
-  }
-  const parsedMatcher = parsedHooks.data.events?.[entry.event]?.[entry.matcherIndex];
-  const parsedDeclaration = getParsedDeclaration(parsedMatcher?.hooks[entry.hookIndex]);
-  if (!parsedDeclaration) {
-    throw mismatch("Workspace Hook declaration no longer matches its schema");
-  }
-  // 使用审阅时的已解析默认值，保留仅根默认值漂移的既有校验边界。
-  const declarationDigest = createWorkspaceHookDeclarationDigest({
-    sourceRelativePath: entry.sourceRelativePath,
-    sourceDiscoveryOrder: source.discoveryOrder,
-    event: entry.event,
-    matcher: parsedMatcher?.matcher ?? null,
-    matcherIndex: entry.matcherIndex,
-    hookIndex: entry.hookIndex,
-    hook: parsedDeclaration,
-    defaultTimeoutMs: entry.resolvedTimeoutMs,
-    resolvedMaxOutputBytes: entry.resolvedMaxOutputBytes,
+  return;
+}
+
+type ToggleRequest = Record<"configPath" | "reviewItemId", string> &
+  Record<"enabled", boolean> &
+  Record<"snapshot", WorkspaceHookBundleSnapshotData> & {
+    writeOptions?: AtomicWorkspaceHookConfigWriteOptions;
+  };
+
+type DeclarationDraft = Parameters<typeof createWorkspaceHookDeclarationDigest>[0];
+
+function declarationDraft(
+  hook: WorkspaceHookDefinition,
+  event: WorkspaceHookEventName,
+  matcher: string | null,
+  matcherIndex: number,
+  hookIndex: number,
+  defaultTimeoutMs: number,
+  resolvedMaxOutputBytes: number,
+  sourceRelativePath: string,
+  sourceDiscoveryOrder: number,
+): DeclarationDraft {
+  const draft: DeclarationDraft = {
+    hook,
+    event,
+    matcher,
+    matcherIndex,
+    hookIndex,
+    defaultTimeoutMs,
+    resolvedMaxOutputBytes,
+    sourceRelativePath,
+    sourceDiscoveryOrder,
+  };
+  return draft;
+}
+
+async function readConfigRoot(configPath: string): Promise<unknown> {
+  const text = await readFile(configPath, "utf8").catch((cause: unknown) => {
+    throw new WorkspaceHookMutationError(CODE.unreadable, UNREADABLE_TEXT, { cause });
   });
-  if (declarationDigest !== entry.hookDeclarationDigest) {
-    throw mismatch("Workspace Hook declaration changed after review");
+  try {
+    return JSON.parse(text) as unknown;
+  } catch (cause: unknown) {
+    throw new WorkspaceHookMutationError(CODE.unreadable, UNREADABLE_TEXT, { cause });
   }
-  rawDeclaration.enabled = input.enabled;
-  await atomicWriteWorkspaceHookConfig(configPath, raw, input.writeOptions);
 }
 
-function getParsedDeclaration(value: unknown): WorkspaceHookDefinition | undefined {
-  return value && typeof value === "object" ? (value as WorkspaceHookDefinition) : undefined;
-}
+export async function writeWorkspaceHookConfiguredToggle(request: ToggleRequest): Promise<void> {
+  const configPath = resolve(request.configPath);
+  const entry = request.snapshot.hooks.find((item) => item.reviewItemId === request.reviewItemId);
+  const source = entry ? request.snapshot.sourceFiles[entry.sourceFileIndex] : undefined;
+  const targetOk =
+    entry !== undefined &&
+    entry.editable &&
+    source !== undefined &&
+    source.editable &&
+    source.configFileKind === ".knorvia-studio/config.json" &&
+    resolve(source.canonicalPath) === configPath;
+  if (!targetOk) throw rejectSnapshot(MISMATCH_TEXT.target);
 
-function mismatch(message: string): WorkspaceHookMutationError {
-  return new WorkspaceHookMutationError("workspace_hooks_snapshot_mismatch", message);
-}
+  const raw = await readConfigRoot(configPath);
+  const root = asRecord(raw);
+  if (!root) throw rejectSnapshot(MISMATCH_TEXT.root);
+  const parsedHooks = workspaceHooksConfigSchema.safeParse(root.hooks);
+  if (!parsedHooks.success) throw rejectSnapshot(MISMATCH_TEXT.schema);
+  const rawHooks = asRecord(root.hooks);
+  if (!rawHooks) throw rejectSnapshot(MISMATCH_TEXT.hooks);
+  const rawEvents = asRecord(rawHooks.events);
+  if (!rawEvents) throw rejectSnapshot(MISMATCH_TEXT.events);
+  const eventName = entry.event;
+  const rawEvent = rawEvents[eventName];
+  if (!Array.isArray(rawEvent)) throw rejectSnapshot(MISMATCH_TEXT.event);
+  const rawMatcher = asRecord(rawEvent[entry.matcherIndex]);
+  if (!rawMatcher || !Array.isArray(rawMatcher.hooks)) throw rejectSnapshot(MISMATCH_TEXT.matcher);
+  const rawDeclaration = asRecord(rawMatcher.hooks[entry.hookIndex]);
+  if (!rawDeclaration) throw rejectSnapshot(MISMATCH_TEXT.declaration);
+  const parsedGroup = parsedHooks.data.events?.[entry.event]?.[entry.matcherIndex];
+  const parsedDeclaration = parsedGroup?.hooks[entry.hookIndex];
+  if (!parsedDeclaration || typeof parsedDeclaration !== "object")
+    throw rejectSnapshot(MISMATCH_TEXT.parsed);
 
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return value !== null && typeof value === "object" && !Array.isArray(value);
+  // 默认超时用审阅时已经算出的毫秒，根上的默认值后来变了也不算声明被改。
+  const declarationDigest = createWorkspaceHookDeclarationDigest(
+    declarationDraft(
+      parsedDeclaration,
+      entry.event,
+      parsedGroup.matcher ?? null,
+      entry.matcherIndex,
+      entry.hookIndex,
+      entry.resolvedTimeoutMs,
+      entry.resolvedMaxOutputBytes,
+      entry.sourceRelativePath,
+      source.discoveryOrder,
+    ),
+  );
+  if (declarationDigest !== entry.hookDeclarationDigest)
+    throw rejectSnapshot(MISMATCH_TEXT.changed);
+  rawDeclaration.enabled = request.enabled;
+  await atomicWriteWorkspaceHookConfig(configPath, root, request.writeOptions);
 }

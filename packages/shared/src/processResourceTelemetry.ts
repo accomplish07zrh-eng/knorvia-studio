@@ -1,137 +1,224 @@
-export const PROCESS_RESOURCE_ROLES = [
-  "main",
-  "renderer_main",
-  "renderer_guest",
-  "gpu",
-  "chromium_other",
-  "host",
-  "scheduler",
-  "cli_chat",
-  "cli_aux",
-  "mcp",
-] as const;
+// SPDX-License-Identifier: Apache-2.0
+// Property admission is one pass: undefined values are not counted, and a key can be both unknown and forbidden.
 
-export type ProcessResourceRole = (typeof PROCESS_RESOURCE_ROLES)[number];
+const SAMPLE_EVERY_MS = 60_000;
+const PROPERTY_BUDGET = 20;
 
-export const KNORVIA_CLI_RESOURCE_SAMPLE_INTERVAL_MS = 60000;
+const roleToken = {
+  main: "main",
+  rendererMain: "renderer_main",
+  rendererGuest: "renderer_guest",
+  gpu: "gpu",
+  chromiumOther: "chromium_other",
+  host: "host",
+  scheduler: "scheduler",
+  cliChat: "cli_chat",
+  cliAux: "cli_aux",
+  mcp: "mcp",
+} as const satisfies Record<string, string>;
 
-export const PROCESS_RESOURCE_CLI_LANES = ["chat", "plugin", "mcp-status"] as const;
+const ROLE_ORDER = [
+  roleToken.main,
+  roleToken.rendererMain,
+  roleToken.rendererGuest,
+  roleToken.gpu,
+  roleToken.chromiumOther,
+  roleToken.host,
+  roleToken.scheduler,
+  roleToken.cliChat,
+  roleToken.cliAux,
+  roleToken.mcp,
+] as const satisfies readonly string[];
 
-export type ProcessResourceCliLane = (typeof PROCESS_RESOURCE_CLI_LANES)[number];
+export const PROCESS_RESOURCE_ROLES = ROLE_ORDER;
+type RoleList = typeof ROLE_ORDER;
+export type ProcessResourceRole = RoleList[number];
 
-export function resolveCliProcessResourceRole(
-  lane: ProcessResourceCliLane | undefined,
-): Extract<ProcessResourceRole, "cli_chat" | "cli_aux"> {
-  return lane === undefined || lane === "chat" ? "cli_chat" : "cli_aux";
+export const KNORVIA_CLI_RESOURCE_SAMPLE_INTERVAL_MS = SAMPLE_EVERY_MS;
+
+const laneToken = {
+  chat: "chat",
+  plugin: "plugin",
+  mcpStatus: "mcp-status",
+} as const satisfies Record<string, string>;
+
+const LANE_ORDER = [
+  laneToken.chat,
+  laneToken.plugin,
+  laneToken.mcpStatus,
+] as const satisfies readonly string[];
+
+export const PROCESS_RESOURCE_CLI_LANES = LANE_ORDER;
+type LaneList = typeof LANE_ORDER;
+export type ProcessResourceCliLane = LaneList[number];
+
+type LaneArg = ProcessResourceCliLane | undefined;
+type CliResourceRole = Extract<ProcessResourceRole, "cli_chat" | "cli_aux">;
+
+const CHAT_LANE: ProcessResourceCliLane = laneToken.chat;
+
+export function resolveCliProcessResourceRole(lane: LaneArg): CliResourceRole {
+  const absentOrChat = lane === undefined || lane === CHAT_LANE;
+  return absentOrChat ? roleToken.cliChat : roleToken.cliAux;
 }
 
-export type ProcessResourceRuntimeSurface = "local" | "remote";
+const RUNTIME_SURFACES = ["local", "remote"] as const satisfies readonly string[];
+export type ProcessResourceRuntimeSurface = (typeof RUNTIME_SURFACES)[number];
+
+const PROCESS_WINDOW_EVENT = "perf_process_window";
+const SYSTEM_WINDOW_EVENT = "perf_system_window";
+const TOOL_EXEC_EVENT = "perf_tool_exec_resource";
 
 export const PROCESS_RESOURCE_EVENT_NAMES = {
-  processWindow: "perf_process_window",
-  systemWindow: "perf_system_window",
-  toolExecResource: "perf_tool_exec_resource",
-} as const;
+  processWindow: PROCESS_WINDOW_EVENT,
+  systemWindow: SYSTEM_WINDOW_EVENT,
+  toolExecResource: TOOL_EXEC_EVENT,
+} as const satisfies Record<string, string>;
 
-export type ProcessResourceEventName =
-  (typeof PROCESS_RESOURCE_EVENT_NAMES)[keyof typeof PROCESS_RESOURCE_EVENT_NAMES];
+type EventNameMap = typeof PROCESS_RESOURCE_EVENT_NAMES;
+export type ProcessResourceEventName = EventNameMap[keyof EventNameMap];
 
-export const ARMS_CUSTOM_EVENT_PROPERTY_LIMIT = 20;
+export const ARMS_CUSTOM_EVENT_PROPERTY_LIMIT = PROPERTY_BUDGET;
 
-const PROCESS_RESOURCE_GLOBAL_PROPERTY_KEYS = [
-  "platform",
-  "app_version",
-  "arms_env",
-  "device_mid",
-] as const;
+const field = {
+  platform: "platform",
+  appVersion: "app_version",
+  armsEnv: "arms_env",
+  deviceMid: "device_mid",
+  processRole: "process_role",
+  runtimeSurface: "runtime_surface",
+  arch: "arch",
+  logicalCpuCount: "logical_cpu_count",
+  totalMemoryGb: "total_memory_gb",
+  mcpId: "mcp_id",
+  backgroundRatio: "background_ratio",
+  uptimeMinutes: "uptime_minutes",
+  cpuPercentP95: "cpu_percent_p95",
+  cpuPercentPeak: "cpu_percent_peak",
+  rssKbTotalMean: "rss_kb_total_mean",
+  rssKbTotalPeak: "rss_kb_total_peak",
+  rssKbMaxProcessPeak: "rss_kb_max_process_peak",
+  heapUsedKbMean: "heap_used_kb_mean",
+  heapUsedKbPeak: "heap_used_kb_peak",
+  processCountPeak: "process_count_peak",
+  sampleCount: "sample_count",
+  appUptimeMinutes: "app_uptime_minutes",
+  systemCpuPercentP95: "system_cpu_percent_p95",
+  systemFreeMemoryKbMin: "system_free_memory_kb_min",
+  appCpuPercentP95: "app_cpu_percent_p95",
+  appRssKbTotalMean: "app_rss_kb_total_mean",
+  appRssKbTotalPeak: "app_rss_kb_total_peak",
+  processCountTotalPeak: "process_count_total_peak",
+  telemetrySelfMs: "telemetry_self_ms",
+  toolName: "tool_name",
+  exitKind: "exit_kind",
+  treeRssKbPeak: "tree_rss_kb_peak",
+  treeCpuTimeMs: "tree_cpu_time_ms",
+  cliRssKb: "cli_rss_kb",
+  systemFreeMemoryKb: "system_free_memory_kb",
+} as const satisfies Record<string, string>;
 
-export const PERF_PROCESS_WINDOW_PROPERTY_KEYS = [
-  ...PROCESS_RESOURCE_GLOBAL_PROPERTY_KEYS,
-  "process_role",
-  "runtime_surface",
-  "arch",
-  "logical_cpu_count",
-  "total_memory_gb",
-  "mcp_id",
-  "background_ratio",
-  "uptime_minutes",
-  "cpu_percent_p95",
-  "cpu_percent_peak",
-  "rss_kb_total_mean",
-  "rss_kb_total_peak",
-  "rss_kb_max_process_peak",
-  "heap_used_kb_mean",
-  "heap_used_kb_peak",
-  "process_count_peak",
-  "sample_count",
-] as const;
+const HOST_GLOBALS = [
+  field.platform,
+  field.appVersion,
+  field.armsEnv,
+  field.deviceMid,
+] as const satisfies readonly string[];
 
-export const PERF_SYSTEM_WINDOW_PROPERTY_KEYS = [
-  ...PROCESS_RESOURCE_GLOBAL_PROPERTY_KEYS,
-  "arch",
-  "logical_cpu_count",
-  "total_memory_gb",
-  "background_ratio",
-  "app_uptime_minutes",
-  "system_cpu_percent_p95",
-  "system_free_memory_kb_min",
-  "app_cpu_percent_p95",
-  "app_rss_kb_total_mean",
-  "app_rss_kb_total_peak",
-  "process_count_total_peak",
-  "sample_count",
-  "telemetry_self_ms",
-] as const;
+const MACHINE_SHAPE = [
+  field.arch,
+  field.logicalCpuCount,
+  field.totalMemoryGb,
+] as const satisfies readonly string[];
 
-export const PERF_TOOL_EXEC_RESOURCE_PROPERTY_KEYS = [
-  ...PROCESS_RESOURCE_GLOBAL_PROPERTY_KEYS,
-  "runtime_surface",
-  "tool_name",
-  "exit_kind",
-  "tree_rss_kb_peak",
-  "tree_cpu_time_ms",
-  "sample_count",
-  "cli_rss_kb",
-  "system_free_memory_kb",
-] as const;
+const processWindowKeys = [
+  ...HOST_GLOBALS,
+  field.processRole,
+  field.runtimeSurface,
+  ...MACHINE_SHAPE,
+  field.mcpId,
+  field.backgroundRatio,
+  field.uptimeMinutes,
+  field.cpuPercentP95,
+  field.cpuPercentPeak,
+  field.rssKbTotalMean,
+  field.rssKbTotalPeak,
+  field.rssKbMaxProcessPeak,
+  field.heapUsedKbMean,
+  field.heapUsedKbPeak,
+  field.processCountPeak,
+  field.sampleCount,
+] as const satisfies readonly string[];
 
-const PROPERTY_KEY_WHITELIST: Record<ProcessResourceEventName, readonly string[]> = {
-  [PROCESS_RESOURCE_EVENT_NAMES.processWindow]: PERF_PROCESS_WINDOW_PROPERTY_KEYS,
-  [PROCESS_RESOURCE_EVENT_NAMES.systemWindow]: PERF_SYSTEM_WINDOW_PROPERTY_KEYS,
-  [PROCESS_RESOURCE_EVENT_NAMES.toolExecResource]: PERF_TOOL_EXEC_RESOURCE_PROPERTY_KEYS,
+const systemWindowKeys = [
+  ...HOST_GLOBALS,
+  ...MACHINE_SHAPE,
+  field.backgroundRatio,
+  field.appUptimeMinutes,
+  field.systemCpuPercentP95,
+  field.systemFreeMemoryKbMin,
+  field.appCpuPercentP95,
+  field.appRssKbTotalMean,
+  field.appRssKbTotalPeak,
+  field.processCountTotalPeak,
+  field.sampleCount,
+  field.telemetrySelfMs,
+] as const satisfies readonly string[];
+
+const toolExecKeys = [
+  ...HOST_GLOBALS,
+  field.runtimeSurface,
+  field.toolName,
+  field.exitKind,
+  field.treeRssKbPeak,
+  field.treeCpuTimeMs,
+  field.sampleCount,
+  field.cliRssKb,
+  field.systemFreeMemoryKb,
+] as const satisfies readonly string[];
+
+export const PERF_PROCESS_WINDOW_PROPERTY_KEYS = processWindowKeys;
+export const PERF_SYSTEM_WINDOW_PROPERTY_KEYS = systemWindowKeys;
+export const PERF_TOOL_EXEC_RESOURCE_PROPERTY_KEYS = toolExecKeys;
+
+const ADMISSION: Record<ProcessResourceEventName, readonly string[]> = {
+  [PROCESS_WINDOW_EVENT]: processWindowKeys,
+  [SYSTEM_WINDOW_EVENT]: systemWindowKeys,
+  [TOOL_EXEC_EVENT]: toolExecKeys,
 };
 
-export const PROCESS_RESOURCE_FORBIDDEN_PROPERTY_KEY_PATTERN =
-  /pid|path|workspace|session|task|command/i;
+// `pid` is a substring match; `device_mid` and `mcp_id` are intentionally outside it.
+const PRIVACY_KEY = /pid|path|workspace|session|task|command/i;
+export const PROCESS_RESOURCE_FORBIDDEN_PROPERTY_KEY_PATTERN = PRIVACY_KEY;
 
-export interface ProcessResourceEventPropertyCheck {
-  ok: boolean;
+type Flag = boolean;
+type Names = string[];
+
+export type ProcessResourceEventPropertyCheck = {
+  ok: Flag;
   count: number;
-  overLimit: boolean;
-  unknownKeys: string[];
-  forbiddenKeys: string[];
-}
+  overLimit: Flag;
+  unknownKeys: Names;
+  forbiddenKeys: Names;
+};
+
+type PropertyBag = Record<string, string | number | boolean | undefined>;
 
 export function checkProcessResourceEventProperties(
-  eventName: ProcessResourceEventName,
-  properties: Record<string, string | number | boolean | undefined>,
+  name: ProcessResourceEventName,
+  bag: PropertyBag,
 ): ProcessResourceEventPropertyCheck {
-  const whitelist = new Set(PROPERTY_KEY_WHITELIST[eventName]);
-  const presentKeys = Object.entries(properties)
-    .filter(([, value]) => value !== undefined)
-    .map(([key]) => key);
-  const unknownKeys = presentKeys.filter((key) => !whitelist.has(key));
-  const forbiddenKeys = presentKeys.filter((key) =>
-    PROCESS_RESOURCE_FORBIDDEN_PROPERTY_KEY_PATTERN.test(key),
-  );
-  const count = presentKeys.length;
-  const overLimit = count > ARMS_CUSTOM_EVENT_PROPERTY_LIMIT;
-
-  return {
-    ok: unknownKeys.length === 0 && forbiddenKeys.length === 0 && !overLimit,
-    count,
-    overLimit,
-    unknownKeys,
-    forbiddenKeys,
-  };
+  const allowed = new Set<string>(ADMISSION[name]);
+  const unknownKeys: Names = [];
+  const forbiddenKeys: Names = [];
+  let count = 0;
+  for (const key of Object.keys(bag)) {
+    if (bag[key] === undefined) continue;
+    count += 1;
+    if (!allowed.has(key)) unknownKeys.push(key);
+    if (PRIVACY_KEY.test(key)) forbiddenKeys.push(key);
+  }
+  const overLimit = count > PROPERTY_BUDGET;
+  const ok = unknownKeys.length === 0 && forbiddenKeys.length === 0 && !overLimit;
+  return { ok, count, overLimit, unknownKeys, forbiddenKeys };
 }
