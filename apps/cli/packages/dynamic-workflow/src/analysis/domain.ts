@@ -2,24 +2,26 @@
 import ts from "typescript";
 import { WORKFLOW_FUNCTION_NAME, type ScriptLoc } from "../compiler/compile.js";
 
-/**
- * Gen-only abstract values for the taint fixpoint: occurrence labels, parameter
- * placeholders, named fields, and reachable local functions. Joins only grow.
- * Field chains stop at {@link VALUE_DEPTH_CAP}; deeper structure is smeared into
- * occurrences so a cyclic heap cannot add a fresh node on every pass.
- */
+// Gen-only lattice for the taint fixpoint. A value only grows, which is what makes the
+// pass terminate. Three facts travel together:
+//   occurrences — site labels that reached this value, plus formal placeholders inside a summary
+//   fields — members whose names are known statically (properties and tuple slots)
+//   functions — script-local callees reachable as this value
+// Two extra axes stay off the common path: a bind prefix, and may-alias back-edges.
 
-/** Site label, exactness, and an optional join/element port. */
+// A label is a site id, an exactness bit, and an optional join or element port.
+// A missing port means the whole value. That portless label replaces every ported
+// label of the same site and keeps exactness if either side was exact. A selected
+// element keeps its port until a whole-value read joins it.
 export interface TaintOcc {
   port?: number;
   site: string;
   exact: boolean;
 }
 
-/**
- * A formal inside one function summary. `rest` means every actual at index >= `param`
- * belongs to this formal; dropping the bit would stop the tail from being gathered.
- */
+// One formal of one function summary. `rest` means every actual at index >= `param`
+// belongs to this formal. Dropping the bit would stop the tail from being gathered
+// when the summary is substituted (calls.ts) or when facts are emitted (state.ts).
 export interface Placeholder {
   rest?: boolean;
   fnId: number;
@@ -27,23 +29,30 @@ export interface Placeholder {
 }
 
 export interface AbstractValue {
+  // Script-local functions this value may be. A merged bound and unbound function
+  // cannot say which one carries the prefix, so application tries both alignments.
   fns: Set<ts.Node>;
+  // Statically named members. Absent means "not tracked", not "empty of taint".
   fields: Map<string, AbstractValue>;
-  /** Keyed by `site + "|" + (port ?? "")`. */
+  // Keyed by site + "|" + (port ?? "").
   occs: Map<string, TaintOcc>;
-  /** Keyed by `fnId + ":" + param` (the rest bit is not part of the key). */
+  // Keyed by fnId + ":" + param. The rest bit is payload, not part of the key.
   phs: Map<string, Placeholder>;
-  /**
-   * Partial-application prefix from `bind`. A merged plain/bound value applies both
-   * alignments. Absent on the common unbound value.
-   */
+  // Arguments already supplied by bind, earlier binds first. Absent when unbound.
+  // At the real call the prefix is prepended to the actuals.
   bound?: AbstractValue[];
-  /**
-   * Places a write through this value must also reach, deduped by object identity.
-   * Targets have to be pass-stable heap nodes (env slots, class instances, join and
-   * conditional places, literal places, and their fields). A fresh object each pass
-   * would make this set grow forever and the fixpoint would hit the iteration cap.
-   */
+  // Places a write through this value must also reach, because at runtime this value
+  // may be one of them. Set for a conditional binding (`flag ? box1 : box2`) and for
+  // a Promise.all element that aliases its input. The replay is weak and inexact:
+  // the write lands on one arm only, so it never strong-updates a target, and it
+  // follows each target's own mayAlias set. Identity dedup keeps loop-carried merges
+  // finite.
+  //
+  // That only terminates if every target is a pass-stable heap node: an env slot, a
+  // class instance, a join result, a conditional place, a literal place, or a field
+  // of one of those. A fresh object minted each pass is a new identity, the set grows
+  // forever, and the fixpoint hits the iteration cap. joinResultOf and condPlaceOf
+  // exist so those two nodes stay stable.
   mayAlias?: Set<AbstractValue>;
 }
 
@@ -54,7 +63,7 @@ export interface PromotedFanout {
   label: string;
 }
 
-/** Edge facts for graph assembly. Fan-out ids are still provisional (`fan-out@N`). */
+// Edge facts for graph assembly. Fan-out ids are still provisional (`fan-out@N`).
 export interface TaintFacts {
   promoted: PromotedFanout[];
   returnData: TaintOcc[];
@@ -65,34 +74,16 @@ export interface TaintFacts {
   fanoutIn: Map<string, TaintOcc[]>;
 }
 
-/** Nesting limit for fields and for bind-prefix length. */
+// Field chains and bind prefixes both stop here. Deeper structure is smeared into
+// occurrences so a cyclic heap cannot mint a fresh node on every pass. A self-rebind
+// (`h = h.bind(null, x)`) grows the prefix by one slot per pass and never gets deeper,
+// so the same cap also limits prefix length. Past it, each extra element is smeared
+// onto the value. Labels survive; routing through more than CAP distinct bound values
+// does not. Every path into a persistent slot goes through the prefix join, so a
+// stored prefix never exceeds the cap.
 export const VALUE_DEPTH_CAP = 8;
 
-function reduceIter<T>(items: Iterable<T>, acc: boolean, step: (item: T) => boolean): boolean {
-  const cursor = items[Symbol.iterator]();
-  let next = cursor.next();
-  while (next.done !== true) {
-    const item = next.value;
-    acc = step(item) || acc;
-    next = cursor.next();
-  }
-  return acc;
-}
-
-function reduceIndex<T>(
-  items: readonly T[],
-  acc: boolean,
-  step: (item: T, index: number) => boolean,
-): boolean {
-  let index = 0;
-  while (index < items.length) {
-    acc = step(items[index] as T, index) || acc;
-    index += 1;
-  }
-  return acc;
-}
-
-export function emptyValue(): AbstractValue {
+function freshValue(): AbstractValue {
   const fields = new Map<string, AbstractValue>();
   const fns = new Set<ts.Node>();
   const occs = new Map<string, TaintOcc>();
@@ -100,386 +91,431 @@ export function emptyValue(): AbstractValue {
   return { fields, fns, occs, phs };
 }
 
-function occKey(site: string, port: number | undefined): string {
-  const tail = port === undefined ? "" : String(port);
-  return site + "|" + tail;
+function labelKey(site: string, port: number | undefined): string {
+  const suffix = port === undefined ? "" : String(port);
+  return [site, suffix].join("|");
 }
 
-export function phKey(ph: Placeholder): string {
-  return String(ph.fnId) + ":" + String(ph.param);
+function overCap(depth: number): boolean {
+  return depth >= VALUE_DEPTH_CAP;
 }
 
-function putOcc(target: AbstractValue, occ: TaintOcc): boolean {
-  const key = occKey(occ.site, occ.port);
-  const prior = target.occs.get(key);
-  if (prior === undefined) {
-    target.occs.set(key, { exact: occ.exact, port: occ.port, site: occ.site });
-    return true;
+function grewFrom<T>(items: Iterable<T>, step: (item: T) => boolean): boolean {
+  let grew = false;
+  for (const item of items) {
+    if (step(item)) grew = true;
   }
-  if (!occ.exact || prior.exact) return false;
-  prior.exact = true;
-  return true;
+  return grew;
 }
 
-// A portless label of a site replaces every ported label of that site and ORs exactness.
-function widenSite(target: AbstractValue, occ: TaintOcc): boolean {
-  let exact = occ.exact;
-  const doomed: string[] = [];
-  reduceIter(target.occs, false, ([key, row]) => {
-    if (row.site !== occ.site || row.port === undefined) return false;
-    exact = exact || row.exact;
-    doomed.push(key);
-    return false;
-  });
-  let removed = false;
-  reduceIndex(doomed, false, (key) => (target.occs.delete(key), (removed = true), false));
-  return putOcc(target, { exact, site: occ.site }) || removed;
-}
-
-function keepPort(target: AbstractValue, occ: TaintOcc): boolean {
-  const cover = target.occs.get(occKey(occ.site, undefined));
-  if (cover === undefined) return putOcc(target, occ);
-  if (!occ.exact || cover.exact) return false;
-  cover.exact = true;
-  return true;
-}
-
-export function addOcc(target: AbstractValue, occ: TaintOcc): boolean {
-  if (occ.port !== undefined) return keepPort(target, occ);
-  return widenSite(target, occ);
-}
-
-export function addPlaceholder(target: AbstractValue, ph: Placeholder): boolean {
-  const key = phKey(ph);
-  const prior = target.phs.get(key);
-  if (prior === undefined) {
-    const row: Placeholder = { fnId: ph.fnId, param: ph.param };
-    if (ph.rest === true) row.rest = true;
-    target.phs.set(key, row);
-    return true;
+function grewAt<T>(items: readonly T[], step: (item: T, index: number) => boolean): boolean {
+  let grew = false;
+  let index = 0;
+  while (index < items.length) {
+    const item = items[index];
+    if (item !== undefined && step(item, index)) grew = true;
+    index += 1;
   }
-  if (ph.rest !== true || prior.rest === true) return false;
-  prior.rest = true;
+  return grew;
+}
+
+// Returns whether this is the first time `node` is seen. The set is the cycle brake
+// for a field that points back at its container.
+function claim(seen: Set<AbstractValue>, node: AbstractValue): boolean {
+  if (seen.has(node)) return false;
+  seen.add(node);
   return true;
 }
 
-function unionFlat(target: AbstractValue, source: AbstractValue): boolean {
-  const occs = reduceIter(source.occs.values(), false, (occ) => addOcc(target, occ));
-  const phs = reduceIter(source.phs.values(), false, (ph) => addPlaceholder(target, ph));
-  const fns = reduceIter(source.fns, false, (fn) =>
-    target.fns.has(fn) ? false : (target.fns.add(fn), true),
-  );
-  return occs || phs || fns;
+class OccurrenceJoin {
+  static admit(host: AbstractValue, occ: TaintOcc): boolean {
+    if (occ.port === undefined) return OccurrenceJoin.cover(host, occ);
+    return OccurrenceJoin.keep(host, occ);
+  }
+
+  // A portless label erases every ported label of the same site and ORs exactness.
+  private static cover(host: AbstractValue, occ: TaintOcc): boolean {
+    const doomed = [...host.occs].filter(([, row]) => row.site === occ.site && row.port !== undefined);
+    const exact = doomed.reduce((bit, [, row]) => bit || row.exact, occ.exact);
+    for (const [key] of doomed) host.occs.delete(key);
+    const stored = OccurrenceJoin.store(host, { exact, site: occ.site });
+    return stored || doomed.length > 0;
+  }
+
+  // A ported label is redundant once a portless label of that site is present.
+  // Exactness still upgrades the covering label.
+  private static keep(host: AbstractValue, occ: TaintOcc): boolean {
+    const cover = host.occs.get(labelKey(occ.site, undefined));
+    if (cover === undefined) return OccurrenceJoin.store(host, occ);
+    const raised = occ.exact && cover.exact === false;
+    if (raised) cover.exact = true;
+    return raised;
+  }
+
+  private static store(host: AbstractValue, occ: TaintOcc): boolean {
+    const key = labelKey(occ.site, occ.port);
+    const prior = host.occs.get(key);
+    if (prior === undefined) {
+      host.occs.set(key, { exact: occ.exact, port: occ.port, site: occ.site });
+      return true;
+    }
+    const raised = occ.exact && prior.exact === false;
+    if (raised) prior.exact = true;
+    return raised;
+  }
 }
 
-function unionAliases(target: AbstractValue, incoming: Set<AbstractValue>): boolean {
-  const slot = (target.mayAlias ??= new Set<AbstractValue>());
-  return reduceIter(incoming, false, (alias) =>
-    slot.has(alias) ? false : (slot.add(alias), true),
-  );
+class PlaceholderJoin {
+  static key(ph: Placeholder): string {
+    return String(ph.fnId) + ":" + String(ph.param);
+  }
+
+  static admit(host: AbstractValue, ph: Placeholder): boolean {
+    const key = PlaceholderJoin.key(ph);
+    const prior = host.phs.get(key);
+    if (prior === undefined) {
+      const row: Placeholder = { fnId: ph.fnId, param: ph.param };
+      if (ph.rest === true) row.rest = true;
+      host.phs.set(key, row);
+      return true;
+    }
+    // A later rest witness must stick. A non-rest witness must not clear it.
+    const raised = ph.rest === true && prior.rest !== true;
+    if (raised) prior.rest = true;
+    return raised;
+  }
 }
 
-export function mergeInto(target: AbstractValue, source: AbstractValue, depth = 0): boolean {
-  // Same object: do not walk. A field that points at its container is handled by the depth cap,
-  // which still smears labels; a visited-set on this walk would hide that growth.
-  if (target === source) return false;
-  let grew = unionFlat(target, source);
-  if (source.bound !== undefined) grew = mergeBound(target, source.bound, depth) || grew;
-  if (source.mayAlias !== undefined) grew = unionAliases(target, source.mayAlias) || grew;
-  if (depth < VALUE_DEPTH_CAP) {
-    return (
-      reduceIter(source.fields, false, ([key, field]) =>
-        mergeInto(liveField(target, key), field, depth + 1),
-      ) || grew
+function absorbFunctions(host: AbstractValue, source: AbstractValue): boolean {
+  const fresh = [...source.fns].filter((fn) => host.fns.has(fn) === false);
+  for (const fn of fresh) host.fns.add(fn);
+  return fresh.length > 0;
+}
+
+function absorbAliases(host: AbstractValue, incoming: Set<AbstractValue>): boolean {
+  const slot = host.mayAlias ?? new Set<AbstractValue>();
+  if (host.mayAlias === undefined) host.mayAlias = slot;
+  let grew = false;
+  for (const alias of incoming) {
+    if (slot.has(alias)) continue;
+    slot.add(alias);
+    grew = true;
+  }
+  return grew;
+}
+
+// Occurrences, placeholders, and functions. Structure is handled by the caller.
+function absorbFlat(host: AbstractValue, source: AbstractValue): boolean {
+  const labels = grewFrom(source.occs.values(), (occ) => OccurrenceJoin.admit(host, occ));
+  const formals = grewFrom(source.phs.values(), (ph) => PlaceholderJoin.admit(host, ph));
+  return labels || formals || absorbFunctions(host, source);
+}
+
+class ValueJoin {
+  static into(target: AbstractValue, source: AbstractValue, depth: number): boolean {
+    // Same object: do not walk. A field that points at its container is stopped by the
+    // depth cap, which still smears labels. A visited-set here would hide that growth.
+    if (target === source) return false;
+    const flat = absorbFlat(target, source);
+    const prefix =
+      source.bound === undefined ? false : ValueJoin.prefix(target, source.bound, depth);
+    const aliases = source.mayAlias === undefined ? false : absorbAliases(target, source.mayAlias);
+    const structure = ValueJoin.fields(target, source, depth);
+    return flat || prefix || aliases || structure;
+  }
+
+  private static fields(target: AbstractValue, source: AbstractValue, depth: number): boolean {
+    if (overCap(depth)) {
+      return grewFrom(source.fields.values(), (field) => ValueFold.into(target, field, new Set()));
+    }
+    return grewFrom(source.fields, ([key, field]) =>
+      ValueJoin.into(ensureField(target, key), field, depth + 1),
     );
   }
-  return reduceIter(source.fields.values(), false, (field) => collapseInto(target, field)) || grew;
-}
 
-export function mergeBound(
-  target: AbstractValue,
-  sourceBound: AbstractValue[],
-  depth: number,
-): boolean {
-  // Past the cap, do not lengthen `bound` — smear each element into occurrences.
-  // A self-rebind grows the prefix by one slot per pass and never gets deeper, so the
-  // field cap alone would not stop it. Persistent prefixes stay within the cap because
-  // every store goes through here.
-  if (depth >= VALUE_DEPTH_CAP) {
-    return reduceIndex(sourceBound, false, (el) => collapseInto(target, el));
+  static prefix(target: AbstractValue, sourceBound: readonly AbstractValue[], depth: number): boolean {
+    if (overCap(depth)) {
+      return grewFrom(sourceBound, (part) => ValueFold.into(target, part, new Set()));
+    }
+    target.bound ??= [];
+    const prefix = target.bound;
+    return grewAt(sourceBound, (part, index) => {
+      if (overCap(index)) return ValueFold.into(target, part, new Set());
+      const prior = prefix[index];
+      const created = prior === undefined;
+      const slot = prior ?? freshValue();
+      if (created) prefix[index] = slot;
+      return ValueJoin.into(slot, part, depth + 1) || created;
+    });
   }
-  if (target.bound === undefined) target.bound = [];
-  const prefix = target.bound;
-  return reduceIndex(sourceBound, false, (el, index) => {
-    if (index >= VALUE_DEPTH_CAP) return collapseInto(target, el);
-    const prior = prefix[index];
-    const slot = prior ?? (prefix[index] = emptyValue());
-    return mergeInto(slot, el, depth + 1) || prior === undefined;
-  });
 }
 
-export function cloneValue(v: AbstractValue): AbstractValue {
-  const copy = emptyValue();
-  mergeInto(copy, v);
-  return copy;
+class ValueFold {
+  // Drop field structure. Keep labels, formals, and every nested function. Ports stay
+  // until a portless label of the same site subsumes them. Functions ride along so a
+  // widened read (`fns[i]`, an iterated element) still dispatches instead of becoming
+  // an unknown call. The function set is bounded by the script, so this cannot diverge.
+  static into(out: AbstractValue, source: AbstractValue, seen: Set<AbstractValue>): boolean {
+    if (!claim(seen, source)) return false;
+    const flat = absorbFlat(out, source);
+    const nested = grewFrom(source.fields.values(), (field) => ValueFold.into(out, field, seen));
+    const prefix = source.bound;
+    const bound =
+      prefix === undefined
+        ? false
+        : grewFrom(prefix, (part) => ValueFold.into(out, part, seen));
+    return flat || nested || bound;
+  }
+
+  static fresh(source: AbstractValue): AbstractValue {
+    const folded = freshValue();
+    ValueFold.into(folded, source, new Set());
+    return folded;
+  }
 }
 
-export function unionValues(...values: AbstractValue[]): AbstractValue {
-  const out = emptyValue();
-  reduceIndex(values, false, (value) => mergeInto(out, value));
-  return out;
+function carriesPort(value: AbstractValue, site: string): boolean {
+  return [...value.occs.values()].some((row) => row.site === site && row.port !== undefined);
 }
 
-export function singleOcc(site: string, exact: boolean, port?: number): AbstractValue {
-  const out = emptyValue();
-  addOcc(out, { exact, port, site });
-  return out;
+// Smear container-level labels onto a field read. Skip a portless container label
+// when the field already carries a port of that site, or the portless label would
+// erase the port. Placeholders always smear. Other fields do not.
+function smearRead(out: AbstractValue, container: AbstractValue): void {
+  for (const occ of container.occs.values()) {
+    if (occ.port === undefined && carriesPort(out, occ.site)) continue;
+    OccurrenceJoin.admit(out, occ);
+  }
+  for (const ph of container.phs.values()) PlaceholderJoin.admit(out, ph);
 }
 
-export function collapse(v: AbstractValue): AbstractValue {
-  const out = emptyValue();
-  collapseInto(out, v);
-  return out;
+class Exactness {
+  static cleared(source: AbstractValue): AbstractValue {
+    const copy = freshValue();
+    ValueJoin.into(copy, source, 0);
+    Exactness.scrub(copy, new Set());
+    return copy;
+  }
+
+  private static scrub(node: AbstractValue, seen: Set<AbstractValue>): void {
+    if (!claim(seen, node)) return;
+    for (const occ of node.occs.values()) occ.exact = false;
+    for (const field of node.fields.values()) Exactness.scrub(field, seen);
+    const prefix = node.bound;
+    if (prefix === undefined) return;
+    for (const part of prefix) Exactness.scrub(part, seen);
+  }
 }
 
-export function collapseInto(
-  out: AbstractValue,
-  v: AbstractValue,
-  seen = new Set<AbstractValue>(),
-): boolean {
-  if (seen.has(v)) return false;
-  seen.add(v);
-  const flat = unionFlat(out, v);
-  const fields = reduceIter(v.fields.values(), false, (field) => collapseInto(out, field, seen));
-  const prefix = v.bound;
-  const bound =
-    prefix === undefined ? false : reduceIndex(prefix, false, (el) => collapseInto(out, el, seen));
-  return flat || fields || bound;
+function ensureField(container: AbstractValue, key: string): AbstractValue {
+  const found = container.fields.get(key);
+  if (found !== undefined) return found;
+  const created = freshValue();
+  container.fields.set(key, created);
+  return created;
 }
 
-function portedSite(v: AbstractValue, site: string): boolean {
-  let hit = false;
-  reduceIter(v.occs.values(), false, (occ) => ((hit ||= occ.site === site && occ.port !== undefined), false));
-  return hit;
+interface FieldWave {
+  aliases: Set<AbstractValue>;
+  member: string;
+  payload: AbstractValue;
+  seen: Set<AbstractValue>;
+  depth: number;
 }
 
-// Skip a portless container label when the field already carries a port of that site.
-// Otherwise addOcc would let the portless label erase the port.
-function smearLooseOccs(out: AbstractValue, container: AbstractValue): void {
-  reduceIter(container.occs.values(), false, (occ) => {
-    if (occ.port !== undefined || !portedSite(out, occ.site)) addOcc(out, occ);
-    return false;
-  });
+interface NodeWave {
+  aliases: Set<AbstractValue>;
+  payload: AbstractValue;
+  seen: Set<AbstractValue>;
 }
+
+class AliasReplay {
+  // A field write also reaches `target[key]` for every place the container may be.
+  // Exactness is cleared first: the write happens on one arm only. The container's
+  // own slot is updated by the caller and stays exact. Chained aliases recurse, and
+  // past the depth cap the write smears into the target's occurrences.
+  static write(container: AbstractValue, key: string, value: AbstractValue): boolean {
+    const aliases = container.mayAlias;
+    if (aliases === undefined) return false;
+    return AliasReplay.fields({ aliases, depth: 0, member: key, payload: Exactness.cleared(value), seen: new Set() });
+  }
+
+  private static fields(wave: FieldWave): boolean {
+    return grewFrom(wave.aliases, (target) => {
+      if (!claim(wave.seen, target)) return false;
+      if (overCap(wave.depth)) return ValueFold.into(target, wave.payload, new Set());
+      const direct = ValueJoin.into(ensureField(target, wave.member), wave.payload, 0);
+      const nested = target.mayAlias;
+      if (nested === undefined) return direct;
+      const deeper = AliasReplay.fields({ aliases: nested, depth: wave.depth + 1, member: wave.member, payload: wave.payload, seen: wave.seen });
+      return direct || deeper;
+    });
+  }
+
+  // In-place mutation (`push`, `Map.set`): smear the collapsed value into each alias.
+  static smear(container: AbstractValue, value: AbstractValue): boolean {
+    const aliases = container.mayAlias;
+    if (aliases === undefined) return false;
+    return AliasReplay.nodes({ aliases, payload: Exactness.cleared(ValueFold.fresh(value)), seen: new Set() });
+  }
+
+  private static nodes(wave: NodeWave): boolean {
+    return grewFrom(wave.aliases, (target) => {
+      if (!claim(wave.seen, target)) return false;
+      const direct = ValueJoin.into(target, wave.payload, 0);
+      const nested = target.mayAlias;
+      if (nested === undefined) return direct;
+      const deeper = AliasReplay.nodes({ aliases: nested, payload: wave.payload, seen: wave.seen });
+      return direct || deeper;
+    });
+  }
+}
+
+// Shallow copy: `target` adopts each of `source`'s field objects by reference, so a
+// later write through either name hits the same node. A colliding field is merged
+// into the source's field first (runtime overwrites; gen-only keeps both), then both
+// names share that object. Only the top level is shared. The merge's own growth is
+// not reported — callers that must not spin the fixpoint rely on that.
+function shareFields(target: AbstractValue, source: AbstractValue): boolean {
+  const adopted = [...source.fields].filter(([key, incoming]) => target.fields.get(key) !== incoming);
+  for (const [key, incoming] of adopted) {
+    const prior = target.fields.get(key);
+    if (prior !== undefined) ValueJoin.into(incoming, prior, 0);
+    target.fields.set(key, incoming);
+  }
+  return adopted.length > 0;
+}
+
+const kind = ts.SyntaxKind;
+const FUNCTION_KINDS = new Set<ts.SyntaxKind>([
+  kind.FunctionDeclaration, kind.FunctionExpression, kind.ArrowFunction, kind.MethodDeclaration,
+  kind.GetAccessor, kind.SetAccessor, kind.Constructor,
+]);
+const DIRECT_CALLEE_KINDS = new Set<ts.SyntaxKind>([
+  kind.Identifier, kind.PropertyAccessExpression, kind.FunctionExpression, kind.ArrowFunction,
+]);
+
+function compoundOps(): Set<ts.SyntaxKind> {
+  return new Set<ts.SyntaxKind>([
+    kind.PlusEqualsToken, kind.MinusEqualsToken, kind.AsteriskEqualsToken, kind.AsteriskAsteriskEqualsToken,
+    kind.SlashEqualsToken, kind.PercentEqualsToken, kind.LessThanLessThanEqualsToken,
+    kind.GreaterThanGreaterThanEqualsToken, kind.GreaterThanGreaterThanGreaterThanEqualsToken,
+    kind.AmpersandEqualsToken, kind.BarEqualsToken, kind.CaretEqualsToken,
+    kind.BarBarEqualsToken, kind.AmpersandAmpersandEqualsToken, kind.QuestionQuestionEqualsToken,
+  ]);
+}
+
+// Names that mutate the receiver: array push/unshift/splice and Map.set / Set.add.
+// A false match only adds taint. A member that actually holds a tracked function
+// still dispatches as a call.
+const HEAP_MUTATOR_NAMES = ["push", "unshift", "splice", "set", "add"] as const;
+export const HEAP_MUTATORS = new Set<string>(HEAP_MUTATOR_NAMES);
+
+// Read-modify-write tokens, including ||=, &&=, and ??=. Gen-only has no kills,
+// so the transfer keeps the old value and weak-merges the right-hand side.
+export const COMPOUND_ASSIGNMENT_OPS = compoundOps();
+
+// Wrappers that do not change which place an expression denotes. The comma operator
+// denotes its last operand. `await` is not peeled: it is a place only when the
+// awaited value is a real promise, which resolvePlace decides from the value.
+const UNWRAP_KINDS = new Set<ts.SyntaxKind>([
+  kind.ParenthesizedExpression, kind.NonNullExpression, kind.AsExpression,
+  kind.SatisfiesExpression, kind.TypeAssertionExpression,
+]);
+
+function peeledChild(expr: ts.Expression): ts.Expression | undefined {
+  if (UNWRAP_KINDS.has(expr.kind)) return (expr as ts.ParenthesizedExpression).expression;
+  if (expr.kind === kind.BinaryExpression) {
+    const bin = expr as ts.BinaryExpression;
+    return bin.operatorToken.kind === kind.CommaToken ? bin.right : undefined;
+  }
+  if (expr.kind !== kind.CommaListExpression) return undefined;
+  return (expr as ts.CommaListExpression).elements.at(-1);
+}
+
+function literalText(node: ts.Node): string | undefined {
+  if (ts.isIdentifier(node) || ts.isStringLiteralLike(node) || ts.isNumericLiteral(node)) {
+    return node.text;
+  }
+  return;
+}
+
+export function emptyValue(): AbstractValue { return freshValue(); }
+export function phKey(ph: Placeholder): string { return PlaceholderJoin.key(ph); }
+export function addOcc(target: AbstractValue, occ: TaintOcc): boolean { return OccurrenceJoin.admit(target, occ); }
+export function addPlaceholder(target: AbstractValue, ph: Placeholder): boolean { return PlaceholderJoin.admit(target, ph); }
+export function mergeInto(target: AbstractValue, source: AbstractValue, depth = 0): boolean { return ValueJoin.into(target, source, depth); }
+export function mergeBound(target: AbstractValue, sourceBound: AbstractValue[], depth: number): boolean { return ValueJoin.prefix(target, sourceBound, depth); }
+export function cloneValue(v: AbstractValue): AbstractValue { const copy = freshValue(); ValueJoin.into(copy, v, 0); return copy; }
+export function unionValues(...values: AbstractValue[]): AbstractValue { const joined = freshValue(); grewFrom(values, (value) => ValueJoin.into(joined, value, 0)); return joined; }
+export function singleOcc(site: string, exact: boolean, port?: number): AbstractValue { const labeled = freshValue(); OccurrenceJoin.admit(labeled, { exact, port, site }); return labeled; }
+export function collapse(v: AbstractValue): AbstractValue { return ValueFold.fresh(v); }
+export function collapseInto(out: AbstractValue, v: AbstractValue, seen = new Set<AbstractValue>()): boolean { return ValueFold.into(out, v, seen); }
 
 export function readField(container: AbstractValue, key: string): AbstractValue {
-  const field = container.fields.get(key);
-  if (field === undefined) return collapse(container);
-  const out = cloneValue(field);
-  smearLooseOccs(out, container);
-  reduceIter(container.phs.values(), false, (ph) => addPlaceholder(out, ph));
-  return out;
+  const known = container.fields.get(key);
+  if (known === undefined) return ValueFold.fresh(container);
+  const snapshot = freshValue();
+  ValueJoin.into(snapshot, known, 0);
+  smearRead(snapshot, container);
+  return snapshot;
 }
 
-function scrubExact(v: AbstractValue, seen: Set<AbstractValue>): void {
-  if (seen.has(v)) return;
-  seen.add(v);
-  reduceIter(v.occs.values(), false, (occ) => ((occ.exact = false), false));
-  reduceIter(v.fields.values(), false, (field) => (scrubExact(field, seen), false));
-  const prefix = v.bound;
-  if (prefix !== undefined) reduceIndex(prefix, false, (el) => (scrubExact(el, seen), false));
-}
-
-export function clearExact(v: AbstractValue): AbstractValue {
-  const out = cloneValue(v);
-  scrubExact(out, new Set());
-  return out;
-}
+export function clearExact(v: AbstractValue): AbstractValue { return Exactness.cleared(v); }
 
 export { isActorSite } from "./core.js";
 
-export function provisionalFanoutId(order: number): string {
-  return "fan-out@" + String(order);
+export function provisionalFanoutId(order: number): string { return "fan-out@" + String(order); }
+
+function isWorkflowWrapper(statement: ts.Statement): statement is ts.FunctionDeclaration {
+  if (statement.kind !== ts.SyntaxKind.FunctionDeclaration) return false;
+  const decl = statement as ts.FunctionDeclaration;
+  const name = decl.name?.text;
+  return name === WORKFLOW_FUNCTION_NAME && decl.body !== undefined;
 }
-
-function takeKinds(ops: Set<ts.SyntaxKind>, kinds: readonly ts.SyntaxKind[]): void {
-  let index = 0;
-  while (index < kinds.length) {
-    const kind = kinds[index];
-    index += 1;
-    if (kind !== undefined) ops.add(kind);
-  }
-}
-
-const FUNCTION_LIKE = new Set<ts.SyntaxKind>();
-
-function fillKindSets(): void {
-  const kind = ts.SyntaxKind;
-  const ops = COMPOUND_ASSIGNMENT_OPS;
-  takeKinds(FUNCTION_LIKE, [kind.FunctionDeclaration, kind.FunctionExpression]);
-  takeKinds(FUNCTION_LIKE, [kind.ArrowFunction, kind.MethodDeclaration]);
-  takeKinds(FUNCTION_LIKE, [kind.GetAccessor, kind.SetAccessor, kind.Constructor]);
-  takeKinds(ops, [kind.PlusEqualsToken, kind.MinusEqualsToken]);
-  takeKinds(ops, [kind.AsteriskEqualsToken, kind.AsteriskAsteriskEqualsToken]);
-  takeKinds(ops, [kind.SlashEqualsToken, kind.PercentEqualsToken]);
-  takeKinds(ops, [kind.LessThanLessThanEqualsToken, kind.GreaterThanGreaterThanEqualsToken]);
-  takeKinds(ops, [kind.GreaterThanGreaterThanGreaterThanEqualsToken, kind.AmpersandEqualsToken]);
-  takeKinds(ops, [kind.BarEqualsToken, kind.CaretEqualsToken]);
-  takeKinds(ops, [kind.BarBarEqualsToken, kind.AmpersandAmpersandEqualsToken]);
-  takeKinds(ops, [kind.QuestionQuestionEqualsToken]);
-}
-
-export const HEAP_MUTATORS = new Set(["push", "unshift", "splice", "set", "add"]);
-export const COMPOUND_ASSIGNMENT_OPS = new Set<ts.SyntaxKind>();
-fillKindSets();
 
 export function findWorkflowBody(scriptFile: ts.SourceFile): ts.Block {
-  const stmts = scriptFile.statements;
-  let index = 0;
-  while (index < stmts.length) {
-    const statement = stmts[index];
-    index += 1;
-    if (statement === undefined || !ts.isFunctionDeclaration(statement)) continue;
-    if (statement.name?.text !== WORKFLOW_FUNCTION_NAME || statement.body === undefined) continue;
-    return statement.body;
-  }
+  const body = scriptFile.statements.find(isWorkflowWrapper)?.body;
+  if (body !== undefined) return body;
   throw new Error("workflow wrapper function " + WORKFLOW_FUNCTION_NAME + " not found");
 }
 
-export function isFunctionLike(node: ts.Node): boolean {
-  return FUNCTION_LIKE.has(node.kind);
-}
+export function isFunctionLike(node: ts.Node): boolean { return FUNCTION_KINDS.has(node.kind); }
 
+// Every function-like node except an arrow owns an `arguments` object. An arrow sees
+// the enclosing function's arguments.
 export function isNonArrowFunctionLike(node: ts.Node): boolean {
-  if (ts.isArrowFunction(node)) return false;
-  return isFunctionLike(node);
+  return node.kind !== kind.ArrowFunction && FUNCTION_KINDS.has(node.kind);
 }
 
+// A directly named callee, or a function literal, keeps exactness. One parenthesis
+// layer is ignored; deeper wrappers are not direct.
 export function isDirectCallee(callee: ts.Expression): boolean {
-  const expr = ts.isParenthesizedExpression(callee) ? callee.expression : callee;
-  const kind = expr.kind;
-  return (
-    kind === ts.SyntaxKind.Identifier ||
-    kind === ts.SyntaxKind.PropertyAccessExpression ||
-    kind === ts.SyntaxKind.FunctionExpression ||
-    kind === ts.SyntaxKind.ArrowFunction
-  );
+  const expr = callee.kind === kind.ParenthesizedExpression ? (callee as ts.ParenthesizedExpression).expression : callee;
+  return DIRECT_CALLEE_KINDS.has(expr.kind);
 }
 
 export function isJsonStringify(access: ts.PropertyAccessExpression): boolean {
-  if (!ts.isIdentifier(access.expression) || access.expression.text !== "JSON") return false;
-  return access.name.text === "stringify";
+  const receiver = access.expression;
+  return ts.isIdentifier(receiver) && receiver.text === "JSON" && access.name.text === "stringify";
 }
 
 export function staticIndexKey(arg: ts.Expression): string | undefined {
-  if (ts.isNumericLiteral(arg) || ts.isStringLiteralLike(arg)) return arg.text;
-  return undefined;
+  return ts.isNumericLiteral(arg) || ts.isStringLiteralLike(arg) ? arg.text : undefined;
 }
 
 export function peelPlace(expr: ts.Expression): ts.Expression {
-  let cur = expr;
-  while (true) {
-    switch (cur.kind) {
-      case ts.SyntaxKind.ParenthesizedExpression:
-      case ts.SyntaxKind.NonNullExpression:
-      case ts.SyntaxKind.AsExpression:
-      case ts.SyntaxKind.SatisfiesExpression:
-      case ts.SyntaxKind.TypeAssertionExpression:
-        cur = (cur as ts.ParenthesizedExpression).expression;
-        break;
-      case ts.SyntaxKind.BinaryExpression: {
-        const bin = cur as ts.BinaryExpression;
-        if (bin.operatorToken.kind !== ts.SyntaxKind.CommaToken) return cur;
-        cur = bin.right;
-        break;
-      }
-      case ts.SyntaxKind.CommaListExpression: {
-        const list = cur as ts.CommaListExpression;
-        const last = list.elements[list.elements.length - 1];
-        if (last === undefined) return cur;
-        cur = last;
-        break;
-      }
-      default:
-        return cur;
-    }
+  let cursor = expr;
+  let next = peeledChild(cursor);
+  while (next !== undefined) {
+    cursor = next;
+    next = peeledChild(cursor);
   }
+  return cursor;
 }
 
-export function liveField(container: AbstractValue, key: string): AbstractValue {
-  let field = container.fields.get(key);
-  if (field === undefined) container.fields.set(key, (field = emptyValue()));
-  return field;
-}
-
-function replayField(
-  targets: Set<AbstractValue>,
-  key: string,
-  write: AbstractValue,
-  seen: Set<AbstractValue>,
-  depth: number,
-): boolean {
-  return reduceIter(targets, false, (target) => {
-    if (seen.has(target)) return false;
-    seen.add(target);
-    if (depth >= VALUE_DEPTH_CAP) return collapseInto(target, write);
-    const direct = mergeInto(liveField(target, key), write);
-    const nested = target.mayAlias;
-    return nested === undefined
-      ? direct
-      : replayField(nested, key, write, seen, depth + 1) || direct;
-  });
-}
-
-export function replayMayAliasWrite(
-  container: AbstractValue,
-  key: string,
-  value: AbstractValue,
-): boolean {
-  const aliases = container.mayAlias;
-  if (aliases === undefined) return false;
-  return replayField(aliases, key, clearExact(value), new Set(), 0);
-}
-
-function replayMerge(
-  targets: Set<AbstractValue>,
-  write: AbstractValue,
-  seen: Set<AbstractValue>,
-): boolean {
-  return reduceIter(targets, false, (target) => {
-    if (seen.has(target)) return false;
-    seen.add(target);
-    const direct = mergeInto(target, write);
-    const nested = target.mayAlias;
-    return nested === undefined ? direct : replayMerge(nested, write, seen) || direct;
-  });
-}
-
-export function replayMayAliasMerge(container: AbstractValue, value: AbstractValue): boolean {
-  const aliases = container.mayAlias;
-  if (aliases === undefined) return false;
-  return replayMerge(aliases, clearExact(collapse(value)), new Set());
-}
-
-export function adoptFields(target: AbstractValue, source: AbstractValue): boolean {
-  return reduceIter(source.fields, false, ([key, srcField]) => {
-    const existing = target.fields.get(key);
-    if (existing === srcField) return false;
-    if (existing !== undefined) mergeInto(srcField, existing);
-    target.fields.set(key, srcField);
-    return true;
-  });
-}
-
-function textOfStaticName(name: ts.PropertyName): string | undefined {
-  if (ts.isIdentifier(name) || ts.isStringLiteralLike(name) || ts.isNumericLiteral(name)) {
-    return name.text;
-  }
-  return undefined;
-}
-
-export function bindingPropertyKey(element: ts.BindingElement): string | undefined {
-  const renamed = element.propertyName;
-  if (renamed !== undefined) return textOfStaticName(renamed);
-  return ts.isIdentifier(element.name) ? element.name.text : undefined;
-}
+export function liveField(container: AbstractValue, key: string): AbstractValue { return ensureField(container, key); }
+export function replayMayAliasWrite(container: AbstractValue, key: string, value: AbstractValue): boolean { return AliasReplay.write(container, key, value); }
+export function replayMayAliasMerge(container: AbstractValue, value: AbstractValue): boolean { return AliasReplay.smear(container, value); }
+export function adoptFields(target: AbstractValue, source: AbstractValue): boolean { return shareFields(target, source); }
+export function bindingPropertyKey(element: ts.BindingElement): string | undefined { return literalText(element.propertyName ?? element.name); }
