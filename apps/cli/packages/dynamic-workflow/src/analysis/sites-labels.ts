@@ -56,9 +56,10 @@ function extractTemplateAffixes(templateArg: ts.Expression | undefined): NamePat
   const tailPart = validAffix(tailNode);
 
   if (headPart === undefined && tailPart === undefined) return void 0;
-  const pattern: NamePattern = {};
-  if (headPart !== undefined) pattern.head = headPart;
-  if (tailPart !== undefined) pattern.tail = tailPart;
+  const pattern: NamePattern = {
+    ...(headPart === undefined ? {} : { head: headPart }),
+    ...(tailPart === undefined ? {} : { tail: tailPart }),
+  };
   return pattern;
 }
 

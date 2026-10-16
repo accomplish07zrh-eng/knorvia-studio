@@ -2,84 +2,91 @@
 
 import type ts from "typescript";
 import type { ScriptLoc } from "../compiler/compile.js";
+import type { JumpKind, TraceRegionKind } from "./constants.js";
 import type { TaintOcc } from "./domain.js";
 import type { ApplicationVia } from "./state.js";
-import type { TraceRegionKind, JumpKind } from "./constants.js";
 
+// Read-only view of the converged taint fixpoint. Keys are source positions
+// (`node.getStart`). The walk never mutates these maps.
 export interface OrderOracle {
-  awaitSettles: Map<number, TaintOcc[]>;
-  guardReads: Map<number, TaintOcc[]>;
-  applications: ReadonlyMap<ts.Node, ReadonlyMap<ts.Node, ApplicationVia>>;
+  readonly applications: ReadonlyMap<ts.Node, ReadonlyMap<ts.Node, ApplicationVia>>;
+  readonly awaitSettles: Map<number, TaintOcc[]>;
+  readonly guardReads: Map<number, TaintOcc[]>;
 }
 
+// One node in the region tree. `entered` is true when the parent cannot skip the body
+// (do/while, a for with a positive literal bound, or an inlined call).
 export interface OrderRegion {
-  id: string;
-  kind: TraceRegionKind;
-  parent?: string;
-  loc?: ScriptLoc;
-  bound?: number;
-  label?: string;
-  entered: boolean;
-  exhaustive?: boolean;
-  recursive?: boolean;
-  fallthrough?: boolean;
-  detached?: boolean;
-  strand?: true;
+  readonly bound?: number;
+  readonly detached?: boolean;
+  readonly entered: boolean;
+  readonly exhaustive?: boolean;
+  readonly fallthrough?: boolean;
+  readonly id: string;
+  readonly kind: TraceRegionKind;
+  readonly label?: string;
+  readonly loc?: ScriptLoc;
+  readonly parent?: string;
+  readonly recursive?: boolean;
+  readonly strand?: true;
 }
 
+// First time the walk observes a phase name. Later markers with the same name reuse `id`.
 export interface PhaseInfo {
-  id: string;
-  name: string;
-  loc: ScriptLoc;
+  readonly id: string;
+  readonly loc: ScriptLoc;
+  readonly name: string;
 }
 
 export interface IssueEvent {
-  at: "issue";
-  step: string;
-  regions: readonly string[];
-  phase: string;
+  readonly at: "issue";
+  readonly phase: string;
+  readonly regions: ReadonlyArray<string>;
+  readonly step: string;
 }
 
+// `steps` is empty when the barrier only joins strands. `joins` lists those strand
+// region ids in join order and is omitted when there are none.
 export interface SettleEvent {
-  at: "settle";
-  steps: readonly string[];
-  maybe: boolean;
-  regions: readonly string[];
-  joins?: string[];
+  readonly at: "settle";
+  readonly joins?: ReadonlyArray<string>;
+  readonly maybe: boolean;
+  readonly regions: ReadonlyArray<string>;
+  readonly steps: ReadonlyArray<string>;
 }
 
 export interface ActorEvent {
-  at: "actor";
-  actor: string;
-  regions: readonly string[];
+  readonly actor: string;
+  readonly at: "actor";
+  readonly regions: ReadonlyArray<string>;
 }
 
 export interface MarkEvent {
-  at: "mark";
-  phase: string;
-  regions: readonly string[];
+  readonly at: "mark";
+  readonly phase: string;
+  readonly regions: ReadonlyArray<string>;
 }
 
 export interface JumpEvent {
-  at: "jump";
-  kind: JumpKind;
-  target: string;
-  regions: readonly string[];
-  phase: string;
+  readonly at: "jump";
+  readonly kind: JumpKind;
+  readonly phase: string;
+  readonly regions: ReadonlyArray<string>;
+  readonly target: string;
 }
 
 export type OrderEvent = IssueEvent | SettleEvent | ActorEvent | MarkEvent | JumpEvent;
 
 export interface ControlFact {
-  controllers: readonly string[];
-  maybeControllers: readonly string[];
-  region: string;
+  readonly controllers: ReadonlyArray<string>;
+  readonly maybeControllers: ReadonlyArray<string>;
+  readonly region: string;
 }
 
 export interface OrderTrace {
-  events: OrderEvent[];
-  regions: OrderRegion[];
-  controls: ControlFact[];
-  root: string;
-  phases: PhaseInfo[];
+  readonly controls: ReadonlyArray<ControlFact>;
+  readonly events: ReadonlyArray<OrderEvent>;
+  readonly phases: ReadonlyArray<PhaseInfo>;
+  readonly regions: ReadonlyArray<OrderRegion>;
+  readonly root: string;
 }
