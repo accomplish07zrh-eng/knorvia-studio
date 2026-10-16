@@ -12,30 +12,56 @@ import {
 import type { EvalContext, Evaluator } from "./taint.js";
 import { applyPessimistically, recordCall } from "./calls.js";
 
-// Taint fed into invocations of `fn`'s own parameters (resolve / reject / continuation).
-// Empty when the function is not tracked or its parameters are never invoked.
-function callbackPot(ev: Evaluator, fn: ts.Node): AbstractValue {
-  const id = ev.s.fnId.get(fn);
-  const params = id === undefined ? [] : (ev.s.fnParamSymbols.get(id) ?? []);
-  return params.reduce((acc, _symbol, param) => {
+// Taint fed into invocations of a function's own parameters (resolve / reject /
+// continuation). Empty when the function is not tracked or its parameters are never invoked.
+class TrackedCallback {
+  constructor(
+    private readonly ev: Evaluator,
+    private readonly fn: ts.Node,
+  ) {}
+
+  pot(): AbstractValue {
+    const id = this.ev.s.fnId.get(this.fn);
+    const params = id === undefined ? [] : (this.ev.s.fnParamSymbols.get(id) ?? []);
+    return params.reduce((acc, _symbol, param) => this.mix(acc, id, param), emptyValue());
+  }
+
+  markCalled(ctx: EvalContext): void {
+    const id = this.ev.s.fnId.get(this.fn);
+    if (id !== undefined) this.ev.s.markCalled(ctx.regionStack, id);
+  }
+
+  private mix(acc: AbstractValue, id: number | undefined, param: number): AbstractValue {
     if (id === undefined) return acc;
-    const captured = ev.s.phCallActualsOf(id, param);
+    const captured = this.ev.s.phCallActualsOf(id, param);
     if (captured !== undefined) mergeInto(acc, captured);
     return acc;
-  }, emptyValue());
+  }
 }
 
-// Sibling data only. A function argument is the callback being invoked, not a value
-// passed into a sibling. Leaving `fns` on the pot would make `resolve(draft)` dispatch
-// as the executor and skip the placeholder-invocation capture.
-function siblingData(argVals: readonly AbstractValue[]): AbstractValue {
-  const folded = argVals.reduce((acc, argVal) => {
-    collapseInto(acc, argVal);
-    return acc;
-  }, emptyValue());
-  const inexact = clearExact(folded);
-  inexact.fns.clear();
-  return inexact;
+// Collapse argument values, then drop exactness. Sibling data also drops function
+// values: a function argument is the callback being invoked, not a value passed into
+// a sibling. Leaving `fns` on the pot would make `resolve(draft)` dispatch as the
+// executor and skip the placeholder-invocation capture.
+class InexactPot {
+  private readonly folded = emptyValue();
+
+  absorb(argVals: readonly AbstractValue[]): this {
+    argVals.forEach((argVal) => {
+      collapseInto(this.folded, argVal);
+    });
+    return this;
+  }
+
+  siblingData(): AbstractValue {
+    const inexact = clearExact(this.folded);
+    inexact.fns.clear();
+    return inexact;
+  }
+
+  smeared(): AbstractValue {
+    return clearExact(this.folded);
+  }
 }
 
 class UnknownConstruct {
@@ -57,14 +83,14 @@ class UnknownConstruct {
   // is not special-cased by constructor name.
   eval(): AbstractValue {
     for (const argVal of this.argVals) collapseInto(this.result, argVal);
-    const pot = siblingData(this.argVals);
+    const pot = new InexactPot().absorb(this.argVals).siblingData();
     for (const argVal of this.argVals) this.feed(argVal, pot);
     return this.result;
   }
 
   private feed(argVal: AbstractValue, pot: AbstractValue): void {
     applyPessimistically(this.ev, argVal, pot, this.ctx, this.result, this.node);
-    for (const fn of argVal.fns) mergeInto(this.result, callbackPot(this.ev, fn));
+    for (const fn of argVal.fns) mergeInto(this.result, new TrackedCallback(this.ev, fn).pot());
   }
 }
 
@@ -95,24 +121,36 @@ class AwaitedValue {
   }
 
   private feed(fn: ts.Node, into: AbstractValue): void {
-    const id = this.ev.s.fnId.get(fn);
-    if (id !== undefined) this.ev.s.markCalled(this.ctx.regionStack, id);
-    mergeInto(into, callbackPot(this.ev, fn));
+    const tracked = new TrackedCallback(this.ev, fn);
+    tracked.markCalled(this.ctx);
+    mergeInto(into, tracked.pot());
   }
 }
 
-function rejectedValue(ev: Evaluator, node: ts.CallExpression, ctx: EvalContext): AbstractValue {
-  const arg = node.arguments.at(0);
-  if (arg === undefined) return emptyValue();
-  return collapse(ev.evalExpr(arg, ctx));
+// `Promise.reject(x)` joins the global thrown set that every catch binding reads.
+// The call result stays that collapsed value, so the resolved path is unchanged.
+class RejectedArgument {
+  constructor(
+    private readonly ev: Evaluator,
+    private readonly node: ts.CallExpression,
+    private readonly ctx: EvalContext,
+  ) {}
+
+  publish(): AbstractValue {
+    const rejected = this.collapsed();
+    this.ev.s.mergeThrown(rejected);
+    return rejected;
+  }
+
+  private collapsed(): AbstractValue {
+    const arg = this.node.arguments.at(0);
+    if (arg === undefined) return emptyValue();
+    return collapse(this.ev.evalExpr(arg, this.ctx));
+  }
 }
 
 function smearArgs(argVals: readonly AbstractValue[]): AbstractValue {
-  const pot = argVals.reduce((acc, arg) => {
-    collapseInto(acc, arg);
-    return acc;
-  }, emptyValue());
-  return clearExact(pot);
+  return new InexactPot().absorb(argVals).smeared();
 }
 
 export function handleNewUnknown(
@@ -131,16 +169,12 @@ export function evalAwait(
   return new AwaitedValue(ev, node, ctx).eval();
 }
 
-// `Promise.reject(x)` joins the global thrown set that every catch binding reads.
-// The call result stays that collapsed value, so the resolved path is unchanged.
 export function handlePromiseReject(
   ev: Evaluator,
   node: ts.CallExpression,
   ctx: EvalContext,
 ): AbstractValue {
-  const rejected = rejectedValue(ev, node, ctx);
-  ev.s.mergeThrown(rejected);
-  return rejected;
+  return new RejectedArgument(ev, node, ctx).publish();
 }
 
 export function isPromiseReject(access: ts.PropertyAccessExpression): boolean {
@@ -150,19 +184,47 @@ export function isPromiseReject(access: ts.PropertyAccessExpression): boolean {
 }
 
 // Apply a script-local constructor for `new C(args)` or `super(args)`. Actuals are
-// recorded like a direct call, including write-back into place arguments. The
-// constructor body runs in the function pass and writes `this` on the shared instance.
-// A direct `new` or `super` keeps exactness.
+// recorded like a direct call. The constructor body runs in the function pass and
+// writes `this` on the shared instance. A direct `new` or `super` keeps exactness.
+class DirectConstruct {
+  constructor(
+    private readonly ev: Evaluator,
+    private readonly id: number,
+    private readonly ctx: EvalContext,
+    private readonly argVals: AbstractValue[],
+    private readonly argPlaces: (AbstractValue | undefined)[] | undefined,
+    private readonly site: ts.Node | undefined,
+  ) {}
+
+  apply(): void {
+    recordCall(
+      this.ev,
+      this.id,
+      this.ctx.regionStack,
+      this.argVals,
+      this.argPlaces,
+      this.viaCallee(),
+    );
+  }
+
+  // A missing site is not a call application. Otherwise the site is the callee
+  // (`new` / `super`), which is what keeps the actuals exact.
+  private viaCallee(): { site: ts.Node; via: "callee" } | undefined {
+    if (this.site === undefined) return undefined;
+    return { site: this.site, via: "callee" };
+  }
+}
+
 export function applyConstructor(
   ev: Evaluator,
   id: number,
   ctx: EvalContext,
   argVals: AbstractValue[],
+  // Parallel to argVals. A hole is an argument that has no place to write back into.
   argPlaces?: (AbstractValue | undefined)[],
   site?: ts.Node,
 ): void {
-  const application = site === undefined ? undefined : { site, via: "callee" as const };
-  recordCall(ev, id, ctx.regionStack, argVals, argPlaces, application);
+  new DirectConstruct(ev, id, ctx, argVals, argPlaces, site).apply();
 }
 
 // `new D()` where `class D extends mix(Base)` cannot see the inherited constructor.
