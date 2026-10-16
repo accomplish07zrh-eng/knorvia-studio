@@ -1,10 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
 // 工具分部：名称投影、三态、跟进、用量、告警、嵌套模型用量。可选键接在公共字段后面。
 import type { ToolUsageRecord, UsageStorePort } from "@knorvia/contracts";
-import { createMcpToolDisplay } from "../../../tool/executor/result-display.js";
 import { systemReminderAttachmentEntry } from "../../../agent/message-history.js";
 import {
-  COMPLETED_TOOL_PART_METADATA_SCHEMA_VERSION,
   SessionEventType,
   createPartId,
   traceContextToLogContext,
@@ -26,13 +24,13 @@ import {
   detectToolCallBudgetWarning,
   requireRuntimeToolCallName,
 } from "../../helpers/index.js";
-import type { persistToolResultMediaAttachments } from "../../helpers/tool-result-media-persistence.js";
 import type { AgentRuntimeInternal } from "../../internal.js";
+import type { persistToolResultMediaAttachments } from "../../helpers/tool-result-media-persistence.js";
 import { layer, report } from "./m02-record.js";
-import { commitTurnRequestEntries } from "./m02-continuation.js";
-import type { RegularTurnLoopState } from "./m02-loop-state.js";
+import { commitTurnRequestEntries } from "../turn-output-token-continuation.js";
+import type { RegularTurnLoopState } from "../turn-loop-state.js";
+import { completedToolPartMetadata, mcpToolPartMetadata } from "../tool-part-metadata.js";
 
-const SCHEMA = COMPLETED_TOOL_PART_METADATA_SCHEMA_VERSION;
 const EMPTY_TOOL = "empty_tool_name";
 const OBJECT_PREVIEW = "[object]";
 const PREVIEW_LIMIT = 50;
@@ -53,36 +51,6 @@ type Boundary = ReturnType<typeof projectToolNameForNonEmptyBoundary>;
 type Media = Awaited<ReturnType<typeof persistToolResultMediaAttachments>>;
 
 type PartClock = { start: number; end?: number };
-
-export function mcpToolPartMetadata(
-  presentation: { serverName: string; toolName: string; description?: string } | undefined,
-): CompletedToolPartMetadata | undefined {
-  const display = createMcpToolDisplay(presentation);
-  if (!display) return;
-  const schemaVersion = SCHEMA;
-  return { schemaVersion, display };
-}
-
-function serializationOf(result: ToolExecutionResult): Record<string, unknown> | undefined {
-  const raw = result.serialization;
-  if (!raw) return;
-  const { truncated, originalBytes, returnedBytes, budgetStrategy, artifactPath } = raw;
-  return layer<Record<string, unknown>>(
-    { truncated, originalBytes, returnedBytes, budgetStrategy },
-    artifactPath ? { artifactPath } : undefined,
-  );
-}
-
-export function completedToolPartMetadata(result: ToolExecutionResult): CompletedToolPartMetadata {
-  const serialization = serializationOf(result);
-  const schemaVersion = SCHEMA;
-  return layer<CompletedToolPartMetadata>(
-    { schemaVersion },
-    result.display ? { display: result.display } : undefined,
-    serialization ? { serialization } : undefined,
-    result.readFileStateMetadata ? { readFileState: result.readFileStateMetadata } : undefined,
-  );
-}
 
 export function projectToolNameForNonEmptyBoundary(toolName: string): NameProjection {
   const visible = toolName.trim().length > 0;

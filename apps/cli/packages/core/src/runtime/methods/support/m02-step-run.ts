@@ -4,7 +4,6 @@ import { beginLocalTurnPreparation } from "@knorvia/contracts";
 import {
   SessionEventType,
   TurnMachineImpl,
-  createMessageId,
   getModelUsageTotalTokens,
   type MessageId,
   type ModelNetworkStatusEvent,
@@ -16,64 +15,39 @@ import { resolveNormalRequestMaxOutputTokens } from "../model-token-limits.js";
 import { createStreamingToolCoordinator } from "../streaming-tool-coordinator.js";
 import { persistCancelledStreamSnapshot } from "../cancelled-stream-persistence.js";
 import * as retry from "../streaming-recovery.js";
-import * as output from "./m02-continuation.js";
-import { recordModelHistoryRound, type RegularTurnLoopState } from "./m02-loop-state.js";
-import * as shapes from "./m02-step-shapes.js";
+import * as output from "../turn-output-token-continuation.js";
+import {
+  recordModelHistoryRound,
+  type PendingStreamRecoveryRequest,
+  type RegularTurnLoopState,
+} from "../turn-loop-state.js";
+import * as shapes from "../turn-model-step-fields.js";
 import {
   commitCancelledAssistantSnapshot,
   logTurnModelDiagnostics,
   logTurnModelSuspiciousEmpty,
   persistedFailure,
   prepareFailureFacts,
-} from "./m02-step-records.js";
-import { recoverTurnModelContext } from "./m02-step-recover.js";
+} from "../turn-model-step-records.js";
+import { recoverTurnModelContext } from "../turn-model-step-recovery.js";
 import {
   querySourceForTask,
   recordMainTurnCacheHitUsage,
   recordMainTurnModelUsage,
-} from "./m02-step-usage.js";
+} from "../turn-model-step-usage.js";
 import {
   finishModelStepWithoutToolCalls,
   persistCompletedAssistantStep,
   persistOutputTokenLimitErrorCarrier,
   captureAssistantPersistenceAnchor,
-} from "./m02-stop.js";
-import { executeToolCallsForModelStep } from "./m02-tool-batch.js";
+} from "../turn-stop.js";
+import { executeToolCallsForModelStep } from "../turn-tools.js";
 
 type ModelStepResult = "break" | "continue" | "output_continuation";
 type StepOptions = shapes.ModelStepInputs;
 type ExtractedCalls = ReturnType<AgentRuntimeInternal["extractToolCallsFromResult"]>;
 type AssistantUpdate = NonNullable<Parameters<AgentRuntimeInternal["persistAssistantMessage"]>[3]>;
 type ContinuationKind = ReturnType<typeof output.classifyOutputTokenContinuation>;
-
-function labelFor(
-  outcome: ModelStepResult,
-): "model_completed" | "tool_requested" | "turn_completed" {
-  switch (outcome) {
-    case "output_continuation":
-      return "model_completed";
-    case "continue":
-      return "tool_requested";
-    default:
-      return "turn_completed";
-  }
-}
-
-function noteStepFailure(
-  telemetry: {
-    finishCancelled: (reason: "abort_signal") => void;
-    finishFailed: (stage: "unhandled", category: "unknown", error: unknown) => void;
-  },
-  error: unknown,
-  signal: AbortSignal,
-): void {
-  const cancelled = helpers.isTurnCancellationError(error, signal);
-  if (cancelled) {
-    telemetry.finishCancelled("abort_signal");
-    return;
-  }
-  telemetry.finishFailed("unhandled", "unknown", error);
-}
 
 function pauseFor(delayMs: number): Promise<void> {
   return new Promise((resolve) => {
@@ -100,7 +74,7 @@ class ModelStep {
   coordinator!: ReturnType<typeof createStreamingToolCoordinator>;
   networkEventStartIndex = 0;
   snapshot: RuntimeModelStreamSnapshot;
-  streamRecovery: RegularTurnLoopState["pendingStreamRecoveryRequest"];
+  streamRecovery: PendingStreamRecoveryRequest | undefined;
   startedRequestId: string | undefined;
   failedRequestId: string | undefined;
 
@@ -645,27 +619,6 @@ class ModelStep {
       streamedToolResults,
     });
   }
-}
-
-export async function runModelBackedTurnStep(
-  this: AgentRuntimeInternal,
-  state: RegularTurnLoopState,
-  options: StepOptions,
-): Promise<ModelStepResult> {
-  const assistantMessageId = createMessageId();
-  const stepId = assistantMessageId;
-  const stepIndex = state.modelStepCount;
-  const telemetry = this.agentTelemetry.step({ stepId, stepIndex });
-  return telemetry.run(async () => {
-    try {
-      const outcome = await performModelStep(this, state, options, assistantMessageId);
-      telemetry.finishCompleted(labelFor(outcome));
-      return outcome;
-    } catch (error) {
-      noteStepFailure(telemetry, error, state.turnAbortSignal);
-      throw error;
-    }
-  });
 }
 
 export async function performModelStep(

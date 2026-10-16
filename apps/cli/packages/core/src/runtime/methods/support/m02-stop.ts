@@ -18,9 +18,9 @@ import {
   appendTurnRequestEntries,
   commitAssistantToTurnRequest,
   commitTurnRequestEntries,
-} from "./m02-continuation.js";
-import { drainInlineGuideForNextRequest } from "./m02-guide.js";
-import { recordModelHistoryRound, type RegularTurnLoopState } from "./m02-loop-state.js";
+} from "../turn-output-token-continuation.js";
+import { drainInlineGuideForNextRequest } from "../turn-guide-drain.js";
+import { recordModelHistoryRound, type RegularTurnLoopState } from "../turn-loop-state.js";
 
 const MISSING_ASSISTANT = "Model-backed assistant persistence requires the loop Model";
 const MISSING_STOP = "Model-backed turn stop requires the loop Model";
@@ -34,7 +34,7 @@ type PointerKey =
   | "latestAssistantTurnId"
   | "latestConversationMessageId";
 
-export type AssistantPersistenceAnchor = {
+type AssistantPersistenceAnchor = {
   [Key in PointerKey]: AgentRuntimeInternal[Key];
 };
 

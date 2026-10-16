@@ -29,18 +29,22 @@ import {
   throwIfTurnAborted,
 } from "../../helpers/index.js";
 import type { AgentRuntimeInternal } from "../../internal.js";
-import type { RunModelTextRequestOptions, TurnResult } from "../../types.js";
+import type {
+  ProviderContextUsageSnapshot,
+  RunModelTextRequestOptions,
+  TurnResult,
+} from "../../types.js";
 import { resolveNormalRequestMaxOutputTokens } from "../model-token-limits.js";
 import { recordTurnUsageFact } from "../usage-observability.js";
-import { autoCompactDecisionLogContext } from "./m02-context.js";
+import { autoCompactDecisionLogContext } from "../compact-log-context.js";
 import type {
   AutoCompactLoopContext,
   AutoCompactOutcome,
   CompactAttemptOutcome,
   ReactiveCompactLoopContext,
-} from "./m02-loop-state.js";
+} from "../turn-loop-state.js";
 import { layer, report } from "./m02-record.js";
-import { findLatestCommittedAssistantUsage } from "./m02-step-usage.js";
+import { findLatestCommittedAssistantUsage } from "../turn-model-step-usage.js";
 
 const RUNTIME_MODULE = "core.runtime";
 const FAIL_TEXT = "Compact failed";
@@ -129,8 +133,12 @@ function providerOverride(
   if (latest === undefined) return undefined;
   const cursor = latest.messageIndex;
   if (cursor >= messages.length) return undefined;
+  const reading: Pick<
+    ProviderContextUsageSnapshot,
+    "cacheReadTokens" | "cacheWriteTokens" | "contextUsageTokens" | "inputTokens" | "outputTokens"
+  > = latest.baseline;
   const { cacheReadTokens, cacheWriteTokens, contextUsageTokens, inputTokens, outputTokens } =
-    latest.baseline;
+    reading;
   const origin = incrementalOrigin(cursor, contextUsageTokens);
   const incrementalTokenCount = estimateMessageTokens(messages.slice(origin));
   const baseTokenCount = contextUsageTokens ?? inputTokens;

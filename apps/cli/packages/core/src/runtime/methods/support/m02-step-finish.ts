@@ -5,7 +5,7 @@ import { toTokenUsageInfo } from "../../helpers/index.js";
 import type { AgentRuntimeInternal } from "../../internal.js";
 import type { RuntimeModelTextResult } from "../../types.js";
 import { type Col } from "./m02-record.js";
-import type { RegularTurnLoopState } from "./m02-loop-state.js";
+import type { RegularTurnLoopState } from "../turn-loop-state.js";
 
 const MISSING_MODEL = "Model-backed turn step finish requires the loop Model";
 

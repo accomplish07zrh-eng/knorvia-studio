@@ -11,8 +11,11 @@ import {
 import type { AgentRuntimeInternal } from "../../internal.js";
 import type { RuntimeModelStreamSnapshot, RuntimeModelTextResult } from "../../types.js";
 import { layer, report, type Col, type Opt } from "./m02-record.js";
-import { recordModelHistoryRound, type RegularTurnLoopState } from "./m02-loop-state.js";
-import { commitTurnRequestEntries, hasAssistantReasoningContent } from "./m02-continuation.js";
+import { recordModelHistoryRound, type RegularTurnLoopState } from "../turn-loop-state.js";
+import {
+  commitTurnRequestEntries,
+  hasAssistantReasoningContent,
+} from "../turn-output-token-continuation.js";
 
 type ListedCalls = ReturnType<AgentRuntimeInternal["extractToolCallsFromResult"]>;
 

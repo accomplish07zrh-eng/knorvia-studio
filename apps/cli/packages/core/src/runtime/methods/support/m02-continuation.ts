@@ -10,7 +10,7 @@ import { toTokenUsageInfo } from "../../helpers/index.js";
 import type { AgentRuntimeInternal } from "../../internal.js";
 import type { RuntimeModelTextResult } from "../../types.js";
 import { type Col } from "./m02-record.js";
-import type { RegularTurnLoopState, TurnRequestState } from "./m02-loop-state.js";
+import type { RegularTurnLoopState, TurnRequestState } from "../turn-loop-state.js";
 
 const CONTINUE_CAP = 3;
 const SCOPE = "output_token_continuation" as const;

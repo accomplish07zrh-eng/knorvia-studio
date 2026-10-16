@@ -11,9 +11,10 @@ import {
   RAPID_REFILL_TOOL_TURN_THRESHOLD,
   recordCompactHistoryRound,
   recordCompactSuccess,
+  type CompactLoopTracking,
   type RapidRefillDecision,
   type RegularTurnLoopState,
-} from "./m02-loop-state.js";
+} from "../turn-loop-state.js";
 
 function breakerFields(
   loop: RegularTurnLoopState,
@@ -67,7 +68,8 @@ export async function recoverTurnModelContext(
   entries: readonly RuntimeMessageEntry[],
 ): Promise<boolean> {
   if (loop.reactiveCompactAttemptedInCurrentModelStep) return false;
-  const verdict = evaluateRapidRefill(loop.compactTracking);
+  const memory: CompactLoopTracking | undefined = loop.compactTracking;
+  const verdict = evaluateRapidRefill(memory);
   if (verdict.shouldBlock === true) {
     report(
       host,

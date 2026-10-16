@@ -10,7 +10,7 @@ import type { AgentRuntimeInternal } from "../../internal.js";
 import type { MainTurnCacheHitAggregate, RuntimeModelTextResult } from "../../types.js";
 import { recordModelUsageFact } from "../usage-observability.js";
 import type { ModelUsageFactInput } from "./usage-facts.js";
-import type { RegularTurnLoopState } from "./m02-loop-state.js";
+import type { RegularTurnLoopState } from "../turn-loop-state.js";
 const CHILD_QUERY_SOURCE: Readonly<Record<string, string>> = {
   subagent_child: "subagent",
   workflow_child: "workflow_child",

@@ -21,9 +21,9 @@ import type {
   RuntimeModelTextResult,
 } from "../../types.js";
 import { resolveModelStepMaxOutputTokens } from "../model-token-limits.js";
-import { estimateCurrentModelInputTokens } from "./m02-compact.js";
-import { OUTPUT_TOKEN_LIMIT_ERROR_MESSAGE } from "./m02-continuation.js";
-import type { RegularTurnLoopState } from "./m02-loop-state.js";
+import { estimateCurrentModelInputTokens } from "../compact.js";
+import { OUTPUT_TOKEN_LIMIT_ERROR_MESSAGE } from "../turn-output-token-continuation.js";
+import type { RegularTurnLoopState } from "../turn-loop-state.js";
 import { layer, report, type Col, type Opt } from "./m02-record.js";
 
 export type ModelStepInputs = Opt<"drainedSteerForNextRequest", DrainedPendingInputDiagnostics> &

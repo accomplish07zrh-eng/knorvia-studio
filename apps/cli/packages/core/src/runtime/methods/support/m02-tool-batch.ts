@@ -32,30 +32,32 @@ import type {
   StreamedToolExecutionResult,
 } from "../../types.js";
 import { emitSyntheticStreamedToolError } from "../streaming-tool-synthetic-result.js";
-import { commitTurnRequestEntries } from "./m02-continuation.js";
-import { drainInlineGuideForNextRequest } from "./m02-guide.js";
+import { commitTurnRequestEntries } from "../turn-output-token-continuation.js";
+import { drainInlineGuideForNextRequest } from "../turn-guide-drain.js";
 import {
   isAutomationMutationRestrictedTurn,
   isOffPeakCreateRestrictedTurn,
   recordCompletedToolBatch,
   type RegularTurnLoopState,
-} from "./m02-loop-state.js";
+} from "../turn-loop-state.js";
 import { layer, report } from "./m02-record.js";
-import { persistToolModelStepFinish } from "./m02-step-finish.js";
+import { persistToolModelStepFinish } from "../turn-step-finish.js";
+import { mcpToolPartMetadata } from "../tool-part-metadata.js";
+import {
+  persistPendingToolPart,
+  projectToolNameForNonEmptyBoundary,
+} from "../tool-part-persistence.js";
+import { emitNestedModelUsageEvents } from "../turn-nested-model-usage.js";
+import { steerToolBatchFollowUp } from "../turn-tool-batch-follow-up.js";
 import {
   completedToolBatchState,
   failedToolBatchState,
-  mcpToolPartMetadata,
-  persistPendingToolPart,
-  projectToolNameForNonEmptyBoundary,
-  recordToolUsageFromResult,
   runningToolBatchState,
-  steerToolBatchFollowUp,
   toolBatchResultDiagnostic,
-  handleToolCallAnomalyWarnings,
-  emitNestedModelUsageEvents,
   type ToolBatchPartFacts,
-} from "./m02-tool-parts.js";
+} from "../turn-tool-batch-parts.js";
+import { recordToolUsageFromResult } from "../turn-tool-usage.js";
+import { handleToolCallAnomalyWarnings } from "../turn-tool-warnings.js";
 
 const MISSING_MODEL = "Model-backed tool execution requires the loop Model";
 const GUIDE_PARK = "guide.noToolBoundary" as const;

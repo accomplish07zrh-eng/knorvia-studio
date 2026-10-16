@@ -3,10 +3,10 @@
 import { applyRuntimeExecutionState } from "../../execution-state.js";
 import type { AgentRuntimeInternal } from "../../internal.js";
 import type { DrainedPendingInputDiagnostics } from "../../types.js";
-import { rebuildContextPrefix } from "./m02-context.js";
-import { appendTurnRequestEntries } from "./m02-continuation.js";
-import type { RegularTurnLoopState } from "./m02-loop-state.js";
-import { applySubmissionExecutionState, sameModelSelection } from "./m02-turn-model.js";
+import { rebuildContextPrefix } from "../context-refresh.js";
+import { appendTurnRequestEntries } from "../turn-output-token-continuation.js";
+import type { RegularTurnLoopState } from "../turn-loop-state.js";
+import { applySubmissionExecutionState, sameModelSelection } from "../turn-model.js";
 
 async function pullInlineGuide(host: AgentRuntimeInternal, loop: RegularTurnLoopState) {
   const activeTurn = loop.activeTurn;
