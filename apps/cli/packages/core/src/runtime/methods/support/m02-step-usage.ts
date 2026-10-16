@@ -11,15 +11,13 @@ import type { MainTurnCacheHitAggregate, RuntimeModelTextResult } from "../../ty
 import { recordModelUsageFact } from "../usage-observability.js";
 import type { ModelUsageFactInput } from "./usage-facts.js";
 import type { RegularTurnLoopState } from "./m02-loop-state.js";
-import { assignKeys, phrase } from "./m02-record.js";
+const CHILD_QUERY_SOURCE: Readonly<Record<string, string>> = {
+  subagent_child: "subagent",
+  workflow_child: "workflow_child",
+  nested_workflow_child: "workflow_child",
+};
 
-const TASK_SOURCE = assignKeys<Record<string, string>>([
-  ["subagent_child", phrase(["subagent"])],
-  ["workflow_child", phrase(["workflow_child"])],
-  ["nested_workflow_child", phrase(["workflow_child"])],
-]);
-
-const MAIN_TURN = phrase(["main_turn"]);
+const MAIN_TURN = "main_turn";
 
 interface RecordMainTurnModelUsageInput {
   assistantMessageId: MessageId; // 本步助手消息
@@ -51,31 +49,54 @@ interface CacheHitView {
 }
 
 export async function recordMainTurnModelUsage(
-  runtime: AgentRuntimeInternal,
-  state: RegularTurnLoopState,
+  host: AgentRuntimeInternal,
+  loop: RegularTurnLoopState,
   input: RecordMainTurnModelUsageInput,
 ): Promise<void> {
   // 必须把入参里的 model 传下去。await 之后再读会话选择会把旧请求记到新模型上。
-  const fact = assignKeys<ModelUsageFactInput>([
-    ["assistantMessageId", input.assistantMessageId],
-    ["error", input.error],
-    ["events", state.events],
-    ["model", input.model],
-    ["networkEventStartIndex", input.networkEventStartIndex],
-    ["parentUserMessageId", state.currentUserMessageId],
-    ["querySource", querySourceForTask(runtime.config.taskType)],
-    ["result", input.result],
-    ["startedAt", input.startedAt],
-    ["status", input.status],
-    ["toolCallCount", input.toolCallCount],
-    ["traceContext", input.modelTraceContext],
-  ]);
-  await recordModelUsageFact(runtime, fact);
+  const fact = usageFact(host, loop, input);
+  await recordModelUsageFact(host, fact);
 }
 
-export function querySourceForTask(taskType: AgentRuntimeInternal["config"]["taskType"]): string {
+function usageFact(
+  host: AgentRuntimeInternal,
+  loop: RegularTurnLoopState,
+  input: RecordMainTurnModelUsageInput,
+): ModelUsageFactInput {
+  const {
+    assistantMessageId,
+    error,
+    model,
+    networkEventStartIndex,
+    result,
+    startedAt,
+    status,
+    toolCallCount,
+    modelTraceContext: traceContext,
+  } = input;
+  const { events, currentUserMessageId: parentUserMessageId } = loop;
+  const querySource = querySourceForTask(host.config.taskType);
+  return {
+    assistantMessageId,
+    error,
+    events,
+    model,
+    networkEventStartIndex,
+    parentUserMessageId,
+    querySource,
+    result,
+    startedAt,
+    status,
+    toolCallCount,
+    traceContext,
+  };
+}
+
+type TaskKind = AgentRuntimeInternal["config"]["taskType"];
+
+export function querySourceForTask(taskType: TaskKind): string {
   const label = String(taskType);
-  const mapped = TASK_SOURCE[label];
+  const mapped = CHILD_QUERY_SOURCE[label];
   return mapped ?? MAIN_TURN;
 }
 
@@ -88,8 +109,10 @@ function committedBaseline(
   return persistedTokenUsageBaseline(row.tokens);
 }
 
+type SourceRows = readonly (RuntimeMessageEntry | undefined)[];
+
 export function findLatestCommittedAssistantUsage(
-  sourceEntries: readonly (RuntimeMessageEntry | undefined)[],
+  sourceEntries: SourceRows,
 ): AssistantUsageHit | undefined {
   let cursor = sourceEntries.length;
   let hit: AssistantUsageHit | undefined;
@@ -97,10 +120,7 @@ export function findLatestCommittedAssistantUsage(
     cursor -= 1;
     const baseline = committedBaseline(sourceEntries[cursor]);
     if (baseline) {
-      hit = assignKeys<AssistantUsageHit>([
-        ["messageIndex", cursor],
-        ["baseline", baseline],
-      ]);
+      hit = { messageIndex: cursor, baseline };
     }
   }
   return hit;
@@ -122,12 +142,26 @@ function atLeastOne(raw: number | undefined): number | undefined {
 }
 
 function blankTotals(): MainTurnCacheHitAggregate {
-  return assignKeys<MainTurnCacheHitAggregate>([
-    ["requestCount", 0],
-    ["totalInputTokens", 0],
-    ["totalCacheReadTokens", 0],
-    ["totalCacheWriteTokens", 0],
-  ]);
+  return {
+    requestCount: 0,
+    totalInputTokens: 0,
+    totalCacheReadTokens: 0,
+    totalCacheWriteTokens: 0,
+  };
+}
+
+function grownTotals(
+  totals: MainTurnCacheHitAggregate,
+  input: number,
+  read: number,
+  write: number,
+): MainTurnCacheHitAggregate {
+  return {
+    requestCount: totals.requestCount + 1,
+    totalInputTokens: totals.totalInputTokens + input,
+    totalCacheReadTokens: totals.totalCacheReadTokens + read,
+    totalCacheWriteTokens: totals.totalCacheWriteTokens + write,
+  };
 }
 
 function assistantShare(
@@ -154,12 +188,7 @@ export function mainTurnCacheHitAggregateFromMessages(input: {
   return input.persistedMessages.reduce((totals, message) => {
     const share = assistantShare(message, live);
     if (share === undefined) return totals;
-    return assignKeys<MainTurnCacheHitAggregate>([
-      ["requestCount", totals.requestCount + 1],
-      ["totalInputTokens", totals.totalInputTokens + share.input],
-      ["totalCacheReadTokens", totals.totalCacheReadTokens + share.read],
-      ["totalCacheWriteTokens", totals.totalCacheWriteTokens + share.write],
-    ]);
+    return grownTotals(totals, share.input, share.read, share.write);
   }, blankTotals());
 }
 
@@ -181,35 +210,34 @@ function share(part: number, whole: number): number | null {
   return whole > 0 ? part / whole : null;
 }
 
+function cacheHitView(
+  sample: { input: number; read: number; write: number },
+  rolled: MainTurnCacheHitAggregate,
+): CacheHitView {
+  return {
+    inputTokens: sample.input,
+    cacheReadTokens: sample.read,
+    cacheWriteTokens: sample.write,
+    latestHitRate: share(sample.read, sample.input),
+    hitRate: share(rolled.totalCacheReadTokens, rolled.totalInputTokens),
+    hitRateRequestCount: rolled.requestCount,
+    totalInputTokens: rolled.totalInputTokens,
+    totalCacheReadTokens: rolled.totalCacheReadTokens,
+    totalCacheWriteTokens: rolled.totalCacheWriteTokens,
+  };
+}
+
 export function recordMainTurnCacheHitUsage(
-  runtime: AgentRuntimeInternal,
+  host: AgentRuntimeInternal,
   usage: ModelUsage | undefined,
 ): CacheHitView | undefined {
   if (!usage) return undefined as CacheHitView | undefined;
-  const inputTokens = windowInput(usage) ?? 0;
-  const cacheReadTokens = atLeastZero(usage.cacheReadTokens) ?? 0;
-  const cacheWriteTokens = atLeastZero(usage.cacheWriteTokens) ?? 0;
-  const empty = inputTokens <= 0 && cacheReadTokens <= 0 && cacheWriteTokens <= 0;
+  const input = windowInput(usage) ?? 0;
+  const read = atLeastZero(usage.cacheReadTokens) ?? 0;
+  const write = atLeastZero(usage.cacheWriteTokens) ?? 0;
+  const empty = input <= 0 && read <= 0 && write <= 0;
   if (empty) return undefined as CacheHitView | undefined;
-  const prior = runtime.mainTurnCacheHitAggregate;
-  runtime.mainTurnCacheHitAggregate = assignKeys<MainTurnCacheHitAggregate>([
-    ["requestCount", prior.requestCount + 1],
-    ["totalInputTokens", prior.totalInputTokens + inputTokens],
-    ["totalCacheReadTokens", prior.totalCacheReadTokens + cacheReadTokens],
-    ["totalCacheWriteTokens", prior.totalCacheWriteTokens + cacheWriteTokens],
-  ]);
-  const aggregate = runtime.mainTurnCacheHitAggregate;
-  const latestHitRate = share(cacheReadTokens, inputTokens);
-  const hitRate = share(aggregate.totalCacheReadTokens, aggregate.totalInputTokens);
-  return assignKeys<CacheHitView>([
-    ["inputTokens", inputTokens],
-    ["cacheReadTokens", cacheReadTokens],
-    ["cacheWriteTokens", cacheWriteTokens],
-    ["latestHitRate", latestHitRate],
-    ["hitRate", hitRate],
-    ["hitRateRequestCount", aggregate.requestCount],
-    ["totalInputTokens", aggregate.totalInputTokens],
-    ["totalCacheReadTokens", aggregate.totalCacheReadTokens],
-    ["totalCacheWriteTokens", aggregate.totalCacheWriteTokens],
-  ]);
+  const prior = host.mainTurnCacheHitAggregate;
+  host.mainTurnCacheHitAggregate = grownTotals(prior, input, read, write);
+  return cacheHitView({ input, read, write }, host.mainTurnCacheHitAggregate);
 }
