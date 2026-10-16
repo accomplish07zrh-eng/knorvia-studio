@@ -1,17 +1,14 @@
 // SPDX-License-Identifier: Apache-2.0
 import ts from "typescript";
 import { WORKFLOW_FUNCTION_NAME, type ScriptLoc } from "../compiler/compile.js";
-import { AliasReplay, shareFields } from "./domain/alias-replay.js";
 import {
-  Exactness,
   OccurrenceJoin,
   PlaceholderJoin,
-  ValueFold,
   ValueJoin,
-  ensureField,
-  freshValue,
+  absorbFlat,
+  claim,
   grewFrom,
-  smearRead,
+  overCap,
 } from "./domain/lattice.js";
 
 // Gen-only lattice for the taint fixpoint. A value only grows, which is what makes the
@@ -170,6 +167,177 @@ function literalText(node: ts.Node): string | undefined {
   return;
 }
 
+function freshValue(): AbstractValue {
+  const fields = new Map<string, AbstractValue>();
+  const fns = new Set<ts.Node>();
+  const occs = new Map<string, TaintOcc>();
+  const phs = new Map<string, Placeholder>();
+  return { fields, fns, occs, phs };
+}
+
+function grewAt<T>(items: readonly T[], step: (item: T, index: number) => boolean): boolean {
+  let grew = false;
+  let index = 0;
+  while (index < items.length) {
+    const item = items[index];
+    if (item !== undefined && step(item, index)) grew = true;
+    index += 1;
+  }
+  return grew;
+}
+
+function ensureField(container: AbstractValue, key: string): AbstractValue {
+  const found = container.fields.get(key);
+  if (found !== undefined) return found;
+  const created = freshValue();
+  container.fields.set(key, created);
+  return created;
+}
+
+class ValueFold {
+  // Drop field structure. Keep labels, formals, and every nested function. Ports stay
+  // until a portless label of the same site subsumes them. Functions ride along so a
+  // widened read (`fns[i]`, an iterated element) still dispatches instead of becoming
+  // an unknown call. The function set is bounded by the script, so this cannot diverge.
+  static into(out: AbstractValue, source: AbstractValue, seen: Set<AbstractValue>): boolean {
+    if (!claim(seen, source)) return false;
+    const flat = absorbFlat(out, source);
+    const nested = grewFrom(source.fields.values(), (field) => ValueFold.into(out, field, seen));
+    const prefix = source.bound;
+    const bound =
+      prefix === undefined ? false : grewFrom(prefix, (part) => ValueFold.into(out, part, seen));
+    return flat || nested || bound;
+  }
+
+  static fresh(source: AbstractValue): AbstractValue {
+    const folded = freshValue();
+    ValueFold.into(folded, source, new Set());
+    return folded;
+  }
+}
+
+function carriesPort(value: AbstractValue, site: string): boolean {
+  return [...value.occs.values()].some((row) => row.site === site && row.port !== undefined);
+}
+
+// Smear container-level labels onto a field read. Skip a portless container label
+// when the field already carries a port of that site, or the portless label would
+// erase the port. Placeholders always smear. Other fields do not.
+function smearRead(out: AbstractValue, container: AbstractValue): void {
+  for (const occ of container.occs.values()) {
+    if (occ.port === undefined && carriesPort(out, occ.site)) continue;
+    OccurrenceJoin.admit(out, occ);
+  }
+  for (const ph of container.phs.values()) PlaceholderJoin.admit(out, ph);
+}
+
+class Exactness {
+  static cleared(source: AbstractValue): AbstractValue {
+    const copy = freshValue();
+    ValueJoin.into(copy, source, 0);
+    Exactness.scrub(copy, new Set());
+    return copy;
+  }
+
+  private static scrub(node: AbstractValue, seen: Set<AbstractValue>): void {
+    if (!claim(seen, node)) return;
+    for (const occ of node.occs.values()) occ.exact = false;
+    for (const field of node.fields.values()) Exactness.scrub(field, seen);
+    const prefix = node.bound;
+    if (prefix === undefined) return;
+    for (const part of prefix) Exactness.scrub(part, seen);
+  }
+}
+
+interface FieldWave {
+  aliases: Set<AbstractValue>;
+  member: string;
+  payload: AbstractValue;
+  seen: Set<AbstractValue>;
+  depth: number;
+}
+
+interface NodeWave {
+  aliases: Set<AbstractValue>;
+  payload: AbstractValue;
+  seen: Set<AbstractValue>;
+}
+
+class AliasReplay {
+  // A field write also reaches `target[key]` for every place the container may be.
+  // Exactness is cleared first: the write happens on one arm only. The container's
+  // own slot is updated by the caller and stays exact. Chained aliases recurse, and
+  // past the depth cap the write smears into the target's occurrences.
+  static write(container: AbstractValue, key: string, value: AbstractValue): boolean {
+    const aliases = container.mayAlias;
+    if (aliases === undefined) return false;
+    return AliasReplay.fields({
+      aliases,
+      depth: 0,
+      member: key,
+      payload: Exactness.cleared(value),
+      seen: new Set(),
+    });
+  }
+
+  private static fields(wave: FieldWave): boolean {
+    return grewFrom(wave.aliases, (target) => {
+      if (!claim(wave.seen, target)) return false;
+      if (overCap(wave.depth)) return ValueFold.into(target, wave.payload, new Set());
+      const direct = ValueJoin.into(ensureField(target, wave.member), wave.payload, 0);
+      const nested = target.mayAlias;
+      if (nested === undefined) return direct;
+      const deeper = AliasReplay.fields({
+        aliases: nested,
+        depth: wave.depth + 1,
+        member: wave.member,
+        payload: wave.payload,
+        seen: wave.seen,
+      });
+      return direct || deeper;
+    });
+  }
+
+  // In-place mutation (`push`, `Map.set`): smear the collapsed value into each alias.
+  static smear(container: AbstractValue, value: AbstractValue): boolean {
+    const aliases = container.mayAlias;
+    if (aliases === undefined) return false;
+    return AliasReplay.nodes({
+      aliases,
+      payload: Exactness.cleared(ValueFold.fresh(value)),
+      seen: new Set(),
+    });
+  }
+
+  private static nodes(wave: NodeWave): boolean {
+    return grewFrom(wave.aliases, (target) => {
+      if (!claim(wave.seen, target)) return false;
+      const direct = ValueJoin.into(target, wave.payload, 0);
+      const nested = target.mayAlias;
+      if (nested === undefined) return direct;
+      const deeper = AliasReplay.nodes({ aliases: nested, payload: wave.payload, seen: wave.seen });
+      return direct || deeper;
+    });
+  }
+}
+
+// Shallow copy: `target` adopts each of `source`'s field objects by reference, so a
+// later write through either name hits the same node. A colliding field is merged
+// into the source's field first (runtime overwrites; gen-only keeps both), then both
+// names share that object. Only the top level is shared. The merge's own growth is
+// not reported — callers that must not spin the fixpoint rely on that.
+function shareFields(target: AbstractValue, source: AbstractValue): boolean {
+  const adopted = [...source.fields].filter(
+    ([key, incoming]) => target.fields.get(key) !== incoming,
+  );
+  for (const [key, incoming] of adopted) {
+    const prior = target.fields.get(key);
+    if (prior !== undefined) ValueJoin.into(incoming, prior, 0);
+    target.fields.set(key, incoming);
+  }
+  return adopted.length > 0;
+}
+
 export function emptyValue(): AbstractValue {
   return freshValue();
 }
@@ -190,7 +358,19 @@ export function mergeBound(
   sourceBound: AbstractValue[],
   depth: number,
 ): boolean {
-  return ValueJoin.prefix(target, sourceBound, depth);
+  if (overCap(depth)) {
+    return grewFrom(sourceBound, (part) => ValueFold.into(target, part, new Set()));
+  }
+  target.bound ??= [];
+  const prefix = target.bound;
+  return grewAt(sourceBound, (part, index) => {
+    if (overCap(index)) return ValueFold.into(target, part, new Set());
+    const prior = prefix[index];
+    const created = prior === undefined;
+    const slot = prior ?? freshValue();
+    if (created) prefix[index] = slot;
+    return ValueJoin.into(slot, part, depth + 1) || created;
+  });
 }
 export function cloneValue(v: AbstractValue): AbstractValue {
   const copy = freshValue();

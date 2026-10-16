@@ -19,7 +19,7 @@ export interface ArtifactDeclarations {
   readonly diagnostics: CompileDiagnostic[];
 }
 
-type HoistingContext = "loop" | "callback" | "conditional";
+type HoistingContext = "conditional" | "callback" | "loop";
 
 const HOISTING_EXPLANATIONS: Record<HoistingContext, string> = {
   callback: [
@@ -62,6 +62,9 @@ export function collectArtifactDeclarations(
   const issues: CompileDiagnostic[] = [];
   const scriptAst = workflowProgram.scriptFile;
   const rootBlock = findWorkflowBody(scriptAst);
+  const declarationCode = ARTIFACT_DECLARATION_CODE;
+  const hoistingCode = ARTIFACT_HOISTING_CODE;
+  const primaryCode = ARTIFACT_PRIMARY_CONFLICT_CODE;
 
   const pushDiagnostic = (errCode: number, errorLoc: ScriptLoc, messageContent: string): void => {
     issues.push({
@@ -85,19 +88,19 @@ export function collectArtifactDeclarations(
       : artifactSite.loc;
 
     if (artifactSite.artifactId === undefined) {
-      pushDiagnostic(ARTIFACT_DECLARATION_CODE, errorLocation, INVALID_NON_LITERAL_ID_ERROR);
+      pushDiagnostic(declarationCode, errorLocation, INVALID_NON_LITERAL_ID_ERROR);
       continue;
     }
 
     const currentId = artifactSite.artifactId;
     if (currentId.length === 0) {
-      pushDiagnostic(ARTIFACT_DECLARATION_CODE, errorLocation, BLANK_ARTIFACT_ID_ERROR);
+      pushDiagnostic(declarationCode, errorLocation, BLANK_ARTIFACT_ID_ERROR);
       continue;
     }
 
     if (currentId.length > ARTIFACT_CAPS.maxIdLength) {
       pushDiagnostic(
-        ARTIFACT_DECLARATION_CODE,
+        declarationCode,
         errorLocation,
         `artifact id "${currentId}" is ${currentId.length} characters; the limit is ${ARTIFACT_CAPS.maxIdLength}. ` +
           "The id is a key, not a description — put the prose in the title.",
@@ -107,7 +110,7 @@ export function collectArtifactDeclarations(
 
     if (!ARTIFACT_ID_PATTERN.test(currentId)) {
       pushDiagnostic(
-        ARTIFACT_DECLARATION_CODE,
+        declarationCode,
         errorLocation,
         `artifact id "${currentId}" contains characters outside [A-Za-z0-9_.-]. The id is carried verbatim ` +
           "through the journal, the artifact store and the side pane, so it is restricted to " +
@@ -122,7 +125,7 @@ export function collectArtifactDeclarations(
       collectedArtifacts.push({ id: currentId, kind: artifactSite.op });
     } else if (previousClaim.op !== artifactSite.op) {
       pushDiagnostic(
-        ARTIFACT_DECLARATION_CODE,
+        declarationCode,
         artifactSite.loc,
         `artifact id "${currentId}" is used with two different kinds: artifact.${previousClaim.op} on line ` +
           `${previousClaim.loc.line} and artifact.${artifactSite.op} here. Within one run an id belongs to exactly ` +
@@ -137,7 +140,7 @@ export function collectArtifactDeclarations(
         primaryMarkerClaim = { id: currentId, site: artifactSite };
       } else if (primaryMarkerClaim.id !== currentId) {
         pushDiagnostic(
-          ARTIFACT_PRIMARY_CONFLICT_CODE,
+          primaryCode,
           nodeLocation(primaryProp),
           `artifact "${currentId}" is marked primary, but "${primaryMarkerClaim.id}" already is (artifact.` +
             `${primaryMarkerClaim.site.op} on line ${primaryMarkerClaim.site.loc.line}). A run has one ` +
@@ -150,11 +153,7 @@ export function collectArtifactDeclarations(
     if (isArtifactPresetOp(artifactSite.op)) {
       const lexicalContext = determineHoistingViolation(artifactSite.call, rootBlock);
       if (lexicalContext !== undefined) {
-        pushDiagnostic(
-          ARTIFACT_HOISTING_CODE,
-          artifactSite.loc,
-          HOISTING_EXPLANATIONS[lexicalContext],
-        );
+        pushDiagnostic(hoistingCode, artifactSite.loc, HOISTING_EXPLANATIONS[lexicalContext]);
       }
     }
   }
@@ -168,12 +167,12 @@ export function collectArtifactDeclarations(
 
   for (const reportSite of siteTable.reports) {
     if (!reportSite.artifactIdExpr) continue;
-    const tagLoc = nodeLocation(reportSite.artifactIdExpr);
+    const tagAt = nodeLocation(reportSite.artifactIdExpr);
 
     if (reportSite.artifactId === undefined) {
       pushDiagnostic(
-        ARTIFACT_DECLARATION_CODE,
-        tagLoc,
+        declarationCode,
+        tagAt,
         "report()'s artifact tag must be a compile-time string literal naming a preset artifact " +
           "declared in this script: the tag is how an item finds its dashboard, and a tag that only " +
           "exists at run time cannot be checked against the declarations. Write the id inline.",
@@ -186,8 +185,8 @@ export function collectArtifactDeclarations(
 
     if (contentArtifactNames.has(targetTag)) {
       pushDiagnostic(
-        ARTIFACT_DECLARATION_CODE,
-        tagLoc,
+        declarationCode,
+        tagAt,
         `report()'s tag "${targetTag}" names a file/markdown artifact, which holds content rather than a ` +
           "stream of items — there is nothing for this item to become. Tag the item with a preset " +
           "artifact (chart / table / metrics / board), or drop the tag and let the item go to the " +
@@ -197,8 +196,8 @@ export function collectArtifactDeclarations(
     }
 
     pushDiagnostic(
-      ARTIFACT_DECLARATION_CODE,
-      tagLoc,
+      declarationCode,
+      tagAt,
       `report()'s tag "${targetTag}" names no preset artifact declared in this script${formatPresetEnumeration(validPresetNames)}. ` +
         'Declare it first — artifact.chart("' +
         targetTag +
@@ -232,7 +231,7 @@ function findPrimaryTrueLiteral(site: ArtifactSite): ts.Node | undefined {
 function formatPresetEnumeration(presetNames: readonly string[]): string {
   if (presetNames.length === 0) return " (this script declares no preset artifacts at all)";
   const sortedNames = [...presetNames]
-    .sort()
+    .sort((left, right) => (left < right ? -1 : left > right ? 1 : 0))
     .map((name) => `"${name}"`)
     .join(", ");
   return ` (declared presets: ${sortedNames})`;
@@ -258,55 +257,44 @@ function canonicalizeDeclaredArtifacts(artifacts: readonly DeclaredArtifact[]): 
   });
 }
 
+const LOOP_SHAPES = [
+  ts.isForStatement,
+  ts.isForOfStatement,
+  ts.isForInStatement,
+  ts.isWhileStatement,
+  ts.isDoStatement,
+] as const;
+
+function contextKind(kind: HoistingContext): HoistingContext {
+  return kind;
+}
+
+function parentContext(parent: ts.Node, child: ts.Node): HoistingContext | undefined {
+  const callbackParent =
+    ts.isArrowFunction(parent) || ts.isFunctionExpression(parent) || ts.isMethodDeclaration(parent);
+  if (callbackParent) return contextKind("callback");
+  if (LOOP_SHAPES.some((shape) => shape(parent))) return contextKind("loop");
+  const ifBranch =
+    ts.isIfStatement(parent) && (parent.thenStatement === child || parent.elseStatement === child);
+  const ternaryBranch =
+    ts.isConditionalExpression(parent) && (parent.whenTrue === child || parent.whenFalse === child);
+  const switchArm = ts.isCaseClause(parent) || ts.isDefaultClause(parent);
+  if (ifBranch || ternaryBranch || switchArm) return contextKind("conditional");
+  return undefined;
+}
+
 function determineHoistingViolation(
   callExpr: ts.CallExpression,
   rootScope: ts.Block,
 ): HoistingContext | undefined {
-  let innerChild: ts.Node = callExpr;
-  let outerParent: ts.Node | undefined = callExpr.parent;
-
-  while (outerParent !== undefined) {
-    if (outerParent === rootScope) return void 0;
-
-    if (
-      ts.isArrowFunction(outerParent) ||
-      ts.isFunctionExpression(outerParent) ||
-      ts.isMethodDeclaration(outerParent)
-    ) {
-      return "callback";
-    }
-
-    if (
-      ts.isForStatement(outerParent) ||
-      ts.isForOfStatement(outerParent) ||
-      ts.isForInStatement(outerParent) ||
-      ts.isWhileStatement(outerParent) ||
-      ts.isDoStatement(outerParent)
-    ) {
-      return "loop";
-    }
-
-    if (
-      ts.isIfStatement(outerParent) &&
-      (outerParent.thenStatement === innerChild || outerParent.elseStatement === innerChild)
-    ) {
-      return "conditional";
-    }
-
-    if (
-      ts.isConditionalExpression(outerParent) &&
-      (outerParent.whenTrue === innerChild || outerParent.whenFalse === innerChild)
-    ) {
-      return "conditional";
-    }
-
-    if (ts.isCaseClause(outerParent) || ts.isDefaultClause(outerParent)) {
-      return "conditional";
-    }
-
-    innerChild = outerParent;
-    outerParent = outerParent.parent;
+  let child: ts.Node = callExpr;
+  let parent: ts.Node | undefined = callExpr.parent;
+  while (parent !== undefined) {
+    if (parent === rootScope) return undefined;
+    const found = parentContext(parent, child);
+    if (found !== undefined) return found;
+    child = parent;
+    parent = parent.parent;
   }
-
-  return void 0;
+  return undefined;
 }
