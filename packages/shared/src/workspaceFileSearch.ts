@@ -1,233 +1,171 @@
-import type { WorkspaceFileEntry } from "@knorvia/shared";
+// SPDX-License-Identifier: Apache-2.0
 
+import type { WorkspaceFileEntry } from "./protocol.js";
+import type {
+  FilterWorkspaceFileSearchCandidatesOptions,
+  WorkspaceFileSearchCandidate,
+} from "./workspace-file-search-types.js";
+
+export type {
+  FilterWorkspaceFileSearchCandidatesOptions,
+  WorkspaceFileSearchCandidate,
+} from "./workspace-file-search-types.js";
+
+// 搜索候选结果列表的最大展示上限
 export const WORKSPACE_FILE_SEARCH_DISPLAY_CAP = 1000;
 
-export interface WorkspaceFileSearchCandidate {
-  id: string;
-  name: string;
-  path: string;
-  relativePath: string;
-  type: WorkspaceFileEntry["type"];
-  lowercaseName: string;
-  lowercaseRelativePath: string;
-  lowercasePath: string;
+// 检查检索词是否包含实际字符
+export const hasWorkspaceFileSearchQuery = (searchQuery: string): boolean => {
+  return searchQuery.trim().length > 0;
+};
+
+// 内部排序辅助结构
+interface ScoredSearchMatch {
+  readonly item: WorkspaceFileSearchCandidate;
+  readonly matchScore: number;
+  readonly arrivalIndex: number;
 }
 
-export interface FilterWorkspaceFileSearchCandidatesOptions {
-  limit?: number;
-  requireQuery?: boolean;
+function createSearchCandidate(entry: WorkspaceFileEntry): WorkspaceFileSearchCandidate {
+  const rel = entry.relativePath;
+  const fileName = entry.name;
+  const absPath = entry.path;
+
+  return {
+    id: rel,
+    name: fileName,
+    path: absPath,
+    relativePath: rel,
+    type: entry.type,
+    lowercaseName: fileName.trim().toLowerCase(),
+    lowercaseRelativePath: rel.trim().toLowerCase(),
+    lowercasePath: absPath.trim().toLowerCase(),
+  };
 }
 
-interface ScoredCandidate {
-  candidate: WorkspaceFileSearchCandidate;
-  index: number;
-  score: number;
+// 批量将工作区文件条目转换为带有预处理小写缓存的搜索候选集
+export const mapWorkspaceFileEntriesToSearchCandidates = (
+  rawEntries: WorkspaceFileEntry[],
+): WorkspaceFileSearchCandidate[] => {
+  return rawEntries.map(createSearchCandidate);
+};
+
+// 递进查找散列字符子序列并累计位置跳跃惩罚
+function computeSubsequenceJumpPenalty(haystack: string, needle: string): number | null {
+  let penaltySum = 0;
+  let searchOffset = 0;
+
+  for (let i = 0; i < needle.length; i += 1) {
+    const symbol = needle.charAt(i);
+    const pos = haystack.indexOf(symbol, searchOffset);
+    if (pos < 0) {
+      return null;
+    }
+    penaltySum += pos - searchOffset;
+    searchOffset = pos + 1;
+  }
+
+  return penaltySum;
 }
 
-export function hasWorkspaceFileSearchQuery(query: string): boolean {
-  return query.trim().length > 0;
-}
+// 计算文本与查询词之间的三阶模糊匹配分值
+export const scoreWorkspaceFileFuzzyMatch = (rawText: string, rawQuery: string): number | null => {
+  const normText = rawText.trim().toLowerCase();
+  const normQuery = rawQuery.trim().toLowerCase();
 
-export function mapWorkspaceFileEntriesToSearchCandidates(
-  entries: WorkspaceFileEntry[],
-): WorkspaceFileSearchCandidate[] {
-  return entries.map((entry) => {
-    const lowercaseRelativePath = entry.relativePath.trim().toLowerCase();
+  if (!normText) return null;
+  if (!normQuery) return 0;
 
-    return {
-      id: entry.relativePath,
-      name: entry.name,
-      path: entry.path,
-      relativePath: entry.relativePath,
-      type: entry.type,
-      lowercaseName: entry.name.trim().toLowerCase(),
-      lowercaseRelativePath,
-      lowercasePath: entry.path.trim().toLowerCase(),
-    };
+  // 1. 前缀完全匹配优先，分值为长度差（< 100）
+  if (normText.startsWith(normQuery)) {
+    return normText.length - normQuery.length;
+  }
+
+  // 2. 连续子串匹配，分值为 100 + 出现位点（100 ~ 199）
+  const directIndex = normText.indexOf(normQuery);
+  if (directIndex >= 0) {
+    return 100 + directIndex;
+  }
+
+  // 3. 散列字符子序列匹配，分值 200 起
+  const jumpPenalty = computeSubsequenceJumpPenalty(normText, normQuery);
+  if (jumpPenalty === null) {
+    return null;
+  }
+
+  return 200 + jumpPenalty + (normText.length - normQuery.length);
+};
+
+// 综合文件名、相对路径及绝对路径三项指标计算候选条目最佳得分
+export const getWorkspaceFileSearchCandidateScore = (
+  targetCandidate: WorkspaceFileSearchCandidate,
+  rawQuery: string,
+): number | null => {
+  const cleanQuery = rawQuery.trim().toLowerCase();
+  if (!cleanQuery) {
+    return 0;
+  }
+
+  const nameMatch = scoreWorkspaceFileFuzzyMatch(targetCandidate.lowercaseName, cleanQuery);
+  const relMatch = scoreWorkspaceFileFuzzyMatch(targetCandidate.lowercaseRelativePath, cleanQuery);
+  const fullMatch = scoreWorkspaceFileFuzzyMatch(targetCandidate.lowercasePath, cleanQuery);
+
+  const keywordCandidate = Math.min(
+    relMatch !== null ? relMatch + 300 : Infinity,
+    fullMatch !== null ? fullMatch + 300 : Infinity,
+  );
+
+  const overallBest = Math.min(
+    nameMatch ?? Infinity,
+    relMatch !== null ? relMatch + 25 : Infinity,
+    keywordCandidate,
+  );
+
+  return Number.isFinite(overallBest) ? overallBest : null;
+};
+
+// 过滤并稳定排序工作区候选文件
+export const filterWorkspaceFileSearchCandidates = (
+  candidateList: WorkspaceFileSearchCandidate[],
+  searchPattern: string,
+  filterOptions: FilterWorkspaceFileSearchCandidatesOptions = {},
+): WorkspaceFileSearchCandidate[] => {
+  const limitCap = filterOptions.limit ?? WORKSPACE_FILE_SEARCH_DISPLAY_CAP;
+  const trimmed = searchPattern.trim();
+
+  // 空搜索词场景：文件优先于目录，同类保留原顺序
+  if (!trimmed) {
+    if (filterOptions.requireQuery) {
+      return [];
+    }
+    return candidateList
+      .slice()
+      .sort((a, b) => {
+        const aPriority = a.type === "directory" ? 1 : 0;
+        const bPriority = b.type === "directory" ? 1 : 0;
+        return aPriority - bPriority;
+      })
+      .slice(0, Math.max(0, limitCap));
+  }
+
+  // 单次遍历收集所有匹配项并打分
+  const scoredEntries: ScoredSearchMatch[] = [];
+
+  for (let idx = 0; idx < candidateList.length; idx += 1) {
+    const cand = candidateList[idx];
+    if (!cand) continue;
+    const scoreVal = getWorkspaceFileSearchCandidateScore(cand, trimmed);
+    if (scoreVal !== null) {
+      scoredEntries.push({ item: cand, matchScore: scoreVal, arrivalIndex: idx });
+    }
+  }
+
+  // 稳定排序：得分升序 -> 出现次序升序 -> 字典序
+  scoredEntries.sort((x, y) => {
+    if (x.matchScore !== y.matchScore) return x.matchScore - y.matchScore;
+    if (x.arrivalIndex !== y.arrivalIndex) return x.arrivalIndex - y.arrivalIndex;
+    return x.item.name.localeCompare(y.item.name);
   });
-}
 
-export function scoreWorkspaceFileFuzzyMatch(text: string, query: string): number | null {
-  const normalizedText = text.trim().toLowerCase();
-  const normalizedQuery = query.trim().toLowerCase();
-
-  if (normalizedText.length === 0) {
-    return null;
-  }
-  if (normalizedQuery.length === 0) {
-    return 0;
-  }
-  if (normalizedText.startsWith(normalizedQuery)) {
-    return normalizedText.length - normalizedQuery.length;
-  }
-
-  const substringIndex = normalizedText.indexOf(normalizedQuery);
-  if (substringIndex >= 0) {
-    return 100 + substringIndex;
-  }
-
-  let score = 200;
-  let searchStart = 0;
-  for (const character of normalizedQuery) {
-    const found = normalizedText.indexOf(character, searchStart);
-    if (found === -1) {
-      return null;
-    }
-    score += found - searchStart;
-    searchStart = found + 1;
-  }
-
-  return score + normalizedText.length - normalizedQuery.length;
-}
-
-function scoreNormalizedFuzzyMatch(text: string, query: string): number | null {
-  if (text.length === 0) {
-    return null;
-  }
-  if (text.startsWith(query)) {
-    return text.length - query.length;
-  }
-
-  const substringIndex = text.indexOf(query);
-  if (substringIndex >= 0) {
-    return 100 + substringIndex;
-  }
-
-  let score = 200;
-  let searchStart = 0;
-  for (const character of query) {
-    const found = text.indexOf(character, searchStart);
-    if (found === -1) {
-      return null;
-    }
-    score += found - searchStart;
-    searchStart = found + 1;
-  }
-
-  return score + text.length - query.length;
-}
-
-export function getWorkspaceFileSearchCandidateScore(
-  candidate: WorkspaceFileSearchCandidate,
-  query: string,
-): number | null {
-  const normalizedQuery = query.trim().toLowerCase();
-  if (normalizedQuery.length === 0) {
-    return 0;
-  }
-
-  const nameScore = scoreNormalizedFuzzyMatch(candidate.lowercaseName, normalizedQuery);
-  const relativePathScore = scoreNormalizedFuzzyMatch(
-    candidate.lowercaseRelativePath,
-    normalizedQuery,
-  );
-  const pathScore = scoreNormalizedFuzzyMatch(candidate.lowercasePath, normalizedQuery);
-  const keywordScore = Math.min(
-    relativePathScore !== null ? relativePathScore + 300 : Infinity,
-    pathScore !== null ? pathScore + 300 : Infinity,
-  );
-  const bestScore = Math.min(
-    nameScore ?? Infinity,
-    relativePathScore !== null ? relativePathScore + 25 : Infinity,
-    keywordScore,
-  );
-
-  return Number.isFinite(bestScore) ? bestScore : null;
-}
-
-function applyLimit<T>(items: T[], limit?: number): T[] {
-  if (!Number.isFinite(limit)) {
-    return items;
-  }
-
-  const safeLimit = Math.max(0, Math.trunc(limit ?? 0));
-  return items.slice(0, safeLimit);
-}
-
-function sortDefaultCandidates(
-  candidates: WorkspaceFileSearchCandidate[],
-): WorkspaceFileSearchCandidate[] {
-  return candidates
-    .map((candidate, index) => ({
-      candidate,
-      index,
-      priority: candidate.type === "directory" ? 1 : 0,
-    }))
-    .sort((left, right) => left.priority - right.priority || left.index - right.index)
-    .map(({ candidate }) => candidate);
-}
-
-function compareScoredCandidates(left: ScoredCandidate, right: ScoredCandidate): number {
-  if (left.score !== right.score) {
-    return left.score - right.score;
-  }
-  if (left.index !== right.index) {
-    return left.index - right.index;
-  }
-  return left.candidate.name.localeCompare(right.candidate.name);
-}
-
-function findInsertionIndex(bestMatches: ScoredCandidate[], scored: ScoredCandidate): number {
-  let low = 0;
-  let high = bestMatches.length;
-
-  while (low < high) {
-    const middle = (low + high) >>> 1;
-    const middleItem = bestMatches[middle];
-    if (middleItem !== undefined && compareScoredCandidates(scored, middleItem) < 0) {
-      high = middle;
-    } else {
-      low = middle + 1;
-    }
-  }
-
-  return low === bestMatches.length ? -1 : low;
-}
-
-export function filterWorkspaceFileSearchCandidates(
-  candidates: WorkspaceFileSearchCandidate[],
-  query: string,
-  options: FilterWorkspaceFileSearchCandidatesOptions = {},
-): WorkspaceFileSearchCandidate[] {
-  const effectiveLimit = options.limit ?? WORKSPACE_FILE_SEARCH_DISPLAY_CAP;
-  const normalizedQuery = query.trim();
-
-  if (normalizedQuery.length === 0) {
-    return options.requireQuery
-      ? []
-      : applyLimit(sortDefaultCandidates(candidates), effectiveLimit);
-  }
-
-  const bestMatches: ScoredCandidate[] = [];
-  for (const [index, candidate] of candidates.entries()) {
-    const score = getWorkspaceFileSearchCandidateScore(candidate, normalizedQuery);
-    if (score === null) {
-      continue;
-    }
-
-    const scored = { candidate, index, score };
-    const worst = bestMatches[bestMatches.length - 1];
-    if (
-      worst !== undefined &&
-      bestMatches.length >= effectiveLimit &&
-      compareScoredCandidates(scored, worst) >= 0
-    ) {
-      continue;
-    }
-
-    const insertionIndex = findInsertionIndex(bestMatches, scored);
-    if (insertionIndex === -1) {
-      if (bestMatches.length < effectiveLimit) {
-        bestMatches.push(scored);
-      }
-      continue;
-    }
-
-    bestMatches.splice(insertionIndex, 0, scored);
-    if (bestMatches.length > effectiveLimit) {
-      bestMatches.pop();
-    }
-  }
-
-  return bestMatches.map(({ candidate }) => candidate);
-}
+  return scoredEntries.slice(0, Math.max(0, limitCap)).map((entry) => entry.item);
+};

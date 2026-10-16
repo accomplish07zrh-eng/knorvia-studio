@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: Apache-2.0
+
 import {
   collectVisibleKnorviaBackgroundTaskControlItems,
   getKnorviaBackgroundTaskControlItemElapsedMs,
@@ -7,38 +9,38 @@ import {
   type KnorviaBackgroundTaskControlStatus,
 } from "./background-task-controls.js";
 
+const BASH_KIND = "bash" as const;
+
 export type KnorviaBackgroundBashJobStatus = KnorviaBackgroundTaskControlStatus;
+
 export type KnorviaBackgroundBashJob = KnorviaBackgroundTaskControlItem & {
-  taskKind: "bash";
+  readonly taskKind: typeof BASH_KIND;
 };
 
-export function parseKnorviaBackgroundBashJobs(value: unknown): KnorviaBackgroundBashJob[] {
-  return parseKnorviaBackgroundTaskControlItems(value).filter(isBackgroundBashJob);
+const DEFAULT_VISIBLE_MS = 30_000;
+
+function retainBash(payload: unknown): KnorviaBackgroundBashJob[] {
+  return parseKnorviaBackgroundTaskControlItems(payload).flatMap((item) =>
+    item.taskKind === BASH_KIND ? [item as KnorviaBackgroundBashJob] : [],
+  );
 }
 
-export function isActiveKnorviaBackgroundBashJob(job: KnorviaBackgroundBashJob): boolean {
-  return isActiveKnorviaBackgroundTaskControlItem(job);
-}
+export const parseKnorviaBackgroundBashJobs = (payload: unknown): KnorviaBackgroundBashJob[] =>
+  retainBash(payload);
 
-export function getKnorviaBackgroundBashJobElapsedMs(
-  job: KnorviaBackgroundBashJob,
-  now = Date.now(),
-): number {
-  return getKnorviaBackgroundTaskControlItemElapsedMs(job, now);
-}
+export const isActiveKnorviaBackgroundBashJob = (entry: KnorviaBackgroundBashJob): boolean =>
+  isActiveKnorviaBackgroundTaskControlItem(entry);
 
-export function collectVisibleKnorviaBackgroundBashJobs(
-  jobs: readonly KnorviaBackgroundBashJob[],
-  now = Date.now(),
-  thresholdMs = 30_000,
-): Array<KnorviaBackgroundBashJob & { elapsedMs: number }> {
-  return collectVisibleKnorviaBackgroundTaskControlItems(jobs, now, thresholdMs) as Array<
+export const getKnorviaBackgroundBashJobElapsedMs = (
+  entry: KnorviaBackgroundBashJob,
+  clock: number = Date.now(),
+): number => getKnorviaBackgroundTaskControlItemElapsedMs(entry, clock);
+
+export const collectVisibleKnorviaBackgroundBashJobs = (
+  entries: readonly KnorviaBackgroundBashJob[],
+  clock: number = Date.now(),
+  thresholdMs: number = DEFAULT_VISIBLE_MS,
+): Array<KnorviaBackgroundBashJob & { elapsedMs: number }> =>
+  collectVisibleKnorviaBackgroundTaskControlItems(entries, clock, thresholdMs) as Array<
     KnorviaBackgroundBashJob & { elapsedMs: number }
   >;
-}
-
-function isBackgroundBashJob(
-  job: KnorviaBackgroundTaskControlItem,
-): job is KnorviaBackgroundBashJob {
-  return job.taskKind === "bash";
-}

@@ -1,50 +1,87 @@
-import type { WorkspaceFileEntry } from "@knorvia/shared";
+// SPDX-License-Identifier: Apache-2.0
 
+import type { WorkspaceFileEntry } from "./protocol.js";
+
+// 单次通信传输的文件条目文本块大小上限（4MB）
 export const WORKSPACE_FILE_ENTRIES_CHUNK_SIZE = 4_000_000;
 
-function escapeField(value: string): string {
-  return value.replace(/\\/g, "\\\\").replace(/\t/g, "\\t").replace(/\n/g, "\\n");
+// 制表符分隔协议中的特殊字符转义表
+const ESCAPES: Record<string, string> = {
+  "\\": "\\\\",
+  "\t": "\\t",
+  "\n": "\\n",
+};
+
+const UNESCAPES: Record<string, string> = {
+  "\\": "\\",
+  t: "\t",
+  n: "\n",
+};
+
+function encodePath(rawPath: string): string {
+  return rawPath.replace(/[\\\t\n]/g, (char) => ESCAPES[char] ?? char);
 }
 
-function unescapeField(value: string): string {
-  return value.replace(/\\(.)/g, (_match, character: string) => {
-    if (character === "t") return "\t";
-    if (character === "n") return "\n";
-    return character;
-  });
+function decodePath(escapedPath: string): string {
+  return escapedPath.replace(/\\(.)/g, (_full, char: string) => UNESCAPES[char] ?? char);
+}
+
+// 格式化一条记录为 TSV 行
+function serializeEntry(entry: WorkspaceFileEntry): string {
+  return `${entry.type}\t${encodePath(entry.relativePath)}`;
 }
 
 export function packWorkspaceFileEntries(entries: WorkspaceFileEntry[]): string {
-  const lines: string[] = [];
-  for (const entry of entries) {
-    lines.push(`${entry.type}\t${escapeField(entry.relativePath)}`);
+  return entries.map(serializeEntry).join("\n");
+}
+
+function normalizeRootPrefix(rootPath: string, sep: string): string {
+  if (rootPath.endsWith("/") || rootPath.endsWith("\\")) {
+    return rootPath;
   }
-  return lines.join("\n");
+  return `${rootPath}${sep}`;
+}
+
+function resolveLeafName(relativePath: string): string {
+  const lastSlash = relativePath.lastIndexOf("/");
+  if (lastSlash < 0) {
+    return relativePath;
+  }
+  return relativePath.slice(lastSlash + 1);
 }
 
 export function unpackWorkspaceFileEntries(packed: string, rootPath: string): WorkspaceFileEntry[] {
-  if (packed.length === 0) return [];
+  if (!packed) {
+    return [];
+  }
 
-  const separator = rootPath.includes("\\") ? "\\" : "/";
-  const prefix =
-    rootPath.endsWith("/") || rootPath.endsWith("\\") ? rootPath : `${rootPath}${separator}`;
-  const entries: WorkspaceFileEntry[] = [];
+  const isWindows = rootPath.includes("\\");
+  const sep = isWindows ? "\\" : "/";
+  const prefix = normalizeRootPrefix(rootPath, sep);
 
-  for (const line of packed.split("\n")) {
-    if (line.length === 0) continue;
-    const tabAt = line.indexOf("\t");
-    if (tabAt === -1) continue;
+  const lines = packed.split("\n");
+  const result: WorkspaceFileEntry[] = [];
 
-    const relativePath = unescapeField(line.slice(tabAt + 1));
-    const lastSlash = relativePath.lastIndexOf("/");
-    const pathPart = separator === "/" ? relativePath : relativePath.split("/").join("\\");
-    entries.push({
-      name: lastSlash === -1 ? relativePath : relativePath.slice(lastSlash + 1),
-      path: `${prefix}${pathPart}`,
-      relativePath,
-      type: line.slice(0, tabAt) === "directory" ? "directory" : "file",
+  for (const line of lines) {
+    if (!line) {
+      continue;
+    }
+    const tabIndex = line.indexOf("\t");
+    if (tabIndex < 0) {
+      continue;
+    }
+
+    const typeStr = line.slice(0, tabIndex);
+    const relPath = decodePath(line.slice(tabIndex + 1));
+    const fullSubPath = isWindows ? relPath.split("/").join("\\") : relPath;
+
+    result.push({
+      name: resolveLeafName(relPath),
+      path: `${prefix}${fullSubPath}`,
+      relativePath: relPath,
+      type: typeStr === "directory" ? "directory" : "file",
     });
   }
 
-  return entries;
+  return result;
 }
