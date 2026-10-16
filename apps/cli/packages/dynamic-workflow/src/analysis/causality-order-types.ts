@@ -2,7 +2,8 @@
 
 import type ts from "typescript";
 import type { ScriptLoc } from "../compiler/compile.js";
-import type { TaintOcc, ApplicationVia } from "./domain.js";
+import type { TaintOcc } from "./domain.js";
+import type { ApplicationVia } from "./state.js";
 import type { TraceRegionKind, JumpKind } from "./constants.js";
 
 export interface OrderOracle {

@@ -10,14 +10,14 @@
 
 全包 53 个重写文件按依赖关系与功能阶段分为 6 个执行簇。两个 `unreviewed` 分类文件（`analysis/operators.ts` 与 `analysis/placeholder-resolution.ts`）不在此范围，新代码按相对路径正常消费。
 
-| 簇 | 覆盖模块（53 个目标） | 职责与设计思路 | 覆盖条目 |
-|---|---|---|---|
-| **C1 编译基底与契约类型** | `compiler/compile.ts`、`analysis/constants.ts`、`analysis/artifact-types.ts`、`analysis/causality-graph-types.ts`、`analysis/causality-order-types.ts`、`analysis/types.ts` | 内存虚拟 TS 编译环境、前缀包装与坐标映射、环境修饰符改写、核心类型与常量表 | B1, B3, B7, B18, B19 |
-| **C2 站点收集与作者检查** | `analysis/sites.ts`、`analysis/sites-labels.ts`、`analysis/facade-misuse.ts`、`analysis/world-run.ts`、`analysis/phases.ts`、`analysis/actor-names.ts`、`analysis/artifacts.ts` | AST 单趟站点识别、facade 逃逸检查 (9001)、命令字面量检查 (9003)、阶段标记检查 (9004)、actor 重名检查 (9005/9006)、产物合法性与声明提取 (9007/9008/9009) | B4, B5, B6, B7, B8, B15 |
-| **C3 抽象解释与污点追踪** | `analysis/domain.ts`、`analysis/state.ts`、`analysis/heap-ops.ts`、`analysis/literals.ts`、`analysis/patterns.ts`、`analysis/assign.ts`、`analysis/calls.ts`、`analysis/control-flow.ts`、`analysis/array-methods.ts`、`analysis/callbacks.ts`、`analysis/classes.ts`、`analysis/promise-ops.ts`、`analysis/relays.ts`、`analysis/taint.ts`、`analysis/interpret.ts` | 基于环境帧与虚拟堆的抽象解释器，符号值传播、控制流分支合并、Promise 与数组高阶函数展开、数据流与 actor 绑定污点事实生成 | B4, B9 |
-| **C4 核心表示与确定性序列化** | `analysis/core.ts`、`analysis/core-json.ts`、`analysis/serialize.ts` | `AnalysisCore` 事实组装、ASCII/规范序排序、无歧义文本序列化器、JSON 往返无损编解码 | B9, B10, B17 |
-| **C5 因果偏序分析与传递归约** | `analysis/causality-reduce.ts`、`analysis/causality-order-state.ts`、`analysis/causality-order-calls.ts`、`analysis/causality-order-functions.ts`、`analysis/causality-order-loops.ts`、`analysis/causality-order-settle.ts`、`analysis/causality-order-strands.ts`、`analysis/causality-order-walk.ts`、`analysis/causality-order.ts` | 异步时序轨迹步序解析、Barrier 结清规则、循环 carry 边分析、多源可达性贪心不可约传递归约 | B7, B12 |
-| **C6 投影图谱、渲染与总入口** | `analysis/graph.ts`、`analysis/actor-graph.ts`、`analysis/causality-graph-lanes.ts`、`analysis/causality-graph.ts`、`analysis/phase-graph.ts`、`analysis/flow-tree.ts`、`analysis/flow-strands.ts`、`analysis/flow-phase.ts`、`analysis/flow-graph.ts`、`analysis/handoff-graph.ts`、`analysis/fanout-cardinality.ts`、`analysis/mermaid.ts`、`analysis/analyze.ts` | 从 Core 纯投影生成 SiteGraph、ActorGraph、CausalityGraph、ControlFlowGraph、HandoffGraph；Mermaid 渲染；`analyzeWorkflowScript` 总管线短路与组装 | B2, B4, B6, B7, B11, B13, B14, B15, B16 |
+| 簇                            | 覆盖模块（53 个目标）                                                                                                                                                                                                                                                                                                                                                | 职责与设计思路                                                                                                                                          | 覆盖条目                                |
+| ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------- |
+| **C1 编译基底与契约类型**     | `compiler/compile.ts`、`analysis/constants.ts`、`analysis/artifact-types.ts`、`analysis/causality-graph-types.ts`、`analysis/causality-order-types.ts`、`analysis/types.ts`                                                                                                                                                                                          | 内存虚拟 TS 编译环境、前缀包装与坐标映射、环境修饰符改写、核心类型与常量表                                                                              | B1, B3, B7, B18, B19                    |
+| **C2 站点收集与作者检查**     | `analysis/sites.ts`、`analysis/sites-labels.ts`、`analysis/facade-misuse.ts`、`analysis/world-run.ts`、`analysis/phases.ts`、`analysis/actor-names.ts`、`analysis/artifacts.ts`                                                                                                                                                                                      | AST 单趟站点识别、facade 逃逸检查 (9001)、命令字面量检查 (9003)、阶段标记检查 (9004)、actor 重名检查 (9005/9006)、产物合法性与声明提取 (9007/9008/9009) | B4, B5, B6, B7, B8, B15                 |
+| **C3 抽象解释与污点追踪**     | `analysis/domain.ts`、`analysis/state.ts`、`analysis/heap-ops.ts`、`analysis/literals.ts`、`analysis/patterns.ts`、`analysis/assign.ts`、`analysis/calls.ts`、`analysis/control-flow.ts`、`analysis/array-methods.ts`、`analysis/callbacks.ts`、`analysis/classes.ts`、`analysis/promise-ops.ts`、`analysis/relays.ts`、`analysis/taint.ts`、`analysis/interpret.ts` | 基于环境帧与虚拟堆的抽象解释器，符号值传播、控制流分支合并、Promise 与数组高阶函数展开、数据流与 actor 绑定污点事实生成                                 | B4, B9                                  |
+| **C4 核心表示与确定性序列化** | `analysis/core.ts`、`analysis/core-json.ts`、`analysis/serialize.ts`                                                                                                                                                                                                                                                                                                 | `AnalysisCore` 事实组装、ASCII/规范序排序、无歧义文本序列化器、JSON 往返无损编解码                                                                      | B9, B10, B17                            |
+| **C5 因果偏序分析与传递归约** | `analysis/causality-reduce.ts`、`analysis/causality-order-state.ts`、`analysis/causality-order-calls.ts`、`analysis/causality-order-functions.ts`、`analysis/causality-order-loops.ts`、`analysis/causality-order-settle.ts`、`analysis/causality-order-strands.ts`、`analysis/causality-order-walk.ts`、`analysis/causality-order.ts`                               | 异步时序轨迹步序解析、Barrier 结清规则、循环 carry 边分析、多源可达性贪心不可约传递归约                                                                 | B7, B12                                 |
+| **C6 投影图谱、渲染与总入口** | `analysis/graph.ts`、`analysis/actor-graph.ts`、`analysis/causality-graph-lanes.ts`、`analysis/causality-graph.ts`、`analysis/phase-graph.ts`、`analysis/flow-tree.ts`、`analysis/flow-strands.ts`、`analysis/flow-phase.ts`、`analysis/flow-graph.ts`、`analysis/handoff-graph.ts`、`analysis/fanout-cardinality.ts`、`analysis/mermaid.ts`、`analysis/analyze.ts`  | 从 Core 纯投影生成 SiteGraph、ActorGraph、CausalityGraph、ControlFlowGraph、HandoffGraph；Mermaid 渲染；`analyzeWorkflowScript` 总管线短路与组装        | B2, B4, B6, B7, B11, B13, B14, B15, B16 |
 
 ---
 
@@ -50,6 +50,7 @@ flowchart TD
 ```
 
 ### 顺序与短路不变量
+
 1. **诊断次序保证**：TS 句法诊断 → TS 语义诊断 → facade-misuse (9001) → 作者期检查 (9003, 9007-9009, 9004, 9005, 9006)。
 2. **两级短路**：
    - 第一级：编译诊断非空，直接返回，不提取产物清单，不生成图。
@@ -83,28 +84,28 @@ flowchart TD
 
 ## 5. B 项落点映射（条目 → 实现模块）
 
-| 条目 | 契约规定行为 | 实现落点模块 | 核心逻辑与校验点 |
-|---|---|---|---|
-| **B1** | 诊断位置映射回作者坐标，剥离 prelude 行 | `compiler/compile.ts` | 包装 `async function __workflowScript() { ... }` 恰好占据第 1 行；`toScriptLoc` 计算 1-based 行列偏移 |
-| **B2** | 诊断顺序与短路：编译 → misuse → 作者期 | `analysis/analyze.ts` | 逐级检查 `diagnostics.length` 与 `misuse.length`，严格保证错误短路次序 |
-| **B3** | 环境修饰符消息改写 (declare/export TS1184) | `compiler/compile.ts` | 针对顶层 TS1184 消息替换为 "The \`declare\` modifier is not allowed..." / "\`export\` is not allowed..." |
-| **B4** | 分析管线短路与扣图规则 | `analysis/analyze.ts` | 编译/misuse 失败时 `declaredArtifacts: []` 且无图；作者检查失败时不产出图 |
-| **B5** | 产物清单在作者期诊断下照常给出 | `analysis/analyze.ts`, `analysis/artifacts.ts` | 作者期即使存在 9003 等诊断，`declaredArtifacts` 依然从站点表中解析给出 |
-| **B6** | 9006 唯一不扣图的诊断规则 | `analysis/analyze.ts` | `withholding = authoring.filter(d => d.code !== 9006)`，仅 9006 时保留全部图 |
-| **B7** | 编译期常量与错误码数值即契约 | `analysis/constants.ts` 等 | 冻结 9001-9009 常量、`FANOUT_EXPAND_CAP=8`、`FLOW_ENTRY="entry"`、`SINK_ID="sink"` 等 |
-| **B8** | 产物 id 字符集正则与数量上限 | `analysis/artifacts.ts` | 正则 `^[A-Za-z0-9_.-]+$`，长度不超过 64，单次运行上限 32 个 |
-| **B9** | 确定性输出（同一脚本两次分析逐字节一致） | `analysis/serialize.ts`, `analysis/core.ts` | 避免任何随宿主环境波动的逻辑；Map 与集合一律按严格规则排序输出 |
-| **B10** | Core JSON 往返无损序列化 | `analysis/core-json.ts` | Map 展开为有序 `[k, v][]`，往返反序列化后 `serializeCore` 结果逐字节一致 |
-| **B11** | projections 桶与根桶投影同源 | `analysis/causality-graph.ts`, `analysis/graph.ts` | 图投影仅依赖 `AnalysisCore`，projections 桶重投影与 analyze 内建输出一致 |
-| **B12** | reduceOrdering 贪心不可约归约 | `analysis/causality-reduce.ts` | 自环保留，空输入返回空数组，按强度序与可达性做传递闭包消减 |
-| **B13** | Mermaid 渲染器输出确定且非空 | `analysis/mermaid.ts` | 五类图导出确定的 Mermaid 语法文本，图例节点统一格式 |
-| **B14** | 入口导出面与历史记录严格一致 | `src/index.ts`, `src/projections.ts` | 运行时 84 + 32 个导出符号名与 `fixtures/entry-exports.json` 完全匹配 |
-| **B15** | collectSites / collectWorldRunCommands 等公开面 | `analysis/sites.ts`, `analysis/world-run.ts` | 导出收集函数，`world.run` 首参字面量收集去重排序；9005 函数不从入口导出 |
-| **B16** | 空脚本与纯逻辑脚本合法支持 | `analysis/analyze.ts` | 无站点脚本输出 `ok: true`，诊断空，core 存在，因果图序列化为空 |
-| **B17** | ASCII 键排序的 locale 独立性 | `analysis/core.ts`, `analysis/serialize.ts` | 站点排序与事实分组采用标准的 ASCII 序比较，不受运行环境 locale 影响 |
-| **B18** | 模块路径兼容面（55 个源文件存在） | 全包 55 个模块文件 | 53 个重写目标 + 2 个 unreviewed，在源码目录中全部存在且导出完备 |
-| **B19** | dist 产物存在（构建后 55 个 js/d.ts） | 构建产物层 | `tsc` 构建产出完整的 55 个 `.js` 与 `.d.ts` 对应产物 |
-| **B20** | 桩面一致性 | `stubs/` (退役前) | 桩结构在合同阶段锁定，替换完成最后步骤予以清理 |
+| 条目    | 契约规定行为                                    | 实现落点模块                                       | 核心逻辑与校验点                                                                                         |
+| ------- | ----------------------------------------------- | -------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| **B1**  | 诊断位置映射回作者坐标，剥离 prelude 行         | `compiler/compile.ts`                              | 包装 `async function __workflowScript() { ... }` 恰好占据第 1 行；`toScriptLoc` 计算 1-based 行列偏移    |
+| **B2**  | 诊断顺序与短路：编译 → misuse → 作者期          | `analysis/analyze.ts`                              | 逐级检查 `diagnostics.length` 与 `misuse.length`，严格保证错误短路次序                                   |
+| **B3**  | 环境修饰符消息改写 (declare/export TS1184)      | `compiler/compile.ts`                              | 针对顶层 TS1184 消息替换为 "The \`declare\` modifier is not allowed..." / "\`export\` is not allowed..." |
+| **B4**  | 分析管线短路与扣图规则                          | `analysis/analyze.ts`                              | 编译/misuse 失败时 `declaredArtifacts: []` 且无图；作者检查失败时不产出图                                |
+| **B5**  | 产物清单在作者期诊断下照常给出                  | `analysis/analyze.ts`, `analysis/artifacts.ts`     | 作者期即使存在 9003 等诊断，`declaredArtifacts` 依然从站点表中解析给出                                   |
+| **B6**  | 9006 唯一不扣图的诊断规则                       | `analysis/analyze.ts`                              | `withholding = authoring.filter(d => d.code !== 9006)`，仅 9006 时保留全部图                             |
+| **B7**  | 编译期常量与错误码数值即契约                    | `analysis/constants.ts` 等                         | 冻结 9001-9009 常量、`FANOUT_EXPAND_CAP=8`、`FLOW_ENTRY="entry"`、`SINK_ID="sink"` 等                    |
+| **B8**  | 产物 id 字符集正则与数量上限                    | `analysis/artifacts.ts`                            | 正则 `^[A-Za-z0-9_.-]+$`，长度不超过 64，单次运行上限 32 个                                              |
+| **B9**  | 确定性输出（同一脚本两次分析逐字节一致）        | `analysis/serialize.ts`, `analysis/core.ts`        | 避免任何随宿主环境波动的逻辑；Map 与集合一律按严格规则排序输出                                           |
+| **B10** | Core JSON 往返无损序列化                        | `analysis/core-json.ts`                            | Map 展开为有序 `[k, v][]`，往返反序列化后 `serializeCore` 结果逐字节一致                                 |
+| **B11** | projections 桶与根桶投影同源                    | `analysis/causality-graph.ts`, `analysis/graph.ts` | 图投影仅依赖 `AnalysisCore`，projections 桶重投影与 analyze 内建输出一致                                 |
+| **B12** | reduceOrdering 贪心不可约归约                   | `analysis/causality-reduce.ts`                     | 自环保留，空输入返回空数组，按强度序与可达性做传递闭包消减                                               |
+| **B13** | Mermaid 渲染器输出确定且非空                    | `analysis/mermaid.ts`                              | 五类图导出确定的 Mermaid 语法文本，图例节点统一格式                                                      |
+| **B14** | 入口导出面与历史记录严格一致                    | `src/index.ts`, `src/projections.ts`               | 运行时 84 + 32 个导出符号名与 `fixtures/entry-exports.json` 完全匹配                                     |
+| **B15** | collectSites / collectWorldRunCommands 等公开面 | `analysis/sites.ts`, `analysis/world-run.ts`       | 导出收集函数，`world.run` 首参字面量收集去重排序；9005 函数不从入口导出                                  |
+| **B16** | 空脚本与纯逻辑脚本合法支持                      | `analysis/analyze.ts`                              | 无站点脚本输出 `ok: true`，诊断空，core 存在，因果图序列化为空                                           |
+| **B17** | ASCII 键排序的 locale 独立性                    | `analysis/core.ts`, `analysis/serialize.ts`        | 站点排序与事实分组采用标准的 ASCII 序比较，不受运行环境 locale 影响                                      |
+| **B18** | 模块路径兼容面（55 个源文件存在）               | 全包 55 个模块文件                                 | 53 个重写目标 + 2 个 unreviewed，在源码目录中全部存在且导出完备                                          |
+| **B19** | dist 产物存在（构建后 55 个 js/d.ts）           | 构建产物层                                         | `tsc` 构建产出完整的 55 个 `.js` 与 `.d.ts` 对应产物                                                     |
+| **B20** | 桩面一致性                                      | `stubs/` (退役前)                                  | 桩结构在合同阶段锁定，替换完成最后步骤予以清理                                                           |
 
 ---
 
