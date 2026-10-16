@@ -39,59 +39,69 @@ import type {
   CompactAttemptOutcome,
   ReactiveCompactLoopContext,
 } from "./m02-loop-state.js";
-import { assignKeys, phrase, putIf, report } from "./m02-record.js";
+import { layer, report } from "./m02-record.js";
 import { findLatestCommittedAssistantUsage } from "./m02-step-usage.js";
 
-const FAIL_TEXT = phrase(["Compact ", "failed"]);
-const FAIL_EVENT = phrase(["compact.", "failed"]);
-const MANUAL_STARTED = phrase(["Compact ", "started"]);
-const MANUAL_STARTED_EVENT = phrase(["compact.", "started"]);
-const MANUAL_DONE = phrase(["Compact ", "completed"]);
-const MANUAL_DONE_EVENT = phrase(["compact.", "completed"]);
-const AUTO_SKIPPED = phrase(["Auto compact ", "skipped"]);
-const AUTO_SKIPPED_EVENT = phrase(["compact.auto.", "skipped"]);
-const AUTO_REFILL = phrase(["Autocompact ", "rapid-refill breaker tripped"]);
-const AUTO_REFILL_EVENT = phrase(["compact.", "rapid_refill_breaker"]);
-const AUTO_STARTED = phrase(["Auto compact ", "started"]);
-const AUTO_STARTED_EVENT = phrase(["compact.auto.", "started"]);
-const AUTO_DONE = phrase(["Auto compact ", "completed"]);
-const AUTO_DONE_EVENT = phrase(["compact.auto.", "completed"]);
-const AUTO_FAILED = phrase(["Auto compact ", "failed"]);
-const AUTO_FAILED_EVENT = phrase(["compact.auto.", "failed"]);
-const REACTIVE_DISABLED = phrase(["Reactive compact skipped because ", "compact is disabled"]);
-const REACTIVE_SHORT = phrase(["Reactive compact skipped because ", "there is not enough history"]);
-const REACTIVE_SKIPPED_EVENT = phrase(["compact.reactive.", "skipped"]);
-const REACTIVE_STARTED = phrase(["Reactive compact started ", "after model context overflow"]);
-const REACTIVE_STARTED_EVENT = phrase(["compact.reactive.", "started"]);
-const REACTIVE_DONE = phrase(["Reactive compact completed; ", "retrying model request"]);
-const REACTIVE_DONE_EVENT = phrase(["compact.reactive.", "completed"]);
-const REACTIVE_FAILED = phrase(["Reactive compact failed ", "after model context overflow"]);
-const REACTIVE_FAILED_EVENT = phrase(["compact.reactive.", "failed"]);
+const RUNTIME_MODULE = "core.runtime";
+const FAIL_TEXT = "Compact failed";
+
+type NoticeLevel = "debug" | "info" | "warn";
+type CompactNotice = { level: NoticeLevel; message: string; event: string };
+
+// 压缩日志只在文案、事件名和级别上不同，字段骨架由 observe 补齐。
+const NOTICE = {
+  manualStarted: { level: "info", message: "Compact started", event: "compact.started" },
+  manualDone: { level: "info", message: "Compact completed", event: "compact.completed" },
+  autoSkipped: { level: "debug", message: "Auto compact skipped", event: "compact.auto.skipped" },
+  autoRefill: {
+    level: "warn",
+    message: "Autocompact rapid-refill breaker tripped",
+    event: "compact.rapid_refill_breaker",
+  },
+  autoStarted: { level: "info", message: "Auto compact started", event: "compact.auto.started" },
+  autoDone: { level: "info", message: "Auto compact completed", event: "compact.auto.completed" },
+  autoFailed: { level: "warn", message: "Auto compact failed", event: "compact.auto.failed" },
+  reactiveSkipped: { level: "warn", message: "", event: "compact.reactive.skipped" },
+  reactiveStarted: {
+    level: "warn",
+    message: "Reactive compact started after model context overflow",
+    event: "compact.reactive.started",
+  },
+  reactiveDone: {
+    level: "info",
+    message: "Reactive compact completed; retrying model request",
+    event: "compact.reactive.completed",
+  },
+  reactiveFailed: {
+    level: "warn",
+    message: "Reactive compact failed after model context overflow",
+    event: "compact.reactive.failed",
+  },
+  manualFailed: { level: "warn", message: FAIL_TEXT, event: "compact.failed" },
+} as const satisfies Record<string, CompactNotice>;
+
+const REACTIVE_DISABLED = "Reactive compact skipped because compact is disabled";
+const REACTIVE_SHORT = "Reactive compact skipped because there is not enough history";
 
 type MessageList = RunModelTextRequestOptions["messages"];
 type EntryList = readonly (RuntimeMessageEntry | undefined)[];
 
-function pile<T>(parts: ReadonlyArray<object | null | undefined>): T {
-  const bag: Record<string, unknown> = {};
-  for (const part of parts) {
-    if (part == null) continue;
-    const names = Object.keys(part);
-    for (const name of names) bag[name] = Reflect.get(part, name);
-  }
-  return bag as T;
+function observe(trace: TraceContext, detail: object): Record<string, unknown> {
+  return layer(traceContextToLogContext(trace), detail, { module: RUNTIME_MODULE });
 }
 
-function observe(trace: TraceContext, fields: object): Record<string, unknown> {
-  return pile([traceContextToLogContext(trace), fields, assignKeys([["module", "core.runtime"]])]);
+function notify(
+  runtime: AgentRuntimeInternal,
+  notice: CompactNotice,
+  trace: TraceContext,
+  detail: object,
+) {
+  report(runtime, notice.level, notice.message, observe(trace, detail));
 }
 
 function faultText(problem: unknown): string {
   if (problem instanceof Error) return problem.message;
   return String(problem);
-}
-
-function tag<T extends string>(value: T): T {
-  return value;
 }
 
 function bumpFailures(runtime: AgentRuntimeInternal): number {
@@ -119,20 +129,22 @@ function providerOverride(
   if (latest === undefined) return undefined;
   const cursor = latest.messageIndex;
   if (cursor >= messages.length) return undefined;
-  const baseline = latest.baseline;
-  const origin = incrementalOrigin(cursor, baseline.contextUsageTokens);
-  const added = estimateMessageTokens(messages.slice(origin));
-  const base = baseline.contextUsageTokens ?? baseline.inputTokens;
-  return assignKeys<AutoCompactTokenOverride>([
-    ["baseTokenCount", base],
-    ["cacheReadTokens", baseline.cacheReadTokens],
-    ["cacheWriteTokens", baseline.cacheWriteTokens],
-    ["contextUsageTokenCount", baseline.contextUsageTokens],
-    ["incrementalTokenCount", added],
-    ["outputTokens", baseline.outputTokens],
-    ["source", "provider_usage"],
-    ["tokenCount", base + added],
-  ]);
+  const { cacheReadTokens, cacheWriteTokens, contextUsageTokens, inputTokens, outputTokens } =
+    latest.baseline;
+  const origin = incrementalOrigin(cursor, contextUsageTokens);
+  const incrementalTokenCount = estimateMessageTokens(messages.slice(origin));
+  const baseTokenCount = contextUsageTokens ?? inputTokens;
+  const source = "provider_usage" as const;
+  return {
+    baseTokenCount,
+    cacheReadTokens,
+    cacheWriteTokens,
+    contextUsageTokenCount: contextUsageTokens,
+    incrementalTokenCount,
+    outputTokens,
+    source,
+    tokenCount: baseTokenCount + incrementalTokenCount,
+  };
 }
 
 function projectActive(
@@ -140,28 +152,20 @@ function projectActive(
   entries: readonly RuntimeMessageEntry[],
   model: Model,
 ) {
-  return buildRuntimeProviderRequestMessages(
-    runtime,
-    assignKeys([
-      ["entries", entries],
-      ["applyCacheControl", false],
-      ["model", model],
-    ]),
-  );
+  const applyCacheControl = false;
+  return buildRuntimeProviderRequestMessages(runtime, { entries, applyCacheControl, model });
 }
 
 function policyConfig(runtime: AgentRuntimeInternal, model: Model): AutoCompactPolicyConfig {
-  const cap = resolveNormalRequestMaxOutputTokens(
-    assignKeys([["modelMaxOutputTokens", model.optionSpecs.maxOutputTokens.max]]),
-  );
-  return pile<AutoCompactPolicyConfig>([
-    assignKeys([["contextWindow", model.properties.contextWindow]]),
-    runtime.config.compact,
-    assignKeys([
-      ["maxOutputTokens", cap],
-      ["modelContextBudgetStrategy", runtime.config.modelContextBudgetStrategy],
-    ]),
-  ]);
+  const cap = resolveNormalRequestMaxOutputTokens({
+    modelMaxOutputTokens: model.optionSpecs.maxOutputTokens.max,
+  });
+  const { contextWindow } = model.properties;
+  const { compact, modelContextBudgetStrategy } = runtime.config;
+  return layer<AutoCompactPolicyConfig>({ contextWindow }, compact, {
+    maxOutputTokens: cap,
+    modelContextBudgetStrategy,
+  });
 }
 
 function flooredWindow(raw: number | undefined): number {
@@ -172,17 +176,16 @@ function flooredWindow(raw: number | undefined): number {
 
 function manualOptions(
   signal: AbortSignal | undefined,
-  commandId: string | undefined,
+  sourceCommandId: string | undefined,
   selected: Model | undefined,
 ) {
-  const options = assignKeys<Record<string, unknown>>([
-    ["abortSignal", signal],
-    ["compactReason", CompactReason.UserRequested],
-    ["phase", CompactPhase.StandaloneTurn],
-  ]);
-  putIf(options, "sourceCommandId", commandId, Boolean(commandId));
-  putIf(options, "model", selected, Boolean(selected));
-  return options;
+  const compactReason = CompactReason.UserRequested;
+  const phase = CompactPhase.StandaloneTurn;
+  return layer(
+    { abortSignal: signal, compactReason, phase },
+    sourceCommandId ? { sourceCommandId } : undefined,
+    selected ? { model: selected } : undefined,
+  );
 }
 
 export function estimateCurrentModelInputTokens(
@@ -209,28 +212,20 @@ export async function executeManualCompact(
   const activeTurn = runtime.beginActiveTurn(turn, trace, "compact", false);
   const elapsed = () => Date.now() - startedAt;
   const body = async (): Promise<TurnResult> => {
-    report(
-      runtime,
-      "info",
-      MANUAL_STARTED,
-      observe(
-        trace,
-        assignKeys([
-          ["event", MANUAL_STARTED_EVENT],
-          ["inputLength", rawInput.length],
-          ["status", "started"],
-        ]),
-      ),
-    );
+    const inputLength = rawInput.length;
+    notify(runtime, NOTICE.manualStarted, trace, {
+      event: NOTICE.manualStarted.event,
+      inputLength,
+      status: "started",
+    });
     await runtime.ensureSessionPersisted(rawInput, trace);
+    const turnNumber = runtime.turnNumber;
+    const input = rawInput;
+    const inputId = commandId;
+    const inputVisibility = "model-only";
     const opened = runtime.createEvent(
       SessionEventType.TurnStarted,
-      assignKeys([
-        ["turnNumber", runtime.turnNumber],
-        ["input", rawInput],
-        ["inputId", commandId],
-        ["inputVisibility", "model-only"],
-      ]),
+      { turnNumber, input, inputId, inputVisibility },
       trace,
     );
     await runtime.appendEvent(opened, trace);
@@ -245,91 +240,92 @@ export async function executeManualCompact(
       );
       throwIfTurnAborted(signal);
       const turnUsage = createModelUsageSummaryFromEvents(events);
+      const response = compactResult.displayText;
+      const tokenCount = compactResult.tokenCount;
+      const usage = turnUsage;
+      const toolCallCount = 0;
+      const historyRoundCount = 1;
+      const duration = elapsed();
+      const resultType = "success";
+      const cacheStats = runtime.messageHistory.getCacheStats();
       const finished = runtime.createEvent(
         SessionEventType.TurnComplete,
-        assignKeys([
-          ["response", compactResult.displayText],
-          ["tokenCount", compactResult.tokenCount],
-          ["usage", turnUsage],
-          ["toolCallCount", 0],
-          ["historyRoundCount", 1],
-          ["duration", elapsed()],
-          ["resultType", "success"],
-          ["cacheStats", runtime.messageHistory.getCacheStats()],
-          ["inputId", commandId],
-        ]),
+        {
+          response,
+          tokenCount,
+          usage,
+          toolCallCount,
+          historyRoundCount,
+          duration,
+          resultType,
+          cacheStats,
+          inputId,
+        },
         trace,
       );
       await runtime.appendEvent(finished, trace);
       events.push(finished);
-      await recordTurnUsageFact(
-        runtime,
-        assignKeys([
-          ["completedAt", Date.now()],
-          ["events", events],
-          ["startedAt", startedAt],
-          ["status", "completed"],
-          ["traceContext", trace],
-          ["turnId", turn],
-        ]),
-      );
+      const completedAt = Date.now();
+      const status = "completed";
+      const traceContext = trace;
+      const turnId = turn;
+      await recordTurnUsageFact(runtime, {
+        completedAt,
+        events,
+        startedAt,
+        status,
+        traceContext,
+        turnId,
+      });
       runtime.turnNumber += 1;
       const projection = await runtime.rebuildProjection();
-      report(
-        runtime,
-        "info",
-        MANUAL_DONE,
-        observe(
-          trace,
-          assignKeys([
-            ["durationMs", elapsed()],
-            ["event", MANUAL_DONE_EVENT],
-            ["status", "completed"],
-          ]),
-        ),
-      );
-      return assignKeys<TurnResult>([
-        ["response", compactResult.displayText],
-        ["turnId", turn],
-        ["traceId", trace.traceId],
-        ["usage", turnUsage],
-        ["events", events],
-        ["projection", projection],
-      ]);
+      const durationMs = elapsed();
+      notify(runtime, NOTICE.manualDone, trace, {
+        durationMs,
+        event: NOTICE.manualDone.event,
+        status: "completed",
+      });
+      const traceId = trace.traceId;
+      return { response, turnId, traceId, usage, events, projection };
     } catch (failure) {
       const coreError = createTurnFailureError(failure, signal, FAIL_TEXT);
       const preserve =
         coreError.type === CoreErrorType.TurnCancelled &&
         runtime.activeForegroundExecution?.preserveQueueAutoDrainOnCancel === true;
       if (coreError.type === CoreErrorType.TurnCancelled && preserve === false) pauseQueue(runtime);
-      await appendTurnOutcomeEvent(
-        runtime,
-        assignKeys([
-          ["coreError", coreError],
-          ["events", events],
-          ["durationMs", elapsed()],
-          ["turnPhase", "compact"],
-          ["inputId", commandId],
-          ["traceContext", trace],
-          ["fallbackMessage", FAIL_TEXT],
-          ["logEvent", FAIL_EVENT],
-          ["logLabel", "Compact"],
-          ["preserveQueueAutoDrainOnCancel", preserve],
-        ]),
-      );
+      const durationMs = elapsed();
+      const turnPhase = "compact";
+      const inputId = commandId;
+      const traceContext = trace;
+      const fallbackMessage = FAIL_TEXT;
+      const logEvent = NOTICE.manualFailed.event;
+      const logLabel = "Compact";
+      const preserveQueueAutoDrainOnCancel = preserve;
+      await appendTurnOutcomeEvent(runtime, {
+        coreError,
+        events,
+        durationMs,
+        turnPhase,
+        inputId,
+        traceContext,
+        fallbackMessage,
+        logEvent,
+        logLabel,
+        preserveQueueAutoDrainOnCancel,
+      });
+      const completedAt = Date.now();
+      const error = coreError;
       const status = coreError.type === CoreErrorType.TurnCancelled ? "cancelled" : "error";
-      await recordTurnUsageFact(
-        runtime,
-        assignKeys([
-          ["completedAt", Date.now()],
-          ["error", coreError],
-          ["events", events],
-          ["startedAt", startedAt],
-          ["status", status],
-          ["traceContext", trace],
-          ["turnId", turn],
-        ]),
-      );
+      const turnId = turn;
+      await recordTurnUsageFact(runtime, {
+        completedAt,
+        error,
+        events,
+        startedAt,
+        status,
+        traceContext,
+        turnId,
+      });
       throw coreError;
     }
   };
@@ -349,23 +345,38 @@ function autoRequest(
   },
   activeEntries: readonly RuntimeMessageEntry[],
 ) {
-  const telemetry = assignKeys([
-    ["inputTokens", decision.tokenCount],
-    ["policyContextWindowTokens", decision.contextWindow],
-    ["thresholdTokens", decision.threshold],
-    ["tokenSource", decision.tokenSource],
-  ]);
-  const options = assignKeys<Record<string, unknown>>([
-    ["abortSignal", signal],
-    ["compactContextTelemetry", telemetry],
-    ["autoCompactThreshold", decision.threshold],
-    ["compactReason", loop.compactReason],
-    ["phase", loop.phase],
-    ["trigger", CompactTrigger.Auto],
-    ["activeEntries", activeEntries],
-  ]);
-  putIf(options, "model", loop.model, Boolean(loop.model));
-  return options;
+  const { tokenCount, contextWindow, threshold, tokenSource } = decision;
+  const compactContextTelemetry = {
+    inputTokens: tokenCount,
+    policyContextWindowTokens: contextWindow,
+    thresholdTokens: threshold,
+    tokenSource,
+  };
+  const { compactReason, phase, model } = loop;
+  const trigger = CompactTrigger.Auto;
+  const autoCompactThreshold = threshold;
+  return layer(
+    {
+      abortSignal: signal,
+      compactContextTelemetry,
+      autoCompactThreshold,
+      compactReason,
+      phase,
+      trigger,
+      activeEntries,
+    },
+    model ? { model } : undefined,
+  );
+}
+
+function autoDetail(
+  loop: AutoCompactLoopContext,
+  decisionFields: object,
+  head: object,
+  tail?: object,
+) {
+  const { compactReason, modelStepIndex, phase } = loop;
+  return layer(head, { compactReason, modelStepIndex, phase }, tail, decisionFields);
 }
 
 export async function autoCompactIfNeeded(
@@ -381,78 +392,52 @@ export async function autoCompactIfNeeded(
   const activeEntries = loop.turnRequestState.entries;
   const projection = projectActive(runtime, activeEntries, loop.model);
   const tokenOverride = providerOverride(projection.messages, projection.sourceEntries);
-  const decision = shouldAutoCompact(
-    assignKeys([
-      ["messages", projection.messages],
-      ["config", config],
-      ["consecutiveFailures", runtime.autoCompactConsecutiveFailures],
-      ["tokenOverride", tokenOverride],
-    ]),
-  );
+  const messages = projection.messages;
+  const consecutiveFailures = runtime.autoCompactConsecutiveFailures;
+  const decision = shouldAutoCompact({ messages, config, consecutiveFailures, tokenOverride });
   const decisionFields = autoCompactDecisionLogContext(decision);
   const route =
     decision.shouldCompact === false ? "skip" : loop.rapidRefill.shouldBlock ? "refill" : "run";
   if (route === "skip") {
-    report(
+    const reason = decision.reason;
+    notify(
       runtime,
-      "debug",
-      AUTO_SKIPPED,
-      observe(
-        trace,
-        pile([
-          assignKeys([
-            ["event", AUTO_SKIPPED_EVENT],
-            ["compactReason", loop.compactReason],
-            ["modelStepIndex", loop.modelStepIndex],
-            ["phase", loop.phase],
-            ["reason", decision.reason],
-          ]),
-          decisionFields,
-        ]),
-      ),
+      NOTICE.autoSkipped,
+      trace,
+      autoDetail(loop, decisionFields, { event: NOTICE.autoSkipped.event }, { reason }),
     );
-    return tag("skipped");
+    return "skipped";
   }
   if (route === "refill") {
-    report(
+    const { compactReason, modelStepIndex, phase } = loop;
+    const { consecutiveRapidRefills, toolTurnsSinceCompact } = loop.rapidRefill;
+    const status = "failed";
+    const trigger = CompactTrigger.Auto;
+    notify(
       runtime,
-      "warn",
-      AUTO_REFILL,
-      observe(
-        trace,
-        pile([
-          assignKeys([
-            ["event", AUTO_REFILL_EVENT],
-            ["compactReason", loop.compactReason],
-            ["consecutiveRapidRefills", loop.rapidRefill.consecutiveRapidRefills],
-            ["modelStepIndex", loop.modelStepIndex],
-            ["phase", loop.phase],
-            ["status", "failed"],
-            ["toolTurnsSinceCompact", loop.rapidRefill.toolTurnsSinceCompact],
-            ["trigger", CompactTrigger.Auto],
-          ]),
-          decisionFields,
-        ]),
+      NOTICE.autoRefill,
+      trace,
+      layer(
+        {
+          event: NOTICE.autoRefill.event,
+          compactReason,
+          consecutiveRapidRefills,
+          modelStepIndex,
+          phase,
+          status,
+          toolTurnsSinceCompact,
+          trigger,
+        },
+        decisionFields,
       ),
     );
-    return tag("rapid_refill_blocked");
+    return "rapid_refill_blocked";
   }
-  report(
+  notify(
     runtime,
-    "info",
-    AUTO_STARTED,
-    observe(
-      trace,
-      pile([
-        assignKeys([
-          ["event", AUTO_STARTED_EVENT],
-          ["compactReason", loop.compactReason],
-          ["modelStepIndex", loop.modelStepIndex],
-          ["phase", loop.phase],
-        ]),
-        decisionFields,
-      ]),
-    ),
+    NOTICE.autoStarted,
+    trace,
+    autoDetail(loop, decisionFields, { event: NOTICE.autoStarted.event }),
   );
   try {
     const compactResult = await runtime.compactActiveConversation(
@@ -461,50 +446,31 @@ export async function autoCompactIfNeeded(
       events,
       autoRequest(signal, loop, decision, activeEntries),
     );
-    if (compactResult.outcome === "skipped") return tag("skipped");
+    if (compactResult.outcome === "skipped") return "skipped";
     loop.turnRequestState.entries = compactResult.entries;
     runtime.autoCompactConsecutiveFailures = 0;
-    report(
+    notify(
       runtime,
-      "info",
-      AUTO_DONE,
-      observe(
-        trace,
-        pile([
-          assignKeys([
-            ["event", AUTO_DONE_EVENT],
-            ["compactReason", loop.compactReason],
-            ["modelStepIndex", loop.modelStepIndex],
-            ["phase", loop.phase],
-          ]),
-          decisionFields,
-        ]),
-      ),
+      NOTICE.autoDone,
+      trace,
+      autoDetail(loop, decisionFields, { event: NOTICE.autoDone.event }),
     );
-    return tag("compacted");
+    return "compacted";
   } catch (failure) {
     if (isTurnCancellationError(failure, signal)) throw failure;
     const failureCount = bumpFailures(runtime);
-    report(
+    const errorMessage = faultText(failure);
+    notify(
       runtime,
-      "warn",
-      AUTO_FAILED,
-      observe(
-        trace,
-        pile([
-          assignKeys([
-            ["errorMessage", faultText(failure)],
-            ["event", AUTO_FAILED_EVENT],
-            ["failureCount", failureCount],
-            ["compactReason", loop.compactReason],
-            ["modelStepIndex", loop.modelStepIndex],
-            ["phase", loop.phase],
-          ]),
-          decisionFields,
-        ]),
-      ),
+      NOTICE.autoFailed,
+      trace,
+      autoDetail(loop, decisionFields, {
+        errorMessage,
+        event: NOTICE.autoFailed.event,
+        failureCount,
+      }),
     );
-    return tag("failed");
+    return "failed";
   }
 }
 
@@ -517,25 +483,24 @@ function warnReactiveSkip(
   reason: string,
   extra?: object,
 ): CompactAttemptOutcome {
-  report(
+  const errorMessage = faultText(originalError);
+  const { modelStepIndex, rapidRefillCount } = loop;
+  notify(
     runtime,
-    "warn",
-    message,
-    observe(
-      trace,
-      pile([
-        assignKeys([
-          ["errorMessage", faultText(originalError)],
-          ["event", REACTIVE_SKIPPED_EVENT],
-          ["modelStepIndex", loop.modelStepIndex],
-          ["rapidRefillCount", loop.rapidRefillCount],
-          ["reason", reason],
-        ]),
-        extra,
-      ]),
+    { ...NOTICE.reactiveSkipped, message },
+    trace,
+    layer(
+      {
+        errorMessage,
+        event: NOTICE.reactiveSkipped.event,
+        modelStepIndex,
+        rapidRefillCount,
+        reason,
+      },
+      extra,
     ),
   );
-  return tag("skipped");
+  return "skipped";
 }
 
 export async function reactiveCompactAfterContextExceeded(
@@ -562,83 +527,60 @@ export async function reactiveCompactAfterContextExceeded(
       loop,
       REACTIVE_SHORT,
       "not_enough_messages",
-      assignKeys([["messageCount", activeMessages.length]]),
+      { messageCount: activeMessages.length },
     );
   }
   const tokenOverride = providerOverride(activeMessages, projection.sourceEntries);
-  report(
-    runtime,
-    "warn",
-    REACTIVE_STARTED,
-    observe(
-      trace,
-      assignKeys([
-        ["errorMessage", faultText(originalError)],
-        ["event", REACTIVE_STARTED_EVENT],
-        ["messageCount", activeMessages.length],
-        ["modelStepIndex", loop.modelStepIndex],
-        ["rapidRefillCount", loop.rapidRefillCount],
-        ["tokenCount", estimateMessageTokens(activeMessages)],
-      ]),
-    ),
-  );
+  const errorMessage = faultText(originalError);
+  const messageCount = activeMessages.length;
+  const { modelStepIndex, rapidRefillCount, model } = loop;
+  const tokenCount = estimateMessageTokens(activeMessages);
+  notify(runtime, NOTICE.reactiveStarted, trace, {
+    errorMessage,
+    event: NOTICE.reactiveStarted.event,
+    messageCount,
+    modelStepIndex,
+    rapidRefillCount,
+    tokenCount,
+  });
   try {
-    const inputTokens = tokenOverride?.tokenCount ?? estimateMessageTokens(activeMessages);
-    const telemetry = assignKeys([
-      ["inputTokens", inputTokens],
-      ["policyContextWindowTokens", flooredWindow(loop.model.properties.contextWindow)],
-      ["tokenSource", tokenOverride?.source ?? "estimate"],
-    ]);
-    const compactResult = await runtime.compactActiveConversation(
-      undefined,
-      trace,
-      events,
-      assignKeys([
-        ["abortSignal", signal],
-        ["compactContextTelemetry", telemetry],
-        ["compactReason", CompactReason.ProviderOverflow],
-        ["initialPromptTooLongCause", originalError],
-        ["phase", CompactPhase.Reactive],
-        ["trigger", CompactTrigger.Reactive],
-        ["activeEntries", activeEntries],
-        ["model", loop.model],
-      ]),
-    );
-    if (compactResult.outcome === "skipped") return tag("skipped");
+    const inputTokens = tokenOverride?.tokenCount ?? tokenCount;
+    const policyContextWindowTokens = flooredWindow(model.properties.contextWindow);
+    const tokenSource: "estimate" | "provider_usage" = tokenOverride?.source ?? "estimate";
+    const compactContextTelemetry = { inputTokens, policyContextWindowTokens, tokenSource };
+    const compactReason = CompactReason.ProviderOverflow;
+    const initialPromptTooLongCause = originalError;
+    const phase = CompactPhase.Reactive;
+    const trigger = CompactTrigger.Reactive;
+    const compactResult = await runtime.compactActiveConversation(undefined, trace, events, {
+      abortSignal: signal,
+      compactContextTelemetry,
+      compactReason,
+      initialPromptTooLongCause,
+      phase,
+      trigger,
+      activeEntries,
+      model,
+    });
+    if (compactResult.outcome === "skipped") return "skipped";
     loop.turnRequestState.entries = compactResult.entries;
     runtime.autoCompactConsecutiveFailures = 0;
-    report(
-      runtime,
-      "info",
-      REACTIVE_DONE,
-      observe(
-        trace,
-        assignKeys([
-          ["event", REACTIVE_DONE_EVENT],
-          ["modelStepIndex", loop.modelStepIndex],
-          ["rapidRefillCount", loop.rapidRefillCount],
-        ]),
-      ),
-    );
-    return tag("compacted");
+    notify(runtime, NOTICE.reactiveDone, trace, {
+      event: NOTICE.reactiveDone.event,
+      modelStepIndex,
+      rapidRefillCount,
+    });
+    return "compacted";
   } catch (failure) {
     if (isTurnCancellationError(failure, signal)) throw failure;
     const failureCount = bumpFailures(runtime);
-    report(
-      runtime,
-      "warn",
-      REACTIVE_FAILED,
-      observe(
-        trace,
-        assignKeys([
-          ["errorMessage", faultText(failure)],
-          ["event", REACTIVE_FAILED_EVENT],
-          ["failureCount", failureCount],
-          ["modelStepIndex", loop.modelStepIndex],
-          ["rapidRefillCount", loop.rapidRefillCount],
-        ]),
-      ),
-    );
-    return tag("failed");
+    notify(runtime, NOTICE.reactiveFailed, trace, {
+      errorMessage: faultText(failure),
+      event: NOTICE.reactiveFailed.event,
+      failureCount,
+      modelStepIndex,
+      rapidRefillCount,
+    });
+    return "failed";
   }
 }
