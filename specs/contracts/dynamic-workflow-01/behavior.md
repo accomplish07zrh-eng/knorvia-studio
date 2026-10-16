@@ -295,19 +295,19 @@
 - 日志级别：无。
 - 可测断言：`surface.test.mjs`「B19」。
 
-### B20 桩面一致性
+### B20 导出声明覆盖
 
-- 来源：`stubs/build-stubs.mjs`。
+- 来源：`interface.md` 各文件节内的 ```ts 导出声明块。v1 曾把 `stubs/` 当 oracle；v2 按计划书 M1 复盘第 4 条（core-tool-01 B88）改指声明块。
 - 输入：无。
-- 输出：`stubs/` 下 53 个桩文件与**重写目标**（55 范围文件减 2 个 unreviewed）一一对应；每个桩有 SPDX 头、import 即抛 `not implemented: dynamic-workflow-01`；`targets.txt` 列 53 个目标。
+- 输出：带导出声明块的重写目标（55 范围文件减 2 个 unreviewed）与源码侧重写目标一一对应，共 53 个；每个重写目标的源码导出名都落在该节 ```ts 块内（源码 ⊆ 合同声明）。
 - 错误语义：不适用。
 - 时序与并发：不适用。
 - 幂等：不适用。
 - 资源释放：无。
 - 平台差异：无。
-- 状态所有者：合同目录。
+- 状态所有者：合同目录的 `interface.md`。
 - 日志级别：无。
-- 可测断言：`surface.test.mjs`「B20」。
+- 可测断言：`surface.test.mjs`「B20 interface.md 导出声明块覆盖 53 个重写目标的源码导出」。
 
 ---
 
