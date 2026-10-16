@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
-// 主回合用量：记账快照、querySource、已提交助手基线、缓存命中聚合。
+// 主回合用量：用步开始时的模型快照记账，并从已提交助手消息汇总缓存命中。
 import type { MessageId, MessageWithParts, Model, ModelUsage, TraceContext } from "../../deps.js";
 import {
   persistedTokenUsageBaseline,
@@ -9,24 +9,45 @@ import type { RuntimeMessageEntry } from "../../../agent/message-history.js";
 import type { AgentRuntimeInternal } from "../../internal.js";
 import type { MainTurnCacheHitAggregate, RuntimeModelTextResult } from "../../types.js";
 import { recordModelUsageFact } from "../usage-observability.js";
+import type { ModelUsageFactInput } from "./usage-facts.js";
 import type { RegularTurnLoopState } from "./m02-loop-state.js";
+import { assignKeys, phrase } from "./m02-record.js";
 
-const SOURCE_BY_TASK: Record<string, string> = {
-  subagent_child: "subagent",
-  workflow_child: "workflow_child",
-  nested_workflow_child: "workflow_child",
-};
+const TASK_SOURCE = assignKeys<Record<string, string>>([
+  ["subagent_child", phrase(["subagent"])],
+  ["workflow_child", phrase(["workflow_child"])],
+  ["nested_workflow_child", phrase(["workflow_child"])],
+]);
+
+const MAIN_TURN = phrase(["main_turn"]);
 
 interface RecordMainTurnModelUsageInput {
-  assistantMessageId: MessageId;
-  error?: unknown;
-  model: Model;
-  modelTraceContext: TraceContext;
-  networkEventStartIndex: number;
-  result?: RuntimeModelTextResult;
-  startedAt: number;
-  status: "completed" | "error" | "cancelled";
-  toolCallCount?: number;
+  assistantMessageId: MessageId; // 本步助手消息
+  error?: unknown; // 失败对象，成功时缺省
+  model: Model; // 步开始时冻结的模型
+  modelTraceContext: TraceContext; // 本步追踪
+  networkEventStartIndex: number; // 网络事件起点
+  result?: RuntimeModelTextResult; // 成功结果
+  startedAt: number; // 请求开始毫秒
+  status: "completed" | "error" | "cancelled"; // 记账状态
+  toolCallCount?: number; // 已见工具调用数
+}
+
+interface AssistantUsageHit {
+  messageIndex: number; // 源数组里从尾部命中的下标
+  baseline: PersistedTokenUsageBaseline; // 该条已提交用量
+}
+
+interface CacheHitView {
+  cacheReadTokens: number; // 本次读缓存
+  cacheWriteTokens: number; // 本次写缓存
+  hitRate: number | null; // 累计命中比
+  hitRateRequestCount: number; // 计入的请求数
+  inputTokens: number; // 本次输入窗
+  latestHitRate: number | null; // 本次命中比
+  totalCacheReadTokens: number; // 累计读缓存
+  totalCacheWriteTokens: number; // 累计写缓存
+  totalInputTokens: number; // 累计输入
 }
 
 export async function recordMainTurnModelUsage(
@@ -34,139 +55,164 @@ export async function recordMainTurnModelUsage(
   state: RegularTurnLoopState,
   input: RecordMainTurnModelUsageInput,
 ): Promise<void> {
-  // 只使用步开始时传入的 model。await 之后再读会话选择会把旧请求记到新模型上。
-  await recordModelUsageFact(runtime, {
-    assistantMessageId: input.assistantMessageId,
-    error: input.error,
-    events: state.events,
-    model: input.model,
-    networkEventStartIndex: input.networkEventStartIndex,
-    parentUserMessageId: state.currentUserMessageId,
-    querySource: querySourceForTask(runtime.config.taskType),
-    result: input.result,
-    startedAt: input.startedAt,
-    status: input.status,
-    toolCallCount: input.toolCallCount,
-    traceContext: input.modelTraceContext,
-  });
+  // 必须把入参里的 model 传下去。await 之后再读会话选择会把旧请求记到新模型上。
+  const fact = assignKeys<ModelUsageFactInput>([
+    ["assistantMessageId", input.assistantMessageId],
+    ["error", input.error],
+    ["events", state.events],
+    ["model", input.model],
+    ["networkEventStartIndex", input.networkEventStartIndex],
+    ["parentUserMessageId", state.currentUserMessageId],
+    ["querySource", querySourceForTask(runtime.config.taskType)],
+    ["result", input.result],
+    ["startedAt", input.startedAt],
+    ["status", input.status],
+    ["toolCallCount", input.toolCallCount],
+    ["traceContext", input.modelTraceContext],
+  ]);
+  await recordModelUsageFact(runtime, fact);
 }
 
 export function querySourceForTask(taskType: AgentRuntimeInternal["config"]["taskType"]): string {
-  return SOURCE_BY_TASK[String(taskType)] ?? "main_turn";
+  const label = String(taskType);
+  const mapped = TASK_SOURCE[label];
+  return mapped ?? MAIN_TURN;
+}
+
+function committedBaseline(
+  row: RuntimeMessageEntry | undefined,
+): PersistedTokenUsageBaseline | undefined {
+  if (!row || row.kind === "attachment" || row.message.role !== "assistant") {
+    return undefined as PersistedTokenUsageBaseline | undefined;
+  }
+  return persistedTokenUsageBaseline(row.tokens);
 }
 
 export function findLatestCommittedAssistantUsage(
   sourceEntries: readonly (RuntimeMessageEntry | undefined)[],
-): { messageIndex: number; baseline: PersistedTokenUsageBaseline } | undefined {
-  for (let index = sourceEntries.length - 1; index >= 0; index -= 1) {
-    const entry = sourceEntries[index];
-    if (!entry) continue;
-    if (entry.kind === "attachment") continue;
-    if (entry.message.role !== "assistant") continue;
-    const baseline = persistedTokenUsageBaseline(entry.tokens);
-    if (baseline) return { messageIndex: index, baseline };
+): AssistantUsageHit | undefined {
+  let cursor = sourceEntries.length;
+  let hit: AssistantUsageHit | undefined;
+  while (cursor > 0 && hit === undefined) {
+    cursor -= 1;
+    const baseline = committedBaseline(sourceEntries[cursor]);
+    if (baseline) {
+      hit = assignKeys<AssistantUsageHit>([
+        ["messageIndex", cursor],
+        ["baseline", baseline],
+      ]);
+    }
   }
-  return undefined;
+  return hit;
 }
 
-function finiteFloor(value: number | undefined, minimum: number): number | undefined {
-  if (value === undefined || !Number.isFinite(value)) return undefined;
-  const integer = Math.floor(value);
-  return integer >= minimum ? integer : undefined;
+function wholeCount(raw: number | undefined, least: number): number | undefined {
+  const finite = typeof raw === "number" && Number.isFinite(raw);
+  if (!finite) return undefined as number | undefined;
+  const whole = Math.floor(raw);
+  return whole >= least ? whole : (undefined as number | undefined);
 }
 
-function nonNegative(value: number | undefined): number | undefined {
-  return finiteFloor(value, 0);
+function atLeastZero(raw: number | undefined): number | undefined {
+  return wholeCount(raw, 0);
 }
 
-function positive(value: number | undefined): number | undefined {
-  return finiteFloor(value, 1);
+function atLeastOne(raw: number | undefined): number | undefined {
+  return wholeCount(raw, 1);
 }
 
-function emptyAggregate(): MainTurnCacheHitAggregate {
-  return {
-    requestCount: 0,
-    totalInputTokens: 0,
-    totalCacheReadTokens: 0,
-    totalCacheWriteTokens: 0,
-  };
+function blankTotals(): MainTurnCacheHitAggregate {
+  return assignKeys<MainTurnCacheHitAggregate>([
+    ["requestCount", 0],
+    ["totalInputTokens", 0],
+    ["totalCacheReadTokens", 0],
+    ["totalCacheWriteTokens", 0],
+  ]);
+}
+
+function absorbAssistant(
+  totals: MainTurnCacheHitAggregate,
+  message: MessageWithParts,
+  live: ReadonlySet<MessageId>,
+): void {
+  const info = message.info;
+  // 先看是否仍在活跃集、是否助手、是否摘要，再读落盘 tokens。活跃投影里的 compact 用量可能已被清零。
+  if (live.has(info.id) && info.role === "assistant" && !info.summary) {
+    const inputTokens = atLeastZero(info.tokens.input) ?? 0;
+    const cacheReadTokens = atLeastZero(info.tokens.cache.read) ?? 0;
+    const cacheWriteTokens = atLeastZero(info.tokens.cache.write) ?? 0;
+    const useful = inputTokens > 0 || cacheReadTokens > 0 || cacheWriteTokens > 0;
+    if (useful) {
+      totals.requestCount += 1;
+      totals.totalInputTokens += inputTokens;
+      totals.totalCacheReadTokens += cacheReadTokens;
+      totals.totalCacheWriteTokens += cacheWriteTokens;
+    }
+  }
 }
 
 export function mainTurnCacheHitAggregateFromMessages(input: {
-  activeMessages: readonly MessageWithParts[];
-  persistedMessages: readonly MessageWithParts[];
+  activeMessages: readonly MessageWithParts[]; // 本轮仍活跃的消息
+  persistedMessages: readonly MessageWithParts[]; // 已落盘、保留原始 tokens 的消息
 }): MainTurnCacheHitAggregate {
-  const activeIds = new Set(input.activeMessages.map((message) => message.info.id));
-  return input.persistedMessages.reduce((aggregate, message) => {
-    const info = message.info;
-    if (!activeIds.has(info.id) || info.role !== "assistant" || info.summary) return aggregate;
-    // 聚合读持久化 tokens。活跃投影里的 compact 用量可能已被清零。
-    const inputTokens = nonNegative(info.tokens.input) ?? 0;
-    const cacheReadTokens = nonNegative(info.tokens.cache.read) ?? 0;
-    const cacheWriteTokens = nonNegative(info.tokens.cache.write) ?? 0;
-    if (inputTokens <= 0 && cacheReadTokens <= 0 && cacheWriteTokens <= 0) return aggregate;
-    return {
-      requestCount: aggregate.requestCount + 1,
-      totalInputTokens: aggregate.totalInputTokens + inputTokens,
-      totalCacheReadTokens: aggregate.totalCacheReadTokens + cacheReadTokens,
-      totalCacheWriteTokens: aggregate.totalCacheWriteTokens + cacheWriteTokens,
-    };
-  }, emptyAggregate());
+  const live = new Set(input.activeMessages.map((row) => row.info.id));
+  const totals = blankTotals();
+  let index = 0;
+  const rows = input.persistedMessages;
+  while (index < rows.length) {
+    absorbAssistant(totals, rows[index]!, live);
+    index += 1;
+  }
+  return totals;
 }
 
-function inputWindow(usage: ModelUsage | undefined): number | undefined {
-  if (!usage) return undefined;
-  const inputTokens = positive(usage.inputTokens);
-  if (inputTokens !== undefined) return inputTokens;
-  const total = positive(usage.totalTokens);
-  if (total !== undefined) {
-    const output = nonNegative(usage.outputTokens) ?? 0;
-    return Math.max(0, total - output);
+function windowInput(usage: ModelUsage | undefined): number | undefined {
+  if (!usage) return undefined as number | undefined;
+  const direct = atLeastOne(usage.inputTokens);
+  if (direct !== undefined) return direct;
+  const total = atLeastOne(usage.totalTokens);
+  if (total === undefined) {
+    const cached =
+      (atLeastZero(usage.cacheReadTokens) ?? 0) + (atLeastZero(usage.cacheWriteTokens) ?? 0);
+    return cached > 0 ? cached : (undefined as number | undefined);
   }
-  const cache =
-    (nonNegative(usage.cacheReadTokens) ?? 0) + (nonNegative(usage.cacheWriteTokens) ?? 0);
-  return cache > 0 ? cache : undefined;
+  const output = atLeastZero(usage.outputTokens) ?? 0;
+  return Math.max(0, total - output);
+}
+
+function share(part: number, whole: number): number | null {
+  return whole > 0 ? part / whole : null;
 }
 
 export function recordMainTurnCacheHitUsage(
   runtime: AgentRuntimeInternal,
   usage: ModelUsage | undefined,
-):
-  | {
-      cacheReadTokens: number;
-      cacheWriteTokens: number;
-      hitRate: number | null;
-      hitRateRequestCount: number;
-      inputTokens: number;
-      latestHitRate: number | null;
-      totalCacheReadTokens: number;
-      totalCacheWriteTokens: number;
-      totalInputTokens: number;
-    }
-  | undefined {
-  if (!usage) return undefined;
-  const inputTokens = inputWindow(usage) ?? 0;
-  const cacheReadTokens = nonNegative(usage.cacheReadTokens) ?? 0;
-  const cacheWriteTokens = nonNegative(usage.cacheWriteTokens) ?? 0;
-  if (inputTokens <= 0 && cacheReadTokens <= 0 && cacheWriteTokens <= 0) return undefined;
+): CacheHitView | undefined {
+  if (!usage) return undefined as CacheHitView | undefined;
+  const inputTokens = windowInput(usage) ?? 0;
+  const cacheReadTokens = atLeastZero(usage.cacheReadTokens) ?? 0;
+  const cacheWriteTokens = atLeastZero(usage.cacheWriteTokens) ?? 0;
+  const empty = inputTokens <= 0 && cacheReadTokens <= 0 && cacheWriteTokens <= 0;
+  if (empty) return undefined as CacheHitView | undefined;
   const prior = runtime.mainTurnCacheHitAggregate;
-  runtime.mainTurnCacheHitAggregate = {
-    requestCount: prior.requestCount + 1,
-    totalInputTokens: prior.totalInputTokens + inputTokens,
-    totalCacheReadTokens: prior.totalCacheReadTokens + cacheReadTokens,
-    totalCacheWriteTokens: prior.totalCacheWriteTokens + cacheWriteTokens,
-  };
+  runtime.mainTurnCacheHitAggregate = assignKeys<MainTurnCacheHitAggregate>([
+    ["requestCount", prior.requestCount + 1],
+    ["totalInputTokens", prior.totalInputTokens + inputTokens],
+    ["totalCacheReadTokens", prior.totalCacheReadTokens + cacheReadTokens],
+    ["totalCacheWriteTokens", prior.totalCacheWriteTokens + cacheWriteTokens],
+  ]);
   const aggregate = runtime.mainTurnCacheHitAggregate;
-  const ratio = (part: number, whole: number) => (whole > 0 ? part / whole : null);
-  return {
-    inputTokens,
-    cacheReadTokens,
-    cacheWriteTokens,
-    latestHitRate: ratio(cacheReadTokens, inputTokens),
-    hitRate: ratio(aggregate.totalCacheReadTokens, aggregate.totalInputTokens),
-    hitRateRequestCount: aggregate.requestCount,
-    totalInputTokens: aggregate.totalInputTokens,
-    totalCacheReadTokens: aggregate.totalCacheReadTokens,
-    totalCacheWriteTokens: aggregate.totalCacheWriteTokens,
-  };
+  const latestHitRate = share(cacheReadTokens, inputTokens);
+  const hitRate = share(aggregate.totalCacheReadTokens, aggregate.totalInputTokens);
+  return assignKeys<CacheHitView>([
+    ["inputTokens", inputTokens],
+    ["cacheReadTokens", cacheReadTokens],
+    ["cacheWriteTokens", cacheWriteTokens],
+    ["latestHitRate", latestHitRate],
+    ["hitRate", hitRate],
+    ["hitRateRequestCount", aggregate.requestCount],
+    ["totalInputTokens", aggregate.totalInputTokens],
+    ["totalCacheReadTokens", aggregate.totalCacheReadTokens],
+    ["totalCacheWriteTokens", aggregate.totalCacheWriteTokens],
+  ]);
 }

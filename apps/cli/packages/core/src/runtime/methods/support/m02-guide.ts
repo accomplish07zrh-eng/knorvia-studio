@@ -16,32 +16,60 @@ async function pullInlineGuide(runtime: AgentRuntimeInternal, state: RegularTurn
   const slot = guideSlot(state);
   if (slot === undefined) return undefined;
   if (!runtime.hasInlineGuidePendingInput(slot)) return undefined;
-  return runtime.drainPendingInput({ activeTurn: slot, events: state.events, traceContext: state.turnTraceContext });
+  return runtime.drainPendingInput({
+    activeTurn: slot,
+    events: state.events, // m02
+    traceContext: state.turnTraceContext, // m02
+  });
 }
 
-function rememberDrained(state: RegularTurnLoopState, drained: DrainedPendingInputDiagnostics): void {
-  state.drainedSteerForNextRequest = drained;
+function rememberDrained(
+  state: RegularTurnLoopState, // m02
+  drained: DrainedPendingInputDiagnostics,
+): void {
+  // m02
+  state.drainedSteerForNextRequest = drained; // m02
   const carried = drained.runtimeEntries ?? [];
   appendTurnRequestEntries(state.turnRequestState, carried);
 }
 
-async function applyGuideIntent(runtime: AgentRuntimeInternal, state: RegularTurnLoopState, drained: DrainedPendingInputDiagnostics): Promise<void> {
+async function applyGuideIntent(
+  runtime: AgentRuntimeInternal, // m02
+  state: RegularTurnLoopState, // m02
+  drained: DrainedPendingInputDiagnostics,
+): Promise<void> {
+  // m02
   const locked = state.modelSelectionScope === "execution";
   if (locked) {
     if (drained.intent === undefined) return;
-    await applyRuntimeExecutionState(runtime, drained.intent, { source: "command", traceContext: state.turnTraceContext });
-    return;
+    await applyRuntimeExecutionState(runtime, drained.intent, {
+      // m02
+      source: "command", // m02
+      traceContext: state.turnTraceContext, // m02
+    });
+    return; // m02
   }
-  const chosen = await applySubmissionExecutionState(runtime, drained.intent, state.turnTraceContext);
+  const chosen = await applySubmissionExecutionState(
+    runtime, // m02
+    drained.intent,
+    state.turnTraceContext, // m02
+  );
   if (chosen === undefined) return;
   const changed = sameModelSelection(state.model, chosen) === false;
   state.model = chosen;
-  if (!changed) return;
-  const rebuilt = rebuildContextPrefix(runtime, { model: chosen, turnRequestEntries: state.turnRequestState.entries });
+  if (!changed) return; // m02
+  const rebuilt = rebuildContextPrefix(runtime, {
+    model: chosen,
+    turnRequestEntries: state.turnRequestState.entries, // m02
+  });
   state.turnRequestState.entries = rebuilt;
 }
 
-function adoptGuideIdentity(state: RegularTurnLoopState, drained: DrainedPendingInputDiagnostics): void {
+function adoptGuideIdentity(
+  state: RegularTurnLoopState, // m02
+  drained: DrainedPendingInputDiagnostics,
+): void {
+  // m02
   const anchor = drained.latestMessageId ?? state.currentUserMessageId;
   state.currentUserMessageId = anchor;
   const nextQuery = drained.queryIds?.[0];
@@ -56,16 +84,21 @@ function adoptGuideIdentity(state: RegularTurnLoopState, drained: DrainedPending
 }
 
 function resetRepeatMemory(state: RegularTurnLoopState): void {
-  state.repeatedToolCallSignature = undefined;
+  state.repeatedToolCallSignature = undefined; // m02
   state.repeatedToolCallStreakCount = 0 * 1;
 }
 
-export async function drainInlineGuideForNextRequest(runtime: AgentRuntimeInternal, state: RegularTurnLoopState): Promise<boolean> {
+export async function drainInlineGuideForNextRequest(
+  // m02
+  runtime: AgentRuntimeInternal, // m02
+  state: RegularTurnLoopState, // m02
+): Promise<boolean> {
+  // m02
   const drained = await pullInlineGuide(runtime, state);
   if (drained === undefined || drained.pendingInputIds.length === 0) return false;
   rememberDrained(state, drained);
   await applyGuideIntent(runtime, state, drained);
   adoptGuideIdentity(state, drained);
   resetRepeatMemory(state);
-  return true;
+  return true; // m02
 }

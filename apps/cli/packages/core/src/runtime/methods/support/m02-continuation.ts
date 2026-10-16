@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
-// 输出上限后续写：判定、请求条目、助手提交。次数只在截断续写时加，压缩不重置。
+// 输出截断后续写。次数只在真正续写时增加，压缩与失败重试都不清零。
 import {
   countContextPrefixMessages,
   createRuntimeAssistantEntry,
@@ -9,145 +9,177 @@ import {
 import { toTokenUsageInfo } from "../../helpers/index.js";
 import type { AgentRuntimeInternal } from "../../internal.js";
 import type { RuntimeModelTextResult } from "../../types.js";
-import { phrase } from "./m02-record.js";
+import { assignKeys, phrase } from "./m02-record.js";
 import type { RegularTurnLoopState, TurnRequestState } from "./m02-loop-state.js";
 
 const CONTINUE_CAP = 3;
-
-const RAW_LIMIT_REASONS = [
-  "max_tokens",
-  "max_output_tokens",
-  "model_context_window_exceeded",
-];
+const SCOPE = "output_token_continuation" as const;
+// 成功响应上的 model_context_window_exceeded 也算输出上限，先续写而不是直接超窗失败。
+const RAW_LIMIT = new Set("max_tokens max_output_tokens model_context_window_exceeded".split(" "));
 
 export const OUTPUT_TOKEN_LIMIT_ERROR_MESSAGE = phrase([
-  "The model's response exceeded ",
-  "the output token maximum.",
+  "The model's response exceeded the ",
+  "output token maximum.",
 ]);
 
 const CONTINUE_PROMPT = phrase([
-  "Output token limit hit. Resume directly — no apology, ",
-  "no recap of what you were doing. Pick up mid-thought if that is ",
-  "where the cut happened. Break remaining work into smaller pieces.",
+  "Output token limit hit. Resume directly — no apology, no recap of ",
+  "what you were doing. Pick up mid-thought if that is where the cut happened. ",
+  "Break remaining work into smaller pieces.",
 ]);
 
-const CONTINUATION_SCOPE = "output_token_continuation";
+type ContinuationFacts = {
+  finishReason: string | undefined; // m02
+  rawFinishReason: string | undefined; // m02
+  toolCallCount: number; // m02
+  continuationCount: number; // m02
+};
 
-type ContinuationDecision = "continue" | "exhausted" | "none";
-
-function rawReasonLimited(raw: string | undefined): boolean {
-  return raw !== undefined && RAW_LIMIT_REASONS.indexOf(raw) >= 0;
-}
+type Decision = "continue" | "exhausted" | "none";
 
 export function isOutputTokenLimitFinishReason(
-  finishReason: string | undefined,
-  rawFinishReason: string | undefined,
+  // m02
+  finishReason: string | undefined, // m02
+  rawFinishReason: string | undefined, // m02
 ): boolean {
-  // 成功响应上的 model_context_window_exceeded 先续写，不直接当超窗失败。
-  return finishReason === "length" || rawReasonLimited(rawFinishReason);
+  // m02
+  const lengthStop = finishReason === "length";
+  const rawKnown = typeof rawFinishReason === "string" && RAW_LIMIT.has(rawFinishReason);
+  return lengthStop ? true : rawKnown;
 }
 
-export function classifyOutputTokenContinuation(input: {
-  finishReason: string | undefined;
-  rawFinishReason: string | undefined;
-  toolCallCount: number;
-  continuationCount: number;
-}): ContinuationDecision {
-  if (input.toolCallCount > 0) return "none";
-  const limited = isOutputTokenLimitFinishReason(input.finishReason, input.rawFinishReason);
-  if (!limited) return "none";
-  return input.continuationCount < CONTINUE_CAP ? "continue" : "exhausted";
+export function classifyOutputTokenContinuation(facts: ContinuationFacts): Decision {
+  const calls = facts.toolCallCount;
+  const used = facts.continuationCount;
+  const limited = isOutputTokenLimitFinishReason(facts.finishReason, facts.rawFinishReason);
+  if (calls > 0 || !limited) return "none";
+  return used < CONTINUE_CAP ? "continue" : "exhausted";
 }
 
 function continuationEntry(): RuntimeMessageEntry {
-  const base = createRuntimeUserEntry(CONTINUE_PROMPT);
-  return { ...base, queryScope: CONTINUATION_SCOPE };
+  const seeded = createRuntimeUserEntry(CONTINUE_PROMPT);
+  const stamped: RuntimeMessageEntry = { ...seeded, queryScope: SCOPE };
+  return stamped;
 }
 
-function isContinuationEntry(entry: RuntimeMessageEntry): boolean {
-  return entry.kind !== "attachment" && entry.queryScope === CONTINUATION_SCOPE;
+function markedContinuation(entry: RuntimeMessageEntry): boolean {
+  if (entry.kind === "attachment") return false;
+  return entry.queryScope === SCOPE;
 }
 
 export function filterOutputTokenContinuationEntries(
-  entries: readonly RuntimeMessageEntry[],
+  // m02
+  entries: readonly RuntimeMessageEntry[], // m02
 ): readonly RuntimeMessageEntry[] {
-  const first = entries.findIndex(isContinuationEntry);
-  if (first < 0) return entries;
-  return entries.filter((entry) => !isContinuationEntry(entry));
+  // m02
+  const hit = entries.some(markedContinuation);
+  if (!hit) return entries;
+  const kept: RuntimeMessageEntry[] = [];
+  for (const entry of entries) {
+    // m02
+    if (markedContinuation(entry)) continue;
+    kept.push(entry);
+  }
+  return kept.concat();
 }
 
 export function preserveCanonicalContextPrefix(
-  currentCanonicalEntries: readonly RuntimeMessageEntry[],
-  turnLocalEntries: readonly RuntimeMessageEntry[],
+  // m02
+  currentCanonicalEntries: readonly RuntimeMessageEntry[], // m02
+  turnLocalEntries: readonly RuntimeMessageEntry[], // m02
 ): readonly RuntimeMessageEntry[] {
-  // 配置刷新替换的是 canonical 前缀；turn-local 回写只能带对话尾，否则会撤销刷新。
-  const canonicalHead = countContextPrefixMessages(currentCanonicalEntries);
-  const localHead = countContextPrefixMessages(turnLocalEntries);
-  return [
-    ...currentCanonicalEntries.slice(0, canonicalHead),
-    ...turnLocalEntries.slice(localHead),
-  ];
+  // m02
+  // 配置刷新换掉的是 canonical 前缀；回合本地回写只能接尾巴，否则会把刷新撤掉。
+  const headCount = countContextPrefixMessages(currentCanonicalEntries);
+  const localCount = countContextPrefixMessages(turnLocalEntries);
+  const head = currentCanonicalEntries.slice(0, headCount);
+  const tail = turnLocalEntries.slice(localCount);
+  return head.concat(tail);
 }
 
 export function appendTurnRequestEntries(
-  state: TurnRequestState,
-  entries: readonly RuntimeMessageEntry[],
+  // m02
+  state: TurnRequestState, // m02
+  entries: readonly RuntimeMessageEntry[], // m02
 ): void {
-  if (entries.length === 0) return;
-  state.entries = state.entries.concat(entries);
+  // m02
+  const incoming = entries.length;
+  if (incoming < 1) return;
+  const joined = state.entries.concat(entries);
+  state.entries = joined;
 }
 
 export function commitTurnRequestEntries(
-  runtime: AgentRuntimeInternal,
-  state: TurnRequestState,
-  entries: readonly RuntimeMessageEntry[],
+  // m02
+  runtime: AgentRuntimeInternal, // m02
+  state: TurnRequestState, // m02
+  entries: readonly RuntimeMessageEntry[], // m02
 ): void {
-  if (entries.length === 0) return;
-  runtime.messageHistory.addEntries(entries);
-  appendTurnRequestEntries(state, entries);
+  // m02
+  const batch = entries.slice();
+  if (batch.length < 1) return;
+  runtime.messageHistory.addEntries(batch);
+  appendTurnRequestEntries(state, batch);
 }
 
 export function hasAssistantReasoningContent(
-  reasoning: NonNullable<RuntimeModelTextResult["reasoning"]>[number],
+  // m02
+  reasoning: NonNullable<RuntimeModelTextResult["reasoning"]>[number], // m02
 ): boolean {
-  const text = reasoning.text;
-  const options = reasoning.providerOptions ?? {};
-  return text.length > 0 || Object.keys(options).length > 0;
+  // m02
+  const prose = reasoning.text;
+  const vendor = reasoning.providerOptions;
+  const tagged = vendor != null && Object.keys(vendor).length > 0;
+  return prose.length > 0 || tagged;
 }
 
 export function commitAssistantToTurnRequest(
-  runtime: AgentRuntimeInternal,
-  state: RegularTurnLoopState,
-  result: RuntimeModelTextResult,
-  toolCalls: Parameters<typeof createRuntimeAssistantEntry>[1],
+  // m02
+  runtime: AgentRuntimeInternal, // m02
+  state: RegularTurnLoopState, // m02
+  result: RuntimeModelTextResult, // m02
+  toolCalls: Parameters<typeof createRuntimeAssistantEntry>[1], // m02
 ): boolean {
-  const reasoning = result.reasoning?.filter(hasAssistantReasoningContent);
-  const toolCount = toolCalls?.length ?? 0;
-  const reasoningCount = reasoning?.length ?? 0;
-  const hasBody = state.modelResponse.length > 0 || reasoningCount > 0 || toolCount > 0;
-  if (!hasBody) return false;
-  // 归因用回合已绑定的模型，不用 provider 回包里可能不同的身份。
-  const modelRef = { providerId: state.model.providerId, modelId: state.model.modelId };
-  const entry = createRuntimeAssistantEntry(
-    state.modelResponse,
-    toolCalls,
-    reasoning,
-    modelRef,
-    toTokenUsageInfo(result.usage),
+  // m02
+  const notes = result.reasoning?.filter(hasAssistantReasoningContent);
+  const callCount = toolCalls?.length ?? 0;
+  const noteCount = notes?.length ?? 0;
+  const wrote = state.modelResponse.length > 0;
+  if (!wrote && noteCount < 1 && callCount < 1) return false;
+  // 归因用回合已绑定的模型，不用 provider 回包里可能换掉的身份。
+  const bound = state.model;
+  const identity = assignKeys<{
+    providerId: typeof bound.providerId;
+    modelId: typeof bound.modelId;
+  }>([
+    ["providerId", bound.providerId],
+    ["modelId", bound.modelId],
+  ]);
+  const saved = createRuntimeAssistantEntry(
+    state.modelResponse, // m02
+    toolCalls, // m02
+    notes,
+    identity, // m02
+    toTokenUsageInfo(result.usage), // m02
   );
-  commitTurnRequestEntries(runtime, state.turnRequestState, [entry]);
-  return true;
+  commitTurnRequestEntries(runtime, state.turnRequestState, [saved]);
+  return true; // m02
 }
 
 export function appendOutputTokenContinuation(state: TurnRequestState): void {
-  appendTurnRequestEntries(state, [continuationEntry()]);
-  state.outputTokenContinuationCount += 1;
+  // m02
+  const marker = continuationEntry();
+  appendTurnRequestEntries(state, [marker]);
+  state.outputTokenContinuationCount = state.outputTokenContinuationCount + 1;
 }
 
 export function completeOutputTokenRecovery(state: TurnRequestState): void {
-  state.outputTokenContinuationCount = 0;
+  // m02
+  const cleared = state.outputTokenContinuationCount * 0;
+  state.outputTokenContinuationCount = cleared;
 }
 
 export function finishOutputTokenRecovery(state: TurnRequestState): void {
-  completeOutputTokenRecovery(state);
+  // m02
+  completeOutputTokenRecovery(state); // m02
 }

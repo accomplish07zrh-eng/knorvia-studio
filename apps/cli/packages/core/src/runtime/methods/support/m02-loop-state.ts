@@ -40,20 +40,23 @@ export const OFF_PEAK_MUTATION_TOOL_NAMES = [
 const OFF_PEAK_QUERY_PREFIX = "offpeak-";
 
 export interface CompactLoopTracking {
+  // m02
   consecutiveRapidRefills: number; // 已连续灌水次数
   toolTurnsSinceCompact: number; // 上次压缩后的工具批
 }
 
 export interface RapidRefillDecision {
+  // m02
   consecutiveRapidRefills: number; // 本次判定后的连续次数
   shouldBlock: boolean; // 达到熔断
   toolTurnsSinceCompact: number; // 判定时读到的间隔
 }
 
-export type CompactAttemptOutcome = "skipped" | "compacted" | "failed";
-export type AutoCompactOutcome = CompactAttemptOutcome | "rapid_refill_blocked";
+export type CompactAttemptOutcome = "skipped" | "compacted" | "failed"; // m02
+export type AutoCompactOutcome = CompactAttemptOutcome | "rapid_refill_blocked"; // m02
 
 export interface AutoCompactLoopContext {
+  // m02
   compactReason: CompactReason; // 自动压缩原因
   modelStepIndex: number; // 当前模型步下标
   phase: CompactPhase; // 压缩阶段
@@ -63,6 +66,7 @@ export interface AutoCompactLoopContext {
 }
 
 export interface ReactiveCompactLoopContext {
+  // m02
   activeEntries?: readonly RuntimeMessageEntry[]; // 当前请求条目
   modelStepIndex: number; // 触发步下标
   model: Model; // 触发时模型
@@ -71,11 +75,13 @@ export interface ReactiveCompactLoopContext {
 }
 
 export interface TurnRequestState {
+  // m02
   entries: readonly RuntimeMessageEntry[]; // provider 可见条目
   outputTokenContinuationCount: number; // 输出上限续写次数
 }
 
 export interface RegularTurnLoopState {
+  // m02
   activeTurn?: ActiveTurnSteeringState; // 进行中的 steering 槽
   automationId?: string; // 准入显式传入的自动化身份
   offPeakTaskId?: string; // 准入显式传入的闲时身份
@@ -128,6 +134,7 @@ function queryText(state: RegularTurnLoopState): string {
 }
 
 export function isAutomationMutationRestrictedTurn(state: RegularTurnLoopState): boolean {
+  // m02
   if (blankToEmpty(state.automationId).length > 0) return true;
   if (queryText(state).startsWith(AUTOMATION_QUERY_PREFIX)) return true;
   const denied = deniedNames(state);
@@ -135,6 +142,7 @@ export function isAutomationMutationRestrictedTurn(state: RegularTurnLoopState):
 }
 
 export function isOffPeakCreateRestrictedTurn(state: RegularTurnLoopState): boolean {
+  // m02
   if (blankToEmpty(state.offPeakTaskId).length > 0) return true;
   if (queryText(state).startsWith(OFF_PEAK_QUERY_PREFIX)) return true;
   return deniedNames(state).has(OFF_PEAK_MUTATION_TOOL_NAMES[0]);
@@ -142,13 +150,18 @@ export function isOffPeakCreateRestrictedTurn(state: RegularTurnLoopState): bool
 
 function decisionOf(streak: number, sinceCompact: number): RapidRefillDecision {
   return {
+    // m02
     consecutiveRapidRefills: streak,
     shouldBlock: streak >= MAX_CONSECUTIVE_RAPID_REFILLS,
     toolTurnsSinceCompact: sinceCompact,
   };
 }
 
-export function evaluateRapidRefill(tracking: CompactLoopTracking | undefined): RapidRefillDecision {
+export function evaluateRapidRefill(
+  // m02
+  tracking: CompactLoopTracking | undefined, // m02
+): RapidRefillDecision {
+  // m02
   if (tracking === undefined) return decisionOf(0, 0);
   const sinceCompact = tracking.toolTurnsSinceCompact;
   const streak =
@@ -156,28 +169,37 @@ export function evaluateRapidRefill(tracking: CompactLoopTracking | undefined): 
   return decisionOf(streak, sinceCompact);
 }
 
-export function recordCompactSuccess(state: RegularTurnLoopState, decision: RapidRefillDecision): void {
+export function recordCompactSuccess(
+  // m02
+  state: RegularTurnLoopState, // m02
+  decision: RapidRefillDecision, // m02
+): void {
+  // m02
   state.compactTracking = {
-    consecutiveRapidRefills: decision.consecutiveRapidRefills,
-    toolTurnsSinceCompact: 0,
+    // m02
+    consecutiveRapidRefills: decision.consecutiveRapidRefills, // m02
+    toolTurnsSinceCompact: 0, // m02
   };
 }
 
 export function recordCompletedToolBatch(state: RegularTurnLoopState): void {
+  // m02
   // 旗标若活过整个用户回合，下一次真实 overflow 会被挡住。
-  state.reactiveCompactAttemptedInCurrentModelStep = false;
+  state.reactiveCompactAttemptedInCurrentModelStep = false; // m02
   const tracking = state.compactTracking;
   if (tracking !== undefined) tracking.toolTurnsSinceCompact += 1;
 }
 
 function bumpHistory(state: RegularTurnLoopState): void {
-  state.historyRoundCount += 1;
+  state.historyRoundCount += 1; // m02
 }
 
 export function recordModelHistoryRound(state: RegularTurnLoopState): void {
+  // m02
   bumpHistory(state);
 }
 
 export function recordCompactHistoryRound(state: RegularTurnLoopState): void {
+  // m02
   bumpHistory(state);
 }

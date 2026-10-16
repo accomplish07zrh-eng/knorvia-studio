@@ -49,7 +49,9 @@ export function autoCompactDecisionLogContext(decision: AutoCompactDecision) {
   ]);
 }
 
-export function buildContextHistoryEntries(contextResult: ContextBuildResult): RuntimeMessageEntry[] {
+export function buildContextHistoryEntries(
+  contextResult: ContextBuildResult,
+): RuntimeMessageEntry[] {
   const systemEntries = contextResult.systemMessages.map(
     (message): RuntimeMessageEntry => ({ message }),
   );

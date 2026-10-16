@@ -16,42 +16,42 @@
 
 公开文件只做再导出。实现放在 `runtime/methods/support/m02-*.ts`，按流水线阶段而不是按旧文件切。
 
-| 内核 | 公开门面 | 条目 |
-| --- | --- | --- |
-| `m02-loop-state.ts` | `turn-loop-state.ts` | B39 |
-| `m02-continuation.ts` | `turn-output-token-continuation.ts` | B40 |
-| `m02-context.ts` | `context-history-entries.ts`、`context-refresh.ts`、`compact-log-context.ts` | B52 侧件 |
-| `m02-turn-model.ts` | `turn-model.ts` | B38 |
-| `m02-step-usage.ts` | `turn-model-step-usage.ts` | B36 |
-| `m02-step-records.ts` | `turn-model-step-records.ts` | B34 |
-| `m02-step-shapes.ts` | `turn-model-step-fields.ts` | B35 |
-| `m02-step-recover.ts` | `turn-model-step-recovery.ts` | B37、S5 |
-| `m02-tool-parts.ts` | 元数据、名称边界、分部三态、跟进、工具用量、告警、嵌套用量 | B43–B48、B45–B47、B51 |
-| `m02-guide.ts` | `turn-guide-drain.ts` | B50 |
-| `m02-step-finish.ts` | `turn-step-finish.ts` | B41 |
-| `m02-stop.ts` | `turn-stop.ts` | B49、S4 |
-| `m02-tool-batch.ts` | `turn-tools.ts` | B42、S3 |
-| `m02-step-run.ts` | `turn-model-step.ts`、`turn-model-step-operation.ts` | B32、B33、S1、S2 |
-| `m02-compact.ts` | `compact.ts` | B52、KD-3 |
+| 内核                  | 公开门面                                                                     | 条目                  |
+| --------------------- | ---------------------------------------------------------------------------- | --------------------- |
+| `m02-loop-state.ts`   | `turn-loop-state.ts`                                                         | B39                   |
+| `m02-continuation.ts` | `turn-output-token-continuation.ts`                                          | B40                   |
+| `m02-context.ts`      | `context-history-entries.ts`、`context-refresh.ts`、`compact-log-context.ts` | B52 侧件              |
+| `m02-turn-model.ts`   | `turn-model.ts`                                                              | B38                   |
+| `m02-step-usage.ts`   | `turn-model-step-usage.ts`                                                   | B36                   |
+| `m02-step-records.ts` | `turn-model-step-records.ts`                                                 | B34                   |
+| `m02-step-shapes.ts`  | `turn-model-step-fields.ts`                                                  | B35                   |
+| `m02-step-recover.ts` | `turn-model-step-recovery.ts`                                                | B37、S5               |
+| `m02-tool-parts.ts`   | 元数据、名称边界、分部三态、跟进、工具用量、告警、嵌套用量                   | B43–B48、B45–B47、B51 |
+| `m02-guide.ts`        | `turn-guide-drain.ts`                                                        | B50                   |
+| `m02-step-finish.ts`  | `turn-step-finish.ts`                                                        | B41                   |
+| `m02-stop.ts`         | `turn-stop.ts`                                                               | B49、S4               |
+| `m02-tool-batch.ts`   | `turn-tools.ts`                                                              | B42、S3               |
+| `m02-step-run.ts`     | `turn-model-step.ts`、`turn-model-step-operation.ts`                         | B32、B33、S1、S2      |
+| `m02-compact.ts`      | `compact.ts`                                                                 | B52、KD-3             |
 
 `m02-record.ts` 只提供键序写入和日志出口，不出现在公开面。
 
 ## 2. 状态所有者
 
-| 状态 | 谁写 | 说明 |
-| --- | --- | --- |
-| `RegularTurnLoopState` | 回合循环创建；本包按条目写指定字段 | 字段表在 `m02-loop-state.ts` |
-| `modelResponse` / `modelStepCount` / `tokenCount` / `toolCallCount` | 模型步成功路 | B33 |
-| `pendingStreamRecoveryRequest` | 模型步进入请求前清空 | 一次性 |
-| `reactiveCompactAttemptedInCurrentModelStep` / `compactTracking` / 恢复后的 `turnMachine` | 反应式恢复 | B37；工具批结束时 B39 清旗标 |
-| `turnRequestState.entries` / `outputTokenContinuationCount` | 续写与 guide | B40、B50 |
-| `historyRoundCount` | 模型史、compact 史各 +1 | 并行工具不按个数计 |
-| `autoCompactConsecutiveFailures` | compact 成功归零、失败 +1 | B52 |
-| `queueAutoDrain` / `queueExternalDrainActive` | 手动 compact 取消且未要求保留时关闭 | 与 Stop 一致 |
-| 会话模型选择 | `applySubmissionExecutionState`，且 `selectionScope !== "execution"` | B38 |
-| `stableProductStartMessageId` 与 `stableBoundaryAssistantMessageId` | 确定不再 continue 时成对写入 | B49 |
-| `automationCreateLimitReached` | 工具结果 `automation_create_limit` | 之后本轮只出文本 |
-| 用量账本 | `UsageStorePort`；缺四方法则跳过；写入失败只 warn | B36、B45 |
+| 状态                                                                                      | 谁写                                                                 | 说明                         |
+| ----------------------------------------------------------------------------------------- | -------------------------------------------------------------------- | ---------------------------- |
+| `RegularTurnLoopState`                                                                    | 回合循环创建；本包按条目写指定字段                                   | 字段表在 `m02-loop-state.ts` |
+| `modelResponse` / `modelStepCount` / `tokenCount` / `toolCallCount`                       | 模型步成功路                                                         | B33                          |
+| `pendingStreamRecoveryRequest`                                                            | 模型步进入请求前清空                                                 | 一次性                       |
+| `reactiveCompactAttemptedInCurrentModelStep` / `compactTracking` / 恢复后的 `turnMachine` | 反应式恢复                                                           | B37；工具批结束时 B39 清旗标 |
+| `turnRequestState.entries` / `outputTokenContinuationCount`                               | 续写与 guide                                                         | B40、B50                     |
+| `historyRoundCount`                                                                       | 模型史、compact 史各 +1                                              | 并行工具不按个数计           |
+| `autoCompactConsecutiveFailures`                                                          | compact 成功归零、失败 +1                                            | B52                          |
+| `queueAutoDrain` / `queueExternalDrainActive`                                             | 手动 compact 取消且未要求保留时关闭                                  | 与 Stop 一致                 |
+| 会话模型选择                                                                              | `applySubmissionExecutionState`，且 `selectionScope !== "execution"` | B38                          |
+| `stableProductStartMessageId` 与 `stableBoundaryAssistantMessageId`                       | 确定不再 continue 时成对写入                                         | B49                          |
+| `automationCreateLimitReached`                                                            | 工具结果 `automation_create_limit`                                   | 之后本轮只出文本             |
+| 用量账本                                                                                  | `UsageStorePort`；缺四方法则跳过；写入失败只 warn                    | B36、B45                     |
 
 没有新增模块级可变全局。
 
@@ -101,30 +101,30 @@ S5：本步已尝试过则直接 false；熔断抛错；compacted 才记成功�
 
 ## 5. 条目落点
 
-| 条目 | 实现 |
-| --- | --- |
-| B32 | `m02-step-run.ts` 的遥测包装 |
-| B33 / S1 / S2 | `m02-step-run.ts` 的准备、失败六路、成功收尾 |
-| B34 / KD-2 | `m02-step-records.ts` |
-| B35 | `m02-step-shapes.ts` |
-| B36 | `m02-step-usage.ts` |
-| B37 / S5 | `m02-step-recover.ts` |
-| B38 | `m02-turn-model.ts` |
-| B39 | `m02-loop-state.ts` |
-| B40 | `m02-continuation.ts` |
-| B41 | `m02-step-finish.ts` |
-| B42 / S3 | `m02-tool-batch.ts` |
-| B43 | `m02-tool-parts.ts` 三态 |
-| B44 | `m02-tool-parts.ts` follow-up |
-| B45 | `m02-tool-parts.ts` 工具用量 |
-| B46 | `m02-tool-parts.ts` 告警 |
-| B47 | `m02-tool-parts.ts` 元数据 |
-| B48 | `m02-tool-parts.ts` 名称边界与 pending |
-| B49 / S4 | `m02-stop.ts` |
-| B50 | `m02-guide.ts` |
-| B51 | `m02-tool-parts.ts` 嵌套用量 |
-| B52 / KD-3 | `m02-compact.ts` 与 `m02-context.ts` |
-| KD-1 | 不在本包；rewind 成功载荷仍由既有 checkpoint 模块落账 |
+| 条目          | 实现                                                  |
+| ------------- | ----------------------------------------------------- |
+| B32           | `m02-step-run.ts` 的遥测包装                          |
+| B33 / S1 / S2 | `m02-step-run.ts` 的准备、失败六路、成功收尾          |
+| B34 / KD-2    | `m02-step-records.ts`                                 |
+| B35           | `m02-step-shapes.ts`                                  |
+| B36           | `m02-step-usage.ts`                                   |
+| B37 / S5      | `m02-step-recover.ts`                                 |
+| B38           | `m02-turn-model.ts`                                   |
+| B39           | `m02-loop-state.ts`                                   |
+| B40           | `m02-continuation.ts`                                 |
+| B41           | `m02-step-finish.ts`                                  |
+| B42 / S3      | `m02-tool-batch.ts`                                   |
+| B43           | `m02-tool-parts.ts` 三态                              |
+| B44           | `m02-tool-parts.ts` follow-up                         |
+| B45           | `m02-tool-parts.ts` 工具用量                          |
+| B46           | `m02-tool-parts.ts` 告警                              |
+| B47           | `m02-tool-parts.ts` 元数据                            |
+| B48           | `m02-tool-parts.ts` 名称边界与 pending                |
+| B49 / S4      | `m02-stop.ts`                                         |
+| B50           | `m02-guide.ts`                                        |
+| B51           | `m02-tool-parts.ts` 嵌套用量                          |
+| B52 / KD-3    | `m02-compact.ts` 与 `m02-context.ts`                  |
+| KD-1          | 不在本包；rewind 成功载荷仍由既有 checkpoint 模块落账 |
 
 ## 6. 计分
 

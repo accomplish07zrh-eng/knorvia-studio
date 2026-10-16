@@ -16,7 +16,12 @@ interface FinishRequest {
   result: RuntimeModelTextResult; // 刚结束的模型结果
 }
 
-function finishPart(runtime: AgentRuntimeInternal, request: FinishRequest, tokens: ReturnType<typeof toTokenUsageInfo>) {
+function finishPart(
+  runtime: AgentRuntimeInternal, // m02
+  request: FinishRequest,
+  tokens: ReturnType<typeof toTokenUsageInfo>,
+) {
+  // m02
   const reason = request.result.finishReason;
   return assignKeys([
     ["id", createPartId()],
@@ -37,11 +42,29 @@ function assistantClosure(reason: string, tokens: ReturnType<typeof toTokenUsage
   ]);
 }
 
-export async function persistToolModelStepFinish(runtime: AgentRuntimeInternal, state: RegularTurnLoopState, options: FinishRequest): Promise<void> {
+export async function persistToolModelStepFinish(
+  // m02
+  runtime: AgentRuntimeInternal, // m02
+  state: RegularTurnLoopState, // m02
+  options: FinishRequest,
+): Promise<void> {
+  // m02
   const selected = state.model;
   if (selected === undefined || selected === null) throw new Error(MISSING_MODEL);
-  const tokens = toTokenUsageInfo(options.result.usage);
+  const tokens = toTokenUsageInfo(options.result.usage); // m02
   const reason = options.result.finishReason;
-  await runtime.persistPart(finishPart(runtime, options, tokens) as never, options.modelTraceContext);
-  await runtime.persistAssistantMessage(options.assistantMessageId, state.currentUserMessageId, options.assistantCreatedAt, assistantClosure(reason, tokens), options.modelTraceContext, selected);
+  await runtime.persistPart(
+    // m02
+    finishPart(runtime, options, tokens) as never,
+    options.modelTraceContext, // m02
+  );
+  await runtime.persistAssistantMessage(
+    // m02
+    options.assistantMessageId, // m02
+    state.currentUserMessageId, // m02
+    options.assistantCreatedAt, // m02
+    assistantClosure(reason, tokens),
+    options.modelTraceContext, // m02
+    selected, // m02
+  );
 }
