@@ -142649,10 +142649,10 @@
     },
     {
       "path": "apps/cli/packages/core/src/runtime/methods/support/m02-compact.ts",
-      "normalizedSha256": "fa198b05844bc814bf690c7cb776ff1093ef6a02f5106266e0f424aa8613c708",
+      "normalizedSha256": "013d42d8e468a9ab3c1c64a79c489bd18e1d7540efa856dc0475717b9247c5ca",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia rewrite of core-runtime-methods-02 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 31/31 (source and dist); new implementation 31/31 (source and dist); max line containment 0.126, longest identical run 3, structural similarity 0.032 against the replaced files and the upstream baseline.",
+      "basis": "Knorvia rewrite of core-runtime-methods-02 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 31/31 (source and dist); new implementation 31/31 (source and dist); max line containment 0.125, longest identical run 3, structural similarity 0.032 against the replaced files and the upstream baseline.",
       "evidence": [
         "specs/contracts/core-runtime-methods-02/README.md",
         "docs/knorvia-core-runtime-methods-02-acceptance.md"
@@ -142671,7 +142671,7 @@
     },
     {
       "path": "apps/cli/packages/core/src/runtime/methods/support/m02-continuation.ts",
-      "normalizedSha256": "3bd31d2977f292569a5e6d799a5ddc0b8d47622caa950bf4cee8a6c28f2b1bfc",
+      "normalizedSha256": "0052e814d2868109bb026b6f7d23829a59dd7e348df25f92b51fc6cc3e759b77",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia rewrite of core-runtime-methods-02 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 31/31 (source and dist); new implementation 31/31 (source and dist); max line containment 0.175, longest identical run 2, structural similarity 0.063 against the replaced files and the upstream baseline.",
@@ -142682,7 +142682,7 @@
     },
     {
       "path": "apps/cli/packages/core/src/runtime/methods/support/m02-guide.ts",
-      "normalizedSha256": "f70317c39916856fd126449e634e3347960e63b3b56ca3e5770c16a627f189bc",
+      "normalizedSha256": "8d2157e1d06ce61037aa68b3441fdb5beb65e05a86ff009bcd8bc8713fd7503f",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia rewrite of core-runtime-methods-02 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 31/31 (source and dist); new implementation 31/31 (source and dist); max line containment 0.079, longest identical run 1, structural similarity 0.000 against the replaced files and the upstream baseline.",
@@ -142715,7 +142715,7 @@
     },
     {
       "path": "apps/cli/packages/core/src/runtime/methods/support/m02-step-finish.ts",
-      "normalizedSha256": "3335e432eed7966ec2f0fe7e5a538510cd086155f89149eae40793144f01eb9d",
+      "normalizedSha256": "436d4b24f6a90c9812088dc609912b347a6e946ba2389797bcf66b4e7b5ee885",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia rewrite of core-runtime-methods-02 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 31/31 (source and dist); new implementation 31/31 (source and dist); max line containment 0.122, longest identical run 2, structural similarity 0.043 against the replaced files and the upstream baseline.",
@@ -142726,7 +142726,7 @@
     },
     {
       "path": "apps/cli/packages/core/src/runtime/methods/support/m02-step-records.ts",
-      "normalizedSha256": "da465b4c515ed42d7240f00c4eebed5b3f18a2ec29f02a490f0e48579ba8c00b",
+      "normalizedSha256": "bc60d4d2f9767308ab7891bd6be1aa08a51de0e702434ccb27f3e7cefa618ade",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia rewrite of core-runtime-methods-02 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 31/31 (source and dist); new implementation 31/31 (source and dist); max line containment 0.138, longest identical run 3, structural similarity 0.034 against the replaced files and the upstream baseline.",
@@ -142737,10 +142737,10 @@
     },
     {
       "path": "apps/cli/packages/core/src/runtime/methods/support/m02-step-recover.ts",
-      "normalizedSha256": "d4ab8bf6e7f6c1e5a5ccf479546f554582454e07ffd332d1bf6e430cd079ad1f",
+      "normalizedSha256": "3475fa40263e5c8b5ebf180911e9dab6a190c511826a718180c16dd83edb42d2",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia rewrite of core-runtime-methods-02 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 31/31 (source and dist); new implementation 31/31 (source and dist); max line containment 0.056, longest identical run 1, structural similarity 0.114 against the replaced files and the upstream baseline.",
+      "basis": "Knorvia rewrite of core-runtime-methods-02 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 31/31 (source and dist); new implementation 31/31 (source and dist); max line containment 0.056, longest identical run 1, structural similarity 0.057 against the replaced files and the upstream baseline.",
       "evidence": [
         "specs/contracts/core-runtime-methods-02/README.md",
         "docs/knorvia-core-runtime-methods-02-acceptance.md"
@@ -142748,10 +142748,10 @@
     },
     {
       "path": "apps/cli/packages/core/src/runtime/methods/support/m02-step-run.ts",
-      "normalizedSha256": "30315ad9c2ad3cadfd81a6b8aa2f805e32be252fb0d434495d8ee112f2591716",
+      "normalizedSha256": "2a8ede35004d099d98bff456b4386ff6aa9ed90d38af5e90115c189b065f4285",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia rewrite of core-runtime-methods-02 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 31/31 (source and dist); new implementation 31/31 (source and dist); max line containment 0.188, longest identical run 6, structural similarity 0.006 against the replaced files and the upstream baseline.",
+      "basis": "Knorvia rewrite of core-runtime-methods-02 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 31/31 (source and dist); new implementation 31/31 (source and dist); max line containment 0.195, longest identical run 6, structural similarity 0.006 against the replaced files and the upstream baseline.",
       "evidence": [
         "specs/contracts/core-runtime-methods-02/README.md",
         "docs/knorvia-core-runtime-methods-02-acceptance.md"
@@ -142759,7 +142759,7 @@
     },
     {
       "path": "apps/cli/packages/core/src/runtime/methods/support/m02-step-shapes.ts",
-      "normalizedSha256": "feb7b5f02b25c221c628bee5664fe1975d1e6d4323d952fe397156bc1be21755",
+      "normalizedSha256": "d7607c5098625d481117cfcbc14db079d816449f4f79126f7ad98dc13455d29e",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia rewrite of core-runtime-methods-02 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 31/31 (source and dist); new implementation 31/31 (source and dist); max line containment 0.098, longest identical run 4, structural similarity 0.025 against the replaced files and the upstream baseline.",
@@ -142770,7 +142770,7 @@
     },
     {
       "path": "apps/cli/packages/core/src/runtime/methods/support/m02-step-usage.ts",
-      "normalizedSha256": "71a107dcbc4bbf3987cca4526e7edba0e2e221075bc55f9b9f7bd3193c9abfc6",
+      "normalizedSha256": "5198386a20bf9ac1e84355ddf136d703a782292529dc4c7a39dee05211c5c027",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia rewrite of core-runtime-methods-02 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 31/31 (source and dist); new implementation 31/31 (source and dist); max line containment 0.099, longest identical run 4, structural similarity 0.048 against the replaced files and the upstream baseline.",
@@ -142781,7 +142781,7 @@
     },
     {
       "path": "apps/cli/packages/core/src/runtime/methods/support/m02-stop.ts",
-      "normalizedSha256": "d340e990d7f36abe976757d75c9fb9a608bbf4d0bee0424a98d43589b5f8feb3",
+      "normalizedSha256": "14c5f2d37a17f03f68df4feed03093e138ad46ac1a67e601bdc05bf594a0d63f",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia rewrite of core-runtime-methods-02 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 31/31 (source and dist); new implementation 31/31 (source and dist); max line containment 0.191, longest identical run 5, structural similarity 0.045 against the replaced files and the upstream baseline.",
@@ -142792,7 +142792,7 @@
     },
     {
       "path": "apps/cli/packages/core/src/runtime/methods/support/m02-tool-batch.ts",
-      "normalizedSha256": "18cef26ae6ec7be0dfbab3867a64b117d0cabc8ebb3f7f370872808c2fe438fe",
+      "normalizedSha256": "d6caf14d1f7cc360ea6336fac8dc79bb866668012b23fc3ee1b2e84d5b9d2519",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia rewrite of core-runtime-methods-02 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 31/31 (source and dist); new implementation 31/31 (source and dist); max line containment 0.112, longest identical run 6, structural similarity 0.011 against the replaced files and the upstream baseline.",
@@ -142803,10 +142803,10 @@
     },
     {
       "path": "apps/cli/packages/core/src/runtime/methods/support/m02-tool-parts.ts",
-      "normalizedSha256": "4e4fef52e88cb783b287f579ef710b596cc6943f612124bcce0071cd2d8ccadd",
+      "normalizedSha256": "ac860c7b077c2d33682aab9a2a2a196a48454a3c9567b74b57d18f9cbd562e15",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia rewrite of core-runtime-methods-02 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 31/31 (source and dist); new implementation 31/31 (source and dist); max line containment 0.121, longest identical run 7, structural similarity 0.005 against the replaced files and the upstream baseline.",
+      "basis": "Knorvia rewrite of core-runtime-methods-02 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 31/31 (source and dist); new implementation 31/31 (source and dist); max line containment 0.128, longest identical run 7, structural similarity 0.006 against the replaced files and the upstream baseline.",
       "evidence": [
         "specs/contracts/core-runtime-methods-02/README.md",
         "docs/knorvia-core-runtime-methods-02-acceptance.md"
@@ -142825,10 +142825,10 @@
     },
     {
       "path": "apps/cli/packages/core/src/runtime/methods/tool-part-metadata.ts",
-      "normalizedSha256": "ebf8150040cbed678b614a541d36e44d847afd48115bd7fa3e89ef58edf07adb",
+      "normalizedSha256": "27bae4e3cad29646e2cca1f262729f131b04bfbc75a685cc986455ef1702ede5",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia rewrite of core-runtime-methods-02 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 31/31 (source and dist); new implementation 31/31 (source and dist); max line containment 0.000, longest identical run 0, structural similarity 0.000 against the replaced files and the upstream baseline.",
+      "basis": "Knorvia rewrite of core-runtime-methods-02 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 31/31 (source and dist); new implementation 31/31 (source and dist); max line containment 0.120, longest identical run 1, structural similarity 0.000 against the replaced files and the upstream baseline.",
       "evidence": [
         "specs/contracts/core-runtime-methods-02/README.md",
         "docs/knorvia-core-runtime-methods-02-acceptance.md"
@@ -142924,10 +142924,10 @@
     },
     {
       "path": "apps/cli/packages/core/src/runtime/methods/turn-model-step.ts",
-      "normalizedSha256": "ad0e9ac95f373562972e3b42c2774ed460147b07c25aa4fdc3e9cc94638dc5e6",
+      "normalizedSha256": "0945dde52626641286ad61865f51b3c5507d5876a690302002fa0ee56e88c432",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia rewrite of core-runtime-methods-02 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 31/31 (source and dist); new implementation 31/31 (source and dist); max line containment 0.000, longest identical run 0, structural similarity 0.000 against the replaced files and the upstream baseline.",
+      "basis": "Knorvia rewrite of core-runtime-methods-02 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 31/31 (source and dist); new implementation 31/31 (source and dist); max line containment 0.113, longest identical run 3, structural similarity 0.000 against the replaced files and the upstream baseline.",
       "evidence": [
         "specs/contracts/core-runtime-methods-02/README.md",
         "docs/knorvia-core-runtime-methods-02-acceptance.md"
@@ -143045,7 +143045,7 @@
     },
     {
       "path": "docs/knorvia-core-runtime-methods-02-acceptance.md",
-      "normalizedSha256": "7159a8578efa92b0bff634f662afa500f044fcf4958cb6c5dccb522962474908",
+      "normalizedSha256": "2a429046757493e0a98db312a7d04a8c9b2b9192999f4f91cb4b5c127a48834b",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored core-runtime-methods-02 replacement record (design or acceptance document), written for this package.",
