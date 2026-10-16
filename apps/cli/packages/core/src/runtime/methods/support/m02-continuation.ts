@@ -9,7 +9,7 @@ import {
 import { toTokenUsageInfo } from "../../helpers/index.js";
 import type { AgentRuntimeInternal } from "../../internal.js";
 import type { RuntimeModelTextResult } from "../../types.js";
-import { assignKeys, type Col } from "./m02-record.js";
+import { type Col } from "./m02-record.js";
 import type { RegularTurnLoopState, TurnRequestState } from "./m02-loop-state.js";
 
 const CONTINUE_CAP = 3;
@@ -114,14 +114,8 @@ export function commitAssistantToTurnRequest(
   const visible = wrote || noteCount > 0 || callCount > 0;
   if (!visible) return visible;
   // 归因用回合已绑定的模型，不用 provider 回包里可能换掉的身份。
-  const bound = loop.model;
-  const identity = assignKeys<{
-    providerId: typeof bound.providerId;
-    modelId: typeof bound.modelId;
-  }>([
-    ["providerId", bound.providerId],
-    ["modelId", bound.modelId],
-  ]);
+  const { providerId, modelId } = loop.model;
+  const identity = { providerId, modelId };
   const saved = createRuntimeAssistantEntry(
     loop.modelResponse,
     calls,
