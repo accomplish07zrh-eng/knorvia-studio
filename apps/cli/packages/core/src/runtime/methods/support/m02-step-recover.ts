@@ -4,7 +4,7 @@ import type { RuntimeMessageEntry } from "../../../agent/message-history.js";
 import { CompactTrigger, TurnMachineImpl, traceContextToLogContext } from "../../deps.js";
 import { createCompactRapidRefillError } from "../../helpers/index.js";
 import type { AgentRuntimeInternal } from "../../internal.js";
-import { assignKeys, report } from "./m02-record.js";
+import { layer, report } from "./m02-record.js";
 import {
   evaluateRapidRefill,
   MAX_CONSECUTIVE_RAPID_REFILLS,
@@ -18,30 +18,34 @@ import {
 function breakerFields(
   loop: RegularTurnLoopState,
   verdict: RapidRefillDecision,
-  stepIndex: number,
+  modelStepIndex: number,
 ) {
-  const traced = traceContextToLogContext(loop.turnTraceContext);
-  const extra = assignKeys<Record<string, unknown>>([
-    ["event", "compact.rapid_refill_breaker"],
-    ["consecutiveRapidRefills", verdict.consecutiveRapidRefills],
-    ["modelStepIndex", stepIndex],
-    ["module", "core.runtime"],
-    ["status", "failed"],
-    ["toolTurnsSinceCompact", verdict.toolTurnsSinceCompact],
-    ["trigger", CompactTrigger.Reactive],
-  ]);
-  return { ...traced, ...extra };
+  const { consecutiveRapidRefills, toolTurnsSinceCompact } = verdict;
+  const event = "compact.rapid_refill_breaker";
+  const module = "core.runtime";
+  const status = "failed";
+  const trigger = CompactTrigger.Reactive;
+  return layer(traceContextToLogContext(loop.turnTraceContext), {
+    event,
+    consecutiveRapidRefills,
+    modelStepIndex,
+    module,
+    status,
+    toolTurnsSinceCompact,
+    trigger,
+  });
 }
 
 function refillError(verdict: RapidRefillDecision) {
-  return createCompactRapidRefillError(
-    assignKeys([
-      ["consecutiveRapidRefills", verdict.consecutiveRapidRefills],
-      ["maxConsecutiveRapidRefills", MAX_CONSECUTIVE_RAPID_REFILLS],
-      ["toolTurnThreshold", RAPID_REFILL_TOOL_TURN_THRESHOLD],
-      ["toolTurnsSinceCompact", verdict.toolTurnsSinceCompact],
-    ]),
-  );
+  const { consecutiveRapidRefills, toolTurnsSinceCompact } = verdict;
+  const maxConsecutiveRapidRefills = MAX_CONSECUTIVE_RAPID_REFILLS;
+  const toolTurnThreshold = RAPID_REFILL_TOOL_TURN_THRESHOLD;
+  return createCompactRapidRefillError({
+    consecutiveRapidRefills,
+    maxConsecutiveRapidRefills,
+    toolTurnThreshold,
+    toolTurnsSinceCompact,
+  });
 }
 
 function restartMachine(host: AgentRuntimeInternal, loop: RegularTurnLoopState): void {
@@ -74,13 +78,12 @@ export async function recoverTurnModelContext(
     throw refillError(verdict);
   }
   loop.reactiveCompactAttemptedInCurrentModelStep = true;
-  const packed = assignKeys([
-    ["activeEntries", entries],
-    ["modelStepIndex", stepIndex],
-    ["rapidRefillCount", verdict.consecutiveRapidRefills],
-    ["model", loop.model],
-    ["turnRequestState", loop.turnRequestState],
-  ]);
+  const activeEntries = entries;
+  const modelStepIndex = stepIndex;
+  const rapidRefillCount = verdict.consecutiveRapidRefills;
+  const model = loop.model;
+  const turnRequestState = loop.turnRequestState;
+  const packed = { activeEntries, modelStepIndex, rapidRefillCount, model, turnRequestState };
   const outcome = await host.reactiveCompactAfterContextExceeded(
     failure,
     loop.turnTraceContext,
