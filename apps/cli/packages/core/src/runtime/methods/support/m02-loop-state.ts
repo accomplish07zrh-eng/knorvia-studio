@@ -16,7 +16,7 @@ import type {
   TurnMachineImpl,
 } from "../../deps.js";
 import type { ActiveTurnSteeringState, DrainedPendingInputDiagnostics } from "../../types.js";
-import { assignKeys, type Col, type Opt } from "./m02-record.js";
+import { type Col, type Opt } from "./m02-record.js";
 
 export type PendingStreamRecoveryRequest = ModelStreamRecoveryStatus;
 
@@ -127,13 +127,12 @@ export function isOffPeakCreateRestrictedTurn(loop: RegularTurnLoopState): boole
   return blockedToolNames(loop).has(OFF_PEAK_MUTATION_TOOL_NAMES[0]);
 }
 
-function refillDecision(streak: number, sinceCompact: number): RapidRefillDecision {
-  const blocked = streak >= MAX_CONSECUTIVE_RAPID_REFILLS;
-  return assignKeys<RapidRefillDecision>([
-    ["consecutiveRapidRefills", streak],
-    ["shouldBlock", blocked],
-    ["toolTurnsSinceCompact", sinceCompact],
-  ]);
+function refillDecision(
+  consecutiveRapidRefills: number,
+  toolTurnsSinceCompact: number,
+): RapidRefillDecision {
+  const shouldBlock = consecutiveRapidRefills >= MAX_CONSECUTIVE_RAPID_REFILLS;
+  return { consecutiveRapidRefills, shouldBlock, toolTurnsSinceCompact };
 }
 
 export function evaluateRapidRefill(memory: CompactLoopTracking | undefined): RapidRefillDecision {
@@ -149,10 +148,9 @@ export function recordCompactSuccess(
   loop: RegularTurnLoopState,
   verdict: RapidRefillDecision,
 ): void {
-  loop.compactTracking = assignKeys<CompactLoopTracking>([
-    ["consecutiveRapidRefills", verdict.consecutiveRapidRefills],
-    ["toolTurnsSinceCompact", 0],
-  ]);
+  const consecutiveRapidRefills = verdict.consecutiveRapidRefills;
+  const toolTurnsSinceCompact = 0;
+  loop.compactTracking = { consecutiveRapidRefills, toolTurnsSinceCompact };
 }
 
 export function recordCompletedToolBatch(loop: RegularTurnLoopState): void {
