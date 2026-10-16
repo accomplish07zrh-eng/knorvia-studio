@@ -65,10 +65,6 @@ export function resolveExecutionState(
 ): ExecutionState {
   const decision = decideMode(input.mode);
   const mode = decision.accepted ? decision.mode : current.mode;
-  const planEnabled = decidePlanEnabled(
-    input,
-    decision.accepted,
-    current.planEnabled,
-  );
+  const planEnabled = decidePlanEnabled(input, decision.accepted, current.planEnabled);
   return { mode, planEnabled };
 }

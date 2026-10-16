@@ -9,8 +9,7 @@ export interface RuntimeToolRuntimeDescriptor {
   resolveEntrySegments(platform: string): string[] /* win32 入口才带 .exe */;
 }
 
-export interface RemoteRuntimeToolDescriptor
-  extends RuntimeToolRuntimeDescriptor {
+export interface RemoteRuntimeToolDescriptor extends RuntimeToolRuntimeDescriptor {
   versions: /* 只列出有发行包的平台；ripgrep 键序是 darwin 然后 linux */ Readonly<
     Partial<Record<string, string>>
   >;
@@ -54,9 +53,7 @@ const TOOL_ROWS: readonly RuntimeToolRow[] = [
   },
 ];
 
-const ROW_BY_ID = new Map<RuntimeToolId, RuntimeToolRow>(
-  TOOL_ROWS.map((row) => [row.id, row]),
-);
+const ROW_BY_ID = new Map<RuntimeToolId, RuntimeToolRow>(TOOL_ROWS.map((row) => [row.id, row]));
 
 function rowById(id: RuntimeToolId): RuntimeToolRow {
   const row = ROW_BY_ID.get(id);
@@ -75,16 +72,11 @@ function localDescriptor(id: RuntimeToolId): RuntimeToolRuntimeDescriptor {
   return {
     binaryEnvVar: row.binaryEnvVar,
     bundledResourceDir: row.bundledResourceDir,
-    resolveEntrySegments: (platform: string) => [
-      executableName(row.stem, platform),
-    ],
+    resolveEntrySegments: (platform: string) => [executableName(row.stem, platform)],
   };
 }
 
-export const RUNTIME_TOOL_RUNTIME: Record<
-  RuntimeToolId,
-  RuntimeToolRuntimeDescriptor
-> = {
+export const RUNTIME_TOOL_RUNTIME: Record<RuntimeToolId, RuntimeToolRuntimeDescriptor> = {
   bfs: localDescriptor("bfs"),
   ripgrep: localDescriptor("ripgrep"),
   ugrep: localDescriptor("ugrep"),
@@ -101,31 +93,23 @@ function remoteDescriptor(id: RuntimeToolId): RemoteRuntimeToolDescriptor {
   };
 }
 
-export const REMOTE_RUNTIME_TOOL_RUNTIME: Record<
-  RuntimeToolId,
-  RemoteRuntimeToolDescriptor
-> = {
+export const REMOTE_RUNTIME_TOOL_RUNTIME: Record<RuntimeToolId, RemoteRuntimeToolDescriptor> = {
   bfs: remoteDescriptor("bfs"),
   ripgrep: remoteDescriptor("ripgrep"),
   ugrep: remoteDescriptor("ugrep"),
 };
 
-export function getRemoteRuntimeToolsForPlatform(
-  platform: string,
-): ResolvedRemoteRuntimeTool[] {
+export function getRemoteRuntimeToolsForPlatform(platform: string): ResolvedRemoteRuntimeTool[] {
   const resolved: ResolvedRemoteRuntimeTool[] = [];
   for (const row of TOOL_ROWS) {
     const runtime = REMOTE_RUNTIME_TOOL_RUNTIME[row.id];
     const published = runtime.versions[platform];
-    if (published)
-      resolved.push({ toolId: row.id, runtime, version: published });
+    if (published) resolved.push({ toolId: row.id, runtime, version: published });
   }
   return resolved;
 }
 
-export function getRuntimeToolRuntime(
-  toolId: RuntimeToolId,
-): RuntimeToolRuntimeDescriptor {
+export function getRuntimeToolRuntime(toolId: RuntimeToolId): RuntimeToolRuntimeDescriptor {
   const descriptor = RUNTIME_TOOL_RUNTIME[toolId];
   return descriptor;
 }

@@ -45,11 +45,11 @@ type CatalogRow = (typeof TOOL_CATALOG)[number];
 export type KnorviaKnownToolName = CatalogRow["name"];
 export type KnorviaToolFamily = CatalogRow["family"];
 
-export const KNORVIA_KNOWN_TOOL_NAMES: readonly KnorviaKnownToolName[] =
-  TOOL_CATALOG.map((row) => row.name);
+export const KNORVIA_KNOWN_TOOL_NAMES: readonly KnorviaKnownToolName[] = TOOL_CATALOG.map(
+  (row) => row.name,
+);
 
-const FAMILY_BY_NAME: Record<KnorviaKnownToolName, KnorviaToolFamily> =
-  buildFamilyTable();
+const FAMILY_BY_NAME: Record<KnorviaKnownToolName, KnorviaToolFamily> = buildFamilyTable();
 const CANONICAL_BY_FOLDED = buildFoldedIndex(KNORVIA_KNOWN_TOOL_NAMES);
 
 const FILE_CONTENT_WRITE_NAME: KnorviaKnownToolName = "Write";
@@ -98,8 +98,6 @@ export function isKnorviaToolFamily(
   return getKnorviaToolFamilyForName(value) === family;
 }
 
-export function isKnorviaFileContentWriteToolName(
-  value: string | null | undefined,
-): boolean {
+export function isKnorviaFileContentWriteToolName(value: string | null | undefined): boolean {
   return normalizeKnorviaToolName(value) === FILE_CONTENT_WRITE_NAME;
 }

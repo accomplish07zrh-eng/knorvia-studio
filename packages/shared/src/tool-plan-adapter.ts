@@ -9,13 +9,7 @@ const TODO_PLAN_TOOL_PATTERN = new RegExp(
 );
 
 const COLLECTION_KEYS = ["todos", "plan", "steps", "items"] as const;
-const STEP_TITLE_KEYS = [
-  "content",
-  "step",
-  "title",
-  "text",
-  "activeForm",
-] as const;
+const STEP_TITLE_KEYS = ["content", "step", "title", "text", "activeForm"] as const;
 const OUTPUT_NESTED_KEYS = ["content", "output", "result"] as const;
 const PLAN_STEP_STATUSES = ["pending", "in_progress", "completed"] as const;
 const CHILD_SOURCE = "subagent";
@@ -91,8 +85,7 @@ function readStep(value: unknown, index: number): KnorviaPlanStep | null {
   const record = asPlainRecord(value);
   const title = record ? titleFromRecord(record) : undefined;
   const status = record ? statusFromValue(record.status) : NO_PLAN;
-  if (record === undefined || title === undefined || status === NO_PLAN)
-    return noPlan();
+  if (record === undefined || title === undefined || status === NO_PLAN) return noPlan();
   const step: KnorviaPlanStep = {
     id: trimmedText(record.id) ?? title,
     title,
@@ -156,9 +149,7 @@ export function isTodoPlanToolName(value: string | null | undefined): boolean {
   return TODO_PLAN_TOOL_PATTERN.test(label);
 }
 
-export function isMainAgentToolProjectionSource(
-  ...candidates: unknown[]
-): boolean {
+export function isMainAgentToolProjectionSource(...candidates: unknown[]): boolean {
   const child = candidates.some((candidate) => {
     const record = asPlainRecord(candidate);
     return record !== undefined && childProjection(record);
@@ -170,16 +161,12 @@ function labelMatches(params: PlanToolLabel): boolean {
   return isTodoPlanToolName(planToolLabel(params));
 }
 
-export function extractPlanStepsFromToolInput(
-  params: PlanInputQuery,
-): KnorviaPlanStep[] | null {
+export function extractPlanStepsFromToolInput(params: PlanInputQuery): KnorviaPlanStep[] | null {
   if (!labelMatches(params)) return noPlan();
   return stepsFromValue(params.input);
 }
 
-export function extractPlanStepsFromToolOutput(
-  params: PlanOutputQuery,
-): KnorviaPlanStep[] | null {
+export function extractPlanStepsFromToolOutput(params: PlanOutputQuery): KnorviaPlanStep[] | null {
   if (!labelMatches(params)) return noPlan();
   let found: KnorviaPlanStep[] | null = NO_PLAN;
   for (const candidate of outputCandidates(params.output)) {

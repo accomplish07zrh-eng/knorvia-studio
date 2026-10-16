@@ -25,6 +25,4 @@ export const executionOutputPreviewSchema = z.strictObject({
   linesEstimated: z.boolean(),
 });
 
-export type ExecutionOutputPreview = z.infer<
-  typeof executionOutputPreviewSchema
->;
+export type ExecutionOutputPreview = z.infer<typeof executionOutputPreviewSchema>;

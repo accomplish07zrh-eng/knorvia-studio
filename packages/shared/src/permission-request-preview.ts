@@ -33,12 +33,7 @@ const PATH_KEY_GROUPS = [
   ["target", "targets", "location", "locations"],
 ] as const;
 const DIRECTORY_KEY_NAMES = ["cwd", "directory", "workingdirectory"] as const;
-const NESTED_COMMAND_KEY_NAMES = [
-  "rawInput",
-  "input",
-  "params",
-  "toolCall",
-] as const;
+const NESTED_COMMAND_KEY_NAMES = ["rawInput", "input", "params", "toolCall"] as const;
 
 const commandKeySet = new Set<string>(COMMAND_KEY_NAMES);
 const argumentKeySet = new Set<string>(ARGUMENT_KEY_NAMES);
@@ -79,9 +74,7 @@ function argumentToken(value: unknown): string | undefined {
     return trimmed.length > 0 ? trimmed : undefined;
   }
   const scalar =
-    typeof value === "number" ||
-    typeof value === "boolean" ||
-    typeof value === "bigint";
+    typeof value === "number" || typeof value === "boolean" || typeof value === "bigint";
   return scalar ? String(value) : undefined;
 }
 
@@ -97,11 +90,7 @@ function formattedArguments(values: readonly unknown[]): string[] {
 function matchingCommand(record: Record<string, unknown>): string | undefined {
   let found: string | undefined;
   for (const [key, candidate] of Object.entries(record)) {
-    if (
-      found === undefined &&
-      commandKeySet.has(key.toLowerCase()) &&
-      isString(candidate)
-    ) {
+    if (found === undefined && commandKeySet.has(key.toLowerCase()) && isString(candidate)) {
       const command = normalizeCommandBlock(candidate);
       if (command.length > 0) found = command;
     }
@@ -109,10 +98,7 @@ function matchingCommand(record: Record<string, unknown>): string | undefined {
   return found;
 }
 
-function appendedArguments(
-  record: Record<string, unknown>,
-  command: string,
-): string {
+function appendedArguments(record: Record<string, unknown>, command: string): string {
   for (const [key, candidate] of Object.entries(record)) {
     if (argumentKeySet.has(key.toLowerCase()) && isList(candidate)) {
       const parts = formattedArguments(candidate);
@@ -122,11 +108,7 @@ function appendedArguments(
   return command;
 }
 
-function findCommand(
-  value: unknown,
-  seen: Set<object>,
-  allowBareString = false,
-): string | null {
+function findCommand(value: unknown, seen: Set<object>, allowBareString = false): string | null {
   if (isString(value)) {
     if (!allowBareString) return NO_COMMAND;
     const command = normalizeCommandBlock(value);
@@ -162,8 +144,7 @@ function findCommand(
 function inputPayload(raw: unknown): unknown {
   const record = asPlainRecord(raw);
   if (record === undefined) return raw;
-  if ("rawInput" in record && record.rawInput !== undefined)
-    return record.rawInput;
+  if ("rawInput" in record && record.rawInput !== undefined) return record.rawInput;
   if ("input" in record) return record.input;
   return record;
 }
@@ -217,10 +198,7 @@ function walkPathFields(value: unknown, bag: PathBag): void {
         // 目录键整棵跳过；路径键交给 harvest，其它对象继续走。
         if (!directoryKeySet.has(folded) && !atPathCap(bag)) {
           if (pathKeySet.has(folded)) harvestPaths(candidate, bag);
-          else if (
-            isList(candidate) ||
-            asPlainRecord(candidate) !== undefined
-          ) {
+          else if (isList(candidate) || asPlainRecord(candidate) !== undefined) {
             walkPathFields(candidate, bag);
           }
         }
@@ -233,11 +211,7 @@ function changeType(value: unknown): "add" | "update" | undefined {
   return value === "add" || value === "update" ? value : undefined;
 }
 
-function rememberChange(
-  bag: ChangeBag,
-  path: string,
-  type: "add" | "update",
-): void {
+function rememberChange(bag: ChangeBag, path: string, type: "add" | "update"): void {
   const duplicate = bag.changes.some(
     (existing) => existing.path === path && existing.type === type,
   );
@@ -247,10 +221,7 @@ function rememberChange(
   }
 }
 
-function readListedChanges(
-  record: Record<string, unknown>,
-  bag: ChangeBag,
-): void {
+function readListedChanges(record: Record<string, unknown>, bag: ChangeBag): void {
   const listed = asPlainRecord(record.changes);
   if (listed === undefined) return;
   for (const [path, change] of Object.entries(listed)) {
@@ -306,16 +277,8 @@ export function getPermissionRequestPreview(
 ): PermissionRequestPreview {
   const paths: string[] = [];
   walkPathFields(request.raw, { paths, seen: new Set<object>() });
-  const heading = previewTitle(
-    request.title,
-    request.description,
-    request.kind,
-  );
-  const command = findCommand(
-    inputPayload(request.raw),
-    new Set<object>(),
-    true,
-  );
+  const heading = previewTitle(request.title, request.description, request.kind);
+  const command = findCommand(inputPayload(request.raw), new Set<object>(), true);
   const changes: PermissionRequestFileChange[] = [];
   harvestChanges(request.raw, { changes, seen: new Set<object>() });
   const sole = changes.length === 1 ? changes[0] : undefined;

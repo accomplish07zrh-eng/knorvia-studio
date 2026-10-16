@@ -1,9 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 // 记录与空白折叠：数组不是字段袋；行内空白与命令块换行是两套规则。
 
-export function asPlainRecord(
-  value: unknown,
-): Record<string, unknown> | undefined {
+export function asPlainRecord(value: unknown): Record<string, unknown> | undefined {
   if (typeof value !== "object" || value === null) return undefined;
   if (Array.isArray(value)) return undefined;
   return value as Record<string, unknown>;
@@ -20,7 +18,6 @@ export function normalizeCommandBlock(value: string): string {
 
 export function trimmedText(value: unknown): string | undefined {
   if (typeof value !== "string") return undefined;
-  const trimmed = value.trim();
-  if (trimmed.length === 0) return undefined;
-  return trimmed;
+  // 只含空白的字符串视同缺省。
+  return value.trim() || undefined;
 }

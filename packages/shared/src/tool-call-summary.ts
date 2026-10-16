@@ -1,9 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 // 工具卡片摘要。变更行数按换行切分，尾随 LF 不另计一行，空串为 0。
-import {
-  asPlainRecord,
-  collapseInlineWhitespace,
-} from "./internal-s03/value-shape.js";
+import { asPlainRecord, collapseInlineWhitespace } from "./internal-s03/value-shape.js";
 
 const COMPACT_STATE_ROWS = [
   {
@@ -87,9 +84,7 @@ type ChangeProbe = {
 };
 
 function statesInPhase(phase: "running" | "finished"): Set<string> {
-  const names = COMPACT_STATE_ROWS.filter((row) => row.phase === phase).map(
-    (row) => row.state,
-  );
+  const names = COMPACT_STATE_ROWS.filter((row) => row.phase === phase).map((row) => row.state);
   return new Set<string>(names);
 }
 
@@ -105,22 +100,15 @@ function noText(): undefined {
   return undefined;
 }
 
-export function isCompactToolCallRunningState(
-  state: string,
-): state is CompactToolCallState {
+export function isCompactToolCallRunningState(state: string): state is CompactToolCallState {
   return RUNNING_STATES.has(state);
 }
 
-export function isCompactToolCallFinishedState(
-  state: string,
-): state is CompactToolCallState {
+export function isCompactToolCallFinishedState(state: string): state is CompactToolCallState {
   return FINISHED_STATES.has(state);
 }
 
-export function getCompactToolCallStatusMessageId(
-  state: string,
-  rawStatus?: string,
-): string {
+export function getCompactToolCallStatusMessageId(state: string, rawStatus?: string): string {
   if (rawStatus === "stopped") return STOPPED_STATUS_MESSAGE;
   return messageForState(state) ?? DEFAULT_STATUS_MESSAGE;
 }
@@ -150,15 +138,10 @@ function inputSummary(input: unknown): string | undefined {
   if (typeof input === "string") return collapsedField(input);
   const record = asPlainRecord(input);
   if (record === undefined) return noText();
-  return firstMatch(SUMMARY_FIELD_PRIORITY, (key) =>
-    collapsedField(record[key]),
-  );
+  return firstMatch(SUMMARY_FIELD_PRIORITY, (key) => collapsedField(record[key]));
 }
 
-function firstString(
-  record: Record<string, unknown>,
-  keys: readonly string[],
-): string | undefined {
+function firstString(record: Record<string, unknown>, keys: readonly string[]): string | undefined {
   return firstMatch(keys, (key) => {
     const field = record[key];
     return typeof field === "string" ? field : undefined;
@@ -173,18 +156,14 @@ function pairFromRecord(record: Record<string, unknown>): TextPair | undefined {
   return pair;
 }
 
-function pairFromMetadata(
-  record: Record<string, unknown>,
-): TextPair | undefined {
+function pairFromMetadata(record: Record<string, unknown>): TextPair | undefined {
   const metadata = asPlainRecord(record.metadata);
   const fileDiff = metadata ? asPlainRecord(metadata.filediff) : undefined;
   if (fileDiff === undefined) return noText();
   return pairFromRecord(fileDiff);
 }
 
-function pairFromContentBlocks(
-  record: Record<string, unknown>,
-): TextPair | undefined {
+function pairFromContentBlocks(record: Record<string, unknown>): TextPair | undefined {
   const blocks = record.content;
   if (!Array.isArray(blocks)) return noText();
   return firstMatch(
@@ -215,10 +194,7 @@ function countLines(body: string): number {
   return last === "" ? pieces.length - 1 : pieces.length;
 }
 
-function changeStat(
-  added: number,
-  removed: number,
-): ToolCallChangeStat | undefined {
+function changeStat(added: number, removed: number): ToolCallChangeStat | undefined {
   if (added + removed === 0) return noText();
   const stat: ToolCallChangeStat = { added, removed };
   return stat;
@@ -226,10 +202,7 @@ function changeStat(
 
 function measureChange(probe: ChangeProbe): ToolCallChangeStat | undefined {
   if (!EDIT_KIND.test(probe.kind)) return noText();
-  const pair =
-    findTextPair(probe.input) ??
-    findTextPair(probe.output) ??
-    findTextPair(probe.raw);
+  const pair = findTextPair(probe.input) ?? findTextPair(probe.output) ?? findTextPair(probe.raw);
   if (pair === undefined) return noText();
   return changeStat(countLines(pair[1]), countLines(pair[0]));
 }
@@ -239,9 +212,7 @@ function primaryLabel(title: string | undefined): string {
   return collapsed.length > 0 ? collapsed : FALLBACK_PRIMARY_TEXT;
 }
 
-export function getCompactToolCallSummary(
-  source: ToolCallSummarySource,
-): ToolCallSummary {
+export function getCompactToolCallSummary(source: ToolCallSummarySource): ToolCallSummary {
   const summary: ToolCallSummary = {
     primaryText: primaryLabel(source.title),
     secondaryText: inputSummary(source.input),

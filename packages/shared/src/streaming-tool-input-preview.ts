@@ -14,9 +14,7 @@ export type KnorviaStreamingToolInputPreview = {
   rawInput: /* 与入参同一份原始文本 */ string;
 };
 
-export type KnorviaStreamingToolInputPreviewMode =
-  | "active-live"
-  | "background-summary";
+export type KnorviaStreamingToolInputPreviewMode = "active-live" | "background-summary";
 
 const STREAM_THRESHOLDS = {
   eagerDeltaCount: 1,
@@ -73,9 +71,7 @@ interface CapturedString {
   closed: boolean;
 }
 
-type JsonRead =
-  | { parsed: true; value: unknown }
-  | { parsed: false; reason: string };
+type JsonRead = { parsed: true; value: unknown } | { parsed: false; reason: string };
 
 function clock(now: number | undefined): number {
   if (now !== undefined) return now;
@@ -149,8 +145,7 @@ function parseJsonValue(text: string): JsonRead {
     // 半截 JSON 抛 SyntaxError。预览调用方只看 parsed，不接收异常。
     return { parsed: true, value: JSON.parse(text) as unknown };
   } catch (syntaxError: unknown) {
-    const reason =
-      syntaxError instanceof Error ? syntaxError.name : "SyntaxError";
+    const reason = syntaxError instanceof Error ? syntaxError.name : "SyntaxError";
     return { parsed: false, reason };
   }
 }
@@ -189,9 +184,7 @@ function nextStreamState(
 }
 
 export function appendKnorviaStreamingToolInputDelta(
-  state: /* 首个 delta 时没有旧状态 */
-    | KnorviaStreamingToolInputState
-    | undefined,
+  state: /* 首个 delta 时没有旧状态 */ KnorviaStreamingToolInputState | undefined,
   delta: /* 本次追加的原始片段 */ string,
 ): KnorviaStreamingToolInputState {
   return nextStreamState(state, delta);
@@ -201,18 +194,14 @@ export function buildKnorviaStreamingToolInputPreview(
   rawInput: /* 已累积的原始 JSON 文本 */ string,
   completeInput?: /* 已有完整入参时不再扫描半截字段 */ unknown,
 ): KnorviaStreamingToolInputPreview {
-  if (completeInput !== undefined)
-    return previewOf(true, completeInput, rawInput);
+  if (completeInput !== undefined) return previewOf(true, completeInput, rawInput);
   const whole = parseJsonValue(rawInput);
   if (whole.parsed) return previewOf(true, whole.value, rawInput);
   return previewOf(false, collectPartialStrings(rawInput), rawInput);
 }
 
-export function isKnorviaFileStreamingToolInputPreviewTool(
-  toolName?: string,
-): boolean {
-  const normalized =
-    typeof toolName === "string" ? toolName.trim().toLowerCase() : "";
+export function isKnorviaFileStreamingToolInputPreviewTool(toolName?: string): boolean {
+  const normalized = typeof toolName === "string" ? toolName.trim().toLowerCase() : "";
   return FILE_PREVIEW_TOOLS.has(normalized);
 }
 
@@ -223,28 +212,22 @@ export function shouldMaterializeKnorviaStreamingToolInputPreview(
   const allowed = options.mode !== "background-summary";
   if (!allowed) return allowed;
 
-  const eager =
-    (state.deltaCount ?? 0) <=
-    KNORVIA_ACTIVE_STREAMING_TOOL_INPUT_EAGER_DELTA_COUNT;
+  const eager = (state.deltaCount ?? 0) <= KNORVIA_ACTIVE_STREAMING_TOOL_INPUT_EAGER_DELTA_COUNT;
   if (eager) return eager;
 
   const elapsed = clock(options.now) - (state.lastPreviewAt ?? 0);
   const fileTool = isKnorviaFileStreamingToolInputPreviewTool(options.toolName);
-  const fileDue =
-    elapsed >= KNORVIA_FILE_STREAMING_TOOL_INPUT_PREVIEW_MIN_INTERVAL_MS;
+  const fileDue = elapsed >= KNORVIA_FILE_STREAMING_TOOL_INPUT_PREVIEW_MIN_INTERVAL_MS;
   if (fileTool) return fileDue;
 
   const growth = state.rawInput.length - (state.lastPreviewRawInputLength ?? 0);
-  const grownEnough =
-    growth >= KNORVIA_ACTIVE_STREAMING_TOOL_INPUT_PREVIEW_MIN_RAW_GROWTH;
+  const grownEnough = growth >= KNORVIA_ACTIVE_STREAMING_TOOL_INPUT_PREVIEW_MIN_RAW_GROWTH;
   if (grownEnough) return grownEnough;
 
-  const intervalOpen =
-    elapsed >= KNORVIA_ACTIVE_STREAMING_TOOL_INPUT_PREVIEW_MIN_INTERVAL_MS;
+  const intervalOpen = elapsed >= KNORVIA_ACTIVE_STREAMING_TOOL_INPUT_PREVIEW_MIN_INTERVAL_MS;
   if (!intervalOpen) return intervalOpen;
   const withinBudget =
-    state.rawInput.length <=
-    KNORVIA_ACTIVE_STREAMING_TOOL_INPUT_TIME_BUDGET_MAX_RAW_INPUT;
+    state.rawInput.length <= KNORVIA_ACTIVE_STREAMING_TOOL_INPUT_TIME_BUDGET_MAX_RAW_INPUT;
   return withinBudget;
 }
 
