@@ -11,26 +11,61 @@ function note(ev: Evaluator, grew: boolean): void {
   if (grew) ev.s.changed = true;
 }
 
-function entered(ev: Evaluator, ctx: EvalContext): void {
-  ev.s.markFacade(ctx.regionStack);
+interface SinkTarget {
+  bucket: Map<string, AbstractValue>;
+  id: string;
+  expr: ts.Expression;
 }
 
-function sink(
-  ev: Evaluator,
-  bucket: Map<string, AbstractValue>,
-  id: string,
-  expr: ts.Expression,
-  ctx: EvalContext,
-): void {
-  ev.s.mergeSink(bucket, id, collapse(ev.evalExpr(expr, ctx)));
-}
+// One facade call: mark the region, sink the operands, and publish one exact occurrence.
+class FacadePass {
+  constructor(
+    private readonly ev: Evaluator,
+    private readonly ctx: EvalContext,
+  ) {}
 
-// Ask's receiver is sunk through the site record. Later arguments are visited only
-// so writes and nested facades still run.
-function visitTail(ev: Evaluator, args: readonly ts.Expression[], ctx: EvalContext): void {
-  args.slice(1).forEach((extra) => {
-    ev.evalExpr(extra, ctx);
-  });
+  enter(): void {
+    const stack = this.ctx.regionStack;
+    this.ev.s.markFacade(stack);
+  }
+
+  ask(node: ts.CallExpression, askId: string): AbstractValue {
+    this.enter();
+    const recorded = this.ev.s.askSites.get(askId);
+    if (recorded !== undefined) {
+      this.sink({ bucket: this.ev.s.askRecv, expr: recorded.receiver, id: askId });
+      if (recorded.instructions !== undefined) {
+        this.sink({ bucket: this.ev.s.askInstr, expr: recorded.instructions, id: askId });
+      }
+    }
+    this.visitTail(node.arguments);
+    return this.occurrence(askId);
+  }
+
+  world(id: string, args: readonly ts.Expression[]): AbstractValue {
+    this.enter();
+    // Every position is a dependency. World ops disagree on arity, and an artifact
+    // in a trailing optional slot is still data the read depends on.
+    args.forEach((expr) => this.sink({ bucket: this.ev.s.worldRead, expr, id }));
+    return this.occurrence(id);
+  }
+
+  private occurrence(site: string): AbstractValue {
+    return singleOcc(site, true);
+  }
+
+  private sink(target: SinkTarget): void {
+    const value = collapse(this.ev.evalExpr(target.expr, this.ctx));
+    this.ev.s.mergeSink(target.bucket, target.id, value);
+  }
+
+  // Ask's receiver is sunk through the site record. Later arguments are visited only
+  // so writes and nested facades still run.
+  private visitTail(args: readonly ts.Expression[]): void {
+    args.slice(1).forEach((extra) => {
+      this.ev.evalExpr(extra, this.ctx);
+    });
+  }
 }
 
 export function handleAsk(
@@ -39,15 +74,7 @@ export function handleAsk(
   askId: string,
   ctx: EvalContext,
 ): AbstractValue {
-  entered(ev, ctx);
-  const recorded = ev.s.askSites.get(askId);
-  if (recorded !== undefined) {
-    sink(ev, ev.s.askRecv, askId, recorded.receiver, ctx);
-    if (recorded.instructions !== undefined)
-      sink(ev, ev.s.askInstr, askId, recorded.instructions, ctx);
-  }
-  visitTail(ev, node.arguments, ctx);
-  return singleOcc(askId, true);
+  return new FacadePass(ev, ctx).ask(node, askId);
 }
 
 export function handleWorldRead(
@@ -56,11 +83,7 @@ export function handleWorldRead(
   args: readonly ts.Expression[],
   ctx: EvalContext,
 ): AbstractValue {
-  entered(ev, ctx);
-  // Every position is a dependency. World ops disagree on arity, and an artifact
-  // in a trailing optional slot is still data the read depends on.
-  args.forEach((arg) => sink(ev, ev.s.worldRead, id, arg, ctx));
-  return singleOcc(id, true);
+  return new FacadePass(ev, ctx).world(id, args);
 }
 
 function closedArray(arg: ts.Expression | undefined): arg is ts.ArrayLiteralExpression {
@@ -76,7 +99,7 @@ function rememberAlias(ev: Evaluator, field: AbstractValue, place: AbstractValue
   if (field.mayAlias === undefined) field.mayAlias = targets;
   if (targets.has(place)) return;
   targets.add(place);
-  ev.s.changed = true;
+  note(ev, true);
 }
 
 class JoinRelay {
@@ -132,6 +155,6 @@ export function handleJoin(
   arg: ts.Expression | undefined,
   ctx: EvalContext,
 ): AbstractValue {
-  entered(ev, ctx);
+  new FacadePass(ev, ctx).enter();
   return JoinRelay.open(ev, node, id, ctx).transfer(arg);
 }
