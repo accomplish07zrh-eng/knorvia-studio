@@ -2,6 +2,8 @@
 
 // SPDX-License-Identifier: Apache-2.0
 
+v2（v1 + 计划书五.1 / M1 复盘第 4 条：删桩，B20 oracle 改指 `interface.md` 导出声明块，见 README「版本」与 `known-differences.md` K9）。
+
 本文档描述 `dynamic-workflow-01` 合同范围（53 个重写目标文件，位于 `apps/cli/packages/dynamic-workflow/src/analysis/*.ts` 与 `src/compiler/compile.ts`）的独立实现设计。本实现保持全部 55 个模块路径及其对外导出签名、类型与行为（`interface.md` 与 `behavior.md`），确保 324 个 golden 样例逐字节等价，并满足代码相似度与接入门禁。
 
 ---
@@ -105,7 +107,7 @@ flowchart TD
 | **B17** | ASCII 键排序的 locale 独立性                    | `analysis/core.ts`, `analysis/serialize.ts`        | 站点排序与事实分组采用标准的 ASCII 序比较，不受运行环境 locale 影响                                      |
 | **B18** | 模块路径兼容面（55 个源文件存在）               | 全包 55 个模块文件                                 | 53 个重写目标 + 2 个 unreviewed，在源码目录中全部存在且导出完备                                          |
 | **B19** | dist 产物存在（构建后 55 个 js/d.ts）           | 构建产物层                                         | `tsc` 构建产出完整的 55 个 `.js` 与 `.d.ts` 对应产物                                                     |
-| **B20** | 桩面一致性                                      | `stubs/` (退役前)                                  | 桩结构在合同阶段锁定，替换完成最后步骤予以清理                                                           |
+| **B20** | 导出声明覆盖                                    | `interface.md` 的 ts 导出声明块                    | v2 起 oracle 改指声明块；源码导出名 ⊆ 合同声明，文件集仍与 53 个重写目标一致                             |
 
 ---
 
@@ -123,4 +125,4 @@ flowchart TD
 4. **C4 (Core 与序列化)**：组装不可变 Core，实现稳定序列化与 JSON 往返，校验 B9/B10/B17。
 5. **C5 (因果分析与归约)**：实现时序追踪解析与图规约算法，通过 B12 及 legacy 归约夹具。
 6. **C6 (投影与总管线)**：实现各类图投影、Mermaid 渲染及入口 `analyzeWorkflowScript`，跑通全部 324 个 golden 样例。
-7. **全量接入与门禁验收**：`pnpm fmt` → `pnpm build:cli-packages` → contract-gate（双入口 39/39 全过、324 golden 全过）→ similarity 全量通过 → typecheck / lint / architecture:check / knipdiff 通过 → 清理 `stubs/`。
+7. **全量接入与门禁验收**：`pnpm fmt` → `pnpm build:cli-packages` → contract-gate（双入口 39/39 全过、324 golden 全过，v2 起不再带桩替换）→ similarity 全量通过 → typecheck / lint / architecture:check / knipdiff 通过。`stubs/` 已在 v2 删除，不再保留回退副本。

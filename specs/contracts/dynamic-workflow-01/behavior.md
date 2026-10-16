@@ -1,6 +1,6 @@
 # dynamic-workflow-01 行为规格（behavior.md）
 
-版本 v1 · 2026-10-15 · 基线 `49dde725`（开包时的 origin/main；旧门提交见 `gate-old.json` 的 `commit`）
+版本 v2 · 2026-10-17 · v2 起 B20 的 oracle 改指 `interface.md` 导出声明块（见 `known-differences.md` K9）。v1 基线 `49dde725`；旧门提交仍见 `gate-old.json` 的 `commit`。
 
 本文描述 `apps/cli/packages/dynamic-workflow/src/analysis/`（54 个文件）与 `src/compiler/compile.ts`（1 个文件）共 **55 个继承文件**的可观察行为，是重写依据。编号 B1、B2…发布后不重用。每条都给出黑盒可验证的断言；条目→测试对照见 `README.md` 末尾。
 
@@ -297,9 +297,9 @@
 
 ### B20 导出声明覆盖
 
-- 来源：`interface.md` 各文件节内的 ```ts 导出声明块。v1 曾把 `stubs/` 当 oracle；v2 按计划书 M1 复盘第 4 条（core-tool-01 B88）改指声明块。
+- 来源：`interface.md` 各文件节内的 ts 围栏导出声明块。v1 曾把 `stubs/` 当 oracle；v2 按计划书 M1 复盘第 4 条（core-tool-01 B88）改指声明块。
 - 输入：无。
-- 输出：带导出声明块的重写目标（55 范围文件减 2 个 unreviewed）与源码侧重写目标一一对应，共 53 个；每个重写目标的源码导出名都落在该节 ```ts 块内（源码 ⊆ 合同声明）。
+- 输出：带导出声明块的重写目标（55 范围文件减 2 个 unreviewed）与源码侧重写目标一一对应，共 53 个；每个重写目标的源码导出名都落在该节 ts 围栏内（源码 ⊆ 合同声明）。
 - 错误语义：不适用。
 - 时序与并发：不适用。
 - 幂等：不适用。

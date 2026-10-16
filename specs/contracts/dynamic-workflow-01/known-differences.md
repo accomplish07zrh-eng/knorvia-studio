@@ -1,6 +1,6 @@
 # dynamic-workflow-01 既存差异（known-differences.md）
 
-v1。本文件记录**不在本包范围的相邻事实**与**旧行为里看起来奇怪但必须原样保留**的特征。重写时不得"顺手修掉"这里列出的任何一条。
+v2。本文件记录**不在本包范围的相邻事实**与**旧行为里看起来奇怪但必须原样保留**的特征。重写时不得"顺手修掉" K1–K8。K9 是 v2 删桩的合同修订记录，不要求实现侧动作。
 
 ## 1. 不在本包范围的相邻文件
 
@@ -51,6 +51,15 @@ fan-out 静态 actor 名（9006）是唯一不清空图的诊断（B6）；其�
 ### K8 `collectDuplicateActorNames`（9005）不从包入口导出
 
 9005 的正门在引擎运行期（`createActor` 的 `DuplicateActorName`）；编译期这条只是"字面量能看穿的那部分提前到便宜的一侧"，其函数**不**经 `src/index.ts` 导出（`analysis.test.mjs`「B15」断言入口上不存在）。重写不得顺手导出它。
+
+## K9 v2 删桩：B20 的 oracle 从桩目录改指 `interface.md` 的 ts 导出声明块
+
+K9 是 v2 合同修订记录，不要求实现侧动作。K1–K8 仍是必须原样保留的旧行为。
+
+- 原因：替换验收要求旧文件与桩全部删除，且全仓搜本包定型未实现标记为零、不留回退路径（计划书「每包流程」五.1 与验收清单第 466 行）。v1 的 B20 把桩目录当 oracle 读取，留桩与删桩互锁。M1 复盘第 4 条走 C 通道，先例是 core-tool-01 B88（`c7e58013`）：删桩，oracle 改指合同自身的 `interface.md` 导出声明块。
+- 变更内容：`tests/surface.test.mjs` 的 B20 只换 oracle 的读取对象（桩文件 → `interface.md` 对应 `###` 节内全部 ts 围栏里的导出声明）。**断言方向与强度逐字不变**——`rewriteTargets.length === 53` 的说明文字、`assert.deepEqual(relative, rewriteTargets, "桩文件集与重写目标集必须一致")` 原样；导出名仍是源码 ⊆ 合同声明，`missing` 用 `file:name`，两侧同一条解析正则（与 B88 相同），缺任何一个由 `assert.deepEqual(missing, [])` 拦下。B18、B19 与其余用例不动、不删、不跳过。
+- 强度对照：被拿掉的只是「桩 = 接口派生快照」这半边脚手架（桩文本里的定型抛错、SPDX 头、目标清单行数）。v1 桩替换证据留在 `gate-old.json` 的 `stubReplacement`（53 个目标、tests 3、pass 0、fail 3、`allFail=true`），该文件 v2 不覆盖。v2 在新实现上重跑合同门：源码 39/39、dist 39/39、fail 0、skipped 0，未带桩替换。
+- 对应测试：`tests/surface.test.mjs`「B20 interface.md 导出声明块覆盖 53 个重写目标的源码导出」。
 
 ## 3. core 测试夹具的 sha256 pin（替换阶段的已知作业）
 

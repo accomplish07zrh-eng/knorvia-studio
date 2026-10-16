@@ -1,6 +1,8 @@
 # dynamic-workflow-01 验收记录（acceptance.md）
 
-v1 · 2026-10-15 · 分支 `contract/dynamic-workflow-01` · 旧门提交 `b87ee190`（`origin/main@95426e41` 并入后的树）
+v2 · 2026-10-17 · 分支 `replace/dynamic-workflow-01`
+
+v1（2026-10-15，分支 `contract/dynamic-workflow-01`，旧门提交 `b87ee190`，`origin/main@95426e41` 并入后的树）的记录保留在下面各节。v2 删除桩目录，B20 oracle 改指 `interface.md` 导出声明块（`known-differences.md` K9），并在新实现上重跑合同门（不带桩替换，不覆盖 `gate-old.json`）。实测见文末「八」。
 
 ## 一、范围
 
@@ -8,7 +10,7 @@ v1 · 2026-10-15 · 分支 `contract/dynamic-workflow-01` · 旧门提交 `b87ee
 - 继承分类：upstream-unchanged 20 + upstream-modified 33 = **53 个重写目标**；另有 2 个 unreviewed（`operators.ts`、`placeholder-resolution.ts`）不重写不删。≤60 不拆包。
 - 选包收尾：`knip -W @knorvia/dynamic-workflow --include=exports,…` 空输出；`ParamActuals` 已删（`ded99450`）；`pnpm dep:refs --list-exports` 55/55 跑通（315 行声明导出）。
 
-## 二、旧门结果（scripts/contract-gate.mjs）
+## 二、旧门结果（v1，历史；scripts/contract-gate.mjs）
 
 | 入口      | tests | pass | fail | skipped | 说明                                                       |
 | --------- | ----: | ---: | ---: | ------: | ---------------------------------------------------------- |
@@ -25,14 +27,15 @@ v1 · 2026-10-15 · 分支 `contract/dynamic-workflow-01` · 旧门提交 `b87ee
 - 回放：`tests/golden.test.mjs` 逐字节比对 ok / 诊断（码/行列/消息）/ 产物清单 / 六个规范文本投影（core、causality、flow、handoff、site、actor）。
 - expect 分类校验：录制时 324/324 与旧实现 `ok` 一致（0 不符）；回放再交叉核对语料↔golden 的 expect。
 
-## 四、桩替换验证
+## 四、桩替换验证（v1 历史项）
 
-- `stubs/build-stubs.mjs` 生成 55 个 import-即抛桩 + `targets.txt`（55 行）。
-- 旧门 `--stub-root`/`--stub-targets` 替换后源码入口 3 个测试文件全失败（pass=0）→ `allFail=true`，证明契约测试确实测到公开行为。
+- v1 生成 53 个重写目标的 import 即抛桩与目标清单（`gate-old.json` 的 `stubReplacement.replacedFiles` 为 53）。
+- 旧门桩替换后源码入口 3 个测试文件全失败（pass=0）→ `allFail=true`，证明契约测试确实测到公开行为。
+- **v2 已删除桩目录**，该验证不再可复跑，目录也不再是回退路径。B20 的 oracle 改指 `interface.md` 导出声明块（K9）。
 
 ## 五、预登记差异（known-differences.md K1–K8）
 
-每条都有对应测试或语料：
+K9 是 v2 合同修订记录，不是实现差异，见文末。K1–K8 每条都有对应测试或语料：
 
 | 差异                                  | 对应测试/语料                                                                                                |
 | ------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
@@ -55,3 +58,23 @@ v1 · 2026-10-15 · 分支 `contract/dynamic-workflow-01` · 旧门提交 `b87ee
 - **core 夹具 sha256 pin**：替换阶段的范围化 re-pin 作业（GATE-PLAYBOOK D 节），本阶段不动。
 - **mermaid 渲染器的逐字节 golden**：mermaid 输出由图决定，图本身已被六个投影逐字节钉住；mermaid 只测非空 + 确定性（B13）。
 - **SNIPPET_FACADE_DTS 的编译行为**：eval-workflow-snippet 的片段编译走 `createWorkflowProgram({facadeDts})`，其行为差异由 dynamic-workflow-02 的调用方测试覆盖；本包只守 `SNIPPET_FACADE_DTS` 常量内容（B1）。
+
+## 八、v2 新实现合同门（不覆盖 gate-old.json）
+
+- 触发：删桩，B20 oracle 从桩目录改指 `interface.md` 的 ts 导出声明块（断言方向与强度逐字不变，见 K9）。重跑对象是**新实现**，不是旧实现；不带桩替换参数。
+- 命令：`node scripts/contract-gate.mjs --contract specs/contracts/dynamic-workflow-01 --tests "*.test.mjs" --dist-env KNORVIA_DW01_ENTRY=dist --json <合同目录以外的路径>`
+- 实测提交：`417f9244`（删桩与 B20 改指已提交；本节在其后写入）。Node v20.19.2。runner `scripts/contract-gate.mjs`。`generatedAt` `2026-10-16T20:50:32.600Z`。
+- dist 前置：`pnpm --dir apps/cli/packages/dynamic-workflow build`。
+
+| 入口 | tests | pass | fail | skipped | exit |
+| ---- | ----: | ---: | ---: | ------: | ---: |
+| 源码 |    39 |   39 |    0 |       0 |    0 |
+| dist |    39 |   39 |    0 |       0 |    0 |
+
+- `pass: true`。`stubReplacement: null`。
+- 源码末尾：`# tests 39` / `# pass 39` / `# fail 0` / `# skipped 0` / `# duration_ms 59119.399845`
+- dist 末尾：`# tests 39` / `# pass 39` / `# fail 0` / `# skipped 0` / `# duration_ms 41903.81015`
+
+`gate-old.json` 仍是 v1 旧实现记录（`pass: true`，node v24.14.0，源码 39/39、dist 39/39、桩替换 0/3 且 `allFail=true`），本轮没有改它的字节。
+
+同一次收尾里，`pnpm --dir apps/cli/packages/dynamic-workflow typecheck` 与 `lint` 退出码都是 0（lint 仍有 5 条既有 warning，不在本轮改动的文件里）。
