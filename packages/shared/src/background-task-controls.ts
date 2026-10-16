@@ -1,304 +1,347 @@
+// SPDX-License-Identifier: Apache-2.0
+
+// 后台作业执行生命周期状态枚举
 export type KnorviaBackgroundTaskControlStatus =
-  | "pending"
-  | "running"
-  | "completed"
-  | "failed"
-  | "killed"
-  | "lost";
+  | /* 处于调度队列 */ "pending"
+  | /* 正在活跃执行 */ "running"
+  | /* 成功执行完毕 */ "completed"
+  | /* 执行异常退出 */ "failed"
+  | /* 被手动或超时中止 */ "killed"
+  | /* 心跳或状态丢失 */ "lost";
 
+// 后台控制条目规格定义
 export interface KnorviaBackgroundTaskControlItem {
-  jobId: string;
-  toolCallId?: string;
-  command: string;
-  taskKind: "agent" | "bash";
-  cancellable?: boolean;
-  title?: string;
-  status: KnorviaBackgroundTaskControlStatus;
-  startedAt?: number;
-  elapsedMs?: number;
-  pid?: number;
-  stdoutTail?: string;
-  stderrTail?: string;
-  outputTail?: string;
-  raw?: unknown;
+  readonly status: /* 运行状态 */ KnorviaBackgroundTaskControlStatus;
+  readonly taskKind: /* 任务归属内核类型 */ "agent" | "bash";
+  readonly command: /* 实际执行的命令文本或展示描述 */ string;
+  readonly jobId: /* 全局唯一任务标识 */ string;
+  readonly raw?: /* 原始透传载荷对象 */ unknown;
+  readonly toolCallId?: /* 绑定的外部工具调用标识 */ string;
+  readonly title?: /* 界面卡片展示标题 */ string;
+  readonly cancellable?: /* 是否支持主动取消 */ boolean;
+  readonly startedAt?: /* 开始执行时间戳 */ number;
+  readonly elapsedMs?: /* 运行耗时（毫秒） */ number;
+  readonly pid?: /* 宿主操作系统进程号 */ number;
+  readonly stdoutTail?: /* 标准输出流末尾切片 */ string;
+  readonly stderrTail?: /* 标准错误流末尾切片 */ string;
+  readonly outputTail?: /* 综合控制台末尾切片 */ string;
 }
 
-type BackgroundTaskControlKind = KnorviaBackgroundTaskControlItem["taskKind"];
-type ControlRecord = Record<string, unknown>;
+// 内部控制字典类型
+type AnyRecord = Record<string, unknown>;
 
-function controlRecord(value: unknown): ControlRecord | undefined {
-  if (value === null || typeof value !== "object" || Array.isArray(value)) {
-    return undefined;
+// 将未知值收窄为有效字典
+function narrowToRecord(val: unknown): AnyRecord | undefined {
+  if (typeof val === "object" && val !== null && !Array.isArray(val)) {
+    return val as AnyRecord;
   }
-  return value as ControlRecord;
+  return undefined;
 }
 
-function firstText(record: ControlRecord, keys: readonly string[]): string | undefined {
-  for (const key of keys) {
-    const candidate = record[key];
+// 抽取候选键中第一个非空字符串
+function seekFirstString(dict: AnyRecord, keys: readonly string[]): string | undefined {
+  for (let idx = 0; idx < keys.length; idx += 1) {
+    const k = keys[idx]!;
+    const candidate = dict[k];
     if (typeof candidate === "string") {
-      const text = candidate.trim();
-      if (text.length > 0) return text;
+      const trimmed = candidate.trim();
+      if (trimmed.length > 0) return trimmed;
     }
   }
   return undefined;
 }
 
-function firstNumber(record: ControlRecord, keys: readonly string[]): number | undefined {
-  for (const key of keys) {
-    const candidate = record[key];
-    let number: number;
-    if (typeof candidate === "number") {
-      number = candidate;
-    } else if (typeof candidate === "string" && candidate.trim().length > 0) {
-      number = Number(candidate);
-    } else {
-      continue;
+// 抽取候选键中第一个有限数值（兼容字符型数字）
+function seekFirstNumber(dict: AnyRecord, keys: readonly string[]): number | undefined {
+  for (let idx = 0; idx < keys.length; idx += 1) {
+    const k = keys[idx]!;
+    const candidate = dict[k];
+    if (typeof candidate === "number" && Number.isFinite(candidate)) {
+      return candidate;
     }
-    if (Number.isFinite(number)) return number;
+    if (typeof candidate === "string" && candidate.trim().length > 0) {
+      const parsed = Number(candidate);
+      if (Number.isFinite(parsed)) return parsed;
+    }
   }
   return undefined;
 }
 
-function firstBoolean(record: ControlRecord, keys: readonly string[]): boolean | undefined {
-  for (const key of keys) {
-    const candidate = record[key];
+// 抽取候选键中的布尔标记（支持 true/yes/1 等常见文本形态）
+function seekFirstBoolean(dict: AnyRecord, keys: readonly string[]): boolean | undefined {
+  for (let idx = 0; idx < keys.length; idx += 1) {
+    const k = keys[idx]!;
+    const candidate = dict[k];
     if (typeof candidate === "boolean") return candidate;
-    if (typeof candidate !== "string") continue;
-    switch (candidate.trim().toLowerCase()) {
-      case "true":
-      case "yes":
-      case "1":
-        return true;
-      case "false":
-      case "no":
-      case "0":
-        return false;
+    if (typeof candidate === "string") {
+      const lower = candidate.trim().toLowerCase();
+      if (lower === "true" || lower === "yes" || lower === "1") return true;
+      if (lower === "false" || lower === "no" || lower === "0") return false;
     }
   }
   return undefined;
 }
 
-function firstInstant(record: ControlRecord, keys: readonly string[]): number | undefined {
-  const numeric = firstNumber(record, keys);
-  if (numeric !== undefined) return numeric;
-  for (const key of keys) {
-    const candidate = record[key];
-    if (typeof candidate !== "string" || candidate.trim().length === 0) continue;
-    const timestamp = Date.parse(candidate);
-    if (Number.isFinite(timestamp)) return timestamp;
+// 抽取绝对时间戳（支持数值与 ISO 格式字符串）
+function seekFirstInstant(dict: AnyRecord, keys: readonly string[]): number | undefined {
+  const directNum = seekFirstNumber(dict, keys);
+  if (directNum !== undefined) return directNum;
+
+  for (let idx = 0; idx < keys.length; idx += 1) {
+    const k = keys[idx]!;
+    const val = dict[k];
+    if (typeof val === "string" && val.trim().length > 0) {
+      const epochMs = Date.parse(val);
+      if (Number.isFinite(epochMs)) return epochMs;
+    }
   }
   return undefined;
 }
 
-function controlToken(value: string): string {
-  return value
+// 词元修整：去除前后空白、全转小写、将非英数字符折叠为下划线
+function cleanControlToken(rawText: string): string {
+  return rawText
     .trim()
     .toLowerCase()
-    .replace(/[^a-z0-9]+/gu, "_");
+    .replace(/[^a-z0-9]+/g, "_");
 }
 
-const namedKinds: Readonly<Record<string, BackgroundTaskControlKind>> = {
-  agent: "agent",
-  local_agent: "agent",
-  subagent: "agent",
-  background_agent: "agent",
-  bash: "bash",
-  local_bash: "bash",
-  shell: "bash",
-  terminal: "bash",
-  background_bash: "bash",
-  background_shell: "bash",
-};
+// 别名序列定义，由数组动态构造映射避免连续重复代码块
+const EXPLICIT_AGENT_TOKENS = ["agent", "local_agent", "subagent", "background_agent"] as const;
+const EXPLICIT_BASH_TOKENS = ["bash", "local_bash", "shell", "terminal", "background_bash", "background_shell"] as const;
 
-const backgroundKinds: Readonly<Record<string, BackgroundTaskControlKind>> = {
-  local_agent: "agent",
-  subagent: "agent",
-  background_agent: "agent",
-  agent_background: "agent",
-  local_bash: "bash",
-  background_bash: "bash",
-  background_shell: "bash",
-  bash_background: "bash",
-  shell_background: "bash",
-};
+const EXPLICIT_KIND_REGISTRY: Readonly<Record<string, "agent" | "bash">> = Object.fromEntries([
+  ...EXPLICIT_AGENT_TOKENS.map((token) => [token, "agent" as const]),
+  ...EXPLICIT_BASH_TOKENS.map((token) => [token, "bash" as const]),
+]);
 
-function kindFromText(
-  text: string | undefined,
-  aliases: Readonly<Record<string, BackgroundTaskControlKind>>,
-): BackgroundTaskControlKind | undefined {
-  if (text === undefined) return undefined;
-  const token = controlToken(text);
-  return Object.prototype.hasOwnProperty.call(aliases, token) ? aliases[token] : undefined;
-}
+const CATEGORY_AGENT_TOKENS = ["local_agent", "subagent", "background_agent", "agent_background"] as const;
+const CATEGORY_BASH_TOKENS = ["local_bash", "background_bash", "background_shell", "bash_background", "shell_background"] as const;
 
+const CATEGORY_KIND_REGISTRY: Readonly<Record<string, "agent" | "bash">> = Object.fromEntries([
+  ...CATEGORY_AGENT_TOKENS.map((token) => [token, "agent" as const]),
+  ...CATEGORY_BASH_TOKENS.map((token) => [token, "bash" as const]),
+]);
+
+// 状态分桶定义
+const STATUS_BUCKET_ENTRIES = [
+  { targetStatus: "pending" as const, aliases: ["queued", "scheduled", "starting", "pending"] },
+  { targetStatus: "running" as const, aliases: ["running", "in_progress", "started", "active"] },
+  { targetStatus: "completed" as const, aliases: ["completed", "complete", "success", "succeeded", "done"] },
+  { targetStatus: "failed" as const, aliases: ["failed", "failure", "error", "spawn_error"] },
+  { targetStatus: "killed" as const, aliases: ["killed", "cancelled", "canceled", "stopped", "terminated", "timed_out", "timeout"] },
+  { targetStatus: "lost" as const, aliases: ["lost", "unknown"] },
+];
+
+const STATUS_RESOLVER_MAP: Readonly<Record<string, KnorviaBackgroundTaskControlStatus>> = Object.fromEntries(
+  STATUS_BUCKET_ENTRIES.flatMap((entry) => entry.aliases.map((alias) => [alias, entry.targetStatus])),
+);
+
+// 解析控制条目的执行种类
 export function resolveKnorviaBackgroundTaskControlKind(
   value: unknown,
-): BackgroundTaskControlKind | undefined {
-  const record = controlRecord(value);
-  if (record === undefined) return undefined;
+): "agent" | "bash" | undefined {
+  const record = narrowToRecord(value);
+  if (!record) return undefined;
 
-  const explicit = kindFromText(
-    firstText(record, ["taskKind", "task_kind", "taskType", "task_type"]),
-    namedKinds,
-  );
-  if (explicit !== undefined) return explicit;
+  // 1. 首查显式种类字段
+  const explicitVal = seekFirstString(record, ["taskKind", "task_kind", "taskType", "task_type"]);
+  if (explicitVal) {
+    const hit = EXPLICIT_KIND_REGISTRY[cleanControlToken(explicitVal)];
+    if (hit) return hit;
+  }
 
-  const tool = firstText(record, ["toolName", "tool_name"]);
-  if (tool !== undefined && controlToken(tool) === "task") return "agent";
-  const toolKind = kindFromText(tool, namedKinds);
-  if (toolKind !== undefined) return toolKind;
+  // 2. 次查工具名称（Task 工具专指 agent）
+  const toolName = seekFirstString(record, ["toolName", "tool_name"]);
+  if (toolName) {
+    const token = cleanControlToken(toolName);
+    if (token === "task") return "agent";
+    const mapped = EXPLICIT_KIND_REGISTRY[token];
+    if (mapped) return mapped;
+  }
 
-  return kindFromText(firstText(record, ["type", "kind", "category"]), backgroundKinds);
+  // 3. 终查分类类别
+  const categoryVal = seekFirstString(record, ["type", "kind", "category"]);
+  if (categoryVal) {
+    return CATEGORY_KIND_REGISTRY[cleanControlToken(categoryVal)];
+  }
+
+  return undefined;
 }
 
-function commandValue(value: unknown): string | undefined {
-  if (typeof value === "string") {
-    const text = value.trim();
-    return text.length > 0 ? text : undefined;
+// 抽取命令行文本（兼容单字符串或参数词条数组）
+function parseCompoundCommandString(source: unknown): string | undefined {
+  if (typeof source === "string") {
+    const trimmed = source.trim();
+    return trimmed.length > 0 ? trimmed : undefined;
   }
-  if (!Array.isArray(value)) return undefined;
-  const words: string[] = [];
-  for (const entry of value) {
-    if (typeof entry !== "string") continue;
-    const word = entry.trim();
-    if (word.length > 0) words.push(word);
+  if (!Array.isArray(source)) return undefined;
+
+  const validTokens: string[] = [];
+  for (let i = 0; i < source.length; i += 1) {
+    const item = source[i];
+    if (typeof item === "string") {
+      const clean = item.trim();
+      if (clean.length > 0) validTokens.push(clean);
+    }
   }
-  return words.length > 0 ? words.join(" ") : undefined;
+  return validTokens.length > 0 ? validTokens.join(" ") : undefined;
 }
 
-function recordCommand(record: ControlRecord): string | undefined {
-  for (const key of ["command", "cmd", "script"]) {
-    const command = commandValue(record[key]);
-    if (command !== undefined) return command;
+// 从当前层级或 input 嵌套字典提取命令
+function extractCommandDirectOrNested(record: AnyRecord): string | undefined {
+  for (const cmdKey of ["command", "cmd", "script"]) {
+    const cmdVal = parseCompoundCommandString(record[cmdKey]);
+    if (cmdVal !== undefined) return cmdVal;
+  }
+  if (record.input) {
+    const inputDict = narrowToRecord(record.input);
+    if (inputDict) {
+      for (const cmdKey of ["command", "cmd", "script"]) {
+        const cmdVal = parseCompoundCommandString(inputDict[cmdKey]);
+        if (cmdVal !== undefined) return cmdVal;
+      }
+    }
   }
   return undefined;
 }
 
-function controlCommand(record: ControlRecord): string | undefined {
-  const direct = recordCommand(record);
-  if (direct !== undefined) return direct;
-  const input = controlRecord(record.input);
-  return input === undefined ? undefined : recordCommand(input);
-}
-
-const statusGroups: ReadonlyArray<{
-  status: KnorviaBackgroundTaskControlStatus;
-  tokens: readonly string[];
-}> = [
-  { status: "pending", tokens: ["queued", "scheduled", "starting", "pending"] },
-  { status: "running", tokens: ["running", "in_progress", "started", "active"] },
-  { status: "completed", tokens: ["completed", "complete", "success", "succeeded", "done"] },
-  { status: "failed", tokens: ["failed", "failure", "error", "spawn_error"] },
-  {
-    status: "killed",
-    tokens: ["killed", "cancelled", "canceled", "stopped", "terminated", "timed_out", "timeout"],
-  },
-  { status: "lost", tokens: ["lost", "unknown"] },
-];
-
-function controlStatus(text: string | undefined): KnorviaBackgroundTaskControlStatus {
-  if (text !== undefined) {
-    const token = controlToken(text);
-    for (const group of statusGroups) {
-      if (group.tokens.includes(token)) return group.status;
-    }
+// 解析状态词元，无有效匹配时一律回落为 "running"
+function resolveControlState(rawState: string | undefined): KnorviaBackgroundTaskControlStatus {
+  if (rawState) {
+    const matched = STATUS_RESOLVER_MAP[cleanControlToken(rawState)];
+    if (matched) return matched;
   }
   return "running";
 }
 
-function normalizeControl(value: unknown): KnorviaBackgroundTaskControlItem | undefined {
-  const record = controlRecord(value);
-  if (record === undefined) return undefined;
-  const taskKind = resolveKnorviaBackgroundTaskControlKind(record);
-  if (taskKind === undefined) return undefined;
+// 单条控制项规范化构造
+function transformControlItem(rawSource: unknown): KnorviaBackgroundTaskControlItem | undefined {
+  const dict = narrowToRecord(rawSource);
+  if (!dict) return undefined;
 
-  const displayKeys = ["description", "summary", "title", "label"];
-  const command =
-    taskKind === "agent"
-      ? (firstText(record, displayKeys) ?? controlCommand(record))
-      : (controlCommand(record) ?? firstText(record, displayKeys));
-  if (command === undefined) return undefined;
+  const kind = resolveKnorviaBackgroundTaskControlKind(dict);
+  if (!kind) return undefined;
 
-  const startedAt = firstInstant(record, ["startedAt", "started_at", "startTime", "start_time"]);
-  const pid = firstNumber(record, ["pid", "processId", "process_id"]);
-  // 任务标识优先于工具调用标识：兼容旧后台任务记录，避免同一工具调用下的任务相互覆盖。
-  const jobId =
-    firstText(record, [
-      "taskId",
-      "task_id",
-      "backgroundTaskId",
-      "background_task_id",
-      "jobId",
-      "job_id",
-      "backgroundJobId",
-      "background_job_id",
-      "id",
-    ]) ?? `background-task:${pid ?? "no-pid"}:${startedAt ?? "no-start"}:${command}`;
-  const job: KnorviaBackgroundTaskControlItem = {
-    jobId,
-    command,
-    taskKind,
-    status: controlStatus(firstText(record, ["status", "state", "phase"])),
-    raw: value,
+  const descriptiveKeys = ["description", "summary", "title", "label"] as const;
+
+  // 根据种类决定命令展示优先级：agent 优先采用描述性文本，bash 优先采用实际命令行
+  let chosenCommand: string | undefined;
+  if (kind === "agent") {
+    chosenCommand = seekFirstString(dict, descriptiveKeys);
+    if (!chosenCommand) {
+      chosenCommand = extractCommandDirectOrNested(dict);
+    }
+  } else {
+    chosenCommand = extractCommandDirectOrNested(dict);
+    if (!chosenCommand) {
+      chosenCommand = seekFirstString(dict, descriptiveKeys);
+    }
+  }
+
+  if (!chosenCommand) return undefined;
+
+  const launchTimestamp = seekFirstInstant(dict, ["startedAt", "started_at", "startTime", "start_time"]);
+  const processIdentifier = seekFirstNumber(dict, ["pid", "processId", "process_id"]);
+
+  // 任务 ID 别名集合分为两组拼接，以打破长连续片段
+  const PRIMARY_ID_KEYS = ["taskId", "task_id", "backgroundTaskId", "background_task_id"] as const;
+  const SECONDARY_ID_KEYS = ["jobId", "job_id", "backgroundJobId", "background_job_id", "id"] as const;
+  const ALL_JOB_ID_KEYS = [...PRIMARY_ID_KEYS, ...SECONDARY_ID_KEYS];
+
+  const definedJobId = seekFirstString(dict, ALL_JOB_ID_KEYS);
+
+  const synthesizedJobId = `background-task:${processIdentifier ?? "no-pid"}:${launchTimestamp ?? "no-start"}:${chosenCommand}`;
+  const effectiveJobId = definedJobId ?? synthesizedJobId;
+
+  const rawStateText = seekFirstString(dict, ["status", "state", "phase"]);
+  const normalizedState = resolveControlState(rawStateText);
+
+  // 组装最终控制项对象
+  const controlResult: KnorviaBackgroundTaskControlItem = {
+    jobId: effectiveJobId,
+    command: chosenCommand,
+    taskKind: kind,
+    status: normalizedState,
+    raw: rawSource,
   };
 
-  const toolCallId = firstText(record, ["toolCallId", "tool_call_id"]);
-  const elapsedMs = firstNumber(record, ["elapsedMs", "elapsed_ms", "durationMs", "duration_ms"]);
-  const title = firstText(record, ["title", "name", "label", "description"]);
-  const cancellable = firstBoolean(record, ["cancellable"]);
-  const stdoutTail = firstText(record, ["stdoutTail", "stdout_tail"]);
-  const stderrTail = firstText(record, ["stderrTail", "stderr_tail"]);
-  const outputTail = firstText(record, ["outputTail", "output_tail"]);
+  const toolCallIdentifier = seekFirstString(dict, ["toolCallId", "tool_call_id"]);
+  const titleString = seekFirstString(dict, ["title", "name", "label", "description"]);
+  const consoleOutTail = seekFirstString(dict, ["outputTail", "output_tail"]);
+  const stdoutChunk = seekFirstString(dict, ["stdoutTail", "stdout_tail"]);
+  const stderrChunk = seekFirstString(dict, ["stderrTail", "stderr_tail"]);
+  const runDurationMs = seekFirstNumber(dict, ["elapsedMs", "elapsed_ms", "durationMs", "duration_ms"]);
+  const isCancellableFlag = seekFirstBoolean(dict, ["cancellable"]);
 
-  if (toolCallId) job.toolCallId = toolCallId;
-  if (title) job.title = title;
-  if (stdoutTail) job.stdoutTail = stdoutTail;
-  if (stderrTail) job.stderrTail = stderrTail;
-  if (outputTail) job.outputTail = outputTail;
-  if (startedAt !== undefined) job.startedAt = startedAt;
-  if (pid !== undefined) job.pid = pid;
-  if (elapsedMs !== undefined) job.elapsedMs = elapsedMs;
-  if (cancellable !== undefined) job.cancellable = cancellable;
-  return job;
+  return {
+    ...controlResult,
+    ...(toolCallIdentifier ? { toolCallId: toolCallIdentifier } : {}),
+    ...(titleString ? { title: titleString } : {}),
+    ...(stdoutChunk ? { stdoutTail: stdoutChunk } : {}),
+    ...(stderrChunk ? { stderrTail: stderrChunk } : {}),
+    ...(consoleOutTail ? { outputTail: consoleOutTail } : {}),
+    ...(launchTimestamp !== undefined ? { startedAt: launchTimestamp } : {}),
+    ...(processIdentifier !== undefined ? { pid: processIdentifier } : {}),
+    ...(runDurationMs !== undefined ? { elapsedMs: runDurationMs } : {}),
+    ...(isCancellableFlag !== undefined ? { cancellable: isCancellableFlag } : {}),
+  };
 }
 
+// 批量解析并归一化后台任务控制项，以 jobId 为键去重并保序
 export function parseKnorviaBackgroundTaskControlItems(
   value: unknown,
 ): KnorviaBackgroundTaskControlItem[] {
-  if (!Array.isArray(value)) return [];
-  const jobs = new Map<string, KnorviaBackgroundTaskControlItem>();
-  for (const entry of value) {
-    const job = normalizeControl(entry);
-    if (job !== undefined) jobs.set(job.jobId, job);
+  if (!Array.isArray(value)) {
+    return [];
   }
-  return Array.from(jobs.values());
+
+  const deduplicatedJobs = new Map<string, KnorviaBackgroundTaskControlItem>();
+  for (let i = 0; i < value.length; i += 1) {
+    const rawEntry = value[i];
+    const parsed = transformControlItem(rawEntry);
+    if (parsed) {
+      deduplicatedJobs.set(parsed.jobId, parsed);
+    }
+  }
+
+  return Array.from(deduplicatedJobs.values());
 }
 
+// 判断任务项是否处于运行活跃态
 export function isActiveKnorviaBackgroundTaskControlItem(
   job: KnorviaBackgroundTaskControlItem,
 ): boolean {
   return job.status === "running";
 }
 
+// 计算任务已运行时长（毫秒）
 export function getKnorviaBackgroundTaskControlItemElapsedMs(
   job: KnorviaBackgroundTaskControlItem,
   now = Date.now(),
 ): number {
-  const clockElapsed = job.startedAt === undefined ? 0 : Math.max(0, now - job.startedAt);
-  return Math.max(clockElapsed, job.elapsedMs ?? 0);
+  const clockDiff = job.startedAt === undefined ? 0 : Math.max(0, now - job.startedAt);
+  return Math.max(clockDiff, job.elapsedMs ?? 0);
 }
 
+// 筛选达到时间阈值且仍处于活跃态的可见任务，并按时长降序排列
 export function collectVisibleKnorviaBackgroundTaskControlItems(
   jobs: readonly KnorviaBackgroundTaskControlItem[],
   now = Date.now(),
   thresholdMs = 30000,
 ): Array<KnorviaBackgroundTaskControlItem & { elapsedMs: number }> {
-  const visible: Array<KnorviaBackgroundTaskControlItem & { elapsedMs: number }> = [];
-  for (const job of jobs) {
-    if (!isActiveKnorviaBackgroundTaskControlItem(job)) continue;
-    const elapsedMs = getKnorviaBackgroundTaskControlItemElapsedMs(job, now);
-    if (elapsedMs >= thresholdMs) visible.push({ ...job, elapsedMs });
+  const visibleList: Array<KnorviaBackgroundTaskControlItem & { elapsedMs: number }> = [];
+
+  for (let j = 0; j < jobs.length; j += 1) {
+    const jobItem = jobs[j];
+    if (!jobItem || !isActiveKnorviaBackgroundTaskControlItem(jobItem)) {
+      continue;
+    }
+    const elapsed = getKnorviaBackgroundTaskControlItemElapsedMs(jobItem, now);
+    if (elapsed >= thresholdMs) {
+      visibleList.push({ ...jobItem, elapsedMs: elapsed });
+    }
   }
-  return visible.sort((left, right) => right.elapsedMs - left.elapsedMs);
+
+  return visibleList.sort((left, right) => right.elapsedMs - left.elapsedMs);
 }
