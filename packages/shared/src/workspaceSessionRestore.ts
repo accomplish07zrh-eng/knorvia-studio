@@ -2,45 +2,50 @@
 
 import type { PersistedWorkspaceSessionEntry } from "./protocol.js";
 
-// 会话种类常量定义
-const LOCAL_SESSION_KIND = "local" as const;
-
-// 遍历检查指定索引区间的会话列表，发现并返回首个本地会话的下标
-function findFirstLocalSessionIndex(
-  sessionPool: readonly PersistedWorkspaceSessionEntry[],
-  startIndex: number,
-  boundaryIndex: number,
-): number | null {
-  for (let cursor = startIndex; cursor < boundaryIndex; cursor += 1) {
-    const item = sessionPool[cursor];
-    if (item?.kind === LOCAL_SESSION_KIND) {
-      return cursor;
-    }
+// 产生从起始索引开始、回绕遍历整个列表长度的下标生成器
+function* createCircularIndexSequence(
+  length: number,
+  start: number,
+): Generator<number, void, undefined> {
+  for (let offset = 0; offset < length; offset += 1) {
+    yield (start + offset) % length;
   }
-  return /* 该区间内不存在本地会话 */ null;
 }
 
-// 根据持久化会话数组与记录的上次活跃索引，定位可作为启动预热目标的本地会话下标
+// 判定会话记录是否为可支持本地预热的目标类型
+function isLocalWorkspaceSession(entry: PersistedWorkspaceSessionEntry | undefined): boolean {
+  return entry !== undefined && entry.kind === "local";
+}
+
+// 将传入的上次活跃索引安全约束在会话列表下标区间
+function clampActiveTabIndex(lastActiveIndex: number | undefined, count: number): number {
+  if (lastActiveIndex === undefined || lastActiveIndex < 0) {
+    return 0;
+  }
+  if (lastActiveIndex >= count) {
+    return count - 1;
+  }
+  return lastActiveIndex;
+}
+
+// 启动时决策首个可预热的本地会话索引。
+// 优先从上次活跃位向后检索，若未命中则自动绕回列表头部继续寻找本地会话。
 export function resolveStartupLocalWorkspaceSessionIndex(
-  /* 已持久化的全部会话快照集合 */
   persistedSessions: readonly PersistedWorkspaceSessionEntry[],
-  /* 界面记录的上一个活跃 Tab 下标 */
   lastActiveTabIndex: number | undefined,
 ): number | null {
-  const sessionTotal = persistedSessions.length;
-  if (sessionTotal <= 0) {
-    return /* 空会话表无可选目标 */ null;
+  const sessionCount = persistedSessions.length;
+  if (sessionCount === 0) {
+    return null;
   }
 
-  // 约束起始搜索点至有效下标区间
-  const safeBaseIndex = Math.max(0, Math.min(lastActiveTabIndex ?? 0, sessionTotal - 1));
+  const startCursor = clampActiveTabIndex(lastActiveTabIndex, sessionCount);
 
-  // 1. 首选阶段：从上次活跃位置向后检索直至列表末尾
-  const primaryHit = findFirstLocalSessionIndex(persistedSessions, safeBaseIndex, sessionTotal);
-  if (primaryHit !== null) {
-    return primaryHit;
+  for (const idx of createCircularIndexSequence(sessionCount, startCursor)) {
+    if (isLocalWorkspaceSession(persistedSessions[idx])) {
+      return idx;
+    }
   }
 
-  // 2. 备选回绕阶段：远程会话无法在本地预热，从列表首项向前检索至起始点之前
-  return findFirstLocalSessionIndex(persistedSessions, 0, safeBaseIndex);
+  return null;
 }
