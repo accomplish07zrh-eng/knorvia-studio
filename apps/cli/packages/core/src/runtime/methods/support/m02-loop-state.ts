@@ -16,190 +16,161 @@ import type {
   TurnMachineImpl,
 } from "../../deps.js";
 import type { ActiveTurnSteeringState, DrainedPendingInputDiagnostics } from "../../types.js";
+import { assignKeys, type Col, type Opt } from "./m02-record.js";
 
-export type PendingStreamRecoveryRequest = ModelStreamRecoveryStatus; // 一次性流恢复请求
+export type PendingStreamRecoveryRequest = ModelStreamRecoveryStatus;
 
-export const RAPID_REFILL_TOOL_TURN_THRESHOLD = 3; // 距上次压缩的工具批间隔
-export const MAX_CONSECUTIVE_RAPID_REFILLS = 3; // 连续灌水熔断次数
+export const RAPID_REFILL_TOOL_TURN_THRESHOLD = 3;
+export const MAX_CONSECUTIVE_RAPID_REFILLS = 3;
 
-const cronName = (verb: "Create" | "Update" | "Delete") => `Cron${verb}`;
-export const AUTOMATION_MUTATION_TOOL_NAMES = [
-  cronName("Create"),
-  cronName("Update"),
-  cronName("Delete"),
-] as unknown as readonly ["CronCreate", "CronUpdate", "CronDelete"];
+export const AUTOMATION_MUTATION_TOOL_NAMES = ["CronCreate", "CronUpdate", "CronDelete"] as const;
 
 const AUTOMATION_QUERY_PREFIX = "automation-";
 
-export const OFF_PEAK_MUTATION_TOOL_NAMES = [
-  ["OffPeak", "Create"].join(""),
-  ["Send", "Message"].join(""),
-  ["Work", "flow"].join(""),
-] as unknown as readonly ["OffPeakCreate", "SendMessage", "Workflow"];
+// OffPeakList 只读，不在这张拒绝表里。不能并进 automation 的名单，否则定时任务会误伤 OffPeakCreate。
+export const OFF_PEAK_MUTATION_TOOL_NAMES = ["OffPeakCreate", "SendMessage", "Workflow"] as const;
 
 const OFF_PEAK_QUERY_PREFIX = "offpeak-";
 
-export interface CompactLoopTracking {
-  // m02
-  consecutiveRapidRefills: number; // 已连续灌水次数
-  toolTurnsSinceCompact: number; // 上次压缩后的工具批
-}
+export type CompactLoopTracking = Col<"consecutiveRapidRefills", number> &
+  Col<"toolTurnsSinceCompact", number>;
 
-export interface RapidRefillDecision {
-  // m02
-  consecutiveRapidRefills: number; // 本次判定后的连续次数
-  shouldBlock: boolean; // 达到熔断
-  toolTurnsSinceCompact: number; // 判定时读到的间隔
-}
+export type RapidRefillDecision = Col<"consecutiveRapidRefills", number> &
+  Col<"shouldBlock", boolean> &
+  Col<"toolTurnsSinceCompact", number>;
 
-export type CompactAttemptOutcome = "skipped" | "compacted" | "failed"; // m02
-export type AutoCompactOutcome = CompactAttemptOutcome | "rapid_refill_blocked"; // m02
+export type CompactAttemptOutcome = "skipped" | "compacted" | "failed";
+export type AutoCompactOutcome = CompactAttemptOutcome | "rapid_refill_blocked";
 
-export interface AutoCompactLoopContext {
-  // m02
-  compactReason: CompactReason; // 自动压缩原因
-  modelStepIndex: number; // 当前模型步下标
-  phase: CompactPhase; // 压缩阶段
-  rapidRefill: RapidRefillDecision; // 灌水判定
-  model: Model; // 本步模型
-  turnRequestState: TurnRequestState; // provider 可见历史
-}
+export type AutoCompactLoopContext = Col<"compactReason", CompactReason> &
+  Col<"modelStepIndex", number> &
+  Col<"phase", CompactPhase> &
+  Col<"rapidRefill", RapidRefillDecision> &
+  Col<"model", Model> &
+  Col<"turnRequestState", TurnRequestState>;
 
-export interface ReactiveCompactLoopContext {
-  // m02
-  activeEntries?: readonly RuntimeMessageEntry[]; // 当前请求条目
-  modelStepIndex: number; // 触发步下标
-  model: Model; // 触发时模型
-  rapidRefillCount: number; // 连续灌水计数
-  turnRequestState: TurnRequestState; // 压缩后要替换的历史
-}
+export type ReactiveCompactLoopContext = Opt<"activeEntries", readonly RuntimeMessageEntry[]> &
+  Col<"modelStepIndex", number> &
+  Col<"model", Model> &
+  Col<"rapidRefillCount", number> &
+  Col<"turnRequestState", TurnRequestState>;
 
-export interface TurnRequestState {
-  // m02
-  entries: readonly RuntimeMessageEntry[]; // provider 可见条目
-  outputTokenContinuationCount: number; // 输出上限续写次数
-}
+export type TurnRequestState = Col<"entries", readonly RuntimeMessageEntry[]> &
+  Col<"outputTokenContinuationCount", number>;
 
-export interface RegularTurnLoopState {
-  // m02
-  activeTurn?: ActiveTurnSteeringState; // 进行中的 steering 槽
-  automationId?: string; // 准入显式传入的自动化身份
-  offPeakTaskId?: string; // 准入显式传入的闲时身份
-  automationCreateLimitReached?: boolean; // 创建上限后本轮只出文本
-  anomalyWarningsInjected: number; // 已注入的异常提醒次数
-  backgroundSubagentResultConsumed: boolean; // 已消费子代理后台结果
-  workflowResultConsumed: boolean; // 已消费工作流后台通知
-  compactTracking?: CompactLoopTracking; // 压缩循环计数，缺省表示尚未开始
-  currentUserMessageId: MessageId; // 当前用户消息锚点
-  drainedSteerForNextRequest?: DrainedPendingInputDiagnostics; // 下一步要带上的 steer
-  events: SessionEvent[]; // 本轮事件缓冲
-  input: string; // 用户输入原文
-  modelResponse: string; // 最近一次模型正文
-  model: Model; // 本轮固定模型
-  modelSelectionScope?: "execution"; // execution 时 guide 不能改模型
-  subagentModelOverride?: SubagentRunOptions["modelOverride"]; // 子代理模型覆盖
-  modelStepCount: number; // 已完成的模型步
-  historyRoundCount: number; // 已写入 provider 历史的轮次
-  reactiveCompactAttemptedInCurrentModelStep: boolean; // 本步是否已试过反应式压缩
-  repeatedToolCallSignature?: string; // 重复工具签名
-  repeatedToolCallStreakCount: number; // 重复工具连续次数
-  pendingStreamRecoveryRequest?: PendingStreamRecoveryRequest; // 读后必须清空
-  stopHookContinuationCount: number; // stop hook 续写次数
-  stableProductStartMessageId?: MessageId; // 最终产物起点，与边界成对
-  stableBoundaryAssistantMessageId?: MessageId; // 最终助手边界
-  streamRecoveryRetryCount: number; // 流恢复重试次数
-  tokenCount: number; // 最近一次用量
-  toolCallCount: number; // 累计工具调用
-  turnRequestState: TurnRequestState; // 本轮 provider 历史
-  toolDisallowlist?: readonly string[]; // 对模型隐藏的工具名
-  traceId: TraceId; // 回合 trace
-  turnAbortSignal: AbortSignal; // 回合取消信号
-  turnId: TurnId; // 回合 id
-  turnMachine: TurnMachineImpl; // 回合状态机
-  turnOutputStyle?: OutputStylePromptConfig; // 本轮输出风格
-  turnTraceContext: TraceContext; // 本轮追踪上下文
-  userMessageId: MessageId; // 用户消息 id
-}
+export type RegularTurnLoopState = Opt<"activeTurn", ActiveTurnSteeringState> &
+  Opt<"automationId", string> &
+  Opt<"offPeakTaskId", string> &
+  Opt<"automationCreateLimitReached", boolean> &
+  Col<"anomalyWarningsInjected", number> &
+  Col<"backgroundSubagentResultConsumed", boolean> &
+  Col<"workflowResultConsumed", boolean> &
+  Opt<"compactTracking", CompactLoopTracking> &
+  Col<"currentUserMessageId", MessageId> &
+  Opt<"drainedSteerForNextRequest", DrainedPendingInputDiagnostics> &
+  Col<"events", SessionEvent[]> &
+  Col<"input", string> &
+  Col<"modelResponse", string> &
+  Col<"model", Model> &
+  Opt<"modelSelectionScope", "execution"> &
+  Opt<"subagentModelOverride", SubagentRunOptions["modelOverride"]> &
+  Col<"modelStepCount", number> &
+  Col<"historyRoundCount", number> &
+  Col<"reactiveCompactAttemptedInCurrentModelStep", boolean> &
+  Opt<"repeatedToolCallSignature", string> &
+  Col<"repeatedToolCallStreakCount", number> &
+  Opt<"pendingStreamRecoveryRequest", PendingStreamRecoveryRequest> &
+  Col<"stopHookContinuationCount", number> &
+  Opt<"stableProductStartMessageId", MessageId> &
+  Opt<"stableBoundaryAssistantMessageId", MessageId> &
+  Col<"streamRecoveryRetryCount", number> &
+  Col<"tokenCount", number> &
+  Col<"toolCallCount", number> &
+  Col<"turnRequestState", TurnRequestState> &
+  Opt<"toolDisallowlist", readonly string[]> &
+  Col<"traceId", TraceId> &
+  Col<"turnAbortSignal", AbortSignal> &
+  Col<"turnId", TurnId> &
+  Col<"turnMachine", TurnMachineImpl> &
+  Opt<"turnOutputStyle", OutputStylePromptConfig> &
+  Col<"turnTraceContext", TraceContext> &
+  Col<"userMessageId", MessageId>;
 
-function blankToEmpty(value: string | undefined): string {
+function trimmed(value: string | undefined): string {
   return (value ?? "").trim();
 }
 
-function deniedNames(state: RegularTurnLoopState): ReadonlySet<string> {
-  return new Set(state.toolDisallowlist ?? []);
+function blockedToolNames(loop: RegularTurnLoopState): ReadonlySet<string> {
+  return new Set(loop.toolDisallowlist ?? []);
 }
 
-function queryText(state: RegularTurnLoopState): string {
-  return blankToEmpty(state.turnTraceContext.queryId);
+function queryLabel(loop: RegularTurnLoopState): string {
+  return trimmed(loop.turnTraceContext.queryId);
 }
 
-export function isAutomationMutationRestrictedTurn(state: RegularTurnLoopState): boolean {
-  // m02
-  if (blankToEmpty(state.automationId).length > 0) return true;
-  if (queryText(state).startsWith(AUTOMATION_QUERY_PREFIX)) return true;
-  const denied = deniedNames(state);
+export function isAutomationMutationRestrictedTurn(loop: RegularTurnLoopState): boolean {
+  // 身份已经标明时不能再读 queryId：有的调用只传 automationId，trace 还不存在。
+  const named = trimmed(loop.automationId).length > 0;
+  if (named) return named;
+  const prefixed = queryLabel(loop).startsWith(AUTOMATION_QUERY_PREFIX);
+  if (prefixed) return prefixed;
+  const denied = blockedToolNames(loop);
   return AUTOMATION_MUTATION_TOOL_NAMES.every((name) => denied.has(name));
 }
 
-export function isOffPeakCreateRestrictedTurn(state: RegularTurnLoopState): boolean {
-  // m02
-  if (blankToEmpty(state.offPeakTaskId).length > 0) return true;
-  if (queryText(state).startsWith(OFF_PEAK_QUERY_PREFIX)) return true;
-  return deniedNames(state).has(OFF_PEAK_MUTATION_TOOL_NAMES[0]);
+export function isOffPeakCreateRestrictedTurn(loop: RegularTurnLoopState): boolean {
+  const named = trimmed(loop.offPeakTaskId).length > 0;
+  if (named) return named;
+  const prefixed = queryLabel(loop).startsWith(OFF_PEAK_QUERY_PREFIX);
+  if (prefixed) return prefixed;
+  // 哨兵只看名单第一项 OffPeakCreate。旧派发的拒绝表可能还没带上后来加的工具。
+  return blockedToolNames(loop).has(OFF_PEAK_MUTATION_TOOL_NAMES[0]);
 }
 
-function decisionOf(streak: number, sinceCompact: number): RapidRefillDecision {
-  return {
-    // m02
-    consecutiveRapidRefills: streak,
-    shouldBlock: streak >= MAX_CONSECUTIVE_RAPID_REFILLS,
-    toolTurnsSinceCompact: sinceCompact,
-  };
+function refillDecision(streak: number, sinceCompact: number): RapidRefillDecision {
+  const blocked = streak >= MAX_CONSECUTIVE_RAPID_REFILLS;
+  return assignKeys<RapidRefillDecision>([
+    ["consecutiveRapidRefills", streak],
+    ["shouldBlock", blocked],
+    ["toolTurnsSinceCompact", sinceCompact],
+  ]);
 }
 
-export function evaluateRapidRefill(
-  // m02
-  tracking: CompactLoopTracking | undefined, // m02
-): RapidRefillDecision {
-  // m02
-  if (tracking === undefined) return decisionOf(0, 0);
-  const sinceCompact = tracking.toolTurnsSinceCompact;
-  const streak =
-    sinceCompact < RAPID_REFILL_TOOL_TURN_THRESHOLD ? tracking.consecutiveRapidRefills + 1 : 0;
-  return decisionOf(streak, sinceCompact);
+export function evaluateRapidRefill(memory: CompactLoopTracking | undefined): RapidRefillDecision {
+  // 还没有 tracking 时连续次数是 0，不能当成「上一次 + 1」。
+  if (memory === undefined) return refillDecision(0, 0);
+  const sinceCompact = memory.toolTurnsSinceCompact;
+  const stillRapid = sinceCompact < RAPID_REFILL_TOOL_TURN_THRESHOLD;
+  const streak = stillRapid ? memory.consecutiveRapidRefills + 1 : 0;
+  return refillDecision(streak, sinceCompact);
 }
 
 export function recordCompactSuccess(
-  // m02
-  state: RegularTurnLoopState, // m02
-  decision: RapidRefillDecision, // m02
+  loop: RegularTurnLoopState,
+  verdict: RapidRefillDecision,
 ): void {
-  // m02
-  state.compactTracking = {
-    // m02
-    consecutiveRapidRefills: decision.consecutiveRapidRefills, // m02
-    toolTurnsSinceCompact: 0, // m02
-  };
+  loop.compactTracking = assignKeys<CompactLoopTracking>([
+    ["consecutiveRapidRefills", verdict.consecutiveRapidRefills],
+    ["toolTurnsSinceCompact", 0],
+  ]);
 }
 
-export function recordCompletedToolBatch(state: RegularTurnLoopState): void {
-  // m02
+export function recordCompletedToolBatch(loop: RegularTurnLoopState): void {
   // 旗标若活过整个用户回合，下一次真实 overflow 会被挡住。
-  state.reactiveCompactAttemptedInCurrentModelStep = false; // m02
-  const tracking = state.compactTracking;
-  if (tracking !== undefined) tracking.toolTurnsSinceCompact += 1;
+  loop.reactiveCompactAttemptedInCurrentModelStep = false;
+  const memory = loop.compactTracking;
+  if (memory === undefined) return;
+  memory.toolTurnsSinceCompact = memory.toolTurnsSinceCompact + 1;
 }
 
-function bumpHistory(state: RegularTurnLoopState): void {
-  state.historyRoundCount += 1; // m02
+function noteHistoryRound(loop: RegularTurnLoopState): void {
+  loop.historyRoundCount = loop.historyRoundCount + 1;
 }
 
-export function recordModelHistoryRound(state: RegularTurnLoopState): void {
-  // m02
-  bumpHistory(state);
+export function recordModelHistoryRound(loop: RegularTurnLoopState): void {
+  noteHistoryRound(loop);
 }
 
-export function recordCompactHistoryRound(state: RegularTurnLoopState): void {
-  // m02
-  bumpHistory(state);
+export function recordCompactHistoryRound(loop: RegularTurnLoopState): void {
+  noteHistoryRound(loop);
 }

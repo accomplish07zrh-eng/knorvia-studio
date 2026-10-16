@@ -22,6 +22,12 @@ export function phrase(parts: readonly string[]): string {
   return parts.join("");
 }
 
+/** 把单个字段收成对象类型，公开结构用交叉拼出来，而不是再排一列同名属性。 */
+export type Col<K extends string, V> = { [P in K]: V };
+
+/** 可选字段版本，缺省与 `?` 相同。 */
+export type Opt<K extends string, V> = { [P in K]?: V };
+
 type LogLevel = "debug" | "info" | "warn";
 
 /** 与 Logger 的 debug/info/warn 同形，避免回调参数逆变把运行时对象挡在外面。 */

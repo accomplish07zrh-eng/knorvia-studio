@@ -13,7 +13,7 @@ import {
 import { emptyTokenUsageInfo, toTokenUsageInfo } from "../../helpers/index.js";
 import type { AgentRuntimeInternal } from "../../internal.js";
 import type { RuntimeModelTextResult } from "../../types.js";
-import { assignKeys, phrase } from "./m02-record.js";
+import { assignKeys, type Col } from "./m02-record.js";
 import {
   appendTurnRequestEntries,
   commitAssistantToTurnRequest,
@@ -22,61 +22,53 @@ import {
 import { drainInlineGuideForNextRequest } from "./m02-guide.js";
 import { recordModelHistoryRound, type RegularTurnLoopState } from "./m02-loop-state.js";
 
-const MISSING_ASSISTANT = phrase([
-  "Model-backed assistant persistence ",
-  "requires the loop Model",
-]);
-const MISSING_STOP = phrase(["Model-backed turn stop ", "requires the loop Model"]);
-const NO_TOOL_BOUNDARY = phrase(["guide.", "noToolBoundary"]) as "guide.noToolBoundary";
+const MISSING_ASSISTANT = "Model-backed assistant persistence requires the loop Model";
+const MISSING_STOP = "Model-backed turn stop requires the loop Model";
+const NO_TOOL_BOUNDARY = "guide.noToolBoundary" as const;
+const BREAK_STEP = "break" as const;
+const CONTINUE_STEP = "continue" as const;
+const STOP_EVENT = HookEventName.Stop;
 
 type PointerKey =
   | "latestAssistantMessageId"
   | "latestAssistantTurnId"
   | "latestConversationMessageId";
-type RequiredPointers = { [Key in PointerKey]: AgentRuntimeInternal[Key] };
 
-export interface AssistantPersistenceAnchor extends RequiredPointers {
-  // 丢弃未提交助手时，只回写仍指向这条消息的指针。
-}
-
-type KeptAssistant = {
-  assistantPersistenceAnchor: AssistantPersistenceAnchor; // m02
-  assistantCreatedAt: number; // m02
-  assistantMessageId: MessageId; // m02
-  includeEmptyAssistant: boolean; // m02
-  modelTraceContext: TraceContext; // m02
-  result: RuntimeModelTextResult; // m02
+export type AssistantPersistenceAnchor = {
+  [Key in PointerKey]: AgentRuntimeInternal[Key];
 };
 
-type StopOptions = {
-  assistantPersistenceAnchor: AssistantPersistenceAnchor; // m02
-  assistantCreatedAt: number; // m02
-  assistantMessageId: MessageId; // m02
-  modelTraceContext: TraceContext; // m02
-  result: RuntimeModelTextResult; // m02
-};
+type KeptAssistant = Col<"assistantPersistenceAnchor", AssistantPersistenceAnchor> &
+  Col<"assistantCreatedAt", number> &
+  Col<"assistantMessageId", MessageId> &
+  Col<"includeEmptyAssistant", boolean> &
+  Col<"modelTraceContext", TraceContext> &
+  Col<"result", RuntimeModelTextResult>;
 
-type LimitCarrier = {
-  error: { data: Record<string, unknown>; name: string }; // m02
-  finishReason: string; // m02
-  model: Model; // m02
-  modelTraceContext: TraceContext; // m02
-};
+type StopOptions = Col<"assistantPersistenceAnchor", AssistantPersistenceAnchor> &
+  Col<"assistantCreatedAt", number> &
+  Col<"assistantMessageId", MessageId> &
+  Col<"modelTraceContext", TraceContext> &
+  Col<"result", RuntimeModelTextResult>;
 
-function adopt(state: RegularTurnLoopState, next: unknown): void {
-  state.turnMachine = new TurnMachineImpl(next as never);
+type LimitCarrier = Col<"error", { data: Record<string, unknown>; name: string }> &
+  Col<"finishReason", string> &
+  Col<"model", Model> &
+  Col<"modelTraceContext", TraceContext>;
+
+function adopt(loop: RegularTurnLoopState, next: unknown): void {
+  loop.turnMachine = new TurnMachineImpl(next as never);
 }
 
 function stepFinish(
-  runtime: AgentRuntimeInternal, // m02
+  host: AgentRuntimeInternal,
   messageId: MessageId,
-  reason: string, // m02
+  reason: string,
   tokens: unknown,
 ) {
-  // m02
   return assignKeys([
     ["id", createPartId()],
-    ["sessionID", runtime.sessionId],
+    ["sessionID", host.sessionId],
     ["messageID", messageId],
     ["type", "step-finish"],
     ["reason", reason],
@@ -103,224 +95,191 @@ function failedClosure(reason: string, tokens: unknown, fault: LimitCarrier["err
 }
 
 export function captureAssistantPersistenceAnchor(
-  // m02
-  runtime: AgentRuntimeInternal, // m02
+  host: AgentRuntimeInternal,
 ): AssistantPersistenceAnchor {
-  // m02
   return assignKeys<AssistantPersistenceAnchor>([
-    ["latestAssistantMessageId", runtime.latestAssistantMessageId],
-    ["latestAssistantTurnId", runtime.latestAssistantTurnId],
-    ["latestConversationMessageId", runtime.latestConversationMessageId],
+    ["latestAssistantMessageId", host.latestAssistantMessageId],
+    ["latestAssistantTurnId", host.latestAssistantTurnId],
+    ["latestConversationMessageId", host.latestConversationMessageId],
   ]);
 }
 
 function rewindPointers(
-  runtime: AgentRuntimeInternal, // m02
+  host: AgentRuntimeInternal,
   messageId: MessageId,
   anchor: AssistantPersistenceAnchor,
 ): void {
-  // m02
-  const conversationStillOwns = runtime.latestConversationMessageId === messageId;
-  const assistantStillOwns = runtime.latestAssistantMessageId === messageId;
-  if (conversationStillOwns)
-    runtime.latestConversationMessageId = anchor.latestConversationMessageId;
+  const conversationStillOwns = host.latestConversationMessageId === messageId;
+  const assistantStillOwns = host.latestAssistantMessageId === messageId;
+  if (conversationStillOwns) host.latestConversationMessageId = anchor.latestConversationMessageId;
   if (assistantStillOwns) {
-    runtime.latestAssistantMessageId = anchor.latestAssistantMessageId;
-    runtime.latestAssistantTurnId = anchor.latestAssistantTurnId;
+    host.latestAssistantMessageId = anchor.latestAssistantMessageId;
+    host.latestAssistantTurnId = anchor.latestAssistantTurnId;
   }
 }
 
-async function discardAssistant(
-  runtime: AgentRuntimeInternal, // m02
-  options: KeptAssistant,
-): Promise<void> {
-  // m02
-  const store = runtime.sessionStore; // m02
+async function discardAssistant(host: AgentRuntimeInternal, options: KeptAssistant): Promise<void> {
+  const store = host.sessionStore;
   if (store) {
     await store.removeMessage(
       assignKeys([
-        ["sessionID", runtime.sessionId],
+        ["sessionID", host.sessionId],
         ["messageID", options.assistantMessageId],
       ]) as never,
     );
   }
-  rewindPointers(runtime, options.assistantMessageId, options.assistantPersistenceAnchor);
+  rewindPointers(host, options.assistantMessageId, options.assistantPersistenceAnchor);
 }
 
 export async function persistCompletedAssistantStep(
-  // m02
-  runtime: AgentRuntimeInternal, // m02
-  state: RegularTurnLoopState, // m02
+  host: AgentRuntimeInternal,
+  loop: RegularTurnLoopState,
   options: KeptAssistant,
 ): Promise<boolean> {
-  // m02
-  const chosen = state.model;
-  if (chosen == null) throw new Error(MISSING_ASSISTANT);
-  let stored = commitAssistantToTurnRequest(runtime, state, options.result, undefined);
+  const chosen = loop.model;
+  if (!chosen) throw new Error(MISSING_ASSISTANT);
+  let stored = commitAssistantToTurnRequest(host, loop, options.result, undefined);
   if (stored === false && options.includeEmptyAssistant) {
-    const blank = createRuntimeAssistantEntry(
-      "", // m02
-      undefined, // m02
-      undefined, // m02
-      chosen,
-      toTokenUsageInfo(options.result.usage), // m02
-    );
-    commitTurnRequestEntries(runtime, state.turnRequestState, [blank]);
+    commitTurnRequestEntries(host, loop.turnRequestState, [
+      createRuntimeAssistantEntry(
+        "",
+        undefined,
+        undefined,
+        chosen,
+        toTokenUsageInfo(options.result.usage),
+      ),
+    ]);
     stored = true;
   }
   if (stored === false) {
-    await discardAssistant(runtime, options);
-    return stored; // m02
+    await discardAssistant(host, options);
+    return stored;
   }
-  const tokens = toTokenUsageInfo(options.result.usage); // m02
-  const reason = options.result.finishReason;
-  await runtime.persistPart(
-    // m02
-    stepFinish(runtime, options.assistantMessageId, reason, tokens) as never,
-    options.modelTraceContext, // m02
+  const tokens = toTokenUsageInfo(options.result.usage);
+  await host.persistPart(
+    stepFinish(host, options.assistantMessageId, options.result.finishReason, tokens) as never,
+    options.modelTraceContext,
   );
-  await runtime.persistAssistantMessage(
-    // m02
-    options.assistantMessageId, // m02
-    state.currentUserMessageId, // m02
-    options.assistantCreatedAt, // m02
-    successClosure(reason, tokens),
-    options.modelTraceContext, // m02
+  await host.persistAssistantMessage(
+    options.assistantMessageId,
+    loop.currentUserMessageId,
+    options.assistantCreatedAt,
+    successClosure(options.result.finishReason, tokens),
+    options.modelTraceContext,
     chosen,
   );
-  return stored; // m02
+  return stored;
 }
 
 export async function persistOutputTokenLimitErrorCarrier(
-  // m02
-  runtime: AgentRuntimeInternal, // m02
-  state: RegularTurnLoopState, // m02
+  host: AgentRuntimeInternal,
+  loop: RegularTurnLoopState,
   options: LimitCarrier,
 ): Promise<void> {
-  // m02
-  const messageId = createMessageId(); // m02
-  const createdAt = Date.now(); // m02
-  const tokens = emptyTokenUsageInfo(); // m02
-  const trace = options.modelTraceContext;
-  const parent = state.currentUserMessageId;
-  await runtime.persistAssistantMessage(
-    // m02
-    messageId, // m02
-    parent, // m02
-    createdAt, // m02
-    undefined, // m02
-    trace, // m02
-    options.model, // m02
+  const messageId = createMessageId();
+  const createdAt = Date.now();
+  const tokens = emptyTokenUsageInfo();
+  await host.persistAssistantMessage(
+    messageId,
+    loop.currentUserMessageId,
+    createdAt,
+    undefined,
+    options.modelTraceContext,
+    options.model,
   );
-  await runtime.persistPart(
-    // m02
-    stepFinish(runtime, messageId, options.finishReason, tokens) as never,
-    trace, // m02
+  await host.persistPart(
+    stepFinish(host, messageId, options.finishReason, tokens) as never,
+    options.modelTraceContext,
   );
-  await runtime.persistAssistantMessage(
-    // m02
-    messageId, // m02
-    parent, // m02
-    createdAt, // m02
+  await host.persistAssistantMessage(
+    messageId,
+    loop.currentUserMessageId,
+    createdAt,
     failedClosure(options.finishReason, tokens, options.error),
-    trace, // m02
-    options.model, // m02
+    options.modelTraceContext,
+    options.model,
   );
 }
 
-async function parkGuides(
-  runtime: AgentRuntimeInternal, // m02
-  state: RegularTurnLoopState, // m02
-): Promise<void> {
-  // m02
-  const slot = state.activeTurn;
+async function parkGuides(host: AgentRuntimeInternal, loop: RegularTurnLoopState): Promise<void> {
+  const slot = loop.activeTurn;
   if (!slot) return;
-  await runtime.fallbackPendingGuidesToQueue(
+  await host.fallbackPendingGuidesToQueue(
     assignKeys([
       ["activeTurn", slot],
-      ["events", state.events],
+      ["events", loop.events],
       ["reasonCode", NO_TOOL_BOUNDARY],
-      ["traceContext", state.turnTraceContext],
+      ["traceContext", loop.turnTraceContext],
     ]) as never,
   );
 }
 
-function freezeSteering(state: RegularTurnLoopState): void {
-  const slot = state.activeTurn;
-  if (slot) slot.steerable = false;
-}
-
-function markStable(state: RegularTurnLoopState, assistantMessageId: MessageId): void {
-  state.stableProductStartMessageId = state.currentUserMessageId; // m02
-  state.stableBoundaryAssistantMessageId = assistantMessageId;
-  adopt(state, state.turnMachine.complete(state.modelResponse, "success"));
-}
-
-async function stopAtBoundary(
-  runtime: AgentRuntimeInternal, // m02
-  state: RegularTurnLoopState, // m02
-  assistantMessageId: MessageId, // m02
-): Promise<"break"> {
-  await parkGuides(runtime, state);
-  freezeSteering(state);
-  markStable(state, assistantMessageId);
-  return "break"; // m02
-}
-
-function followGuide(state: RegularTurnLoopState): "continue" {
-  adopt(state, state.turnMachine.aggregateResults());
-  return "continue"; // m02
+function sealSuccess(loop: RegularTurnLoopState, assistantMessageId: MessageId): void {
+  loop.stableProductStartMessageId = loop.currentUserMessageId;
+  loop.stableBoundaryAssistantMessageId = assistantMessageId;
+  adopt(loop, loop.turnMachine.complete(loop.modelResponse, "success"));
 }
 
 async function maybeContinueOnHooks(
-  runtime: AgentRuntimeInternal, // m02
-  state: RegularTurnLoopState, // m02
-): Promise<"continue" | undefined> {
-  const repeated = state.stopHookContinuationCount > 0;
-  const hookResult = await runtime.runStopHooks(
-    state.modelResponse, // m02
-    state.toolCallCount, // m02
-    state.turnTraceContext, // m02
-    state.turnAbortSignal, // m02
+  host: AgentRuntimeInternal,
+  loop: RegularTurnLoopState,
+): Promise<typeof CONTINUE_STEP | undefined> {
+  const repeated = loop.stopHookContinuationCount > 0;
+  const hookResult = await host.runStopHooks(
+    loop.modelResponse,
+    loop.toolCallCount,
+    loop.turnTraceContext,
+    loop.turnAbortSignal,
     repeated,
   );
-  const again = runtime.shouldContinueAfterStopHooks(hookResult, state.stopHookContinuationCount);
+  const again = host.shouldContinueAfterStopHooks(hookResult, loop.stopHookContinuationCount);
   if (again === false) return undefined;
-  state.stopHookContinuationCount += 1; // m02
-  const injected = runtime.injectHookAdditionalContextIntoMessageHistory(
-    HookEventName.Stop, // m02
-    hookResult.additionalContexts, // m02
+  loop.stopHookContinuationCount = loop.stopHookContinuationCount + 1;
+  const injected = host.injectHookAdditionalContextIntoMessageHistory(
+    STOP_EVENT,
+    hookResult.additionalContexts,
   );
-  const appended = injected ? [injected] : [];
-  appendTurnRequestEntries(state.turnRequestState, appended);
-  adopt(state, state.turnMachine.aggregateResults());
-  return "continue"; // m02
+  appendTurnRequestEntries(loop.turnRequestState, injected ? [injected] : []);
+  adopt(loop, loop.turnMachine.aggregateResults());
+  return CONTINUE_STEP;
 }
 
-export async function finishModelStepWithoutToolCalls( // m02
+export async function finishModelStepWithoutToolCalls(
   this: AgentRuntimeInternal,
-  // m02
-  state: RegularTurnLoopState, // m02
+  loop: RegularTurnLoopState,
   options: StopOptions,
 ): Promise<"continue" | "break"> {
-  // m02
-  const runtime: AgentRuntimeInternal = this;
-  if (state.model == null) throw new Error(MISSING_STOP);
+  const host: AgentRuntimeInternal = this;
+  if (!loop.model) throw new Error(MISSING_STOP);
+  // includeEmptyAssistant 是后补的键，排在展开字段之后，和 `{...options, includeEmptyAssistant}` 一致。
   const request = assignKeys<KeptAssistant>([
     ["assistantPersistenceAnchor", options.assistantPersistenceAnchor],
     ["assistantCreatedAt", options.assistantCreatedAt],
     ["assistantMessageId", options.assistantMessageId],
-    ["includeEmptyAssistant", true],
     ["modelTraceContext", options.modelTraceContext],
     ["result", options.result],
+    ["includeEmptyAssistant", true],
   ]);
-  const kept = await persistCompletedAssistantStep(runtime, state, request);
-  if (kept) recordModelHistoryRound(state);
-  if (state.automationCreateLimitReached)
-    return stopAtBoundary(runtime, state, options.assistantMessageId);
-  const drained = await drainInlineGuideForNextRequest(runtime, state);
-  if (drained) return followGuide(state);
-  const hooked = await maybeContinueOnHooks(runtime, state);
+  const kept = await persistCompletedAssistantStep(host, loop, request);
+  if (kept) recordModelHistoryRound(loop);
+  if (loop.automationCreateLimitReached) {
+    if (loop.activeTurn) {
+      await parkGuides(host, loop);
+      // 回调可能换掉 activeTurn。这里重读，清掉就抛，不另做一次真值判断。
+      loop.activeTurn!.steerable = false;
+    }
+    sealSuccess(loop, options.assistantMessageId);
+    return BREAK_STEP;
+  }
+  const drained = await drainInlineGuideForNextRequest(host, loop);
+  if (drained) {
+    adopt(loop, loop.turnMachine.aggregateResults());
+    return CONTINUE_STEP;
+  }
+  const hooked = await maybeContinueOnHooks(host, loop);
   if (hooked !== undefined) return hooked;
-  return stopAtBoundary(runtime, state, options.assistantMessageId);
+  await parkGuides(host, loop);
+  if (loop.activeTurn) loop.activeTurn.steerable = false;
+  sealSuccess(loop, options.assistantMessageId);
+  return BREAK_STEP;
 }

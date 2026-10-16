@@ -7,98 +7,95 @@ import { rebuildContextPrefix } from "./m02-context.js";
 import { appendTurnRequestEntries } from "./m02-continuation.js";
 import type { RegularTurnLoopState } from "./m02-loop-state.js";
 import { applySubmissionExecutionState, sameModelSelection } from "./m02-turn-model.js";
+import { assignKeys } from "./m02-record.js";
 
-function guideSlot(state: RegularTurnLoopState) {
-  return state.activeTurn;
-}
-
-async function pullInlineGuide(runtime: AgentRuntimeInternal, state: RegularTurnLoopState) {
-  const slot = guideSlot(state);
-  if (slot === undefined) return undefined;
-  if (!runtime.hasInlineGuidePendingInput(slot)) return undefined;
-  return runtime.drainPendingInput({
-    activeTurn: slot,
-    events: state.events, // m02
-    traceContext: state.turnTraceContext, // m02
-  });
+async function pullInlineGuide(host: AgentRuntimeInternal, loop: RegularTurnLoopState) {
+  const slot = loop.activeTurn;
+  const waiting = slot !== undefined && host.hasInlineGuidePendingInput(slot);
+  if (!waiting || slot === undefined) return undefined;
+  return host.drainPendingInput(
+    assignKeys([
+      ["activeTurn", slot],
+      ["events", loop.events],
+      ["traceContext", loop.turnTraceContext],
+    ]),
+  );
 }
 
 function rememberDrained(
-  state: RegularTurnLoopState, // m02
+  loop: RegularTurnLoopState,
   drained: DrainedPendingInputDiagnostics,
 ): void {
-  // m02
-  state.drainedSteerForNextRequest = drained; // m02
-  const carried = drained.runtimeEntries ?? [];
-  appendTurnRequestEntries(state.turnRequestState, carried);
+  loop.drainedSteerForNextRequest = drained;
+  appendTurnRequestEntries(loop.turnRequestState, drained.runtimeEntries ?? []);
 }
 
 async function applyGuideIntent(
-  runtime: AgentRuntimeInternal, // m02
-  state: RegularTurnLoopState, // m02
+  host: AgentRuntimeInternal,
+  loop: RegularTurnLoopState,
   drained: DrainedPendingInputDiagnostics,
 ): Promise<void> {
-  // m02
-  const locked = state.modelSelectionScope === "execution";
+  const locked = loop.modelSelectionScope === "execution";
   if (locked) {
+    // 固定执行模型只挡切模，权限和 Plan 意图仍要落地。
     if (drained.intent === undefined) return;
-    await applyRuntimeExecutionState(runtime, drained.intent, {
-      // m02
-      source: "command", // m02
-      traceContext: state.turnTraceContext, // m02
-    });
-    return; // m02
+    await applyRuntimeExecutionState(
+      host,
+      drained.intent,
+      assignKeys([
+        ["source", "command"],
+        ["traceContext", loop.turnTraceContext],
+      ]),
+    );
+    return;
   }
-  const chosen = await applySubmissionExecutionState(
-    runtime, // m02
-    drained.intent,
-    state.turnTraceContext, // m02
-  );
+  const chosen = await applySubmissionExecutionState(host, drained.intent, loop.turnTraceContext);
   if (chosen === undefined) return;
-  const changed = sameModelSelection(state.model, chosen) === false;
-  state.model = chosen;
-  if (!changed) return; // m02
-  const rebuilt = rebuildContextPrefix(runtime, {
-    model: chosen,
-    turnRequestEntries: state.turnRequestState.entries, // m02
-  });
-  state.turnRequestState.entries = rebuilt;
+  const previous = loop.model;
+  loop.model = chosen;
+  const changed = sameModelSelection(previous, chosen) === false;
+  if (!changed) return;
+  loop.turnRequestState.entries = rebuildContextPrefix(
+    host,
+    assignKeys([
+      ["model", chosen],
+      ["turnRequestEntries", loop.turnRequestState.entries],
+    ]),
+  );
 }
 
 function adoptGuideIdentity(
-  state: RegularTurnLoopState, // m02
+  loop: RegularTurnLoopState,
   drained: DrainedPendingInputDiagnostics,
 ): void {
-  // m02
-  const anchor = drained.latestMessageId ?? state.currentUserMessageId;
-  state.currentUserMessageId = anchor;
+  loop.currentUserMessageId = drained.latestMessageId ?? loop.currentUserMessageId;
   const nextQuery = drained.queryIds?.[0];
   if (nextQuery) {
-    const traced = state.turnTraceContext;
-    state.turnTraceContext = { ...traced, queryId: nextQuery };
+    loop.turnTraceContext = assignKeys([
+      ...Object.entries(loop.turnTraceContext),
+      ["queryId", nextQuery],
+    ]) as RegularTurnLoopState["turnTraceContext"];
   }
   const incoming = drained.toolDisallowlist ?? [];
   if (incoming.length === 0) return;
-  const merged = new Set([...(state.toolDisallowlist ?? []), ...incoming]);
-  state.toolDisallowlist = [...merged];
+  loop.toolDisallowlist = [...new Set([...(loop.toolDisallowlist ?? []), ...incoming])];
 }
 
-function resetRepeatMemory(state: RegularTurnLoopState): void {
-  state.repeatedToolCallSignature = undefined; // m02
-  state.repeatedToolCallStreakCount = 0 * 1;
+function resetRepeatMemory(loop: RegularTurnLoopState): void {
+  loop.repeatedToolCallSignature = undefined;
+  loop.repeatedToolCallStreakCount = 0;
 }
 
 export async function drainInlineGuideForNextRequest(
-  // m02
-  runtime: AgentRuntimeInternal, // m02
-  state: RegularTurnLoopState, // m02
+  host: AgentRuntimeInternal,
+  loop: RegularTurnLoopState,
 ): Promise<boolean> {
-  // m02
-  const drained = await pullInlineGuide(runtime, state);
-  if (drained === undefined || drained.pendingInputIds.length === 0) return false;
-  rememberDrained(state, drained);
-  await applyGuideIntent(runtime, state, drained);
-  adoptGuideIdentity(state, drained);
-  resetRepeatMemory(state);
-  return true; // m02
+  const drained = await pullInlineGuide(host, loop);
+  const usable = drained !== undefined && drained.pendingInputIds.length > 0;
+  if (!usable || drained === undefined) return usable;
+  rememberDrained(loop, drained);
+  await applyGuideIntent(host, loop, drained);
+  adoptGuideIdentity(loop, drained);
+  resetRepeatMemory(loop);
+  return usable;
 }

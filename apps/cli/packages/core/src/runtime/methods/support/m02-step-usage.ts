@@ -130,25 +130,19 @@ function blankTotals(): MainTurnCacheHitAggregate {
   ]);
 }
 
-function absorbAssistant(
-  totals: MainTurnCacheHitAggregate,
+function assistantShare(
   message: MessageWithParts,
   live: ReadonlySet<MessageId>,
-): void {
+): { input: number; read: number; write: number } | undefined {
   const info = message.info;
-  // 先看是否仍在活跃集、是否助手、是否摘要，再读落盘 tokens。活跃投影里的 compact 用量可能已被清零。
-  if (live.has(info.id) && info.role === "assistant" && !info.summary) {
-    const inputTokens = atLeastZero(info.tokens.input) ?? 0;
-    const cacheReadTokens = atLeastZero(info.tokens.cache.read) ?? 0;
-    const cacheWriteTokens = atLeastZero(info.tokens.cache.write) ?? 0;
-    const useful = inputTokens > 0 || cacheReadTokens > 0 || cacheWriteTokens > 0;
-    if (useful) {
-      totals.requestCount += 1;
-      totals.totalInputTokens += inputTokens;
-      totals.totalCacheReadTokens += cacheReadTokens;
-      totals.totalCacheWriteTokens += cacheWriteTokens;
-    }
-  }
+  // 活跃投影里的 compact 用量可能已被清零，所以只拿 id 做成员判断，token 读落盘副本。
+  const counted = live.has(info.id) && info.role === "assistant" && !info.summary;
+  if (!counted) return undefined;
+  const input = atLeastZero(info.tokens.input) ?? 0;
+  const read = atLeastZero(info.tokens.cache.read) ?? 0;
+  const write = atLeastZero(info.tokens.cache.write) ?? 0;
+  if (input <= 0 && read <= 0 && write <= 0) return undefined;
+  return { input, read, write };
 }
 
 export function mainTurnCacheHitAggregateFromMessages(input: {
@@ -156,14 +150,17 @@ export function mainTurnCacheHitAggregateFromMessages(input: {
   persistedMessages: readonly MessageWithParts[]; // 已落盘、保留原始 tokens 的消息
 }): MainTurnCacheHitAggregate {
   const live = new Set(input.activeMessages.map((row) => row.info.id));
-  const totals = blankTotals();
-  let index = 0;
-  const rows = input.persistedMessages;
-  while (index < rows.length) {
-    absorbAssistant(totals, rows[index]!, live);
-    index += 1;
-  }
-  return totals;
+  // 每条有用量的消息返回新对象；跳过的消息沿用上一份，不在同一个累加器上改字段。
+  return input.persistedMessages.reduce((totals, message) => {
+    const share = assistantShare(message, live);
+    if (share === undefined) return totals;
+    return assignKeys<MainTurnCacheHitAggregate>([
+      ["requestCount", totals.requestCount + 1],
+      ["totalInputTokens", totals.totalInputTokens + share.input],
+      ["totalCacheReadTokens", totals.totalCacheReadTokens + share.read],
+      ["totalCacheWriteTokens", totals.totalCacheWriteTokens + share.write],
+    ]);
+  }, blankTotals());
 }
 
 function windowInput(usage: ModelUsage | undefined): number | undefined {

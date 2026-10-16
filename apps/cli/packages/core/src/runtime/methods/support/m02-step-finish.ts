@@ -4,31 +4,27 @@ import { createPartId, type MessageId, type TraceContext } from "../../deps.js";
 import { toTokenUsageInfo } from "../../helpers/index.js";
 import type { AgentRuntimeInternal } from "../../internal.js";
 import type { RuntimeModelTextResult } from "../../types.js";
-import { assignKeys, phrase } from "./m02-record.js";
+import { assignKeys, type Col } from "./m02-record.js";
 import type { RegularTurnLoopState } from "./m02-loop-state.js";
 
-const MISSING_MODEL = phrase(["Model-backed turn step finish ", "requires the loop Model"]);
+const MISSING_MODEL = "Model-backed turn step finish requires the loop Model";
 
-interface FinishRequest {
-  assistantCreatedAt: number; // 助手骨架创建时刻
-  assistantMessageId: MessageId; // 正在收尾的助手消息
-  modelTraceContext: TraceContext; // 本步追踪
-  result: RuntimeModelTextResult; // 刚结束的模型结果
-}
+type FinishRequest = Col<"assistantCreatedAt", number> &
+  Col<"assistantMessageId", MessageId> &
+  Col<"modelTraceContext", TraceContext> &
+  Col<"result", RuntimeModelTextResult>;
 
 function finishPart(
-  runtime: AgentRuntimeInternal, // m02
+  host: AgentRuntimeInternal,
   request: FinishRequest,
   tokens: ReturnType<typeof toTokenUsageInfo>,
 ) {
-  // m02
-  const reason = request.result.finishReason;
   return assignKeys([
     ["id", createPartId()],
-    ["sessionID", runtime.sessionId],
+    ["sessionID", host.sessionId],
     ["messageID", request.assistantMessageId],
     ["type", "step-finish"],
-    ["reason", reason],
+    ["reason", request.result.finishReason],
     ["cost", 0],
     ["tokens", tokens],
   ]);
@@ -43,28 +39,23 @@ function assistantClosure(reason: string, tokens: ReturnType<typeof toTokenUsage
 }
 
 export async function persistToolModelStepFinish(
-  // m02
-  runtime: AgentRuntimeInternal, // m02
-  state: RegularTurnLoopState, // m02
-  options: FinishRequest,
+  host: AgentRuntimeInternal,
+  loop: RegularTurnLoopState,
+  request: FinishRequest,
 ): Promise<void> {
-  // m02
-  const selected = state.model;
-  if (selected === undefined || selected === null) throw new Error(MISSING_MODEL);
-  const tokens = toTokenUsageInfo(options.result.usage); // m02
-  const reason = options.result.finishReason;
-  await runtime.persistPart(
-    // m02
-    finishPart(runtime, options, tokens) as never,
-    options.modelTraceContext, // m02
+  const selected = loop.model;
+  if (!selected) throw new Error(MISSING_MODEL);
+  // 分部和消息各算一次用量。两次调用得到两份对象，后面改其中一份不会牵动另一份。
+  await host.persistPart(
+    finishPart(host, request, toTokenUsageInfo(request.result.usage)) as never,
+    request.modelTraceContext,
   );
-  await runtime.persistAssistantMessage(
-    // m02
-    options.assistantMessageId, // m02
-    state.currentUserMessageId, // m02
-    options.assistantCreatedAt, // m02
-    assistantClosure(reason, tokens),
-    options.modelTraceContext, // m02
-    selected, // m02
+  await host.persistAssistantMessage(
+    request.assistantMessageId,
+    loop.currentUserMessageId,
+    request.assistantCreatedAt,
+    assistantClosure(request.result.finishReason, toTokenUsageInfo(request.result.usage)),
+    request.modelTraceContext,
+    selected,
   );
 }

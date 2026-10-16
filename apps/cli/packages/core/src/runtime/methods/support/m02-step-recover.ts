@@ -4,7 +4,7 @@ import type { RuntimeMessageEntry } from "../../../agent/message-history.js";
 import { CompactTrigger, TurnMachineImpl, traceContextToLogContext } from "../../deps.js";
 import { createCompactRapidRefillError } from "../../helpers/index.js";
 import type { AgentRuntimeInternal } from "../../internal.js";
-import { assignKeys, phrase, report } from "./m02-record.js";
+import { assignKeys, report } from "./m02-record.js";
 import {
   evaluateRapidRefill,
   MAX_CONSECUTIVE_RAPID_REFILLS,
@@ -15,90 +15,84 @@ import {
   type RegularTurnLoopState,
 } from "./m02-loop-state.js";
 
-function breakerLog(
-  state: RegularTurnLoopState, // m02
-  decision: RapidRefillDecision, // m02
-  modelStepIndex: number, // m02
+function breakerFields(
+  loop: RegularTurnLoopState,
+  verdict: RapidRefillDecision,
+  stepIndex: number,
 ) {
-  // m02
-  const traced = traceContextToLogContext(state.turnTraceContext);
+  const traced = traceContextToLogContext(loop.turnTraceContext);
   const extra = assignKeys<Record<string, unknown>>([
-    ["event", phrase(["compact.", "rapid_refill_breaker"])],
-    ["consecutiveRapidRefills", decision.consecutiveRapidRefills],
-    ["modelStepIndex", modelStepIndex],
+    ["event", "compact.rapid_refill_breaker"],
+    ["consecutiveRapidRefills", verdict.consecutiveRapidRefills],
+    ["modelStepIndex", stepIndex],
     ["module", "core.runtime"],
     ["status", "failed"],
-    ["toolTurnsSinceCompact", decision.toolTurnsSinceCompact],
+    ["toolTurnsSinceCompact", verdict.toolTurnsSinceCompact],
     ["trigger", CompactTrigger.Reactive],
   ]);
   return { ...traced, ...extra };
 }
 
-function refillError(decision: RapidRefillDecision) {
+function refillError(verdict: RapidRefillDecision) {
   return createCompactRapidRefillError(
     assignKeys([
-      ["consecutiveRapidRefills", decision.consecutiveRapidRefills],
+      ["consecutiveRapidRefills", verdict.consecutiveRapidRefills],
       ["maxConsecutiveRapidRefills", MAX_CONSECUTIVE_RAPID_REFILLS],
       ["toolTurnThreshold", RAPID_REFILL_TOOL_TURN_THRESHOLD],
-      ["toolTurnsSinceCompact", decision.toolTurnsSinceCompact],
+      ["toolTurnsSinceCompact", verdict.toolTurnsSinceCompact],
     ]),
   );
 }
 
-function restartMachine(runtime: AgentRuntimeInternal, state: RegularTurnLoopState): void {
+function restartMachine(host: AgentRuntimeInternal, loop: RegularTurnLoopState): void {
   const opened = TurnMachineImpl.create(
-    runtime.sessionId, // m02
-    runtime.turnNumber, // m02
-    state.input, // m02
-    state.traceId, // m02
-    state.turnId, // m02
+    host.sessionId,
+    host.turnNumber,
+    loop.input,
+    loop.traceId,
+    loop.turnId,
   );
-  state.turnMachine = new TurnMachineImpl(opened.start());
+  loop.turnMachine = new TurnMachineImpl(opened.start());
 }
 
 export async function recoverTurnModelContext(
-  // m02
-  runtime: AgentRuntimeInternal, // m02
-  state: RegularTurnLoopState, // m02
-  contextError: unknown, // m02
-  modelStepIndex: number, // m02
-  requestEntries: readonly RuntimeMessageEntry[], // m02
+  host: AgentRuntimeInternal,
+  loop: RegularTurnLoopState,
+  failure: unknown,
+  stepIndex: number,
+  entries: readonly RuntimeMessageEntry[],
 ): Promise<boolean> {
-  // m02
-  if (state.reactiveCompactAttemptedInCurrentModelStep === true) return false;
-  const trackingNow = state.compactTracking;
-  const decision = evaluateRapidRefill(trackingNow);
-  if (decision.shouldBlock === true) {
+  if (loop.reactiveCompactAttemptedInCurrentModelStep) return false;
+  const verdict = evaluateRapidRefill(loop.compactTracking);
+  if (verdict.shouldBlock === true) {
     report(
-      // m02
-      runtime, // m02
-      "warn", // m02
-      phrase(["Reactive compact ", "rapid-refill breaker tripped"]),
-      breakerLog(state, decision, modelStepIndex),
+      host,
+      "warn",
+      "Reactive compact rapid-refill breaker tripped",
+      breakerFields(loop, verdict, stepIndex),
     );
-    throw refillError(decision);
+    throw refillError(verdict);
   }
-  state.reactiveCompactAttemptedInCurrentModelStep = true; // m02
-  const loopContext = assignKeys([
-    ["activeEntries", requestEntries],
-    ["modelStepIndex", modelStepIndex],
-    ["rapidRefillCount", decision.consecutiveRapidRefills],
-    ["model", state.model],
-    ["turnRequestState", state.turnRequestState],
+  loop.reactiveCompactAttemptedInCurrentModelStep = true;
+  const packed = assignKeys([
+    ["activeEntries", entries],
+    ["modelStepIndex", stepIndex],
+    ["rapidRefillCount", verdict.consecutiveRapidRefills],
+    ["model", loop.model],
+    ["turnRequestState", loop.turnRequestState],
   ]);
-  const outcome = await runtime.reactiveCompactAfterContextExceeded(
-    // m02
-    contextError, // m02
-    state.turnTraceContext, // m02
-    state.events, // m02
-    state.turnAbortSignal, // m02
-    loopContext as never,
+  const outcome = await host.reactiveCompactAfterContextExceeded(
+    failure,
+    loop.turnTraceContext,
+    loop.events,
+    loop.turnAbortSignal,
+    packed as never,
   );
-  if (outcome === "compacted") {
-    recordCompactSuccess(state, decision); // m02
-    recordCompactHistoryRound(state); // m02
-    restartMachine(runtime, state);
-    return true; // m02
+  const accepted = outcome === "compacted";
+  if (accepted) {
+    recordCompactSuccess(loop, verdict);
+    recordCompactHistoryRound(loop);
+    restartMachine(host, loop);
   }
-  return false; // m02
+  return accepted;
 }

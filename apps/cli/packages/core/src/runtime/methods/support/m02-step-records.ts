@@ -10,129 +10,127 @@ import {
 } from "../../helpers/index.js";
 import type { AgentRuntimeInternal } from "../../internal.js";
 import type { RuntimeModelStreamSnapshot, RuntimeModelTextResult } from "../../types.js";
-import { assignKeys, phrase, putIf, report } from "./m02-record.js";
+import { assignKeys, putIf, report, type Col, type Opt } from "./m02-record.js";
 import { recordModelHistoryRound, type RegularTurnLoopState } from "./m02-loop-state.js";
 import { commitTurnRequestEntries, hasAssistantReasoningContent } from "./m02-continuation.js";
 
-type ListedCalls = ReturnType<AgentRuntimeInternal["extractToolCallsFromResult"]>; // 从结果抽出的工具调用
-
-const DIAGNOSTICS_EVENT = phrase(["model.response.", "diagnostics"]);
-const SUSPICIOUS_EVENT = phrase(["model.response.", "suspicious_empty"]);
-const MODULE_NAME = phrase(["core.runtime"]);
-const COMPLETED_STATUS = phrase(["completed"]);
-const UNKNOWN_ERROR_NAME = phrase(["UnknownError"]);
-const CANCELLED_RESULT = phrase(["cancelled"]);
+type ListedCalls = ReturnType<AgentRuntimeInternal["extractToolCallsFromResult"]>;
 
 type ErrorProjection = ReturnType<typeof projectExecutionErrorPayload>;
 
-interface FailureFacts {
-  code: string | undefined; // 只保留字符串码
-  projection: ErrorProjection; // 执行错误投影
-  turnResult: string | undefined; // 仅取消时为 cancelled
-}
+type FailureFacts = Col<"code", string | undefined> &
+  Col<"projection", ErrorProjection> &
+  Col<"turnResult", string | undefined>;
 
-interface FailureData {
-  message: string; // 给人看的失败文案
-  code?: string; // 空串不落
-  attribution?: unknown; // 投影归因
-  turnResult?: string; // 取消标记
-}
+type FailureData = Col<"message", string> &
+  Opt<"code", string> &
+  Opt<"attribution", unknown> &
+  Opt<"turnResult", string>;
 
 function readUsage(usage: RuntimeModelTextResult["usage"], field: string): unknown {
-  const loose = usage as unknown as Record<string, unknown>;
-  return loose[field];
+  return (usage as unknown as Record<string, unknown>)[field];
 }
 
 function overlay(
   base: object,
   extras: ReadonlyArray<readonly [string, unknown]>,
 ): Record<string, unknown> {
-  // m02
   const merged: Record<string, unknown> = { ...base };
-  for (const pair of extras) merged[pair[0]] = pair[1];
-  return merged; // m02
+  for (const [key, value] of extras) merged[key] = value;
+  return merged;
+}
+
+const DIAGNOSTIC_ROWS = [
+  "usageCacheReadTokens",
+  "usageCacheWriteTokens",
+  "usageInputTokens",
+  "usageOutputTokens",
+  "usageReasoningTokens",
+  "usageTotalTokens",
+] as const;
+
+const USAGE_SOURCE: Record<(typeof DIAGNOSTIC_ROWS)[number], string> = {
+  usageCacheReadTokens: "cacheReadTokens",
+  usageCacheWriteTokens: "cacheWriteTokens",
+  usageInputTokens: "inputTokens",
+  usageOutputTokens: "outputTokens",
+  usageReasoningTokens: "reasoningTokens",
+  usageTotalTokens: "totalTokens",
+};
+
+function usageRows(
+  usage: RuntimeModelTextResult["usage"],
+): ReadonlyArray<readonly [string, unknown]> {
+  return DIAGNOSTIC_ROWS.map((label) => [label, readUsage(usage, USAGE_SOURCE[label])] as const);
 }
 
 export function logTurnModelDiagnostics(
-  // m02
-  runtime: AgentRuntimeInternal, // m02
-  modelTraceContext: TraceContext, // m02
-  result: RuntimeModelTextResult, // m02
-  usage: RuntimeModelTextResult["usage"], // m02
-  rawFinishReason: string | undefined, // m02
-  responseLength: number, // m02
-  toolCalls: ListedCalls,
+  host: AgentRuntimeInternal,
+  trace: TraceContext,
+  modelResult: RuntimeModelTextResult,
+  usage: RuntimeModelTextResult["usage"],
+  rawReason: string | undefined,
+  responseLength: number,
+  calls: ListedCalls,
 ): void {
-  // m02
-  const label = phrase(["Model response ", "diagnostics"]);
-  const traced = traceContextToLogContext(modelTraceContext);
+  const traced = traceContextToLogContext(trace);
   report(
-    // m02
-    runtime, // m02
-    "info", // m02
-    label, // m02
+    host,
+    "info",
+    "Model response diagnostics",
     overlay(traced, [
-      ["event", DIAGNOSTICS_EVENT],
-      ["finishReason", result.finishReason],
-      ["module", MODULE_NAME],
-      ["providerMetadataKeys", objectKeys(result.providerMetadata)],
-      ["rawFinishReason", rawFinishReason],
+      ["event", "model.response.diagnostics"],
+      ["finishReason", modelResult.finishReason],
+      ["module", "core.runtime"],
+      ["providerMetadataKeys", objectKeys(modelResult.providerMetadata)],
+      ["rawFinishReason", rawReason],
       ["responseEmpty", responseLength === 0],
       ["responseLength", responseLength],
-      ["status", COMPLETED_STATUS],
-      ["toolCallCount", toolCalls.length],
-      ["usageCacheReadTokens", readUsage(usage, "cacheReadTokens")],
-      ["usageCacheWriteTokens", readUsage(usage, "cacheWriteTokens")],
-      ["usageInputTokens", readUsage(usage, "inputTokens")],
-      ["usageOutputTokens", readUsage(usage, "outputTokens")],
-      ["usageReasoningTokens", readUsage(usage, "reasoningTokens")],
-      ["usageTotalTokens", readUsage(usage, "totalTokens")],
+      ["status", "completed"],
+      ["toolCallCount", calls.length],
+      ...usageRows(usage),
     ]),
   );
 }
 
 export function logTurnModelSuspiciousEmpty(
-  // m02
-  runtime: AgentRuntimeInternal, // m02
-  modelTraceContext: TraceContext, // m02
-  result: RuntimeModelTextResult, // m02
-  usage: RuntimeModelTextResult["usage"], // m02
-  rawFinishReason: string | undefined, // m02
-  responseLength: number, // m02
-  toolCalls: ListedCalls,
+  host: AgentRuntimeInternal,
+  trace: TraceContext,
+  modelResult: RuntimeModelTextResult,
+  usage: RuntimeModelTextResult["usage"],
+  rawReason: string | undefined,
+  responseLength: number,
+  calls: ListedCalls,
 ): void {
-  // m02
-  const label = phrase(["Model returned an empty ", "non-stop result"]);
-  const traced = traceContextToLogContext(modelTraceContext);
+  const traced = traceContextToLogContext(trace);
   report(
-    // m02
-    runtime, // m02
-    "warn", // m02
-    label, // m02
+    host,
+    "warn",
+    "Model returned an empty non-stop result",
     overlay(traced, [
-      ["event", SUSPICIOUS_EVENT],
-      ["finishReason", result.finishReason],
-      ["module", MODULE_NAME],
-      ["rawFinishReason", rawFinishReason],
+      ["event", "model.response.suspicious_empty"],
+      ["finishReason", modelResult.finishReason],
+      ["module", "core.runtime"],
+      ["rawFinishReason", rawReason],
       ["responseLength", responseLength],
-      ["status", COMPLETED_STATUS],
-      ["toolCallCount", toolCalls.length],
+      ["status", "completed"],
+      ["toolCallCount", calls.length],
       ["usageTotalTokens", readUsage(usage, "totalTokens")],
     ]),
   );
 }
 
-function codeOf(error: unknown): string | undefined {
-  const bag = error && typeof error === "object" ? (error as Record<string, unknown>) : undefined;
-  return typeof bag?.code === "string" ? bag.code : undefined;
+function codeOf(problem: unknown): string | undefined {
+  if (problem === null || typeof problem !== "object") return undefined;
+  const bag = problem as Record<string, unknown>;
+  return typeof bag.code === "string" ? bag.code : undefined;
 }
 
-export function prepareFailureFacts(error: unknown, state: RegularTurnLoopState): FailureFacts {
-  const code = codeOf(error);
-  const projection = projectExecutionErrorPayload(error); // m02
-  const turnResult = isTurnCancellationError(error, state.turnAbortSignal) // m02
-    ? CANCELLED_RESULT
-    : undefined; // m02
+export function prepareFailureFacts(problem: unknown, loop: RegularTurnLoopState): FailureFacts {
+  const code = codeOf(problem);
+  const projection = projectExecutionErrorPayload(problem);
+  const cancelled = isTurnCancellationError(problem, loop.turnAbortSignal);
+  const turnResult = cancelled ? "cancelled" : undefined;
   return assignKeys<FailureFacts>([
     ["code", code],
     ["projection", projection],
@@ -140,21 +138,20 @@ export function prepareFailureFacts(error: unknown, state: RegularTurnLoopState)
   ]);
 }
 
-export function persistedFailure(error: unknown, facts: FailureFacts) {
-  const named = error instanceof Error;
-  const data = assignKeys<FailureData>([["message", named ? error.message : String(error)]]);
+export function persistedFailure(problem: unknown, facts: FailureFacts) {
+  const named = problem instanceof Error;
+  const data = assignKeys<FailureData>([["message", named ? problem.message : String(problem)]]);
   putIf(data, "code", facts.code, Boolean(facts.code));
   putIf(data, "attribution", facts.projection.attribution, Boolean(facts.projection.attribution));
   putIf(data, "turnResult", facts.turnResult, Boolean(facts.turnResult));
-  const name = named ? error.name : UNKNOWN_ERROR_NAME;
   return assignKeys<{ name: string; data: FailureData }>([
-    ["name", name],
+    ["name", named ? problem.name : "UnknownError"],
     ["data", data],
   ]);
 }
 
 function modelRefOf(active: Model | undefined): Pick<Model, "providerId" | "modelId"> | undefined {
-  if (!active) return undefined as Pick<Model, "providerId" | "modelId"> | undefined;
+  if (!active) return undefined;
   return assignKeys<Pick<Model, "providerId" | "modelId">>([
     ["providerId", active.providerId],
     ["modelId", active.modelId],
@@ -162,23 +159,19 @@ function modelRefOf(active: Model | undefined): Pick<Model, "providerId" | "mode
 }
 
 export function commitCancelledAssistantSnapshot(
-  // m02
-  runtime: AgentRuntimeInternal, // m02
-  state: RegularTurnLoopState, // m02
-  snapshot: RuntimeModelStreamSnapshot, // m02
+  host: AgentRuntimeInternal,
+  loop: RegularTurnLoopState,
+  snapshot: RuntimeModelStreamSnapshot,
 ): void {
-  // m02
   const keptReasoning = snapshot.reasoning.filter(hasAssistantReasoningContent);
-  const textPresent = snapshot.text.length > 0;
-  if (textPresent || keptReasoning.length > 0) {
-    const entry = createRuntimeAssistantEntry(
-      // m02
-      snapshot.text, // m02
-      undefined, // m02
-      keptReasoning,
-      modelRefOf(state.model),
-    );
-    commitTurnRequestEntries(runtime, state.turnRequestState, [entry]); // m02
-    recordModelHistoryRound(state); // m02
-  }
+  const worthKeeping = snapshot.text.length > 0 || keptReasoning.length > 0;
+  if (!worthKeeping) return;
+  const entry = createRuntimeAssistantEntry(
+    snapshot.text,
+    undefined,
+    keptReasoning,
+    modelRefOf(loop.model),
+  );
+  commitTurnRequestEntries(host, loop.turnRequestState, [entry]);
+  recordModelHistoryRound(loop);
 }

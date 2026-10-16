@@ -131,29 +131,18 @@ function warnPersist(
   );
 }
 
-function launchSave(
-  save: NonNullable<NonNullable<AgentRuntimeInternal["sessionStore"]>["saveSessionEntry"]>,
-  store: AgentRuntimeInternal["sessionStore"],
-  entry: SessionEntryInfo,
-): Promise<unknown> {
-  // 同步抛出与拒绝都吞进同一条链，失败只记日志。
-  try {
-    return Promise.resolve(save.call(store, entry));
-  } catch (syncFailure) {
-    return Promise.reject(syncFailure);
-  }
-}
-
 export async function persistRuntimeModelSelection(
   runtime: AgentRuntimeInternal,
   selection: ModelSelection,
 ): Promise<void> {
   const save = runtime.sessionStore?.saveSessionEntry;
-  if (save) {
-    const entry = selectionEntry(runtime, selection);
-    await launchSave(save, runtime.sessionStore, entry).catch((caught: unknown) => {
-      warnPersist(runtime, selection, caught);
-    });
+  if (!save) return;
+  const entry = selectionEntry(runtime, selection);
+  // 同步抛出要在这条 async 函数里当场接住。先变成拒绝再 catch，调用方在微任务之前看不到告警。
+  try {
+    await save.call(runtime.sessionStore, entry);
+  } catch (caught) {
+    warnPersist(runtime, selection, caught);
   }
 }
 
