@@ -1,10 +1,20 @@
 // SPDX-License-Identifier: Apache-2.0
-// 键序写入与日志出口。若干契约用 Object.keys 观察插入顺序，所以不靠字面量排键。
+// 日志出口，以及把若干已排好序的对象按先后叠成一份载荷。
 
 export function assignKeys<T extends object>(pairs: ReadonlyArray<readonly [string, unknown]>): T {
   const record: Record<string, unknown> = {};
   for (const [key, value] of pairs) record[key] = value;
   return record as T;
+}
+
+/** 按参数顺序叠键。同名键留在第一次出现的位置，值用后面的覆盖。 */
+export function layer<T extends object>(...parts: ReadonlyArray<object | null | undefined>): T {
+  const bag: Record<string, unknown> = {};
+  for (const part of parts) {
+    if (part == null) continue;
+    for (const name of Object.keys(part)) bag[name] = Reflect.get(part, name);
+  }
+  return bag as T;
 }
 
 /** 条件键接在已有键后面。include 为假时键不出现。 */
