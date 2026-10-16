@@ -47,7 +47,11 @@ export function isVisiblySettled(trace: TraceState, step: string): boolean {
 }
 
 export function innermostOpenStrand(trace: TraceState): StrandRecord | undefined {
-  return trace.strands.findLast((record) => !record.closed);
+  for (let index = trace.strands.length - 1; index >= 0; index -= 1) {
+    const record = trace.strands[index];
+    if (record !== undefined && !record.closed) return record;
+  }
+  return undefined;
 }
 
 export function openStrand(trace: TraceState, region: string): StrandRecord {
