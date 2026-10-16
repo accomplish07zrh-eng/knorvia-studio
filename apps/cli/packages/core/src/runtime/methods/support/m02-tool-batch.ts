@@ -40,7 +40,7 @@ import {
   recordCompletedToolBatch,
   type RegularTurnLoopState,
 } from "./m02-loop-state.js";
-import { assignKeys, phrase, report } from "./m02-record.js";
+import { layer, report } from "./m02-record.js";
 import { persistToolModelStepFinish } from "./m02-step-finish.js";
 import {
   completedToolBatchState,
@@ -57,8 +57,9 @@ import {
   type ToolBatchPartFacts,
 } from "./m02-tool-parts.js";
 
-const MISSING_MODEL = phrase(["Model-backed tool execution ", "requires the loop Model"]);
-const GUIDE_PARK = phrase(["guide.", "noToolBoundary"]) as "guide.noToolBoundary";
+const MISSING_MODEL = "Model-backed tool execution requires the loop Model";
+const GUIDE_PARK = "guide.noToolBoundary" as const;
+const RUNTIME_MODULE = "core.runtime";
 
 type BatchOptions = {
   assistantCreatedAt: number;
@@ -74,10 +75,6 @@ type LedgerRequest = Parameters<typeof emitStreamingToolLedgerUpdate>[3];
 type AnchorRequest = Parameters<typeof emitStreamRecoveryAnchor>[3];
 type PendingRequest = Parameters<typeof persistPendingToolPart>[1];
 type MediaRequest = Parameters<typeof persistToolResultMediaAttachments>[0];
-
-function bag<T extends object>(pairs: ReadonlyArray<readonly [string, unknown]>): T {
-  return assignKeys<T>(pairs);
-}
 
 function alreadyRecorded(entry: StreamedToolExecutionResult | undefined): boolean {
   if (!entry) return false;
@@ -108,13 +105,11 @@ class DeclaredToolBatch {
     const seenModel = model.modelId;
     void seenProvider;
     void seenModel;
-    this.calls = options.toolCalls.map((call) =>
-      bag<ToolCall>([
-        ["id", call.id as ToolCallId],
-        ["name", call.name],
-        ["input", call.input],
-      ]),
-    );
+    this.calls = options.toolCalls.map((call) => {
+      const id = call.id as ToolCallId;
+      const { name, input } = call;
+      return { id, name, input };
+    });
     this.seedStreamed(options.streamedToolResults ?? []);
     this.indexDeclared();
   }
@@ -146,22 +141,12 @@ class DeclaredToolBatch {
     await this.scheduleDeclared();
     const results = this.orderedResults();
     this.noteBrowser(results);
-    await emitNestedModelUsageEvents(
-      this.host,
-      bag([
-        ["events", this.state.events],
-        ["results", results],
-        ["traceContext", this.options.modelTraceContext],
-      ]),
-    );
+    const { events } = this.state;
+    const traceContext = this.options.modelTraceContext;
+    await emitNestedModelUsageEvents(this.host, { events, results, traceContext });
     this.completeMachine(results);
-    report(this.host, "debug", phrase(["Tools ", "executed"]), toolBatchResultDiagnostic(results));
-    report(
-      this.host,
-      "debug",
-      phrase(["Injecting ", "tool results"]),
-      bag([["resultCount", results.length]]),
-    );
+    report(this.host, "debug", "Tools executed", toolBatchResultDiagnostic(results));
+    report(this.host, "debug", "Injecting tool results", { resultCount: results.length });
     await this.settleAll(results);
     if (this.checkpointCancellation) throw this.checkpointCancellation;
     return this.close(results);
@@ -175,12 +160,7 @@ class DeclaredToolBatch {
     const partID = entry ? entry.partID : createPartId();
     const input = entry ? entry.input : toRecordInput(toolCall.input);
     const startedAt = entry ? entry.result.startedAt.getTime() : Date.now();
-    return bag<ToolBatchPartFacts>([
-      ["declarationIndex", declarationIndex],
-      ["partID", partID],
-      ["input", input],
-      ["startedAt", startedAt],
-    ]);
+    return { declarationIndex, partID, input, startedAt };
   }
 
   private async recordDeclarations(): Promise<void> {
@@ -200,16 +180,20 @@ class DeclaredToolBatch {
     part: ToolBatchPartFacts,
     presentation: { serverName: string; toolName: string; description?: string } | undefined,
   ): PendingRequest {
-    return bag<PendingRequest>([
-      ["assistantMessageId", this.options.assistantMessageId],
-      ["declarationIndex", part.declarationIndex],
-      ["input", part.input],
-      ["partID", part.partID],
-      ["toolCall", toolCall],
-      ["traceContext", this.options.modelTraceContext],
-      ["model", this.model],
-      ["metadata", mcpToolPartMetadata(presentation)],
-    ]);
+    const { assistantMessageId, modelTraceContext: traceContext } = this.options;
+    const { declarationIndex, input, partID } = part;
+    const model = this.model;
+    const metadata = mcpToolPartMetadata(presentation);
+    return {
+      assistantMessageId,
+      declarationIndex,
+      input,
+      partID,
+      toolCall,
+      traceContext,
+      model,
+      metadata,
+    };
   }
 
   private closedLedger(
@@ -217,14 +201,14 @@ class DeclaredToolBatch {
     part: ToolBatchPartFacts,
     entry: StreamedToolExecutionResult | undefined,
   ): LedgerRequest {
-    const pairs: Array<readonly [string, unknown]> = [
-      ["assistantMessageId", this.options.assistantMessageId],
-      ["toolCall", toolCall],
-      ["status", "tool_call_closed"],
-    ];
-    if (entry) pairs.push(["executionTiming", "during_stream"]);
-    pairs.push(["input", part.input]);
-    return bag<LedgerRequest>(pairs);
+    const assistantMessageId = this.options.assistantMessageId;
+    const status = "tool_call_closed" as const;
+    const executionTiming = "during_stream" as const;
+    return layer<LedgerRequest>(
+      { assistantMessageId, toolCall, status },
+      entry ? { executionTiming } : undefined,
+      { input: part.input },
+    );
   }
 
   private async openLedger(
@@ -265,12 +249,10 @@ class DeclaredToolBatch {
     while (index < pending.length) {
       const toolCall = pending[index]!;
       index += 1;
-      const request = bag<LedgerRequest>([
-        ["assistantMessageId", this.options.assistantMessageId],
-        ["toolCall", toolCall],
-        ["status", "tool_queued"],
-        ["input", this.parts.get(toolCall.id)?.input],
-      ]);
+      const assistantMessageId = this.options.assistantMessageId;
+      const status = "tool_queued" as const;
+      const input = this.parts.get(toolCall.id)?.input;
+      const request: LedgerRequest = { assistantMessageId, toolCall, status, input };
       await emitStreamingToolLedgerUpdate(
         this.host,
         this.state.events,
@@ -281,15 +263,20 @@ class DeclaredToolBatch {
   }
 
   private executionOptions(): ExecuteToolsOptions {
-    return bag<ExecuteToolsOptions>([
-      ["automationTurn", isAutomationMutationRestrictedTurn(this.state)],
-      ["offPeakTurn", isOffPeakCreateRestrictedTurn(this.state)],
-      ["signal", this.state.turnAbortSignal],
-      ["traceContext", this.options.modelTraceContext],
-      ["subagentModelOverride", this.state.subagentModelOverride],
-      ["model", this.state.model],
-      ["onBatchStart", (ids: string[]) => this.onBatchStart(ids)],
-    ]);
+    const automationTurn = isAutomationMutationRestrictedTurn(this.state);
+    const offPeakTurn = isOffPeakCreateRestrictedTurn(this.state);
+    const signal = this.state.turnAbortSignal;
+    const traceContext = this.options.modelTraceContext;
+    const { subagentModelOverride, model } = this.state;
+    return {
+      automationTurn,
+      offPeakTurn,
+      signal,
+      traceContext,
+      subagentModelOverride,
+      model,
+      onBatchStart: (ids: string[]) => this.onBatchStart(ids),
+    };
   }
 
   private async runPending(pending: ToolCall[], schedule: ToolSchedule): Promise<void> {
@@ -303,16 +290,10 @@ class DeclaredToolBatch {
     );
     this.state.events.push(...scheduledEvents);
     await this.markQueued(pending);
-    report(
-      this.host,
-      "debug",
-      phrase(["Executing ", "tools"]),
-      bag([
-        ["streamedToolCallCount", this.streamed.size],
-        ["toolCallCount", pending.length],
-        ["tools", pending.map((call) => call.name)],
-      ]),
-    );
+    const streamedToolCallCount = this.streamed.size;
+    const toolCallCount = pending.length;
+    const tools = pending.map((call) => call.name);
+    report(this.host, "debug", "Executing tools", { streamedToolCallCount, toolCallCount, tools });
     const execution = await this.host.executeTools(
       pending,
       pendingSchedule,
@@ -322,28 +303,44 @@ class DeclaredToolBatch {
     this.state.events.push(...execution.events);
   }
 
+  private toolShell(
+    callId: ToolCallId,
+    part: ToolBatchPartFacts,
+    boundary: Boundary,
+    state: unknown,
+  ): MessagePart {
+    const { sessionId } = this.host;
+    const { assistantMessageId } = this.options;
+    const { partID: id, declarationIndex } = part;
+    const { toolName, metadata } = boundary;
+    return {
+      id,
+      sessionID: sessionId,
+      messageID: assistantMessageId,
+      type: "tool",
+      callID: callId,
+      declarationIndex,
+      tool: toolName,
+      metadata,
+      state,
+    } as MessagePart;
+  }
+
   private runningPart(call: ToolCall, part: ToolBatchPartFacts, boundary: Boundary): MessagePart {
-    return bag<MessagePart>([
-      ["id", part.partID],
-      ["sessionID", this.host.sessionId],
-      ["messageID", this.options.assistantMessageId],
-      ["type", "tool"],
-      ["callID", call.id],
-      ["declarationIndex", part.declarationIndex],
-      ["tool", boundary.toolName],
-      ["metadata", boundary.metadata],
-      ["state", runningToolBatchState(this.host, call, part, boundary)],
-    ]);
+    return this.toolShell(
+      call.id as ToolCallId,
+      part,
+      boundary,
+      runningToolBatchState(this.host, call, part, boundary),
+    );
   }
 
   private startedLedger(call: ToolCall, part: ToolBatchPartFacts): LedgerRequest {
-    return bag<LedgerRequest>([
-      ["assistantMessageId", this.options.assistantMessageId],
-      ["toolCall", call],
-      ["status", "tool_started"],
-      ["input", part.input],
-      ["startedAt", new Date(part.startedAt)],
-    ]);
+    const assistantMessageId = this.options.assistantMessageId;
+    const status = "tool_started" as const;
+    const input = part.input;
+    const startedAt = new Date(part.startedAt);
+    return { assistantMessageId, toolCall: call, status, input, startedAt };
   }
 
   private async onBatchStart(ids: readonly string[]): Promise<void> {
@@ -392,14 +389,10 @@ class DeclaredToolBatch {
     while (index < results.length) {
       const result = results[index]!;
       index += 1;
-      recordBrowserTurnToolResult(
-        bag([
-          ["output", result.output],
-          ["sessionId", this.host.sessionId],
-          ["toolName", result.toolName],
-          ["turnId", this.state.turnId],
-        ]),
-      );
+      const { output, toolName } = result;
+      const { sessionId } = this.host;
+      const { turnId } = this.state;
+      recordBrowserTurnToolResult({ output, sessionId, toolName, turnId });
     }
   }
 
@@ -415,28 +408,31 @@ class DeclaredToolBatch {
     while (index < results.length) {
       const result = results[index]!;
       index += 1;
-      const done = bag<Parameters<TurnMachineImpl["completeTool"]>[1]>([
-        ["success", result.success],
-        ["content", this.toolContent(result)],
-      ]);
+      const { success } = result;
+      const content = this.toolContent(result);
+      const done = { success, content };
       this.adopt(this.state.turnMachine.completeTool(result.toolCallId as ToolCallId, done));
     }
     this.adopt(this.state.turnMachine.aggregateResults());
   }
 
   private mediaRequest(result: ToolExecutionResult): MediaRequest {
-    return bag<MediaRequest>([
-      ["artifactStore", this.host.artifactStore],
-      ["assistantMessageId", this.options.assistantMessageId],
-      ["content", modelContentForToolResult(result)],
-      ["sessionId", this.host.sessionId],
-      ["sessionStore", this.host.sessionStore],
-      ["signal", this.state.turnAbortSignal],
-      ["toolCallId", result.toolCallId],
-      ["toolName", result.toolName],
-      ["traceContext", this.options.modelTraceContext],
-      ["turnId", this.state.turnId],
-    ]);
+    const { artifactStore, sessionId, sessionStore } = this.host;
+    const { assistantMessageId, modelTraceContext: traceContext } = this.options;
+    const { turnAbortSignal: signal, turnId } = this.state;
+    const { toolCallId, toolName } = result;
+    return {
+      artifactStore,
+      assistantMessageId,
+      content: modelContentForToolResult(result),
+      sessionId,
+      sessionStore,
+      signal,
+      toolCallId,
+      toolName,
+      traceContext,
+      turnId,
+    };
   }
 
   private terminalPart(
@@ -445,17 +441,7 @@ class DeclaredToolBatch {
     boundary: Boundary,
     state: unknown,
   ): MessagePart {
-    return bag<MessagePart>([
-      ["id", part.partID],
-      ["sessionID", this.host.sessionId],
-      ["messageID", this.options.assistantMessageId],
-      ["type", "tool"],
-      ["callID", result.toolCallId as ToolCallId],
-      ["declarationIndex", part.declarationIndex],
-      ["tool", boundary.toolName],
-      ["metadata", boundary.metadata],
-      ["state", state],
-    ]);
+    return this.toolShell(result.toolCallId as ToolCallId, part, boundary, state);
   }
 
   private async writeTerminal(
@@ -480,16 +466,17 @@ class DeclaredToolBatch {
 
   private async checkpoint(result: ToolExecutionResult): Promise<boolean> {
     try {
-      await this.host.emitFileMutationCheckpoint(
-        bag<Parameters<AgentRuntimeInternal["emitFileMutationCheckpoint"]>[0]>([
-          ["abortSignal", this.state.turnAbortSignal],
-          ["events", this.state.events],
-          ["messageId", this.state.userMessageId],
-          ["result", result],
-          ["toolMessageId", this.options.assistantMessageId],
-          ["traceContext", this.options.modelTraceContext],
-        ]),
-      );
+      const { turnAbortSignal: abortSignal, events, userMessageId: messageId } = this.state;
+      const toolMessageId = this.options.assistantMessageId;
+      const traceContext = this.options.modelTraceContext;
+      await this.host.emitFileMutationCheckpoint({
+        abortSignal,
+        events,
+        messageId,
+        result,
+        toolMessageId,
+        traceContext,
+      });
       return true;
     } catch (error) {
       if (!isTurnCancellationError(error, this.state.turnAbortSignal)) throw error;
@@ -505,17 +492,23 @@ class DeclaredToolBatch {
     recoveryAnchorId: string,
   ): LedgerRequest {
     const timing = this.streamed.has(result.toolCallId) ? "during_stream" : "end_of_stream";
-    return bag<LedgerRequest>([
-      ["assistantMessageId", this.options.assistantMessageId],
-      ["toolCall", call],
-      ["status", "tool_result_committed"],
-      ["input", part?.input],
-      ["startedAt", result.startedAt],
-      ["committedAt", result.completedAt],
-      ["resultPartId", part?.partID],
-      ["recoveryAnchorId", recoveryAnchorId],
-      ["executionTiming", timing],
-    ]);
+    const assistantMessageId = this.options.assistantMessageId;
+    const status = "tool_result_committed" as const;
+    const input = part?.input;
+    const { startedAt, completedAt: committedAt } = result;
+    const resultPartId = part?.partID;
+    const executionTiming = timing;
+    return {
+      assistantMessageId,
+      toolCall: call,
+      status,
+      input,
+      startedAt,
+      committedAt,
+      resultPartId,
+      recoveryAnchorId,
+      executionTiming,
+    };
   }
 
   private async anchor(
@@ -529,14 +522,19 @@ class DeclaredToolBatch {
       this.options.assistantMessageId,
       result.toolCallId as ToolCallId,
     );
-    const anchor = bag<AnchorRequest>([
-      ["assistantMessageId", this.options.assistantMessageId],
-      ["toolCallId", result.toolCallId as ToolCallId],
-      ["toolName", boundary.toolName],
-      ["success", result.success],
-      ["resultPartId", part?.partID],
-      ["committedAt", result.completedAt],
-    ]);
+    const assistantMessageId = this.options.assistantMessageId;
+    const toolCallId = result.toolCallId as ToolCallId;
+    const toolName = boundary.toolName;
+    const { success, completedAt: committedAt } = result;
+    const resultPartId = part?.partID;
+    const anchor: AnchorRequest = {
+      assistantMessageId,
+      toolCallId,
+      toolName,
+      success,
+      resultPartId,
+      committedAt,
+    };
     await emitStreamRecoveryAnchor(
       this.host,
       this.state.events,
@@ -558,17 +556,12 @@ class DeclaredToolBatch {
     const boundary = projectToolNameForNonEmptyBoundary(result.toolName);
     const part = this.parts.get(result.toolCallId);
     if (part) await this.writeTerminal(result, part, output, boundary);
-    report(
-      this.host,
-      "debug",
-      "addToolResult",
-      bag([
-        ["toolCallId", result.toolCallId],
-        ["toolName", result.toolName],
-        ["success", result.success],
-        ["contentLength", output.length],
-      ]),
-    );
+    report(this.host, "debug", "addToolResult", {
+      toolCallId: result.toolCallId,
+      toolName: result.toolName,
+      success: result.success,
+      contentLength: output.length,
+    });
     const entry = createRuntimeToolResultEntry(
       result.toolCallId,
       result.toolName,
@@ -591,6 +584,14 @@ class DeclaredToolBatch {
     }
   }
 
+  private controlNotice(event: string, stopping: ToolExecutionResult) {
+    const module = RUNTIME_MODULE;
+    const reason = stopping.turnControl?.reason;
+    const status = "completed";
+    const { toolCallId, toolName } = stopping;
+    return { event, module, reason, status, toolCallId, toolName };
+  }
+
   private async stopTurn(stopping: ToolExecutionResult): Promise<"continue" | "break"> {
     await persistToolModelStepFinish(this.host, this.state, this.options);
     if (stopping.turnControl?.reason === "automation_create_limit") {
@@ -599,40 +600,25 @@ class DeclaredToolBatch {
       report(
         this.host,
         "info",
-        phrase(["Automation create limit switched turn ", "to text-only response"]),
-        bag([
-          ["event", phrase(["automation.create_limit.", "text_only_continuation"])],
-          ["module", "core.runtime"],
-          ["reason", stopping.turnControl.reason],
-          ["status", "completed"],
-          ["toolCallId", stopping.toolCallId],
-          ["toolName", stopping.toolName],
-        ]),
+        "Automation create limit switched turn to text-only response",
+        this.controlNotice("automation.create_limit.text_only_continuation", stopping),
       );
       return "continue" as const;
     }
     if (this.state.activeTurn) {
-      await this.host.fallbackPendingGuidesToQueue(
-        bag([
-          ["activeTurn", this.state.activeTurn],
-          ["events", this.state.events],
-          ["reasonCode", GUIDE_PARK],
-          ["traceContext", this.state.turnTraceContext],
-        ]) as never,
-      );
+      const { activeTurn, events, turnTraceContext } = this.state;
+      await this.host.fallbackPendingGuidesToQueue({
+        activeTurn,
+        events,
+        reasonCode: GUIDE_PARK,
+        traceContext: turnTraceContext,
+      } as never);
     }
     report(
       this.host,
       "info",
-      phrase(["Tool result ", "requested turn stop"]),
-      bag([
-        ["event", phrase(["tool.turn_control.", "stop"])],
-        ["module", "core.runtime"],
-        ["reason", stopping.turnControl?.reason],
-        ["status", "completed"],
-        ["toolCallId", stopping.toolCallId],
-        ["toolName", stopping.toolName],
-      ]),
+      "Tool result requested turn stop",
+      this.controlNotice("tool.turn_control.stop", stopping),
     );
     if (this.state.activeTurn) this.state.activeTurn.steerable = false;
     this.adopt(this.state.turnMachine.complete(this.state.modelResponse, "success"));
@@ -642,30 +628,20 @@ class DeclaredToolBatch {
   private async close(results: readonly ToolExecutionResult[]): Promise<"continue" | "break"> {
     const stopping = results.find((result) => result.turnControl?.stopTurnAfterResult === true);
     if (stopping) return this.stopTurn(stopping);
-    await handleToolCallAnomalyWarnings(
-      this.host,
-      this.state,
-      bag([
-        ["modelTraceContext", this.options.modelTraceContext],
-        ["toolCalls", this.options.toolCalls],
-      ]),
-    );
+    const { modelTraceContext, toolCalls } = this.options;
+    await handleToolCallAnomalyWarnings(this.host, this.state, { modelTraceContext, toolCalls });
     await persistToolModelStepFinish(this.host, this.state, this.options);
     await drainInlineGuideForNextRequest(this.host, this.state);
     recordCompletedToolBatch(this.state);
-    report(
-      this.host,
-      "debug",
-      phrase(["After inject, ", "message count"]),
-      bag([
-        ["compactToolTurnsSinceLastCompact", this.state.compactTracking?.toolTurnsSinceCompact],
-        ["count", this.host.messageHistory.getMessageCount()],
-        [
-          "reactiveCompactAttemptedInCurrentModelStep",
-          this.state.reactiveCompactAttemptedInCurrentModelStep,
-        ],
-      ]),
-    );
+    const compactToolTurnsSinceLastCompact = this.state.compactTracking?.toolTurnsSinceCompact;
+    const count = this.host.messageHistory.getMessageCount();
+    const reactiveCompactAttemptedInCurrentModelStep =
+      this.state.reactiveCompactAttemptedInCurrentModelStep;
+    report(this.host, "debug", "After inject, message count", {
+      compactToolTurnsSinceLastCompact,
+      count,
+      reactiveCompactAttemptedInCurrentModelStep,
+    });
     return "continue" as const;
   }
 }
