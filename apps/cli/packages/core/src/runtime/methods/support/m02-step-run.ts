@@ -18,7 +18,6 @@ import { persistCancelledStreamSnapshot } from "../cancelled-stream-persistence.
 import * as retry from "../streaming-recovery.js";
 import * as output from "./m02-continuation.js";
 import { recordModelHistoryRound, type RegularTurnLoopState } from "./m02-loop-state.js";
-import { assignKeys } from "./m02-record.js";
 import * as shapes from "./m02-step-shapes.js";
 import {
   commitCancelledAssistantSnapshot,
@@ -46,10 +45,6 @@ type StepOptions = shapes.ModelStepInputs;
 type ExtractedCalls = ReturnType<AgentRuntimeInternal["extractToolCallsFromResult"]>;
 type AssistantUpdate = NonNullable<Parameters<AgentRuntimeInternal["persistAssistantMessage"]>[3]>;
 type ContinuationKind = ReturnType<typeof output.classifyOutputTokenContinuation>;
-
-function bag<T extends object>(pairs: ReadonlyArray<readonly [string, unknown]>): T {
-  return assignKeys<T>(pairs);
-}
 
 function labelFor(
   outcome: ModelStepResult,
@@ -129,10 +124,7 @@ class ModelStep {
     this.modelId = this.model.modelId;
     this.modelMaxOutputTokens = this.model.optionSpecs.maxOutputTokens.max;
     this.contextWindow = this.model.properties.contextWindow;
-    this.snapshot = bag<RuntimeModelStreamSnapshot>([
-      ["reasoning", []],
-      ["text", ""],
-    ]);
+    this.snapshot = { reasoning: [], text: "" };
   }
 
   async run(): Promise<ModelStepResult> {
@@ -168,15 +160,11 @@ class ModelStep {
     await this.runtime.appendEvent(requestEvent, this.trace);
     this.state.events.push(requestEvent);
     this.finishPreparation();
-    this.coordinator = createStreamingToolCoordinator(
-      this.runtime,
-      this.state,
-      bag<Parameters<typeof createStreamingToolCoordinator>[2]>([
-        ["assistantMessageId", this.assistantMessageId],
-        ["model", this.model],
-        ["traceContext", this.trace],
-      ]),
-    );
+    this.coordinator = createStreamingToolCoordinator(this.runtime, this.state, {
+      assistantMessageId: this.assistantMessageId,
+      model: this.model,
+      traceContext: this.trace,
+    });
     this.networkEventStartIndex = this.state.events.length;
   }
 
@@ -200,48 +188,41 @@ class ModelStep {
   }
 
   private request(normalBudget: number) {
-    const fields = bag<Parameters<typeof shapes.buildTurnModelRequest>[3]>([
-      ["assistantMessageId", this.assistantMessageId],
-      ["model", this.model],
-      ["modelTraceContext", this.trace],
-      ["normalBudget", normalBudget],
-      ["contextWindow", this.contextWindow],
-      ["streamRecovery", this.streamRecovery],
-      ["coordinator", this.coordinator],
-      [
-        "onStreamSnapshot",
-        (next: RuntimeModelStreamSnapshot) => {
-          this.snapshot = next;
-        },
-      ],
-      [
-        "onModelNetworkStatus",
-        (event: ModelNetworkStatusEvent) => {
-          this.noteNetwork(event);
-        },
-      ],
-    ]);
+    const fields = {
+      assistantMessageId: this.assistantMessageId,
+      model: this.model,
+      modelTraceContext: this.trace,
+      normalBudget,
+      contextWindow: this.contextWindow,
+      streamRecovery: this.streamRecovery,
+      coordinator: this.coordinator,
+      onStreamSnapshot: (next: RuntimeModelStreamSnapshot) => {
+        this.snapshot = next;
+      },
+      onModelNetworkStatus: (event: ModelNetworkStatusEvent) => {
+        this.noteNetwork(event);
+      },
+    };
     return shapes.buildTurnModelRequest(this.runtime, this.state, this.options, fields);
   }
 
   private usageFields(): shapes.UsageFields {
-    return bag<shapes.UsageFields>([
-      ["assistantMessageId", this.assistantMessageId],
-      ["model", this.model],
-      ["modelTraceContext", this.trace],
-      ["networkEventStartIndex", this.networkEventStartIndex],
-      ["startedAt", this.startedAt],
-    ]);
+    const {
+      assistantMessageId,
+      model,
+      trace: modelTraceContext,
+      networkEventStartIndex,
+      startedAt,
+    } = this;
+    return { assistantMessageId, model, modelTraceContext, networkEventStartIndex, startedAt };
   }
 
   private async ask(): Promise<RuntimeModelTextResult | "continue"> {
     this.captureRecovery();
     try {
-      const normalBudget = resolveNormalRequestMaxOutputTokens(
-        bag<Parameters<typeof resolveNormalRequestMaxOutputTokens>[0]>([
-          ["modelMaxOutputTokens", this.modelMaxOutputTokens],
-        ]),
-      );
+      const normalBudget = resolveNormalRequestMaxOutputTokens({
+        modelMaxOutputTokens: this.modelMaxOutputTokens,
+      });
       const result = await this.runtime.runModelTextRequest(this.request(normalBudget));
       helpers.throwIfTurnAborted(this.state.turnAbortSignal);
       return result;
@@ -274,10 +255,10 @@ class ModelStep {
       error,
       attempt,
     );
-    const discarded = bag<AssistantUpdate>([
-      ["completed", Date.now()],
-      ["finish", "start_plan_admission_retry_discarded"],
-    ]);
+    const discarded: AssistantUpdate = {
+      completed: Date.now(),
+      finish: "start_plan_admission_retry_discarded",
+    };
     await this.runtime.persistAssistantMessage(
       this.assistantMessageId,
       this.state.userMessageId,
@@ -291,14 +272,15 @@ class ModelStep {
     recordModelHistoryRound(this.state);
     this.adopt(this.state.turnMachine.receiveModelResponse(""));
     this.adopt(this.state.turnMachine.aggregateResults());
-    const facts = bag<Parameters<typeof retry.emitStreamRecoveryRetryEvents>[3]>([
-      ["maxRetries", attempt.maxRetries],
-      ["retryNumber", attempt.retryNumber],
-      ["discardedReasoningBytes", 0],
-      ["discardedTextBytes", 0],
-      ["reason", "no_tool_committed"],
-      ["toolCallIds", []],
-    ]);
+    const { maxRetries, retryNumber } = attempt;
+    const facts = {
+      maxRetries,
+      retryNumber,
+      discardedReasoningBytes: 0,
+      discardedTextBytes: 0,
+      reason: "no_tool_committed" as const,
+      toolCallIds: [],
+    };
     await retry.emitStreamRecoveryRetryEvents(
       this.runtime,
       this.state,
@@ -318,15 +300,7 @@ class ModelStep {
     );
     const requestFailureId = this.failedRequestId ?? this.startedRequestId;
     const toolCountBefore = this.state.toolCallCount;
-    const recoveryExtra = requestFailureId
-      ? bag<
-          NonNullable<
-            Parameters<
-              ReturnType<typeof createStreamingToolCoordinator>["recoverFromModelFailure"]
-            >[2]
-          >
-        >([["failedRequestId", requestFailureId]])
-      : undefined;
+    const recoveryExtra = requestFailureId ? { failedRequestId: requestFailureId } : undefined;
     const recovered = await this.coordinator.recoverFromModelFailure(
       error,
       this.startedAt,
@@ -337,14 +311,12 @@ class ModelStep {
         output.completeOutputTokenRecovery(this.state.turnRequestState);
       return "continue";
     }
-    const retryDelayMs = retry.getStartPlanBusyAdmissionRetryDelayMs(
-      bag<Parameters<typeof retry.getStartPlanBusyAdmissionRetryDelayMs>[0]>([
-        ["error", error],
-        ["providerId", this.providerId],
-        ["state", this.state],
-        ["turnNumber", this.runtime.turnNumber],
-      ]),
-    );
+    const retryDelayMs = retry.getStartPlanBusyAdmissionRetryDelayMs({
+      error,
+      providerId: this.providerId,
+      state: this.state,
+      turnNumber: this.runtime.turnNumber,
+    });
     let finalError = error;
     if (!this.state.turnAbortSignal.aborted && retryDelayMs !== undefined) {
       await this.retryStartPlan(error, retryDelayMs, requestFailureId);
@@ -362,10 +334,10 @@ class ModelStep {
       helpers.isTurnCancellationError(finalError, this.state.turnAbortSignal);
     if (cancelled) await this.keepCancelledSnapshot();
     const failureFacts = prepareFailureFacts(finalError, this.state);
-    const failedUpdate = bag<AssistantUpdate>([
-      ["completed", Date.now()],
-      ["error", persistedFailure(finalError, failureFacts)],
-    ]);
+    const failedUpdate: AssistantUpdate = {
+      completed: Date.now(),
+      error: persistedFailure(finalError, failureFacts),
+    };
     await this.runtime.persistAssistantMessage(
       this.assistantMessageId,
       this.state.userMessageId,
@@ -380,15 +352,12 @@ class ModelStep {
   }
 
   private async keepCancelledSnapshot(): Promise<void> {
-    await persistCancelledStreamSnapshot(
-      this.runtime,
-      bag<Parameters<typeof persistCancelledStreamSnapshot>[1]>([
-        ["assistantCreatedAt", this.startedAt],
-        ["assistantMessageId", this.assistantMessageId],
-        ["snapshot", this.snapshot],
-        ["traceContext", this.trace],
-      ]),
-    );
+    await persistCancelledStreamSnapshot(this.runtime, {
+      assistantCreatedAt: this.startedAt,
+      assistantMessageId: this.assistantMessageId,
+      snapshot: this.snapshot,
+      traceContext: this.trace,
+    });
     commitCancelledAssistantSnapshot(this.runtime, this.state, this.snapshot);
   }
 
@@ -438,14 +407,12 @@ class ModelStep {
     rawFinishReason: string | undefined,
   ): ContinuationKind {
     if (prepared.localTerminal) return "none";
-    return output.classifyOutputTokenContinuation(
-      bag<Parameters<typeof output.classifyOutputTokenContinuation>[0]>([
-        ["continuationCount", this.state.turnRequestState.outputTokenContinuationCount],
-        ["finishReason", result.finishReason],
-        ["rawFinishReason", rawFinishReason],
-        ["toolCallCount", prepared.providerToolCallCount],
-      ]),
-    );
+    return output.classifyOutputTokenContinuation({
+      continuationCount: this.state.turnRequestState.outputTokenContinuationCount,
+      finishReason: result.finishReason,
+      rawFinishReason,
+      toolCallCount: prepared.providerToolCallCount,
+    });
   }
 
   private async stopForContext(
@@ -459,12 +426,10 @@ class ModelStep {
     if (!quiet) return false;
     const exceeded = helpers.isContextExceededFinishReason(result.finishReason, rawFinishReason);
     if (!exceeded) return false;
-    const contextError = helpers.createModelContextExceededFinishError(
-      bag<Parameters<typeof helpers.createModelContextExceededFinishError>[0]>([
-        ["finishReason", result.finishReason],
-        ["rawFinishReason", rawFinishReason],
-      ]),
-    );
+    const contextError = helpers.createModelContextExceededFinishError({
+      finishReason: result.finishReason,
+      rawFinishReason,
+    });
     const healed = await this.recover(contextError);
     if (healed) return true;
     throw contextError;
@@ -500,10 +465,7 @@ class ModelStep {
     helpers.finalizeSuspiciousEmptyModelResult(
       shapes.suspiciousResultFields(
         result,
-        bag([
-          ["providerId", this.providerId],
-          ["modelId", this.modelId],
-        ]),
+        { providerId: this.providerId, modelId: this.modelId },
         rawFinishReason,
       ),
     );
@@ -674,18 +636,14 @@ class ModelStep {
     this.state.toolCallCount += executable.length;
     if (output.commitAssistantToTurnRequest(this.runtime, this.state, result, executable))
       recordModelHistoryRound(this.state);
-    return executeToolCallsForModelStep.call(
-      this.runtime,
-      this.state,
-      bag<Parameters<typeof executeToolCallsForModelStep>[1]>([
-        ["assistantCreatedAt", this.startedAt],
-        ["assistantMessageId", this.assistantMessageId],
-        ["modelTraceContext", this.trace],
-        ["result", result],
-        ["toolCalls", executable],
-        ["streamedToolResults", streamedToolResults],
-      ]),
-    );
+    return executeToolCallsForModelStep.call(this.runtime, this.state, {
+      assistantCreatedAt: this.startedAt,
+      assistantMessageId: this.assistantMessageId,
+      modelTraceContext: this.trace,
+      result,
+      toolCalls: executable,
+      streamedToolResults,
+    });
   }
 }
 
@@ -695,12 +653,9 @@ export async function runModelBackedTurnStep(
   options: StepOptions,
 ): Promise<ModelStepResult> {
   const assistantMessageId = createMessageId();
-  const telemetry = this.agentTelemetry.step(
-    bag<Parameters<AgentRuntimeInternal["agentTelemetry"]["step"]>[0]>([
-      ["stepId", assistantMessageId],
-      ["stepIndex", state.modelStepCount],
-    ]),
-  );
+  const stepId = assistantMessageId;
+  const stepIndex = state.modelStepCount;
+  const telemetry = this.agentTelemetry.step({ stepId, stepIndex });
   return telemetry.run(async () => {
     try {
       const outcome = await performModelStep(this, state, options, assistantMessageId);
