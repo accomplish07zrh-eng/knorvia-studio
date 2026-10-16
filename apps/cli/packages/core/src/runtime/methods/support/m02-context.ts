@@ -7,46 +7,47 @@ import {
 } from "../../../agent/message-history.js";
 import { countContextPrefixMessages, type ContextBuildResult, type Model } from "../../deps.js";
 import type { AgentRuntimeInternal } from "../../internal.js";
-import { assignKeys } from "./m02-record.js";
 
 export function autoCompactDecisionLogContext(decision: AutoCompactDecision) {
-  return assignKeys<{
-    contextWindow: number;
-    effectiveContextWindow: number;
-    estimatedTokenCount: number;
-    inputBudgetTokens: number;
-    maxOutputTokens: number | undefined;
-    modelContextBudgetStrategy: AutoCompactDecision["modelContextBudgetStrategy"];
-    outputReserveTokens: number;
-    providerBaseTokenCount: number | undefined;
-    providerCacheReadTokens: number | undefined;
-    providerCacheWriteTokens: number | undefined;
-    providerContextUsageTokenCount: number | undefined;
-    providerIncrementalTokenCount: number | undefined;
-    providerOutputTokens: number | undefined;
-    threshold: number;
-    thresholdPercent: number;
-    tokenCount: number;
-    tokenSource: AutoCompactDecision["tokenSource"];
-  }>([
-    ["contextWindow", decision.contextWindow],
-    ["effectiveContextWindow", decision.effectiveContextWindow],
-    ["estimatedTokenCount", decision.estimatedTokenCount],
-    ["inputBudgetTokens", decision.effectiveContextWindow],
-    ["maxOutputTokens", decision.maxOutputTokens],
-    ["modelContextBudgetStrategy", decision.modelContextBudgetStrategy],
-    ["outputReserveTokens", decision.outputReserveTokens],
-    ["providerBaseTokenCount", decision.providerBaseTokenCount],
-    ["providerCacheReadTokens", decision.providerCacheReadTokens],
-    ["providerCacheWriteTokens", decision.providerCacheWriteTokens],
-    ["providerContextUsageTokenCount", decision.providerContextUsageTokenCount],
-    ["providerIncrementalTokenCount", decision.providerIncrementalTokenCount],
-    ["providerOutputTokens", decision.providerOutputTokens],
-    ["threshold", decision.threshold],
-    ["thresholdPercent", decision.thresholdPercent],
-    ["tokenCount", decision.tokenCount],
-    ["tokenSource", decision.tokenSource],
-  ]);
+  // 日志里的 input budget 就是有效窗口，不是另一份独立计数。
+  const {
+    contextWindow,
+    effectiveContextWindow,
+    estimatedTokenCount,
+    maxOutputTokens,
+    modelContextBudgetStrategy,
+    outputReserveTokens,
+    providerBaseTokenCount,
+    providerCacheReadTokens,
+    providerCacheWriteTokens,
+    providerContextUsageTokenCount,
+    providerIncrementalTokenCount,
+    providerOutputTokens,
+    threshold,
+    thresholdPercent,
+    tokenCount,
+    tokenSource,
+  } = decision;
+  const inputBudgetTokens = effectiveContextWindow;
+  return {
+    contextWindow,
+    effectiveContextWindow,
+    estimatedTokenCount,
+    inputBudgetTokens,
+    maxOutputTokens,
+    modelContextBudgetStrategy,
+    outputReserveTokens,
+    providerBaseTokenCount,
+    providerCacheReadTokens,
+    providerCacheWriteTokens,
+    providerContextUsageTokenCount,
+    providerIncrementalTokenCount,
+    providerOutputTokens,
+    threshold,
+    thresholdPercent,
+    tokenCount,
+    tokenSource,
+  };
 }
 
 export function buildContextHistoryEntries(
