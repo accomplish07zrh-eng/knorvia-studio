@@ -26,6 +26,24 @@ export interface AwaitedOperand {
   operand: ts.Expression;
 }
 
+// A strand the walk itself opened. Plain records still close through `sealRecord`,
+// because a caller may hold the interface rather than this class.
+class OpenStrand implements StrandRecord {
+  readonly issued = new Set<string>();
+  summary: ReadonlySet<string> = new Set<string>();
+  closed = false;
+
+  constructor(
+    readonly region: string,
+    readonly at: number,
+  ) {}
+}
+
+function sealRecord(this: StrandRecord, settled: ReadonlySet<string>): void {
+  this.summary = settled;
+  this.closed = true;
+}
+
 const PROMISE_COMBINATORS: ReadonlySet<string> = new Set(["all", "allSettled", "race", "any"]);
 
 const UNWRAP_KINDS: ReadonlySet<ts.SyntaxKind> = new Set([
@@ -51,19 +69,10 @@ export function innermostOpenStrand(trace: TraceState): StrandRecord | undefined
     const record = trace.strands[index];
     if (record !== undefined && !record.closed) return record;
   }
-  return undefined;
 }
 
 export function openStrand(trace: TraceState, region: string): StrandRecord {
-  const issued = new Set<string>();
-  const summary = new Set<string>();
-  const record = {
-    at: trace.strands.length,
-    closed: false,
-    issued,
-    region,
-    summary,
-  } as StrandRecord;
+  const record = new OpenStrand(region, trace.strands.length);
   trace.strands.push(record);
   trace.frames.push({ region, settled: new Set<string>() });
   return trace.strands.at(-1) ?? record;
@@ -71,8 +80,8 @@ export function openStrand(trace: TraceState, region: string): StrandRecord {
 
 export function closeStrand(trace: TraceState, record: StrandRecord): void {
   const frame = trace.frames.pop();
-  record.summary = frame === undefined ? new Set<string>() : frame.settled;
-  record.closed = true;
+  const settled = frame === undefined ? new Set<string>() : frame.settled;
+  sealRecord.call(record, settled);
 }
 
 export function strandMark(trace: TraceState): number {
@@ -88,8 +97,8 @@ export function bindStrands(
   name: ts.BindingName,
   regions: readonly string[],
 ): void {
-  if (regions.length === 0) return;
-  boundIdentifiers(name).forEach((identifier) => {
+  const identifiers = regions.length === 0 ? [] : boundIdentifiers(name);
+  identifiers.forEach((identifier) => {
     const symbol = trace.checker.getSymbolAtLocation(identifier);
     if (symbol === undefined) return;
     const bucket = trace.strandsBySymbol.get(symbol) ?? new Set<string>();
@@ -115,8 +124,9 @@ function promiseCombinator(trace: TraceState, node: ts.CallExpression): boolean 
 }
 
 function innerExpression(node: ts.Node): ts.Expression | undefined {
-  if (!UNWRAP_KINDS.has(node.kind)) return undefined;
-  return (node as ts.Node & { expression: ts.Expression }).expression;
+  if (UNWRAP_KINDS.has(node.kind)) {
+    return (node as ts.Node & { expression: ts.Expression }).expression;
+  }
 }
 
 // Left to right. A call that is not a Promise combinator is opaque, so
@@ -131,16 +141,21 @@ class AwaitedNames {
     const unwrapped = innerExpression(node);
     if (unwrapped !== undefined) {
       this.collect(unwrapped);
-    } else if (node.kind === ts.SyntaxKind.Identifier) {
-      this.into.push(node as ts.Identifier);
-    } else if (node.kind === ts.SyntaxKind.ArrayLiteralExpression) {
-      this.elements((node as ts.ArrayLiteralExpression).elements);
-    } else if (
-      node.kind === ts.SyntaxKind.CallExpression &&
-      promiseCombinator(this.trace, node as ts.CallExpression)
-    ) {
-      this.elements((node as ts.CallExpression).arguments);
+      return;
     }
+    if (node.kind === ts.SyntaxKind.Identifier) {
+      this.into.push(node as ts.Identifier);
+      return;
+    }
+    if (node.kind === ts.SyntaxKind.ArrayLiteralExpression) {
+      this.elements((node as ts.ArrayLiteralExpression).elements);
+      return;
+    }
+    if (this.promiseList(node)) this.elements(node.arguments);
+  }
+
+  private promiseList(node: ts.Expression): node is ts.CallExpression {
+    return ts.isCallExpression(node) && promiseCombinator(this.trace, node);
   }
 
   private elements(nodes: readonly ts.Expression[]): void {
