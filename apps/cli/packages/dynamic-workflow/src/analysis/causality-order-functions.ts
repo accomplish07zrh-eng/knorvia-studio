@@ -4,85 +4,89 @@ import ts from "typescript";
 import { isFunctionLike } from "./sites.js";
 import type { ApplicationVia } from "./state.js";
 
-// AST helpers for the ordering walk. None of them read TraceState.
+// Ordering helpers over the authored script. Reachability is a depth-first
+// query over a callee relation that attributes nested bodies to their owner.
 
 export type ScriptFunction = ts.SignatureDeclaration & { body: ts.Node };
 
-function bindingElements(name: ts.BindingName): readonly ts.ArrayBindingElement[] | undefined {
-  if (ts.isIdentifier(name)) return undefined;
-  return name.elements;
+const ORACLE_SITES: ReadonlySet<ts.SyntaxKind> = new Set([
+  ts.SyntaxKind.CallExpression,
+  ts.SyntaxKind.NewExpression,
+  ts.SyntaxKind.TaggedTemplateExpression,
+]);
+
+function walkPreorder(root: ts.Node, visit: (node: ts.Node) => void): void {
+  visit(root);
+  ts.forEachChild(root, (child) => {
+    walkPreorder(child, visit);
+  });
+}
+
+function collectLeaves(name: ts.BindingName, into: ts.Identifier[]): void {
+  if (name.kind === ts.SyntaxKind.Identifier) {
+    into.push(name);
+    return;
+  }
+  if (name.kind !== ts.SyntaxKind.ObjectBindingPattern && name.kind !== ts.SyntaxKind.ArrayBindingPattern) {
+    return;
+  }
+  name.elements.forEach((element) => {
+    if (element.kind !== ts.SyntaxKind.OmittedExpression) collectLeaves(element.name, into);
+  });
 }
 
 /** Identifier leaves of a binding, left to right. Omitted array holes contribute nothing. */
 export function boundIdentifiers(name: ts.BindingName): ts.Identifier[] {
   const leaves: ts.Identifier[] = [];
-  const visit = (binding: ts.BindingName): void => {
-    if (ts.isIdentifier(binding)) {
-      leaves.push(binding);
-      return;
-    }
-    const elements = bindingElements(binding);
-    if (elements === undefined) return;
-    let cursor = 0;
-    while (cursor < elements.length) {
-      const element = elements[cursor];
-      cursor += 1;
-      if (element === undefined || ts.isOmittedExpression(element)) continue;
-      visit(element.name);
-    }
-  };
-  visit(name);
+  collectLeaves(name, leaves);
   return leaves;
 }
 
 function declarationBody(node: ts.Node): ts.Node | undefined {
-  const withBody = node as { body?: ts.Node };
-  return withBody.body;
+  return (node as { body?: ts.Node }).body;
 }
 
 export function asScriptFunction(
   node: ts.Node,
   scriptFile: ts.SourceFile,
 ): ScriptFunction | undefined {
-  if (!isFunctionLike(node)) return undefined;
-  if (node.getSourceFile() !== scriptFile) return undefined;
-  const body = declarationBody(node);
-  if (body === undefined) return undefined;
+  if (!isFunctionLike(node) || node.getSourceFile() !== scriptFile) return undefined;
+  if (declarationBody(node) === undefined) return undefined;
   return node as ScriptFunction;
 }
 
 /** Function-like ancestors in the authored file, innermost first. */
 export function enclosingFunctions(node: ts.Node): ScriptFunction[] {
-  const scriptFile = node.getSourceFile();
   const found: ScriptFunction[] = [];
-  let cursor: ts.Node | undefined = node.parent;
-  while (cursor !== undefined) {
-    const fn = asScriptFunction(cursor, scriptFile);
+  const host = node.getSourceFile();
+  for (let cursor = node.parent; cursor !== undefined; cursor = cursor.parent) {
+    const fn = asScriptFunction(cursor, host);
     if (fn !== undefined) found.push(fn);
-    cursor = cursor.parent;
   }
   return found;
 }
 
+function identifierText(node: ts.Node | undefined): string | undefined {
+  if (node === undefined || node.kind !== ts.SyntaxKind.Identifier) return undefined;
+  return (node as ts.Identifier).text;
+}
+
 function ownIdentifier(decl: ts.Node): string | undefined {
-  const named = decl as { name?: ts.Node };
-  if (named.name !== undefined && ts.isIdentifier(named.name)) return named.name.text;
-  return undefined;
+  return identifierText((decl as { name?: ts.Node }).name);
 }
 
 function variableBindingName(decl: ts.Node): string | undefined {
-  const parent = decl.parent;
-  if (parent === undefined) return undefined;
-  if (!ts.isVariableDeclaration(parent) || !ts.isIdentifier(parent.name)) return undefined;
-  return parent.name.text;
+  const host = decl.parent;
+  if (host === undefined || host.kind !== ts.SyntaxKind.VariableDeclaration) return undefined;
+  return identifierText((host as ts.VariableDeclaration).name);
 }
 
 export function functionName(decl: ts.Node): string | undefined {
   // `new Judge()` should label the inlined constructor with the class name.
-  if (ts.isConstructorDeclaration(decl)) {
+  if (decl.kind === ts.SyntaxKind.Constructor) {
     const host = decl.parent;
-    if (!ts.isClassLike(host) || host.name === undefined) return undefined;
-    return host.name.text;
+    if (host === undefined || !ts.isClassLike(host)) return undefined;
+    return identifierText(host.name);
   }
   return ownIdentifier(decl) ?? variableBindingName(decl);
 }
@@ -93,114 +97,70 @@ export function resolveCallDeclaration(
   scriptFile: ts.SourceFile,
 ): ScriptFunction | undefined {
   const signature = checker.getResolvedSignature(call);
-  const declaration = signature?.declaration;
-  if (declaration === undefined) return undefined;
-  return asScriptFunction(declaration, scriptFile);
+  const declaration = signature === undefined ? undefined : signature.declaration;
+  return declaration === undefined ? undefined : asScriptFunction(declaration, scriptFile);
 }
 
-function preorder(root: ts.Node, visit: (node: ts.Node) => void): void {
-  const stack: ts.Node[] = [root];
-  while (stack.length > 0) {
-    const node = stack.pop();
-    if (node === undefined) break;
-    visit(node);
-    const children: ts.Node[] = [];
-    ts.forEachChild(node, (child) => {
-      children.push(child);
-    });
-    let cursor = children.length;
-    while (cursor > 0) {
-      cursor -= 1;
-      const child = children[cursor];
-      if (child !== undefined) stack.push(child);
-    }
-  }
+interface CallIndex {
+  readonly checker: ts.TypeChecker;
+  readonly scriptFile: ts.SourceFile;
+  readonly applications: ReadonlyMap<ts.Node, ReadonlyMap<ts.Node, ApplicationVia>>;
 }
 
-function rememberCallee(target: ts.Node | undefined, into: Set<ts.Node>): void {
+function remember(target: ts.Node | undefined, into: Set<ts.Node>): void {
   if (target !== undefined) into.add(target);
 }
 
-function noteCall(
-  node: ts.Node,
-  checker: ts.TypeChecker,
-  scriptFile: ts.SourceFile,
-  applications: ReadonlyMap<ts.Node, ReadonlyMap<ts.Node, ApplicationVia>>,
-  into: Set<ts.Node>,
-): void {
-  if (ts.isCallExpression(node)) {
-    rememberCallee(resolveCallDeclaration(node, checker, scriptFile), into);
+function noteCall(node: ts.Node, index: CallIndex, into: Set<ts.Node>): void {
+  if (node.kind === ts.SyntaxKind.CallExpression) {
+    remember(resolveCallDeclaration(node as ts.CallExpression, index.checker, index.scriptFile), into);
   }
-  const appliesOracle =
-    ts.isCallExpression(node) || ts.isNewExpression(node) || ts.isTaggedTemplateExpression(node);
-  if (!appliesOracle) return;
-  const applied = applications.get(node);
+  if (!ORACLE_SITES.has(node.kind)) return;
+  const applied = index.applications.get(node);
   if (applied === undefined) return;
-  for (const fn of applied.keys()) rememberCallee(asScriptFunction(fn, scriptFile), into);
+  applied.forEach((_via, fn) => {
+    remember(asScriptFunction(fn, index.scriptFile), into);
+  });
 }
 
-function calleeMap(
-  functions: readonly ScriptFunction[],
-  checker: ts.TypeChecker,
-  scriptFile: ts.SourceFile,
-  applications: ReadonlyMap<ts.Node, ReadonlyMap<ts.Node, ApplicationVia>>,
-): Map<ts.Node, Set<ts.Node>> {
-  const callees = new Map<ts.Node, Set<ts.Node>>();
-  let cursor = 0;
-  while (cursor < functions.length) {
-    const fn = functions[cursor];
-    cursor += 1;
-    if (fn === undefined) continue;
-    const targets = new Set<ts.Node>();
-    // Nested bodies count as the owner's callees. That over-approximates cycles.
-    preorder(fn.body, (node) => {
-      noteCall(node, checker, scriptFile, applications, targets);
-    });
-    callees.set(fn, targets);
-  }
-  return callees;
+function targetsIn(fn: ScriptFunction, index: CallIndex): Set<ts.Node> {
+  const targets = new Set<ts.Node>();
+  // Nested bodies count as the owner's callees, which over-approximates cycles.
+  walkPreorder(fn.body, (node) => {
+    noteCall(node, index, targets);
+  });
+  return targets;
 }
 
-function reachesSelf(fn: ts.Node, callees: ReadonlyMap<ts.Node, Set<ts.Node>>): boolean {
-  const seen = new Set<ts.Node>();
-  const queue: ts.Node[] = [];
-  const first = callees.get(fn);
-  if (first !== undefined) {
-    for (const hop of first) queue.push(hop);
-  }
-  let cursor = 0;
-  while (cursor < queue.length) {
-    const next = queue[cursor];
-    cursor += 1;
-    if (next === undefined) continue;
-    if (next === fn) return true;
-    if (seen.has(next)) continue;
-    seen.add(next);
-    const more = callees.get(next);
-    if (more === undefined) continue;
-    for (const hop of more) queue.push(hop);
+function reachesSelf(fn: ts.Node, callees: ReadonlyMap<ts.Node, ReadonlySet<ts.Node>>): boolean {
+  const visited = new Set<ts.Node>([fn]);
+  const pending = [...(callees.get(fn) ?? [])];
+  while (pending.length > 0) {
+    const hop = pending.pop();
+    if (hop === undefined) break;
+    if (hop === fn) return true;
+    if (visited.has(hop)) continue;
+    visited.add(hop);
+    const more = callees.get(hop);
+    if (more !== undefined) {
+      for (const next of more) pending.push(next);
+    }
   }
   return false;
 }
 
-/**
- * Functions that can reach themselves through resolved calls or oracle applications.
- * The walk turns each of these into a `loop` region and cuts re-entry.
- */
+// Functions that can reach themselves become loop regions; re-entry is cut.
 export function collectRecursiveFunctions(
   scriptFile: ts.SourceFile,
   checker: ts.TypeChecker,
   applications: ReadonlyMap<ts.Node, ReadonlyMap<ts.Node, ApplicationVia>>,
 ): Set<ts.Node> {
-  const functions: ScriptFunction[] = [];
-  preorder(scriptFile, (node) => {
-    const fn = asScriptFunction(node, scriptFile);
-    if (fn !== undefined) functions.push(fn);
+  const declared: ScriptFunction[] = [];
+  walkPreorder(scriptFile, (node) => {
+    const decl = asScriptFunction(node, scriptFile);
+    if (decl !== undefined) declared.push(decl);
   });
-  const callees = calleeMap(functions, checker, scriptFile, applications);
-  const recursive = new Set<ts.Node>();
-  for (const fn of functions) {
-    if (reachesSelf(fn, callees)) recursive.add(fn);
-  }
-  return recursive;
+  const index: CallIndex = { checker, scriptFile, applications };
+  const callees = new Map(declared.map((fn) => [fn, targetsIn(fn, index)] as const));
+  return new Set(declared.filter((fn) => reachesSelf(fn, callees)));
 }

@@ -77,6 +77,8 @@ export interface TraceState {
   readonly walk: (node: ts.Node, chain: readonly string[]) => void;
 }
 
+type RegionSeed = Omit<OrderRegion, "id" | "kind" | "parent">;
+
 export function applicationsAt(
   trace: Pick<TraceState, "oracle" | "scriptFile">,
   node: ts.Node,
@@ -85,11 +87,11 @@ export function applicationsAt(
   const recorded = trace.oracle.applications.get(node);
   if (recorded === undefined) return [];
   const matched: ScriptFunction[] = [];
-  for (const [fn, how] of recorded) {
-    if (how !== via) continue;
+  recorded.forEach((how, fn) => {
+    if (how !== via) return;
     const decl = asScriptFunction(fn, trace.scriptFile);
     if (decl !== undefined) matched.push(decl);
-  }
+  });
   return matched;
 }
 
@@ -97,29 +99,18 @@ export function openRegion(
   trace: Pick<TraceState, "counters" | "regions">,
   kind: TraceRegionKind,
   parent: string | undefined,
-  extra: {
-    entered: boolean;
-    loc?: ScriptLoc;
-    bound?: number;
-    label?: string;
-    exhaustive?: boolean;
-    fallthrough?: boolean;
-    detached?: boolean;
-    recursive?: boolean;
-    strand?: true;
-  },
+  extra: RegionSeed,
 ): string {
   const serial = (trace.counters.get(kind) ?? 0) + 1;
   trace.counters.set(kind, serial);
-  const id = kind + "#" + String(serial);
-  const region = parent === undefined ? { id, kind, ...extra } : { id, kind, parent, ...extra };
+  const id = `${kind}#${String(serial)}`;
+  const region: OrderRegion =
+    parent === undefined ? { id, kind, ...extra } : { id, kind, parent, ...extra };
   trace.regions.push(region);
-  return id;
+  return region.id;
 }
 
-function indexCalls<T extends { call: ts.Node; id: string }>(
-  rows: readonly T[],
-): Map<ts.Node, string> {
+function indexCalls<T extends { call: ts.Node; id: string }>(rows: readonly T[]): Map<ts.Node, string> {
   const index = new Map<ts.Node, string>();
   for (const row of rows) index.set(row.call, row.id);
   return index;
@@ -140,40 +131,137 @@ function indexIterations(rows: readonly IterationCandidate[]): {
 
 function eachCallbackFunctions(
   calls: ReadonlyMap<ts.Node, IterationCandidate>,
-  oracle: OrderOracle,
-  scriptFile: ts.SourceFile,
+  scope: Pick<TraceState, "oracle" | "scriptFile">,
 ): Set<ts.Node> {
   const fns = new Set<ts.Node>();
-  for (const call of calls.keys()) {
-    for (const fn of applicationsAt({ oracle, scriptFile }, call, "argument")) fns.add(fn);
-  }
+  calls.forEach((_cand, call) => {
+    for (const fn of applicationsAt(scope, call, "argument")) fns.add(fn);
+  });
   return fns;
 }
 
 function stepCallIndex(table: SiteTable): Map<string, ts.Node> {
   const index = new Map<string, ts.Node>();
-  const absorb = (rows: readonly { id: string; call: ts.Node }[]): void => {
-    for (const row of rows) index.set(row.id, row.call);
-  };
-  absorb(table.asks);
-  absorb(table.worldReads);
+  for (const row of table.asks) index.set(row.id, row.call);
+  for (const row of table.worldReads) index.set(row.id, row.call);
   return index;
 }
 
 function realStepSet(table: SiteTable): Set<string> {
-  const ids = new Set<string>();
-  for (const site of table.asks) ids.add(site.id);
-  for (const site of table.worldReads) ids.add(site.id);
-  return ids;
+  return new Set([...table.asks, ...table.worldReads].map((site) => site.id));
 }
 
 function markersByStatement(table: SiteTable): Map<ts.Node, PhaseMarkerSite> {
   const markers = new Map<ts.Node, PhaseMarkerSite>();
-  for (const marker of table.phases) {
+  table.phases.forEach((marker) => {
     const parent = marker.call.parent;
-    if (ts.isExpressionStatement(parent)) markers.set(parent, marker);
-  }
+    if (parent.kind === ts.SyntaxKind.ExpressionStatement) markers.set(parent, marker);
+  });
   return markers;
+}
+
+function rootSequence(): { regions: OrderRegion[]; counters: Map<TraceRegionKind, number>; root: string } {
+  const regions: Array<OrderRegion> = [];
+  const counters: Map<TraceRegionKind, number> = new Map();
+  const opened = openRegion({ counters, regions }, "seq", undefined, { entered: true });
+  return { counters, regions, root: opened };
+}
+
+class WalkTrace implements TraceState {
+  actorByCall!: TraceState["actorByCall"];
+  askByCall!: TraceState["askByCall"];
+  body!: TraceState["body"];
+  callByStep!: TraceState["callByStep"];
+  candByCall!: TraceState["candByCall"];
+  candByCallback!: TraceState["candByCallback"];
+  checker!: TraceState["checker"];
+  controls!: TraceState["controls"];
+  counters!: TraceState["counters"];
+  currentPhase!: TraceState["currentPhase"];
+  eachCallbackFns!: TraceState["eachCallbackFns"];
+  events!: TraceState["events"];
+  fnStack!: TraceState["fnStack"];
+  frames!: TraceState["frames"];
+  issued!: TraceState["issued"];
+  iterationAncestorCache!: TraceState["iterationAncestorCache"];
+  joined!: TraceState["joined"];
+  markerByStatement!: TraceState["markerByStatement"];
+  oracle!: TraceState["oracle"];
+  phaseIdByName!: TraceState["phaseIdByName"];
+  phases!: TraceState["phases"];
+  program!: TraceState["program"];
+  readByCall!: TraceState["readByCall"];
+  realSteps!: TraceState["realSteps"];
+  recursive!: TraceState["recursive"];
+  regionByStatement!: TraceState["regionByStatement"];
+  regions!: TraceState["regions"];
+  returnTargets!: TraceState["returnTargets"];
+  root!: TraceState["root"];
+  sccLoopByDecl!: TraceState["sccLoopByDecl"];
+  scriptFile!: TraceState["scriptFile"];
+  stepsBySymbol!: TraceState["stepsBySymbol"];
+  strands!: TraceState["strands"];
+  strandsBySymbol!: TraceState["strandsBySymbol"];
+  throwTargets!: TraceState["throwTargets"];
+  toScriptLoc!: TraceState["toScriptLoc"];
+  walk!: TraceState["walk"];
+  walkedFns!: TraceState["walkedFns"];
+
+  constructor(source: {
+    workflow: WorkflowProgram;
+    table: SiteTable;
+    oracle: OrderOracle;
+    walk: (trace: TraceState, node: ts.Node, chain: readonly string[]) => void;
+  }) {
+    const { workflow, table, oracle, walk } = source;
+    const iterations = indexIterations(table.iterations);
+    const rootSeq = rootSequence();
+    const regions = rootSeq.regions;
+    const counters = rootSeq.counters;
+    const root = rootSeq.root;
+    const checker = workflow.program.getTypeChecker();
+    const scriptFile = workflow.scriptFile;
+    this.actorByCall = indexCalls(table.actors);
+    this.askByCall = indexCalls(table.asks);
+    this.body = findWorkflowBody(scriptFile);
+    this.callByStep = stepCallIndex(table);
+    this.candByCall = iterations.byCall;
+    this.candByCallback = iterations.byCallback;
+    this.checker = checker;
+    this.controls = [];
+    this.counters = counters;
+    this.currentPhase = UNPHASED_ID;
+    this.eachCallbackFns = eachCallbackFunctions(iterations.byCall, { oracle, scriptFile });
+    this.events = [];
+    this.fnStack = [];
+    this.frames = [{ region: root, settled: new Set<string>() }];
+    this.issued = new Set<string>();
+    this.iterationAncestorCache = new Map<ts.Node, Set<ts.Node>>();
+    this.joined = new Set<string>();
+    this.markerByStatement = markersByStatement(table);
+    this.oracle = oracle;
+    this.phaseIdByName = new Map<string, string>();
+    this.phases = [];
+    this.program = workflow.program;
+    this.readByCall = indexCalls(table.worldReads);
+    this.realSteps = realStepSet(table);
+    this.recursive = collectRecursiveFunctions(scriptFile, checker, oracle.applications);
+    this.regionByStatement = new Map<ts.Node, string>();
+    this.regions = regions;
+    this.returnTargets = [];
+    this.throwTargets = [];
+    this.root = root;
+    this.sccLoopByDecl = new Map<ts.Node, string>();
+    this.scriptFile = scriptFile;
+    this.stepsBySymbol = new Map<ts.Symbol, Set<string>>();
+    this.strands = [];
+    this.strandsBySymbol = new Map<ts.Symbol, Set<string>>();
+    this.toScriptLoc = workflow.toScriptLoc;
+    this.walk = (node, chain) => {
+      walk(this, node, chain);
+    };
+    this.walkedFns = new Set<ts.Node>();
+  }
 }
 
 /** Build indexes and the root `seq` region. `walk` is bound so visitors can recurse. */
@@ -183,56 +271,7 @@ export function createTraceState(
   oracle: OrderOracle,
   walk: (trace: TraceState, node: ts.Node, chain: readonly string[]) => void,
 ): TraceState {
-  const { program, scriptFile, toScriptLoc } = workflow;
-  const checker = program.getTypeChecker();
-  const body = findWorkflowBody(scriptFile);
-  const iterations = indexIterations(table.iterations);
-  const regions: OrderRegion[] = [];
-  const counters = new Map<TraceRegionKind, number>();
-  const root = openRegion({ counters, regions }, "seq", undefined, { entered: true });
-  const trace: TraceState = {
-    actorByCall: indexCalls(table.actors),
-    askByCall: indexCalls(table.asks),
-    body,
-    callByStep: stepCallIndex(table),
-    candByCall: iterations.byCall,
-    candByCallback: iterations.byCallback,
-    checker,
-    controls: [],
-    counters,
-    currentPhase: UNPHASED_ID,
-    eachCallbackFns: eachCallbackFunctions(iterations.byCall, oracle, scriptFile),
-    events: [],
-    fnStack: [],
-    frames: [{ region: root, settled: new Set<string>() }],
-    issued: new Set<string>(),
-    iterationAncestorCache: new Map<ts.Node, Set<ts.Node>>(),
-    joined: new Set<string>(),
-    markerByStatement: markersByStatement(table),
-    oracle,
-    phaseIdByName: new Map<string, string>(),
-    phases: [],
-    program,
-    readByCall: indexCalls(table.worldReads),
-    realSteps: realStepSet(table),
-    recursive: collectRecursiveFunctions(scriptFile, checker, oracle.applications),
-    regionByStatement: new Map<ts.Node, string>(),
-    regions,
-    returnTargets: [],
-    root,
-    sccLoopByDecl: new Map<ts.Node, string>(),
-    scriptFile,
-    stepsBySymbol: new Map<ts.Symbol, Set<string>>(),
-    strands: [],
-    strandsBySymbol: new Map<ts.Symbol, Set<string>>(),
-    throwTargets: [],
-    toScriptLoc,
-    walk: (node, chain) => {
-      walk(trace, node, chain);
-    },
-    walkedFns: new Set<ts.Node>(),
-  };
-  return trace;
+  return new WalkTrace({ workflow, table, oracle, walk });
 }
 
 export function locOf(trace: TraceState, node: ts.Node): ScriptLoc {
@@ -258,13 +297,7 @@ export function jump(
   target: string,
   chain: readonly string[],
 ): void {
-  const event: JumpEvent = {
-    at: "jump",
-    kind,
-    phase: trace.currentPhase,
-    regions: chain,
-    target,
-  };
+  const event: JumpEvent = { at: "jump", kind, phase: trace.currentPhase, regions: chain, target };
   trace.events.push(event);
 }
 
@@ -272,29 +305,23 @@ export function jump(
 export function issuesSince(trace: TraceState, mark: number): string[] {
   const found: string[] = [];
   const seen = new Set<string>();
-  let cursor = mark;
-  while (cursor < trace.events.length) {
-    const event = trace.events[cursor];
-    cursor += 1;
-    if (event === undefined || event.at !== "issue" || seen.has(event.step)) continue;
+  for (const event of trace.events.slice(mark)) {
+    if (event.at !== "issue" || seen.has(event.step)) continue;
     seen.add(event.step);
     found.push(event.step);
   }
   return found;
 }
 
-/**
- * Mint `phase#N` on the first reachable marker of a trimmed name. A repeated name
- * reuses that id. A missing or blank name mints nothing and does not change phase.
- */
+// First reachable trimmed name mints phase#N. A repeated name reuses it.
+// A missing or blank name mints nothing.
 export function phaseIdOf(trace: TraceState, marker: PhaseMarkerSite): string | undefined {
-  const raw = marker.name;
-  const trimmed = raw === undefined ? undefined : raw.trim();
-  if (trimmed === undefined || trimmed.length === 0) return undefined;
+  const trimmed = marker.name === undefined ? "" : marker.name.trim();
+  if (trimmed.length === 0) return undefined;
   const known = trace.phaseIdByName.get(trimmed);
   if (known !== undefined) return known;
-  const id = "phase#" + String(trace.phases.length + 1);
-  trace.phaseIdByName.set(trimmed, id);
-  trace.phases.push({ id, loc: marker.loc, name: trimmed });
-  return id;
+  const minted = `phase#${String(trace.phases.length + 1)}`;
+  trace.phaseIdByName.set(trimmed, minted);
+  trace.phases.push({ id: minted, loc: marker.loc, name: trimmed });
+  return minted;
 }

@@ -25,64 +25,104 @@ import {
   type StrandRecord,
 } from "./causality-order-strands.js";
 
-// Calls inline oracle bodies instead of walking function nodes where they are written.
-// Recursion back into the visitor goes through `trace.walk`.
+// Calls inline oracle bodies. The call is classified after its receiver and
+// arguments have been walked, then one effect (ask, read, actor, or apply) runs.
 
-interface InlineOptions {
-  label?: string;
-  strand?: true;
-  prologue?: (inside: readonly string[]) => void;
+type ApplySite = ts.CallExpression | ts.NewExpression | ts.TaggedTemplateExpression;
+
+interface PreparedCall {
+  handled: Set<ts.Node>;
+  receiverIssues: string[];
 }
 
-function extend(chain: readonly string[], ...ids: string[]): string[] {
-  const next = chain.slice();
-  for (const id of ids) next.push(id);
-  return next;
+interface Activation {
+  readonly decl: ScriptFunction;
+  readonly site: ts.Node;
+  readonly label: string | undefined;
+  readonly strand: boolean;
+  readonly prologue: ((inside: readonly string[]) => void) | undefined;
 }
 
-function regionLabel(name: string | undefined): { label: string } | undefined {
-  if (name === undefined) return undefined;
-  return { label: name };
+type CallEffect =
+  | { readonly tag: "ask" | "read" | "actor"; readonly id: string }
+  | { readonly tag: "apply"; readonly prepared: PreparedCall };
+
+function extend(chain: readonly string[], ...ids: string[]): readonly string[] {
+  return chain.concat(ids);
 }
 
-function strandMark(active: boolean): { strand: true } | undefined {
-  if (!active) return undefined;
-  return { strand: true };
+function named(label: string | undefined): { label: string } | undefined {
+  return label === undefined ? undefined : { label };
 }
 
-function walkCallExpression(
-  trace: TraceState,
-  node: ts.CallExpression,
-  chain: readonly string[],
-): { handled: Set<ts.Node>; receiverIssues: string[] } {
+function strandFlag(active: boolean): { strand: true } | undefined {
+  return active ? { strand: true } : undefined;
+}
+
+function prepareCall(trace: TraceState, node: ts.CallExpression, chain: readonly string[]): PreparedCall {
   const receiverMark = trace.events.length;
   trace.walk(node.expression, chain);
   const receiverIssues = issuesSince(trace, receiverMark);
-  for (const argument of node.arguments) trace.walk(argument, chain);
-  const handled = new Set<ts.Node>();
+  node.arguments.forEach((argument) => {
+    trace.walk(argument, chain);
+  });
+  const handled: Set<ts.Node> = new Set();
   const cand = trace.candByCall.get(node);
   if (cand === undefined) return { handled, receiverIssues };
   const asyncLiteral = cand.callback !== undefined && isAsyncFunction(cand.callback);
   const id = openRegion(trace, "fanout", innermost(trace, chain), {
-    entered: false,
+    entered: false as const,
     label: cand.method,
     loc: cand.loc,
-    ...strandMark(asyncLiteral),
+    ...strandFlag(asyncLiteral),
   });
   const inside = extend(chain, id);
-  if (cand.callback !== undefined) {
+  const literal = cand.callback;
+  if (literal !== undefined) {
     const record = asyncLiteral ? openStrand(trace, id) : undefined;
     trace.returnTargets.push(id);
     trace.walk(cand.body, inside);
     trace.returnTargets.pop();
     if (record !== undefined) closeStrand(trace, record);
-  } else {
-    for (const fn of applicationsAt(trace, node, "argument")) {
-      handled.add(fn);
-      inlineBody(trace, fn, inside, node);
-    }
+    return { handled, receiverIssues };
+  }
+  for (const fn of applicationsAt(trace, node, "argument")) {
+    handled.add(fn);
+    inlineBody(trace, { decl: fn, site: node, label: undefined, strand: false, prologue: undefined }, inside);
   }
   return { handled, receiverIssues };
+}
+
+function classify(trace: TraceState, node: ts.CallExpression, prepared: PreparedCall): CallEffect {
+  const ask = trace.askByCall.get(node);
+  if (ask !== undefined) return { tag: "ask", id: ask };
+  const read = trace.readByCall.get(node);
+  if (read !== undefined) return { tag: "read", id: read };
+  const actor = trace.actorByCall.get(node);
+  if (actor !== undefined) return { tag: "actor", id: actor };
+  return { tag: "apply", prepared };
+}
+
+function emitEffect(
+  trace: TraceState,
+  node: ts.CallExpression,
+  chain: readonly string[],
+  effect: CallEffect,
+): void {
+  switch (effect.tag) {
+    case "ask":
+    case "read":
+      issue(trace, effect.id, chain);
+      break;
+    case "actor":
+      trace.events.push({ actor: effect.id, at: "actor", regions: chain });
+      break;
+    case "apply":
+      applyAt(trace, node, chain, effect.prepared.handled, effect.prepared.receiverIssues);
+      break;
+    default:
+      break;
+  }
 }
 
 export function walkCall(
@@ -90,35 +130,15 @@ export function walkCall(
   node: ts.CallExpression,
   chain: readonly string[],
 ): void {
-  const prepared = walkCallExpression(trace, node, chain);
-  const ask = trace.askByCall.get(node);
-  if (ask !== undefined) {
-    issue(trace, ask, chain);
-    return;
-  }
-  const read = trace.readByCall.get(node);
-  if (read !== undefined) {
-    issue(trace, read, chain);
-    return;
-  }
-  const actor = trace.actorByCall.get(node);
-  if (actor !== undefined) {
-    trace.events.push({ actor, at: "actor", regions: chain });
-    return;
-  }
-  applyAt(trace, node, chain, prepared.handled, prepared.receiverIssues);
+  emitEffect(trace, node, chain, classify(trace, node, prepareCall(trace, node, chain)));
 }
 
-function calleeList(
-  trace: TraceState,
-  node: ts.CallExpression | ts.NewExpression | ts.TaggedTemplateExpression,
-  handled: ReadonlySet<ts.Node>,
-): ScriptFunction[] {
+function calleeList(trace: TraceState, node: ApplySite, handled: ReadonlySet<ts.Node>): ScriptFunction[] {
   const callees = applicationsAt(trace, node, "callee").filter((fn) => !handled.has(fn));
-  if (callees.length > 0 || !ts.isCallExpression(node)) return callees;
+  if (callees.length > 0 || node.kind !== ts.SyntaxKind.CallExpression) return callees;
   const decl = resolveCallDeclaration(node, trace.checker, trace.scriptFile);
-  if (decl !== undefined) callees.push(decl);
-  return callees;
+  if (decl === undefined) return callees;
+  return callees.concat(decl);
 }
 
 function inlineChoice(
@@ -127,43 +147,55 @@ function inlineChoice(
   chain: readonly string[],
   site: ts.Node,
   exhaustive: boolean,
-  options: InlineOptions | undefined,
+  activation: Omit<Activation, "decl" | "site"> | undefined,
 ): void {
   const choice = openRegion(trace, "choice", innermost(trace, chain), {
-    entered: true,
-    ...(exhaustive ? { exhaustive: true } : {}),
+    entered: true as const,
     loc: locOf(trace, site),
+    ...(exhaustive ? { exhaustive: true } : {}),
   });
   for (const fn of fns) {
     const arm = openRegion(trace, "branch", choice, { entered: false, loc: locOf(trace, fn) });
-    inlineBody(trace, fn, extend(chain, choice, arm), site, options);
+    inlineBody(
+      trace,
+      {
+        decl: fn,
+        site,
+        label: activation?.label,
+        prologue: activation?.prologue,
+        strand: activation?.strand === true,
+      },
+      extend(chain, choice, arm),
+    );
   }
 }
 
 function receiverPrologue(
   trace: TraceState,
-  node: ts.CallExpression | ts.NewExpression | ts.TaggedTemplateExpression,
+  node: ApplySite,
   receiverIssues: readonly string[],
 ): ((inside: readonly string[]) => void) | undefined {
-  if (!ts.isCallExpression(node) || !ts.isPropertyAccessExpression(node.expression))
-    return undefined;
-  const access = node.expression;
-  const semantics = callbackSemanticsOf(node, trace.checker, trace.program);
+  if (node.kind !== ts.SyntaxKind.CallExpression) return undefined;
+  const call = node as ts.CallExpression;
+  if (call.expression.kind !== ts.SyntaxKind.PropertyAccessExpression) return undefined;
+  const access = call.expression as ts.PropertyAccessExpression;
+  const semantics = callbackSemanticsOf(call, trace.checker, trace.program);
   if (semantics?.deferred !== true) return undefined;
   return (inside) => {
-    const claim = settlesAt(trace, node, access.name.getStart(trace.scriptFile));
-    barrier(trace, [...receiverIssues, ...claim.certain], claim.maybe, inside);
+    const claim = settlesAt(trace, call, access.name.getStart(trace.scriptFile));
+    barrier(trace, receiverIssues.concat(claim.certain), claim.maybe, inside);
   };
 }
 
-/**
- * Apply the oracle record at one call, `new`, or tag.
- * One callee inlines directly. Several become exhaustive choice arms. With no
- * callee record, a call falls back to the checker's resolved declaration.
- * Argument callbacks use registry `entered`; deferred ones are strands whose
- * prologue barriers over the receiver inside that strand's frame. `.then`-style
- * callbacks that are not provably entered sit in a one-arm choice.
- */
+function enteredFlag(
+  semantics: { entered?: boolean; deferred?: boolean; label?: string } | undefined,
+): boolean {
+  if (semantics === undefined || semantics.entered === undefined) return DEFAULT_CALLBACK_SEMANTICS.entered;
+  return semantics.entered;
+}
+
+// One callee inlines directly. Several become exhaustive choice arms. Argument
+// callbacks use registry `entered`; deferred ones barrier inside their strand.
 export function applyAt(
   trace: TraceState,
   node: ts.CallExpression | ts.NewExpression | ts.TaggedTemplateExpression,
@@ -172,32 +204,32 @@ export function applyAt(
   receiverIssues: readonly string[] = [],
 ): void {
   const callees = calleeList(trace, node, handled);
-  if (callees.length === 1) {
-    const only = callees[0];
-    if (only !== undefined) inlineBody(trace, only, chain, node);
+  const only = callees.length === 1 ? callees[0] : undefined;
+  if (only !== undefined) {
+    inlineBody(trace, { decl: only, site: node, label: undefined, strand: false, prologue: undefined }, chain);
   } else if (callees.length > 1) {
     inlineChoice(trace, callees, chain, node, true, undefined);
   }
 
   const callbacks = applicationsAt(trace, node, "argument").filter((fn) => !handled.has(fn));
-  if (callbacks.length === 0) return;
-  const semantics = ts.isTaggedTemplateExpression(node)
-    ? undefined
-    : callbackSemanticsOf(node, trace.checker, trace.program);
-  const entered = semantics?.entered ?? DEFAULT_CALLBACK_SEMANTICS.entered;
-  const prologue =
-    semantics?.deferred === true ? receiverPrologue(trace, node, receiverIssues) : undefined;
-  const options: InlineOptions = {
-    label: semantics?.label,
-    prologue,
-    ...strandMark(semantics?.deferred === true),
-  };
-  for (const fn of callbacks) {
-    if (entered) {
-      inlineBody(trace, fn, chain, node, options);
-      continue;
-    }
-    inlineChoice(trace, [fn], chain, node, false, options);
+  if (callbacks.length > 0) {
+    const semantics =
+      node.kind === ts.SyntaxKind.TaggedTemplateExpression
+        ? undefined
+        : callbackSemanticsOf(node, trace.checker, trace.program);
+    const entered = enteredFlag(semantics);
+    const shared = {
+      label: semantics === undefined ? undefined : semantics.label,
+      prologue: semantics?.deferred === true ? receiverPrologue(trace, node, receiverIssues) : undefined,
+      strand: semantics?.deferred === true,
+    };
+    callbacks.forEach((fn) => {
+      if (entered) {
+        inlineBody(trace, { decl: fn, site: node, ...shared }, chain);
+      } else {
+        inlineChoice(trace, [fn], chain, node, false, shared);
+      }
+    });
   }
 }
 
@@ -206,50 +238,44 @@ function restoreScc(trace: TraceState, decl: ts.Node, outer: string | undefined)
   else trace.sccLoopByDecl.set(decl, outer);
 }
 
-/**
- * Inline one body at a site. Re-entry while the decl is already on the stack is cut;
- * a `recur` jump is recorded only when this inline opened a loop region. Async and
- * deferred bodies push their own frame around the prologue and the body.
- */
-function inlineBody(
-  trace: TraceState,
-  decl: ScriptFunction,
-  chain: readonly string[],
-  site: ts.Node,
-  options: InlineOptions = {},
-): void {
-  if (trace.fnStack.includes(decl)) {
-    const loop = trace.sccLoopByDecl.get(decl);
-    if (loop !== undefined) jump(trace, "recur", loop, chain);
-    return;
-  }
-  const name = functionName(decl) ?? options.label;
-  const asStrand = options.strand === true || isAsyncFunction(decl);
-  let inside = chain;
-  let sccLoop: string | undefined;
-  if (trace.recursive.has(decl)) {
-    sccLoop = openRegion(trace, "loop", innermost(trace, chain), {
-      entered: true,
-      loc: locOf(trace, decl),
-      recursive: true,
-      ...regionLabel(name),
-    });
-    inside = extend(inside, sccLoop);
-  }
-  const call = openRegion(trace, "call", innermost(trace, inside), {
-    entered: true,
+function recurIfLooping(trace: TraceState, decl: ScriptFunction, chain: readonly string[]): boolean {
+  if (trace.fnStack.indexOf(decl) < 0) return false;
+  const loop = trace.sccLoopByDecl.get(decl);
+  if (loop !== undefined) jump(trace, "recur", loop, chain);
+  return true;
+}
+
+// Re-entry while the decl is on the stack is cut. A recur jump is recorded only
+// when this inline opened a loop region. Async and deferred bodies push a frame
+// around the prologue and the body.
+function inlineBody(trace: TraceState, activation: Activation, chain: readonly string[]): void {
+  const { decl, site } = activation;
+  if (recurIfLooping(trace, decl, chain)) return;
+  const name = functionName(decl) ?? activation.label;
+  const asStrand = activation.strand || isAsyncFunction(decl);
+  const loopId = trace.recursive.has(decl)
+    ? openRegion(trace, "loop", innermost(trace, chain), {
+        entered: true as const,
+        loc: locOf(trace, decl),
+        recursive: true as const,
+        ...named(name),
+      })
+    : undefined;
+  let inside = loopId === undefined ? chain : extend(chain, loopId);
+  const callId = openRegion(trace, "call", innermost(trace, inside), {
+    entered: true as const,
     loc: locOf(trace, site),
-    ...regionLabel(name),
-    ...strandMark(asStrand),
+    ...named(name),
+    ...strandFlag(asStrand),
   });
-  inside = extend(inside, call);
-  const record: StrandRecord | undefined = asStrand ? openStrand(trace, call) : undefined;
-  if (options.prologue !== undefined) options.prologue(inside);
+  inside = extend(inside, callId);
+  const record: StrandRecord | undefined = asStrand ? openStrand(trace, callId) : undefined;
+  if (activation.prologue !== undefined) activation.prologue(inside);
   trace.fnStack.push(decl);
   trace.walkedFns.add(decl);
   const outerSccLoop = trace.sccLoopByDecl.get(decl);
-  if (sccLoop !== undefined) trace.sccLoopByDecl.set(decl, sccLoop);
-  trace.returnTargets.push(call);
+  if (loopId !== undefined) trace.sccLoopByDecl.set(decl, loopId);
+  trace.returnTargets.push(callId);
   trace.walk(decl.body, inside);
   trace.returnTargets.pop();
   restoreScc(trace, decl, outerSccLoop);

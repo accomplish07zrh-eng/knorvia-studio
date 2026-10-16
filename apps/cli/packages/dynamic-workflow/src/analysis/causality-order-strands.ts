@@ -6,9 +6,7 @@ import { boundIdentifiers } from "./causality-order-functions.js";
 import type { TraceState } from "./causality-order-state.js";
 
 // One settled-set per open activation. The root frame is never a strand. A barrier
-// writes only the innermost frame, so an await inside a strand does not settle the
-// spawner's steps. `at` is a spawn index, not an event index: an event-index mark
-// would let a strand that emits nothing tie with the await inside it and join itself.
+// writes only the innermost frame. `at` is a spawn index, not an event index.
 
 export interface Frame {
   readonly region: string;
@@ -28,6 +26,16 @@ export interface AwaitedOperand {
   operand: ts.Expression;
 }
 
+const PROMISE_COMBINATORS: ReadonlySet<string> = new Set(["all", "allSettled", "race", "any"]);
+
+const UNWRAP_KINDS: ReadonlySet<ts.SyntaxKind> = new Set([
+  ts.SyntaxKind.ParenthesizedExpression,
+  ts.SyntaxKind.AsExpression,
+  ts.SyntaxKind.SatisfiesExpression,
+  ts.SyntaxKind.NonNullExpression,
+  ts.SyntaxKind.SpreadElement,
+]);
+
 export function currentFrame(trace: TraceState): Frame {
   const top = trace.frames.at(-1);
   if (top === undefined) throw new Error("ordering walk has no active frame");
@@ -35,36 +43,20 @@ export function currentFrame(trace: TraceState): Frame {
 }
 
 export function isVisiblySettled(trace: TraceState, step: string): boolean {
-  let cursor = 0;
-  while (cursor < trace.frames.length) {
-    const frame = trace.frames[cursor];
-    cursor += 1;
-    if (frame !== undefined && frame.settled.has(step)) return true;
-  }
-  return false;
+  return trace.frames.some((frame) => frame.settled.has(step));
 }
 
 export function innermostOpenStrand(trace: TraceState): StrandRecord | undefined {
-  let cursor = trace.strands.length;
-  while (cursor > 0) {
-    cursor -= 1;
-    const record = trace.strands[cursor];
-    if (record !== undefined && !record.closed) return record;
-  }
-  return undefined;
+  return trace.strands.findLast((record) => !record.closed);
 }
 
 export function openStrand(trace: TraceState, region: string): StrandRecord {
-  const record: StrandRecord = {
-    at: trace.strands.length,
-    closed: false,
-    issued: new Set<string>(),
-    region,
-    summary: new Set<string>(),
-  };
+  const issued = new Set<string>();
+  const summary = new Set<string>();
+  const record = { at: trace.strands.length, closed: false, issued, region, summary } as StrandRecord;
   trace.strands.push(record);
   trace.frames.push({ region, settled: new Set<string>() });
-  return record;
+  return trace.strands.at(-1) ?? record;
 }
 
 export function closeStrand(trace: TraceState, record: StrandRecord): void {
@@ -78,37 +70,7 @@ export function strandMark(trace: TraceState): number {
 }
 
 export function strandsSince(trace: TraceState, mark: number): string[] {
-  const regions: string[] = [];
-  for (const record of trace.strands) {
-    if (record.at >= mark) regions.push(record.region);
-  }
-  return regions;
-}
-
-function addSymbols(
-  trace: TraceState,
-  name: ts.BindingName,
-  values: readonly string[],
-  map: Map<ts.Symbol, Set<string>>,
-): void {
-  if (values.length === 0) return;
-  const identifiers = boundIdentifiers(name);
-  let cursor = 0;
-  while (cursor < identifiers.length) {
-    const identifier = identifiers[cursor];
-    cursor += 1;
-    if (identifier === undefined) continue;
-    const symbol = trace.checker.getSymbolAtLocation(identifier);
-    if (symbol === undefined) continue;
-    const bucket = map.get(symbol) ?? new Set<string>();
-    let valueAt = 0;
-    while (valueAt < values.length) {
-      const value = values[valueAt];
-      valueAt += 1;
-      if (value !== undefined) bucket.add(value);
-    }
-    map.set(symbol, bucket);
-  }
+  return trace.strands.filter((record) => record.at >= mark).map((record) => record.region);
 }
 
 export function bindStrands(
@@ -116,109 +78,80 @@ export function bindStrands(
   name: ts.BindingName,
   regions: readonly string[],
 ): void {
-  addSymbols(trace, name, regions, trace.strandsBySymbol);
+  if (regions.length === 0) return;
+  boundIdentifiers(name).forEach((identifier) => {
+    const symbol = trace.checker.getSymbolAtLocation(identifier);
+    if (symbol === undefined) return;
+    const bucket = trace.strandsBySymbol.get(symbol) ?? new Set<string>();
+    regions.forEach((region) => {
+      bucket.add(region);
+    });
+    trace.strandsBySymbol.set(symbol, bucket);
+  });
 }
 
 export function isAsyncFunction(decl: ts.Node): boolean {
-  const modifiers = (decl as { modifiers?: ts.NodeArray<ts.ModifierLike> }).modifiers;
+  if (!ts.canHaveModifiers(decl)) return false;
+  const modifiers = ts.getModifiers(decl);
   if (modifiers === undefined) return false;
-  let cursor = 0;
-  while (cursor < modifiers.length) {
-    const modifier = modifiers[cursor];
-    cursor += 1;
-    if (modifier !== undefined && modifier.kind === ts.SyntaxKind.AsyncKeyword) return true;
-  }
-  return false;
-}
-
-function promiseMethod(name: string): boolean {
-  switch (name) {
-    case "all":
-    case "allSettled":
-    case "race":
-    case "any":
-      return true;
-    default:
-      return false;
-  }
+  return modifiers.some((modifier) => modifier.kind === ts.SyntaxKind.AsyncKeyword);
 }
 
 function promiseCombinator(trace: TraceState, node: ts.CallExpression): boolean {
-  const callee = node.expression;
-  if (!ts.isPropertyAccessExpression(callee) || !promiseMethod(callee.name.text)) return false;
+  if (node.expression.kind !== ts.SyntaxKind.PropertyAccessExpression) return false;
+  const callee = node.expression as ts.PropertyAccessExpression;
+  if (!PROMISE_COMBINATORS.has(callee.name.text)) return false;
   return isGlobalLibValue(callee.expression, "Promise", trace.checker, trace.program);
 }
 
-function unwrapAwaited(node: ts.Expression): ts.Expression | undefined {
-  if (
-    ts.isParenthesizedExpression(node) ||
-    ts.isAsExpression(node) ||
-    ts.isSatisfiesExpression(node) ||
-    ts.isNonNullExpression(node) ||
-    ts.isSpreadElement(node)
-  ) {
-    return node.expression;
-  }
-  return undefined;
+function innerExpression(node: ts.Node): ts.Expression | undefined {
+  if (!UNWRAP_KINDS.has(node.kind)) return undefined;
+  return (node as ts.Node & { expression: ts.Expression }).expression;
 }
 
-function pushReversed(stack: ts.Expression[], nodes: readonly ts.Expression[]): void {
-  let cursor = nodes.length;
-  while (cursor > 0) {
-    cursor -= 1;
-    const node = nodes[cursor];
-    if (node !== undefined) stack.push(node);
+// Left to right. A call that is not a Promise combinator is opaque, so
+// `await f(work.length)` does not join strands stored in `work`.
+class AwaitedNames {
+  constructor(
+    private readonly trace: TraceState,
+    private readonly into: ts.Identifier[],
+  ) {}
+
+  collect(node: ts.Expression): void {
+    const unwrapped = innerExpression(node);
+    if (unwrapped !== undefined) {
+      this.collect(unwrapped);
+    } else if (node.kind === ts.SyntaxKind.Identifier) {
+      this.into.push(node as ts.Identifier);
+    } else if (node.kind === ts.SyntaxKind.ArrayLiteralExpression) {
+      this.elements((node as ts.ArrayLiteralExpression).elements);
+    } else if (node.kind === ts.SyntaxKind.CallExpression && promiseCombinator(this.trace, node as ts.CallExpression)) {
+      this.elements((node as ts.CallExpression).arguments);
+    }
+  }
+
+  private elements(nodes: readonly ts.Expression[]): void {
+    nodes.forEach((element) => {
+      if (element.kind !== ts.SyntaxKind.OmittedExpression) this.collect(element);
+    });
   }
 }
 
-// Depth-first, left to right. Anything that is not an awaited position is opaque,
-// so `await f(work.length)` does not join strands stored in `work`.
-function awaitedIdentifiers(trace: TraceState, operand: ts.Expression): ts.Identifier[] {
-  const found: ts.Identifier[] = [];
-  const stack: ts.Expression[] = [operand];
-  while (stack.length > 0) {
-    const node = stack.pop();
-    if (node === undefined) break;
-    const inner = unwrapAwaited(node);
-    if (inner !== undefined) {
-      stack.push(inner);
-      continue;
-    }
-    if (ts.isIdentifier(node)) {
-      found.push(node);
-      continue;
-    }
-    if (ts.isArrayLiteralExpression(node)) {
-      pushReversed(stack, node.elements);
-      continue;
-    }
-    if (ts.isCallExpression(node) && promiseCombinator(trace, node)) {
-      pushReversed(stack, node.arguments);
-    }
-  }
-  return found;
+function collectAwaited(trace: TraceState, node: ts.Expression, into: ts.Identifier[]): void {
+  new AwaitedNames(trace, into).collect(node);
 }
 
 function takeJoin(trace: TraceState, region: string, side: string[]): void {
   if (trace.joined.has(region)) return;
   trace.joined.add(region);
-  side.push(region);
+  side.splice(side.length, 0, region);
 }
 
 function adoptSpawned(trace: TraceState, awaited: AwaitedOperand, certain: string[]): void {
-  const spawned = strandsSince(trace, awaited.mark);
-  let cursor = 0;
-  while (cursor < spawned.length) {
-    const region = spawned[cursor];
-    cursor += 1;
-    if (region !== undefined) takeJoin(trace, region, certain);
-  }
-  const identifiers = awaitedIdentifiers(trace, awaited.operand);
-  let nameAt = 0;
-  while (nameAt < identifiers.length) {
-    const identifier = identifiers[nameAt];
-    nameAt += 1;
-    if (identifier === undefined) continue;
+  for (const region of strandsSince(trace, awaited.mark)) takeJoin(trace, region, certain);
+  const names: ts.Identifier[] = [];
+  collectAwaited(trace, awaited.operand, names);
+  for (const identifier of names) {
     const symbol = trace.checker.getSymbolAtLocation(identifier);
     const bound = symbol === undefined ? undefined : trace.strandsBySymbol.get(symbol);
     if (bound === undefined) continue;
@@ -227,20 +160,12 @@ function adoptSpawned(trace: TraceState, awaited: AwaitedOperand, certain: strin
 }
 
 function holdsStep(record: StrandRecord, steps: readonly string[]): boolean {
-  let cursor = 0;
-  while (cursor < steps.length) {
-    const step = steps[cursor];
-    cursor += 1;
-    if (step !== undefined && record.issued.has(step)) return true;
-  }
-  return false;
+  return steps.some((step) => record.issued.has(step));
 }
 
-/**
- * Certain joins are strands spawned or named by the operand, plus closed strands
- * whose issued steps this barrier claims for certain. Maybe claims lift the same
- * way at maybe strength. A region is joined at most once.
- */
+// Certain joins are strands spawned or named by the operand, plus closed strands
+// whose issued steps this barrier claims for certain. Maybe claims lift the same
+// way. A region is joined at most once.
 export function joinStrands(
   trace: TraceState,
   certain: readonly string[],
@@ -254,5 +179,5 @@ export function joinStrands(
     if (holdsStep(record, certain)) takeJoin(trace, record.region, joins.certain);
     else if (holdsStep(record, maybe)) takeJoin(trace, record.region, joins.maybe);
   }
-  return joins;
+  return { certain: joins.certain, maybe: joins.maybe };
 }
