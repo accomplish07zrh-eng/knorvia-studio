@@ -1,8 +1,14 @@
 // SPDX-License-Identifier: Apache-2.0
 import ts from "typescript";
 import {
-  addOcc,
-  addPlaceholder,
+  ActualList,
+  FnApply,
+  ForwardedCall,
+  tracked,
+  type ActualPack,
+} from "./calls/known-apply.js";
+import { recordCallEffects, SummarySubst, type CallApp } from "./calls/summary.js";
+import {
   clearExact,
   cloneValue,
   collapse,
@@ -11,14 +17,10 @@ import {
   HEAP_MUTATORS,
   isDirectCallee,
   isJsonStringify,
-  mergeBound,
   mergeInto,
   phKey,
   singleOcc,
-  VALUE_DEPTH_CAP,
   type AbstractValue,
-  type Placeholder,
-  type TaintOcc,
 } from "./domain.js";
 import type { EvalContext, Evaluator } from "./taint.js";
 import type { ApplicationVia } from "./state.js";
@@ -35,18 +37,7 @@ import { handleAsk, handleJoin, handleWorldRead } from "./relays.js";
 // because a merged value cannot say which function is the bound one. Unknown
 // calls drop callables from the callback pot so a function is not applied to itself.
 
-interface ActualPack {
-  explicit: AbstractValue[];
-  places?: (AbstractValue | undefined)[];
-  tail?: AbstractValue;
-}
-
-type CallApp = { site: ts.Node; via: ApplicationVia };
 type Probe = () => AbstractValue | undefined;
-
-function tracked(analysis: Evaluator, value: AbstractValue): ts.Node[] {
-  return [...value.fns].filter((fn) => analysis.s.fnId.has(fn));
-}
 
 function firstOf(probes: readonly Probe[]): AbstractValue | undefined {
   for (const probe of probes) {
@@ -196,101 +187,6 @@ class MemberCall {
   }
 }
 
-class ActualList {
-  constructor(
-    private readonly analysis: Evaluator,
-    private readonly args: readonly ts.Expression[],
-    private readonly frame: EvalContext,
-  ) {}
-
-  // Positional certainty ends at the first spread. That element and everything
-  // after it fold into one exactness-cleared tail bound to every later parameter.
-  pack(): ActualPack {
-    const cut = this.args.findIndex((arg) => ts.isSpreadElement(arg));
-    const head = cut < 0 ? this.args : this.args.slice(0, cut);
-    const explicit = head.map((arg) => this.analysis.evalExpr(arg, this.frame));
-    const places = head.map((arg, index) =>
-      this.analysis.argWriteBackPlace(arg, explicit[index] as AbstractValue),
-    );
-    if (cut < 0) return { explicit, places };
-    const tail = emptyValue();
-    this.args
-      .slice(cut)
-      .forEach((arg) => collapseInto(tail, this.analysis.evalExpr(arg, this.frame)));
-    return { explicit, places, tail: clearExact(tail) };
-  }
-}
-
-class ForwardedCall {
-  private static readonly shapes = new Set(["call", "apply", "bind"]);
-
-  constructor(
-    private readonly analysis: Evaluator,
-    private readonly syntax: ts.CallExpression,
-    private readonly access: ts.PropertyAccessExpression,
-    private readonly frame: EvalContext,
-  ) {}
-
-  // Only a script-local receiver is reshaped. Anything else falls through so
-  // function-valued arguments are still applied pessimistically.
-  resolve(): AbstractValue | undefined {
-    const method = this.access.name.text;
-    if (ForwardedCall.shapes.has(method) === false) return undefined;
-    const receiver = this.analysis.evalExpr(this.access.expression, this.frame);
-    const fns = tracked(this.analysis, receiver);
-    if (fns.length === 0) return undefined;
-    if (method === "bind") return this.asBind(receiver);
-    if (method === "apply") return this.asApply(receiver, fns);
-    return this.asCall(receiver, fns);
-  }
-
-  // `f.call(thisArg, a, b)` drops thisArg so parameter 0 is `a`, not `null`.
-  private asCall(receiver: AbstractValue, fns: ts.Node[]): AbstractValue {
-    const exact = fns.length === 1 && isDirectCallee(this.access.expression);
-    const pack = new ActualList(this.analysis, this.syntax.arguments.slice(1), this.frame).pack();
-    return new FnApply(
-      this.analysis,
-      fns,
-      exact,
-      pack,
-      this.frame,
-      receiver.bound,
-      this.syntax,
-    ).eval();
-  }
-
-  // `f.apply(thisArg, argsArray)` has no positional shape, so the array is an
-  // inexact tail on every parameter.
-  private asApply(receiver: AbstractValue, fns: ts.Node[]): AbstractValue {
-    const argsArray = this.syntax.arguments.at(1);
-    const tail =
-      argsArray === undefined
-        ? emptyValue()
-        : clearExact(collapse(this.analysis.evalExpr(argsArray, this.frame)));
-    return new FnApply(
-      this.analysis,
-      fns,
-      false,
-      { explicit: [], tail },
-      this.frame,
-      receiver.bound,
-      this.syntax,
-    ).eval();
-  }
-
-  // `f.bind(thisArg, ...prefix)` yields a new function value: the same fns plus
-  // a prefix prepended to whatever prefix the receiver already carried.
-  private asBind(receiver: AbstractValue): AbstractValue {
-    const prefix = this.syntax.arguments
-      .slice(1)
-      .map((arg) => this.analysis.evalExpr(arg, this.frame));
-    const out = emptyValue();
-    receiver.fns.forEach((fn) => out.fns.add(fn));
-    out.bound = [...(receiver.bound ?? []), ...prefix];
-    return out;
-  }
-}
-
 class GenericCall {
   constructor(
     private readonly analysis: Evaluator,
@@ -309,60 +205,6 @@ class GenericCall {
       pack.tail,
       this.syntax,
     );
-  }
-}
-
-class FnApply {
-  constructor(
-    private readonly analysis: Evaluator,
-    private readonly fns: readonly ts.Node[],
-    private readonly exact: boolean,
-    private readonly pack: ActualPack,
-    private readonly frame: EvalContext,
-    private readonly bound: AbstractValue[] | undefined,
-    private readonly site: ts.Node | undefined,
-  ) {}
-
-  // Both alignments are unioned. A bound dispatch is inexact: the prefix is not proven.
-  eval(): AbstractValue {
-    const result = emptyValue();
-    const prefix = this.bound ?? [];
-    this.align(prefix.length > 0 ? false : this.exact, this.pack, result);
-    if (prefix.length === 0) return result;
-    const places = prefix
-      .map(() => undefined as AbstractValue | undefined)
-      .concat(this.pack.places ?? []);
-    this.align(
-      false,
-      { explicit: prefix.concat(this.pack.explicit), places, tail: this.pack.tail },
-      result,
-    );
-    return result;
-  }
-
-  private align(exact: boolean, pack: ActualPack, result: AbstractValue): void {
-    this.fns.forEach((fn) => {
-      const id = this.analysis.s.fnId.get(fn);
-      if (id === undefined) return;
-      const arity = (this.analysis.s.fnParamSymbols.get(id) ?? []).length;
-      const width =
-        pack.tail === undefined ? pack.explicit.length : Math.max(pack.explicit.length, arity);
-      const args: AbstractValue[] = [];
-      const slots: (AbstractValue | undefined)[] = [];
-      for (let index = 0; index < width; index += 1) {
-        const positioned = index < pack.explicit.length ? pack.explicit[index] : undefined;
-        args.push(positioned ?? (pack.tail as AbstractValue));
-        slots.push(positioned === undefined ? undefined : pack.places?.[index]);
-      }
-      const recorded = exact ? args : args.map((item) => clearExact(item));
-      const via: CallApp | undefined =
-        this.site === undefined ? undefined : { site: this.site, via: "callee" };
-      recordCall(this.analysis, id, this.frame.regionStack, recorded, slots, via);
-      mergeInto(
-        result,
-        new SummarySubst(id, args, exact === false).apply(this.analysis.s.summaryOf(id)),
-      );
-    });
   }
 }
 
@@ -414,105 +256,6 @@ class UnknownCall {
   private eachArg(use: (arg: AbstractValue) => void): void {
     this.argVals.forEach(use);
     if (this.tail !== undefined) use(this.tail);
-  }
-}
-
-class SummarySubst {
-  constructor(
-    private readonly fnId: number,
-    private readonly argVals: readonly AbstractValue[],
-    private readonly clear: boolean,
-  ) {}
-
-  // Past the depth cap, nested fields and the bind prefix are smeared into
-  // occurrences instead of walked. A rest formal gathers every actual from its
-  // index up; an enclosing function's placeholder is carried through raw.
-  apply(summary: AbstractValue, depth = 0): AbstractValue {
-    const out = emptyValue();
-    summary.occs.forEach((occ) => addOcc(out, this.scrubbed(occ)));
-    summary.phs.forEach((ph) => this.rewrite(out, ph));
-    summary.fns.forEach((fn) => out.fns.add(fn));
-    if (depth >= VALUE_DEPTH_CAP) {
-      summary.fields.forEach((field) => collapseInto(out, field));
-      (summary.bound ?? []).forEach((part) => collapseInto(out, part));
-      return out;
-    }
-    if (summary.bound !== undefined)
-      out.bound = summary.bound.map((part) => this.apply(part, depth + 1));
-    summary.fields.forEach((field, key) => out.fields.set(key, this.apply(field, depth + 1)));
-    return out;
-  }
-
-  private scrubbed(occ: TaintOcc): TaintOcc {
-    return { exact: this.clear ? false : occ.exact, port: occ.port, site: occ.site };
-  }
-
-  private rewrite(out: AbstractValue, ph: Placeholder): void {
-    if (ph.fnId !== this.fnId) {
-      addPlaceholder(out, ph);
-      return;
-    }
-    const start = ph.rest === true ? ph.param : ph.param;
-    const end = ph.rest === true ? this.argVals.length : ph.param + 1;
-    for (let index = start; index < end; index += 1) {
-      const actual = this.argVals[index];
-      if (actual !== undefined) mergeInto(out, this.clear ? clearExact(actual) : actual);
-    }
-  }
-}
-
-class HeapEcho {
-  constructor(
-    private readonly target: AbstractValue,
-    private readonly source: AbstractValue,
-    private readonly ownerId: number,
-    private readonly selfParam: number,
-    private readonly argVals: readonly AbstractValue[],
-  ) {}
-
-  // Copy field writes and sibling placeholders back into the caller's place.
-  // The parameter's own placeholder is its identity, not an effect. Other
-  // placeholders of this callee substitute to this call's actuals. A bind prefix
-  // goes through mergeBound so the length cap still applies on the persistent place.
-  apply(): boolean {
-    let grew = false;
-    this.source.occs.forEach((occ) => {
-      grew = addOcc(this.target, occ) || grew;
-    });
-    this.source.phs.forEach((ph) => {
-      grew = this.effect(ph) || grew;
-    });
-    this.source.fns.forEach((fn) => {
-      if (this.target.fns.has(fn)) return;
-      this.target.fns.add(fn);
-      grew = true;
-    });
-    this.source.fields.forEach((field, key) => {
-      const found = this.target.fields.get(key) ?? this.freshField(key);
-      grew = mergeInto(found, field) || grew;
-    });
-    if (this.source.bound !== undefined)
-      grew = mergeBound(this.target, this.source.bound, 0) || grew;
-    return grew;
-  }
-
-  private freshField(key: string): AbstractValue {
-    const created = emptyValue();
-    this.target.fields.set(key, created);
-    return created;
-  }
-
-  private effect(ph: Placeholder): boolean {
-    if (ph.fnId !== this.ownerId) return addPlaceholder(this.target, ph);
-    if (ph.param === this.selfParam) return false;
-    const from = ph.param;
-    const until = ph.rest === true ? this.argVals.length : ph.param + 1;
-    let grew = false;
-    for (let index = from; index < until; index += 1) {
-      const actual = this.argVals[index];
-      if (actual !== undefined) grew = mergeInto(this.target, collapse(actual)) || grew;
-    }
-    return grew;
   }
 }
 
@@ -590,22 +333,5 @@ export function recordCall(
   argPlaces?: (AbstractValue | undefined)[],
   application?: { site: ts.Node; via: ApplicationVia },
 ): void {
-  analysis.s.markCalled(regionStack, id);
-  const fn = application === undefined ? undefined : analysis.s.functions[id];
-  if (application !== undefined && fn !== undefined)
-    analysis.s.recordApplication(application.site, fn, application.via);
-  const params = analysis.s.fnParamSymbols.get(id) ?? [];
-  argVals.forEach((argVal, param) => {
-    analysis.s.addParamActual(id, param, argVal);
-    const psym = params[param];
-    if (psym !== undefined && argVal.fns.size > 0) {
-      const fnsOnly = emptyValue();
-      argVal.fns.forEach((held) => fnsOnly.fns.add(held));
-      analysis.s.bindSymbol(psym, fnsOnly);
-    }
-    const live = argPlaces?.[param];
-    const slot = psym === undefined || live === undefined ? undefined : analysis.s.env.get(psym);
-    if (slot === undefined || live === undefined || slot === live) return;
-    if (new HeapEcho(live, slot, id, param, argVals).apply()) analysis.s.changed = true;
-  });
+  recordCallEffects(analysis, id, regionStack, argVals, argPlaces, application);
 }

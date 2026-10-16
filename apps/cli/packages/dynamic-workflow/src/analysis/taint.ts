@@ -3,47 +3,32 @@ import ts from "typescript";
 import type { WorkflowProgram } from "../compiler/compile.js";
 import type { SiteTable } from "./sites.js";
 import {
-  addPlaceholder,
-  cloneValue,
-  collapse,
-  collapseInto,
-  emptyValue,
-  isNonArrowFunctionLike,
-  liveField,
-  mergeInto,
-  peelPlace,
-  staticIndexKey,
-  unionValues,
-  type AbstractValue,
-} from "./domain.js";
-import { applyCall, evalCall } from "./calls.js";
-import {
-  applyConstructor,
-  applyMixinConstructor,
-  evalAwait,
-  handleNewUnknown,
-} from "./promise-ops.js";
-import {
-  classConstructor,
   classNodeOfSymbol,
   enclosingBaseInstance,
   enclosingClassInstance,
   evalClasses,
-  hasUnresolvedHeritage,
-  resolveClassNode,
 } from "./classes.js";
 import { handleForIn, handleForOf, visitForStatement } from "./control-flow.js";
-import { evalArrayLiteral, evalObjectLiteral } from "./literals.js";
+import {
+  addPlaceholder,
+  cloneValue,
+  collapse,
+  emptyValue,
+  liveField,
+  mergeInto,
+  peelPlace,
+  staticIndexKey,
+  type AbstractValue,
+} from "./domain.js";
 import { bindPattern, extractField, selectField } from "./patterns.js";
 import { TaintState } from "./state.js";
-import { evalBinary, evalElementAccess, evalPropertyAccess } from "./operators.js";
+import { evaluateExpression } from "./taint/expressions.js";
 
 // Joins are monotone, so a later statement cannot erase an earlier fact. Hitting
 // the cap aborts rather than dropping edges. Region ids feed the call oracle
 // ("top", `fn@<id>`).
 const CONVERGENCE_LIMIT = 100;
 const ROOT_REGION = "top";
-const ARGUMENTS_NAME = "arguments";
 const THEN_MEMBER = "then";
 
 export interface EvalContext {
@@ -339,123 +324,7 @@ export class Evaluator {
   }
 
   evalExpr(syntax: ts.Expression, frame: EvalContext): AbstractValue {
-    if (ts.isIdentifier(syntax)) return this.readIdentifier(syntax);
-    if (
-      ts.isParenthesizedExpression(syntax) ||
-      ts.isAsExpression(syntax) ||
-      ts.isSatisfiesExpression(syntax) ||
-      ts.isNonNullExpression(syntax) ||
-      ts.isTypeAssertionExpression(syntax)
-    ) {
-      return this.evalExpr(syntax.expression, frame);
-    }
-    if (ts.isAwaitExpression(syntax)) return evalAwait(this, syntax, frame);
-    if (ts.isFunctionExpression(syntax) || ts.isArrowFunction(syntax)) {
-      const held = emptyValue();
-      held.fns.add(syntax);
-      return held;
-    }
-    if (syntax.kind === ts.SyntaxKind.ThisKeyword)
-      return this.cloneInstance(enclosingClassInstance(this, syntax));
-    if (syntax.kind === ts.SyntaxKind.SuperKeyword)
-      return this.cloneInstance(enclosingBaseInstance(this, syntax));
-    if (ts.isCallExpression(syntax)) return evalCall(this, syntax, frame);
-    if (ts.isPropertyAccessExpression(syntax)) return evalPropertyAccess(this, syntax, frame);
-    if (ts.isElementAccessExpression(syntax)) return evalElementAccess(this, syntax, frame);
-    if (ts.isBinaryExpression(syntax)) return evalBinary(this, syntax, frame);
-    if (ts.isTemplateExpression(syntax)) return this.interpretTemplate(syntax, frame);
-    if (ts.isTaggedTemplateExpression(syntax)) return this.interpretTagged(syntax, frame);
-    if (ts.isYieldExpression(syntax)) {
-      const yielded = syntax.expression;
-      if (yielded !== undefined) frame.onReturn(this.evalExpr(yielded, frame));
-      return emptyValue();
-    }
-    if (ts.isConditionalExpression(syntax)) {
-      const probe = this.evalExpr(syntax.condition, frame);
-      this.recordGuard(syntax.condition, probe);
-      return unionValues(
-        this.evalExpr(syntax.whenTrue, frame),
-        this.evalExpr(syntax.whenFalse, frame),
-      );
-    }
-    if (ts.isPrefixUnaryExpression(syntax) || ts.isPostfixUnaryExpression(syntax)) {
-      return collapse(this.evalExpr(syntax.operand, frame));
-    }
-    if (ts.isTypeOfExpression(syntax)) return collapse(this.evalExpr(syntax.expression, frame));
-    if (ts.isVoidExpression(syntax) || ts.isDeleteExpression(syntax)) {
-      this.evalExpr(syntax.expression, frame);
-      return emptyValue();
-    }
-    if (ts.isArrayLiteralExpression(syntax))
-      return this.s.literalPlaceOf(syntax, evalArrayLiteral(this, syntax, frame));
-    if (ts.isObjectLiteralExpression(syntax))
-      return this.s.literalPlaceOf(syntax, evalObjectLiteral(this, syntax, frame));
-    if (ts.isNewExpression(syntax)) return this.interpretNew(syntax, frame);
-    if (ts.isSpreadElement(syntax)) return collapse(this.evalExpr(syntax.expression, frame));
-    return emptyValue();
-  }
-
-  private cloneInstance(classValue: AbstractValue | undefined): AbstractValue {
-    return classValue === undefined ? emptyValue() : cloneValue(classValue);
-  }
-
-  private interpretTemplate(syntax: ts.TemplateExpression, frame: EvalContext): AbstractValue {
-    const joined = emptyValue();
-    for (const chunk of syntax.templateSpans)
-      collapseInto(joined, this.evalExpr(chunk.expression, frame));
-    return joined;
-  }
-
-  private interpretTagged(syntax: ts.TaggedTemplateExpression, frame: EvalContext): AbstractValue {
-    const actuals: AbstractValue[] = [emptyValue()];
-    const cooked = syntax.template;
-    if (ts.isTemplateExpression(cooked)) {
-      for (const chunk of cooked.templateSpans)
-        actuals.push(this.evalExpr(chunk.expression, frame));
-    }
-    return applyCall(this, syntax.tag, actuals, frame, undefined, undefined, syntax);
-  }
-
-  private interpretNew(syntax: ts.NewExpression, frame: EvalContext): AbstractValue {
-    const classNode = resolveClassNode(this, syntax.expression);
-    if (classNode === undefined) return handleNewUnknown(this, syntax, frame);
-    const actualNodes = syntax.arguments ?? [];
-    const actuals = actualNodes.map((actual) => this.evalExpr(actual, frame));
-    const constructorNode = classConstructor(this, classNode);
-    const constructorKey =
-      constructorNode === undefined ? undefined : this.s.fnId.get(constructorNode);
-    if (constructorKey !== undefined) {
-      const writebacks = actualNodes.map((actual, position) =>
-        this.argWriteBackPlace(actual, actuals[position] as AbstractValue),
-      );
-      applyConstructor(this, constructorKey, frame, actuals, writebacks, syntax);
-    } else if (hasUnresolvedHeritage(this, classNode)) {
-      applyMixinConstructor(this, frame, this.s.instanceOf(classNode), actuals);
-    }
-    return this.s.instanceOf(classNode);
-  }
-
-  private readIdentifier(syntax: ts.Identifier): AbstractValue {
-    const symbol = this.checker.getSymbolAtLocation(syntax);
-    if (symbol !== undefined) {
-      const classNode = classNodeOfSymbol(this, symbol);
-      if (classNode !== undefined) return cloneValue(this.s.instanceOf(classNode));
-      const storedValue = this.s.env.get(symbol);
-      if (storedValue !== undefined) return cloneValue(storedValue);
-    }
-    return this.readArgumentsObject(syntax) ?? emptyValue();
-  }
-
-  // Rest-shaped view of every actual on the nearest non-arrow function. Arrows
-  // do not own `arguments`, so the ancestor search walks past them.
-  private readArgumentsObject(syntax: ts.Identifier): AbstractValue | undefined {
-    if (syntax.text !== ARGUMENTS_NAME) return undefined;
-    const owner = ts.findAncestor(syntax, isNonArrowFunctionLike);
-    const fnKey = owner === undefined ? undefined : this.s.fnId.get(owner);
-    if (fnKey === undefined) return undefined;
-    const held = emptyValue();
-    addPlaceholder(held, { fnId: fnKey, param: 0, rest: true });
-    return held;
+    return evaluateExpression(this, syntax, frame);
   }
 
   receiverSymbol(rootExpr: ts.Expression): ts.Symbol | undefined {
