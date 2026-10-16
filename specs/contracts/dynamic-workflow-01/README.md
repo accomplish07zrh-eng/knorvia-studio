@@ -21,19 +21,19 @@
 
 ## 完成度
 
-| 产物                                                                                                   | 状态 |
-| ------------------------------------------------------------------------------------------------------ | ---- |
-| 选包与边界（范围 55 继承文件；重写目标 53 = 20 unchanged + 33 modified；2 unreviewed 不动）            | 完成 |
-| `interface.md`（55 文件、283 项运行时导出签名，`tests/gen-interface.mjs` 机器生成）                    | 完成 |
+| 产物                                                                                                   | 状态                                                                                  |
+| ------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------- |
+| 选包与边界（范围 55 继承文件；重写目标 53 = 20 unchanged + 33 modified；2 unreviewed 不动）            | 完成                                                                                  |
+| `interface.md`（55 文件、283 项运行时导出签名，`tests/gen-interface.mjs` 机器生成）                    | 完成                                                                                  |
 | `stubs/`（v1：53 个重写目标的模块桩、生成脚本与目标清单）                                              | v1 完成 → **v2 已删除**（桩替换 0/3 的证据留存 `gate-old.json` 的 `stubReplacement`） |
-| `behavior.md`（B1–B20，逐条含九项 + golden 族覆盖表）                                                  | 完成 |
-| `tests/`（3 个测试文件 39 例；golden 回放 324 样例 / 16 族；两入口）                                   | 完成 |
-| `fixtures/`（`corpus.mjs` 324 样例、`golden/*.json` 16 族录制 518KB、`entry-exports.json` 导出面录制） | 完成 |
-| dist 入口旧门（`KNORVIA_DW01_ENTRY=dist` + `pnpm --dir apps/cli/packages/dynamic-workflow build`）     | 完成 |
-| `callers.md`（语法级 import 扫描 7,493 文件 + 字符串路径 6 处；`callers-raw.txt` 机器生成）            | 完成 |
-| `known-differences.md`（K1–K8 旧行为特征 + K9 v2 删桩记录 + 不在范围相邻文件 + sha pin 作业）         | 完成 |
-| `acceptance.md` / `gate-old.json`                                                                      | 完成 |
-| `licensing/reviews.json` 登记合同文件、`knip.json` 根 entry                                            | 完成 |
+| `behavior.md`（B1–B20，逐条含九项 + golden 族覆盖表）                                                  | 完成                                                                                  |
+| `tests/`（3 个测试文件 39 例；golden 回放 324 样例 / 16 族；两入口）                                   | 完成                                                                                  |
+| `fixtures/`（`corpus.mjs` 324 样例、`golden/*.json` 16 族录制 518KB、`entry-exports.json` 导出面录制） | 完成                                                                                  |
+| dist 入口旧门（`KNORVIA_DW01_ENTRY=dist` + `pnpm --dir apps/cli/packages/dynamic-workflow build`）     | 完成                                                                                  |
+| `callers.md`（语法级 import 扫描 7,493 文件 + 字符串路径 6 处；`callers-raw.txt` 机器生成）            | 完成                                                                                  |
+| `known-differences.md`（K1–K8 旧行为特征 + K9 v2 删桩记录 + 不在范围相邻文件 + sha pin 作业）          | 完成                                                                                  |
+| `acceptance.md` / `gate-old.json`                                                                      | 完成                                                                                  |
+| `licensing/reviews.json` 登记合同文件、`knip.json` 根 entry                                            | 完成                                                                                  |
 
 ## 合同文件
 
@@ -102,7 +102,7 @@ v2 新实现（2026-10-17，Node v20.19.2，`scripts/contract-gate.mjs`，不带
 | B17 locale 独立性                   | `analysis.test.mjs`「B17 locale 独立性：ASCII id 排序在不同 locale 下一致」                                                 |
 | B18 模块路径兼容面（源码侧）        | `surface.test.mjs`「B18 模块路径兼容面：55 个范围文件存在」                                                                 |
 | B19 dist 产物存在（dist 入口模式）  | `surface.test.mjs`「B19 dist 入口模式下 55 个产物存在」                                                                     |
-| B20 导出声明覆盖                    | `surface.test.mjs`「B20 interface.md 导出声明块覆盖 53 个重写目标的源码导出」                                             |
+| B20 导出声明覆盖                    | `surface.test.mjs`「B20 interface.md 导出声明块覆盖 53 个重写目标的源码导出」                                               |
 
 B1–B20 全部有条目、全部有测试（无空行）；324 个 golden 样例的整体等价由 `golden.test.mjs` 承担（首行）。
 
