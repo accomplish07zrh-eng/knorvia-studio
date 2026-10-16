@@ -141413,18 +141413,15 @@
       "normalizedSha256": "256557c7c7f07e97106e9b1f35b51a5c8a1489c854cefcc88d5465b2b98fad0f",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-03 contract artifact for @knorvia/shared (M3: workspace-hook/background-task/conversation/assistant/workspaceFile/tool-execution/process/subagent/task-realtime-core, 34 inherited files in packages/shared/src). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries and module paths in both source and dist modes, the fixtures are synthetic goldens (codec round-trip, workspace-hook digests, task-realtime gate handshake, conversation share schema) recorded from the old implementation, and the stubs keep only interface names with bodies that throw shared-03 stub error. Old gate: source 47/47, dist 47/47, stub replacement of 34 module paths made all 8 test files fail (allFail=true).",
-      "evidence": [
-        "specs/contracts/shared-03/README.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
+      "basis": "Knorvia-authored shared-03 replacement record (design or acceptance document), written for this package.",
+      "evidence": ["specs/contracts/shared-03/README.md"]
     },
     {
       "path": "specs/contracts/shared-03/acceptance.md",
-      "normalizedSha256": "63fc0dcaaec80b383ce63357a39606708f029e47a772b5b9ae93ea344ee71955",
+      "normalizedSha256": "3f29f9a780b4869dc344402e4ebb70df1dffa77ae3876fb8936f41fa9606fa1b",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-03 contract artifact for @knorvia/shared (M3: workspace-hook/background-task/conversation/assistant/workspaceFile/tool-execution/process/subagent/task-realtime-core, 34 inherited files in packages/shared/src). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries and module paths in both source and dist modes, the fixtures are synthetic goldens (codec round-trip, workspace-hook digests, task-realtime gate handshake, conversation share schema) recorded from the old implementation, and the stubs keep only interface names with bodies that throw shared-03 stub error. Old gate: source 47/47, dist 47/47, stub replacement of 34 module paths made all 8 test files fail (allFail=true).",
+      "basis": "Knorvia-authored shared-03 contract artifact for @knorvia/shared (M3: workspace-hook/background-task/conversation/assistant/workspaceFile/tool-execution/process/subagent/task-realtime-core, 34 inherited files in packages/shared/src). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries and module paths in both source and dist modes, the fixtures are synthetic goldens (codec round-trip, workspace-hook digests, task-realtime gate handshake, conversation share schema) recorded from the old implementation, and the contract stubs were deleted once the replacement landed. Old gate: source 47/47, dist 47/47, stub replacement of 34 module paths made all 8 test files fail (allFail=true).",
       "evidence": [
         "specs/contracts/shared-03/README.md",
         "docs/knorvia-independent-replacement-plan.md"
@@ -141532,402 +141529,6 @@
     {
       "path": "specs/contracts/shared-03/known-differences.md",
       "normalizedSha256": "19a50f8fd385643849fd7084c4af7ec02da07a30469de46707640f5f8af3540a",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-03 contract artifact for @knorvia/shared (M3: workspace-hook/background-task/conversation/assistant/workspaceFile/tool-execution/process/subagent/task-realtime-core, 34 inherited files in packages/shared/src). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries and module paths in both source and dist modes, the fixtures are synthetic goldens (codec round-trip, workspace-hook digests, task-realtime gate handshake, conversation share schema) recorded from the old implementation, and the stubs keep only interface names with bodies that throw shared-03 stub error. Old gate: source 47/47, dist 47/47, stub replacement of 34 module paths made all 8 test files fail (allFail=true).",
-      "evidence": [
-        "specs/contracts/shared-03/README.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-03/stubs/build-stubs.mjs",
-      "normalizedSha256": "2453afb33f81ca2eff12bea47e4bb7e5cb92eab34e97978fc684698642459b39",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-03 contract artifact for @knorvia/shared (M3: workspace-hook/background-task/conversation/assistant/workspaceFile/tool-execution/process/subagent/task-realtime-core, 34 inherited files in packages/shared/src). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries and module paths in both source and dist modes, the fixtures are synthetic goldens (codec round-trip, workspace-hook digests, task-realtime gate handshake, conversation share schema) recorded from the old implementation, and the stubs keep only interface names with bodies that throw shared-03 stub error. Old gate: source 47/47, dist 47/47, stub replacement of 34 module paths made all 8 test files fail (allFail=true).",
-      "evidence": [
-        "specs/contracts/shared-03/README.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-03/stubs/packages/shared/src/assistant-message-parts.ts",
-      "normalizedSha256": "0b712d4561d2bea4618f8a629a835841d9f7b4e2dfc35b1485359b599c7214fb",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-03 contract artifact for @knorvia/shared (M3: workspace-hook/background-task/conversation/assistant/workspaceFile/tool-execution/process/subagent/task-realtime-core, 34 inherited files in packages/shared/src). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries and module paths in both source and dist modes, the fixtures are synthetic goldens (codec round-trip, workspace-hook digests, task-realtime gate handshake, conversation share schema) recorded from the old implementation, and the stubs keep only interface names with bodies that throw shared-03 stub error. Old gate: source 47/47, dist 47/47, stub replacement of 34 module paths made all 8 test files fail (allFail=true).",
-      "evidence": [
-        "specs/contracts/shared-03/README.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-03/stubs/packages/shared/src/assistant-presentation.ts",
-      "normalizedSha256": "1bd2b8f3698b276a3ab537da071e23c9f026fd271088af7ae6a9077dcba0dbaf",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-03 contract artifact for @knorvia/shared (M3: workspace-hook/background-task/conversation/assistant/workspaceFile/tool-execution/process/subagent/task-realtime-core, 34 inherited files in packages/shared/src). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries and module paths in both source and dist modes, the fixtures are synthetic goldens (codec round-trip, workspace-hook digests, task-realtime gate handshake, conversation share schema) recorded from the old implementation, and the stubs keep only interface names with bodies that throw shared-03 stub error. Old gate: source 47/47, dist 47/47, stub replacement of 34 module paths made all 8 test files fail (allFail=true).",
-      "evidence": [
-        "specs/contracts/shared-03/README.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-03/stubs/packages/shared/src/background-bash-jobs.ts",
-      "normalizedSha256": "e8ad7130dd9fb0cf0928b683fad6a9ff832590c3dbd471c78f9f4c07050768b3",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-03 contract artifact for @knorvia/shared (M3: workspace-hook/background-task/conversation/assistant/workspaceFile/tool-execution/process/subagent/task-realtime-core, 34 inherited files in packages/shared/src). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries and module paths in both source and dist modes, the fixtures are synthetic goldens (codec round-trip, workspace-hook digests, task-realtime gate handshake, conversation share schema) recorded from the old implementation, and the stubs keep only interface names with bodies that throw shared-03 stub error. Old gate: source 47/47, dist 47/47, stub replacement of 34 module paths made all 8 test files fail (allFail=true).",
-      "evidence": [
-        "specs/contracts/shared-03/README.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-03/stubs/packages/shared/src/background-bash-output.ts",
-      "normalizedSha256": "2ced07cd62f193530b4d416b7e473706d75f8e43e9c0c27275c9f89a39220ec4",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-03 contract artifact for @knorvia/shared (M3: workspace-hook/background-task/conversation/assistant/workspaceFile/tool-execution/process/subagent/task-realtime-core, 34 inherited files in packages/shared/src). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries and module paths in both source and dist modes, the fixtures are synthetic goldens (codec round-trip, workspace-hook digests, task-realtime gate handshake, conversation share schema) recorded from the old implementation, and the stubs keep only interface names with bodies that throw shared-03 stub error. Old gate: source 47/47, dist 47/47, stub replacement of 34 module paths made all 8 test files fail (allFail=true).",
-      "evidence": [
-        "specs/contracts/shared-03/README.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-03/stubs/packages/shared/src/background-task-control-merge.ts",
-      "normalizedSha256": "25337d5d9a225d070906e8c37208222725f37ed625cbc1f0fb9b1efe53a2151b",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-03 contract artifact for @knorvia/shared (M3: workspace-hook/background-task/conversation/assistant/workspaceFile/tool-execution/process/subagent/task-realtime-core, 34 inherited files in packages/shared/src). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries and module paths in both source and dist modes, the fixtures are synthetic goldens (codec round-trip, workspace-hook digests, task-realtime gate handshake, conversation share schema) recorded from the old implementation, and the stubs keep only interface names with bodies that throw shared-03 stub error. Old gate: source 47/47, dist 47/47, stub replacement of 34 module paths made all 8 test files fail (allFail=true).",
-      "evidence": [
-        "specs/contracts/shared-03/README.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-03/stubs/packages/shared/src/background-task-controls.ts",
-      "normalizedSha256": "e9241d9caaca0f1a15884caa727f98c2bf9881d3976c9de0049e25cc78ede4fa",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-03 contract artifact for @knorvia/shared (M3: workspace-hook/background-task/conversation/assistant/workspaceFile/tool-execution/process/subagent/task-realtime-core, 34 inherited files in packages/shared/src). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries and module paths in both source and dist modes, the fixtures are synthetic goldens (codec round-trip, workspace-hook digests, task-realtime gate handshake, conversation share schema) recorded from the old implementation, and the stubs keep only interface names with bodies that throw shared-03 stub error. Old gate: source 47/47, dist 47/47, stub replacement of 34 module paths made all 8 test files fail (allFail=true).",
-      "evidence": [
-        "specs/contracts/shared-03/README.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-03/stubs/packages/shared/src/background-task-notifications.ts",
-      "normalizedSha256": "1254330d67a578d67eec12e5184456baaaa4206f76fc33a1baefbe51f17017fa",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-03 contract artifact for @knorvia/shared (M3: workspace-hook/background-task/conversation/assistant/workspaceFile/tool-execution/process/subagent/task-realtime-core, 34 inherited files in packages/shared/src). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries and module paths in both source and dist modes, the fixtures are synthetic goldens (codec round-trip, workspace-hook digests, task-realtime gate handshake, conversation share schema) recorded from the old implementation, and the stubs keep only interface names with bodies that throw shared-03 stub error. Old gate: source 47/47, dist 47/47, stub replacement of 34 module paths made all 8 test files fail (allFail=true).",
-      "evidence": [
-        "specs/contracts/shared-03/README.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-03/stubs/packages/shared/src/bash-output-display.ts",
-      "normalizedSha256": "2ced07cd62f193530b4d416b7e473706d75f8e43e9c0c27275c9f89a39220ec4",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-03 contract artifact for @knorvia/shared (M3: workspace-hook/background-task/conversation/assistant/workspaceFile/tool-execution/process/subagent/task-realtime-core, 34 inherited files in packages/shared/src). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries and module paths in both source and dist modes, the fixtures are synthetic goldens (codec round-trip, workspace-hook digests, task-realtime gate handshake, conversation share schema) recorded from the old implementation, and the stubs keep only interface names with bodies that throw shared-03 stub error. Old gate: source 47/47, dist 47/47, stub replacement of 34 module paths made all 8 test files fail (allFail=true).",
-      "evidence": [
-        "specs/contracts/shared-03/README.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-03/stubs/packages/shared/src/conversation-message-projection-policy.ts",
-      "normalizedSha256": "1e88c4dd4620305d88dfc0ff10d5f2ff8f676fcc890668ac34274697323750e9",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-03 contract artifact for @knorvia/shared (M3: workspace-hook/background-task/conversation/assistant/workspaceFile/tool-execution/process/subagent/task-realtime-core, 34 inherited files in packages/shared/src). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries and module paths in both source and dist modes, the fixtures are synthetic goldens (codec round-trip, workspace-hook digests, task-realtime gate handshake, conversation share schema) recorded from the old implementation, and the stubs keep only interface names with bodies that throw shared-03 stub error. Old gate: source 47/47, dist 47/47, stub replacement of 34 module paths made all 8 test files fail (allFail=true).",
-      "evidence": [
-        "specs/contracts/shared-03/README.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-03/stubs/packages/shared/src/conversation-preview-artifacts.ts",
-      "normalizedSha256": "4a692f04919cca6fab0844a21450d4aeb607185f37656cd66c0f33a3d2a411cc",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-03 contract artifact for @knorvia/shared (M3: workspace-hook/background-task/conversation/assistant/workspaceFile/tool-execution/process/subagent/task-realtime-core, 34 inherited files in packages/shared/src). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries and module paths in both source and dist modes, the fixtures are synthetic goldens (codec round-trip, workspace-hook digests, task-realtime gate handshake, conversation share schema) recorded from the old implementation, and the stubs keep only interface names with bodies that throw shared-03 stub error. Old gate: source 47/47, dist 47/47, stub replacement of 34 module paths made all 8 test files fail (allFail=true).",
-      "evidence": [
-        "specs/contracts/shared-03/README.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-03/stubs/packages/shared/src/conversation-share.ts",
-      "normalizedSha256": "e03111aaa68e0535c4dc8de8155b2d82b68652fbcf63331668f25a39ba7eb17c",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-03 contract artifact for @knorvia/shared (M3: workspace-hook/background-task/conversation/assistant/workspaceFile/tool-execution/process/subagent/task-realtime-core, 34 inherited files in packages/shared/src). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries and module paths in both source and dist modes, the fixtures are synthetic goldens (codec round-trip, workspace-hook digests, task-realtime gate handshake, conversation share schema) recorded from the old implementation, and the stubs keep only interface names with bodies that throw shared-03 stub error. Old gate: source 47/47, dist 47/47, stub replacement of 34 module paths made all 8 test files fail (allFail=true).",
-      "evidence": [
-        "specs/contracts/shared-03/README.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-03/stubs/packages/shared/src/execution-output-preview.ts",
-      "normalizedSha256": "2ced07cd62f193530b4d416b7e473706d75f8e43e9c0c27275c9f89a39220ec4",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-03 contract artifact for @knorvia/shared (M3: workspace-hook/background-task/conversation/assistant/workspaceFile/tool-execution/process/subagent/task-realtime-core, 34 inherited files in packages/shared/src). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries and module paths in both source and dist modes, the fixtures are synthetic goldens (codec round-trip, workspace-hook digests, task-realtime gate handshake, conversation share schema) recorded from the old implementation, and the stubs keep only interface names with bodies that throw shared-03 stub error. Old gate: source 47/47, dist 47/47, stub replacement of 34 module paths made all 8 test files fail (allFail=true).",
-      "evidence": [
-        "specs/contracts/shared-03/README.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-03/stubs/packages/shared/src/execution-state.ts",
-      "normalizedSha256": "a54f1a27e4e86bcc9e8a479d52b926c56521afd35eef15e8cf150cbb7644e196",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-03 contract artifact for @knorvia/shared (M3: workspace-hook/background-task/conversation/assistant/workspaceFile/tool-execution/process/subagent/task-realtime-core, 34 inherited files in packages/shared/src). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries and module paths in both source and dist modes, the fixtures are synthetic goldens (codec round-trip, workspace-hook digests, task-realtime gate handshake, conversation share schema) recorded from the old implementation, and the stubs keep only interface names with bodies that throw shared-03 stub error. Old gate: source 47/47, dist 47/47, stub replacement of 34 module paths made all 8 test files fail (allFail=true).",
-      "evidence": [
-        "specs/contracts/shared-03/README.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-03/stubs/packages/shared/src/permission-request-preview.ts",
-      "normalizedSha256": "5d33353369b8f3b0be4aad9b5155123278f5e38ddb3d9bfb9bbdf8a42920569d",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-03 contract artifact for @knorvia/shared (M3: workspace-hook/background-task/conversation/assistant/workspaceFile/tool-execution/process/subagent/task-realtime-core, 34 inherited files in packages/shared/src). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries and module paths in both source and dist modes, the fixtures are synthetic goldens (codec round-trip, workspace-hook digests, task-realtime gate handshake, conversation share schema) recorded from the old implementation, and the stubs keep only interface names with bodies that throw shared-03 stub error. Old gate: source 47/47, dist 47/47, stub replacement of 34 module paths made all 8 test files fail (allFail=true).",
-      "evidence": [
-        "specs/contracts/shared-03/README.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-03/stubs/packages/shared/src/process-diagnostic.ts",
-      "normalizedSha256": "adf2ccf4b8d7606f4ae2d2dc43b1cbb11b0b1509ee8dc8171ff7c1a71a804a48",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-03 contract artifact for @knorvia/shared (M3: workspace-hook/background-task/conversation/assistant/workspaceFile/tool-execution/process/subagent/task-realtime-core, 34 inherited files in packages/shared/src). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries and module paths in both source and dist modes, the fixtures are synthetic goldens (codec round-trip, workspace-hook digests, task-realtime gate handshake, conversation share schema) recorded from the old implementation, and the stubs keep only interface names with bodies that throw shared-03 stub error. Old gate: source 47/47, dist 47/47, stub replacement of 34 module paths made all 8 test files fail (allFail=true).",
-      "evidence": [
-        "specs/contracts/shared-03/README.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-03/stubs/packages/shared/src/process-names.ts",
-      "normalizedSha256": "605566973537f64c1660a07911e79c29dd7cb5549e1e70bc3ba7fde736d0af40",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-03 contract artifact for @knorvia/shared (M3: workspace-hook/background-task/conversation/assistant/workspaceFile/tool-execution/process/subagent/task-realtime-core, 34 inherited files in packages/shared/src). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries and module paths in both source and dist modes, the fixtures are synthetic goldens (codec round-trip, workspace-hook digests, task-realtime gate handshake, conversation share schema) recorded from the old implementation, and the stubs keep only interface names with bodies that throw shared-03 stub error. Old gate: source 47/47, dist 47/47, stub replacement of 34 module paths made all 8 test files fail (allFail=true).",
-      "evidence": [
-        "specs/contracts/shared-03/README.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-03/stubs/packages/shared/src/processResourceTelemetry.ts",
-      "normalizedSha256": "7af09f688019febc7dbab2ba89e235d37435b5528c1355637a799070c7e952e0",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-03 contract artifact for @knorvia/shared (M3: workspace-hook/background-task/conversation/assistant/workspaceFile/tool-execution/process/subagent/task-realtime-core, 34 inherited files in packages/shared/src). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries and module paths in both source and dist modes, the fixtures are synthetic goldens (codec round-trip, workspace-hook digests, task-realtime gate handshake, conversation share schema) recorded from the old implementation, and the stubs keep only interface names with bodies that throw shared-03 stub error. Old gate: source 47/47, dist 47/47, stub replacement of 34 module paths made all 8 test files fail (allFail=true).",
-      "evidence": [
-        "specs/contracts/shared-03/README.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-03/stubs/packages/shared/src/runtime-tool-runtime.ts",
-      "normalizedSha256": "31fc0902712279fc5b5ca15158b0a45d2ac979e69dae6b769ed467cac8aa433a",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-03 contract artifact for @knorvia/shared (M3: workspace-hook/background-task/conversation/assistant/workspaceFile/tool-execution/process/subagent/task-realtime-core, 34 inherited files in packages/shared/src). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries and module paths in both source and dist modes, the fixtures are synthetic goldens (codec round-trip, workspace-hook digests, task-realtime gate handshake, conversation share schema) recorded from the old implementation, and the stubs keep only interface names with bodies that throw shared-03 stub error. Old gate: source 47/47, dist 47/47, stub replacement of 34 module paths made all 8 test files fail (allFail=true).",
-      "evidence": [
-        "specs/contracts/shared-03/README.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-03/stubs/packages/shared/src/streaming-tool-input-preview.ts",
-      "normalizedSha256": "77f33d85812dc4f4aa632955c1d3c0c5d7f2078552e1e0f67244f515f5d8e0de",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-03 contract artifact for @knorvia/shared (M3: workspace-hook/background-task/conversation/assistant/workspaceFile/tool-execution/process/subagent/task-realtime-core, 34 inherited files in packages/shared/src). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries and module paths in both source and dist modes, the fixtures are synthetic goldens (codec round-trip, workspace-hook digests, task-realtime gate handshake, conversation share schema) recorded from the old implementation, and the stubs keep only interface names with bodies that throw shared-03 stub error. Old gate: source 47/47, dist 47/47, stub replacement of 34 module paths made all 8 test files fail (allFail=true).",
-      "evidence": [
-        "specs/contracts/shared-03/README.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-03/stubs/packages/shared/src/subagent-markdown-selection.ts",
-      "normalizedSha256": "25fdd1e4b54d3e7eea786567c8c49f451691f5fa4b39883d6a5e2d81537237ec",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-03 contract artifact for @knorvia/shared (M3: workspace-hook/background-task/conversation/assistant/workspaceFile/tool-execution/process/subagent/task-realtime-core, 34 inherited files in packages/shared/src). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries and module paths in both source and dist modes, the fixtures are synthetic goldens (codec round-trip, workspace-hook digests, task-realtime gate handshake, conversation share schema) recorded from the old implementation, and the stubs keep only interface names with bodies that throw shared-03 stub error. Old gate: source 47/47, dist 47/47, stub replacement of 34 module paths made all 8 test files fail (allFail=true).",
-      "evidence": [
-        "specs/contracts/shared-03/README.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-03/stubs/packages/shared/src/subagent-state-migration.ts",
-      "normalizedSha256": "43599922e2b8112678b6ecb58416b4173517543e70839ec4f06b1d84ce61e9ab",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-03 contract artifact for @knorvia/shared (M3: workspace-hook/background-task/conversation/assistant/workspaceFile/tool-execution/process/subagent/task-realtime-core, 34 inherited files in packages/shared/src). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries and module paths in both source and dist modes, the fixtures are synthetic goldens (codec round-trip, workspace-hook digests, task-realtime gate handshake, conversation share schema) recorded from the old implementation, and the stubs keep only interface names with bodies that throw shared-03 stub error. Old gate: source 47/47, dist 47/47, stub replacement of 34 module paths made all 8 test files fail (allFail=true).",
-      "evidence": [
-        "specs/contracts/shared-03/README.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-03/stubs/packages/shared/src/task-realtime-core.ts",
-      "normalizedSha256": "db174e9a262f76273153ec38d6741a5289140fae2968d77bf207b97dbef76738",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-03 contract artifact for @knorvia/shared (M3: workspace-hook/background-task/conversation/assistant/workspaceFile/tool-execution/process/subagent/task-realtime-core, 34 inherited files in packages/shared/src). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries and module paths in both source and dist modes, the fixtures are synthetic goldens (codec round-trip, workspace-hook digests, task-realtime gate handshake, conversation share schema) recorded from the old implementation, and the stubs keep only interface names with bodies that throw shared-03 stub error. Old gate: source 47/47, dist 47/47, stub replacement of 34 module paths made all 8 test files fail (allFail=true).",
-      "evidence": [
-        "specs/contracts/shared-03/README.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-03/stubs/packages/shared/src/tool-call-summary.ts",
-      "normalizedSha256": "1b5bb3e9e5bf8f75e386dbe54e0f9667b55cc4cc938a5b732b0733b3c9b78114",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-03 contract artifact for @knorvia/shared (M3: workspace-hook/background-task/conversation/assistant/workspaceFile/tool-execution/process/subagent/task-realtime-core, 34 inherited files in packages/shared/src). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries and module paths in both source and dist modes, the fixtures are synthetic goldens (codec round-trip, workspace-hook digests, task-realtime gate handshake, conversation share schema) recorded from the old implementation, and the stubs keep only interface names with bodies that throw shared-03 stub error. Old gate: source 47/47, dist 47/47, stub replacement of 34 module paths made all 8 test files fail (allFail=true).",
-      "evidence": [
-        "specs/contracts/shared-03/README.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-03/stubs/packages/shared/src/tool-identity.ts",
-      "normalizedSha256": "f3732479f53c76210a7faad39df40f39b87d393e3b1d47fd01c30808c9414d49",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-03 contract artifact for @knorvia/shared (M3: workspace-hook/background-task/conversation/assistant/workspaceFile/tool-execution/process/subagent/task-realtime-core, 34 inherited files in packages/shared/src). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries and module paths in both source and dist modes, the fixtures are synthetic goldens (codec round-trip, workspace-hook digests, task-realtime gate handshake, conversation share schema) recorded from the old implementation, and the stubs keep only interface names with bodies that throw shared-03 stub error. Old gate: source 47/47, dist 47/47, stub replacement of 34 module paths made all 8 test files fail (allFail=true).",
-      "evidence": [
-        "specs/contracts/shared-03/README.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-03/stubs/packages/shared/src/tool-plan-adapter.ts",
-      "normalizedSha256": "678a2799b90cfc24cd04353b5b8b087a56d8d836b3f8379f6e68df503b88bec0",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-03 contract artifact for @knorvia/shared (M3: workspace-hook/background-task/conversation/assistant/workspaceFile/tool-execution/process/subagent/task-realtime-core, 34 inherited files in packages/shared/src). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries and module paths in both source and dist modes, the fixtures are synthetic goldens (codec round-trip, workspace-hook digests, task-realtime gate handshake, conversation share schema) recorded from the old implementation, and the stubs keep only interface names with bodies that throw shared-03 stub error. Old gate: source 47/47, dist 47/47, stub replacement of 34 module paths made all 8 test files fail (allFail=true).",
-      "evidence": [
-        "specs/contracts/shared-03/README.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-03/stubs/packages/shared/src/workspace-hook-config.ts",
-      "normalizedSha256": "c3ec46f3e1556ff80d180816c64b4cea65d679d8bfe9c3027c0c1276e7e9e614",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-03 contract artifact for @knorvia/shared (M3: workspace-hook/background-task/conversation/assistant/workspaceFile/tool-execution/process/subagent/task-realtime-core, 34 inherited files in packages/shared/src). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries and module paths in both source and dist modes, the fixtures are synthetic goldens (codec round-trip, workspace-hook digests, task-realtime gate handshake, conversation share schema) recorded from the old implementation, and the stubs keep only interface names with bodies that throw shared-03 stub error. Old gate: source 47/47, dist 47/47, stub replacement of 34 module paths made all 8 test files fail (allFail=true).",
-      "evidence": [
-        "specs/contracts/shared-03/README.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-03/stubs/packages/shared/src/workspace-hook-digest.ts",
-      "normalizedSha256": "7754f003689b023840a4df6c74c4f7060e53d52497ac6f6ddecda0b613b20735",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-03 contract artifact for @knorvia/shared (M3: workspace-hook/background-task/conversation/assistant/workspaceFile/tool-execution/process/subagent/task-realtime-core, 34 inherited files in packages/shared/src). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries and module paths in both source and dist modes, the fixtures are synthetic goldens (codec round-trip, workspace-hook digests, task-realtime gate handshake, conversation share schema) recorded from the old implementation, and the stubs keep only interface names with bodies that throw shared-03 stub error. Old gate: source 47/47, dist 47/47, stub replacement of 34 module paths made all 8 test files fail (allFail=true).",
-      "evidence": [
-        "specs/contracts/shared-03/README.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-03/stubs/packages/shared/src/workspace-hook-discovery.ts",
-      "normalizedSha256": "65ba2b37fb403925cb9767d6ca2d9348de4289b74b51f385641046e0429fbcbd",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-03 contract artifact for @knorvia/shared (M3: workspace-hook/background-task/conversation/assistant/workspaceFile/tool-execution/process/subagent/task-realtime-core, 34 inherited files in packages/shared/src). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries and module paths in both source and dist modes, the fixtures are synthetic goldens (codec round-trip, workspace-hook digests, task-realtime gate handshake, conversation share schema) recorded from the old implementation, and the stubs keep only interface names with bodies that throw shared-03 stub error. Old gate: source 47/47, dist 47/47, stub replacement of 34 module paths made all 8 test files fail (allFail=true).",
-      "evidence": [
-        "specs/contracts/shared-03/README.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-03/stubs/packages/shared/src/workspace-hook-mutation.ts",
-      "normalizedSha256": "629023937550f7cb9687f964a6e520de896cabba4322a399295deb3edeeea3fe",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-03 contract artifact for @knorvia/shared (M3: workspace-hook/background-task/conversation/assistant/workspaceFile/tool-execution/process/subagent/task-realtime-core, 34 inherited files in packages/shared/src). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries and module paths in both source and dist modes, the fixtures are synthetic goldens (codec round-trip, workspace-hook digests, task-realtime gate handshake, conversation share schema) recorded from the old implementation, and the stubs keep only interface names with bodies that throw shared-03 stub error. Old gate: source 47/47, dist 47/47, stub replacement of 34 module paths made all 8 test files fail (allFail=true).",
-      "evidence": [
-        "specs/contracts/shared-03/README.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-03/stubs/packages/shared/src/workspace-hook-review-monotonicity.ts",
-      "normalizedSha256": "32342306a65c75f8082261197b77323ac6bca91e5fc8eb4266bda2c91d03e3cb",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-03 contract artifact for @knorvia/shared (M3: workspace-hook/background-task/conversation/assistant/workspaceFile/tool-execution/process/subagent/task-realtime-core, 34 inherited files in packages/shared/src). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries and module paths in both source and dist modes, the fixtures are synthetic goldens (codec round-trip, workspace-hook digests, task-realtime gate handshake, conversation share schema) recorded from the old implementation, and the stubs keep only interface names with bodies that throw shared-03 stub error. Old gate: source 47/47, dist 47/47, stub replacement of 34 module paths made all 8 test files fail (allFail=true).",
-      "evidence": [
-        "specs/contracts/shared-03/README.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-03/stubs/packages/shared/src/workspace-hook-trust-store-file.ts",
-      "normalizedSha256": "0ef8dfb189cbaa5784951d582d0da982e1986407ac38fb5499fc84a2927b6988",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-03 contract artifact for @knorvia/shared (M3: workspace-hook/background-task/conversation/assistant/workspaceFile/tool-execution/process/subagent/task-realtime-core, 34 inherited files in packages/shared/src). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries and module paths in both source and dist modes, the fixtures are synthetic goldens (codec round-trip, workspace-hook digests, task-realtime gate handshake, conversation share schema) recorded from the old implementation, and the stubs keep only interface names with bodies that throw shared-03 stub error. Old gate: source 47/47, dist 47/47, stub replacement of 34 module paths made all 8 test files fail (allFail=true).",
-      "evidence": [
-        "specs/contracts/shared-03/README.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-03/stubs/packages/shared/src/workspaceFileEntriesCodec.ts",
-      "normalizedSha256": "42d35eff771ab057564537f8ce58554e57819a04a20a45fdd15c1bbe9b2bcdeb",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-03 contract artifact for @knorvia/shared (M3: workspace-hook/background-task/conversation/assistant/workspaceFile/tool-execution/process/subagent/task-realtime-core, 34 inherited files in packages/shared/src). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries and module paths in both source and dist modes, the fixtures are synthetic goldens (codec round-trip, workspace-hook digests, task-realtime gate handshake, conversation share schema) recorded from the old implementation, and the stubs keep only interface names with bodies that throw shared-03 stub error. Old gate: source 47/47, dist 47/47, stub replacement of 34 module paths made all 8 test files fail (allFail=true).",
-      "evidence": [
-        "specs/contracts/shared-03/README.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-03/stubs/packages/shared/src/workspaceFileSearch.ts",
-      "normalizedSha256": "a9d5628c5d5ebcb43c8a8fc9d469920e4d1081b3c106e36d6658cbc1c78a0294",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-03 contract artifact for @knorvia/shared (M3: workspace-hook/background-task/conversation/assistant/workspaceFile/tool-execution/process/subagent/task-realtime-core, 34 inherited files in packages/shared/src). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries and module paths in both source and dist modes, the fixtures are synthetic goldens (codec round-trip, workspace-hook digests, task-realtime gate handshake, conversation share schema) recorded from the old implementation, and the stubs keep only interface names with bodies that throw shared-03 stub error. Old gate: source 47/47, dist 47/47, stub replacement of 34 module paths made all 8 test files fail (allFail=true).",
-      "evidence": [
-        "specs/contracts/shared-03/README.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-03/stubs/packages/shared/src/workspaceSessionRestore.ts",
-      "normalizedSha256": "e3b88a7ae39e9fc50b7f05e5225792b1b6dc5c61eef8bd06e31b14e56f46b9cc",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored shared-03 contract artifact for @knorvia/shared (M3: workspace-hook/background-task/conversation/assistant/workspaceFile/tool-execution/process/subagent/task-realtime-core, 34 inherited files in packages/shared/src). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries and module paths in both source and dist modes, the fixtures are synthetic goldens (codec round-trip, workspace-hook digests, task-realtime gate handshake, conversation share schema) recorded from the old implementation, and the stubs keep only interface names with bodies that throw shared-03 stub error. Old gate: source 47/47, dist 47/47, stub replacement of 34 module paths made all 8 test files fail (allFail=true).",
-      "evidence": [
-        "specs/contracts/shared-03/README.md",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/shared-03/stubs/targets.txt",
-      "normalizedSha256": "2beaf63c2fca944a0aaa921b6cfd2f0b88d4aadfd5da4a0ccba265729c019a56",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored shared-03 contract artifact for @knorvia/shared (M3: workspace-hook/background-task/conversation/assistant/workspaceFile/tool-execution/process/subagent/task-realtime-core, 34 inherited files in packages/shared/src). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries and module paths in both source and dist modes, the fixtures are synthetic goldens (codec round-trip, workspace-hook digests, task-realtime gate handshake, conversation share schema) recorded from the old implementation, and the stubs keep only interface names with bodies that throw shared-03 stub error. Old gate: source 47/47, dist 47/47, stub replacement of 34 module paths made all 8 test files fail (allFail=true).",
@@ -143058,6 +142659,398 @@
       "license": "Apache-2.0",
       "basis": "Knorvia-authored core-runtime-methods-02 replacement record (design or acceptance document), written for this package.",
       "evidence": ["specs/contracts/core-runtime-methods-02/README.md"]
+    },
+    {
+      "path": "packages/shared/src/assistant-message-parts.ts",
+      "normalizedSha256": "d2e1d10622336edb73e8e63f1090c0a990afafc38eb787fd8ebec3961bfbf4ad",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-03 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate contract-gate source 47/47; new implementation contract-gate dist 47/47; max line containment 0.000, longest identical run 0, structural similarity 0.000 against the replaced files and the upstream baseline.",
+      "evidence": ["specs/contracts/shared-03/README.md", "docs/knorvia-shared-03-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/assistant-presentation.ts",
+      "normalizedSha256": "b65849db0f000d4ff409c5e3c620435348475b4ceff9fa5d31981e01d63c24bb",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-03 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate contract-gate source 47/47; new implementation contract-gate dist 47/47; max line containment 0.000, longest identical run 0, structural similarity 0.000 against the replaced files and the upstream baseline.",
+      "evidence": ["specs/contracts/shared-03/README.md", "docs/knorvia-shared-03-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/background-bash-jobs.ts",
+      "normalizedSha256": "94f20e5bed17b97e7fab906b35d86caff47064b9f6f1042376af407242f6f654",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-03 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate contract-gate source 47/47; new implementation contract-gate dist 47/47; max line containment 0.167, longest identical run 2, structural similarity 0.000 against the replaced files and the upstream baseline.",
+      "evidence": ["specs/contracts/shared-03/README.md", "docs/knorvia-shared-03-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/background-bash-output.ts",
+      "normalizedSha256": "379f1cb1219d693aa926723b7a446fe753a3cb2a131a8c381fcab7d19ba4f5b9",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-03 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate contract-gate source 47/47; new implementation contract-gate dist 47/47; max line containment 0.083, longest identical run 2, structural similarity 0.000 against the replaced files and the upstream baseline.",
+      "evidence": ["specs/contracts/shared-03/README.md", "docs/knorvia-shared-03-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/background-task-control-merge.ts",
+      "normalizedSha256": "2c6d15643874e6b3b2647c7607e86f476fe18de67b1441a31f1cdafbac475bd1",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-03 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate contract-gate source 47/47; new implementation contract-gate dist 47/47; max line containment 0.143, longest identical run 1, structural similarity 0.143 against the replaced files and the upstream baseline.",
+      "evidence": ["specs/contracts/shared-03/README.md", "docs/knorvia-shared-03-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/background-task-controls.ts",
+      "normalizedSha256": "1e3d1c9bb0fb058ebd9c9e2b3c4da9d13cc0e2e52106ef531843d89f48ff8a3e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-03 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate contract-gate source 47/47; new implementation contract-gate dist 47/47; max line containment 0.077, longest identical run 4, structural similarity 0.024 against the replaced files and the upstream baseline.",
+      "evidence": ["specs/contracts/shared-03/README.md", "docs/knorvia-shared-03-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/background-task-notifications.ts",
+      "normalizedSha256": "e335c49b60a245c7082c1f6ca9e76199b20fd5e06df45a8d20fe4b6572670593",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-03 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate contract-gate source 47/47; new implementation contract-gate dist 47/47; max line containment 0.107, longest identical run 2, structural similarity 0.053 against the replaced files and the upstream baseline.",
+      "evidence": ["specs/contracts/shared-03/README.md", "docs/knorvia-shared-03-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/bash-output-display.ts",
+      "normalizedSha256": "98a4fc37de2d9f711d2bde08e75de0e27c83217d88c29e668aab97a160f788a8",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-03 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate contract-gate source 47/47; new implementation contract-gate dist 47/47; max line containment 0.000, longest identical run 0, structural similarity 0.000 against the replaced files and the upstream baseline.",
+      "evidence": ["specs/contracts/shared-03/README.md", "docs/knorvia-shared-03-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/conversation-message-projection-policy.ts",
+      "normalizedSha256": "d0117cc3267e46f50089900a47562b9e67a36fd80a93676e1a319b0e76bef06e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-03 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate contract-gate source 47/47; new implementation contract-gate dist 47/47; max line containment 0.000, longest identical run 0, structural similarity 0.000 against the replaced files and the upstream baseline.",
+      "evidence": ["specs/contracts/shared-03/README.md", "docs/knorvia-shared-03-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/conversation-preview-artifacts.ts",
+      "normalizedSha256": "f9423ec263b7d8f7f7abd956da00d77eb35e2ff01fc0f16367f4489858eb4358",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-03 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate contract-gate source 47/47; new implementation contract-gate dist 47/47; max line containment 0.000, longest identical run 0, structural similarity 0.000 against the replaced files and the upstream baseline.",
+      "evidence": ["specs/contracts/shared-03/README.md", "docs/knorvia-shared-03-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/conversation-share.ts",
+      "normalizedSha256": "7cefa9fb31d5551398f7e6594e6b212bd5ee484e3c0f7ff5eeba09968cfe819f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-03 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate contract-gate source 47/47; new implementation contract-gate dist 47/47; max line containment 0.000, longest identical run 0, structural similarity 0.000 against the replaced files and the upstream baseline.",
+      "evidence": ["specs/contracts/shared-03/README.md", "docs/knorvia-shared-03-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/execution-output-preview.ts",
+      "normalizedSha256": "af18c0b69c8448cb0c6ff0b57ef80b43421a9a851d0f56d1ca6815dcc962037e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-03 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate contract-gate source 47/47; new implementation contract-gate dist 47/47; max line containment 0.176, longest identical run 1, structural similarity 0.100 against the replaced files and the upstream baseline.",
+      "evidence": ["specs/contracts/shared-03/README.md", "docs/knorvia-shared-03-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/execution-state.ts",
+      "normalizedSha256": "2c897d51676cfc50a6f341cc12d114cf7e27efd1053b41303b88918350e058fc",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-03 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate contract-gate source 47/47; new implementation contract-gate dist 47/47; max line containment 0.042, longest identical run 1, structural similarity 0.000 against the replaced files and the upstream baseline.",
+      "evidence": ["specs/contracts/shared-03/README.md", "docs/knorvia-shared-03-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/permission-request-preview.ts",
+      "normalizedSha256": "1a748ce8af0b210675162c0de609fb872e048f44ee595e037c89db23b80aab31",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-03 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate contract-gate source 47/47; new implementation contract-gate dist 47/47; max line containment 0.040, longest identical run 2, structural similarity 0.016 against the replaced files and the upstream baseline.",
+      "evidence": ["specs/contracts/shared-03/README.md", "docs/knorvia-shared-03-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/process-diagnostic.ts",
+      "normalizedSha256": "97a7683df8bdc04e47fb3ba8b978b740584d3920e68aacb7df11a2436a7bf501",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-03 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate contract-gate source 47/47; new implementation contract-gate dist 47/47; max line containment 0.128, longest identical run 3, structural similarity 0.000 against the replaced files and the upstream baseline.",
+      "evidence": ["specs/contracts/shared-03/README.md", "docs/knorvia-shared-03-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/process-names.ts",
+      "normalizedSha256": "eb45db6a33ffb96758909b218d2e5dc07433030b884646aed2b8eaab4724b8f1",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-03 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate contract-gate source 47/47; new implementation contract-gate dist 47/47; max line containment 0.115, longest identical run 1, structural similarity 0.020 against the replaced files and the upstream baseline.",
+      "evidence": ["specs/contracts/shared-03/README.md", "docs/knorvia-shared-03-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/processResourceTelemetry.ts",
+      "normalizedSha256": "b2377575b73bd1f6915331d69e7c6d664eca84df767076a1e81705a8d001f35c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-03 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate contract-gate source 47/47; new implementation contract-gate dist 47/47; max line containment 0.021, longest identical run 1, structural similarity 0.028 against the replaced files and the upstream baseline.",
+      "evidence": ["specs/contracts/shared-03/README.md", "docs/knorvia-shared-03-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/runtime-tool-runtime.ts",
+      "normalizedSha256": "8ef972c04e12c67140ecc3e1bd1be7034ac842f7ff796696af58317433b749e6",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-03 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate contract-gate source 47/47; new implementation contract-gate dist 47/47; max line containment 0.169, longest identical run 2, structural similarity 0.087 against the replaced files and the upstream baseline.",
+      "evidence": ["specs/contracts/shared-03/README.md", "docs/knorvia-shared-03-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/streaming-tool-input-preview.ts",
+      "normalizedSha256": "9ec5ca131ae638a9e1311fc12285519bb9780d7ef8933e62a027a046b5619088",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-03 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate contract-gate source 47/47; new implementation contract-gate dist 47/47; max line containment 0.094, longest identical run 3, structural similarity 0.011 against the replaced files and the upstream baseline.",
+      "evidence": ["specs/contracts/shared-03/README.md", "docs/knorvia-shared-03-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/subagent-markdown-selection.ts",
+      "normalizedSha256": "2c6b27a1760dfad4d5068b3a6e21e981d7529b81f9389b01c0b660f42862b774",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-03 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate contract-gate source 47/47; new implementation contract-gate dist 47/47; max line containment 0.034, longest identical run 1, structural similarity 0.031 against the replaced files and the upstream baseline.",
+      "evidence": ["specs/contracts/shared-03/README.md", "docs/knorvia-shared-03-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/subagent-state-migration.ts",
+      "normalizedSha256": "2531a6755ea0dd8420182d2818bc936be2d1271bca310cbf4aef475a31f2bddb",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-03 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate contract-gate source 47/47; new implementation contract-gate dist 47/47; max line containment 0.147, longest identical run 2, structural similarity 0.019 against the replaced files and the upstream baseline.",
+      "evidence": ["specs/contracts/shared-03/README.md", "docs/knorvia-shared-03-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/task-realtime-core.ts",
+      "normalizedSha256": "d8b22a11642cc0975a85b66dc969236a75cabab8aba5b718b191729ee7a097f1",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-03 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate contract-gate source 47/47; new implementation contract-gate dist 47/47; max line containment 0.000, longest identical run 0, structural similarity 0.000 against the replaced files and the upstream baseline.",
+      "evidence": ["specs/contracts/shared-03/README.md", "docs/knorvia-shared-03-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/tool-call-summary.ts",
+      "normalizedSha256": "97309efb3dc6205c7223a849ed648efb28db9d6b6baddd1bbb4872b7402b47f1",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-03 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate contract-gate source 47/47; new implementation contract-gate dist 47/47; max line containment 0.052, longest identical run 2, structural similarity 0.008 against the replaced files and the upstream baseline.",
+      "evidence": ["specs/contracts/shared-03/README.md", "docs/knorvia-shared-03-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/tool-identity.ts",
+      "normalizedSha256": "07955a1df03f40b044be837a5a078fca985c3abcf333f1181422449fbac77f3b",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-03 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate contract-gate source 47/47; new implementation contract-gate dist 47/47; max line containment 0.152, longest identical run 6, structural similarity 0.056 against the replaced files and the upstream baseline.",
+      "evidence": ["specs/contracts/shared-03/README.md", "docs/knorvia-shared-03-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/tool-plan-adapter.ts",
+      "normalizedSha256": "9d8e81c8a4a0bbf522f17dd537965feeae8fcfa66a7f9b89d7e3f827c800a6fc",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-03 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate contract-gate source 47/47; new implementation contract-gate dist 47/47; max line containment 0.085, longest identical run 2, structural similarity 0.010 against the replaced files and the upstream baseline.",
+      "evidence": ["specs/contracts/shared-03/README.md", "docs/knorvia-shared-03-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/workspace-hook-config.ts",
+      "normalizedSha256": "98dce05fdd320c7a62e14a263cff38abe80db220c3ff1f6895e539d0c123d669",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-03 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate contract-gate source 47/47; new implementation contract-gate dist 47/47; max line containment 0.037, longest identical run 7, structural similarity 0.016 against the replaced files and the upstream baseline.",
+      "evidence": ["specs/contracts/shared-03/README.md", "docs/knorvia-shared-03-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/workspace-hook-digest.ts",
+      "normalizedSha256": "7498ecf8e8f10bb040c32367304be9ee3d8f81ef5bff36b551dad6f55f772951",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-03 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate contract-gate source 47/47; new implementation contract-gate dist 47/47; max line containment 0.151, longest identical run 4, structural similarity 0.014 against the replaced files and the upstream baseline.",
+      "evidence": ["specs/contracts/shared-03/README.md", "docs/knorvia-shared-03-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/workspace-hook-discovery.ts",
+      "normalizedSha256": "12946403a226f72a74bc2e7302d69576daa9bd1a5e4a9c92826deb415484ab59",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-03 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate contract-gate source 47/47; new implementation contract-gate dist 47/47; max line containment 0.000, longest identical run 0, structural similarity 0.000 against the replaced files and the upstream baseline.",
+      "evidence": ["specs/contracts/shared-03/README.md", "docs/knorvia-shared-03-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/workspace-hook-mutation.ts",
+      "normalizedSha256": "d8ebb283b9e07966975fd6673d8b88ebd7c0e2889eb91f14ad145c72415f666b",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-03 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate contract-gate source 47/47; new implementation contract-gate dist 47/47; max line containment 0.052, longest identical run 2, structural similarity 0.043 against the replaced files and the upstream baseline.",
+      "evidence": ["specs/contracts/shared-03/README.md", "docs/knorvia-shared-03-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/workspace-hook-review-monotonicity.ts",
+      "normalizedSha256": "32369b9ab934c7e1d01206982b20ed61b035048d7b174945e35af2806f6d6773",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-03 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate contract-gate source 47/47; new implementation contract-gate dist 47/47; max line containment 0.130, longest identical run 2, structural similarity 0.125 against the replaced files and the upstream baseline.",
+      "evidence": ["specs/contracts/shared-03/README.md", "docs/knorvia-shared-03-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/workspace-hook-trust-store-file.ts",
+      "normalizedSha256": "023d4b390b33701e793cbbbfdb214042d71a5bb1e6250f77da70d306275b0630",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-03 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate contract-gate source 47/47; new implementation contract-gate dist 47/47; max line containment 0.092, longest identical run 5, structural similarity 0.114 against the replaced files and the upstream baseline.",
+      "evidence": ["specs/contracts/shared-03/README.md", "docs/knorvia-shared-03-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/workspaceFileEntriesCodec.ts",
+      "normalizedSha256": "372ceeffa4c8560a85aa1fe187f54b725bf2c68ffb8c39aedf4ff711c1b054fe",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-03 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate contract-gate source 47/47; new implementation contract-gate dist 47/47; max line containment 0.173, longest identical run 3, structural similarity 0.071 against the replaced files and the upstream baseline.",
+      "evidence": ["specs/contracts/shared-03/README.md", "docs/knorvia-shared-03-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/workspaceFileSearch.ts",
+      "normalizedSha256": "e0017994a5d5aa8e9b206a08baa41b789b742024e946cbe4d935b1d93127f23f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-03 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate contract-gate source 47/47; new implementation contract-gate dist 47/47; max line containment 0.055, longest identical run 1, structural similarity 0.122 against the replaced files and the upstream baseline.",
+      "evidence": ["specs/contracts/shared-03/README.md", "docs/knorvia-shared-03-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/workspaceSessionRestore.ts",
+      "normalizedSha256": "f831e084848b33198319e199cde8874dd349055e2e80db594432fa31f562e0dd",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-03 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate contract-gate source 47/47; new implementation contract-gate dist 47/47; max line containment 0.194, longest identical run 4, structural similarity 0.000 against the replaced files and the upstream baseline.",
+      "evidence": ["specs/contracts/shared-03/README.md", "docs/knorvia-shared-03-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/internal-s03/assistant-part-sequence.ts",
+      "normalizedSha256": "8389d8dec59af3dac209d8cd620a9312da40be9b036649f886d6e731924a1865",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-03 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate contract-gate source 47/47; new implementation contract-gate dist 47/47; max line containment 0.189, longest identical run 3, structural similarity 0.000 against the replaced files and the upstream baseline.",
+      "evidence": ["specs/contracts/shared-03/README.md", "docs/knorvia-shared-03-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/internal-s03/assistant-view.ts",
+      "normalizedSha256": "1c988c6272e904bb7a3f9e7b360a36abb074a8129b01f7766be755c8330f2d90",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-03 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate contract-gate source 47/47; new implementation contract-gate dist 47/47; max line containment 0.045, longest identical run 3, structural similarity 0.023 against the replaced files and the upstream baseline.",
+      "evidence": ["specs/contracts/shared-03/README.md", "docs/knorvia-shared-03-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/internal-s03/field-slots.ts",
+      "normalizedSha256": "d1c0151307e776c5433a980f4bf2a6a8a6eaedf0ae51e3d482d97a90f97d2e83",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-03 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate contract-gate source 47/47; new implementation contract-gate dist 47/47; max line containment 0.143, longest identical run 1, structural similarity 0.000 against the replaced files and the upstream baseline.",
+      "evidence": ["specs/contracts/shared-03/README.md", "docs/knorvia-shared-03-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/internal-s03/preview-artifacts.ts",
+      "normalizedSha256": "48bff32b9b99b0eef1410be66f8b26f2b9fd827c612cf91ec450bdfab0eb5d47",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-03 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate contract-gate source 47/47; new implementation contract-gate dist 47/47; max line containment 0.053, longest identical run 3, structural similarity 0.021 against the replaced files and the upstream baseline.",
+      "evidence": ["specs/contracts/shared-03/README.md", "docs/knorvia-shared-03-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/internal-s03/preview-paths.ts",
+      "normalizedSha256": "8362dad24e2e61b22bfa0707ced2f15b4a9efaadd89823ddb45cf5215a480491",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-03 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate contract-gate source 47/47; new implementation contract-gate dist 47/47; max line containment 0.080, longest identical run 2, structural similarity 0.060 against the replaced files and the upstream baseline.",
+      "evidence": ["specs/contracts/shared-03/README.md", "docs/knorvia-shared-03-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/internal-s03/projection-decision.ts",
+      "normalizedSha256": "1afd5c641bb9838948470159fdc88a0ab415ccea6185bdb1016c10ac61d3bf30",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-03 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate contract-gate source 47/47; new implementation contract-gate dist 47/47; max line containment 0.081, longest identical run 3, structural similarity 0.014 against the replaced files and the upstream baseline.",
+      "evidence": ["specs/contracts/shared-03/README.md", "docs/knorvia-shared-03-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/internal-s03/share-contract.ts",
+      "normalizedSha256": "ee24792523246928e49f59b92d706fd8675ba528bac05a7de3ef430fc09aedd7",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-03 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate contract-gate source 47/47; new implementation contract-gate dist 47/47; max line containment 0.063, longest identical run 2, structural similarity 0.030 against the replaced files and the upstream baseline.",
+      "evidence": ["specs/contracts/shared-03/README.md", "docs/knorvia-shared-03-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/internal-s03/strict-shape.ts",
+      "normalizedSha256": "20a40195d0c9d1654d6b0a22b91bb5b7f20bd08219b6ebe62ad4623e39e7392e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-03 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate contract-gate source 47/47; new implementation contract-gate dist 47/47; max line containment 0.000, longest identical run 0, structural similarity 0.000 against the replaced files and the upstream baseline.",
+      "evidence": ["specs/contracts/shared-03/README.md", "docs/knorvia-shared-03-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/internal-s03/task-owner-command-wire.ts",
+      "normalizedSha256": "ecd435671a69b5d49fb183f08f4e96bd06d526acc78ba79badb998050655fd42",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-03 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate contract-gate source 47/47; new implementation contract-gate dist 47/47; max line containment 0.037, longest identical run 3, structural similarity 0.015 against the replaced files and the upstream baseline.",
+      "evidence": ["specs/contracts/shared-03/README.md", "docs/knorvia-shared-03-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/internal-s03/task-realtime-parts.ts",
+      "normalizedSha256": "f87efba30987b4f81729903856dfdabd96c0341adc7fe6ca7389f950b1a7a93f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-03 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate contract-gate source 47/47; new implementation contract-gate dist 47/47; max line containment 0.068, longest identical run 2, structural similarity 0.000 against the replaced files and the upstream baseline.",
+      "evidence": ["specs/contracts/shared-03/README.md", "docs/knorvia-shared-03-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/internal-s03/task-realtime-wire.ts",
+      "normalizedSha256": "74e6603f6a87ed6967fad9c0f6b1d114752f82ff3700b67672f3f8d6c4e85ef8",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-03 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate contract-gate source 47/47; new implementation contract-gate dist 47/47; max line containment 0.090, longest identical run 7, structural similarity 0.029 against the replaced files and the upstream baseline.",
+      "evidence": ["specs/contracts/shared-03/README.md", "docs/knorvia-shared-03-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/internal-s03/value-shape.ts",
+      "normalizedSha256": "bb3c46dc812c8bce6b39016ee50b66f3459c89aa1a2a847a528baf12b25c3d98",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-03 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate contract-gate source 47/47; new implementation contract-gate dist 47/47; max line containment 0.143, longest identical run 1, structural similarity 0.364 against the replaced files and the upstream baseline.",
+      "evidence": ["specs/contracts/shared-03/README.md", "docs/knorvia-shared-03-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/internal-s03/wire-fields.ts",
+      "normalizedSha256": "85a0b8a6a9709a676f5a016276892cccdfd2585389d495aec4b24bd23c5d1b36",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-03 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate contract-gate source 47/47; new implementation contract-gate dist 47/47; max line containment 0.000, longest identical run 0, structural similarity 0.000 against the replaced files and the upstream baseline.",
+      "evidence": ["specs/contracts/shared-03/README.md", "docs/knorvia-shared-03-acceptance.md"]
+    },
+    {
+      "path": "packages/shared/src/workspace-file-search-types.ts",
+      "normalizedSha256": "930f5eb8f4dc2202c737ad4064ad093d501a74370fd3a866d653478cda5b57a7",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of shared-03 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate contract-gate source 47/47; new implementation contract-gate dist 47/47; max line containment 0.167, longest identical run 2, structural similarity 0.000 against the replaced files and the upstream baseline.",
+      "evidence": ["specs/contracts/shared-03/README.md", "docs/knorvia-shared-03-acceptance.md"]
+    },
+    {
+      "path": "docs/knorvia-shared-03-acceptance.md",
+      "normalizedSha256": "151541b2a7a06b52016e2448873bbcd22bd0980ec5e0925afc66f98dce366e29",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored shared-03 replacement record (design or acceptance document), written for this package.",
+      "evidence": ["specs/contracts/shared-03/README.md"]
     }
   ]
 }
