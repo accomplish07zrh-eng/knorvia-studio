@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
-// 模型步的请求、分部和收尾字段。观察面会读 Object.keys，所以载荷按键表写入，不靠字面量排键。
+// 模型步的请求、分部和收尾字段。请求键按 REQUEST_ORDER 抄出，其余载荷用分层对象。
 import type { RuntimeMessageEntry } from "../../../agent/message-history.js";
 import {
   CoreErrorType,
@@ -24,7 +24,7 @@ import { resolveModelStepMaxOutputTokens } from "../model-token-limits.js";
 import { estimateCurrentModelInputTokens } from "./m02-compact.js";
 import { OUTPUT_TOKEN_LIMIT_ERROR_MESSAGE } from "./m02-continuation.js";
 import type { RegularTurnLoopState } from "./m02-loop-state.js";
-import { assignKeys, putIf, report, type Col, type Opt } from "./m02-record.js";
+import { layer, report, type Col, type Opt } from "./m02-record.js";
 
 export type ModelStepInputs = Opt<"drainedSteerForNextRequest", DrainedPendingInputDiagnostics> &
   Opt<"latestRealUserMessageIndex", number> &
@@ -56,7 +56,7 @@ export type UsageFields = Col<"assistantMessageId", MessageId> &
   Col<"networkEventStartIndex", number> &
   Col<"startedAt", number>;
 
-/** provider 请求的键插入顺序。先散装进表，再按这张顺序取出。 */
+/** provider 请求的键插入顺序。槽位对象不保证顺序，抄出时按这张表。 */
 const REQUEST_ORDER = [
   "abortSignal",
   "assistantMessageId",
@@ -78,6 +78,9 @@ const REQUEST_ORDER = [
 
 type RequestKey = (typeof REQUEST_ORDER)[number];
 
+const RUNTIME_MODULE = "core.runtime";
+const LIMIT_CODE = "model_output_limit_exceeded";
+
 function iterationOf(toolCallCount: number): number {
   if (toolCallCount === 0) return 0;
   return Math.ceil(toolCallCount / 10);
@@ -89,13 +92,14 @@ function stepBudget(
   prepared: RequestFields,
 ): number {
   const estimated = estimateCurrentModelInputTokens(step.messages, step.sourceEntries);
-  const spec = assignKeys<Parameters<typeof resolveModelStepMaxOutputTokens>[0]>([
-    ["baselineMaxOutputTokens", prepared.normalBudget],
-    ["contextWindow", prepared.contextWindow],
-    ["estimatedCurrentUsage", estimated],
-    ["modelContextBudgetStrategy", host.config.modelContextBudgetStrategy],
-  ]);
-  return resolveModelStepMaxOutputTokens(spec);
+  const { normalBudget: baselineMaxOutputTokens, contextWindow } = prepared;
+  const { modelContextBudgetStrategy } = host.config;
+  return resolveModelStepMaxOutputTokens({
+    baselineMaxOutputTokens,
+    contextWindow,
+    estimatedCurrentUsage: estimated,
+    modelContextBudgetStrategy,
+  });
 }
 
 export function buildTurnModelRequest(
@@ -106,25 +110,27 @@ export function buildTurnModelRequest(
 ): RunModelTextRequestOptions {
   const budget = stepBudget(host, step, prepared);
   const sink = prepared.coordinator;
-  const slots = new Map<RequestKey, unknown>();
-  slots.set("traceContext", prepared.modelTraceContext);
-  slots.set("tools", step.tools);
-  slots.set("streamRecovery", prepared.streamRecovery);
-  slots.set("onStreamToolCall", (toolCall: ModelToolCall) => sink.accept(toolCall));
-  slots.set("onStreamTextDelta", (text: string) => sink.recordTextDelta(text));
-  slots.set("onStreamReasoningDelta", (text: string) => sink.recordReasoningDelta(text));
-  slots.set("onModelNetworkStatus", prepared.onModelNetworkStatus);
-  slots.set("onStreamSnapshot", prepared.onStreamSnapshot);
-  slots.set("model", prepared.model);
-  slots.set("sourceEntries", step.sourceEntries);
-  slots.set("messages", step.messages);
-  slots.set("latestRealUserMessageIndex", step.latestRealUserMessageIndex);
-  slots.set("maxOutputTokens", budget);
-  slots.set("events", loop.events);
-  slots.set("assistantMessageId", prepared.assistantMessageId);
-  slots.set("abortSignal", loop.turnAbortSignal);
-  const pairs = REQUEST_ORDER.map((key) => [key, slots.get(key)] as const);
-  return assignKeys<RunModelTextRequestOptions>(pairs);
+  const slots: Record<RequestKey, unknown> = {
+    abortSignal: loop.turnAbortSignal,
+    assistantMessageId: prepared.assistantMessageId,
+    events: loop.events,
+    maxOutputTokens: budget,
+    latestRealUserMessageIndex: step.latestRealUserMessageIndex,
+    messages: step.messages,
+    sourceEntries: step.sourceEntries,
+    model: prepared.model,
+    onStreamSnapshot: prepared.onStreamSnapshot,
+    onModelNetworkStatus: prepared.onModelNetworkStatus,
+    onStreamReasoningDelta: (text: string) => sink.recordReasoningDelta(text),
+    onStreamTextDelta: (text: string) => sink.recordTextDelta(text),
+    onStreamToolCall: (toolCall: ModelToolCall) => sink.accept(toolCall),
+    streamRecovery: prepared.streamRecovery,
+    tools: step.tools,
+    traceContext: prepared.modelTraceContext,
+  };
+  const request: Record<string, unknown> = {};
+  for (const key of REQUEST_ORDER) request[key] = slots[key];
+  return request as unknown as RunModelTextRequestOptions;
 }
 
 type PartId = ReturnType<typeof createPartId>;
@@ -139,19 +145,12 @@ function basePart<Kind extends "step-start" | "reasoning" | "text">(
   messageId: MessageId,
   kind: Kind,
 ): PartShell<Kind> {
-  return assignKeys<PartShell<Kind>>([
-    ["id", createPartId()],
-    ["sessionID", host.sessionId],
-    ["messageID", messageId],
-    ["type", kind],
-  ]);
+  const { sessionId } = host;
+  return { id: createPartId(), sessionID: sessionId, messageID: messageId, type: kind };
 }
 
 function clock(openedAt: number): Col<"start", number> & Col<"end", number> {
-  return assignKeys([
-    ["start", openedAt],
-    ["end", Date.now()],
-  ]);
+  return { start: openedAt, end: Date.now() };
 }
 
 export function stepStartPart(host: AgentRuntimeInternal, messageId: MessageId) {
@@ -167,20 +166,8 @@ export function reasoningPart(
   block: ReasoningBlock,
 ) {
   const opened = basePart(host, messageId, "reasoning");
-  return assignKeys<
-    PartShell<"reasoning"> &
-      Col<"text", string> &
-      Col<"metadata", ReasoningBlock["providerOptions"]> &
-      Col<"time", ReturnType<typeof clock>>
-  >([
-    ["id", opened.id],
-    ["sessionID", opened.sessionID],
-    ["messageID", opened.messageID],
-    ["type", "reasoning"],
-    ["text", block.text],
-    ["metadata", block.providerOptions],
-    ["time", clock(openedAt)],
-  ]);
+  const { text, providerOptions: metadata } = block;
+  return { ...opened, text, metadata, time: clock(openedAt) };
 }
 
 export function textPart(
@@ -190,16 +177,7 @@ export function textPart(
   openedAt: number,
 ) {
   const opened = basePart(host, messageId, "text");
-  return assignKeys<
-    PartShell<"text"> & Col<"text", string> & Col<"time", ReturnType<typeof clock>>
-  >([
-    ["id", opened.id],
-    ["sessionID", opened.sessionID],
-    ["messageID", opened.messageID],
-    ["type", "text"],
-    ["text", loop.modelResponse],
-    ["time", clock(openedAt)],
-  ]);
+  return { ...opened, text: loop.modelResponse, time: clock(openedAt) };
 }
 
 export function modelCompletePayload(
@@ -212,29 +190,24 @@ export function modelCompletePayload(
   calls: ReturnType<AgentRuntimeInternal["extractToolCallsFromResult"]>,
 ) {
   const mainTurn = source === "main_turn";
-  const payload = assignKeys<Record<string, unknown>>([["content", loop.modelResponse]]);
-  putIf(payload, "contextWindow", windowSize, mainTurn && windowSize !== undefined);
-  payload.querySource = source;
-  payload.stopReason = modelResult.finishReason;
-  payload.usage = modelResult.usage;
-  putIf(payload, "cacheHit", cache, Boolean(cache));
-  putIf(payload, "fileChanges", changes, Boolean(changes));
-  const breakdown = modelResult.contextUsageBreakdown;
-  putIf(payload, "contextUsageBreakdown", breakdown, mainTurn && Boolean(breakdown));
-  payload.toolCallCount = calls.length;
-  return payload;
+  const content = loop.modelResponse;
+  const querySource = source;
+  const stopReason = modelResult.finishReason;
+  const { usage, contextUsageBreakdown } = modelResult;
+  const toolCallCount = calls.length;
+  return layer(
+    { content },
+    mainTurn && windowSize !== undefined ? { contextWindow: windowSize } : undefined,
+    { querySource, stopReason, usage },
+    cache ? { cacheHit: cache } : undefined,
+    changes ? { fileChanges: changes } : undefined,
+    mainTurn && contextUsageBreakdown ? { contextUsageBreakdown } : undefined,
+    { toolCallCount },
+  );
 }
 
-const RUNTIME_MODULE = "core.runtime";
-
-function traced(
-  trace: TraceContext,
-  extras: ReadonlyArray<readonly [string, unknown]>,
-): Record<string, unknown> {
-  const flat = traceContextToLogContext(trace) as Record<string, unknown>;
-  const pairs: Array<readonly [string, unknown]> = Object.keys(flat).map((key) => [key, flat[key]]);
-  for (const extra of extras) pairs.push(extra);
-  return assignKeys<Record<string, unknown>>(pairs);
+function observe(trace: TraceContext, detail: object): Record<string, unknown> {
+  return layer(traceContextToLogContext(trace), detail);
 }
 
 export function logModelCompletion(
@@ -244,18 +217,24 @@ export function logModelCompletion(
   openedAt: number,
   calls: ReturnType<AgentRuntimeInternal["extractToolCallsFromResult"]>,
 ) {
+  const durationMs = Date.now() - openedAt;
+  const event = "model.request.completed";
+  const module = RUNTIME_MODULE;
+  const status = "completed";
+  const totalTokens = loop.tokenCount;
+  const toolCallCount = calls.length;
   report(
     host,
     "info",
     "Model request completed",
-    traced(trace, [
-      ["durationMs", Date.now() - openedAt],
-      ["event", "model.request.completed"],
-      ["module", RUNTIME_MODULE],
-      ["status", "completed"],
-      ["totalTokens", loop.tokenCount],
-      ["toolCallCount", calls.length],
-    ]),
+    observe(trace, {
+      durationMs,
+      event,
+      module,
+      status,
+      totalTokens,
+      toolCallCount,
+    }),
   );
 }
 
@@ -265,22 +244,24 @@ export function logStartPlanRetry(
   delayMs: number,
   plan: { retryNumber: number; maxRetries: number },
 ) {
+  const event = "model.main_turn.retry_start_plan_admission_busy";
+  const module = RUNTIME_MODULE;
+  const { retryNumber, maxRetries } = plan;
+  const status = "waiting";
   report(
     host,
     "warn",
     "Main turn retrying after Start Plan admission busy",
-    traced(trace, [
-      ["event", "model.main_turn.retry_start_plan_admission_busy"],
-      ["module", RUNTIME_MODULE],
-      ["retryDelayMs", delayMs],
-      ["retryNumber", plan.retryNumber],
-      ["maxRetries", plan.maxRetries],
-      ["status", "waiting"],
-    ]),
+    observe(trace, {
+      event,
+      module,
+      retryDelayMs: delayMs,
+      retryNumber,
+      maxRetries,
+      status,
+    }),
   );
 }
-
-const LIMIT_CODE = "model_output_limit_exceeded";
 
 type LimitError = { name: string; data: Record<string, unknown> };
 type LimitCarrier = Col<"error", LimitError> &
@@ -295,22 +276,15 @@ export function outputLimitCarrier(
   activeModel: Model,
   trace: TraceContext,
 ): LimitCarrier {
-  // code 在前，然后才是 message / retryable / attribution，和原先展开的条件键顺序一致。
-  const data: Record<string, unknown> = {};
-  if (projected.code) data.code = projected.code;
-  data.message = projected.message;
-  data.retryable = fault.recoverable;
-  if (projected.attribution) data.attribution = projected.attribution;
-  const error = assignKeys<LimitError>([
-    ["name", projected.code ?? fault.type],
-    ["data", data],
-  ]);
-  return assignKeys<LimitCarrier>([
-    ["error", error],
-    ["finishReason", modelResult.finishReason],
-    ["model", activeModel],
-    ["modelTraceContext", trace],
-  ]);
+  // code 在前，然后才是 message / retryable / attribution。
+  const data = layer<Record<string, unknown>>(
+    projected.code ? { code: projected.code } : undefined,
+    { message: projected.message, retryable: fault.recoverable },
+    projected.attribution ? { attribution: projected.attribution } : undefined,
+  );
+  const error: LimitError = { name: projected.code ?? fault.type, data };
+  const finishReason = modelResult.finishReason;
+  return { error, finishReason, model: activeModel, modelTraceContext: trace };
 }
 
 const HAN_LIMIT =
@@ -323,13 +297,13 @@ export function automationLimitResponse(text: string): string {
 }
 
 export function modelStepTrace(loop: RegularTurnLoopState, activeModel: Model, source: string) {
-  const attributes = assignKeys<Record<string, string | number | boolean>>([
-    ["providerId", String(activeModel.providerId)],
-    ["modelId", String(activeModel.modelId)],
-    ["iteration", iterationOf(loop.toolCallCount)],
-    ["querySource", source],
-  ]);
-  return createChildTraceContext(loop.turnTraceContext, { attributes });
+  const providerId = String(activeModel.providerId);
+  const modelId = String(activeModel.modelId);
+  const iteration = iterationOf(loop.toolCallCount);
+  const querySource = source;
+  return createChildTraceContext(loop.turnTraceContext, {
+    attributes: { providerId, modelId, iteration, querySource },
+  });
 }
 
 type SteeringBag = Col<"activeTurn", RegularTurnLoopState["activeTurn"]> &
@@ -343,13 +317,9 @@ export function steeringFields(
   step: ModelStepInputs,
   trace: TraceContext,
 ): SteeringBag {
-  return assignKeys<SteeringBag>([
-    ["activeTurn", loop.activeTurn],
-    ["drained", step.drainedSteerForNextRequest],
-    ["messages", step.messages],
-    ["modelStepCount", loop.modelStepCount],
-    ["traceContext", trace],
-  ]);
+  const { activeTurn, modelStepCount } = loop;
+  const { drainedSteerForNextRequest: drained, messages } = step;
+  return { activeTurn, drained, messages, modelStepCount, traceContext: trace };
 }
 
 type RequestPayload = Col<"messages", ModelStepInputs["recordedMessages"]> &
@@ -365,24 +335,21 @@ export function modelRequestPayload(
   activeModel: Model,
   source: string,
 ): RequestPayload {
-  return assignKeys<RequestPayload>([
-    ["messages", step.recordedMessages],
-    ["providerId", String(activeModel.providerId)],
-    ["modelId", String(activeModel.modelId)],
-    ["querySource", source],
-    ["toolCount", step.tools.length],
-    ["iteration", iterationOf(loop.toolCallCount)],
-  ]);
+  const messages = step.recordedMessages;
+  const providerId = String(activeModel.providerId);
+  const modelId = String(activeModel.modelId);
+  const querySource = source;
+  const toolCount = step.tools.length;
+  const iteration = iterationOf(loop.toolCallCount);
+  return { messages, providerId, modelId, querySource, toolCount, iteration };
 }
 
 export function outputLimitError() {
-  const context = assignKeys<Record<string, unknown>>([
-    ["providerCode", LIMIT_CODE],
-    ["reason", LIMIT_CODE],
-    ["source", "provider"],
-  ]);
+  const providerCode = LIMIT_CODE;
+  const reason = LIMIT_CODE;
+  const source = "provider";
   return createCoreError(CoreErrorType.ModelError, OUTPUT_TOKEN_LIMIT_ERROR_MESSAGE, {
-    context,
+    context: { providerCode, reason, source },
     recoverable: true,
   });
 }
@@ -395,21 +362,28 @@ type UsageFailure = Col<"assistantMessageId", MessageId> &
   Col<"startedAt", number> &
   Col<"status", "cancelled" | "error">;
 
+function usageIdentity(usage: UsageFields) {
+  const { assistantMessageId, model, modelTraceContext, networkEventStartIndex, startedAt } = usage;
+  return { assistantMessageId, model, modelTraceContext, networkEventStartIndex, startedAt };
+}
+
 export function failedUsage(
   loop: RegularTurnLoopState,
   usage: UsageFields,
   fault: unknown,
 ): UsageFailure {
   const status: UsageFailure["status"] = loop.turnAbortSignal.aborted ? "cancelled" : "error";
-  return assignKeys<UsageFailure>([
-    ["assistantMessageId", usage.assistantMessageId],
-    ["error", fault],
-    ["model", usage.model],
-    ["modelTraceContext", usage.modelTraceContext],
-    ["networkEventStartIndex", usage.networkEventStartIndex],
-    ["startedAt", usage.startedAt],
-    ["status", status],
-  ]);
+  const { assistantMessageId, model, modelTraceContext, networkEventStartIndex, startedAt } =
+    usageIdentity(usage);
+  return {
+    assistantMessageId,
+    error: fault,
+    model,
+    modelTraceContext,
+    networkEventStartIndex,
+    startedAt,
+    status,
+  };
 }
 
 type UsageSuccess = Col<"assistantMessageId", MessageId> &
@@ -426,16 +400,18 @@ export function completedUsage(
   modelResult: RuntimeModelTextResult,
   calls: ReturnType<AgentRuntimeInternal["extractToolCallsFromResult"]>,
 ): UsageSuccess {
-  return assignKeys<UsageSuccess>([
-    ["assistantMessageId", usage.assistantMessageId],
-    ["model", usage.model],
-    ["modelTraceContext", usage.modelTraceContext],
-    ["networkEventStartIndex", usage.networkEventStartIndex],
-    ["result", modelResult],
-    ["startedAt", usage.startedAt],
-    ["status", "completed"],
-    ["toolCallCount", calls.length],
-  ]);
+  const { assistantMessageId, model, modelTraceContext, networkEventStartIndex, startedAt } =
+    usageIdentity(usage);
+  return {
+    assistantMessageId,
+    model,
+    modelTraceContext,
+    networkEventStartIndex,
+    result: modelResult,
+    startedAt,
+    status: "completed",
+    toolCallCount: calls.length,
+  };
 }
 
 type SuspiciousBag = Col<"finishReason", string | undefined> &
@@ -448,29 +424,24 @@ export function suspiciousResultFields(
   activeModel: { providerId: string; modelId: string },
   rawFinishReason: string | undefined,
 ): SuspiciousBag {
-  return assignKeys<SuspiciousBag>([
-    ["finishReason", modelResult.finishReason],
-    ["model", activeModel],
-    ["providerMetadata", modelResult.providerMetadata],
-    ["rawFinishReason", rawFinishReason],
-  ]);
+  const { finishReason, providerMetadata } = modelResult;
+  return { finishReason, model: activeModel, providerMetadata, rawFinishReason };
 }
 
 export function warnAutomationTools(
   host: AgentRuntimeInternal,
   calls: ReturnType<AgentRuntimeInternal["extractToolCallsFromResult"]>,
 ) {
-  report(
-    host,
-    "warn",
-    "Ignored tool calls after automation create limit was reached",
-    assignKeys([
-      ["event", "automation.create_limit.tool_calls_ignored"],
-      ["module", RUNTIME_MODULE],
-      ["status", "completed"],
-      ["toolCallCount", calls.length],
-    ]),
-  );
+  const event = "automation.create_limit.tool_calls_ignored";
+  const module = RUNTIME_MODULE;
+  const status = "completed";
+  const toolCallCount = calls.length;
+  report(host, "warn", "Ignored tool calls after automation create limit was reached", {
+    event,
+    module,
+    status,
+    toolCallCount,
+  });
 }
 
 type Anchor = Col<"latestAssistantMessageId", AgentRuntimeInternal["latestAssistantMessageId"]> &
@@ -483,6 +454,22 @@ type StopBag = Col<"assistantPersistenceAnchor", Anchor> &
   Col<"modelTraceContext", TraceContext> &
   Col<"result", RuntimeModelTextResult>;
 
+function assistantStop(
+  saved: Anchor,
+  createdAt: number,
+  messageId: MessageId,
+  trace: TraceContext,
+  modelResult: RuntimeModelTextResult,
+): StopBag {
+  return {
+    assistantPersistenceAnchor: saved,
+    assistantCreatedAt: createdAt,
+    assistantMessageId: messageId,
+    modelTraceContext: trace,
+    result: modelResult,
+  };
+}
+
 export function stopFields(
   saved: Anchor,
   createdAt: number,
@@ -490,13 +477,7 @@ export function stopFields(
   trace: TraceContext,
   modelResult: RuntimeModelTextResult,
 ): StopBag {
-  return assignKeys<StopBag>([
-    ["assistantPersistenceAnchor", saved],
-    ["assistantCreatedAt", createdAt],
-    ["assistantMessageId", messageId],
-    ["modelTraceContext", trace],
-    ["result", modelResult],
-  ]);
+  return assistantStop(saved, createdAt, messageId, trace, modelResult);
 }
 
 type CompletedBag = StopBag & Col<"includeEmptyAssistant", false>;
@@ -508,14 +489,15 @@ export function completedAssistantFields(
   trace: TraceContext,
   modelResult: RuntimeModelTextResult,
 ): CompletedBag {
-  return assignKeys<CompletedBag>([
-    ["assistantPersistenceAnchor", saved],
-    ["assistantCreatedAt", createdAt],
-    ["assistantMessageId", messageId],
-    ["includeEmptyAssistant", false],
-    ["modelTraceContext", trace],
-    ["result", modelResult],
-  ]);
+  const core = assistantStop(saved, createdAt, messageId, trace, modelResult);
+  return {
+    assistantPersistenceAnchor: core.assistantPersistenceAnchor,
+    assistantCreatedAt: core.assistantCreatedAt,
+    assistantMessageId: core.assistantMessageId,
+    includeEmptyAssistant: false,
+    modelTraceContext: core.modelTraceContext,
+    result: core.result,
+  };
 }
 
 type RecoveryBag = Col<"assistantMessageId", MessageId> &
@@ -527,8 +509,9 @@ export function recoveryFields(
   requestId: string | undefined,
   trace: TraceContext,
 ): RecoveryBag {
-  const fields = assignKeys<RecoveryBag>([["assistantMessageId", messageId]]);
-  putIf(fields, "failedRequestId", requestId, requestId !== undefined);
-  fields.traceContext = trace;
-  return fields;
+  return layer<RecoveryBag>(
+    { assistantMessageId: messageId },
+    requestId !== undefined ? { failedRequestId: requestId } : undefined,
+    { traceContext: trace },
+  );
 }
