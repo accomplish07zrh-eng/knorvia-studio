@@ -179,17 +179,16 @@ function rememberPath(bag: PathBag, value: string): void {
 }
 
 function harvestPaths(value: unknown, bag: PathBag): void {
-  if (atPathCap(bag)) {
-    // 已满 6 条就停，后面的路径键不再进入。
-  } else if (isString(value)) {
+  // 满 6 条后不再进入后续路径键。
+  if (!atPathCap(bag) && isString(value)) {
     rememberPath(bag, value);
-  } else if (isList(value) && claim(bag.seen, value)) {
+  } else if (!atPathCap(bag) && isList(value) && claim(bag.seen, value)) {
     let index = 0;
     while (index < value.length && !atPathCap(bag)) {
       harvestPaths(value[index], bag);
       index += 1;
     }
-  } else if (!isList(value)) {
+  } else if (!atPathCap(bag) && !isList(value)) {
     const record = asPlainRecord(value);
     if (record !== undefined && claim(bag.seen, record)) {
       if (isString(record.path)) harvestPaths(record.path, bag);
@@ -204,19 +203,18 @@ function harvestPaths(value: unknown, bag: PathBag): void {
 }
 
 function walkPathFields(value: unknown, bag: PathBag): void {
-  if (atPathCap(bag)) {
-    // 目录键整棵跳过；路径键交给 harvest，其它对象继续走。
-  } else if (isList(value) && claim(bag.seen, value)) {
+  if (!atPathCap(bag) && isList(value) && claim(bag.seen, value)) {
     let index = 0;
     while (index < value.length && !atPathCap(bag)) {
       walkPathFields(value[index], bag);
       index += 1;
     }
-  } else if (!isList(value)) {
+  } else if (!atPathCap(bag) && !isList(value)) {
     const record = asPlainRecord(value);
     if (record !== undefined && claim(bag.seen, record)) {
       for (const [key, candidate] of Object.entries(record)) {
         const folded = key.toLowerCase();
+        // 目录键整棵跳过；路径键交给 harvest，其它对象继续走。
         if (!directoryKeySet.has(folded) && !atPathCap(bag)) {
           if (pathKeySet.has(folded)) harvestPaths(candidate, bag);
           else if (

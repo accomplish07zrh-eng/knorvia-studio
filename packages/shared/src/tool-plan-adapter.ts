@@ -49,8 +49,7 @@ function parseLooseJson(text: string): unknown {
     // 集合字段有时是字符串化 JSON，语法错误就不当成集合
     const decoded: unknown = JSON.parse(text);
     return decoded;
-  } catch (syntaxError: unknown) {
-    void syntaxError;
+  } catch {
     return absent();
   }
 }
