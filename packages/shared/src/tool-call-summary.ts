@@ -1,167 +1,256 @@
-export type CompactToolCallState =
-  | "input-available"
-  | "input-streaming"
-  | "output-available"
-  | "output-denied"
-  | "output-error";
+// SPDX-License-Identifier: Apache-2.0
+// 工具卡片摘要。变更行数按换行切分，尾随 LF 不另计一行，空串为 0。
+import {
+  asPlainRecord,
+  collapseInlineWhitespace,
+} from "./internal-s03/value-shape.js";
 
-export interface ToolCallSummarySource {
-  title?: string;
-  kind: string;
-  input: unknown;
-  output?: unknown;
-  raw?: unknown;
-}
+const COMPACT_STATE_ROWS = [
+  {
+    state: "input-streaming",
+    phase: "running",
+    messageId: "chat.toolCall.status.pending",
+  },
+  {
+    state: "input-available",
+    phase: "running",
+    messageId: "chat.toolCall.status.running",
+  },
+  {
+    state: "output-available",
+    phase: "finished",
+    messageId: "chat.toolCall.status.completed",
+  },
+  {
+    state: "output-error",
+    phase: "finished",
+    messageId: "chat.toolCall.status.failed",
+  },
+  {
+    state: "output-denied",
+    phase: "finished",
+    messageId: "chat.toolCall.status.denied",
+  },
+] as const;
 
-export interface ToolCallChangeStat {
-  added: number;
-  removed: number;
-}
+export type CompactToolCallState = (typeof COMPACT_STATE_ROWS)[number]["state"];
 
-export interface ToolCallSummary {
-  primaryText: string;
-  secondaryText?: string;
-  changeStat?: ToolCallChangeStat;
-}
-
-const statusMessageIds: Record<string, string> = {
-  "input-streaming": "chat.toolCall.status.pending",
-  "input-available": "chat.toolCall.status.running",
-  "output-available": "chat.toolCall.status.completed",
-  "output-error": "chat.toolCall.status.failed",
-  "output-denied": "chat.toolCall.status.denied",
+export type ToolCallSummarySource = {
+  title?: /* 卡片标题，空白则退回 tool */ string;
+  kind: /* 工具种类，用来判断是否统计编辑行数 */ string;
+  input: /* 工具入参，字符串或字段袋 */ unknown;
+  output?: /* 工具出参，文本对的后备来源 */ unknown;
+  raw?: /* 原始载荷，文本对的最后后备 */ unknown;
 };
 
-export function isCompactToolCallRunningState(state: string): state is CompactToolCallState {
-  return state === "input-streaming" || state === "input-available";
+export type ToolCallChangeStat = {
+  added: /* 新文本行数 */ number;
+  removed: /* 旧文本行数 */ number;
+};
+
+export type ToolCallSummary = {
+  primaryText: /* 折叠后的标题 */ string;
+  secondaryText?: /* 入参摘要，可缺 */ string;
+  changeStat?: /* 两侧行数都是 0 时省略 */ ToolCallChangeStat;
+};
+
+const STOPPED_STATUS_MESSAGE = "chat.toolCall.status.stopped";
+const DEFAULT_STATUS_MESSAGE = "chat.toolCall.status.pending";
+const FALLBACK_PRIMARY_TEXT = "tool";
+
+const SUMMARY_FIELD_GROUPS = [
+  ["command", "path", "file_path"],
+  ["filePath", "prompt"],
+] as const;
+const BEFORE_TEXT_GROUPS = [
+  ["old_string", "oldString"],
+  ["oldText", "before"],
+] as const;
+const AFTER_TEXT_GROUPS = [
+  ["new_string", "newString", "newText"],
+  ["after", "content"],
+] as const;
+
+const SUMMARY_FIELD_PRIORITY = SUMMARY_FIELD_GROUPS.flat();
+const BEFORE_TEXT_KEYS = BEFORE_TEXT_GROUPS.flat();
+const AFTER_TEXT_KEYS = AFTER_TEXT_GROUPS.flat();
+
+const EDIT_KIND = /edit|patch|replace|multi.?edit/i;
+
+type TextPair = readonly [string, string];
+
+type ChangeProbe = {
+  kind: string;
+  input: unknown;
+  output: unknown;
+  raw: unknown;
+};
+
+function statesInPhase(phase: "running" | "finished"): Set<string> {
+  const names = COMPACT_STATE_ROWS.filter((row) => row.phase === phase).map(
+    (row) => row.state,
+  );
+  return new Set<string>(names);
 }
 
-export function isCompactToolCallFinishedState(state: string): state is CompactToolCallState {
-  return state === "output-available" || state === "output-error" || state === "output-denied";
+const RUNNING_STATES = statesInPhase("running");
+const FINISHED_STATES = statesInPhase("finished");
+
+function messageForState(state: string): string | undefined {
+  const row = COMPACT_STATE_ROWS.find((entry) => entry.state === state);
+  return row?.messageId;
 }
 
-export function getCompactToolCallStatusMessageId(state: string, rawStatus?: string): string {
-  if (rawStatus === "stopped") {
-    return "chat.toolCall.status.stopped";
-  }
-  return statusMessageIds[state] ?? "chat.toolCall.status.pending";
-}
-
-function normalizeDisplay(value: string): string {
-  return value.trim().replace(/\s+/g, " ");
-}
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
-}
-
-function summarizeInput(input: unknown): string | undefined {
-  if (typeof input === "string") {
-    return normalizeDisplay(input) || undefined;
-  }
-  if (!isRecord(input)) {
-    return undefined;
-  }
-  for (const key of ["command", "path", "file_path", "filePath", "prompt"]) {
-    const candidate = input[key];
-    if (typeof candidate === "string") {
-      const text = normalizeDisplay(candidate);
-      if (text) {
-        return text;
-      }
-    }
-  }
+function noText(): undefined {
   return undefined;
 }
 
-function firstString(record: Record<string, unknown>, keys: readonly string[]): string | undefined {
-  for (const key of keys) {
-    const value = record[key];
-    if (typeof value === "string") {
-      return value;
-    }
-  }
-  return undefined;
+export function isCompactToolCallRunningState(
+  state: string,
+): state is CompactToolCallState {
+  return RUNNING_STATES.has(state);
 }
 
-function readTextPair(record: Record<string, unknown>): [string, string] | undefined {
-  const before = firstString(record, ["old_string", "oldString", "oldText", "before"]);
-  const after = firstString(record, ["new_string", "newString", "newText", "after", "content"]);
-  return before !== undefined && after !== undefined ? [before, after] : undefined;
+export function isCompactToolCallFinishedState(
+  state: string,
+): state is CompactToolCallState {
+  return FINISHED_STATES.has(state);
 }
 
-function findTextPair(value: unknown): [string, string] | undefined {
-  if (!isRecord(value)) {
-    return undefined;
-  }
-  const directPair = readTextPair(value);
-  if (directPair !== undefined) {
-    return directPair;
-  }
-  const metadata = value.metadata;
-  if (isRecord(metadata)) {
-    const fileDiff = metadata.filediff;
-    if (isRecord(fileDiff)) {
-      const metadataPair = readTextPair(fileDiff);
-      if (metadataPair !== undefined) {
-        return metadataPair;
-      }
-    }
-  }
-  const content = value.content;
-  if (Array.isArray(content)) {
-    for (const block of content) {
-      if (isRecord(block)) {
-        const blockPair = readTextPair(block);
-        if (blockPair !== undefined) {
-          return blockPair;
-        }
-      }
-    }
-  }
-  return undefined;
+export function getCompactToolCallStatusMessageId(
+  state: string,
+  rawStatus?: string,
+): string {
+  if (rawStatus === "stopped") return STOPPED_STATUS_MESSAGE;
+  return messageForState(state) ?? DEFAULT_STATUS_MESSAGE;
 }
 
-function countLines(text: string): number {
-  if (text.length === 0) {
-    return 0;
+function firstMatch<T>(
+  keys: readonly string[],
+  pick: (key: string) => T | undefined,
+): T | undefined {
+  let index = 0;
+  while (index < keys.length) {
+    const key = keys[index];
+    index += 1;
+    if (key === undefined) break;
+    const picked = pick(key);
+    if (picked !== undefined) return picked;
   }
-  let lines = 1;
-  for (let index = 0; index < text.length; index += 1) {
-    if (text.charCodeAt(index) === 10) {
-      lines += 1;
-    }
-  }
-  return text.charCodeAt(text.length - 1) === 10 ? lines - 1 : lines;
+  return noText();
 }
 
-function getChangeStat(
-  kind: string,
-  input: unknown,
-  output: unknown,
-  raw: unknown,
+function collapsedField(value: unknown): string | undefined {
+  if (typeof value !== "string") return noText();
+  const collapsed = collapseInlineWhitespace(value);
+  return collapsed.length > 0 ? collapsed : noText();
+}
+
+function inputSummary(input: unknown): string | undefined {
+  if (typeof input === "string") return collapsedField(input);
+  const record = asPlainRecord(input);
+  if (record === undefined) return noText();
+  return firstMatch(SUMMARY_FIELD_PRIORITY, (key) =>
+    collapsedField(record[key]),
+  );
+}
+
+function firstString(
+  record: Record<string, unknown>,
+  keys: readonly string[],
+): string | undefined {
+  return firstMatch(keys, (key) => {
+    const field = record[key];
+    return typeof field === "string" ? field : undefined;
+  });
+}
+
+function pairFromRecord(record: Record<string, unknown>): TextPair | undefined {
+  const before = firstString(record, BEFORE_TEXT_KEYS);
+  const after = firstString(record, AFTER_TEXT_KEYS);
+  if (before === undefined || after === undefined) return noText();
+  const pair: TextPair = [before, after];
+  return pair;
+}
+
+function pairFromMetadata(
+  record: Record<string, unknown>,
+): TextPair | undefined {
+  const metadata = asPlainRecord(record.metadata);
+  const fileDiff = metadata ? asPlainRecord(metadata.filediff) : undefined;
+  if (fileDiff === undefined) return noText();
+  return pairFromRecord(fileDiff);
+}
+
+function pairFromContentBlocks(
+  record: Record<string, unknown>,
+): TextPair | undefined {
+  const blocks = record.content;
+  if (!Array.isArray(blocks)) return noText();
+  return firstMatch(
+    blocks.map((_, index) => String(index)),
+    (indexText) => {
+      const block = asPlainRecord(blocks[Number(indexText)]);
+      if (block === undefined) return noText();
+      return pairFromRecord(block);
+    },
+  );
+}
+
+const PAIR_LOOKUPS = [pairFromRecord, pairFromMetadata, pairFromContentBlocks];
+
+function findTextPair(value: unknown): TextPair | undefined {
+  const record = asPlainRecord(value);
+  if (record === undefined) return noText();
+  return firstMatch(
+    PAIR_LOOKUPS.map((_, index) => String(index)),
+    (indexText) => PAIR_LOOKUPS[Number(indexText)]?.(record),
+  );
+}
+
+function countLines(body: string): number {
+  if (body.length === 0) return 0;
+  const pieces = body.split("\n");
+  const last = pieces[pieces.length - 1];
+  return last === "" ? pieces.length - 1 : pieces.length;
+}
+
+function changeStat(
+  added: number,
+  removed: number,
 ): ToolCallChangeStat | undefined {
-  if (!/edit|patch|replace|multi.?edit/i.test(kind)) {
-    return undefined;
-  }
-  const pair = findTextPair(input) ?? findTextPair(output) ?? findTextPair(raw);
-  if (pair === undefined) {
-    return undefined;
-  }
-  const removed = countLines(pair[0]);
-  const added = countLines(pair[1]);
-  return added === 0 && removed === 0 ? undefined : { added, removed };
+  if (added + removed === 0) return noText();
+  const stat: ToolCallChangeStat = { added, removed };
+  return stat;
 }
 
-export function getCompactToolCallSummary({
-  title,
-  kind,
-  input,
-  output,
-  raw,
-}: ToolCallSummarySource): ToolCallSummary {
-  const changeStat = getChangeStat(kind, input, output, raw);
-  const primaryText = (title && normalizeDisplay(title)) || "tool";
-  const secondaryText = summarizeInput(input);
-  return { primaryText, secondaryText, changeStat };
+function measureChange(probe: ChangeProbe): ToolCallChangeStat | undefined {
+  if (!EDIT_KIND.test(probe.kind)) return noText();
+  const pair =
+    findTextPair(probe.input) ??
+    findTextPair(probe.output) ??
+    findTextPair(probe.raw);
+  if (pair === undefined) return noText();
+  return changeStat(countLines(pair[1]), countLines(pair[0]));
+}
+
+function primaryLabel(title: string | undefined): string {
+  const collapsed = title ? collapseInlineWhitespace(title) : "";
+  return collapsed.length > 0 ? collapsed : FALLBACK_PRIMARY_TEXT;
+}
+
+export function getCompactToolCallSummary(
+  source: ToolCallSummarySource,
+): ToolCallSummary {
+  const summary: ToolCallSummary = {
+    primaryText: primaryLabel(source.title),
+    secondaryText: inputSummary(source.input),
+    changeStat: measureChange({
+      kind: source.kind,
+      input: source.input,
+      output: source.output,
+      raw: source.raw,
+    }),
+  };
+  return summary;
 }

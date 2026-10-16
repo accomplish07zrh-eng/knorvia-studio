@@ -1,78 +1,131 @@
+// SPDX-License-Identifier: Apache-2.0
+// 运行时搜索工具按目标平台取版本。Linux 是 bfs/ripgrep/ugrep，Darwin 仍只发 legacy rg。
+
 export type RuntimeToolId = "bfs" | "ripgrep" | "ugrep";
 
 export interface RuntimeToolRuntimeDescriptor {
-  binaryEnvVar: string;
-  bundledResourceDir: string;
-  resolveEntrySegments(platform: string): string[];
+  binaryEnvVar: /* 可覆盖捆绑二进制的环境变量 */ string;
+  bundledResourceDir: /* 资源包目录名 */ string;
+  resolveEntrySegments(platform: string): string[] /* win32 入口才带 .exe */;
 }
 
-export interface RemoteRuntimeToolDescriptor extends RuntimeToolRuntimeDescriptor {
-  versions: Readonly<Partial<Record<string, string>>>;
+export interface RemoteRuntimeToolDescriptor
+  extends RuntimeToolRuntimeDescriptor {
+  versions: /* 只列出有发行包的平台；ripgrep 键序是 darwin 然后 linux */ Readonly<
+    Partial<Record<string, string>>
+  >;
 }
 
 export interface ResolvedRemoteRuntimeTool {
-  toolId: RuntimeToolId;
-  runtime: RemoteRuntimeToolDescriptor;
-  version: string;
+  toolId: /* bfs | ripgrep | ugrep */ RuntimeToolId;
+  runtime: /* 与 REMOTE 表里的描述是同一对象 */ RemoteRuntimeToolDescriptor;
+  version: /* 该平台发行版本 */ string;
 }
 
-function resolvePlatformBinaryName(binaryName: string, platform: string): string {
-  return platform === "win32" ? `${binaryName}.exe` : binaryName;
+interface RuntimeToolRow {
+  readonly id: RuntimeToolId;
+  readonly binaryEnvVar: string;
+  readonly bundledResourceDir: string;
+  readonly stem: string;
+  readonly versions: Readonly<Partial<Record<string, string>>>;
 }
 
-export const RUNTIME_TOOL_RUNTIME: Record<RuntimeToolId, RuntimeToolRuntimeDescriptor> = {
-  bfs: {
+const TOOL_ROWS: readonly RuntimeToolRow[] = [
+  {
+    id: "bfs",
     binaryEnvVar: "KNORVIA_BFS_BINARY",
     bundledResourceDir: "bfs",
-    resolveEntrySegments: (platform) => [resolvePlatformBinaryName("bfs", platform)],
+    stem: "bfs",
+    versions: { linux: "v4.1.1-2" },
   },
-  ripgrep: {
+  {
+    id: "ripgrep",
     binaryEnvVar: "KNORVIA_RG_BINARY",
     bundledResourceDir: "ripgrep",
-    resolveEntrySegments: (platform) => [resolvePlatformBinaryName("rg", platform)],
+    stem: "rg",
+    versions: { darwin: "v13.0.0-10", linux: "v14.1.1-1" },
   },
-  ugrep: {
+  {
+    id: "ugrep",
     binaryEnvVar: "KNORVIA_UGREP_BINARY",
     bundledResourceDir: "ugrep",
-    resolveEntrySegments: (platform) => [resolvePlatformBinaryName("ugrep", platform)],
+    stem: "ugrep",
+    versions: { linux: "v7.8.4-1" },
   },
-};
+];
 
-export const REMOTE_RUNTIME_TOOL_RUNTIME = {
-  bfs: {
-    ...RUNTIME_TOOL_RUNTIME.bfs,
-    versions: {
-      linux: "v4.1.1-2",
-    },
-  },
-  ripgrep: {
-    ...RUNTIME_TOOL_RUNTIME.ripgrep,
-    versions: {
-      darwin: "v13.0.0-10",
-      linux: "v14.1.1-1",
-    },
-  },
-  ugrep: {
-    ...RUNTIME_TOOL_RUNTIME.ugrep,
-    versions: {
-      linux: "v7.8.4-1",
-    },
-  },
-} as const satisfies Record<RuntimeToolId, RemoteRuntimeToolDescriptor>;
+const ROW_BY_ID = new Map<RuntimeToolId, RuntimeToolRow>(
+  TOOL_ROWS.map((row) => [row.id, row]),
+);
 
-export function getRemoteRuntimeToolsForPlatform(platform: string): ResolvedRemoteRuntimeTool[] {
-  // Linux remote 已切到 native-search 三工具，但 Darwin 仍依赖 legacy rg13。
-  // 部署集合必须按目标平台解析，不能用一个全局版本把两条发布链互相覆盖。
-  return (
-    Object.entries(REMOTE_RUNTIME_TOOL_RUNTIME) as Array<
-      [RuntimeToolId, RemoteRuntimeToolDescriptor]
-    >
-  ).flatMap(([toolId, runtime]) => {
-    const version = runtime.versions[platform];
-    return version ? [{ toolId, runtime, version }] : [];
-  });
+function rowById(id: RuntimeToolId): RuntimeToolRow {
+  const row = ROW_BY_ID.get(id);
+  if (row === undefined) throw new Error(`missing runtime tool row: ${id}`);
+  return row;
 }
 
-export function getRuntimeToolRuntime(toolId: RuntimeToolId): RuntimeToolRuntimeDescriptor {
-  return RUNTIME_TOOL_RUNTIME[toolId];
+// .exe 只属于 win32；其余平台入口名不加后缀。
+function executableName(stem: string, platform: string): string {
+  if (platform === "win32") return `${stem}.exe`;
+  return stem;
+}
+
+function localDescriptor(id: RuntimeToolId): RuntimeToolRuntimeDescriptor {
+  const row = rowById(id);
+  return {
+    binaryEnvVar: row.binaryEnvVar,
+    bundledResourceDir: row.bundledResourceDir,
+    resolveEntrySegments: (platform: string) => [
+      executableName(row.stem, platform),
+    ],
+  };
+}
+
+export const RUNTIME_TOOL_RUNTIME: Record<
+  RuntimeToolId,
+  RuntimeToolRuntimeDescriptor
+> = {
+  bfs: localDescriptor("bfs"),
+  ripgrep: localDescriptor("ripgrep"),
+  ugrep: localDescriptor("ugrep"),
+};
+
+function remoteDescriptor(id: RuntimeToolId): RemoteRuntimeToolDescriptor {
+  const local = RUNTIME_TOOL_RUNTIME[id];
+  const row = rowById(id);
+  return {
+    binaryEnvVar: local.binaryEnvVar,
+    bundledResourceDir: local.bundledResourceDir,
+    resolveEntrySegments: local.resolveEntrySegments,
+    versions: { ...row.versions },
+  };
+}
+
+export const REMOTE_RUNTIME_TOOL_RUNTIME: Record<
+  RuntimeToolId,
+  RemoteRuntimeToolDescriptor
+> = {
+  bfs: remoteDescriptor("bfs"),
+  ripgrep: remoteDescriptor("ripgrep"),
+  ugrep: remoteDescriptor("ugrep"),
+};
+
+export function getRemoteRuntimeToolsForPlatform(
+  platform: string,
+): ResolvedRemoteRuntimeTool[] {
+  const resolved: ResolvedRemoteRuntimeTool[] = [];
+  for (const row of TOOL_ROWS) {
+    const runtime = REMOTE_RUNTIME_TOOL_RUNTIME[row.id];
+    const published = runtime.versions[platform];
+    if (published)
+      resolved.push({ toolId: row.id, runtime, version: published });
+  }
+  return resolved;
+}
+
+export function getRuntimeToolRuntime(
+  toolId: RuntimeToolId,
+): RuntimeToolRuntimeDescriptor {
+  const descriptor = RUNTIME_TOOL_RUNTIME[toolId];
+  return descriptor;
 }

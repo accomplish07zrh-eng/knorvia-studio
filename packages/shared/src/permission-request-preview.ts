@@ -1,228 +1,334 @@
+// SPDX-License-Identifier: Apache-2.0
+// 权限预览。rawInput 键即使值为 null 也挡住 input；路径最多 6 条，目录键整棵跳过。
 import type { KnorviaPermissionRequest } from "./task-types-core.js";
+import {
+  asPlainRecord,
+  collapseInlineWhitespace,
+  normalizeCommandBlock,
+} from "./internal-s03/value-shape.js";
 
-export type PermissionRequestScope = "command" | "file" | "generic";
+const PERMISSION_SCOPES = ["command", "file", "generic"] as const;
 
-export interface PermissionRequestFileChange {
-  path: string;
-  type: "add" | "update";
+export type PermissionRequestScope = (typeof PERMISSION_SCOPES)[number];
+
+export type PermissionRequestFileChange = {
+  path: /* 变更路径，取 changes 对象的键 */ string;
+  type: /* 只收 add 与 update */ "add" | "update";
+};
+
+export type PermissionRequestPreview = {
+  title: /* 折叠后的标题；空串不回落到 description */ string;
+  command: /* 规范化命令，没有则为 null */ string | null;
+  filePaths: /* 最多 6 条折叠路径 */ string[];
+  scope: /* 有命令则为 command，否则看路径 */ PermissionRequestScope;
+  fileChange: /* 恰好一条时与 fileChanges[0] 同一引用 */ PermissionRequestFileChange | null;
+  fileChanges: /* 按路径加类型去重 */ PermissionRequestFileChange[];
+};
+
+const COMMAND_KEY_NAMES = ["command", "cmd", "script", "shellcommand"] as const;
+const ARGUMENT_KEY_NAMES = ["args", "argv", "arguments"] as const;
+const PATH_KEY_GROUPS = [
+  ["path", "paths", "file", "file_path"],
+  ["filepath", "files", "filename", "filenames"],
+  ["target", "targets", "location", "locations"],
+] as const;
+const DIRECTORY_KEY_NAMES = ["cwd", "directory", "workingdirectory"] as const;
+const NESTED_COMMAND_KEY_NAMES = [
+  "rawInput",
+  "input",
+  "params",
+  "toolCall",
+] as const;
+
+const commandKeySet = new Set<string>(COMMAND_KEY_NAMES);
+const argumentKeySet = new Set<string>(ARGUMENT_KEY_NAMES);
+const pathKeySet = new Set<string>(PATH_KEY_GROUPS.flat());
+const directoryKeySet = new Set<string>(DIRECTORY_KEY_NAMES);
+
+const PREVIEW_PATH_CAP = 6;
+const GENERIC_TITLE = "permission";
+const NO_COMMAND: string | null = null;
+
+type PathBag = {
+  paths: string[];
+  seen: Set<object>;
+};
+
+type ChangeBag = {
+  changes: PermissionRequestFileChange[];
+  seen: Set<object>;
+};
+
+function isString(value: unknown): value is string {
+  return typeof value === "string";
 }
 
-export interface PermissionRequestPreview {
-  title: string;
-  command: string | null;
-  filePaths: string[];
-  scope: PermissionRequestScope;
-  fileChange: PermissionRequestFileChange | null;
-  fileChanges: PermissionRequestFileChange[];
+function isList(value: unknown): value is unknown[] {
+  return Array.isArray(value);
 }
 
-const commandKeys = new Set(["command", "cmd", "script", "shellcommand"]);
-const argumentKeys = new Set(["args", "argv", "arguments"]);
-const filePathKeys = new Set([
-  "path",
-  "paths",
-  "file",
-  "file_path",
-  "filepath",
-  "files",
-  "filename",
-  "filenames",
-  "target",
-  "targets",
-  "location",
-  "locations",
-]);
-const directoryKeys = new Set(["cwd", "directory", "workingdirectory"]);
-const nestedCommandKeys = ["rawInput", "input", "params", "toolCall"] as const;
-const filePathLimit = 6;
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
+function claim(seen: Set<object>, node: object): boolean {
+  const fresh = !seen.has(node);
+  if (fresh) seen.add(node);
+  return fresh;
 }
 
-function normalizeInline(value: string): string {
-  return value.trim().replace(/\s+/g, " ");
-}
-
-function normalizeBlock(value: string): string {
-  return value.trim().replace(/\r\n/g, "\n");
-}
-
-function getInputSource(value: unknown): unknown {
-  if (!isRecord(value)) return value;
-  if ("rawInput" in value && value.rawInput !== undefined) return value.rawInput;
-  if ("input" in value) return value.input;
-  return value;
-}
-
-function formatArguments(value: unknown[]): string[] {
-  return value
-    .map((argument) => {
-      if (typeof argument === "string") return argument.trim();
-      if (
-        typeof argument === "number" ||
-        typeof argument === "boolean" ||
-        typeof argument === "bigint"
-      ) {
-        return String(argument);
-      }
-      return "";
-    })
-    .filter((argument) => argument.length > 0);
-}
-
-function findCommand(value: unknown, seen: Set<object>, allowBareString = false): string | null {
-  if (typeof value === "string") {
-    if (!allowBareString) return null;
-    return normalizeBlock(value) || null;
+function argumentToken(value: unknown): string | undefined {
+  if (isString(value)) {
+    const trimmed = value.trim();
+    return trimmed.length > 0 ? trimmed : undefined;
   }
+  const scalar =
+    typeof value === "number" ||
+    typeof value === "boolean" ||
+    typeof value === "bigint";
+  return scalar ? String(value) : undefined;
+}
 
-  if (Array.isArray(value)) {
-    if (seen.has(value)) return null;
-    seen.add(value);
-    for (const item of value) {
-      const command = findCommand(item, seen);
-      if (command) return command;
+function formattedArguments(values: readonly unknown[]): string[] {
+  const parts: string[] = [];
+  for (const value of values) {
+    const token = argumentToken(value);
+    if (token !== undefined) parts.push(token);
+  }
+  return parts;
+}
+
+function matchingCommand(record: Record<string, unknown>): string | undefined {
+  let found: string | undefined;
+  for (const [key, candidate] of Object.entries(record)) {
+    if (
+      found === undefined &&
+      commandKeySet.has(key.toLowerCase()) &&
+      isString(candidate)
+    ) {
+      const command = normalizeCommandBlock(candidate);
+      if (command.length > 0) found = command;
     }
-    return null;
   }
-
-  if (!isRecord(value) || seen.has(value)) return null;
-  seen.add(value);
-
-  for (const [key, candidate] of Object.entries(value)) {
-    if (!commandKeys.has(key.toLowerCase()) || typeof candidate !== "string") continue;
-    const command = normalizeBlock(candidate);
-    if (!command) continue;
-
-    for (const [argumentKey, argumentValue] of Object.entries(value)) {
-      if (!argumentKeys.has(argumentKey.toLowerCase()) || !Array.isArray(argumentValue)) {
-        continue;
-      }
-      const argumentsList = formatArguments(argumentValue);
-      if (argumentsList.length > 0) return `${command} ${argumentsList.join(" ")}`;
-    }
-    return command;
-  }
-
-  for (const key of nestedCommandKeys) {
-    if (!(key in value)) continue;
-    const command = findCommand(value[key], seen, key !== "toolCall");
-    if (command) return command;
-  }
-
-  for (const candidate of Object.values(value)) {
-    if (!Array.isArray(candidate) && !isRecord(candidate)) continue;
-    const command = findCommand(candidate, seen);
-    if (command) return command;
-  }
-  return null;
+  return found;
 }
 
-function extractPaths(value: unknown, paths: string[], seen: Set<object>): void {
-  if (paths.length >= filePathLimit) return;
-
-  if (typeof value === "string") {
-    const path = normalizeInline(value);
-    if (path && !paths.includes(path)) paths.push(path);
-    return;
-  }
-
-  if (Array.isArray(value)) {
-    if (seen.has(value)) return;
-    seen.add(value);
-    for (const item of value) {
-      extractPaths(item, paths, seen);
-      if (paths.length >= filePathLimit) return;
+function appendedArguments(
+  record: Record<string, unknown>,
+  command: string,
+): string {
+  for (const [key, candidate] of Object.entries(record)) {
+    if (argumentKeySet.has(key.toLowerCase()) && isList(candidate)) {
+      const parts = formattedArguments(candidate);
+      if (parts.length > 0) return `${command} ${parts.join(" ")}`;
     }
-    return;
   }
-
-  if (!isRecord(value) || seen.has(value)) return;
-  seen.add(value);
-  if (typeof value.path === "string") {
-    extractPaths(value.path, paths, seen);
-    if (paths.length >= filePathLimit) return;
-  }
-  for (const candidate of Object.values(value)) {
-    extractPaths(candidate, paths, seen);
-    if (paths.length >= filePathLimit) return;
-  }
+  return command;
 }
 
-function collectPaths(value: unknown, paths: string[], seen: Set<object>): void {
-  if (paths.length >= filePathLimit) return;
-
-  if (Array.isArray(value)) {
-    if (seen.has(value)) return;
-    seen.add(value);
-    for (const item of value) {
-      collectPaths(item, paths, seen);
-      if (paths.length >= filePathLimit) return;
-    }
-    return;
-  }
-
-  if (!isRecord(value) || seen.has(value)) return;
-  seen.add(value);
-  for (const [key, candidate] of Object.entries(value)) {
-    const normalizedKey = key.toLowerCase();
-    if (directoryKeys.has(normalizedKey)) continue;
-    if (filePathKeys.has(normalizedKey)) {
-      extractPaths(candidate, paths, seen);
-    } else if (Array.isArray(candidate) || isRecord(candidate)) {
-      collectPaths(candidate, paths, seen);
-    }
-    if (paths.length >= filePathLimit) return;
-  }
-}
-
-function collectChanges(
+function findCommand(
   value: unknown,
-  changes: PermissionRequestFileChange[],
   seen: Set<object>,
-): void {
-  if (Array.isArray(value)) {
-    if (seen.has(value)) return;
-    seen.add(value);
-    for (const item of value) collectChanges(item, changes, seen);
-    return;
+  allowBareString = false,
+): string | null {
+  if (isString(value)) {
+    if (!allowBareString) return NO_COMMAND;
+    const command = normalizeCommandBlock(value);
+    return command.length > 0 ? command : NO_COMMAND;
   }
+  if (isList(value)) {
+    if (!claim(seen, value)) return NO_COMMAND;
+    for (const child of value) {
+      const command = findCommand(child, seen);
+      if (command !== null) return command;
+    }
+    return NO_COMMAND;
+  }
+  const record = asPlainRecord(value);
+  if (record === undefined || !claim(seen, record)) return NO_COMMAND;
+  const direct = matchingCommand(record);
+  if (direct !== undefined) return appendedArguments(record, direct);
+  for (const key of NESTED_COMMAND_KEY_NAMES) {
+    if (key in record) {
+      const nested = findCommand(record[key], seen, key !== "toolCall");
+      if (nested !== null) return nested;
+    }
+  }
+  for (const candidate of Object.values(record)) {
+    if (isList(candidate) || asPlainRecord(candidate) !== undefined) {
+      const nested = findCommand(candidate, seen);
+      if (nested !== null) return nested;
+    }
+  }
+  return NO_COMMAND;
+}
 
-  if (!isRecord(value) || seen.has(value)) return;
-  seen.add(value);
+function inputPayload(raw: unknown): unknown {
+  const record = asPlainRecord(raw);
+  if (record === undefined) return raw;
+  if ("rawInput" in record && record.rawInput !== undefined)
+    return record.rawInput;
+  if ("input" in record) return record.input;
+  return record;
+}
 
-  if (isRecord(value.changes)) {
-    for (const [path, change] of Object.entries(value.changes)) {
-      if (!isRecord(change) || (change.type !== "add" && change.type !== "update")) continue;
-      const type = change.type;
-      if (!changes.some((existing) => existing.path === path && existing.type === type)) {
-        changes.push({ path, type });
+function atPathCap(bag: PathBag): boolean {
+  return bag.paths.length >= PREVIEW_PATH_CAP;
+}
+
+function rememberPath(bag: PathBag, value: string): void {
+  const normalized = collapseInlineWhitespace(value);
+  const fresh = normalized.length > 0 && !bag.paths.includes(normalized);
+  if (fresh && !atPathCap(bag)) bag.paths.push(normalized);
+}
+
+function harvestPaths(value: unknown, bag: PathBag): void {
+  if (atPathCap(bag)) {
+    // 已满 6 条就停，后面的路径键不再进入。
+  } else if (isString(value)) {
+    rememberPath(bag, value);
+  } else if (isList(value) && claim(bag.seen, value)) {
+    let index = 0;
+    while (index < value.length && !atPathCap(bag)) {
+      harvestPaths(value[index], bag);
+      index += 1;
+    }
+  } else if (!isList(value)) {
+    const record = asPlainRecord(value);
+    if (record !== undefined && claim(bag.seen, record)) {
+      if (isString(record.path)) harvestPaths(record.path, bag);
+      const nested = Object.values(record);
+      let index = 0;
+      while (index < nested.length && !atPathCap(bag)) {
+        harvestPaths(nested[index], bag);
+        index += 1;
       }
     }
   }
+}
 
-  for (const candidate of Object.values(value)) {
-    if (Array.isArray(candidate) || isRecord(candidate)) collectChanges(candidate, changes, seen);
+function walkPathFields(value: unknown, bag: PathBag): void {
+  if (atPathCap(bag)) {
+    // 目录键整棵跳过；路径键交给 harvest，其它对象继续走。
+  } else if (isList(value) && claim(bag.seen, value)) {
+    let index = 0;
+    while (index < value.length && !atPathCap(bag)) {
+      walkPathFields(value[index], bag);
+      index += 1;
+    }
+  } else if (!isList(value)) {
+    const record = asPlainRecord(value);
+    if (record !== undefined && claim(bag.seen, record)) {
+      for (const [key, candidate] of Object.entries(record)) {
+        const folded = key.toLowerCase();
+        if (!directoryKeySet.has(folded) && !atPathCap(bag)) {
+          if (pathKeySet.has(folded)) harvestPaths(candidate, bag);
+          else if (
+            isList(candidate) ||
+            asPlainRecord(candidate) !== undefined
+          ) {
+            walkPathFields(candidate, bag);
+          }
+        }
+      }
+    }
   }
 }
+
+function changeType(value: unknown): "add" | "update" | undefined {
+  return value === "add" || value === "update" ? value : undefined;
+}
+
+function rememberChange(
+  bag: ChangeBag,
+  path: string,
+  type: "add" | "update",
+): void {
+  const duplicate = bag.changes.some(
+    (existing) => existing.path === path && existing.type === type,
+  );
+  if (!duplicate) {
+    const recorded: PermissionRequestFileChange = { path, type };
+    bag.changes.push(recorded);
+  }
+}
+
+function readListedChanges(
+  record: Record<string, unknown>,
+  bag: ChangeBag,
+): void {
+  const listed = asPlainRecord(record.changes);
+  if (listed === undefined) return;
+  for (const [path, change] of Object.entries(listed)) {
+    const changeRecord = asPlainRecord(change);
+    const type = changeRecord ? changeType(changeRecord.type) : undefined;
+    if (type !== undefined) rememberChange(bag, path, type);
+  }
+}
+
+function harvestChanges(value: unknown, bag: ChangeBag): void {
+  if (isList(value)) {
+    if (claim(bag.seen, value)) {
+      for (const child of value) harvestChanges(child, bag);
+    }
+  } else {
+    const record = asPlainRecord(value);
+    if (record !== undefined && claim(bag.seen, record)) {
+      readListedChanges(record, bag);
+      for (const candidate of Object.values(record)) {
+        if (isList(candidate) || asPlainRecord(candidate) !== undefined) {
+          harvestChanges(candidate, bag);
+        }
+      }
+    }
+  }
+}
+
+function previewTitle(
+  title: string | undefined,
+  description: string | undefined,
+  kind: string,
+): string {
+  const chosen = collapseInlineWhitespace(title ?? description ?? kind);
+  return chosen.length > 0 ? chosen : GENERIC_TITLE;
+}
+
+function previewScope(
+  command: string | null,
+  filePaths: readonly string[],
+): PermissionRequestScope {
+  if (command !== null) return "command";
+  if (filePaths.length > 0) return "file";
+  return "generic";
+}
+
+type PermissionRequestInput = Pick<
+  KnorviaPermissionRequest,
+  "title" | "description" | "kind" | "raw"
+>;
 
 export function getPermissionRequestPreview(
-  request: Pick<KnorviaPermissionRequest, "title" | "description" | "kind" | "raw">,
+  request: PermissionRequestInput,
 ): PermissionRequestPreview {
-  const rawSource = request.raw;
-  const filePaths: string[] = [];
-  collectPaths(rawSource, filePaths, new Set<object>());
-  const title =
-    normalizeInline(request.title ?? request.description ?? request.kind) || "permission";
-  const command = findCommand(getInputSource(rawSource), new Set<object>(), true);
-  const fileChanges: PermissionRequestFileChange[] = [];
-  collectChanges(rawSource, fileChanges, new Set<object>());
-  const fileChange = fileChanges.length === 1 ? fileChanges[0]! : null;
-  const scope: PermissionRequestScope = command
-    ? "command"
-    : filePaths.length > 0
-      ? "file"
-      : "generic";
-  return { title, command, filePaths, scope, fileChange, fileChanges };
+  const paths: string[] = [];
+  walkPathFields(request.raw, { paths, seen: new Set<object>() });
+  const heading = previewTitle(
+    request.title,
+    request.description,
+    request.kind,
+  );
+  const command = findCommand(
+    inputPayload(request.raw),
+    new Set<object>(),
+    true,
+  );
+  const changes: PermissionRequestFileChange[] = [];
+  harvestChanges(request.raw, { changes, seen: new Set<object>() });
+  const sole = changes.length === 1 ? changes[0] : undefined;
+  const scope = previewScope(command, paths);
+  const preview: PermissionRequestPreview = {
+    title: heading,
+    command,
+    filePaths: paths,
+    scope,
+    fileChange: sole ?? null,
+    fileChanges: changes,
+  };
+  return preview;
 }

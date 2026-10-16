@@ -1,5 +1,6 @@
-import { createHash } from "node:crypto";
+// SPDX-License-Identifier: Apache-2.0
 
+import { createHash } from "node:crypto";
 import { basename, relative, resolve } from "node:path";
 
 import {
@@ -14,238 +15,276 @@ import {
   type WorkspaceHookSourceInput,
 } from "./workspace-hook-config.js";
 
-export interface CanonicalWorkspaceHookEntryData {
-  reviewItemId: string;
-  event: WorkspaceHookEventName;
-  matcherIndex: number;
-  hookIndex: number;
-  sourceFileIndex: number;
-  sourceRelativePath: string;
-  matcher: string | null;
-  type: "command" | "process";
-  command: string;
-  args?: string[];
-  async?: boolean;
-  shell?: true | string;
-  resolvedTimeoutMs: number;
-  resolvedMaxOutputBytes: number;
-  statusMessage?: string;
-  sourceRootEnabled: boolean;
-  declarationEnabled: boolean;
-  runtimeHooksEnabled: boolean;
-  configuredEnabled: boolean;
-  editable: boolean;
-  declarationDigestAlgorithm: "sha256";
-  hookDeclarationDigest: string;
+type CountKey =
+  | "matcherIndex"
+  | "hookIndex"
+  | "sourceFileIndex"
+  | "resolvedTimeoutMs"
+  | "resolvedMaxOutputBytes";
+type TextKey = "reviewItemId" | "sourceRelativePath" | "command" | "hookDeclarationDigest";
+type FlagKey =
+  | "sourceRootEnabled"
+  | "declarationEnabled"
+  | "runtimeHooksEnabled"
+  | "configuredEnabled"
+  | "editable";
+
+export type CanonicalWorkspaceHookEntryData = Record<TextKey, string> &
+  Record<CountKey, number> &
+  Record<FlagKey, boolean> & {
+    event: WorkspaceHookEventName;
+    matcher: string | null;
+    type: "command" | "process";
+    args?: string[];
+    async?: boolean;
+    shell?: true | string;
+    statusMessage?: string;
+    declarationDigestAlgorithm: "sha256";
+  };
+
+type HooksRoot = { enabled?: boolean; timeoutMs?: number; maxOutputBytes?: number };
+
+type SourceFileRow = Record<"canonicalPath" | "baseDir", string> &
+  Record<"discoveryOrder", number> &
+  Record<"configFileKind", WorkspaceHookConfigFileKind> &
+  Record<"explicitProjectConfig" | "editable", boolean> & { hooksRoot: HooksRoot };
+
+export type WorkspaceHookBundleSnapshotData = Record<
+  "schemaVersion",
+  typeof WORKSPACE_HOOK_DIGEST_SCHEMA_VERSION
+> &
+  Record<"workspaceIdentity" | "discoveredAt" | "bundleDigest", string> &
+  Record<"digestAlgorithm", "sha256"> & {
+    sourceFiles: SourceFileRow[];
+    hooks: CanonicalWorkspaceHookEntryData[];
+  };
+
+type DeclarationInput = Record<"sourceRelativePath", string> &
+  Record<"matcher", string | null> &
+  Record<
+    | "sourceDiscoveryOrder"
+    | "matcherIndex"
+    | "hookIndex"
+    | "defaultTimeoutMs"
+    | "resolvedMaxOutputBytes",
+    number
+  > & { event: WorkspaceHookEventName; hook: WorkspaceHookDefinition };
+
+function sha256Json(payload: readonly unknown[]): string {
+  const serialized = JSON.stringify(payload);
+  return createHash("sha256").update(serialized).digest("hex");
 }
 
-export interface WorkspaceHookBundleSnapshotData {
-  schemaVersion: typeof WORKSPACE_HOOK_DIGEST_SCHEMA_VERSION;
-  workspaceIdentity: string;
-  discoveredAt: string;
-  sourceFiles: Array<{
-    canonicalPath: string;
-    baseDir: string;
-    discoveryOrder: number;
-    configFileKind: WorkspaceHookConfigFileKind;
-    explicitProjectConfig: boolean;
-    editable: boolean;
-    hooksRoot: {
-      enabled?: boolean;
-      timeoutMs?: number;
-      maxOutputBytes?: number;
-    };
-  }>;
-  hooks: CanonicalWorkspaceHookEntryData[];
-  digestAlgorithm: "sha256";
-  bundleDigest: string;
+function digestPath(workspacePath: string, sourcePath: string): string {
+  const fromRoot = relative(resolve(workspacePath), resolve(sourcePath)).replaceAll("\\", "/");
+  return fromRoot.length > 0 ? fromRoot : basename(sourcePath);
 }
 
-function sourcePathForDigest(workspacePath: string, sourcePath: string): string {
-  const path = relative(resolve(workspacePath), resolve(sourcePath)).replaceAll("\\", "/");
-  return path || basename(sourcePath);
+function shellMarker(shell: true | string | undefined): unknown[] {
+  if (typeof shell === "string") return ["string", shell];
+  if (shell === true) return ["true"];
+  return ["unset"];
 }
 
-function hashPayload(payload: unknown[]): string {
-  return createHash("sha256").update(JSON.stringify(payload)).digest("hex");
-}
-
-function optionalMarker(value: boolean | number | undefined): unknown[] {
-  return value === undefined ? ["unset"] : ["set", value];
-}
-
-function freezeSnapshot<T>(value: T): T {
-  if (value && typeof value === "object" && !Object.isFrozen(value)) {
-    Object.freeze(value);
-    for (const child of Object.values(value)) {
-      freezeSnapshot(child);
-    }
+function executionOf(hook: WorkspaceHookDefinition): unknown[] {
+  if (hook.type === "process") {
+    const copied = hook.args === undefined ? [] : hook.args.slice();
+    return ["process", hook.command, copied];
   }
-  return value;
+  return ["command", hook.command, hook.async === true, shellMarker(hook.shell)];
 }
 
-export function resolveWorkspaceHookEntries(input: {
+function presence(value: boolean | number | undefined): unknown[] {
+  if (value === undefined) return ["unset"];
+  return ["set", value];
+}
+
+function deepFreeze<T>(value: T): T {
+  if (value === null || typeof value !== "object") return value;
+  if (Object.isFrozen(value)) return value;
+  for (const child of Object.values(value)) deepFreeze(child);
+  return Object.freeze(value);
+}
+
+function blankRow(): Record<string, unknown> {
+  return {};
+}
+
+function writeRow(row: Record<string, unknown>, key: string, value: unknown) {
+  row[key] = value;
+}
+
+function writeRowWhen(row: Record<string, unknown>, key: string, value: unknown, keep: boolean) {
+  if (keep) row[key] = value;
+}
+
+function materializeEntry(
+  source: WorkspaceHookSourceInput,
+  sourceFileIndex: number,
+  event: WorkspaceHookEventName,
+  matcherIndex: number,
+  hookIndex: number,
+  matcherText: string | undefined,
+  hook: WorkspaceHookDefinition,
+  runtimeRoot: WorkspaceHookRuntimeRoot,
+  sourceRelativePath: string,
+): CanonicalWorkspaceHookEntryData {
+  const gates = resolveWorkspaceHookConfiguredGates({
+    sourceEnabled: source.hooks.enabled,
+    declarationEnabled: hook.enabled,
+    runtimeHooksEnabled: runtimeRoot.enabled,
+  });
+  const row = blankRow();
+  writeRow(
+    row,
+    "reviewItemId",
+    `workspace-hook-${sourceFileIndex}-${event}-${matcherIndex}-${hookIndex}`,
+  );
+  writeRow(row, "event", event);
+  writeRow(row, "matcherIndex", matcherIndex);
+  writeRow(row, "hookIndex", hookIndex);
+  writeRow(row, "sourceFileIndex", sourceFileIndex);
+  writeRow(row, "sourceRelativePath", sourceRelativePath);
+  writeRow(row, "matcher", matcherText ?? null);
+  writeRow(row, "command", hook.command);
+  writeRow(row, "resolvedTimeoutMs", resolveWorkspaceHookTimeoutMs(hook, runtimeRoot.timeoutMs));
+  writeRow(row, "resolvedMaxOutputBytes", runtimeRoot.maxOutputBytes);
+  writeRowWhen(row, "statusMessage", hook.statusMessage, Boolean(hook.statusMessage));
+  writeRow(row, "sourceRootEnabled", gates.sourceRootEnabled);
+  writeRow(row, "declarationEnabled", gates.declarationEnabled);
+  writeRow(row, "runtimeHooksEnabled", gates.runtimeHooksEnabled);
+  writeRow(row, "configuredEnabled", gates.configuredEnabled);
+  writeRow(row, "editable", source.editable);
+  writeRow(row, "declarationDigestAlgorithm", "sha256");
+  const declaration: DeclarationInput = {
+    sourceRelativePath,
+    sourceDiscoveryOrder: source.discoveryOrder,
+    event,
+    matcher: matcherText ?? null,
+    matcherIndex,
+    hookIndex,
+    hook,
+    defaultTimeoutMs: runtimeRoot.timeoutMs,
+    resolvedMaxOutputBytes: runtimeRoot.maxOutputBytes,
+  };
+  writeRow(row, "hookDeclarationDigest", createWorkspaceHookDeclarationDigest(declaration));
+  writeRow(row, "type", hook.type);
+  if (hook.type !== "command") {
+    writeRowWhen(row, "args", hook.args?.slice(), hook.args !== undefined && hook.args.length > 0);
+  } else {
+    writeRowWhen(row, "async", true, hook.async === true);
+    writeRowWhen(row, "shell", hook.shell, hook.shell !== undefined);
+  }
+  return row as CanonicalWorkspaceHookEntryData;
+}
+
+type EntryQuery = {
   workspacePath: string;
   sources: readonly WorkspaceHookSourceInput[];
   runtimeRoot: WorkspaceHookRuntimeRoot;
-}): CanonicalWorkspaceHookEntryData[] {
+};
+
+export function resolveWorkspaceHookEntries(input: EntryQuery): CanonicalWorkspaceHookEntryData[] {
   const entries: CanonicalWorkspaceHookEntryData[] = [];
-  for (const [sourceFileIndex, source] of input.sources.entries()) {
-    const sourceRelativePath = sourcePathForDigest(input.workspacePath, source.canonicalPath);
+  input.sources.forEach((source, sourceFileIndex) => {
+    const sourceRelativePath = digestPath(input.workspacePath, source.canonicalPath);
     for (const event of WORKSPACE_HOOK_EVENT_NAMES) {
-      for (const [matcherIndex, matcher] of (source.hooks.events?.[event] ?? []).entries()) {
-        for (const [hookIndex, hook] of matcher.hooks.entries()) {
-          const gates = resolveWorkspaceHookConfiguredGates({
-            sourceEnabled: source.hooks.enabled,
-            declarationEnabled: hook.enabled,
-            runtimeHooksEnabled: input.runtimeRoot.enabled,
-          });
-          const common = {
-            reviewItemId: `workspace-hook-${sourceFileIndex}-${event}-${matcherIndex}-${hookIndex}`,
+      const groups = source.hooks.events?.[event] ?? [];
+      groups.forEach((group, matcherIndex) => {
+        group.hooks.forEach((hook, hookIndex) => {
+          const drafted = materializeEntry(
+            source,
+            sourceFileIndex,
             event,
             matcherIndex,
             hookIndex,
-            sourceFileIndex,
+            group.matcher,
+            hook,
+            input.runtimeRoot,
             sourceRelativePath,
-            matcher: matcher.matcher ?? null,
-            command: hook.command,
-            resolvedTimeoutMs: resolveWorkspaceHookTimeoutMs(hook, input.runtimeRoot.timeoutMs),
-            resolvedMaxOutputBytes: input.runtimeRoot.maxOutputBytes,
-            ...(hook.statusMessage ? { statusMessage: hook.statusMessage } : {}),
-            ...gates,
-            editable: source.editable,
-            declarationDigestAlgorithm: "sha256" as const,
-            hookDeclarationDigest: createWorkspaceHookDeclarationDigest({
-              sourceRelativePath,
-              sourceDiscoveryOrder: source.discoveryOrder,
-              event,
-              matcher: matcher.matcher ?? null,
-              matcherIndex,
-              hookIndex,
-              hook,
-              defaultTimeoutMs: input.runtimeRoot.timeoutMs,
-              resolvedMaxOutputBytes: input.runtimeRoot.maxOutputBytes,
-            }),
-          };
-          if (hook.type === "process") {
-            entries.push({
-              ...common,
-              type: "process",
-              ...(hook.args && hook.args.length > 0 ? { args: [...hook.args] } : {}),
-            });
-          } else {
-            entries.push({
-              ...common,
-              type: "command",
-              ...(hook.async === true ? { async: true } : {}),
-              ...(hook.shell !== undefined ? { shell: hook.shell } : {}),
-            });
-          }
-        }
-      }
+          );
+          entries.push(drafted);
+        });
+      });
     }
-  }
+  });
   return entries;
 }
 
-export function buildWorkspaceHookBundleSnapshot(input: {
-  workspaceIdentity: string;
-  workspacePath: string;
-  sources: readonly WorkspaceHookSourceInput[];
-  runtimeRoot: WorkspaceHookRuntimeRoot;
-  discoveredAt?: string;
-}): WorkspaceHookBundleSnapshotData | undefined {
-  const hooks = resolveWorkspaceHookEntries(input);
-  if (hooks.length === 0) {
-    return undefined;
-  }
-
-  const sourceFiles = input.sources.map((source) => ({
-    canonicalPath: source.canonicalPath,
-    baseDir: source.baseDir,
-    discoveryOrder: source.discoveryOrder,
-    configFileKind: source.configFileKind,
-    explicitProjectConfig: source.explicitProjectConfig,
-    editable: source.editable,
-    hooksRoot: {
-      ...(source.hooks.enabled !== undefined ? { enabled: source.hooks.enabled } : {}),
-      ...(source.hooks.timeoutMs !== undefined ? { timeoutMs: source.hooks.timeoutMs } : {}),
-      ...(source.hooks.maxOutputBytes !== undefined
-        ? { maxOutputBytes: source.hooks.maxOutputBytes }
-        : {}),
-    },
-  }));
-  const sourceTuples = input.sources.map((source) => [
-    sourcePathForDigest(input.workspacePath, source.canonicalPath),
-    source.discoveryOrder,
-    source.configFileKind,
-    source.explicitProjectConfig,
-    optionalMarker(source.hooks.enabled),
-    optionalMarker(source.hooks.timeoutMs),
-    optionalMarker(source.hooks.maxOutputBytes),
-  ]);
-  const hookTuples = hooks.map((hook) => [
-    hook.hookDeclarationDigest,
-    hook.sourceRootEnabled,
-    hook.declarationEnabled,
-    hook.runtimeHooksEnabled,
-    hook.configuredEnabled,
-  ]);
-  const discoveredAt = input.discoveredAt ?? new Date().toISOString();
-  const bundleDigest = hashPayload([
-    "workspace-hook-bundle",
-    WORKSPACE_HOOK_DIGEST_SCHEMA_VERSION,
-    sourceTuples,
-    hookTuples,
-  ]);
-
-  return freezeSnapshot<WorkspaceHookBundleSnapshotData>({
-    schemaVersion: WORKSPACE_HOOK_DIGEST_SCHEMA_VERSION,
-    workspaceIdentity: input.workspaceIdentity,
-    discoveredAt,
-    sourceFiles,
-    hooks,
-    digestAlgorithm: "sha256",
-    bundleDigest,
-  });
+function hooksRootOf(source: WorkspaceHookSourceInput): HooksRoot {
+  const hooksRoot: HooksRoot = {};
+  if (source.hooks.enabled !== undefined) hooksRoot.enabled = source.hooks.enabled;
+  if (source.hooks.timeoutMs !== undefined) hooksRoot.timeoutMs = source.hooks.timeoutMs;
+  if (source.hooks.maxOutputBytes !== undefined)
+    hooksRoot.maxOutputBytes = source.hooks.maxOutputBytes;
+  return hooksRoot;
 }
 
-export function createWorkspaceHookDeclarationDigest(input: {
-  sourceRelativePath: string;
-  sourceDiscoveryOrder: number;
-  event: WorkspaceHookEventName;
-  matcher: string | null;
-  matcherIndex: number;
-  hookIndex: number;
-  hook: WorkspaceHookDefinition;
-  defaultTimeoutMs: number;
-  resolvedMaxOutputBytes: number;
-}): string {
-  const hook = input.hook;
-  let execution: unknown[];
-  if (hook.type === "process") {
-    execution = ["process", hook.command, [...(hook.args ?? [])]];
-  } else {
-    const shellMarker =
-      hook.shell === undefined
-        ? ["unset"]
-        : hook.shell === true
-          ? ["true"]
-          : ["string", hook.shell];
-    execution = ["command", hook.command, hook.async === true, shellMarker];
-  }
-  const resolvedTimeoutMs = resolveWorkspaceHookTimeoutMs(hook, input.defaultTimeoutMs);
-  return hashPayload([
-    "workspace-hook-declaration",
-    WORKSPACE_HOOK_DIGEST_SCHEMA_VERSION,
-    input.sourceRelativePath,
-    input.sourceDiscoveryOrder,
-    input.event,
-    input.matcher,
-    input.matcherIndex,
-    input.hookIndex,
-    execution,
-    resolvedTimeoutMs,
-    input.resolvedMaxOutputBytes,
-  ]);
+function sourceFileRow(source: WorkspaceHookSourceInput): SourceFileRow {
+  const row = blankRow();
+  writeRow(row, "canonicalPath", source.canonicalPath);
+  writeRow(row, "baseDir", source.baseDir);
+  writeRow(row, "discoveryOrder", source.discoveryOrder);
+  writeRow(row, "configFileKind", source.configFileKind);
+  writeRow(row, "explicitProjectConfig", source.explicitProjectConfig);
+  writeRow(row, "editable", source.editable);
+  writeRow(row, "hooksRoot", hooksRootOf(source));
+  return row as SourceFileRow;
+}
+
+type BundleQuery = EntryQuery & { workspaceIdentity: string; discoveredAt?: string };
+
+export function buildWorkspaceHookBundleSnapshot(
+  input: BundleQuery,
+): WorkspaceHookBundleSnapshotData | undefined {
+  // 声明摘要先算。没有钩子就返回，这时不能读时钟。
+  const hooks = resolveWorkspaceHookEntries(input);
+  if (hooks.length === 0) return;
+  const stamped = input.discoveredAt;
+  const discoveredAt = stamped === undefined ? new Date().toISOString() : stamped;
+  const sourceTuples = input.sources.map((source) => sourceTuple(input.workspacePath, source));
+  const hookTuples = hooks.map((hook) => hookTuple(hook));
+  const bundlePayload: unknown[] = [];
+  bundlePayload.push("workspace-hook-bundle", WORKSPACE_HOOK_DIGEST_SCHEMA_VERSION);
+  bundlePayload.push(sourceTuples, hookTuples);
+  const bundleDigest = sha256Json(bundlePayload);
+  const snapshot = blankRow();
+  writeRow(snapshot, "schemaVersion", WORKSPACE_HOOK_DIGEST_SCHEMA_VERSION);
+  writeRow(snapshot, "workspaceIdentity", input.workspaceIdentity);
+  writeRow(snapshot, "discoveredAt", discoveredAt);
+  writeRow(snapshot, "sourceFiles", input.sources.map(sourceFileRow));
+  writeRow(snapshot, "hooks", hooks);
+  writeRow(snapshot, "digestAlgorithm", "sha256");
+  writeRow(snapshot, "bundleDigest", bundleDigest);
+  return deepFreeze(snapshot as WorkspaceHookBundleSnapshotData);
+}
+
+function sourceTuple(workspacePath: string, source: WorkspaceHookSourceInput): unknown[] {
+  const tuple: unknown[] = [];
+  tuple.push(digestPath(workspacePath, source.canonicalPath), source.discoveryOrder);
+  tuple.push(source.configFileKind, source.explicitProjectConfig);
+  tuple.push(
+    presence(source.hooks.enabled),
+    presence(source.hooks.timeoutMs),
+    presence(source.hooks.maxOutputBytes),
+  );
+  return tuple;
+}
+
+function hookTuple(hook: CanonicalWorkspaceHookEntryData): unknown[] {
+  const tuple: unknown[] = [];
+  tuple.push(hook.hookDeclarationDigest, hook.sourceRootEnabled, hook.declarationEnabled);
+  tuple.push(hook.runtimeHooksEnabled, hook.configuredEnabled);
+  return tuple;
+}
+
+export function createWorkspaceHookDeclarationDigest(input: DeclarationInput): string {
+  const payload: unknown[] = [];
+  payload.push("workspace-hook-declaration", WORKSPACE_HOOK_DIGEST_SCHEMA_VERSION);
+  payload.push(input.sourceRelativePath, input.sourceDiscoveryOrder, input.event);
+  payload.push(input.matcher, input.matcherIndex, input.hookIndex);
+  payload.push(executionOf(input.hook));
+  payload.push(resolveWorkspaceHookTimeoutMs(input.hook, input.defaultTimeoutMs));
+  payload.push(input.resolvedMaxOutputBytes);
+  return sha256Json(payload);
 }

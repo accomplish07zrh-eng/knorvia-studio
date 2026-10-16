@@ -1,385 +1,401 @@
+// SPDX-License-Identifier: Apache-2.0
+
 import { existsSync, statSync } from "node:fs";
-
 import { access, readFile, stat } from "node:fs/promises";
-
 import { basename, dirname, join, resolve } from "node:path";
 
 import { z } from "zod";
 
-export const WORKSPACE_HOOK_DIGEST_SCHEMA_VERSION = 1 as const;
+const SCHEMA_V1 = 1 as const;
+export const WORKSPACE_HOOK_DIGEST_SCHEMA_VERSION = SCHEMA_V1;
 
-export const DEFAULT_WORKSPACE_HOOK_TIMEOUT_MS = 60000;
+const SIXTY_SECONDS_MS = 60 * 1000;
+const THIRTY_TWO_KIB = 32 * 1024;
+export const DEFAULT_WORKSPACE_HOOK_TIMEOUT_MS = SIXTY_SECONDS_MS;
+export const DEFAULT_WORKSPACE_HOOK_MAX_OUTPUT_BYTES = THIRTY_TWO_KIB;
 
-export const DEFAULT_WORKSPACE_HOOK_MAX_OUTPUT_BYTES = 32768;
+const EVENT_NAME_TEXT =
+  "SessionStart,UserPromptSubmit,PreToolUse,PermissionRequest,PostToolUse,PostToolUseFailure,Stop";
 
-export const WORKSPACE_HOOK_EVENT_NAMES = [
-  "SessionStart",
-  "UserPromptSubmit",
-  "PreToolUse",
-  "PermissionRequest",
-  "PostToolUse",
-  "PostToolUseFailure",
-  "Stop",
-] as const;
+type EventName =
+  | "SessionStart"
+  | "UserPromptSubmit"
+  | "PreToolUse"
+  | "PermissionRequest"
+  | "PostToolUse"
+  | "PostToolUseFailure"
+  | "Stop";
 
-export type WorkspaceHookEventName = (typeof WORKSPACE_HOOK_EVENT_NAMES)[number];
+export const WORKSPACE_HOOK_EVENT_NAMES = EVENT_NAME_TEXT.split(",") as [EventName, ...EventName[]];
+
+export type WorkspaceHookEventName = EventName;
+
+const KIND_PROJECT = "knorvia.json" as const;
+const KIND_STUDIO = ".knorvia-studio/config.json" as const;
+const KIND_EXPLICIT = "explicit" as const;
+const STUDIO_DIR = ".knorvia-studio";
 
 export type WorkspaceHookConfigFileKind =
-  | "knorvia.json"
-  | ".knorvia-studio/config.json"
-  | "explicit";
+  | typeof KIND_PROJECT
+  | typeof KIND_STUDIO
+  | typeof KIND_EXPLICIT;
 
-const positiveNumberSchema = z.number().finite().positive();
+const finitePositive = z.number().finite().positive();
+const commandText = z.string().min(1);
+const optionalSwitch = z.boolean().optional();
+const optionalNote = commandText.optional();
 
-export const workspaceHookProcessConfigSchema = z
-  .object({
-    type: z.literal("process"),
-    command: z.string().min(1),
-    enabled: z.boolean().optional(),
-    args: z.array(z.string()).optional(),
-    timeoutMs: positiveNumberSchema.optional(),
-    statusMessage: z.string().min(1).optional(),
-  })
-  .passthrough();
+function loose<Shape extends z.ZodRawShape>(shape: Shape) {
+  return z.object(shape).passthrough();
+}
 
-export const workspaceHookCommandConfigSchema = z
-  .object({
-    type: z.literal("command"),
-    command: z.string().min(1),
-    enabled: z.boolean().optional(),
-    async: z.boolean().optional(),
-    shell: z.union([z.literal(true), z.string().min(1)]).optional(),
-    timeout: positiveNumberSchema.optional(),
-    timeoutMs: positiveNumberSchema.optional(),
-    statusMessage: z.string().min(1).optional(),
-  })
-  .passthrough();
+function locked<Shape extends z.ZodRawShape>(shape: Shape) {
+  return z.object(shape).strict();
+}
 
-export const workspaceHookMatcherConfigSchema = z
-  .object({
-    matcher: z.string().min(1).optional(),
-    hooks: z
-      .array(
-        z.discriminatedUnion("type", [
-          workspaceHookProcessConfigSchema,
-          workspaceHookCommandConfigSchema,
-        ]),
-      )
-      .min(1),
-  })
-  .strict();
+export const workspaceHookProcessConfigSchema = loose({
+  type: z.literal("process"),
+  command: commandText,
+  enabled: optionalSwitch,
+  args: z.array(z.string()).optional(),
+  timeoutMs: finitePositive.optional(),
+  statusMessage: optionalNote,
+});
 
-export const workspaceHooksConfigSchema = z
-  .object({
-    enabled: z.boolean().optional(),
-    timeoutMs: positiveNumberSchema.optional(),
-    maxOutputBytes: positiveNumberSchema.optional(),
-    events: z
-      .object({
-        SessionStart: z.array(workspaceHookMatcherConfigSchema).optional(),
-        UserPromptSubmit: z.array(workspaceHookMatcherConfigSchema).optional(),
-        PreToolUse: z.array(workspaceHookMatcherConfigSchema).optional(),
-        PermissionRequest: z.array(workspaceHookMatcherConfigSchema).optional(),
-        PostToolUse: z.array(workspaceHookMatcherConfigSchema).optional(),
-        PostToolUseFailure: z.array(workspaceHookMatcherConfigSchema).optional(),
-        Stop: z.array(workspaceHookMatcherConfigSchema).optional(),
-      })
-      .strict()
-      .optional(),
-  })
-  .strict();
+export const workspaceHookCommandConfigSchema = loose({
+  type: z.literal("command"),
+  command: commandText,
+  enabled: optionalSwitch,
+  async: optionalSwitch,
+  shell: z.union([z.literal(true), commandText]).optional(),
+  timeout: finitePositive.optional(),
+  timeoutMs: finitePositive.optional(),
+  statusMessage: optionalNote,
+});
+
+const hookDefinition = z.discriminatedUnion("type", [
+  workspaceHookProcessConfigSchema,
+  workspaceHookCommandConfigSchema,
+]);
+
+export const workspaceHookMatcherConfigSchema = locked({
+  matcher: commandText.optional(),
+  hooks: z.array(hookDefinition).min(1),
+});
+
+function eventBucket() {
+  return z.array(workspaceHookMatcherConfigSchema).optional();
+}
+
+export const workspaceHooksConfigSchema = locked({
+  enabled: optionalSwitch,
+  timeoutMs: finitePositive.optional(),
+  maxOutputBytes: finitePositive.optional(),
+  events: locked({
+    SessionStart: eventBucket(),
+    UserPromptSubmit: eventBucket(),
+    PreToolUse: eventBucket(),
+    PermissionRequest: eventBucket(),
+    PostToolUse: eventBucket(),
+    PostToolUseFailure: eventBucket(),
+    Stop: eventBucket(),
+  }).optional(),
+});
 
 export type WorkspaceHookDefinition =
-  | z.infer<typeof workspaceHookCommandConfigSchema>
-  | z.infer<typeof workspaceHookProcessConfigSchema>;
+  | z.output<typeof workspaceHookCommandConfigSchema>
+  | z.output<typeof workspaceHookProcessConfigSchema>;
 
-export type WorkspaceHooksConfig = z.infer<typeof workspaceHooksConfigSchema>;
+export type WorkspaceHooksConfig = z.output<typeof workspaceHooksConfigSchema>;
 
-export interface WorkspaceHookSourceInput {
-  canonicalPath: string;
-  baseDir: string;
+type PathText = "canonicalPath" | "baseDir" | "path";
+
+export type WorkspaceHookSourceInput = Record<"canonicalPath" | "baseDir", string> & {
   discoveryOrder: number;
   configFileKind: WorkspaceHookConfigFileKind;
   explicitProjectConfig: boolean;
   editable: boolean;
   hooks: WorkspaceHooksConfig;
-}
+};
 
-export interface WorkspaceHookRuntimeRoot {
-  enabled: boolean;
-  timeoutMs: number;
-  maxOutputBytes: number;
-}
+export type WorkspaceHookRuntimeRoot = Record<"enabled", boolean> &
+  Record<"timeoutMs" | "maxOutputBytes", number>;
 
-export interface WorkspaceHookConfigPathRef {
-  path: string;
+export type WorkspaceHookConfigPathRef = Record<PathText, string> & {
   explicitProjectConfig: boolean;
+};
+
+export type WorkspaceHookSourceReadError = { path: string; error: unknown };
+
+type RootSlice = Partial<Pick<WorkspaceHooksConfig, "enabled" | "timeoutMs" | "maxOutputBytes">>;
+
+type TimeoutHook = Pick<WorkspaceHookDefinition, "type" | "timeoutMs"> & { timeout?: number };
+
+type DiscoverRequest = { workingDirectory: string; explicitProjectConfigPath?: string };
+
+const FILE_TAILS = [[KIND_PROJECT], [STUDIO_DIR, "config.json"]] as const;
+
+function atLeastOne(value: number): number {
+  const rounded = Math.round(value);
+  return rounded < 1 ? 1 : rounded;
 }
 
-export interface WorkspaceHookSourceReadError {
-  path: string;
-  error: unknown;
-}
-
-export function resolveWorkspaceHookTimeoutMs(
-  hook: Pick<WorkspaceHookDefinition, "type" | "timeoutMs"> & {
-    timeout?: number;
-  },
-  defaultTimeoutMs: number,
-): number {
-  const value =
-    hook.timeoutMs ??
-    (hook.type === "command" && hook.timeout !== undefined
-      ? hook.timeout * 1000
-      : defaultTimeoutMs);
-  return Math.max(1, Math.round(value));
+export function resolveWorkspaceHookTimeoutMs(hook: TimeoutHook, defaultTimeoutMs: number): number {
+  const seconds = hook.type === "command" ? hook.timeout : undefined;
+  const chosen = hook.timeoutMs ?? (seconds === undefined ? defaultTimeoutMs : seconds * 1000);
+  return atLeastOne(chosen);
 }
 
 export function resolveWorkspaceHookMaxOutputBytes(maxOutputBytes: number): number {
-  return Math.max(1, Math.round(maxOutputBytes));
+  return atLeastOne(maxOutputBytes);
 }
 
 export function resolveWorkspaceHookRuntimeRoot(
-  roots: readonly (
-    | Partial<Pick<WorkspaceHooksConfig, "enabled" | "timeoutMs" | "maxOutputBytes">>
-    | undefined
-  )[],
+  roots: readonly (RootSlice | undefined)[],
 ): WorkspaceHookRuntimeRoot {
-  let enabled = false;
-  let timeoutMs = DEFAULT_WORKSPACE_HOOK_TIMEOUT_MS;
-  let maxOutputBytes = DEFAULT_WORKSPACE_HOOK_MAX_OUTPUT_BYTES;
-  for (const root of roots) {
-    if (!root) {
-      continue;
-    }
-    if (root.enabled === true) {
-      enabled = true;
-    }
-    if (root.timeoutMs !== undefined) {
-      timeoutMs = root.timeoutMs;
-    }
-    if (root.maxOutputBytes !== undefined) {
-      maxOutputBytes = root.maxOutputBytes;
-    }
-  }
-  return {
-    enabled,
-    timeoutMs: Math.max(1, Math.round(timeoutMs)),
-    maxOutputBytes: resolveWorkspaceHookMaxOutputBytes(maxOutputBytes),
+  const folded = roots.reduce<WorkspaceHookRuntimeRoot>(
+    (acc, root) => {
+      if (!root) return acc;
+      const next: WorkspaceHookRuntimeRoot = {
+        enabled: acc.enabled || root.enabled === true,
+        timeoutMs: root.timeoutMs ?? acc.timeoutMs,
+        maxOutputBytes: root.maxOutputBytes ?? acc.maxOutputBytes,
+      };
+      return next;
+    },
+    {
+      enabled: false,
+      timeoutMs: DEFAULT_WORKSPACE_HOOK_TIMEOUT_MS,
+      maxOutputBytes: DEFAULT_WORKSPACE_HOOK_MAX_OUTPUT_BYTES,
+    },
+  );
+  const clamped: WorkspaceHookRuntimeRoot = {
+    enabled: folded.enabled,
+    timeoutMs: atLeastOne(folded.timeoutMs),
+    maxOutputBytes: atLeastOne(folded.maxOutputBytes),
   };
+  return clamped;
 }
 
-export function resolveWorkspaceHookConfiguredGates(input: {
+type GateInput = {
   sourceEnabled?: boolean;
   declarationEnabled?: boolean;
   runtimeHooksEnabled: boolean;
-}) {
+};
+
+export function resolveWorkspaceHookConfiguredGates(input: GateInput) {
   const sourceRootEnabled = input.sourceEnabled !== false;
   const declarationEnabled = input.declarationEnabled !== false;
-  return {
+  // 先读运行时开关给返回字段，与运算再读一次。getter 两次可以不同。
+  const reportedRuntime = input.runtimeHooksEnabled;
+  const configuredEnabled = sourceRootEnabled && declarationEnabled && input.runtimeHooksEnabled;
+  const gates = {
     sourceRootEnabled,
     declarationEnabled,
-    runtimeHooksEnabled: input.runtimeHooksEnabled,
-    configuredEnabled: sourceRootEnabled && declarationEnabled && input.runtimeHooksEnabled,
+    runtimeHooksEnabled: reportedRuntime,
+    configuredEnabled,
   };
+  return gates;
 }
 
-function buildWorkspaceHookCandidatePaths(directories: readonly string[]): string[] {
-  return directories.flatMap((directory) => [
-    join(directory, "knorvia.json"),
-    join(directory, ".knorvia-studio", "config.json"),
-  ]);
+function asRecord(value: unknown): Record<string, unknown> | undefined {
+  if (typeof value === "object" && value !== null && !Array.isArray(value)) {
+    return value as Record<string, unknown>;
+  }
+  return;
 }
 
-function deduplicateWorkspaceHookConfigRefs(
-  refs: readonly WorkspaceHookConfigPathRef[],
-): WorkspaceHookConfigPathRef[] {
-  const knownPaths = new Set<string>();
-  const uniqueRefs: WorkspaceHookConfigPathRef[] = [];
+function hookFilesUnder(directories: readonly string[]): string[] {
+  const paths: string[] = [];
+  for (const directory of directories) {
+    for (const tail of FILE_TAILS) paths.push(join(directory, ...tail));
+  }
+  return paths;
+}
+
+function uniqueRefs(refs: readonly WorkspaceHookConfigPathRef[]): WorkspaceHookConfigPathRef[] {
+  const seen = new Set<string>();
+  const kept: WorkspaceHookConfigPathRef[] = [];
   for (const ref of refs) {
     const key = resolve(ref.path);
-    if (knownPaths.has(key)) {
-      continue;
-    }
-    knownPaths.add(key);
-    uniqueRefs.push(ref);
+    if (seen.has(key)) continue;
+    seen.add(key);
+    kept.push(ref);
   }
-  return uniqueRefs;
+  return kept;
 }
 
-export function discoverWorkspaceHookConfigPaths(input: {
-  workingDirectory: string;
-  explicitProjectConfigPath?: string;
-}): WorkspaceHookConfigPathRef[] {
+function climb(start: string, marked: (directory: string) => boolean): string[] {
+  const visited: string[] = [];
+  let cursor = start;
+  while (cursor.length > 0) {
+    visited.push(cursor);
+    if (marked(cursor)) return visited.toReversed();
+    const above = dirname(cursor);
+    if (above === cursor) return [start];
+    cursor = above;
+  }
+  return [start];
+}
+
+async function climbAsync(
+  start: string,
+  marked: (directory: string) => Promise<boolean>,
+): Promise<string[]> {
+  const visited: string[] = [];
+  let cursor = start;
+  while (cursor.length > 0) {
+    visited.push(cursor);
+    if (await marked(cursor)) return visited.toReversed();
+    const above = dirname(cursor);
+    if (above === cursor) return [start];
+    cursor = above;
+  }
+  return [start];
+}
+
+function gitMarker(directory: string): string {
+  return join(directory, ".git");
+}
+
+function looksLikeGit(stats: { isDirectory(): boolean; isFile(): boolean }): boolean {
+  return stats.isFile() || stats.isDirectory();
+}
+
+function quietly(read: () => boolean): boolean {
+  try {
+    return read();
+  } catch {
+    return false;
+  }
+}
+
+function directoryHasGit(directory: string): boolean {
+  const marker = gitMarker(directory);
+  if (!existsSync(marker)) return false;
+  return quietly(() => looksLikeGit(statSync(marker)));
+}
+
+async function directoryHasGitAsync(directory: string): Promise<boolean> {
+  try {
+    const stats = await stat(gitMarker(directory));
+    return looksLikeGit(stats);
+  } catch {
+    return false;
+  }
+}
+
+function pushExisting(
+  refs: WorkspaceHookConfigPathRef[],
+  path: string,
+  explicitProjectConfig: boolean,
+  present: boolean,
+) {
+  if (present) refs.push({ path, explicitProjectConfig });
+}
+
+export function discoverWorkspaceHookConfigPaths(
+  input: DiscoverRequest,
+): WorkspaceHookConfigPathRef[] {
   const start = resolve(input.workingDirectory);
-  const directories = getProjectConfigDirectories(start);
-  const refs = buildWorkspaceHookCandidatePaths(directories)
-    .filter((path) => existsSync(path))
-    .map((path) => ({ path, explicitProjectConfig: false }));
-  if (input.explicitProjectConfigPath) {
+  const directories = climb(start, directoryHasGit);
+  const refs: WorkspaceHookConfigPathRef[] = [];
+  for (const path of hookFilesUnder(directories)) pushExisting(refs, path, false, existsSync(path));
+  if (input.explicitProjectConfigPath !== undefined) {
     const path = resolve(input.explicitProjectConfigPath);
-    if (existsSync(path)) {
-      refs.push({ path, explicitProjectConfig: true });
-    }
+    pushExisting(refs, path, true, existsSync(path));
   }
-  return deduplicateWorkspaceHookConfigRefs(refs);
+  return uniqueRefs(refs);
 }
 
-export function createWorkspaceHookSourceInput(input: {
+function kindFor(explicit: boolean, fileName: string): WorkspaceHookConfigFileKind {
+  if (explicit) return KIND_EXPLICIT;
+  return fileName === KIND_PROJECT ? KIND_PROJECT : KIND_STUDIO;
+}
+
+function baseDirFor(canonicalPath: string): string {
+  const folder = dirname(canonicalPath);
+  return basename(folder) === STUDIO_DIR ? dirname(folder) : folder;
+}
+
+function editableProjectFile(workingDirectory: string): string {
+  return resolve(workingDirectory, STUDIO_DIR, "config.json");
+}
+
+type SourceRequest = {
   path: string;
   workingDirectory: string;
   hooks: WorkspaceHooksConfig;
   discoveryOrder: number;
   explicitProjectConfig?: boolean;
-}): WorkspaceHookSourceInput {
-  const canonicalPath = resolve(input.path);
+};
+
+export function createWorkspaceHookSourceInput(input: SourceRequest): WorkspaceHookSourceInput {
+  const absolute = resolve(input.path);
   const explicitProjectConfig = input.explicitProjectConfig === true;
-  const configDir = dirname(canonicalPath);
-  const baseDir = basename(configDir) === ".knorvia-studio" ? dirname(configDir) : configDir;
-  return {
-    canonicalPath,
-    baseDir,
+  const source: WorkspaceHookSourceInput = {
+    canonicalPath: absolute,
+    baseDir: baseDirFor(absolute),
     discoveryOrder: input.discoveryOrder,
-    configFileKind: explicitProjectConfig
-      ? "explicit"
-      : basename(canonicalPath) === "knorvia.json"
-        ? "knorvia.json"
-        : ".knorvia-studio/config.json",
+    configFileKind: kindFor(explicitProjectConfig, basename(absolute)),
     explicitProjectConfig,
-    editable:
-      !explicitProjectConfig &&
-      canonicalPath === resolve(input.workingDirectory, ".knorvia-studio", "config.json"),
+    editable: !explicitProjectConfig && absolute === editableProjectFile(input.workingDirectory),
     hooks: input.hooks,
   };
+  return source;
 }
 
-export async function readWorkspaceHookProjectSources(input: {
-  workingDirectory: string;
-  explicitProjectConfigPath?: string;
-}): Promise<{
+async function pathExists(path: string): Promise<boolean> {
+  const found = await access(path).then(
+    () => true,
+    () => false,
+  );
+  return found;
+}
+
+async function discoverAsync(input: DiscoverRequest): Promise<WorkspaceHookConfigPathRef[]> {
+  const start = resolve(input.workingDirectory);
+  const directories = await climbAsync(start, directoryHasGitAsync);
+  const refs: WorkspaceHookConfigPathRef[] = [];
+  for (const path of hookFilesUnder(directories)) {
+    pushExisting(refs, path, false, await pathExists(path));
+  }
+  if (input.explicitProjectConfigPath !== undefined) {
+    const path = resolve(input.explicitProjectConfigPath);
+    pushExisting(refs, path, true, await pathExists(path));
+  }
+  return uniqueRefs(refs);
+}
+
+export async function readWorkspaceHookProjectSources(input: DiscoverRequest): Promise<{
   sources: WorkspaceHookSourceInput[];
   errors: WorkspaceHookSourceReadError[];
 }> {
-  const refs = await discoverWorkspaceHookConfigPathsAsync(input);
+  const refs = await discoverAsync(input);
   const sources: WorkspaceHookSourceInput[] = [];
   const errors: WorkspaceHookSourceReadError[] = [];
-  for (const [discoveryOrder, ref] of refs.entries()) {
+  for (let index = 0; index < refs.length; index += 1) {
+    const ref = refs[index];
+    if (!ref) continue;
     try {
       const content = await readFile(ref.path, "utf8");
       const value: unknown = JSON.parse(content);
-      if (!isRecord(value) || value.hooks === undefined) {
-        continue;
-      }
-      const hooks = workspaceHooksConfigSchema.parse(value.hooks);
+      const root = asRecord(value);
+      if (!root || root.hooks === undefined) continue;
+      const hooks = workspaceHooksConfigSchema.parse(root.hooks);
       sources.push(
         createWorkspaceHookSourceInput({
           path: ref.path,
           workingDirectory: input.workingDirectory,
           hooks,
-          discoveryOrder,
+          discoveryOrder: index,
           explicitProjectConfig: ref.explicitProjectConfig,
         }),
       );
     } catch (error) {
-      errors.push({ path: ref.path, error });
+      const failure: WorkspaceHookSourceReadError = { path: ref.path, error };
+      errors.push(failure);
     }
   }
   return { sources, errors };
-}
-
-async function discoverWorkspaceHookConfigPathsAsync(input: {
-  workingDirectory: string;
-  explicitProjectConfigPath?: string;
-}): Promise<WorkspaceHookConfigPathRef[]> {
-  const start = resolve(input.workingDirectory);
-  const directories = await getProjectConfigDirectoriesAsync(start);
-  const refs: WorkspaceHookConfigPathRef[] = [];
-  for (const path of buildWorkspaceHookCandidatePaths(directories)) {
-    if (await pathExists(path)) {
-      refs.push({ path, explicitProjectConfig: false });
-    }
-  }
-  if (input.explicitProjectConfigPath) {
-    const path = resolve(input.explicitProjectConfigPath);
-    if (await pathExists(path)) {
-      refs.push({ path, explicitProjectConfig: true });
-    }
-  }
-  return deduplicateWorkspaceHookConfigRefs(refs);
-}
-
-async function getProjectConfigDirectoriesAsync(start: string): Promise<string[]> {
-  const directories: string[] = [];
-  let current = start;
-  for (;;) {
-    directories.push(current);
-    if (await hasWorktreeMarkerAsync(current)) {
-      return directories.reverse();
-    }
-    const parent = dirname(current);
-    if (parent === current) {
-      break;
-    }
-    current = parent;
-  }
-  return [start];
-}
-
-async function hasWorktreeMarkerAsync(directory: string): Promise<boolean> {
-  try {
-    const stats = await stat(join(directory, ".git"));
-    return stats.isDirectory() || stats.isFile();
-  } catch (error) {
-    if (isNodeError(error, "ENOENT")) {
-      return false;
-    }
-    return false;
-  }
-}
-
-async function pathExists(path: string): Promise<boolean> {
-  try {
-    await access(path);
-    return true;
-  } catch {
-    return false;
-  }
-}
-
-function isNodeError(error: unknown, code: string): error is NodeJS.ErrnoException {
-  return error instanceof Error && "code" in error && error.code === code;
-}
-
-function getProjectConfigDirectories(start: string): string[] {
-  const directories: string[] = [];
-  let current = start;
-  for (;;) {
-    directories.push(current);
-    if (hasWorktreeMarker(current)) {
-      return directories.reverse();
-    }
-    const parent = dirname(current);
-    if (parent === current) {
-      break;
-    }
-    current = parent;
-  }
-  return [start];
-}
-
-function hasWorktreeMarker(directory: string): boolean {
-  try {
-    const marker = join(directory, ".git");
-    if (!existsSync(marker)) {
-      return false;
-    }
-    const stats = statSync(marker);
-    return stats.isDirectory() || stats.isFile();
-  } catch {
-    return false;
-  }
-}
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
 }

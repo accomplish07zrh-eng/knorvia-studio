@@ -1,116 +1,94 @@
-export const KNORVIA_KNOWN_TOOL_NAMES = [
-  "Read",
-  "Write",
-  "Edit",
-  "ApplyPatch",
-  "Bash",
-  "Glob",
-  "Grep",
-  "WebFetch",
-  "WebSearch",
-  "web_search",
-  "TodoRead",
-  "TodoWrite",
-  "GoalRead",
-  "ReadSessionContext",
-  "AskUserQuestion",
-  "SendMessage",
-  "RespondToCoordinator",
-  "TaskOutput",
-  "TaskStop",
-  "js",
-  "js_reset",
-  "js_add_node_module_dir",
-  "mcp__node_repl__js",
-  "mcp__node_repl__js_reset",
-  "mcp__node_repl__js_add_node_module_dir",
-  "Agent",
-  "Task",
-  "Skill",
-  "CreateWorkflow",
-  // 修订入口：登记进 workflow family 让确认窗
-  // 按 family 选中运行确认块；工具行侧则按名先分流（resolveRenderer.ts），family 兜底不会吞掉它。
-  "AmendWorkflow",
-  // wire 名就是 snake_case 的 submit_result（仓库里唯一一个），下划线必须字面在场：
-  // 未登记时 UI identity 退回 unknown，动态工作流 actor 的提交会落到 raw fallback renderer。
-  "submit_result",
-] as const;
+// SPDX-License-Identifier: Apache-2.0
+// 工具身份按目录序登记。归一化只做大小写折叠，不改写 AmendWorkflow / submit_result 的字面名。
 
-export type KnorviaKnownToolName = (typeof KNORVIA_KNOWN_TOOL_NAMES)[number];
+interface ToolCatalogRow {
+  readonly name: string;
+  readonly family: string;
+}
 
-export type KnorviaToolFamily =
-  | "file-read"
-  | "file-write"
-  | "shell"
-  | "search"
-  | "todo"
-  | "ask-user-question"
-  | "agent"
-  | "skill"
-  | "goal"
-  | "session-context"
-  | "message"
-  | "task-control"
-  | "node-repl"
-  | "workflow";
+const TOOL_CATALOG = [
+  { name: "Read", family: "file-read" },
+  { name: "Write", family: "file-write" },
+  { name: "Edit", family: "file-write" },
+  { name: "ApplyPatch", family: "file-write" },
+  { name: "Bash", family: "shell" },
+  { name: "Glob", family: "search" },
+  { name: "Grep", family: "search" },
+  { name: "WebFetch", family: "search" },
+  { name: "WebSearch", family: "search" },
+  { name: "web_search", family: "search" },
+  { name: "TodoRead", family: "todo" },
+  { name: "TodoWrite", family: "todo" },
+  { name: "GoalRead", family: "goal" },
+  { name: "ReadSessionContext", family: "session-context" },
+  { name: "AskUserQuestion", family: "ask-user-question" },
+  { name: "SendMessage", family: "message" },
+  { name: "RespondToCoordinator", family: "message" },
+  { name: "TaskOutput", family: "task-control" },
+  { name: "TaskStop", family: "task-control" },
+  { name: "js", family: "node-repl" },
+  { name: "js_reset", family: "node-repl" },
+  { name: "js_add_node_module_dir", family: "node-repl" },
+  { name: "mcp__node_repl__js", family: "node-repl" },
+  { name: "mcp__node_repl__js_reset", family: "node-repl" },
+  { name: "mcp__node_repl__js_add_node_module_dir", family: "node-repl" },
+  { name: "Agent", family: "agent" },
+  { name: "Task", family: "agent" },
+  { name: "Skill", family: "skill" },
+  { name: "CreateWorkflow", family: "workflow" },
+  { name: "AmendWorkflow", family: "workflow" },
+  { name: "submit_result", family: "workflow" },
+] as const satisfies readonly ToolCatalogRow[];
 
-const TOOL_FAMILY_BY_NAME: Record<KnorviaKnownToolName, KnorviaToolFamily> = {
-  Read: "file-read",
-  Write: "file-write",
-  Edit: "file-write",
-  ApplyPatch: "file-write",
-  Bash: "shell",
-  Glob: "search",
-  Grep: "search",
-  WebFetch: "search",
-  WebSearch: "search",
-  web_search: "search",
-  TodoRead: "todo",
-  TodoWrite: "todo",
-  GoalRead: "goal",
-  ReadSessionContext: "session-context",
-  AskUserQuestion: "ask-user-question",
-  SendMessage: "message",
-  RespondToCoordinator: "message",
-  TaskOutput: "task-control",
-  // TaskStop 未登记时 UI identity 会退回 unknown，最终落到 raw fallback renderer。
-  TaskStop: "task-control",
-  js: "node-repl",
-  js_reset: "node-repl",
-  js_add_node_module_dir: "node-repl",
-  // node_repl 由 MCP 暴露，进入 UI 的工具名因此带 MCP 前缀。
-  // 若这里只登记旧 built-in 名称，专用 REPL renderer 会退回 unknown fallback。
-  mcp__node_repl__js: "node-repl",
-  mcp__node_repl__js_reset: "node-repl",
-  mcp__node_repl__js_add_node_module_dir: "node-repl",
-  Agent: "agent",
-  Task: "agent",
-  Skill: "skill",
-  CreateWorkflow: "workflow",
-  AmendWorkflow: "workflow",
-  submit_result: "workflow",
-};
+type CatalogRow = (typeof TOOL_CATALOG)[number];
 
-const TOOL_NAME_BY_LOWER = new Map<string, KnorviaKnownToolName>(
-  KNORVIA_KNOWN_TOOL_NAMES.map((toolName) => [toolName.toLowerCase(), toolName]),
-);
+export type KnorviaKnownToolName = CatalogRow["name"];
+export type KnorviaToolFamily = CatalogRow["family"];
+
+export const KNORVIA_KNOWN_TOOL_NAMES: readonly KnorviaKnownToolName[] =
+  TOOL_CATALOG.map((row) => row.name);
+
+const FAMILY_BY_NAME: Record<KnorviaKnownToolName, KnorviaToolFamily> =
+  buildFamilyTable();
+const CANONICAL_BY_FOLDED = buildFoldedIndex(KNORVIA_KNOWN_TOOL_NAMES);
+
+const FILE_CONTENT_WRITE_NAME: KnorviaKnownToolName = "Write";
+
+function buildFamilyTable(): Record<KnorviaKnownToolName, KnorviaToolFamily> {
+  const table = {} as Record<KnorviaKnownToolName, KnorviaToolFamily>;
+  for (const row of TOOL_CATALOG) table[row.name] = row.family;
+  return table;
+}
+
+function buildFoldedIndex(
+  names: readonly KnorviaKnownToolName[],
+): Map<string, KnorviaKnownToolName> {
+  const index = new Map<string, KnorviaKnownToolName>();
+  for (const name of names) {
+    const folded = name.toLowerCase();
+    const prior = index.get(folded);
+    if (prior !== undefined && prior !== name) {
+      throw new Error(`tool name fold collision: ${prior} vs ${name}`);
+    }
+    index.set(folded, name);
+  }
+  return index;
+}
 
 export function normalizeKnorviaToolName(
   value: string | null | undefined,
 ): KnorviaKnownToolName | null {
-  const normalized = value?.trim();
-  if (!normalized) {
-    return null;
-  }
-
-  return TOOL_NAME_BY_LOWER.get(normalized.toLowerCase()) ?? null;
+  const trimmed = value?.trim() ?? "";
+  if (trimmed.length === 0) return null;
+  return CANONICAL_BY_FOLDED.get(trimmed.toLowerCase()) ?? null;
 }
 
 export function getKnorviaToolFamilyForName(
   value: string | null | undefined,
 ): KnorviaToolFamily | null {
-  const toolName = normalizeKnorviaToolName(value);
-  return toolName ? TOOL_FAMILY_BY_NAME[toolName] : null;
+  const canonical = normalizeKnorviaToolName(value);
+  if (canonical === null) return null;
+  return FAMILY_BY_NAME[canonical];
 }
 
 export function isKnorviaToolFamily(
@@ -120,6 +98,8 @@ export function isKnorviaToolFamily(
   return getKnorviaToolFamilyForName(value) === family;
 }
 
-export function isKnorviaFileContentWriteToolName(value: string | null | undefined): boolean {
-  return normalizeKnorviaToolName(value) === "Write";
+export function isKnorviaFileContentWriteToolName(
+  value: string | null | undefined,
+): boolean {
+  return normalizeKnorviaToolName(value) === FILE_CONTENT_WRITE_NAME;
 }
