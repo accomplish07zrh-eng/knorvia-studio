@@ -252,7 +252,7 @@
     "91b093267ccd931af394be6acab55e526d22176bb25df36316ab4ee239e74bc7",
     "1aeaac7b1343aaf54cad8f295985fc2bb3b0952e90230fe8d1ebf8594cac0180"
   ],
-  "summaryDeclaration": "import type { GetWorkflowRunOutput } from \"@knorvia/contracts\";\n/** 摘要要读的事实 = 整份输出减去摘要自己（handler 先铸出输出，再拿它拼这一句）。 */\ntype WorkflowRunSummaryFacts = Omit<GetWorkflowRunOutput, \"summary\">;\nexport declare function buildWorkflowRunSummary(run: WorkflowRunSummaryFacts): string;\nexport {};\n//# sourceMappingURL=get-workflow-run-summary.d.ts.map",
+  "summaryDeclaration": "import type { GetWorkflowRunOutput } from \"@knorvia/contracts\";\n/** 拼摘要所依据的事实面 = 整份输出摘掉摘要自身。 */\ntype SummaryFacts = Omit<GetWorkflowRunOutput, \"summary\">;\nexport declare function buildWorkflowRunSummary(run: SummaryFacts): string;\nexport {};\n//# sourceMappingURL=get-workflow-run-summary.d.ts.map",
   "directDigests": [
     "f86da7fc25e3a98ed6190ea2f86a51395cb702a815fdcf5e34251470df05f334",
     "ae59ea0e4ff4a939152b48e13a9bc48ebc893fe232a08d21e6760d5fc6b8465d",

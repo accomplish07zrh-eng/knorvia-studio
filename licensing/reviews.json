@@ -77761,7 +77761,7 @@
     },
     {
       "path": "apps/cli/packages/core/test/current-artifact-receipt-20261003.json",
-      "normalizedSha256": "d8e96c522eb27a24111210a318b201ad655773a0082d2ff3a88104862f11bc48",
+      "normalizedSha256": "09d3cd3efa0725ad776f801f6c94277f6301f2e491a83e3de446c5519f6f56c6",
       "decision": "independent-replacement",
       "license": "Apache-2.0",
       "basis": "Scoped re-pin after the core-tool-01 replacement: refreshes only the frozen sha256 records for the three in-scope rewritten artifacts (src/tool/diff.ts, src/tool/executor/utils.ts, src/tool/executor/workflow-published-artifacts.ts and their emitted dist twins) plus the chained receipt shas derived from them, restoring the pre-replacement evidence semantics without touching any assertion logic or product behaviour.",
@@ -77772,7 +77772,7 @@
     },
     {
       "path": "apps/cli/packages/core/test/current-artifact-receipt-20261003.ts",
-      "normalizedSha256": "492046de4f0280906f558d7840116d498b2bcd74a44f2ae2c4aacbc00eb28ff8",
+      "normalizedSha256": "dd09258845eba0ffb27756f933d9f807859a7b9c7ccb51fbc2479e517777a23e",
       "decision": "independent-replacement",
       "license": "Apache-2.0",
       "basis": "Scoped re-pin after the core-tool-01 replacement: refreshes only the frozen sha256 records for the three in-scope rewritten artifacts (src/tool/diff.ts, src/tool/executor/utils.ts, src/tool/executor/workflow-published-artifacts.ts and their emitted dist twins) plus the chained receipt shas derived from them, restoring the pre-replacement evidence semantics without touching any assertion logic or product behaviour.",
@@ -77783,7 +77783,7 @@
     },
     {
       "path": "apps/cli/packages/core/test/current-build-artifact-receipt-20261003.json",
-      "normalizedSha256": "f5ae59661642f57e2aa5c520fc11674f3be1255b78243fbc8df1e574b38de0b9",
+      "normalizedSha256": "8a3884346e2bed200585805f147d389052d7b16e052193c8c4c68755a6e9745b",
       "decision": "independent-replacement",
       "license": "Apache-2.0",
       "basis": "Scoped re-pin after the core-tool-01 replacement: refreshes only the frozen sha256 records for the three in-scope rewritten artifacts (src/tool/diff.ts, src/tool/executor/utils.ts, src/tool/executor/workflow-published-artifacts.ts and their emitted dist twins) plus the chained receipt shas derived from them, restoring the pre-replacement evidence semantics without touching any assertion logic or product behaviour.",
@@ -77805,7 +77805,7 @@
     },
     {
       "path": "apps/cli/packages/core/test/current-message-buffer-artifact-receipt-20261003.json",
-      "normalizedSha256": "e84a6127a286202434ce60ce6607981e555d033ded04d337c5d24884418d904e",
+      "normalizedSha256": "9720269558e2ad341bcd1522dcaae09d1b4a5c5f048fdae15ef5cea291849c8d",
       "decision": "independent-replacement",
       "license": "Apache-2.0",
       "basis": "Scoped re-pin after the core-tool-01 replacement: refreshes only the frozen sha256 records for the three in-scope rewritten artifacts (src/tool/diff.ts, src/tool/executor/utils.ts, src/tool/executor/workflow-published-artifacts.ts and their emitted dist twins) plus the chained receipt shas derived from them, restoring the pre-replacement evidence semantics without touching any assertion logic or product behaviour.",
@@ -86827,7 +86827,7 @@
         "docs/knorvia-m02-registration-2026-10-11.md",
         "scripts/provenance/similarity.mjs"
       ],
-      "normalizedSha256": "99c9000959f0ebddbcb5b63d86aecd73cef49d01ec8153d3c367d35276f97b78"
+      "normalizedSha256": "65fe56dfeefbe695d7cfb586b92b68c0f5998b24abb5ac1773ad4dbd4663341a"
     },
     {
       "path": "apps/cli/packages/core/test/workflow-run-summary-facts-fixture.ts",
@@ -142128,10 +142128,10 @@
       "normalizedSha256": "b093be5d2cb2bfd96424a23c127b64acc511567daf7ed017a87f49a2ebdcec1a",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia core-tool-handlers-workflow-runs-01 contract v1 deliverables",
+      "basis": "Knorvia core-tool-handlers-workflow-runs-01 replacement deliverables",
       "evidence": [
         "specs/contracts/core-tool-handlers-workflow-runs-01/acceptance.md",
-        "specs/contracts/core-tool-handlers-workflow-runs-01/behavior.md"
+        "specs/contracts/core-tool-handlers-workflow-runs-01/design.md"
       ]
     },
     {
@@ -142139,10 +142139,10 @@
       "normalizedSha256": "28e513dea3f286bb660169767551d93cb21d97b006097684308040fedec76ac7",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia core-tool-handlers-workflow-runs-01 contract v1 deliverables",
+      "basis": "Knorvia core-tool-handlers-workflow-runs-01 replacement deliverables",
       "evidence": [
         "specs/contracts/core-tool-handlers-workflow-runs-01/acceptance.md",
-        "specs/contracts/core-tool-handlers-workflow-runs-01/behavior.md"
+        "specs/contracts/core-tool-handlers-workflow-runs-01/design.md"
       ]
     },
     {
@@ -142150,10 +142150,10 @@
       "normalizedSha256": "4e2405152bb3426d39e37e005dd1d2350ef3e1fdf6698f64003f218b2d3f3909",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia core-tool-handlers-workflow-runs-01 contract v1 deliverables",
+      "basis": "Knorvia core-tool-handlers-workflow-runs-01 replacement deliverables",
       "evidence": [
         "specs/contracts/core-tool-handlers-workflow-runs-01/acceptance.md",
-        "specs/contracts/core-tool-handlers-workflow-runs-01/behavior.md"
+        "specs/contracts/core-tool-handlers-workflow-runs-01/design.md"
       ]
     },
     {
@@ -142172,32 +142172,32 @@
       "normalizedSha256": "662ca59a0dc90d4358cf72ccca08a1daff29127e73605c514f596bfe278c46cc",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia core-tool-handlers-workflow-runs-01 contract v1 deliverables",
+      "basis": "Knorvia core-tool-handlers-workflow-runs-01 replacement deliverables",
       "evidence": [
         "specs/contracts/core-tool-handlers-workflow-runs-01/acceptance.md",
-        "specs/contracts/core-tool-handlers-workflow-runs-01/behavior.md"
+        "specs/contracts/core-tool-handlers-workflow-runs-01/design.md"
       ]
     },
     {
       "path": "specs/contracts/core-tool-handlers-workflow-runs-01/acceptance.md",
-      "normalizedSha256": "c9805ce60188d2a088302a1ffd8faca7aeab29d01a6170de1c9ce226adae8dc6",
+      "normalizedSha256": "ddf79f332180515a6a255da0b216902edf4a3e9baf2a7a1008abcf77c0f6ea28",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia core-tool-handlers-workflow-runs-01 contract v1 deliverables",
+      "basis": "Knorvia core-tool-handlers-workflow-runs-01 replacement deliverables",
       "evidence": [
         "specs/contracts/core-tool-handlers-workflow-runs-01/acceptance.md",
-        "specs/contracts/core-tool-handlers-workflow-runs-01/behavior.md"
+        "specs/contracts/core-tool-handlers-workflow-runs-01/design.md"
       ]
     },
     {
       "path": "specs/contracts/core-tool-handlers-workflow-runs-01/gate-old.json",
-      "normalizedSha256": "32a064a2a771dee1179825781e7ee7d9fefb6cd3e4f917d812793a50ce051e74",
+      "normalizedSha256": "f223e2f031165a224def7142452eea2a97c7ff208fa05e35245db0972d2e3cd8",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia core-tool-handlers-workflow-runs-01 contract v1 deliverables",
+      "basis": "Knorvia core-tool-handlers-workflow-runs-01 replacement deliverables",
       "evidence": [
         "specs/contracts/core-tool-handlers-workflow-runs-01/acceptance.md",
-        "specs/contracts/core-tool-handlers-workflow-runs-01/behavior.md"
+        "specs/contracts/core-tool-handlers-workflow-runs-01/design.md"
       ]
     },
     {
@@ -142205,10 +142205,10 @@
       "normalizedSha256": "67c540520dbdeec9cb395ece76a14680848bb6b73ff2a286fa4562cf5c7f7031",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia core-tool-handlers-workflow-runs-01 contract v1 deliverables",
+      "basis": "Knorvia core-tool-handlers-workflow-runs-01 replacement deliverables",
       "evidence": [
         "specs/contracts/core-tool-handlers-workflow-runs-01/acceptance.md",
-        "specs/contracts/core-tool-handlers-workflow-runs-01/behavior.md"
+        "specs/contracts/core-tool-handlers-workflow-runs-01/design.md"
       ]
     },
     {
@@ -142326,142 +142326,142 @@
       "normalizedSha256": "2a41d09a352eaf5f8358d8027a191634ac86ff4a147763f4efbcfdf0a91e9d18",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia core-tool-handlers-workflow-runs-01 contract v1 deliverables",
+      "basis": "Knorvia core-tool-handlers-workflow-runs-01 replacement deliverables",
       "evidence": [
         "specs/contracts/core-tool-handlers-workflow-runs-01/acceptance.md",
-        "specs/contracts/core-tool-handlers-workflow-runs-01/behavior.md"
+        "specs/contracts/core-tool-handlers-workflow-runs-01/design.md"
       ]
     },
     {
-      "path": "specs/contracts/core-tool-handlers-workflow-runs-01/stubs/targets.txt",
-      "normalizedSha256": "56265686414b1474d2a08db277df568ba6e59cc843ebff15d99d1617a634d2e0",
+      "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run.ts",
+      "normalizedSha256": "6c41e1895ccc169bc121c9be8494e17e5c84244c002ca94dbed6196431da08c9",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia core-tool-handlers-workflow-runs-01 contract v1 deliverables",
+      "basis": "Knorvia rewrite of core-tool-handlers-workflow-runs-01 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 60/60; new implementation 60/60; max line containment 0.024, longest identical run 1, structural similarity 0.060 against the replaced files and the upstream baseline.",
       "evidence": [
-        "specs/contracts/core-tool-handlers-workflow-runs-01/acceptance.md",
-        "specs/contracts/core-tool-handlers-workflow-runs-01/behavior.md"
+        "specs/contracts/core-tool-handlers-workflow-runs-01/README.md",
+        "docs/knorvia-core-tool-handlers-workflow-runs-01-acceptance.md"
       ]
     },
     {
-      "path": "specs/contracts/core-tool-handlers-workflow-runs-01/stubs/apps/cli/packages/core/src/tool/handlers/get-workflow-run-activity-program.ts",
-      "normalizedSha256": "786adcb6764117b6e6890b8ca50191033dce329f2bf57a640fc5c843aa29bd3d",
+      "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-format.ts",
+      "normalizedSha256": "20d4e9fdeeb4e6c495ae76ff1cdd77f9eff415d6c417bba7d9acac0e82a91c48",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia core-tool-handlers-workflow-runs-01 contract v1 deliverables",
+      "basis": "Knorvia rewrite of core-tool-handlers-workflow-runs-01 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 60/60; new implementation 60/60; max line containment 0.110, longest identical run 2, structural similarity 0.379 against the replaced files and the upstream baseline.",
       "evidence": [
-        "specs/contracts/core-tool-handlers-workflow-runs-01/acceptance.md",
-        "specs/contracts/core-tool-handlers-workflow-runs-01/behavior.md"
+        "specs/contracts/core-tool-handlers-workflow-runs-01/README.md",
+        "docs/knorvia-core-tool-handlers-workflow-runs-01-acceptance.md"
       ]
     },
     {
-      "path": "specs/contracts/core-tool-handlers-workflow-runs-01/stubs/apps/cli/packages/core/src/tool/handlers/get-workflow-run-format-roster.ts",
-      "normalizedSha256": "7374131f88a726253b6a08484147fef879bfa7ae4156a63af0ebdcd84272b214",
+      "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-format-roster.ts",
+      "normalizedSha256": "bc6b6a7f0b4844bbd61a7d459f189c0eaa4af51025f6e50b71bf1c1125c3f394",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia core-tool-handlers-workflow-runs-01 contract v1 deliverables",
+      "basis": "Knorvia rewrite of core-tool-handlers-workflow-runs-01 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 60/60; new implementation 60/60; max line containment 0.194, longest identical run 7, structural similarity 0.019 against the replaced files and the upstream baseline.",
       "evidence": [
-        "specs/contracts/core-tool-handlers-workflow-runs-01/acceptance.md",
-        "specs/contracts/core-tool-handlers-workflow-runs-01/behavior.md"
+        "specs/contracts/core-tool-handlers-workflow-runs-01/README.md",
+        "docs/knorvia-core-tool-handlers-workflow-runs-01-acceptance.md"
       ]
     },
     {
-      "path": "specs/contracts/core-tool-handlers-workflow-runs-01/stubs/apps/cli/packages/core/src/tool/handlers/get-workflow-run-format.ts",
-      "normalizedSha256": "46ad9d42d8be998ff19665be18124c6ee297fdc075595af8bd475989d37abc6b",
+      "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-roster-output.ts",
+      "normalizedSha256": "2ab7ad3e01419c692d74b531793c4966b42c70ad42903e71b01c28e4fd4c71d7",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia core-tool-handlers-workflow-runs-01 contract v1 deliverables",
+      "basis": "Knorvia rewrite of core-tool-handlers-workflow-runs-01 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 60/60; new implementation 60/60; max line containment 0.136, longest identical run 4, structural similarity 0.064 against the replaced files and the upstream baseline.",
       "evidence": [
-        "specs/contracts/core-tool-handlers-workflow-runs-01/acceptance.md",
-        "specs/contracts/core-tool-handlers-workflow-runs-01/behavior.md"
+        "specs/contracts/core-tool-handlers-workflow-runs-01/README.md",
+        "docs/knorvia-core-tool-handlers-workflow-runs-01-acceptance.md"
       ]
     },
     {
-      "path": "specs/contracts/core-tool-handlers-workflow-runs-01/stubs/apps/cli/packages/core/src/tool/handlers/get-workflow-run-roster-output.ts",
-      "normalizedSha256": "a3c67f2f20d92d148445ad212158a104cba525b62d28cbee14bab9d7e0435446",
+      "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-summary.ts",
+      "normalizedSha256": "0436a26416315965bb35ead1f65460ddc7454a1b8afb73cd6139716dbb230afb",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia core-tool-handlers-workflow-runs-01 contract v1 deliverables",
+      "basis": "Knorvia rewrite of core-tool-handlers-workflow-runs-01 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 60/60; new implementation 60/60; max line containment 0.109, longest identical run 1, structural similarity 0.353 against the replaced files and the upstream baseline.",
       "evidence": [
-        "specs/contracts/core-tool-handlers-workflow-runs-01/acceptance.md",
-        "specs/contracts/core-tool-handlers-workflow-runs-01/behavior.md"
+        "specs/contracts/core-tool-handlers-workflow-runs-01/README.md",
+        "docs/knorvia-core-tool-handlers-workflow-runs-01-acceptance.md"
       ]
     },
     {
-      "path": "specs/contracts/core-tool-handlers-workflow-runs-01/stubs/apps/cli/packages/core/src/tool/handlers/get-workflow-run-summary.ts",
-      "normalizedSha256": "6a74dbb0c60f9b84e7fb4b165369cf07f6fbe4ab63641046a1d02e688404c324",
+      "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-activity-program.ts",
+      "normalizedSha256": "f98e6d63aa95ddd7b1f001049d140bb4179b0fe64c40bd5962111ab2b121b3f2",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia core-tool-handlers-workflow-runs-01 contract v1 deliverables",
+      "basis": "Knorvia rewrite of core-tool-handlers-workflow-runs-01 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 60/60; new implementation 60/60; max line containment 0.154, longest identical run 4, structural similarity 0.350 against the replaced files and the upstream baseline.",
       "evidence": [
-        "specs/contracts/core-tool-handlers-workflow-runs-01/acceptance.md",
-        "specs/contracts/core-tool-handlers-workflow-runs-01/behavior.md"
+        "specs/contracts/core-tool-handlers-workflow-runs-01/README.md",
+        "docs/knorvia-core-tool-handlers-workflow-runs-01-acceptance.md"
       ]
     },
     {
-      "path": "specs/contracts/core-tool-handlers-workflow-runs-01/stubs/apps/cli/packages/core/src/tool/handlers/get-workflow-run.ts",
-      "normalizedSha256": "a5fda87c7ab0c489103794b4e6d0ce6eb131f668d86cadcd5561232b863286f8",
+      "path": "apps/cli/packages/core/src/tool/handlers/list-workflow-runs.ts",
+      "normalizedSha256": "8e3d3714578d88fbb3ea454714575a04bf3fa4095ffc09c89e4f68eca9492116",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia core-tool-handlers-workflow-runs-01 contract v1 deliverables",
+      "basis": "Knorvia rewrite of core-tool-handlers-workflow-runs-01 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 60/60; new implementation 60/60; max line containment 0.072, longest identical run 2, structural similarity 0.061 against the replaced files and the upstream baseline.",
       "evidence": [
-        "specs/contracts/core-tool-handlers-workflow-runs-01/acceptance.md",
-        "specs/contracts/core-tool-handlers-workflow-runs-01/behavior.md"
+        "specs/contracts/core-tool-handlers-workflow-runs-01/README.md",
+        "docs/knorvia-core-tool-handlers-workflow-runs-01-acceptance.md"
       ]
     },
     {
-      "path": "specs/contracts/core-tool-handlers-workflow-runs-01/stubs/apps/cli/packages/core/src/tool/handlers/list-models.ts",
-      "normalizedSha256": "c4aa1ffcdd56080119deb77124973769c98cdea4290c95841a18254b4197ba39",
+      "path": "apps/cli/packages/core/src/tool/handlers/list-saved-workflows.ts",
+      "normalizedSha256": "8fe0e1c69cff5ea22d2f2107f718b712eadb487425c41be647c2e1ce943d5203",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia core-tool-handlers-workflow-runs-01 contract v1 deliverables",
+      "basis": "Knorvia rewrite of core-tool-handlers-workflow-runs-01 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 60/60; new implementation 60/60; max line containment 0.190, longest identical run 6, structural similarity 0.024 against the replaced files and the upstream baseline.",
       "evidence": [
-        "specs/contracts/core-tool-handlers-workflow-runs-01/acceptance.md",
-        "specs/contracts/core-tool-handlers-workflow-runs-01/behavior.md"
+        "specs/contracts/core-tool-handlers-workflow-runs-01/README.md",
+        "docs/knorvia-core-tool-handlers-workflow-runs-01-acceptance.md"
       ]
     },
     {
-      "path": "specs/contracts/core-tool-handlers-workflow-runs-01/stubs/apps/cli/packages/core/src/tool/handlers/list-saved-workflows.ts",
-      "normalizedSha256": "0916c09d1aaf968d4bd9d0d42ff8339a4ef3fecd6fee14b778220d52158a0e15",
+      "path": "apps/cli/packages/core/src/tool/handlers/list-models.ts",
+      "normalizedSha256": "5ce81f1580302cc2a8d39025540e74030c846308f8840608ce921cc34fc2915a",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia core-tool-handlers-workflow-runs-01 contract v1 deliverables",
+      "basis": "Knorvia rewrite of core-tool-handlers-workflow-runs-01 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 60/60; new implementation 60/60; max line containment 0.156, longest identical run 3, structural similarity 0.000 against the replaced files and the upstream baseline.",
       "evidence": [
-        "specs/contracts/core-tool-handlers-workflow-runs-01/acceptance.md",
-        "specs/contracts/core-tool-handlers-workflow-runs-01/behavior.md"
+        "specs/contracts/core-tool-handlers-workflow-runs-01/README.md",
+        "docs/knorvia-core-tool-handlers-workflow-runs-01-acceptance.md"
       ]
     },
     {
-      "path": "specs/contracts/core-tool-handlers-workflow-runs-01/stubs/apps/cli/packages/core/src/tool/handlers/list-workflow-runs.ts",
-      "normalizedSha256": "4ce38c2f6ac51effec841cc6f125dd449bfea90c85d4403890835350c8d89dcf",
+      "path": "apps/cli/packages/core/src/tool/handlers/resume-workflow-run.ts",
+      "normalizedSha256": "f00fdc6b9434518b5e5ec3207dab7b44a0d6351a8fa75e2fc840294960640cf8",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia core-tool-handlers-workflow-runs-01 contract v1 deliverables",
+      "basis": "Knorvia rewrite of core-tool-handlers-workflow-runs-01 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 60/60; new implementation 60/60; max line containment 0.186, longest identical run 6, structural similarity 0.286 against the replaced files and the upstream baseline.",
       "evidence": [
-        "specs/contracts/core-tool-handlers-workflow-runs-01/acceptance.md",
-        "specs/contracts/core-tool-handlers-workflow-runs-01/behavior.md"
+        "specs/contracts/core-tool-handlers-workflow-runs-01/README.md",
+        "docs/knorvia-core-tool-handlers-workflow-runs-01-acceptance.md"
       ]
     },
     {
-      "path": "specs/contracts/core-tool-handlers-workflow-runs-01/stubs/apps/cli/packages/core/src/tool/handlers/resolve-workflow-question.ts",
-      "normalizedSha256": "8b982879eb567cc1754a475076efba40b1f4854b69503f6b5e0739d858dae893",
+      "path": "apps/cli/packages/core/src/tool/handlers/resolve-workflow-question.ts",
+      "normalizedSha256": "a85cae74b267bbe3c30fcb3c62d7e74b158a02f455e78e3713cb24687c27c8d9",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia core-tool-handlers-workflow-runs-01 contract v1 deliverables",
+      "basis": "Knorvia rewrite of core-tool-handlers-workflow-runs-01 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 60/60; new implementation 60/60; max line containment 0.184, longest identical run 6, structural similarity 0.143 against the replaced files and the upstream baseline.",
       "evidence": [
-        "specs/contracts/core-tool-handlers-workflow-runs-01/acceptance.md",
-        "specs/contracts/core-tool-handlers-workflow-runs-01/behavior.md"
+        "specs/contracts/core-tool-handlers-workflow-runs-01/README.md",
+        "docs/knorvia-core-tool-handlers-workflow-runs-01-acceptance.md"
       ]
     },
     {
-      "path": "specs/contracts/core-tool-handlers-workflow-runs-01/stubs/apps/cli/packages/core/src/tool/handlers/resume-workflow-run.ts",
-      "normalizedSha256": "9bc617db62bb7d504f94ae478ba6063f4d9b8c828fe75e8534969a2a301e5129",
+      "path": "specs/contracts/core-tool-handlers-workflow-runs-01/design.md",
+      "normalizedSha256": "149aed0e1382baa87bcc2a8afd21d5e989b51df275b78a22d41bd49abd19e41b",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia core-tool-handlers-workflow-runs-01 contract v1 deliverables",
+      "basis": "Knorvia core-tool-handlers-workflow-runs-01 replacement deliverables",
       "evidence": [
         "specs/contracts/core-tool-handlers-workflow-runs-01/acceptance.md",
-        "specs/contracts/core-tool-handlers-workflow-runs-01/behavior.md"
+        "specs/contracts/core-tool-handlers-workflow-runs-01/design.md"
       ]
     },
     {
@@ -142791,6 +142791,25 @@
       "license": "Apache-2.0",
       "basis": "Contract for core-runtime-methods-02: authored contract documentation, black-box contract tests, golden fixtures recorded from the legacy implementation, stub skeletons and gate evidence for the independent replacement of the turn-model-step/tool-batch/compact slice; no upstream code copied.",
       "evidence": ["specs/contracts/core-runtime-methods-02/behavior.md"]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/workflow-readonly-surface.ts",
+      "normalizedSha256": "623a3850fb4fc1f8b9fefc233be235c93ddcdf72eafc9d6b9398689adfc4eb4c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of core-tool-handlers-workflow-runs-01 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 60/60; new implementation 60/60; max line containment 0.033, longest identical run 2, structural similarity 0.011 against the replaced files and the upstream baseline.",
+      "evidence": [
+        "specs/contracts/core-tool-handlers-workflow-runs-01/README.md",
+        "docs/knorvia-core-tool-handlers-workflow-runs-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-core-tool-handlers-workflow-runs-01-acceptance.md",
+      "normalizedSha256": "11031f50ad337f42372cfc1b1b2258583ad109cd4426de982ffa9082e4a73928",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Acceptance record for the Knorvia core-tool-handlers-workflow-runs-01 replacement, written by Knorvia.",
+      "evidence": ["specs/contracts/core-tool-handlers-workflow-runs-01/README.md"]
     }
   ]
 }

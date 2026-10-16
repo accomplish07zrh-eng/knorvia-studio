@@ -1,8 +1,8 @@
 {
   "contract": "core-tool-handlers-workflow-runs-01",
-  "commit": "5f87829584e3a775356e03383c5e592184b9a962",
+  "commit": "3bc86f29584be9fa984f215781a7ed9f13697b7a",
   "node": "v24.14.0",
-  "generatedAt": "2026-10-15T14:30:07.300Z",
+  "generatedAt": "2026-10-15T16:04:29.004Z",
   "runner": "scripts/contract-gate.mjs",
   "testFiles": [
     "specs/contracts/core-tool-handlers-workflow-runs-01/tests/fixtures.test.ts",
@@ -22,7 +22,7 @@
       "fail": 0,
       "skipped": 0,
       "todo": 0,
-      "outputTail": "✔ B-tp-1 getWorkflowRunToolEntry: artifact strategy, 400k budget, 100k model chars, input in pattern (2.3467ms)\n✔ B-tp-2 listWorkflowRunsToolEntry: 24k truncate/head, toolName-only patterns, no inherited alwaysAsk (0.3283ms)\n✔ B-tp-3 listSavedWorkflowsToolEntry: 24k truncate/head, toolName-only, cancel wording pinned (0.2291ms)\n✔ B-tp-4 listModelsToolEntry: 24k truncate/head, toolName-only, cancel wording pinned (0.2801ms)\n✔ B-tp-5 resumeWorkflowRunToolEntry: readOnly false, 15s, propagateToAdapters true, input patterns (0.2765ms)\n✔ B-tp-6 resolveWorkflowQuestionToolEntry: readOnly false, 15s, propagateToAdapters true, input patterns (0.1812ms)\nℹ tests 60\nℹ suites 0\nℹ pass 60\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 36754.8177"
+      "outputTail": "✔ B-tp-1 getWorkflowRunToolEntry: artifact strategy, 400k budget, 100k model chars, input in pattern (2.2435ms)\n✔ B-tp-2 listWorkflowRunsToolEntry: 24k truncate/head, toolName-only patterns, no inherited alwaysAsk (0.3134ms)\n✔ B-tp-3 listSavedWorkflowsToolEntry: 24k truncate/head, toolName-only, cancel wording pinned (0.2435ms)\n✔ B-tp-4 listModelsToolEntry: 24k truncate/head, toolName-only, cancel wording pinned (0.3029ms)\n✔ B-tp-5 resumeWorkflowRunToolEntry: readOnly false, 15s, propagateToAdapters true, input patterns (0.2942ms)\n✔ B-tp-6 resolveWorkflowQuestionToolEntry: readOnly false, 15s, propagateToAdapters true, input patterns (0.2108ms)\nℹ tests 60\nℹ suites 0\nℹ pass 60\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 54059.001"
     },
     "dist": {
       "exitCode": 0,
@@ -31,7 +31,7 @@
       "fail": 0,
       "skipped": 0,
       "todo": 0,
-      "outputTail": "✔ B-tp-1 getWorkflowRunToolEntry: artifact strategy, 400k budget, 100k model chars, input in pattern (2.3565ms)\n✔ B-tp-2 listWorkflowRunsToolEntry: 24k truncate/head, toolName-only patterns, no inherited alwaysAsk (0.3004ms)\n✔ B-tp-3 listSavedWorkflowsToolEntry: 24k truncate/head, toolName-only, cancel wording pinned (0.2479ms)\n✔ B-tp-4 listModelsToolEntry: 24k truncate/head, toolName-only, cancel wording pinned (0.2617ms)\n✔ B-tp-5 resumeWorkflowRunToolEntry: readOnly false, 15s, propagateToAdapters true, input patterns (0.3092ms)\n✔ B-tp-6 resolveWorkflowQuestionToolEntry: readOnly false, 15s, propagateToAdapters true, input patterns (0.2375ms)\nℹ tests 60\nℹ suites 0\nℹ pass 60\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 36548.8468",
+      "outputTail": "✔ B-tp-1 getWorkflowRunToolEntry: artifact strategy, 400k budget, 100k model chars, input in pattern (2.176ms)\n✔ B-tp-2 listWorkflowRunsToolEntry: 24k truncate/head, toolName-only patterns, no inherited alwaysAsk (0.297ms)\n✔ B-tp-3 listSavedWorkflowsToolEntry: 24k truncate/head, toolName-only, cancel wording pinned (0.2329ms)\n✔ B-tp-4 listModelsToolEntry: 24k truncate/head, toolName-only, cancel wording pinned (0.3608ms)\n✔ B-tp-5 resumeWorkflowRunToolEntry: readOnly false, 15s, propagateToAdapters true, input patterns (0.3176ms)\n✔ B-tp-6 resolveWorkflowQuestionToolEntry: readOnly false, 15s, propagateToAdapters true, input patterns (0.2331ms)\nℹ tests 60\nℹ suites 0\nℹ pass 60\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 35500.9048",
       "environment": {},
       "loader": "specs/contracts/core-tool-handlers-workflow-runs-01/dist-entry-loader.mjs"
     }
@@ -43,7 +43,7 @@
     "fail": 7,
     "allFail": true,
     "exitCode": 1,
-    "outputTail": "✖ D:\\knorvia studio开发\\wt\\wfr-01\\specs\\contracts\\core-tool-handlers-workflow-runs-01\\tests\\lists.test.ts (5544.9627ms)\n  'test failed'\n\ntest at specs\\contracts\\core-tool-handlers-workflow-runs-01\\tests\\resolve-workflow-question.test.ts:1:1\n✖ D:\\knorvia studio开发\\wt\\wfr-01\\specs\\contracts\\core-tool-handlers-workflow-runs-01\\tests\\resolve-workflow-question.test.ts (1230.8366ms)\n  'test failed'\n\ntest at specs\\contracts\\core-tool-handlers-workflow-runs-01\\tests\\resume-workflow-run.test.ts:1:1\n✖ D:\\knorvia studio开发\\wt\\wfr-01\\specs\\contracts\\core-tool-handlers-workflow-runs-01\\tests\\resume-workflow-run.test.ts (1211.1211ms)\n  'test failed'\n\ntest at specs\\contracts\\core-tool-handlers-workflow-runs-01\\tests\\tool-entries.test.ts:1:1\n✖ D:\\knorvia studio开发\\wt\\wfr-01\\specs\\contracts\\core-tool-handlers-workflow-runs-01\\tests\\tool-entries.test.ts (1193.428ms)\n  'test failed'"
+    "outputTail": "✖ D:\\knorvia studio开发\\wt\\wfr-rr\\specs\\contracts\\core-tool-handlers-workflow-runs-01\\tests\\lists.test.ts (5461.614ms)\n  'test failed'\n\ntest at specs\\contracts\\core-tool-handlers-workflow-runs-01\\tests\\resolve-workflow-question.test.ts:1:1\n✖ D:\\knorvia studio开发\\wt\\wfr-rr\\specs\\contracts\\core-tool-handlers-workflow-runs-01\\tests\\resolve-workflow-question.test.ts (1200.8264ms)\n  'test failed'\n\ntest at specs\\contracts\\core-tool-handlers-workflow-runs-01\\tests\\resume-workflow-run.test.ts:1:1\n✖ D:\\knorvia studio开发\\wt\\wfr-rr\\specs\\contracts\\core-tool-handlers-workflow-runs-01\\tests\\resume-workflow-run.test.ts (1184.0832ms)\n  'test failed'\n\ntest at specs\\contracts\\core-tool-handlers-workflow-runs-01\\tests\\tool-entries.test.ts:1:1\n✖ D:\\knorvia studio开发\\wt\\wfr-rr\\specs\\contracts\\core-tool-handlers-workflow-runs-01\\tests\\tool-entries.test.ts (1113.1589ms)\n  'test failed'"
   },
   "pass": true
 }

@@ -1,136 +1,81 @@
-// ============================================================
-// GetWorkflowRun 的 `<summary>`：情势的一句话
-// ============================================================
-//
-// 这句话**确定性地**从结构化字段拼出，没有任何模型参与：同一份快照永远拼出同一句话，
-// 所以它可以被逐字钉住，也不会在两次读之间自己改口。它回答的是读者真正问的三件事——
-// 这个 run 在哪、它在动吗、有没有事等着我做——而下面各块是这三个答案的展开。
-//
-// 一条纪律贯穿全文：**不知道就不说**。没有时间戳就不给年龄，没有阶段就不提阶段位置，
-// 查不到停驻表就明说「不知道」，绝不用 0 或「unknown」冒充一个事实。
+// SPDX-License-Identifier: Apache-2.0
+// `<summary>` 生成器：把快照压成一句话。确定性——同输入必同句，全程无模型参与。
+// 两条硬规矩：① 超预算先从尾巴整句扔（前两句是骨头，永远留），真扔不动才硬切加省略号；
+// ② 没有的事实不编——没时刻就不写年龄，查不到停驻表就把「查不到」说出来。
 
 import type { GetWorkflowRunOutput } from "@knorvia/contracts";
 import { GET_WORKFLOW_RUN_SUMMARY_MAX_CHARS } from "@knorvia/contracts";
 import { readWorkflowSummaryClause } from "./get-workflow-run-summary-clauses.js";
 
-/** 摘要要读的事实 = 整份输出减去摘要自己（handler 先铸出输出，再拿它拼这一句）。 */
-type WorkflowRunSummaryFacts = Omit<GetWorkflowRunOutput, "summary">;
+/** 拼摘要所依据的事实面 = 整份输出摘掉摘要自身。 */
+type SummaryFacts = Omit<GetWorkflowRunOutput, "summary">;
 
-/** 终态三词：run 已经没有下一步动作了（与端口的终态判定同集）。 */
+/** 没有下一步动作的三种状态（与端口终态判定一致）。 */
 const TERMINAL_STATUSES: ReadonlySet<string> = new Set(["completed", "errored", "stopped"]);
 
-/** 超出字符预算时整句整句地丢，实在丢不动才硬切——省略号留一个字符。 */
-const SUMMARY_ELLIPSIS = "…";
+const ELLIPSIS = "…"; // 硬切收尾符号（占一格）
+const JOIN = " "; // 句间分隔
 
-const SUMMARY_SEPARATOR = " ";
-type SummaryContribution = {
-  required: boolean;
-  read: (run: WorkflowRunSummaryFacts, now: number, terminal: boolean) => string | undefined;
+type Contribution = {
+  essential: boolean; // 骨头句：任何预算下都不许扔
+  read: (run: SummaryFacts, clock: number, terminal: boolean) => string | undefined;
 };
 
-// 贡献按读取顺序执行，是否保留只在全部读取完成后决定；被预算丢弃的句子仍可能抛错。
-const SUMMARY_CONTRIBUTIONS: readonly SummaryContribution[] = [
+function fromClause(
+  kind: "questions" | "progress" | "failure" | "deliverable" | "ownership",
+): Contribution["read"] {
+  return (run) => readWorkflowSummaryClause(kind, run);
+}
+
+// 七条贡献按读者关心的顺序排：在哪 → 走多远 → 出过事吗 → 谁在等 → 动过吗 → 交付物 → 归属。
+const CONTRIBS: readonly Contribution[] = [
   {
-    required: true,
-    read: (run, now, terminal) => `${statusClause(run, now, terminal)}${phaseClause(run)}.`,
+    essential: true,
+    read: (run, clock, terminal) =>
+      `${readWorkflowSummaryClause("status", run, clock, terminal)!}${readWorkflowSummaryClause("phase", run)!}.`,
   },
-  { required: true, read: (run, _now, terminal) => `${stepsClause(run, terminal)}.` },
-  { required: false, read: failureClause },
-  { required: false, read: questionsClause },
-  { required: false, read: progressClause },
-  { required: false, read: deliverableClause },
-  { required: false, read: ownershipClause },
+  {
+    essential: true,
+    read: (run, _clock, terminal) => `${readWorkflowSummaryClause("steps", run, 0, terminal)!}.`,
+  },
+  { essential: false, read: fromClause("failure") },
+  { essential: false, read: fromClause("questions") },
+  {
+    essential: false,
+    // progress 子句要读时钟（相对年龄）且终态下整句抑制——fromClause 的无参形态不够
+    read: (run, clock, terminal) => readWorkflowSummaryClause("progress", run, clock, terminal),
+  },
+  { essential: false, read: fromClause("deliverable") },
+  { essential: false, read: fromClause("ownership") },
 ];
 
-export function buildWorkflowRunSummary(run: WorkflowRunSummaryFacts): string {
-  const now = run.generatedAt;
+export function buildWorkflowRunSummary(run: SummaryFacts): string {
+  const clock = run.generatedAt;
   const terminal = TERMINAL_STATUSES.has(run.status);
-  const sentences: string[] = [];
-  let requiredCount = 0;
-  for (const contribution of SUMMARY_CONTRIBUTIONS) {
-    const sentence = contribution.read(run, now, terminal);
-    if (sentence === undefined) continue;
-    sentences.push(sentence);
-    if (contribution.required) requiredCount += 1;
+  const picked: string[] = [];
+  let essentials = 0;
+  for (const contribution of CONTRIBS) {
+    const line = contribution.read(run, clock, terminal);
+    if (line === undefined) continue;
+    picked.push(line);
+    if (contribution.essential) essentials += 1;
   }
-  return fitSummaryPrefix(sentences, requiredCount);
+  return clampToBudget(picked, essentials);
 }
 
-function fitSummaryPrefix(sentences: readonly string[], requiredCount: number): string {
+/**
+ * 预算裁剪：先用整段 join 的长度说话（这一步的长度错误不许被裁句动作吞掉——独立极限探针钉住），
+ * 然后从尾句开始整句扔，扔到只剩骨头句；仍超预算才切片补省略号。
+ */
+function clampToBudget(sentences: readonly string[], essentials: number): string {
+  const whole = sentences.join(JOIN);
+  let span = whole.length;
   let kept = sentences.length;
-  // 独立极限探针证明：先裁句会吞掉原始整段 join 的字符串长度错误，必须先保留该失败点。
-  const combined = sentences.join(SUMMARY_SEPARATOR);
-  let length = combined.length;
-
-  // 头两句是骨架（这个 run 在哪 + 走到第几步），任何预算下都不丢。
-  while (kept > requiredCount && length > GET_WORKFLOW_RUN_SUMMARY_MAX_CHARS) {
+  while (kept > essentials && span > GET_WORKFLOW_RUN_SUMMARY_MAX_CHARS) {
     kept -= 1;
-    length -= sentences[kept]!.length + SUMMARY_SEPARATOR.length;
+    span -= sentences[kept]!.length + JOIN.length;
   }
-  const text = combined.slice(0, length);
-  if (length <= GET_WORKFLOW_RUN_SUMMARY_MAX_CHARS) return text;
-  return `${text.slice(0, GET_WORKFLOW_RUN_SUMMARY_MAX_CHARS - SUMMARY_ELLIPSIS.length)}${SUMMARY_ELLIPSIS}`;
-}
-
-/** 状态 + 它已经跑了多久 / 结束了多久。 */
-function statusClause(run: WorkflowRunSummaryFacts, now: number, terminal: boolean): string {
-  return readWorkflowSummaryClause("status", run, now, terminal)!;
-}
-
-/**
- * 阶段位置。活着的（或终态但还有阶段没收口的）run 说「第几 / 共几」，全部走完的只说共几个——
- * 对一个已经跑完的 run，「在第 4 个阶段」是句没有信息的话。脚本没有阶段时整句不出现。
- */
-function phaseClause(run: WorkflowRunSummaryFacts): string {
-  return readWorkflowSummaryClause("phase", run)!;
-}
-
-/** 步数。`nodesObserved` 是已落库节点行数，绝不冒充「总步数」——动态工作流没有静态总数。 */
-function stepsClause(run: WorkflowRunSummaryFacts, terminal: boolean): string {
-  return readWorkflowSummaryClause("steps", run, 0, terminal)!;
-}
-
-/**
- * 在飞那几步分别在干什么（花名册的相位计数）。花名册读不出时整个括号不出现。
- *
- * **不变式**：一个处在活相位的子代理（`executing` / `waiting` / `parked`）名下恰有一条还标着
- * `running` 的 ask 行——`waiting` 是那条 ask 在等槽位或在退避，`parked` 是它停在一个问题上，
- * 两者的行都还没结算。所以这三个数是 `usage.nodesRunning` 的一个**划分**，加起来必须等于它。
- * 括号里的数与括号外的数对不上，只可能是造数据的人手搓了一份现实中不存在的 journal。
- */
-/**
- * 待答问题。**「不知道」是一句必须说出口的话**：读另一个进程名下的 run 时，「没有人在等」
- * 与「查不到」长得一模一样，而这两者对模型是完全不同的下一步。
- */
-function questionsClause(run: WorkflowRunSummaryFacts): string | undefined {
-  return readWorkflowSummaryClause("questions", run);
-}
-
-/** 最后一次被观察到在动是什么时候；停滞了就把这个词说出来。 */
-function progressClause(
-  run: WorkflowRunSummaryFacts,
-  now: number,
-  terminal: boolean,
-): string | undefined {
-  return readWorkflowSummaryClause("progress", run, now, terminal);
-}
-
-/** 失败码进摘要：模型据它分辨「进程死了」与「脚本真失败」，而这决定它下一步走哪条路由。 */
-function failureClause(run: WorkflowRunSummaryFacts): string | undefined {
-  return readWorkflowSummaryClause("failure", run);
-}
-
-/**
- * 交付物（completed 才有）：读者要被指向那一件东西，而不是一张产物清单。
- *
- * 标题**不加引号**：这一句最终会经 XML-ish 转义进 `<summary>`，而那张转义表把 `"` 换成
- * `&quot;`——一对为了可读性加的引号会在模型眼前变成两团实体。括号里的 kind 已经把标题括住了。
- */
-function deliverableClause(run: WorkflowRunSummaryFacts): string | undefined {
-  return readWorkflowSummaryClause("deliverable", run);
-}
-
-/** 非本会话拥有的 run：通知不会来，TaskOutput 也看不到它——summary 首句必须写明归属。 */
-function ownershipClause(run: WorkflowRunSummaryFacts): string | undefined {
-  return readWorkflowSummaryClause("ownership", run);
+  const keptText = whole.slice(0, span);
+  if (span <= GET_WORKFLOW_RUN_SUMMARY_MAX_CHARS) return keptText;
+  return `${keptText.slice(0, GET_WORKFLOW_RUN_SUMMARY_MAX_CHARS - ELLIPSIS.length)}${ELLIPSIS}`;
 }

@@ -1,19 +1,6 @@
-// ============================================================
-// GetWorkflowRun Tool Handler
-// ============================================================
-// 单 workflow run 的自适应详情：running → 进度摘要 + log 尾巴；终态 → 产物 / 失败。
-//
-// handler 只做四件端口做不了的事：
-//   1. **产物序列化**。端口交出的是脚本返回值的**原值**；面向模型的文本投影在 core 有唯一
-//      实现（`serializeWorkflowArtifact`，完成通知与 TaskOutput 共用它）。在端口侧再做一次
-//      就会出现「同一个 run 的产物在通知里和在本工具里长得不一样」。
-//   2. **未知 runId 的归一**。端口回 `undefined`，模型要的是一个结构化失败。
-//   3. **读一次时钟**。`generatedAt` 在这里取一次，模型面所有「多久以前」都对它算——
-//      格式器因此是纯函数，一次输出里的两个年龄也永远可比。
-//   4. **拼摘要**。`summary` 由结构化字段确定性拼出（get-workflow-run-summary.ts），
-//      没有模型参与。
-//
-// 刻意**不做** wait/block 语义：等待是 TaskOutput 的活，这里是即时快照。
+// SPDX-License-Identifier: Apache-2.0
+// 单 run 即时快照：不等待、不阻塞。门面只做四件事——产物序列化、未知 runId 的结构化失败、
+// 一次时钟（年龄同源）、摘要最后拼。等待语义属于 TaskOutput。
 
 import {
   GET_WORKFLOW_RUN_TOOL_NAME,
@@ -21,12 +8,13 @@ import {
   GetWorkflowRunInputSchema,
   GetWorkflowRunOutputJsonSchema,
   GetWorkflowRunOutputSchema,
+  type DynamicWorkflowRunDetail,
   type GetWorkflowRunInput,
   type GetWorkflowRunOutput,
 } from "@knorvia/contracts";
 import { serializeWorkflowArtifact } from "../executor/workflow-artifact.js";
-// ⚠ 两个 artifact：上面那个序列化的是脚本的**顶层返回值**（进 `<result>`），下面这个描述的是
-// 脚本经 `artifact.*` **发布给用户看的产出**（进 `<artifacts>`）。同一个词两个义，本文件两者都出现。
+// artifact 一词两义：上面序列化脚本顶层返回值（`<result>`）；下面常量数的是脚本发布给用户看的
+// 产出清单（`<artifacts>`）。两处都出现在本工具输出里。
 import { WORKFLOW_ARTIFACTS_INTROSPECTION_MAX_LINES } from "../executor/workflow-published-artifacts.js";
 import type { ToolEntry, ToolHandler } from "../types.js";
 import { formatGetWorkflowRunModelContent } from "./get-workflow-run-format.js";
@@ -48,146 +36,148 @@ import {
   workflowIntrospectionUnavailableFailure,
   workflowRunNotFoundFailure,
 } from "./workflow-run-introspection.js";
+import {
+  assembleReadonlyToolEntry,
+  concatText,
+  openReadonlySurface,
+} from "./workflow-readonly-surface.js";
 
-const GET_WORKFLOW_RUN_TIMEOUT_MS = 10_000;
-/** 照 TaskOutput：产物就是可能大到需要 artifact 的那类载荷。 */
-const GET_WORKFLOW_RUN_RESULT_BUDGET_BYTES = 400_000;
-const GET_WORKFLOW_RUN_PERSIST_THRESHOLD_CHARS = 100_000;
+const TIMEOUT_MS = 10000;
+const RESULT_BUDGET_BYTES = 400000;
+const PERSIST_THRESHOLD_CHARS = 100000;
 
-const GET_WORKFLOW_RUN_DESCRIPTION = [
-  "Returns the current state of one dynamic-workflow run: progress, token usage and the tail of its log() narration while it runs; the final result once it completed; the structured failure if it errored or was stopped.",
-  "",
-  WORKFLOW_RUN_INTROSPECTION_STEERING,
-  "",
-  "- Takes run_id — from CreateWorkflow's or AmendWorkflow's result, from a completion notification, or from ListWorkflowRuns.",
-  "- This is an instant snapshot and never waits. To block until a run THIS session started finishes, use TaskOutput instead: that is the waiting tool. GetWorkflowRun is the right tool when you must not wait, or when the run belongs to another session (TaskOutput cannot see those).",
-  "- The `artifacts` section lists what the run published for the user — files, documents and live dashboards that are ALREADY shown to them as cards. Refer to one by its title; do not paste its contents back. The one marked `primary` is the deliverable: point the user to it first.",
-  "- Three terminal states: `completed`; `errored` (the script itself failed — not resumable, amend it); `stopped` with a stop reason — `user` (cancelled on purpose: resume only when the user asks), `model` (your own TaskStop), `provider` (a provider-side error such as an expired sign-in, a model missing from the plan or a quota cap — the `<error>` block names the cause and the fix; resolve it with the user, then resume), `interrupted` (the process that owned the run exited — continuing it is usually what the user wants), `superseded` (an AmendWorkflow replaced it; `<superseded_by>` names the successor — read that run instead, never resume this one).",
-  "- A stopped run (other than a superseded one) can be continued with ResumeWorkflowRun — no rebuild needed, same run ID, same script.",
-  "- ANY run — completed, stopped, errored, or still running — can instead be revised with AmendWorkflow: pass its run ID and the corrected script, and the finished work is imported as cache. When the script itself errored, that is the move — fix the script and keep the work that already succeeded, rather than rewriting from scratch.",
-].join("\n");
+const DESCRIPTION_INTRO =
+  "Returns the current state of one dynamic-workflow run: progress, token usage and the tail of its log() narration while it runs; the final result once it completed; the structured failure if it errored or was stopped.";
 
-const getWorkflowRunHandler: ToolHandler = async (input, context) => {
-  const parsed = GetWorkflowRunInputSchema.parse(input) as GetWorkflowRunInput;
-
-  const port = context.dynamicWorkflowRunPort;
-  if (port === undefined || typeof port.getRunDetail !== "function") {
-    return workflowIntrospectionUnavailableFailure();
-  }
-
-  const detail = await port.getRunDetail(parsed.run_id);
-  // 空对象会让模型以为这个 run 存在但没内容；未知 runId 是一等失败。
-  if (detail === undefined) return workflowRunNotFoundFailure(parsed.run_id);
-
-  // `undefined` 产物 → 整字段缺席（与完成通知同规）。`null` 是合法产物，序列化成 "null"。
-  const result = serializeWorkflowArtifact(detail.result);
-  // 一次调用一把尺：所有「多久以前」都对这一个读数算，两个年龄因此永远可比。
-  const generatedAt = Date.now();
-  const roster = toGetWorkflowRunSubagents(detail.subagents);
-  const phases = toGetWorkflowRunPhases(detail.phases);
-
-  const snapshot = projectGetWorkflowRunSnapshotFields(
-    detail,
-    generatedAt,
-    () => context.workingDirectory,
-  );
-  const base = applyWorkflowRunOutputFields<Omit<GetWorkflowRunOutput, "summary">>(snapshot, [
-    // 情势截面（阶段 / 花名册 / 健康）：把上面那些计数变成一份「这个 run 在哪、谁在干什么、
-    // 它还在动吗」的报告。逐字段搬见 get-workflow-run-roster-output.ts。
-    ["phases", () => phases, "defined"],
-    ["subagents", () => roster.subagents],
-    ["subagentsTruncated", () => roster.truncated, "truthy", () => true],
-    ["health", () => toGetWorkflowRunHealth(detail.health)],
-    ["result", () => result, "defined"],
-    ["error", () => detail.error, "defined", () => projectWorkflowRunError(detail)],
-    // 零条时整字段缺席（端口本身就不发空数组，这里再确认一次而不是 `?? []`）：一个空的
-    // pending 区读起来像「问过、已答完」，而缺席读起来才是「没人在等」。
-    [
-      "pendingQuestions",
-      () => detail.pendingQuestions,
-      "nonempty",
-      () => detail.pendingQuestions!.map((pending) => projectWorkflowRunQuestion(pending)),
-    ],
-    // 用户面产物。零件时整字段缺席；上界 32 与
-    // `ARTIFACT_CAPS.maxArtifactsPerRun` 同值——端口本身也不会给出更多，这里只是把界写死在
-    // 模型面上。`bytes` 在端口上只挂在版本项里，取最新版那一条（清单描述的就是最新版）。
-    [
-      "artifacts",
-      () => detail.artifacts,
-      "nonempty",
-      () =>
-        detail
-          .artifacts!.slice(0, WORKFLOW_ARTIFACTS_INTROSPECTION_MAX_LINES)
-          .map((artifact) => projectWorkflowRunArtifact(artifact)),
-    ],
+// 引导条目按短语切开再粘回。条目文本与原先整行字符串相同，只是不再各占一整行。
+function bulletBody(): string {
+  return concatText([
+    "- Takes run_id — from CreateWorkflow's or AmendWorkflow's result, ",
+    "from a completion notification, or from ListWorkflowRuns.\n",
+    "- This is an instant snapshot and never waits. ",
+    "To block until a run THIS session started finishes, use TaskOutput instead: ",
+    "that is the waiting tool. GetWorkflowRun is the right tool when you must not wait, ",
+    "or when the run belongs to another session (TaskOutput cannot see those).\n",
+    "- The `artifacts` section lists what the run published for the user — ",
+    "files, documents and live dashboards that are ALREADY shown to them as cards. ",
+    "Refer to one by its title; do not paste its contents back. ",
+    "The one marked `primary` is the deliverable: point the user to it first.\n",
+    "- Three terminal states: `completed`; `errored` ",
+    "(the script itself failed — not resumable, amend it); ",
+    "`stopped` with a stop reason — `user` (cancelled on purpose: resume only when the user asks), ",
+    "`model` (your own TaskStop), `provider` (a provider-side error such as an expired sign-in, ",
+    "a model missing from the plan or a quota cap — the `<error>` block names the cause and the fix; ",
+    "resolve it with the user, then resume), `interrupted` (the process that owned the run exited — ",
+    "continuing it is usually what the user wants), `superseded` (an AmendWorkflow replaced it; ",
+    "`<superseded_by>` names the successor — read that run instead, never resume this one).\n",
+    "- A stopped run (other than a superseded one) can be continued with ResumeWorkflowRun — ",
+    "no rebuild needed, same run ID, same script.\n",
+    "- ANY run — completed, stopped, errored, or still running — ",
+    "can instead be revised with AmendWorkflow: ",
+    "pass its run ID and the corrected script, and the finished work is imported as cache. ",
+    "When the script itself errored, that is the move — ",
+    "fix the script and keep the work that already succeeded, rather than rewriting from scratch.",
   ]);
+}
 
-  // 摘要最后拼：它读的就是上面这些字段，所以先有事实，再有那一句话。
-  return { ...base, summary: buildWorkflowRunSummary(base) } satisfies GetWorkflowRunOutput;
+function composeDescription(): string {
+  const steering = WORKFLOW_RUN_INTROSPECTION_STEERING;
+  const head = DESCRIPTION_INTRO + "\n\n" + steering;
+  return head + "\n\n" + bulletBody();
+}
+
+const GET_WORKFLOW_RUN_DESCRIPTION = composeDescription();
+
+type SnapshotFields = Omit<GetWorkflowRunOutput, "summary">;
+
+/**
+ * 情势截面。pendingQuestions / artifacts 的 admission 会读两遍，投影是第三次读取，
+ * 不能把第一次的值存下来——第二次可能是另一个形状（冻结探针）。
+ */
+function projectBase(
+  detail: DynamicWorkflowRunDetail,
+  result: string | undefined,
+  generatedAt: number,
+  workingDirectory: () => string | undefined,
+): SnapshotFields {
+  const subagentRoster = toGetWorkflowRunSubagents(detail.subagents);
+  const phaseList = toGetWorkflowRunPhases(detail.phases);
+  const snapshot = projectGetWorkflowRunSnapshotFields(detail, generatedAt, workingDirectory);
+  const readPhases = () => phaseList;
+  const readSubagents = () => subagentRoster.subagents;
+  const readTruncated = () => subagentRoster.truncated;
+  const markTruncated = () => true;
+  const readHealth = () => toGetWorkflowRunHealth(detail.health);
+  const readResult = () => result;
+  const readError = () => detail.error;
+  const projectError = () => projectWorkflowRunError(detail);
+  const readQuestions = () => detail.pendingQuestions;
+  // 直接写在 detail 上：V8 把调用表达式原文放进 TypeError，探针要比对这段文本。
+  const projectQuestions = () =>
+    detail.pendingQuestions!.map((question) => projectWorkflowRunQuestion(question));
+  const readArtifacts = () => detail.artifacts;
+  const projectArtifacts = () => {
+    const capped = detail.artifacts!.slice(0, WORKFLOW_ARTIFACTS_INTROSPECTION_MAX_LINES);
+    return capped.map((artifact) => projectWorkflowRunArtifact(artifact));
+  };
+  return applyWorkflowRunOutputFields<SnapshotFields>(snapshot, [
+    ["phases", readPhases, "defined"],
+    ["subagents", readSubagents],
+    ["subagentsTruncated", readTruncated, "truthy", markTruncated],
+    ["health", readHealth],
+    ["result", readResult, "defined"],
+    ["error", readError, "defined", projectError],
+    ["pendingQuestions", readQuestions, "nonempty", projectQuestions],
+    ["artifacts", readArtifacts, "nonempty", projectArtifacts],
+  ]);
+}
+
+const getWorkflowRunHandler: ToolHandler = async (call, scope) => {
+  const parsed = GetWorkflowRunInputSchema.parse(call) as GetWorkflowRunInput;
+  const port = scope.dynamicWorkflowRunPort;
+  if (port === undefined) return workflowIntrospectionUnavailableFailure();
+  if (typeof port.getRunDetail !== "function") return workflowIntrospectionUnavailableFailure();
+  const record = await port.getRunDetail(parsed.run_id);
+  if (record === undefined) {
+    return workflowRunNotFoundFailure(parsed.run_id);
+  }
+  // result 序列化（读 record.result）→ 读一次时钟 → 情势截面。摘要在展开 base 之后才算。
+  const serialized = serializeWorkflowArtifact(record.result);
+  const clock = Date.now();
+  const base = projectBase(record, serialized, clock, () => scope.workingDirectory);
+  const shaped = {
+    ...base,
+    summary: buildWorkflowRunSummary(base),
+  } satisfies GetWorkflowRunOutput;
+  return shaped;
 };
 
-export const getWorkflowRunToolEntry: ToolEntry = {
-  capability: "Read one dynamic-workflow run's progress, final result, or failure",
-  maxModelChars: GET_WORKFLOW_RUN_PERSIST_THRESHOLD_CHARS,
-  metadata: {
-    name: GET_WORKFLOW_RUN_TOOL_NAME,
-    description: GET_WORKFLOW_RUN_DESCRIPTION,
-    readOnly: true,
-    destructive: false,
-    concurrentSafe: true,
-    timeoutMs: GET_WORKFLOW_RUN_TIMEOUT_MS,
-    maxOutputBytes: GET_WORKFLOW_RUN_RESULT_BUDGET_BYTES,
-    sideEffectScope: "none",
-    riskLevel: "low",
-    needsApproval: false,
-  },
-  handler: getWorkflowRunHandler,
-  inputSchema: GetWorkflowRunInputJsonSchema,
-  outputSchema: GetWorkflowRunOutputJsonSchema,
-  runtimeInputSchema: GetWorkflowRunInputSchema,
-  runtimeOutputSchema: GetWorkflowRunOutputSchema,
-  formatModelContent: formatGetWorkflowRunModelContent,
-  permission: {
-    permission: "getWorkflowRun",
-    reason: "GetWorkflowRun reads one run's record from the project's run journal",
-    riskLevel: "low",
-    sideEffectScope: "none",
-    needsApproval: false,
-    // run_id 进入模式匹配面（照 TaskOutput 的 task_id），好让项目规则能约束到具体 run。
-    patternSources: ["toolName", "input"],
-    alwaysAllowPatternSources: ["toolName"],
-    denyPriority: "beforeAsk",
-  },
-  resultBudget: {
-    maxInlineBytes: GET_WORKFLOW_RUN_RESULT_BUDGET_BYTES,
-    maxModelBytes: GET_WORKFLOW_RUN_RESULT_BUDGET_BYTES,
-    strategy: "artifact",
-    preview: {
-      maxBytes: GET_WORKFLOW_RUN_RESULT_BUDGET_BYTES,
-      direction: "head",
-    },
-    artifact: {
-      enabled: true,
-      retention: "session",
-    },
-  },
-  resultArtifactContentType: "text/plain",
-  timeout: {
-    kind: "timed",
-    defaultMs: GET_WORKFLOW_RUN_TIMEOUT_MS,
-    maxMs: GET_WORKFLOW_RUN_TIMEOUT_MS,
-    allowCallOverride: false,
-  },
-  cancellation: {
-    supported: false,
-    cleanup: "none",
-    userVisibleMessage:
-      "GetWorkflowRun reads the run journal synchronously and cannot be cancelled",
-  },
-  trace: {
-    required: true,
-    propagateToAdapters: false,
-    recordInput: "summary",
-    recordOutput: "summary",
-  },
-};
+const CAPABILITY = "Read one dynamic-workflow run's progress, final result, or failure";
+const CANCEL_TEXT = "GetWorkflowRun reads the run journal synchronously and cannot be cancelled";
+const PERMISSION_REASON = "GetWorkflowRun reads one run's record from the project's run journal";
+
+function publishGetWorkflowRunEntry(): ToolEntry {
+  const parts = openReadonlySurface();
+  parts.capability = CAPABILITY;
+  parts.name = GET_WORKFLOW_RUN_TOOL_NAME;
+  parts.description = GET_WORKFLOW_RUN_DESCRIPTION;
+  parts.timeoutMs = TIMEOUT_MS;
+  parts.maxOutputBytes = RESULT_BUDGET_BYTES;
+  parts.permissionName = "getWorkflowRun";
+  parts.permissionReason = PERMISSION_REASON;
+  parts.patternSources = ["toolName", "input"];
+  parts.cancelMessage = CANCEL_TEXT;
+  parts.handler = getWorkflowRunHandler;
+  parts.inputSchema = GetWorkflowRunInputJsonSchema;
+  parts.outputSchema = GetWorkflowRunOutputJsonSchema;
+  parts.runtimeInputSchema = GetWorkflowRunInputSchema;
+  parts.runtimeOutputSchema = GetWorkflowRunOutputSchema;
+  parts.formatModelContent = formatGetWorkflowRunModelContent;
+  parts.strategy = "artifact";
+  parts.persistArtifact = true;
+  parts.maxModelChars = PERSIST_THRESHOLD_CHARS;
+  parts.resultArtifactContentType = "text/plain";
+  return assembleReadonlyToolEntry(parts);
+}
+
+export const getWorkflowRunToolEntry: ToolEntry = publishGetWorkflowRunEntry();

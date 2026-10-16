@@ -23,7 +23,7 @@ const text = await readFile(
   "utf8",
 );
 // 合并 origin/main 后 receipt 正文变化，断言值取合并产物的实测 sha（只改常量，不改断言结构）。
-assert.equal(sha(text), "e84a6127a286202434ce60ce6607981e555d033ded04d337c5d24884418d904e");
+assert.equal(sha(text), "9720269558e2ad341bcd1522dcaae09d1b4a5c5f048fdae15ef5cea291849c8d");
 const receipt: CurrentReceipt = JSON.parse(text);
 assert.equal(receipt.formatVersion, 3);
 assert.equal(receipt.sourceCheckpoint, "c82f05cbaff52f9fd44d6e196b3a7e5cbb3ee6b9");
@@ -33,7 +33,7 @@ assert.equal(
 );
 assert.equal(
   receipt.previousReceipt.sha256,
-  "f5ae59661642f57e2aa5c520fc11674f3be1255b78243fbc8df1e574b38de0b9",
+  "8a3884346e2bed200585805f147d389052d7b16e052193c8c4c68755a6e9745b",
 );
 const repository = new URL("../../../../../", import.meta.url);
 const packages = new URL("apps/cli/packages/", repository);
