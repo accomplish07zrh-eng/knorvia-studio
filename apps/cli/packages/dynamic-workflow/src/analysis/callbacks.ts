@@ -39,10 +39,13 @@ export interface CallbackSemantics {
   accumulatorParam?: number;
 }
 
-export const DEFAULT_CALLBACK_SEMANTICS: Pick<CallbackSemantics, "multiplicity" | "entered"> = {
-  entered: false,
-  multiplicity: "once",
-};
+class QuietOnce implements Pick<CallbackSemantics, "multiplicity" | "entered"> {
+  readonly multiplicity = "once" as const;
+  readonly entered = false;
+}
+
+export const DEFAULT_CALLBACK_SEMANTICS: Pick<CallbackSemantics, "multiplicity" | "entered"> =
+  new QuietOnce();
 
 // element indexes, whole-collection indexes, optional accumulator index.
 type EachRow = readonly [
@@ -83,8 +86,27 @@ const TIMER_NAMES = new Set<string>(TIMER_GLOBALS);
 
 const LIB_FILE = /^lib\..+\.d\.ts$/u;
 
-function pack(row: CallbackSemantics): CallbackSemantics {
-  return row;
+class EachCallback implements CallbackSemantics {
+  readonly multiplicity = "each" as const;
+  readonly entered = false;
+
+  constructor(
+    readonly label: string,
+    readonly iterated: ts.Expression,
+    readonly callbacks: readonly number[],
+    readonly elementParams: readonly number[],
+    readonly wholeParams: readonly number[],
+  ) {}
+}
+
+class OnceCallback implements CallbackSemantics {
+  readonly multiplicity = "once" as const;
+
+  constructor(
+    readonly label: string,
+    readonly callbacks: readonly number[],
+    readonly entered: boolean,
+  ) {}
 }
 
 function eachSemantics(
@@ -95,17 +117,9 @@ function eachSemantics(
   whole: readonly number[],
   accumulator: number | undefined,
 ): CallbackSemantics {
-  const row = pack({
-    callbacks,
-    elementParams: element,
-    entered: false,
-    iterated,
-    label,
-    multiplicity: "each",
-    wholeParams: whole,
-  });
-  if (accumulator !== undefined) row.accumulatorParam = accumulator;
-  return row;
+  const row = new EachCallback(label, iterated, callbacks, element, whole);
+  if (accumulator === undefined) return row;
+  return Object.assign(row, { accumulatorParam: accumulator });
 }
 
 function onceSemantics(
@@ -114,9 +128,9 @@ function onceSemantics(
   entered: boolean,
   deferred: boolean,
 ): CallbackSemantics {
-  const row = pack({ callbacks, entered, label, multiplicity: "once" });
-  if (deferred) row.deferred = true;
-  return row;
+  const row = new OnceCallback(label, callbacks, entered);
+  if (!deferred) return row;
+  return Object.assign(row, { deferred: true as const });
 }
 
 class CallbackQuery {
@@ -146,7 +160,12 @@ class CallbackQuery {
   }
 
   private member(callee: ts.PropertyAccessExpression): CallbackSemantics | undefined {
-    if (isScriptDeclared(callee.name, this.checker, this.program)) return undefined;
+    const scriptMember = isScriptDeclared({
+      checker: this.checker,
+      name: callee.name,
+      program: this.program,
+    });
+    if (scriptMember) return undefined;
     const method = callee.name.getText();
     if (method === "from") return this.arrayFrom(callee);
     const each = EACH_BY_NAME.get(method);
@@ -162,10 +181,11 @@ class CallbackQuery {
 
   // Array.from(iterable, mapfn). The collection is argument 0 and the callback is argument 1.
   private arrayFrom(callee: ts.PropertyAccessExpression): CallbackSemantics | undefined {
-    if (!isGlobalLibValue(callee.expression, "Array", this.checker, this.program)) return undefined;
     const args = this.node.arguments ?? [];
     const iterated = args.at(0);
-    if (iterated === undefined || args.length < 2) return undefined;
+    const arrayGlobal = isGlobalLibValue(callee.expression, "Array", this.checker, this.program);
+    const mapped = arrayGlobal && iterated !== undefined && args.length >= 2;
+    if (!mapped || iterated === undefined) return undefined;
     return eachSemantics("from", iterated, [1], [0], [], undefined);
   }
 
@@ -191,13 +211,15 @@ function authoredDeclaration(declaration: ts.Declaration, program: ts.Program): 
   return declaredInLib(host, program) === false && host.isDeclarationFile === false;
 }
 
-function isScriptDeclared(
-  name: ts.MemberName,
-  checker: ts.TypeChecker,
-  program: ts.Program,
-): boolean {
-  const declarations = checker.getSymbolAtLocation(name)?.declarations ?? [];
-  return declarations.some((declaration) => authoredDeclaration(declaration, program));
+interface DeclaredMember {
+  name: ts.MemberName;
+  checker: ts.TypeChecker;
+  program: ts.Program;
+}
+
+function isScriptDeclared(subject: DeclaredMember): boolean {
+  const declarations = subject.checker.getSymbolAtLocation(subject.name)?.declarations ?? [];
+  return declarations.some((declaration) => authoredDeclaration(declaration, subject.program));
 }
 
 export function callbackSemanticsOf(
