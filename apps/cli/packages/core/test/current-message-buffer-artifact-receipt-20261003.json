@@ -1056,8 +1056,8 @@
     "apps/cli/packages/core/src/tool/executor/result/byte-budget.ts": "c18b0b4c85cd854007f30259963e03d67420ef5e68668d039719fd59d3081e19",
     "apps/cli/packages/core/dist/tool/executor/result/byte-budget.js": "768e4fe694e1a9478d832dbb56a4ec87f56c9c99b4f1a66b6e886b614830d77a",
     "apps/cli/packages/core/dist/tool/executor/result/byte-budget.d.ts": "de5b9b07d8c4fb9455b1bbecf36e5c9082973b1ae71c380a4f9567f408c496f3",
-    "apps/cli/packages/core/src/tool/handlers/get-workflow-run-format-roster.ts": "c72c8c4d2383a26e8d516b3b1a296166d016f65e335b3856d403251a1bfd6aaf",
-    "apps/cli/packages/core/dist/tool/handlers/get-workflow-run-format-roster.js": "dc5cba7b3c6b2843482feb293c5cd636833a22c5ce359f293434436c0f347004",
+    "apps/cli/packages/core/src/tool/handlers/get-workflow-run-format-roster.ts": "bc6b6a7f0b4844bbd61a7d459f189c0eaa4af51025f6e50b71bf1c1125c3f394",
+    "apps/cli/packages/core/dist/tool/handlers/get-workflow-run-format-roster.js": "1bc680bf639bcc281b5896b4bd01f65b6bc18beb4e78b0b0d7a5651eeefb722c",
     "apps/cli/packages/core/dist/tool/handlers/get-workflow-run-format-roster.d.ts": "bd1ec9a70c34cf92baa3a7ead52676f2b763d5843caf64433dd2a705ac37f44b",
     "apps/cli/packages/core/dist/tool/handlers/get-workflow-run-format.js": "eacbabd8be3fc19381c3376d8ba1630ba2952fd0ad479452b428517dc357165d",
     "apps/cli/packages/core/src/tool/handlers/get-workflow-run-format.ts": "20d4e9fdeeb4e6c495ae76ff1cdd77f9eff415d6c417bba7d9acac0e82a91c48",
@@ -1083,7 +1083,7 @@
   },
   "previousReceipt": {
     "path": "apps/cli/packages/core/test/current-build-artifact-receipt-20261003.json",
-    "sha256": "f5ae59661642f57e2aa5c520fc11674f3be1255b78243fbc8df1e574b38de0b9"
+    "sha256": "8a3884346e2bed200585805f147d389052d7b16e052193c8c4c68755a6e9745b"
   },
   "build": {
     "node": "24.14.0",
