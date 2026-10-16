@@ -72,7 +72,10 @@ function contribute(
     buckets.set(key, attachType({ count: 1, exact, from, to }, type));
     return;
   }
-  buckets.set(key, attachType({ ...prior, count: prior.count + 1, exact: prior.exact || exact }, type));
+  buckets.set(
+    key,
+    attachType({ ...prior, count: prior.count + 1, exact: prior.exact || exact }, type),
+  );
 }
 
 function actorNode(actor: SiteGraph["actors"][number]): ActorNode {

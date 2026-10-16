@@ -36,7 +36,10 @@ function withoutGraphs(issues: CompileDiagnostic[]): AnalyzeResult {
   return { declaredArtifacts: [], diagnostics: issues, ok: false };
 }
 
-function withheld(issues: CompileDiagnostic[], declaredArtifacts: DeclaredArtifact[]): AnalyzeResult {
+function withheld(
+  issues: CompileDiagnostic[],
+  declaredArtifacts: DeclaredArtifact[],
+): AnalyzeResult {
   return { declaredArtifacts, diagnostics: issues, ok: false };
 }
 
@@ -60,7 +63,8 @@ export function analyzeWorkflowScript(source: string): AnalyzeResult {
     collectPhaseMarkerDiagnostics(program, sites),
     collectDuplicateActorNames(program, sites),
   );
-  if (blocksProjection(authoringIssues)) return withheld(authoringIssues, declared.declaredArtifacts);
+  if (blocksProjection(authoringIssues))
+    return withheld(authoringIssues, declared.declaredArtifacts);
 
   const analysis = interpret(program, sites);
   const sitesGraph = projectSiteGraph(analysis);

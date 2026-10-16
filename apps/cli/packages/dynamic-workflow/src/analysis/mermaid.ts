@@ -170,7 +170,8 @@ function siteNodeDef(site: SiteNode, laneFamily: string | undefined): string {
     if (site.within !== undefined) chunks.push("per " + site.within);
     return box(safe, chunks.join("<br/>"), "w");
   }
-  if (site.kind === "source" || site.kind === "sink") return box(safe, escapeLabel(site.label), "o");
+  if (site.kind === "source" || site.kind === "sink")
+    return box(safe, escapeLabel(site.label), "o");
   const chunks = [site.id];
   if (site.kind === "join" && site.within !== undefined) chunks.push("per " + site.within);
   return box(safe, chunks.join("<br/>"), "h");
@@ -414,7 +415,8 @@ function participantNodeDef(person: HandoffParticipant, title: string | undefine
 
 function handoffEdgeLine(link: Handoff): string {
   const marker = link.back === true ? "-.->" : "-->";
-  if (link.types === undefined || link.types.length === 0) return arrowLine(link.from, link.to, marker);
+  if (link.types === undefined || link.types.length === 0)
+    return arrowLine(link.from, link.to, marker);
   const caption = link.types.map((typeName) => escapeLabel(typeName)).join(", ");
   return arrowLine(link.from, link.to, marker, caption);
 }

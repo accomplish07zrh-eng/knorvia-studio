@@ -59,7 +59,11 @@ function strandFlag(active: boolean): { strand: true } | undefined {
   return active ? { strand: true } : undefined;
 }
 
-function prepareCall(trace: TraceState, node: ts.CallExpression, chain: readonly string[]): PreparedCall {
+function prepareCall(
+  trace: TraceState,
+  node: ts.CallExpression,
+  chain: readonly string[],
+): PreparedCall {
   const receiverMark = trace.events.length;
   trace.walk(node.expression, chain);
   const receiverIssues = issuesSince(trace, receiverMark);
@@ -88,7 +92,11 @@ function prepareCall(trace: TraceState, node: ts.CallExpression, chain: readonly
   }
   for (const fn of applicationsAt(trace, node, "argument")) {
     handled.add(fn);
-    inlineBody(trace, { decl: fn, site: node, label: undefined, strand: false, prologue: undefined }, inside);
+    inlineBody(
+      trace,
+      { decl: fn, site: node, label: undefined, strand: false, prologue: undefined },
+      inside,
+    );
   }
   return { handled, receiverIssues };
 }
@@ -133,7 +141,11 @@ export function walkCall(
   emitEffect(trace, node, chain, classify(trace, node, prepareCall(trace, node, chain)));
 }
 
-function calleeList(trace: TraceState, node: ApplySite, handled: ReadonlySet<ts.Node>): ScriptFunction[] {
+function calleeList(
+  trace: TraceState,
+  node: ApplySite,
+  handled: ReadonlySet<ts.Node>,
+): ScriptFunction[] {
   const callees = applicationsAt(trace, node, "callee").filter((fn) => !handled.has(fn));
   if (callees.length > 0 || node.kind !== ts.SyntaxKind.CallExpression) return callees;
   const decl = resolveCallDeclaration(node, trace.checker, trace.scriptFile);
@@ -190,7 +202,8 @@ function receiverPrologue(
 function enteredFlag(
   semantics: { entered?: boolean; deferred?: boolean; label?: string } | undefined,
 ): boolean {
-  if (semantics === undefined || semantics.entered === undefined) return DEFAULT_CALLBACK_SEMANTICS.entered;
+  if (semantics === undefined || semantics.entered === undefined)
+    return DEFAULT_CALLBACK_SEMANTICS.entered;
   return semantics.entered;
 }
 
@@ -206,7 +219,11 @@ export function applyAt(
   const callees = calleeList(trace, node, handled);
   const only = callees.length === 1 ? callees[0] : undefined;
   if (only !== undefined) {
-    inlineBody(trace, { decl: only, site: node, label: undefined, strand: false, prologue: undefined }, chain);
+    inlineBody(
+      trace,
+      { decl: only, site: node, label: undefined, strand: false, prologue: undefined },
+      chain,
+    );
   } else if (callees.length > 1) {
     inlineChoice(trace, callees, chain, node, true, undefined);
   }
@@ -220,7 +237,8 @@ export function applyAt(
     const entered = enteredFlag(semantics);
     const shared = {
       label: semantics === undefined ? undefined : semantics.label,
-      prologue: semantics?.deferred === true ? receiverPrologue(trace, node, receiverIssues) : undefined,
+      prologue:
+        semantics?.deferred === true ? receiverPrologue(trace, node, receiverIssues) : undefined,
       strand: semantics?.deferred === true,
     };
     callbacks.forEach((fn) => {
@@ -238,7 +256,11 @@ function restoreScc(trace: TraceState, decl: ts.Node, outer: string | undefined)
   else trace.sccLoopByDecl.set(decl, outer);
 }
 
-function recurIfLooping(trace: TraceState, decl: ScriptFunction, chain: readonly string[]): boolean {
+function recurIfLooping(
+  trace: TraceState,
+  decl: ScriptFunction,
+  chain: readonly string[],
+): boolean {
   if (trace.fnStack.indexOf(decl) < 0) return false;
   const loop = trace.sccLoopByDecl.get(decl);
   if (loop !== undefined) jump(trace, "recur", loop, chain);

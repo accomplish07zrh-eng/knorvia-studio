@@ -12,7 +12,11 @@ import { bindForInitializer } from "./assign.js";
 import type { EvalContext, Evaluator } from "./taint.js";
 
 // `for` clauses run for effect, then the body, all in one weak iteration.
-export function visitForStatement(analysis: Evaluator, syntax: ts.ForStatement, frame: EvalContext): void {
+export function visitForStatement(
+  analysis: Evaluator,
+  syntax: ts.ForStatement,
+  frame: EvalContext,
+): void {
   const init = syntax.initializer;
   if (init !== undefined) evaluateForInit(analysis, init, frame);
   const cond = syntax.condition;
@@ -36,7 +40,11 @@ function evaluateForInit(analysis: Evaluator, init: ts.ForInitializer, frame: Ev
 // walk's per-iteration barrier key. Promoted loops also stamp a fan-out label.
 // Write-back reads the env slots the body actually mutated: later passes adopt
 // the first object, and a destructured name keeps its own slot.
-export function handleForOf(analysis: Evaluator, syntax: ts.ForOfStatement, frame: EvalContext): void {
+export function handleForOf(
+  analysis: Evaluator,
+  syntax: ts.ForOfStatement,
+  frame: EvalContext,
+): void {
   const cand = analysis.s.candByForOf.get(syntax);
   const iterated = collapse(analysis.evalExpr(syntax.expression, frame));
   if (syntax.awaitModifier !== undefined) {
@@ -112,7 +120,11 @@ function pushSymbol(analysis: Evaluator, name: ts.Identifier, found: ts.Symbol[]
 }
 
 // for-in binds the collapsed object: enumerated key strings keep its taint.
-export function handleForIn(analysis: Evaluator, syntax: ts.ForInStatement, frame: EvalContext): void {
+export function handleForIn(
+  analysis: Evaluator,
+  syntax: ts.ForInStatement,
+  frame: EvalContext,
+): void {
   const keys = collapse(analysis.evalExpr(syntax.expression, frame));
   bindForInitializer(analysis, syntax.initializer, keys, frame);
   analysis.visit(syntax.statement, frame);

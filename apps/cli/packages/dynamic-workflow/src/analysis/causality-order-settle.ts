@@ -45,7 +45,9 @@ function iterationAncestorsOf(trace: TraceState, node: ts.Node): Set<ts.Node> {
 }
 
 function hostsIteration(trace: TraceState, node: ts.Node): boolean {
-  return LOOP_KINDS.has(node.kind) || trace.candByCallback.has(node) || trace.eachCallbackFns.has(node);
+  return (
+    LOOP_KINDS.has(node.kind) || trace.candByCallback.has(node) || trace.eachCallbackFns.has(node)
+  );
 }
 
 function admitStep(trace: TraceState, awaitNode: ts.Node, step: string): Admission | undefined {
@@ -76,7 +78,8 @@ function foldOccurrences(
     const how = admit === undefined ? ("issued" as const) : admit(occ.site);
     if (how === undefined) return;
     const prior = rows.get(occ.site);
-    if (prior === undefined) rows.set(occ.site, { issuedFirst: how === "issued", exact: occ.exact });
+    if (prior === undefined)
+      rows.set(occ.site, { issuedFirst: how === "issued", exact: occ.exact });
     else if (occ.exact) prior.exact = true;
   });
   return rows;
@@ -89,7 +92,8 @@ function claimAt(
   admit?: (step: string) => Admission | undefined,
 ): OracleClaim {
   const occs = map.get(at);
-  const rows = occs === undefined ? new Map<string, SiteRow>() : foldOccurrences(trace, occs, admit);
+  const rows =
+    occs === undefined ? new Map<string, SiteRow>() : foldOccurrences(trace, occs, admit);
   const sites = [...rows.keys()];
   const only = sites.length === 1 ? sites[0] : undefined;
   const row = only === undefined ? undefined : rows.get(only);

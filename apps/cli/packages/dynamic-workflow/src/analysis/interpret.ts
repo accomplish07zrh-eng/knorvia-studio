@@ -149,7 +149,11 @@ class FanoutLayout {
     for (const cand of this.table.iterations) {
       const fanoutId = this.ids.get(provisionalFanoutId(cand.order));
       if (fanoutId === undefined) continue;
-      const spans = new SpanClosure(this.seedsFor(cand), this.scriptFile, this.applications).close();
+      const spans = new SpanClosure(
+        this.seedsFor(cand),
+        this.scriptFile,
+        this.applications,
+      ).close();
       for (const span of spans) collected.push(new MarkedRange(fanoutId, span.start, span.end));
     }
     return collected;
@@ -186,7 +190,11 @@ function actorSite(site: ActorSite, layout: FanoutLayout): CoreActorSite {
   return assignWithin(entry, layout.within(site.call));
 }
 
-function fanoutSite(fanout: PromotedFanout, layout: FanoutLayout, checker: ts.TypeChecker): CoreFanoutSite {
+function fanoutSite(
+  fanout: PromotedFanout,
+  layout: FanoutLayout,
+  checker: ts.TypeChecker,
+): CoreFanoutSite {
   const cand = layout.candidate(fanout.order);
   const entry = { id: layout.ids.get(fanout.id) as string } as CoreFanoutSite;
   entry.label = fanout.label;
@@ -211,7 +219,10 @@ function renameOccs(occs: readonly TaintOcc[], rename: (site: string) => string)
   return occs.map((occ) => renameOcc(occ, rename));
 }
 
-function renameKeyed(map: Map<string, TaintOcc[]>, rename: (site: string) => string): Map<string, TaintOcc[]> {
+function renameKeyed(
+  map: Map<string, TaintOcc[]>,
+  rename: (site: string) => string,
+): Map<string, TaintOcc[]> {
   const out = new Map<string, TaintOcc[]>();
   map.forEach((occs, sink) => {
     out.set(sink, renameOccs(occs, rename));
@@ -271,7 +282,9 @@ class CoreAssembly {
   }
 
   private projectTypes(types: ArtifactTypes): CoreTypes {
-    const siteType = new Map(Array.from(types.siteType, ([id, typeName]) => [this.rename(id), typeName]));
+    const siteType = new Map(
+      Array.from(types.siteType, ([id, typeName]) => [this.rename(id), typeName]),
+    );
     return { joinPortTypes: types.joinPortTypes, siteType };
   }
 }

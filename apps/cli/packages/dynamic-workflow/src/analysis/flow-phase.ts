@@ -21,7 +21,8 @@ export function collectFlowPhases(order: OrderTrace, flowNodes: readonly FlowNod
   const at = reachOrder(order);
   const companions = alongsideByPhase(flowNodes);
   const listed: FlowPhase[] = [];
-  if (used.has(UNPHASED_ID)) listed.push(phaseRecord(UNPHASED_ID, undefined, undefined, companions, at));
+  if (used.has(UNPHASED_ID))
+    listed.push(phaseRecord(UNPHASED_ID, undefined, undefined, companions, at));
   for (let index = 0; index < order.phases.length; index += 1) {
     const phase = order.phases[index];
     if (phase === undefined || !used.has(phase.id)) continue;

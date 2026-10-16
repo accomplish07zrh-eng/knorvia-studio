@@ -5,14 +5,10 @@ import type { OrderKind } from "./causality-reduce.js";
 import type { SiteLoc, NamePattern } from "./types.js";
 
 // Step operation kinds within causality projections.
-export type StepKind =
-  | "ask"
-  | "world-read";
+export type StepKind = "ask" | "world-read";
 
 // Certainty of edge or step execution.
-export type Certainty =
-  | "always"
-  | "maybe";
+export type Certainty = "always" | "maybe";
 
 export const WORKSPACE_LANE = "workspace";
 export const UNKNOWN_LANE = "unknown";

@@ -115,17 +115,29 @@ function smearArgs(argVals: readonly AbstractValue[]): AbstractValue {
   return clearExact(pot);
 }
 
-export function handleNewUnknown(ev: Evaluator, node: ts.NewExpression, ctx: EvalContext): AbstractValue {
+export function handleNewUnknown(
+  ev: Evaluator,
+  node: ts.NewExpression,
+  ctx: EvalContext,
+): AbstractValue {
   return new UnknownConstruct(ev, node, ctx).eval();
 }
 
-export function evalAwait(ev: Evaluator, node: ts.AwaitExpression, ctx: EvalContext): AbstractValue {
+export function evalAwait(
+  ev: Evaluator,
+  node: ts.AwaitExpression,
+  ctx: EvalContext,
+): AbstractValue {
   return new AwaitedValue(ev, node, ctx).eval();
 }
 
 // `Promise.reject(x)` joins the global thrown set that every catch binding reads.
 // The call result stays that collapsed value, so the resolved path is unchanged.
-export function handlePromiseReject(ev: Evaluator, node: ts.CallExpression, ctx: EvalContext): AbstractValue {
+export function handlePromiseReject(
+  ev: Evaluator,
+  node: ts.CallExpression,
+  ctx: EvalContext,
+): AbstractValue {
   const rejected = rejectedValue(ev, node, ctx);
   ev.s.mergeThrown(rejected);
   return rejected;
@@ -141,7 +153,14 @@ export function isPromiseReject(access: ts.PropertyAccessExpression): boolean {
 // recorded like a direct call, including write-back into place arguments. The
 // constructor body runs in the function pass and writes `this` on the shared instance.
 // A direct `new` or `super` keeps exactness.
-export function applyConstructor(ev: Evaluator, id: number, ctx: EvalContext, argVals: AbstractValue[], argPlaces?: (AbstractValue | undefined)[], site?: ts.Node): void {
+export function applyConstructor(
+  ev: Evaluator,
+  id: number,
+  ctx: EvalContext,
+  argVals: AbstractValue[],
+  argPlaces?: (AbstractValue | undefined)[],
+  site?: ts.Node,
+): void {
   const application = site === undefined ? undefined : { site, via: "callee" as const };
   recordCall(ev, id, ctx.regionStack, argVals, argPlaces, application);
 }
@@ -149,7 +168,12 @@ export function applyConstructor(ev: Evaluator, id: number, ctx: EvalContext, ar
 // `new D()` where `class D extends mix(Base)` cannot see the inherited constructor.
 // The base may store any argument in any field, so the collapsed inexact arguments
 // smear into the instance and function arguments are applied pessimistically.
-export function applyMixinConstructor(ev: Evaluator, ctx: EvalContext, instance: AbstractValue, argVals: AbstractValue[]): void {
+export function applyMixinConstructor(
+  ev: Evaluator,
+  ctx: EvalContext,
+  instance: AbstractValue,
+  argVals: AbstractValue[],
+): void {
   const smeared = smearArgs(argVals);
   if (mergeInto(instance, smeared)) ev.s.changed = true;
   argVals.forEach((arg) => {

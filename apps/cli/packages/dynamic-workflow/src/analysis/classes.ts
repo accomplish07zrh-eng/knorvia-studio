@@ -28,7 +28,9 @@ class ClassPass {
 
   run(): void {
     const frame: EvalContext = { onReturn: () => undefined, regionStack: ["top"] };
-    this.analysis.s.classes.forEach((cls) => new ClassBody(this.analysis, cls as ts.ClassLikeDeclaration, frame).eval());
+    this.analysis.s.classes.forEach((cls) =>
+      new ClassBody(this.analysis, cls as ts.ClassLikeDeclaration, frame).eval(),
+    );
   }
 }
 
@@ -53,10 +55,12 @@ class ClassBody {
   private member(member: ts.ClassElement): void {
     const kind = member.kind;
     if (kind === ts.SyntaxKind.PropertyDeclaration) this.field(member as ts.PropertyDeclaration);
-    else if (kind === ts.SyntaxKind.ClassStaticBlockDeclaration) this.block(member as ts.ClassStaticBlockDeclaration);
+    else if (kind === ts.SyntaxKind.ClassStaticBlockDeclaration)
+      this.block(member as ts.ClassStaticBlockDeclaration);
     else if (kind === ts.SyntaxKind.MethodDeclaration) this.method(member as ts.MethodDeclaration);
     else if (kind === ts.SyntaxKind.GetAccessor) this.getter(member as ts.GetAccessorDeclaration);
-    else if (kind === ts.SyntaxKind.Constructor) this.parameters(member as ts.ConstructorDeclaration);
+    else if (kind === ts.SyntaxKind.Constructor)
+      this.parameters(member as ts.ConstructorDeclaration);
   }
 
   private field(prop: ts.PropertyDeclaration): void {
@@ -87,8 +91,17 @@ class ClassBody {
     ctor.parameters.forEach((param, index) => this.parameter(ctor, param, id, index));
   }
 
-  private parameter(ctor: ts.ConstructorDeclaration, param: ts.ParameterDeclaration, id: number, index: number): void {
-    if (ts.isParameterPropertyDeclaration(param, ctor) === false || ts.isIdentifier(param.name) === false) return;
+  private parameter(
+    ctor: ts.ConstructorDeclaration,
+    param: ts.ParameterDeclaration,
+    id: number,
+    index: number,
+  ): void {
+    if (
+      ts.isParameterPropertyDeclaration(param, ctor) === false ||
+      ts.isIdentifier(param.name) === false
+    )
+      return;
     const seeded = emptyValue();
     addPlaceholder(seeded, { fnId: id, param: index });
     this.merge(param.name.text, seeded);
@@ -148,7 +161,9 @@ class ClassLookup {
   }
 
   private directClass(decl: ts.Declaration): ts.Node | undefined {
-    const isClass = (ts.isClassDeclaration(decl) || ts.isClassExpression(decl)) && this.analysis.s.classInstances.has(decl);
+    const isClass =
+      (ts.isClassDeclaration(decl) || ts.isClassExpression(decl)) &&
+      this.analysis.s.classInstances.has(decl);
     return isClass ? decl : undefined;
   }
 
@@ -159,10 +174,15 @@ class ClassLookup {
   }
 }
 
-function classFromExpr(analysis: Evaluator, expr: ts.Expression, seen: Set<ts.Symbol>): ts.Node | undefined {
+function classFromExpr(
+  analysis: Evaluator,
+  expr: ts.Expression,
+  seen: Set<ts.Symbol>,
+): ts.Node | undefined {
   const peeled = peelPlace(expr);
   if (ts.isClassExpression(peeled) && analysis.s.classInstances.has(peeled)) return peeled;
-  if (ts.isIdentifier(peeled) === false && ts.isPropertyAccessExpression(peeled) === false) return undefined;
+  if (ts.isIdentifier(peeled) === false && ts.isPropertyAccessExpression(peeled) === false)
+    return undefined;
   const named = analysis.checker.getSymbolAtLocation(peeled);
   return named === undefined ? undefined : new ClassLookup(analysis, seen).nodeOf(named);
 }
@@ -222,13 +242,19 @@ export function classConstructor(
   return new CtorChain(analysis, seen).find(cls);
 }
 
-export function enclosingClassInstance(analysis: Evaluator, syntax: ts.Node): AbstractValue | undefined {
+export function enclosingClassInstance(
+  analysis: Evaluator,
+  syntax: ts.Node,
+): AbstractValue | undefined {
   const host = innermost(syntax);
   return host === undefined ? undefined : analysis.s.instanceOf(host);
 }
 
 // Only the innermost class. `super` denotes that class's first resolvable base.
-export function enclosingBaseInstance(analysis: Evaluator, syntax: ts.Node): AbstractValue | undefined {
+export function enclosingBaseInstance(
+  analysis: Evaluator,
+  syntax: ts.Node,
+): AbstractValue | undefined {
   const host = innermost(syntax);
   const base = host === undefined ? undefined : resolvedBases(analysis, host).at(0);
   return base === undefined ? undefined : analysis.s.instanceOf(base);
@@ -242,16 +268,27 @@ export function hasUnresolvedHeritage(analysis: Evaluator, cls: ts.Node): boolea
 }
 
 // Innermost class only. Each resolvable base constructor re-reads the arguments.
-export function applySuperCall(analysis: Evaluator, syntax: ts.CallExpression, frame: EvalContext): void {
+export function applySuperCall(
+  analysis: Evaluator,
+  syntax: ts.CallExpression,
+  frame: EvalContext,
+): void {
   const host = innermost(syntax);
   if (host === undefined) return;
   (host.heritageClauses ?? []).forEach((clause) => {
     if (clause.token !== ts.SyntaxKind.ExtendsKeyword) return;
-    clause.types.forEach((type) => applyBase(analysis, syntax, frame, resolveClassNode(analysis, type.expression)));
+    clause.types.forEach((type) =>
+      applyBase(analysis, syntax, frame, resolveClassNode(analysis, type.expression)),
+    );
   });
 }
 
-function applyBase(analysis: Evaluator, syntax: ts.CallExpression, frame: EvalContext, base: ts.Node | undefined): void {
+function applyBase(
+  analysis: Evaluator,
+  syntax: ts.CallExpression,
+  frame: EvalContext,
+  base: ts.Node | undefined,
+): void {
   const ctor = base === undefined ? undefined : classConstructor(analysis, base);
   const id = ctor === undefined ? undefined : analysis.s.fnId.get(ctor);
   if (id === undefined) return;

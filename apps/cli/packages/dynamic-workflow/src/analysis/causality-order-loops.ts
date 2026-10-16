@@ -36,7 +36,11 @@ function extend(chain: readonly string[], id: string): readonly string[] {
   return chain.concat(id);
 }
 
-function walkIfPresent(trace: TraceState, node: ts.Node | undefined, chain: readonly string[]): void {
+function walkIfPresent(
+  trace: TraceState,
+  node: ts.Node | undefined,
+  chain: readonly string[],
+): void {
   if (node !== undefined) trace.walk(node, chain);
 }
 
@@ -63,7 +67,11 @@ function counterStart(initializer: ts.ForInitializer | undefined): CounterStart 
     return undefined;
   }
   const decl = (initializer as ts.VariableDeclarationList).declarations[0];
-  if (decl === undefined || decl.name.kind !== ts.SyntaxKind.Identifier || decl.initializer === undefined) {
+  if (
+    decl === undefined ||
+    decl.name.kind !== ts.SyntaxKind.Identifier ||
+    decl.initializer === undefined
+  ) {
     return undefined;
   }
   const value = signedLiteral(decl.initializer);
@@ -71,20 +79,23 @@ function counterStart(initializer: ts.ForInitializer | undefined): CounterStart 
   return { name: (decl.name as ts.Identifier).text, value };
 }
 
-const ROUND_FROM_LIMIT: ReadonlyMap<ts.SyntaxKind, (start: number, limit: number) => number | undefined> =
-  new Map([
-    [
-      ts.SyntaxKind.LessThanToken,
-      (start, limit) => (start < limit ? limit - start : undefined),
-    ],
-    [
-      ts.SyntaxKind.LessThanEqualsToken,
-      (start, limit) => (start <= limit ? limit - start + 1 : undefined),
-    ],
-  ]);
+const ROUND_FROM_LIMIT: ReadonlyMap<
+  ts.SyntaxKind,
+  (start: number, limit: number) => number | undefined
+> = new Map([
+  [ts.SyntaxKind.LessThanToken, (start, limit) => (start < limit ? limit - start : undefined)],
+  [
+    ts.SyntaxKind.LessThanEqualsToken,
+    (start, limit) => (start <= limit ? limit - start + 1 : undefined),
+  ],
+]);
 
-function provedRounds(condition: ts.Expression | undefined, start: CounterStart): number | undefined {
-  if (condition === undefined || condition.kind !== ts.SyntaxKind.BinaryExpression) return undefined;
+function provedRounds(
+  condition: ts.Expression | undefined,
+  start: CounterStart,
+): number | undefined {
+  if (condition === undefined || condition.kind !== ts.SyntaxKind.BinaryExpression)
+    return undefined;
   const binary = condition as ts.BinaryExpression;
   if (!sameName(binary.left, start.name)) return undefined;
   const limit = signedLiteral(binary.right);
@@ -153,7 +164,11 @@ function walkForOfIn(trace: TraceState, node: ts.Node, chain: readonly string[])
   trace.walk(statement.expression, chain);
   const opened = openLoop(trace, statement, chain, false);
   if (statement.kind === ts.SyntaxKind.ForOfStatement && statement.awaitModifier !== undefined) {
-    const claim = settlesAt(trace, statement.expression, statement.expression.getStart(trace.scriptFile));
+    const claim = settlesAt(
+      trace,
+      statement.expression,
+      statement.expression.getStart(trace.scriptFile),
+    );
     barrier(trace, [...issuesSince(trace, mark), ...claim.certain], claim.maybe, opened.inside, {
       mark: spawned,
       operand: statement.expression,

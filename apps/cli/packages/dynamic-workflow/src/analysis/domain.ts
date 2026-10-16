@@ -135,7 +135,9 @@ class OccurrenceJoin {
 
   // A portless label erases every ported label of the same site and ORs exactness.
   private static cover(host: AbstractValue, occ: TaintOcc): boolean {
-    const doomed = [...host.occs].filter(([, row]) => row.site === occ.site && row.port !== undefined);
+    const doomed = [...host.occs].filter(
+      ([, row]) => row.site === occ.site && row.port !== undefined,
+    );
     const exact = doomed.reduce((bit, [, row]) => bit || row.exact, occ.exact);
     for (const [key] of doomed) host.occs.delete(key);
     const stored = OccurrenceJoin.store(host, { exact, site: occ.site });
@@ -233,7 +235,11 @@ class ValueJoin {
     );
   }
 
-  static prefix(target: AbstractValue, sourceBound: readonly AbstractValue[], depth: number): boolean {
+  static prefix(
+    target: AbstractValue,
+    sourceBound: readonly AbstractValue[],
+    depth: number,
+  ): boolean {
     if (overCap(depth)) {
       return grewFrom(sourceBound, (part) => ValueFold.into(target, part, new Set()));
     }
@@ -261,9 +267,7 @@ class ValueFold {
     const nested = grewFrom(source.fields.values(), (field) => ValueFold.into(out, field, seen));
     const prefix = source.bound;
     const bound =
-      prefix === undefined
-        ? false
-        : grewFrom(prefix, (part) => ValueFold.into(out, part, seen));
+      prefix === undefined ? false : grewFrom(prefix, (part) => ValueFold.into(out, part, seen));
     return flat || nested || bound;
   }
 
@@ -337,7 +341,13 @@ class AliasReplay {
   static write(container: AbstractValue, key: string, value: AbstractValue): boolean {
     const aliases = container.mayAlias;
     if (aliases === undefined) return false;
-    return AliasReplay.fields({ aliases, depth: 0, member: key, payload: Exactness.cleared(value), seen: new Set() });
+    return AliasReplay.fields({
+      aliases,
+      depth: 0,
+      member: key,
+      payload: Exactness.cleared(value),
+      seen: new Set(),
+    });
   }
 
   private static fields(wave: FieldWave): boolean {
@@ -347,7 +357,13 @@ class AliasReplay {
       const direct = ValueJoin.into(ensureField(target, wave.member), wave.payload, 0);
       const nested = target.mayAlias;
       if (nested === undefined) return direct;
-      const deeper = AliasReplay.fields({ aliases: nested, depth: wave.depth + 1, member: wave.member, payload: wave.payload, seen: wave.seen });
+      const deeper = AliasReplay.fields({
+        aliases: nested,
+        depth: wave.depth + 1,
+        member: wave.member,
+        payload: wave.payload,
+        seen: wave.seen,
+      });
       return direct || deeper;
     });
   }
@@ -356,7 +372,11 @@ class AliasReplay {
   static smear(container: AbstractValue, value: AbstractValue): boolean {
     const aliases = container.mayAlias;
     if (aliases === undefined) return false;
-    return AliasReplay.nodes({ aliases, payload: Exactness.cleared(ValueFold.fresh(value)), seen: new Set() });
+    return AliasReplay.nodes({
+      aliases,
+      payload: Exactness.cleared(ValueFold.fresh(value)),
+      seen: new Set(),
+    });
   }
 
   private static nodes(wave: NodeWave): boolean {
@@ -377,7 +397,9 @@ class AliasReplay {
 // names share that object. Only the top level is shared. The merge's own growth is
 // not reported — callers that must not spin the fixpoint rely on that.
 function shareFields(target: AbstractValue, source: AbstractValue): boolean {
-  const adopted = [...source.fields].filter(([key, incoming]) => target.fields.get(key) !== incoming);
+  const adopted = [...source.fields].filter(
+    ([key, incoming]) => target.fields.get(key) !== incoming,
+  );
   for (const [key, incoming] of adopted) {
     const prior = target.fields.get(key);
     if (prior !== undefined) ValueJoin.into(incoming, prior, 0);
@@ -388,20 +410,38 @@ function shareFields(target: AbstractValue, source: AbstractValue): boolean {
 
 const kind = ts.SyntaxKind;
 const FUNCTION_KINDS = new Set<ts.SyntaxKind>([
-  kind.FunctionDeclaration, kind.FunctionExpression, kind.ArrowFunction, kind.MethodDeclaration,
-  kind.GetAccessor, kind.SetAccessor, kind.Constructor,
+  kind.FunctionDeclaration,
+  kind.FunctionExpression,
+  kind.ArrowFunction,
+  kind.MethodDeclaration,
+  kind.GetAccessor,
+  kind.SetAccessor,
+  kind.Constructor,
 ]);
 const DIRECT_CALLEE_KINDS = new Set<ts.SyntaxKind>([
-  kind.Identifier, kind.PropertyAccessExpression, kind.FunctionExpression, kind.ArrowFunction,
+  kind.Identifier,
+  kind.PropertyAccessExpression,
+  kind.FunctionExpression,
+  kind.ArrowFunction,
 ]);
 
 function compoundOps(): Set<ts.SyntaxKind> {
   return new Set<ts.SyntaxKind>([
-    kind.PlusEqualsToken, kind.MinusEqualsToken, kind.AsteriskEqualsToken, kind.AsteriskAsteriskEqualsToken,
-    kind.SlashEqualsToken, kind.PercentEqualsToken, kind.LessThanLessThanEqualsToken,
-    kind.GreaterThanGreaterThanEqualsToken, kind.GreaterThanGreaterThanGreaterThanEqualsToken,
-    kind.AmpersandEqualsToken, kind.BarEqualsToken, kind.CaretEqualsToken,
-    kind.BarBarEqualsToken, kind.AmpersandAmpersandEqualsToken, kind.QuestionQuestionEqualsToken,
+    kind.PlusEqualsToken,
+    kind.MinusEqualsToken,
+    kind.AsteriskEqualsToken,
+    kind.AsteriskAsteriskEqualsToken,
+    kind.SlashEqualsToken,
+    kind.PercentEqualsToken,
+    kind.LessThanLessThanEqualsToken,
+    kind.GreaterThanGreaterThanEqualsToken,
+    kind.GreaterThanGreaterThanGreaterThanEqualsToken,
+    kind.AmpersandEqualsToken,
+    kind.BarEqualsToken,
+    kind.CaretEqualsToken,
+    kind.BarBarEqualsToken,
+    kind.AmpersandAmpersandEqualsToken,
+    kind.QuestionQuestionEqualsToken,
   ]);
 }
 
@@ -419,8 +459,11 @@ export const COMPOUND_ASSIGNMENT_OPS = compoundOps();
 // denotes its last operand. `await` is not peeled: it is a place only when the
 // awaited value is a real promise, which resolvePlace decides from the value.
 const UNWRAP_KINDS = new Set<ts.SyntaxKind>([
-  kind.ParenthesizedExpression, kind.NonNullExpression, kind.AsExpression,
-  kind.SatisfiesExpression, kind.TypeAssertionExpression,
+  kind.ParenthesizedExpression,
+  kind.NonNullExpression,
+  kind.AsExpression,
+  kind.SatisfiesExpression,
+  kind.TypeAssertionExpression,
 ]);
 
 function peeledChild(expr: ts.Expression): ts.Expression | undefined {
@@ -440,17 +483,53 @@ function literalText(node: ts.Node): string | undefined {
   return;
 }
 
-export function emptyValue(): AbstractValue { return freshValue(); }
-export function phKey(ph: Placeholder): string { return PlaceholderJoin.key(ph); }
-export function addOcc(target: AbstractValue, occ: TaintOcc): boolean { return OccurrenceJoin.admit(target, occ); }
-export function addPlaceholder(target: AbstractValue, ph: Placeholder): boolean { return PlaceholderJoin.admit(target, ph); }
-export function mergeInto(target: AbstractValue, source: AbstractValue, depth = 0): boolean { return ValueJoin.into(target, source, depth); }
-export function mergeBound(target: AbstractValue, sourceBound: AbstractValue[], depth: number): boolean { return ValueJoin.prefix(target, sourceBound, depth); }
-export function cloneValue(v: AbstractValue): AbstractValue { const copy = freshValue(); ValueJoin.into(copy, v, 0); return copy; }
-export function unionValues(...values: AbstractValue[]): AbstractValue { const joined = freshValue(); grewFrom(values, (value) => ValueJoin.into(joined, value, 0)); return joined; }
-export function singleOcc(site: string, exact: boolean, port?: number): AbstractValue { const labeled = freshValue(); OccurrenceJoin.admit(labeled, { exact, port, site }); return labeled; }
-export function collapse(v: AbstractValue): AbstractValue { return ValueFold.fresh(v); }
-export function collapseInto(out: AbstractValue, v: AbstractValue, seen = new Set<AbstractValue>()): boolean { return ValueFold.into(out, v, seen); }
+export function emptyValue(): AbstractValue {
+  return freshValue();
+}
+export function phKey(ph: Placeholder): string {
+  return PlaceholderJoin.key(ph);
+}
+export function addOcc(target: AbstractValue, occ: TaintOcc): boolean {
+  return OccurrenceJoin.admit(target, occ);
+}
+export function addPlaceholder(target: AbstractValue, ph: Placeholder): boolean {
+  return PlaceholderJoin.admit(target, ph);
+}
+export function mergeInto(target: AbstractValue, source: AbstractValue, depth = 0): boolean {
+  return ValueJoin.into(target, source, depth);
+}
+export function mergeBound(
+  target: AbstractValue,
+  sourceBound: AbstractValue[],
+  depth: number,
+): boolean {
+  return ValueJoin.prefix(target, sourceBound, depth);
+}
+export function cloneValue(v: AbstractValue): AbstractValue {
+  const copy = freshValue();
+  ValueJoin.into(copy, v, 0);
+  return copy;
+}
+export function unionValues(...values: AbstractValue[]): AbstractValue {
+  const joined = freshValue();
+  grewFrom(values, (value) => ValueJoin.into(joined, value, 0));
+  return joined;
+}
+export function singleOcc(site: string, exact: boolean, port?: number): AbstractValue {
+  const labeled = freshValue();
+  OccurrenceJoin.admit(labeled, { exact, port, site });
+  return labeled;
+}
+export function collapse(v: AbstractValue): AbstractValue {
+  return ValueFold.fresh(v);
+}
+export function collapseInto(
+  out: AbstractValue,
+  v: AbstractValue,
+  seen = new Set<AbstractValue>(),
+): boolean {
+  return ValueFold.into(out, v, seen);
+}
 
 export function readField(container: AbstractValue, key: string): AbstractValue {
   const known = container.fields.get(key);
@@ -461,11 +540,15 @@ export function readField(container: AbstractValue, key: string): AbstractValue 
   return snapshot;
 }
 
-export function clearExact(v: AbstractValue): AbstractValue { return Exactness.cleared(v); }
+export function clearExact(v: AbstractValue): AbstractValue {
+  return Exactness.cleared(v);
+}
 
 export { isActorSite } from "./core.js";
 
-export function provisionalFanoutId(order: number): string { return "fan-out@" + String(order); }
+export function provisionalFanoutId(order: number): string {
+  return "fan-out@" + String(order);
+}
 
 function isWorkflowWrapper(statement: ts.Statement): statement is ts.FunctionDeclaration {
   if (statement.kind !== ts.SyntaxKind.FunctionDeclaration) return false;
@@ -480,7 +563,9 @@ export function findWorkflowBody(scriptFile: ts.SourceFile): ts.Block {
   throw new Error("workflow wrapper function " + WORKFLOW_FUNCTION_NAME + " not found");
 }
 
-export function isFunctionLike(node: ts.Node): boolean { return FUNCTION_KINDS.has(node.kind); }
+export function isFunctionLike(node: ts.Node): boolean {
+  return FUNCTION_KINDS.has(node.kind);
+}
 
 // Every function-like node except an arrow owns an `arguments` object. An arrow sees
 // the enclosing function's arguments.
@@ -491,7 +576,10 @@ export function isNonArrowFunctionLike(node: ts.Node): boolean {
 // A directly named callee, or a function literal, keeps exactness. One parenthesis
 // layer is ignored; deeper wrappers are not direct.
 export function isDirectCallee(callee: ts.Expression): boolean {
-  const expr = callee.kind === kind.ParenthesizedExpression ? (callee as ts.ParenthesizedExpression).expression : callee;
+  const expr =
+    callee.kind === kind.ParenthesizedExpression
+      ? (callee as ts.ParenthesizedExpression).expression
+      : callee;
   return DIRECT_CALLEE_KINDS.has(expr.kind);
 }
 
@@ -514,8 +602,22 @@ export function peelPlace(expr: ts.Expression): ts.Expression {
   return cursor;
 }
 
-export function liveField(container: AbstractValue, key: string): AbstractValue { return ensureField(container, key); }
-export function replayMayAliasWrite(container: AbstractValue, key: string, value: AbstractValue): boolean { return AliasReplay.write(container, key, value); }
-export function replayMayAliasMerge(container: AbstractValue, value: AbstractValue): boolean { return AliasReplay.smear(container, value); }
-export function adoptFields(target: AbstractValue, source: AbstractValue): boolean { return shareFields(target, source); }
-export function bindingPropertyKey(element: ts.BindingElement): string | undefined { return literalText(element.propertyName ?? element.name); }
+export function liveField(container: AbstractValue, key: string): AbstractValue {
+  return ensureField(container, key);
+}
+export function replayMayAliasWrite(
+  container: AbstractValue,
+  key: string,
+  value: AbstractValue,
+): boolean {
+  return AliasReplay.write(container, key, value);
+}
+export function replayMayAliasMerge(container: AbstractValue, value: AbstractValue): boolean {
+  return AliasReplay.smear(container, value);
+}
+export function adoptFields(target: AbstractValue, source: AbstractValue): boolean {
+  return shareFields(target, source);
+}
+export function bindingPropertyKey(element: ts.BindingElement): string | undefined {
+  return literalText(element.propertyName ?? element.name);
+}

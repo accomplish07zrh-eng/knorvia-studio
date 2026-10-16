@@ -42,7 +42,11 @@ function openArm(
 function transferTarget(trace: TraceState, node: ts.BreakOrContinueStatement): string | undefined {
   const label = node.label;
   const breaking = node.kind === ts.SyntaxKind.BreakStatement;
-  for (let cursor: ts.Node | undefined = node.parent; cursor !== undefined && !isFunctionLike(cursor); cursor = cursor.parent) {
+  for (
+    let cursor: ts.Node | undefined = node.parent;
+    cursor !== undefined && !isFunctionLike(cursor);
+    cursor = cursor.parent
+  ) {
     if (label !== undefined && cursor.kind === ts.SyntaxKind.LabeledStatement) {
       const labeled = cursor as ts.LabeledStatement;
       if (labeled.label.text === label.text) return trace.regionByStatement.get(labeled.statement);
@@ -84,7 +88,11 @@ export function walkStatements(
 
 // The claim is keyed by the await keyword. The operand is only the value that
 // names strands to join; its own start is a different source position.
-function settleAwait(trace: TraceState, awaitNode: ts.AwaitExpression, chain: readonly string[]): void {
+function settleAwait(
+  trace: TraceState,
+  awaitNode: ts.AwaitExpression,
+  chain: readonly string[],
+): void {
   const operand = awaitNode.expression;
   const mark = trace.events.length;
   const spawned = strandMark(trace);
@@ -141,7 +149,11 @@ function openChoice(
   return { id, around: extend(chain, id) };
 }
 
-function visitShortCircuit(trace: TraceState, node: ts.BinaryExpression, chain: readonly string[]): void {
+function visitShortCircuit(
+  trace: TraceState,
+  node: ts.BinaryExpression,
+  chain: readonly string[],
+): void {
   trace.walk(node.left, chain);
   const choice = openChoice(trace, chain, node, {});
   trace.walk(node.right, openArm(trace, choice.around, node.left, node.right));
@@ -190,10 +202,21 @@ function visitConditional(trace: TraceState, node: ts.Node, chain: readonly stri
 function visitIf(trace: TraceState, node: ts.Node, chain: readonly string[]): void {
   const statement = node as ts.IfStatement;
   trace.walk(statement.expression, chain);
-  const choice = openChoice(trace, chain, statement, statement.elseStatement === undefined ? {} : { exhaustive: true });
-  trace.walk(statement.thenStatement, openArm(trace, choice.around, statement.expression, statement.thenStatement));
+  const choice = openChoice(
+    trace,
+    chain,
+    statement,
+    statement.elseStatement === undefined ? {} : { exhaustive: true },
+  );
+  trace.walk(
+    statement.thenStatement,
+    openArm(trace, choice.around, statement.expression, statement.thenStatement),
+  );
   if (statement.elseStatement !== undefined) {
-    trace.walk(statement.elseStatement, openArm(trace, choice.around, statement.expression, statement.elseStatement));
+    trace.walk(
+      statement.elseStatement,
+      openArm(trace, choice.around, statement.expression, statement.elseStatement),
+    );
   }
 }
 
@@ -211,8 +234,13 @@ function visitSwitch(trace: TraceState, node: ts.Node, chain: readonly string[])
   );
   trace.regionByStatement.set(statement, choice.id);
   for (const clause of clauses) {
-    if (clause.kind === ts.SyntaxKind.CaseClause) trace.walk((clause as ts.CaseClause).expression, choice.around);
-    walkStatements(trace, clause.statements, openArm(trace, choice.around, statement.expression, clause));
+    if (clause.kind === ts.SyntaxKind.CaseClause)
+      trace.walk((clause as ts.CaseClause).expression, choice.around);
+    walkStatements(
+      trace,
+      clause.statements,
+      openArm(trace, choice.around, statement.expression, clause),
+    );
   }
   trace.regionByStatement.delete(statement);
 }
@@ -233,7 +261,12 @@ function visitBreakContinue(trace: TraceState, node: ts.Node, chain: readonly st
   const statement = node as ts.BreakOrContinueStatement;
   const target = transferTarget(trace, statement);
   if (target === undefined) return;
-  jump(trace, statement.kind === ts.SyntaxKind.BreakStatement ? "break" : "continue", target, chain);
+  jump(
+    trace,
+    statement.kind === ts.SyntaxKind.BreakStatement ? "break" : "continue",
+    target,
+    chain,
+  );
 }
 
 function visitTry(trace: TraceState, node: ts.Node, chain: readonly string[]): void {

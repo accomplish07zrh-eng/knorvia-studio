@@ -87,8 +87,7 @@ function absorbSource(
   // later write through either side sees the same object; container labels still merge.
   // Growth of the returned value is not a `changed` signal — only the live target is.
   const sourcePlace = machine.resolvePlace(sourceExpr);
-  const sourceValue =
-    sourcePlace === undefined ? machine.evalExpr(sourceExpr, frame) : sourcePlace;
+  const sourceValue = sourcePlace === undefined ? machine.evalExpr(sourceExpr, frame) : sourcePlace;
   if (liveTarget === undefined) {
     mergeInto(returned, sourceValue);
     return;

@@ -1,6 +1,12 @@
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ActorEvent, IssueEvent, JumpEvent, OrderRegion, SettleEvent } from "./causality-order.js";
+import type {
+  ActorEvent,
+  IssueEvent,
+  JumpEvent,
+  OrderRegion,
+  SettleEvent,
+} from "./causality-order.js";
 import { reduceOrdering, type OrderKind } from "./causality-reduce.js";
 import { dedupeFacts, expandMaySetLanes, weakest } from "./causality-graph-lanes.js";
 import {
@@ -23,7 +29,16 @@ import type { SiteGraph, SiteLoc, SiteNode } from "./types.js";
 
 export type { NamePattern } from "./types.js";
 export { SINK_ID, UNKNOWN_LANE, WORKSPACE_LANE } from "./causality-graph-types.js";
-export type { CausalityGraph, Certainty, Lane, OrderEdge, Phase, Region, Step, StepKind } from "./causality-graph-types.js";
+export type {
+  CausalityGraph,
+  Certainty,
+  Lane,
+  OrderEdge,
+  Phase,
+  Region,
+  Step,
+  StepKind,
+} from "./causality-graph-types.js";
 export type { OrderKind, RegionKind };
 
 type Placed = SiteNode & { loc: SiteLoc };
@@ -32,7 +47,8 @@ type JumpWord = "break" | "continue";
 function placedSteps(site: SiteGraph): Placed[] {
   const placed: Placed[] = [];
   site.nodes.forEach((node) => {
-    if (node.loc !== undefined && (node.kind === "ask" || node.kind === "world-read")) placed.push(node as Placed);
+    if (node.loc !== undefined && (node.kind === "ask" || node.kind === "world-read"))
+      placed.push(node as Placed);
   });
   return placed;
 }
@@ -58,7 +74,10 @@ class CausalityPass {
   private readonly rename = new Map<string, string>();
   private clock = 0;
 
-  constructor(core: AnalysisCore, private readonly site: SiteGraph) {
+  constructor(
+    core: AnalysisCore,
+    private readonly site: SiteGraph,
+  ) {
     this.trace = core.trace;
     this.regionById = new Map(this.trace.regions.map((region) => [region.id, region]));
   }
@@ -75,11 +94,18 @@ class CausalityPass {
     nodes.forEach((node) => this.laneSet.set(node.id, this.lanesFor(node)));
     this.addControls(nodes, stepIds);
     this.addData(stepIds);
-    const issueOrder = nodes.slice().sort((left, right) => this.position(left.id) - this.position(right.id));
+    const issueOrder = nodes
+      .slice()
+      .sort((left, right) => this.position(left.id) - this.position(right.id));
     this.addFifo(issueOrder);
     this.closeIterations(issueOrder);
     const published = this.publish(reduceOrdering(this.retype(dedupeFacts(this.facts))));
-    published.edges.sort((left, right) => this.position(left.from) - this.position(right.from) || this.position(left.to) - this.position(right.to) || left.kind.localeCompare(right.kind));
+    published.edges.sort(
+      (left, right) =>
+        this.position(left.from) - this.position(right.from) ||
+        this.position(left.to) - this.position(right.to) ||
+        left.kind.localeCompare(right.kind),
+    );
     published.fedBy.sort((left, right) => this.position(left) - this.position(right));
     const lanes = this.assembleLanes(nodes);
     this.retainUsed(nodes, lanes);
@@ -88,13 +114,20 @@ class CausalityPass {
     return projectPhaseGraph(
       expandMaySetLanes({
         edges: published.edges,
-        lanes: lanes.map((lane) => (lane.families === undefined ? lane : { ...lane, families: lane.families.map(renamed) })),
+        lanes: lanes.map((lane) =>
+          lane.families === undefined ? lane : { ...lane, families: lane.families.map(renamed) },
+        ),
         regions,
         steps: this.assembleSteps(nodes, renamed),
         ...(published.fedBy.length > 0 ? { sink: { fedBy: published.fedBy } } : {}),
       }),
       this.trace.phases,
-      collectPhaseClaims(this.trace.events, stepIds, (chain) => this.certainChain(chain), this.controlled),
+      collectPhaseClaims(
+        this.trace.events,
+        stepIds,
+        (chain) => this.certainChain(chain),
+        this.controlled,
+      ),
       published.phaseFacts,
       (left, right) => this.shares(left, right),
     );
@@ -153,7 +186,10 @@ class CausalityPass {
       const continuation = this.continuation(from, event.regions);
       if (continuation === "drop") return;
       this.facts.push({
-        certainty: mayHaveSettled ? "maybe" : "always", from, kind: "seq", to: event.step,
+        certainty: mayHaveSettled ? "maybe" : "always",
+        from,
+        kind: "seq",
+        to: event.step,
         toPhases: new Set([event.phase]),
         ...(continuation === "jump" ? { viaJump: true as const } : {}),
       });
@@ -181,7 +217,13 @@ class CausalityPass {
     this.site.edges.forEach((edge) => {
       if (edge.kind !== "data" || !stepIds.has(edge.from)) return;
       if (edge.to !== SINK_ID && !stepIds.has(edge.to)) return;
-      this.facts.push({ certainty: "always", exact: edge.exact, from: edge.from, kind: "data", to: edge.to });
+      this.facts.push({
+        certainty: "always",
+        exact: edge.exact,
+        from: edge.from,
+        kind: "data",
+        to: edge.to,
+      });
     });
   }
 
@@ -191,7 +233,8 @@ class CausalityPass {
         const lanesA = this.realLanes(earlier.id);
         const lanesB = this.realLanes(later.id);
         if (!lanesA.some((lane) => lanesB.includes(lane))) return;
-        const certainty: Certainty = lanesA.length === 1 && lanesB.length === 1 ? "always" : "maybe";
+        const certainty: Certainty =
+          lanesA.length === 1 && lanesB.length === 1 ? "always" : "maybe";
         this.facts.push({ certainty, from: earlier.id, kind: "fifo", to: later.id });
       });
     });
@@ -200,12 +243,22 @@ class CausalityPass {
   private closeIterations(issueOrder: readonly Placed[]): void {
     this.trace.regions.forEach((region) => {
       if (region.kind !== "loop" && region.kind !== "fanout") return;
-      const inside = issueOrder.filter((node) => this.regionsOf.get(node.id)?.has(region.id) ?? false);
+      const inside = issueOrder.filter(
+        (node) => this.regionsOf.get(node.id)?.has(region.id) ?? false,
+      );
       const first = inside[0];
       if (first === undefined) return;
-      const settledHere = inside.filter((node) => this.settledInside.get(region.id)?.has(node.id) ?? false);
+      const settledHere = inside.filter(
+        (node) => this.settledInside.get(region.id)?.has(node.id) ?? false,
+      );
       const last = settledHere.at(-1);
-      if (last !== undefined) this.facts.push({ certainty: this.certaintyOf(last.id), from: last.id, kind: "seq", to: first.id });
+      if (last !== undefined)
+        this.facts.push({
+          certainty: this.certaintyOf(last.id),
+          from: last.id,
+          kind: "seq",
+          to: first.id,
+        });
       settledHere.forEach((node) => this.markRepeat(node.id, "serial"));
       const awaited = new Set(settledHere.map((node) => node.id));
       inside.forEach((node) => {
@@ -213,7 +266,12 @@ class CausalityPass {
         const lanes = this.realLanes(node.id);
         const only = lanes[0];
         if (lanes.length === 1 && only !== undefined && this.familiesOf(only).length === 0) {
-          this.facts.push({ certainty: this.certaintyOf(node.id), from: node.id, kind: "fifo", to: node.id });
+          this.facts.push({
+            certainty: this.certaintyOf(node.id),
+            from: node.id,
+            kind: "fifo",
+            to: node.id,
+          });
           this.markRepeat(node.id, "serial");
           return;
         }
@@ -225,44 +283,70 @@ class CausalityPass {
   private retype(facts: readonly Fact[]): Fact[] {
     const typed: Fact[] = [];
     facts.forEach((fact) => {
-      const back = fact.viaJump === true || fact.from === fact.to || this.lastIssue(fact.to) <= this.position(fact.from);
+      const back =
+        fact.viaJump === true ||
+        fact.from === fact.to ||
+        this.lastIssue(fact.to) <= this.position(fact.from);
       if (!back) {
         typed.push(fact);
         return;
       }
       const self = fact.from === fact.to;
       const repeated = self
-        ? this.iterationRegions(fact.to).length > 0 || this.lastIssue(fact.to) > this.position(fact.to)
+        ? this.iterationRegions(fact.to).length > 0 ||
+          this.lastIssue(fact.to) > this.position(fact.to)
         : this.shares(fact.from, fact.to);
       if (!repeated) return;
       const kind = fact.kind;
       typed.push({
-        certainty: fact.certainty, from: fact.from, kind: "carry", to: fact.to,
+        certainty: fact.certainty,
+        from: fact.from,
+        kind: "carry",
+        to: fact.to,
         ...(fact.toPhases === undefined ? {} : { toPhases: fact.toPhases }),
         ...(fact.viaJump === true ? { viaJump: true as const } : {}),
-        ...(kind === "carry" ? (fact.carryOf === undefined ? {} : { carryOf: fact.carryOf }) : { carryOf: kind }),
+        ...(kind === "carry"
+          ? fact.carryOf === undefined
+            ? {}
+            : { carryOf: fact.carryOf }
+          : { carryOf: kind }),
       });
     });
     return typed;
   }
 
-  private publish(reduced: readonly Fact[]): { edges: OrderEdge[]; fedBy: string[]; phaseFacts: PhaseSourceFact[] } {
+  private publish(reduced: readonly Fact[]): {
+    edges: OrderEdge[];
+    fedBy: string[];
+    phaseFacts: PhaseSourceFact[];
+  } {
     const edges: OrderEdge[] = [];
     const fedBy: string[] = [];
     const phaseFacts: PhaseSourceFact[] = [];
     reduced.forEach((fact) => {
-      const certainty = weakest([fact.certainty, this.certaintyOf(fact.from), this.certaintyOf(fact.to)]);
+      const certainty = weakest([
+        fact.certainty,
+        this.certaintyOf(fact.from),
+        this.certaintyOf(fact.to),
+      ]);
       if (fact.to === SINK_ID) {
         fedBy.push(fact.from);
         return;
       }
       phaseFacts.push({
-        certainty, from: fact.from, kind: fact.kind, to: fact.to,
+        certainty,
+        from: fact.from,
+        kind: fact.kind,
+        to: fact.to,
         ...(fact.carryOf === undefined ? {} : { carryOf: fact.carryOf }),
         ...(fact.toPhases === undefined ? {} : { toPhases: fact.toPhases }),
       });
       const published: OrderEdge = { certainty, from: fact.from, kind: fact.kind, to: fact.to };
-      edges.push(fact.kind === "data" && fact.exact !== undefined ? { ...published, exact: fact.exact } : published);
+      edges.push(
+        fact.kind === "data" && fact.exact !== undefined
+          ? { ...published, exact: fact.exact }
+          : published,
+      );
     });
     return { edges, fedBy, phaseFacts };
   }
@@ -276,7 +360,8 @@ class CausalityPass {
       if (!used.has(actor.id)) return;
       const families = this.familiesOf(actor.id);
       lanes.push({
-        id: actor.id, loc: actor.loc,
+        id: actor.id,
+        loc: actor.loc,
         ...(actor.name === undefined ? {} : { name: actor.name }),
         ...(actor.namePattern === undefined ? {} : { namePattern: actor.namePattern }),
         ...(families.length > 0 ? { families } : {}),
@@ -298,7 +383,8 @@ class CausalityPass {
       const visible = this.structuralParent(region);
       const parent = visible === undefined ? undefined : this.rename.get(visible);
       regions.push({
-        id, kind: region.kind,
+        id,
+        kind: region.kind,
         ...(parent === undefined ? {} : { parent }),
         ...(region.loc === undefined ? {} : { loc: region.loc }),
         ...(region.bound === undefined ? {} : { bound: region.bound }),
@@ -313,9 +399,13 @@ class CausalityPass {
       const lanesForNode = this.laneSet.get(node.id) ?? [UNKNOWN_LANE];
       const repeats = this.repeat.get(node.id);
       return {
-        certainty: this.certaintyOf(node.id), id: node.id, kind: node.kind as StepKind, label: node.label,
+        certainty: this.certaintyOf(node.id),
+        id: node.id,
+        kind: node.kind as StepKind,
+        label: node.label,
         ...(node.labelPattern === undefined ? {} : { labelPattern: node.labelPattern }),
-        lane: lanesForNode[0] ?? UNKNOWN_LANE, loc: node.loc,
+        lane: lanesForNode[0] ?? UNKNOWN_LANE,
+        loc: node.loc,
         region: renamed(this.innermost.get(node.id) ?? this.trace.root),
         ...(lanesForNode.length > 1 ? { lanes: lanesForNode } : {}),
         ...(repeats === undefined ? {} : { repeat: repeats }),
@@ -328,7 +418,12 @@ class CausalityPass {
       const region = this.regionById.get(id);
       if (region === undefined) return false;
       const kind = region.kind;
-      return isStructuralRegionKind(kind) || kind === "seq" || kind === "parallel" || (kind === "loop" && region.entered);
+      return (
+        isStructuralRegionKind(kind) ||
+        kind === "seq" ||
+        kind === "parallel" ||
+        (kind === "loop" && region.entered)
+      );
     });
   }
 
@@ -341,19 +436,25 @@ class CausalityPass {
   }
 
   private frame(regions: readonly string[]): string {
-    for (const id of [...regions].reverse()) if (this.regionById.get(id)?.strand === true) return id;
+    for (const id of [...regions].reverse())
+      if (this.regionById.get(id)?.strand === true) return id;
     return this.trace.root;
   }
 
   private visibleFrames(regions: readonly string[]): Set<string> {
     const visible = new Set<string>([this.trace.root]);
-    regions.forEach((id) => { if (this.regionById.get(id)?.strand === true) visible.add(id); });
+    regions.forEach((id) => {
+      if (this.regionById.get(id)?.strand === true) visible.add(id);
+    });
     return visible;
   }
 
   private armBefore(regions: readonly string[], target: string): string | undefined {
     let arm: string | undefined;
-    for (const id of [...regions].reverse()) { if (id === target) break; if (this.kindOf(id) === "branch") arm = id; }
+    for (const id of [...regions].reverse()) {
+      if (id === target) break;
+      if (this.kindOf(id) === "branch") arm = id;
+    }
     return arm;
   }
 
@@ -365,9 +466,14 @@ class CausalityPass {
     return cursor?.id;
   }
 
-  private meetMaybe(byFrame: ReadonlyMap<string, boolean>, visible: ReadonlySet<string>): boolean | undefined {
+  private meetMaybe(
+    byFrame: ReadonlyMap<string, boolean>,
+    visible: ReadonlySet<string>,
+  ): boolean | undefined {
     let meet: boolean | undefined;
-    byFrame.forEach((maybe, frame) => { if (visible.has(frame)) meet = meet === undefined ? maybe : meet && maybe; });
+    byFrame.forEach((maybe, frame) => {
+      if (visible.has(frame)) meet = meet === undefined ? maybe : meet && maybe;
+    });
     return meet;
   }
 
@@ -378,7 +484,8 @@ class CausalityPass {
     let jumped = false;
     loops.forEach((kind, loop) => {
       if (!regions.includes(loop)) return;
-      if (kind === "break") blocked = true; else jumped = true;
+      if (kind === "break") blocked = true;
+      else jumped = true;
     });
     if (blocked) return "drop";
     return jumped ? "jump" : "flow";
@@ -387,13 +494,18 @@ class CausalityPass {
   private retainUsed(nodes: readonly Placed[], lanes: readonly Lane[]): void {
     const retain = (start: string | undefined): void => {
       let current = start;
-      while (current !== undefined && !this.keep.has(current)) { this.keep.add(current); current = this.regionById.get(current)?.parent; }
+      while (current !== undefined && !this.keep.has(current)) {
+        this.keep.add(current);
+        current = this.regionById.get(current)?.parent;
+      }
     };
     nodes.forEach((node) => retain(this.innermost.get(node.id) ?? this.trace.root));
     lanes.forEach((lane) => (lane.families ?? []).forEach((family) => retain(family)));
   }
 
-  private kindOf(id: string): TraceRegionKind | undefined { return this.regionById.get(id)?.kind; }
+  private kindOf(id: string): TraceRegionKind | undefined {
+    return this.regionById.get(id)?.kind;
+  }
   private lanesFor(node: SiteNode): string[] {
     if (node.kind === "world-read") return [WORKSPACE_LANE];
     const actors = node.actors ?? [];
@@ -403,7 +515,9 @@ class CausalityPass {
     return this.iterationLike(this.actorRegions.get(actorId) ?? []);
   }
   private realLanes(step: string): string[] {
-    return (this.laneSet.get(step) ?? []).filter((lane) => lane !== WORKSPACE_LANE && lane !== UNKNOWN_LANE);
+    return (this.laneSet.get(step) ?? []).filter(
+      (lane) => lane !== WORKSPACE_LANE && lane !== UNKNOWN_LANE,
+    );
   }
   private markRepeat(step: string, mode: "stack" | "serial"): void {
     if (mode === "serial" || !this.repeat.has(step)) this.repeat.set(step, mode);
@@ -417,9 +531,14 @@ class CausalityPass {
   private lastIssue(id: string): number {
     return id === SINK_ID ? Number.MAX_SAFE_INTEGER : (this.maxIssue.get(id) ?? 0);
   }
-  private iterationRegions(id: string): string[] { return this.iterationLike(this.regionsOf.get(id) ?? []); }
+  private iterationRegions(id: string): string[] {
+    return this.iterationLike(this.regionsOf.get(id) ?? []);
+  }
   private iterationLike(ids: Iterable<string>): string[] {
-    return [...ids].filter((id) => { const kind = this.kindOf(id); return kind === "loop" || kind === "fanout"; });
+    return [...ids].filter((id) => {
+      const kind = this.kindOf(id);
+      return kind === "loop" || kind === "fanout";
+    });
   }
   private shares(left: string, right: string): boolean {
     const enclosing = new Set(this.iterationRegions(right));

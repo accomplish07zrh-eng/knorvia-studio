@@ -13,7 +13,15 @@ const WRAPPER_KINDS = new Set<ts.SyntaxKind>([
 ]);
 
 const ARRAY_MUTATION_CALLS = new Set<string>([
-  "push", "pop", "shift", "unshift", "splice", "sort", "reverse", "fill", "copyWithin",
+  "push",
+  "pop",
+  "shift",
+  "unshift",
+  "splice",
+  "sort",
+  "reverse",
+  "fill",
+  "copyWithin",
 ]);
 
 const PATTERN_CONTAINER_KINDS = new Set<ts.SyntaxKind>([
@@ -28,7 +36,10 @@ function unknown(): undefined {
   return undefined;
 }
 
-export function literalCardinality(expression: ts.Expression, types: ts.TypeChecker): number | undefined {
+export function literalCardinality(
+  expression: ts.Expression,
+  types: ts.TypeChecker,
+): number | undefined {
   const peeled = unwrap(expression);
   if (ts.isArrayLiteralExpression(peeled)) return elementCount(peeled);
   if (!ts.isIdentifier(peeled)) return unknown();

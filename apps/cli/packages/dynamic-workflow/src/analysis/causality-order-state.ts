@@ -110,7 +110,9 @@ export function openRegion(
   return region.id;
 }
 
-function indexCalls<T extends { call: ts.Node; id: string }>(rows: readonly T[]): Map<ts.Node, string> {
+function indexCalls<T extends { call: ts.Node; id: string }>(
+  rows: readonly T[],
+): Map<ts.Node, string> {
   const index = new Map<ts.Node, string>();
   for (const row of rows) index.set(row.call, row.id);
   return index;
@@ -160,7 +162,11 @@ function markersByStatement(table: SiteTable): Map<ts.Node, PhaseMarkerSite> {
   return markers;
 }
 
-function rootSequence(): { regions: OrderRegion[]; counters: Map<TraceRegionKind, number>; root: string } {
+function rootSequence(): {
+  regions: OrderRegion[];
+  counters: Map<TraceRegionKind, number>;
+  root: string;
+} {
   const regions: Array<OrderRegion> = [];
   const counters: Map<TraceRegionKind, number> = new Map();
   const opened = openRegion({ counters, regions }, "seq", undefined, { entered: true });

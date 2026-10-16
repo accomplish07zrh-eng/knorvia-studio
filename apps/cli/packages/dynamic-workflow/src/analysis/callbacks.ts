@@ -39,10 +39,18 @@ export interface CallbackSemantics {
   accumulatorParam?: number;
 }
 
-export const DEFAULT_CALLBACK_SEMANTICS: Pick<CallbackSemantics, "multiplicity" | "entered"> = { entered: false, multiplicity: "once" };
+export const DEFAULT_CALLBACK_SEMANTICS: Pick<CallbackSemantics, "multiplicity" | "entered"> = {
+  entered: false,
+  multiplicity: "once",
+};
 
 // element indexes, whole-collection indexes, optional accumulator index.
-type EachRow = readonly [label: string, element: readonly number[], whole: readonly number[], accumulator?: number];
+type EachRow = readonly [
+  label: string,
+  element: readonly number[],
+  whole: readonly number[],
+  accumulator?: number,
+];
 
 const EACH_ROWS: readonly EachRow[] = [
   ["map", [0], [2]],
@@ -87,7 +95,15 @@ function eachSemantics(
   whole: readonly number[],
   accumulator: number | undefined,
 ): CallbackSemantics {
-  const row = pack({ callbacks, elementParams: element, entered: false, iterated, label, multiplicity: "each", wholeParams: whole });
+  const row = pack({
+    callbacks,
+    elementParams: element,
+    entered: false,
+    iterated,
+    label,
+    multiplicity: "each",
+    wholeParams: whole,
+  });
   if (accumulator !== undefined) row.accumulatorParam = accumulator;
   return row;
 }
@@ -175,17 +191,30 @@ function authoredDeclaration(declaration: ts.Declaration, program: ts.Program): 
   return declaredInLib(host, program) === false && host.isDeclarationFile === false;
 }
 
-function isScriptDeclared(name: ts.MemberName, checker: ts.TypeChecker, program: ts.Program): boolean {
+function isScriptDeclared(
+  name: ts.MemberName,
+  checker: ts.TypeChecker,
+  program: ts.Program,
+): boolean {
   const declarations = checker.getSymbolAtLocation(name)?.declarations ?? [];
   return declarations.some((declaration) => authoredDeclaration(declaration, program));
 }
 
-export function callbackSemanticsOf(node: ts.CallExpression | ts.NewExpression, checker: ts.TypeChecker, program: ts.Program): CallbackSemantics | undefined {
+export function callbackSemanticsOf(
+  node: ts.CallExpression | ts.NewExpression,
+  checker: ts.TypeChecker,
+  program: ts.Program,
+): CallbackSemantics | undefined {
   return new CallbackQuery(node, checker, program).resolve();
 }
 
 // True when `expr` resolves to the ES library global `name`, not a user binding that shadows it.
-export function isGlobalLibValue(expr: ts.Expression, name: string, checker: ts.TypeChecker, program: ts.Program): boolean {
+export function isGlobalLibValue(
+  expr: ts.Expression,
+  name: string,
+  checker: ts.TypeChecker,
+  program: ts.Program,
+): boolean {
   const symbol = aliased(checker, checker.getSymbolAtLocation(expr));
   if (symbol === undefined || symbol.name !== name) return false;
   const declarations = symbol.declarations ?? [];
@@ -196,7 +225,11 @@ export function isGlobalLibValue(expr: ts.Expression, name: string, checker: ts.
 // A library or facade method (`xs.map`, `p.finally`) is never a script function, even
 // if a whole-value read of the receiver collapsed a callback into its function set.
 // An undeclared member (an `any` receiver) keeps the value-based answer.
-export function isForeignMember(name: ts.MemberName, checker: ts.TypeChecker, scriptFile: ts.SourceFile): boolean {
+export function isForeignMember(
+  name: ts.MemberName,
+  checker: ts.TypeChecker,
+  scriptFile: ts.SourceFile,
+): boolean {
   const declarations = checker.getSymbolAtLocation(name)?.declarations ?? [];
   if (declarations.length === 0) return false;
   return declarations.some((declaration) => declaration.getSourceFile() === scriptFile) === false;

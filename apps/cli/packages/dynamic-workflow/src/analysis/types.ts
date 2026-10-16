@@ -3,13 +3,7 @@
 import type { ScriptLoc } from "../compiler/compile.js";
 
 // Classification of workflow graph site vertices.
-export type SiteKind =
-  | "ask"
-  | "world-read"
-  | "join"
-  | "fan-out"
-  | "source"
-  | "sink";
+export type SiteKind = "ask" | "world-read" | "join" | "fan-out" | "source" | "sink";
 
 export type SiteLoc = ScriptLoc;
 

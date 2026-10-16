@@ -23,7 +23,13 @@ interface AccSeed {
   value: AbstractValue;
 }
 
-function bindParam(ev: Evaluator, cb: ts.FunctionExpression | ts.ArrowFunction, index: number, value: AbstractValue, ctx: EvalContext): void {
+function bindParam(
+  ev: Evaluator,
+  cb: ts.FunctionExpression | ts.ArrowFunction,
+  index: number,
+  value: AbstractValue,
+  ctx: EvalContext,
+): void {
   const param = cb.parameters.at(index);
   if (param === undefined) return;
   // Binding patterns (`.map(({ q }) => …)`) go through the same pattern machinery
@@ -99,7 +105,13 @@ class ElementFanout {
       regionStack: this.regionStack,
     };
     if (this.isReduce) {
-      bindParam(this.ev, cb, this.cand.semantics?.accumulatorParam ?? 0, this.accumulator().value, cbCtx);
+      bindParam(
+        this.ev,
+        cb,
+        this.cand.semantics?.accumulatorParam ?? 0,
+        this.accumulator().value,
+        cbCtx,
+      );
     }
     // The first element parameter receives the live fanned-out value. Later element
     // parameters and the whole-collection parameter receive clones of it. An index
@@ -108,7 +120,8 @@ class ElementFanout {
       const value = ordinal === 0 ? this.element : cloneValue(this.element);
       bindParam(this.ev, cb, index, value, cbCtx);
     });
-    for (const index of this.wholeParams) bindParam(this.ev, cb, index, cloneValue(this.element), cbCtx);
+    for (const index of this.wholeParams)
+      bindParam(this.ev, cb, index, cloneValue(this.element), cbCtx);
     this.visitBody(cb, cbCtx);
   }
 
@@ -125,12 +138,22 @@ class ElementFanout {
     if (expr === undefined) return;
     const fns = [...this.ev.evalExpr(expr, this.ctx).fns].filter((fn) => this.ev.s.fnId.has(fn));
     if (fns.length === 0) return;
-    const width = Math.max(-1, ...this.elementParams, ...this.wholeParams, this.cand.semantics?.accumulatorParam ?? -1) + 1;
+    const width =
+      Math.max(
+        -1,
+        ...this.elementParams,
+        ...this.wholeParams,
+        this.cand.semantics?.accumulatorParam ?? -1,
+      ) + 1;
     const actuals = Array.from({ length: width }, () => emptyValue());
-    if (this.isReduce) actuals[this.cand.semantics?.accumulatorParam ?? 0] = this.accumulator().value;
+    if (this.isReduce)
+      actuals[this.cand.semantics?.accumulatorParam ?? 0] = this.accumulator().value;
     for (const index of this.elementParams) actuals[index] = cloneValue(this.element);
     for (const index of this.wholeParams) actuals[index] = cloneValue(this.element);
-    mergeInto(this.callbackReturn, applyCallbackFns(this.ev, fns, actuals, this.regionStack, this.node));
+    mergeInto(
+      this.callbackReturn,
+      applyCallbackFns(this.ev, fns, actuals, this.regionStack, this.node),
+    );
   }
 
   // A write through the element parameter reaches the collection: elements are
@@ -145,6 +168,11 @@ class ElementFanout {
   }
 }
 
-export function handleArrayMethod(ev: Evaluator, node: ts.CallExpression, cand: IterationCandidate, ctx: EvalContext): AbstractValue {
+export function handleArrayMethod(
+  ev: Evaluator,
+  node: ts.CallExpression,
+  cand: IterationCandidate,
+  ctx: EvalContext,
+): AbstractValue {
   return new ElementFanout(ev, node, cand, ctx).eval();
 }

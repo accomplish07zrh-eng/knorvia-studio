@@ -234,7 +234,9 @@ export function projectSiteGraph(analysis: AnalysisCore): SiteGraph {
   const actorRank = new Map(sites.actors.map((person) => [person.id, person.order]));
   const ordered: RankedSite[] = [];
   for (const site of sites.asks) {
-    ordered.push(askOrdered(site, orderedActors(facts.askActor.get(site.id) ?? [], actorRank), types));
+    ordered.push(
+      askOrdered(site, orderedActors(facts.askActor.get(site.id) ?? [], actorRank), types),
+    );
   }
   for (const site of sites.worldReads) ordered.push(plainOrdered(site, "world-read", types));
   for (const site of sites.joins) ordered.push(plainOrdered(site, "join", types));

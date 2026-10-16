@@ -15,7 +15,13 @@ function entered(ev: Evaluator, ctx: EvalContext): void {
   ev.s.markFacade(ctx.regionStack);
 }
 
-function sink(ev: Evaluator, bucket: Map<string, AbstractValue>, id: string, expr: ts.Expression, ctx: EvalContext): void {
+function sink(
+  ev: Evaluator,
+  bucket: Map<string, AbstractValue>,
+  id: string,
+  expr: ts.Expression,
+  ctx: EvalContext,
+): void {
   ev.s.mergeSink(bucket, id, collapse(ev.evalExpr(expr, ctx)));
 }
 
@@ -27,18 +33,29 @@ function visitTail(ev: Evaluator, args: readonly ts.Expression[], ctx: EvalConte
   });
 }
 
-export function handleAsk(ev: Evaluator, node: ts.CallExpression, askId: string, ctx: EvalContext): AbstractValue {
+export function handleAsk(
+  ev: Evaluator,
+  node: ts.CallExpression,
+  askId: string,
+  ctx: EvalContext,
+): AbstractValue {
   entered(ev, ctx);
   const recorded = ev.s.askSites.get(askId);
   if (recorded !== undefined) {
     sink(ev, ev.s.askRecv, askId, recorded.receiver, ctx);
-    if (recorded.instructions !== undefined) sink(ev, ev.s.askInstr, askId, recorded.instructions, ctx);
+    if (recorded.instructions !== undefined)
+      sink(ev, ev.s.askInstr, askId, recorded.instructions, ctx);
   }
   visitTail(ev, node.arguments, ctx);
   return singleOcc(askId, true);
 }
 
-export function handleWorldRead(ev: Evaluator, id: string, args: readonly ts.Expression[], ctx: EvalContext): AbstractValue {
+export function handleWorldRead(
+  ev: Evaluator,
+  id: string,
+  args: readonly ts.Expression[],
+  ctx: EvalContext,
+): AbstractValue {
   entered(ev, ctx);
   // Every position is a dependency. World ops disagree on arity, and an artifact
   // in a trailing optional slot is still data the read depends on.
@@ -108,7 +125,13 @@ class JoinRelay {
   }
 }
 
-export function handleJoin(ev: Evaluator, node: ts.CallExpression, id: string, arg: ts.Expression | undefined, ctx: EvalContext): AbstractValue {
+export function handleJoin(
+  ev: Evaluator,
+  node: ts.CallExpression,
+  id: string,
+  arg: ts.Expression | undefined,
+  ctx: EvalContext,
+): AbstractValue {
   entered(ev, ctx);
   return JoinRelay.open(ev, node, id, ctx).transfer(arg);
 }

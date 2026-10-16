@@ -199,7 +199,9 @@ export class TaintState {
 
   // `callee` wins over `argument` when one function is both. Not a fixpoint signal.
   recordApplication(site: ts.Node, fn: ts.Node, via: ApplicationVia): void {
-    const applied = this.ensureSlot(this.applications, site, () => mapOf<ts.Node, ApplicationVia>());
+    const applied = this.ensureSlot(this.applications, site, () =>
+      mapOf<ts.Node, ApplicationVia>(),
+    );
     if (applied.get(fn) === "callee") return;
     applied.set(fn, via);
   }
@@ -258,7 +260,12 @@ export class TaintState {
     this.touch(true);
   }
 
-  private bindFormal(sym: ts.Symbol, id: number, param: number, formal: ts.ParameterDeclaration | undefined): void {
+  private bindFormal(
+    sym: ts.Symbol,
+    id: number,
+    param: number,
+    formal: ts.ParameterDeclaration | undefined,
+  ): void {
     const seeded = emptyValue();
     const ph: Placeholder = { fnId: id, param };
     if (formal?.dotDotDotToken !== undefined) ph.rest = true;
@@ -429,7 +436,9 @@ class FactSheet {
   }
 
   private keepOccs(value: AbstractValue, actors: boolean): TaintOcc[] {
-    return resolveOccurrences(this.host.paramActuals, value).filter((occ) => isActorSite(occ.site) === actors);
+    return resolveOccurrences(this.host.paramActuals, value).filter(
+      (occ) => isActorSite(occ.site) === actors,
+    );
   }
 
   private project<K>(source: Map<K, AbstractValue>, actors: boolean): Map<K, TaintOcc[]> {

@@ -17,15 +17,27 @@ import type { EvalContext, Evaluator } from "./taint.js";
 // `changed`; the persistent place raises that signal.
 
 type ObjProp = ts.ObjectLiteralElementLike;
-type PropKind = "prop" | "computed-prop" | "shorthand" | "spread" | "method" | "computed-member" | "getter" | "skip";
+type PropKind =
+  | "prop"
+  | "computed-prop"
+  | "shorthand"
+  | "spread"
+  | "method"
+  | "computed-member"
+  | "getter"
+  | "skip";
 
 function propKind(prop: ObjProp): PropKind {
   if (ts.isSpreadAssignment(prop)) return "spread";
   if (ts.isShorthandPropertyAssignment(prop)) return "shorthand";
-  if (ts.isPropertyAssignment(prop)) return ts.isComputedPropertyName(prop.name) ? "computed-prop" : "prop";
-  if (ts.isMethodDeclaration(prop)) return ts.isComputedPropertyName(prop.name) ? "computed-member" : "method";
-  if (ts.isGetAccessorDeclaration(prop)) return ts.isComputedPropertyName(prop.name) ? "computed-member" : "getter";
-  if (ts.isSetAccessorDeclaration(prop) && ts.isComputedPropertyName(prop.name)) return "computed-member";
+  if (ts.isPropertyAssignment(prop))
+    return ts.isComputedPropertyName(prop.name) ? "computed-prop" : "prop";
+  if (ts.isMethodDeclaration(prop))
+    return ts.isComputedPropertyName(prop.name) ? "computed-member" : "method";
+  if (ts.isGetAccessorDeclaration(prop))
+    return ts.isComputedPropertyName(prop.name) ? "computed-member" : "getter";
+  if (ts.isSetAccessorDeclaration(prop) && ts.isComputedPropertyName(prop.name))
+    return "computed-member";
   return "skip";
 }
 
@@ -79,7 +91,10 @@ class ObjectLiteral {
   };
 
   private named(prop: ts.PropertyAssignment): void {
-    this.out.fields.set(nameText(this.ev, prop.name), storedValue(this.ev, prop.initializer, this.ctx));
+    this.out.fields.set(
+      nameText(this.ev, prop.name),
+      storedValue(this.ev, prop.initializer, this.ctx),
+    );
   }
 
   // A computed key cannot be a tracked field. The key expression can host a facade
@@ -120,7 +135,12 @@ class ObjectLiteral {
   // Computed method or accessor name. The member value cannot be tracked under a
   // dynamic key. Set accessors carry no read value; their writes are global.
   private computedKey(prop: ObjProp): void {
-    if (!ts.isMethodDeclaration(prop) && !ts.isGetAccessorDeclaration(prop) && !ts.isSetAccessorDeclaration(prop)) return;
+    if (
+      !ts.isMethodDeclaration(prop) &&
+      !ts.isGetAccessorDeclaration(prop) &&
+      !ts.isSetAccessorDeclaration(prop)
+    )
+      return;
     if (!ts.isComputedPropertyName(prop.name)) return;
     this.foldKey(prop.name);
   }
@@ -159,10 +179,18 @@ class ArrayLiteral {
   }
 }
 
-export function evalArrayLiteral(ev: Evaluator, node: ts.ArrayLiteralExpression, ctx: EvalContext): AbstractValue {
+export function evalArrayLiteral(
+  ev: Evaluator,
+  node: ts.ArrayLiteralExpression,
+  ctx: EvalContext,
+): AbstractValue {
   return new ArrayLiteral(ev, ctx).build(node);
 }
 
-export function evalObjectLiteral(ev: Evaluator, node: ts.ObjectLiteralExpression, ctx: EvalContext): AbstractValue {
+export function evalObjectLiteral(
+  ev: Evaluator,
+  node: ts.ObjectLiteralExpression,
+  ctx: EvalContext,
+): AbstractValue {
   return new ObjectLiteral(ev, ctx).build(node);
 }

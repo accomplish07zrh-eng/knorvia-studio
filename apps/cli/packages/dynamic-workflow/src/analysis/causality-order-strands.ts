@@ -57,7 +57,13 @@ export function innermostOpenStrand(trace: TraceState): StrandRecord | undefined
 export function openStrand(trace: TraceState, region: string): StrandRecord {
   const issued = new Set<string>();
   const summary = new Set<string>();
-  const record = { at: trace.strands.length, closed: false, issued, region, summary } as StrandRecord;
+  const record = {
+    at: trace.strands.length,
+    closed: false,
+    issued,
+    region,
+    summary,
+  } as StrandRecord;
   trace.strands.push(record);
   trace.frames.push({ region, settled: new Set<string>() });
   return trace.strands.at(-1) ?? record;
@@ -129,7 +135,10 @@ class AwaitedNames {
       this.into.push(node as ts.Identifier);
     } else if (node.kind === ts.SyntaxKind.ArrayLiteralExpression) {
       this.elements((node as ts.ArrayLiteralExpression).elements);
-    } else if (node.kind === ts.SyntaxKind.CallExpression && promiseCombinator(this.trace, node as ts.CallExpression)) {
+    } else if (
+      node.kind === ts.SyntaxKind.CallExpression &&
+      promiseCombinator(this.trace, node as ts.CallExpression)
+    ) {
       this.elements((node as ts.CallExpression).arguments);
     }
   }

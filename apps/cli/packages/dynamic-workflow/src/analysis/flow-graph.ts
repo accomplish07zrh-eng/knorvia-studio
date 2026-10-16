@@ -20,7 +20,15 @@ export interface FlowNode {
 }
 
 export type FlowEdgeKind =
-  "next" | "branch" | "loop" | "exit" | "fork" | "join" | "jump" | "throw" | "may-throw";
+  | "next"
+  | "branch"
+  | "loop"
+  | "exit"
+  | "fork"
+  | "join"
+  | "jump"
+  | "throw"
+  | "may-throw";
 
 export type FlowVia = "recur" | "return" | "break" | "continue";
 
@@ -291,13 +299,17 @@ class Projector {
       if (arm === false) cursor = this.flow(limb, cursor);
       else {
         tookArm = true;
-        const armExits = this.sequence(limb.children, promoteKind(cursor, "branch").concat(carried));
+        const armExits = this.sequence(
+          limb.children,
+          promoteKind(cursor, "branch").concat(carried),
+        );
         if (region.fallthrough === true) carried = armExits;
         else pushSrcs(outgoing, armExits);
       }
     }
     if (region.fallthrough === true) pushSrcs(outgoing, carried);
-    if (region.exhaustive !== true || tookArm === false) pushSrcs(outgoing, promoteKind(cursor, "branch"));
+    if (region.exhaustive !== true || tookArm === false)
+      pushSrcs(outgoing, promoteKind(cursor, "branch"));
     pushSrcs(outgoing, forceKind(this.take(region.id, ["break"]), "branch"));
     return outgoing;
   }
@@ -316,7 +328,10 @@ class Projector {
       const skipped = region.entered ? [] : incoming.slice();
       return uniqueSrcs(opened.exits.concat(opened.passed, breaks, skipped));
     }
-    const leaving = promoteKind(opened.exits, "exit").concat(promoteKind(opened.passed, "exit"), breaks);
+    const leaving = promoteKind(opened.exits, "exit").concat(
+      promoteKind(opened.passed, "exit"),
+      breaks,
+    );
     if (region.entered === false) pushSrcs(leaving, promoteKind(incoming, "exit"));
     return uniqueSrcs(leaving);
   }
@@ -330,7 +345,9 @@ class Projector {
     const opened = this.withEntries(node.children, promoteKind(incoming, "fork"));
     const returns = forceKind(this.take(node.region.id, ["return"]), "join", "return");
     if (opened.entries.length === 0) return uniqueSrcs(opened.exits.concat(opened.passed, returns));
-    return uniqueSrcs(promoteKind(opened.exits, "join").concat(promoteKind(opened.passed, "join"), returns));
+    return uniqueSrcs(
+      promoteKind(opened.exits, "join").concat(promoteKind(opened.passed, "join"), returns),
+    );
   }
 
   // Park on exits, not entry nodes: a joined strand can exit without its own node,
@@ -363,7 +380,8 @@ class Projector {
     const pendingMark = this.pending.length;
     const nodeMark = this.nodes.length;
     let straight = this.sequence(attempt.children, incoming);
-    const raised = this.nodes.slice(nodeMark)
+    const raised = this.nodes
+      .slice(nodeMark)
       .filter((created) => created.kind === "issue")
       .map((created) => stamp(created.id, "may-throw"));
     pushSrcs(raised, this.take(attempt.region.id, ["throw"]));

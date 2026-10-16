@@ -94,7 +94,11 @@ function aliasKey(
   return source === undefined ? undefined : slot.key;
 }
 
-function applyFallback(env: BindEnv, field: AbstractValue, fallback: ts.Expression | undefined): void {
+function applyFallback(
+  env: BindEnv,
+  field: AbstractValue,
+  fallback: ts.Expression | undefined,
+): void {
   if (fallback === undefined) return;
   const supplied = env.ev.evalExpr(fallback, env.ctx);
   if (mergeInto(field, supplied)) noteChanged(env.ev);

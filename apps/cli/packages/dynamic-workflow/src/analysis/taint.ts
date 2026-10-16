@@ -251,7 +251,9 @@ export class Evaluator {
     }
     if (ts.isElementAccessExpression(core)) {
       const fieldKey = staticIndexKey(core.argumentExpression);
-      return fieldKey === undefined ? undefined : this.placeOfChain(core.expression, fieldKey, materialize);
+      return fieldKey === undefined
+        ? undefined
+        : this.placeOfChain(core.expression, fieldKey, materialize);
     }
     if (ts.isConditionalExpression(core)) return this.placeOfConditional(core, materialize);
     // Absent until handleJoin records it. A direct site-table read would skip the relay.
@@ -259,7 +261,10 @@ export class Evaluator {
   }
 
   // A tracked `then` means the awaited result is not the operand place.
-  private placeAfterAwait(syntax: ts.AwaitExpression, materialize: boolean): AbstractValue | undefined {
+  private placeAfterAwait(
+    syntax: ts.AwaitExpression,
+    materialize: boolean,
+  ): AbstractValue | undefined {
     const awaited = this.resolvePlace(syntax.expression, materialize);
     if (awaited === undefined) return undefined;
     const continuations = awaited.fields.get(THEN_MEMBER)?.fns;
@@ -275,7 +280,11 @@ export class Evaluator {
   }
 
   // materialize=false must not invent a field: a phantom slot hides container taint.
-  private placeOfChain(receiverExpr: ts.Expression, fieldKey: string, materialize: boolean): AbstractValue | undefined {
+  private placeOfChain(
+    receiverExpr: ts.Expression,
+    fieldKey: string,
+    materialize: boolean,
+  ): AbstractValue | undefined {
     const receiver = this.resolvePlace(receiverExpr, materialize);
     if (receiver === undefined) return undefined;
     const stored = receiver.fields.get(fieldKey);
@@ -285,7 +294,10 @@ export class Evaluator {
 
   // Both arms must be places; otherwise there is no heap node and evalExpr owns the value.
   // condPlaceOf supplies a pass-stable wrapper so mayAlias does not grow forever.
-  private placeOfConditional(syntax: ts.ConditionalExpression, materialize: boolean): AbstractValue | undefined {
+  private placeOfConditional(
+    syntax: ts.ConditionalExpression,
+    materialize: boolean,
+  ): AbstractValue | undefined {
     const truthyArm = this.resolvePlace(syntax.whenTrue, materialize);
     const falsyArm = this.resolvePlace(syntax.whenFalse, materialize);
     if (truthyArm === undefined || falsyArm === undefined) return undefined;
@@ -309,7 +321,12 @@ export class Evaluator {
     return isFreshLiteral ? carried : undefined;
   }
 
-  bindPattern(bindingName: ts.BindingName, carried: AbstractValue, frame: EvalContext, liveSource?: AbstractValue): void {
+  bindPattern(
+    bindingName: ts.BindingName,
+    carried: AbstractValue,
+    frame: EvalContext,
+    liveSource?: AbstractValue,
+  ): void {
     bindPattern(this, bindingName, carried, frame, liveSource);
   }
 
@@ -356,7 +373,10 @@ export class Evaluator {
     if (ts.isConditionalExpression(syntax)) {
       const probe = this.evalExpr(syntax.condition, frame);
       this.recordGuard(syntax.condition, probe);
-      return unionValues(this.evalExpr(syntax.whenTrue, frame), this.evalExpr(syntax.whenFalse, frame));
+      return unionValues(
+        this.evalExpr(syntax.whenTrue, frame),
+        this.evalExpr(syntax.whenFalse, frame),
+      );
     }
     if (ts.isPrefixUnaryExpression(syntax) || ts.isPostfixUnaryExpression(syntax)) {
       return collapse(this.evalExpr(syntax.operand, frame));
@@ -381,7 +401,8 @@ export class Evaluator {
 
   private interpretTemplate(syntax: ts.TemplateExpression, frame: EvalContext): AbstractValue {
     const joined = emptyValue();
-    for (const chunk of syntax.templateSpans) collapseInto(joined, this.evalExpr(chunk.expression, frame));
+    for (const chunk of syntax.templateSpans)
+      collapseInto(joined, this.evalExpr(chunk.expression, frame));
     return joined;
   }
 
@@ -389,7 +410,8 @@ export class Evaluator {
     const actuals: AbstractValue[] = [emptyValue()];
     const cooked = syntax.template;
     if (ts.isTemplateExpression(cooked)) {
-      for (const chunk of cooked.templateSpans) actuals.push(this.evalExpr(chunk.expression, frame));
+      for (const chunk of cooked.templateSpans)
+        actuals.push(this.evalExpr(chunk.expression, frame));
     }
     return applyCall(this, syntax.tag, actuals, frame, undefined, undefined, syntax);
   }

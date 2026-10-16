@@ -10,7 +10,8 @@ const ADMITTED_KINDS: ReadonlySet<OrderKind> = new Set(["data", "control", "seq"
 type PhaseFactCore = { certainty: Certainty; from: string; to: string; kind: OrderKind };
 
 export interface PhaseSourceFact extends PhaseFactCore {
-  carryOf?: Exclude<OrderKind, "carry">; toPhases?: ReadonlySet<string>;
+  carryOf?: Exclude<OrderKind, "carry">;
+  toPhases?: ReadonlySet<string>;
 }
 
 interface PhaseCopy extends Step {
@@ -24,7 +25,8 @@ interface PhaseEnd {
   phase: string;
 }
 
-const weakest = (values: readonly Certainty[]): Certainty => (values.includes("maybe") ? "maybe" : "always");
+const weakest = (values: readonly Certainty[]): Certainty =>
+  values.includes("maybe") ? "maybe" : "always";
 
 function needsAdmission(kind: OrderKind): boolean {
   return ADMITTED_KINDS.has(kind);
@@ -34,7 +36,10 @@ function pairKey(left: string, right: string): string {
   return [left, right].join("|");
 }
 
-function admittedPhases(claiming: readonly string[], limit: ReadonlySet<string> | undefined): string[] {
+function admittedPhases(
+  claiming: readonly string[],
+  limit: ReadonlySet<string> | undefined,
+): string[] {
   if (limit === undefined) return claiming.slice();
   const narrowed = claiming.filter((phase) => limit.has(phase));
   return narrowed.length === 0 ? claiming.slice() : narrowed;
@@ -145,14 +150,18 @@ class PhaseQuotient {
     const listed = this.phaseTable();
     const live = new Set<string>();
     listed.forEach((phase) => live.add(phase.id));
-    const ordered = this.dedupe(this.quotient(live)).sort((left, right) => this.compareFacts(left, right));
+    const ordered = this.dedupe(this.quotient(live)).sort((left, right) =>
+      this.compareFacts(left, right),
+    );
     const phaseEdges = this.dropCarry(reduceOrdering(ordered));
     return this.assemble(edges, phaseEdges, listed);
   }
 
   private dropCarry(facts: readonly PhaseSourceFact[]): OrderEdge[] {
     const edges: OrderEdge[] = [];
-    facts.forEach((fact) => edges.push({ certainty: fact.certainty, from: fact.from, kind: fact.kind, to: fact.to }));
+    facts.forEach((fact) =>
+      edges.push({ certainty: fact.certainty, from: fact.from, kind: fact.kind, to: fact.to }),
+    );
     return edges;
   }
 
@@ -186,9 +195,11 @@ class PhaseQuotient {
 
   private spawnCopy(step: Step, siteId: string, phase: string): PhaseCopy {
     return {
-      ...step, certainty: weakest([step.certainty, this.claimCertainty(siteId, phase)]),
+      ...step,
+      certainty: weakest([step.certainty, this.claimCertainty(siteId, phase)]),
       id: [step.id, phase].join("~"),
-      phase: phase, source: siteId,
+      phase: phase,
+      source: siteId,
     };
   }
 
@@ -237,8 +248,10 @@ class PhaseQuotient {
         if (edge.kind === "fifo" && tail.lane !== head.lane) return;
         if (tail.id === head.id && edge.from !== edge.to) return;
         const next: OrderEdge = {
-          ...edge, certainty: weakest([edge.certainty, tail.certainty, head.certainty]),
-          from: tail.id, to: head.id,
+          ...edge,
+          certainty: weakest([edge.certainty, tail.certainty, head.certainty]),
+          from: tail.id,
+          to: head.id,
         };
         pairs.push(next);
         if (!needsAdmission(edge.kind) || this.admits(fromSite, tail.phase, toSite, head.phase)) {
@@ -254,7 +267,9 @@ class PhaseQuotient {
     if (copies === undefined) {
       const step = this.stepById.get(id);
       const end: PhaseEnd = {
-        certainty: step?.certainty ?? "maybe", id, lane: step?.lane,
+        certainty: step?.certainty ?? "maybe",
+        id,
+        lane: step?.lane,
         phase: this.claimList(this.siteOf(id))[0] ?? UNPHASED_ID,
       };
       return [end];

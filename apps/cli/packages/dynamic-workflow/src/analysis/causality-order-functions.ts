@@ -27,7 +27,10 @@ function collectLeaves(name: ts.BindingName, into: ts.Identifier[]): void {
     into.push(name);
     return;
   }
-  if (name.kind !== ts.SyntaxKind.ObjectBindingPattern && name.kind !== ts.SyntaxKind.ArrayBindingPattern) {
+  if (
+    name.kind !== ts.SyntaxKind.ObjectBindingPattern &&
+    name.kind !== ts.SyntaxKind.ArrayBindingPattern
+  ) {
     return;
   }
   name.elements.forEach((element) => {
@@ -113,7 +116,10 @@ function remember(target: ts.Node | undefined, into: Set<ts.Node>): void {
 
 function noteCall(node: ts.Node, index: CallIndex, into: Set<ts.Node>): void {
   if (node.kind === ts.SyntaxKind.CallExpression) {
-    remember(resolveCallDeclaration(node as ts.CallExpression, index.checker, index.scriptFile), into);
+    remember(
+      resolveCallDeclaration(node as ts.CallExpression, index.checker, index.scriptFile),
+      into,
+    );
   }
   if (!ORACLE_SITES.has(node.kind)) return;
   const applied = index.applications.get(node);
