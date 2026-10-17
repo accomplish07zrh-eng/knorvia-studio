@@ -57,6 +57,10 @@ function eligibilityFor(kind: OrderKind): Witnesses | undefined {
   return ELIGIBLE_WITNESSES.get(kind);
 }
 
+function isCarry(edge: ReducibleEdge): boolean {
+  return edge.kind === "carry";
+}
+
 function carryBasis(edge: ReducibleEdge): OrderKind {
   return edge.carryOf ?? DEFAULT_CARRY_KIND;
 }
@@ -67,7 +71,7 @@ function bucketBySource<E extends ReducibleEdge>(
 ): Map<string, E[]> {
   const buckets = new Map<string, E[]>();
   for (const edge of edges) {
-    if (carried !== (edge.kind === "carry")) continue;
+    if (carried !== isCarry(edge)) continue;
     const listed = buckets.get(edge.from) ?? [];
     listed.push(edge);
     buckets.set(edge.from, listed);
@@ -96,34 +100,57 @@ function discard<E extends ReducibleEdge>(trail: Trail<E>, edge: E): void {
   trail.dropped.add(edge);
 }
 
+function isDropped<E extends ReducibleEdge>(trail: Trail<E>, hop: E): boolean {
+  return trail.dropped.has(hop);
+}
+
 function survivors<E extends ReducibleEdge>(edges: readonly E[], trail: Trail<E>): E[] {
-  return edges.filter((edge) => !trail.dropped.has(edge));
+  return edges.filter((edge) => !isDropped(trail, edge));
+}
+
+function traversable<E extends ReducibleEdge>(
+  trail: Trail<E>,
+  witnesses: Witnesses,
+  hop: E,
+  direct?: E,
+): boolean {
+  if (isDropped(trail, hop) || !witnesses.has(hop.kind)) return false;
+  return direct === undefined || hop.from !== direct.from || hop.to !== direct.to;
+}
+
+function landsOn<E extends ReducibleEdge>(
+  trail: Trail<E>,
+  origins: Iterable<string>,
+  witnesses: Witnesses,
+  goal: string,
+  direct?: E,
+): boolean {
+  return closureFrom(trail, origins, witnesses, direct).has(goal);
 }
 
 function forwardImplied<E extends ReducibleEdge>(trail: Trail<E>, candidate: E): boolean {
   const witnesses = eligibilityFor(candidate.kind);
   if (witnesses === undefined || candidate.from === candidate.to) return false;
-  const implied = closureFrom(trail, [candidate.from], witnesses, candidate);
-  return implied.has(candidate.to);
+  return landsOn(trail, [candidate.from], witnesses, candidate.to, candidate);
 }
 
 function carryImplied<E extends ReducibleEdge>(trail: Trail<E>, candidate: E): boolean {
   const witnesses = eligibilityFor(carryBasis(candidate));
   if (witnesses === undefined) return false;
   const landing = bridgeHeads(trail, candidate, witnesses);
-  return closureFrom(trail, landing, witnesses).has(candidate.to);
+  return landsOn(trail, landing, witnesses, candidate.to);
 }
 
 function dropImpliedForward<E extends ReducibleEdge>(edges: readonly E[], trail: Trail<E>): void {
   for (const edge of edges) {
-    if (edge.kind === "carry") continue;
+    if (isCarry(edge)) continue;
     if (forwardImplied(trail, edge)) discard(trail, edge);
   }
 }
 
 function dropImpliedCarries<E extends ReducibleEdge>(edges: readonly E[], trail: Trail<E>): void {
   for (const edge of edges) {
-    if (edge.kind !== "carry") continue;
+    if (!isCarry(edge)) continue;
     if (carryImplied(trail, edge)) discard(trail, edge);
   }
 }
@@ -153,9 +180,8 @@ function closureFrom<E extends ReducibleEdge>(
   for (let cursor = 0; cursor < pending.length; cursor += 1) {
     const node = pending[cursor] as string;
     for (const hop of onwardFrom(trail, node)) {
-      if (trail.dropped.has(hop) || !witnesses.has(hop.kind)) continue;
-      const repeatedPair = direct !== undefined && hop.from === direct.from && hop.to === direct.to;
-      if (repeatedPair || reached.has(hop.to)) continue;
+      if (!traversable(trail, witnesses, hop, direct)) continue;
+      if (reached.has(hop.to)) continue;
       reached.add(hop.to);
       pending.push(hop.to);
     }
@@ -173,7 +199,7 @@ function bridgeHeads<E extends ReducibleEdge>(
   const landing = new Set<string>();
   for (const landed of prefix) {
     for (const bridge of bridgingFrom(trail, landed)) {
-      if (bridge === candidate || trail.dropped.has(bridge)) continue;
+      if (bridge === candidate || isDropped(trail, bridge)) continue;
       if (witnesses.has(carryBasis(bridge))) landing.add(bridge.to);
     }
   }
