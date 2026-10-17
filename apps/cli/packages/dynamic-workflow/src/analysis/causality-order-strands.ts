@@ -8,20 +8,35 @@ import type { TraceState } from "./causality-order-state.js";
 // One settled-set per open activation. The root frame is never a strand. A barrier
 // writes only the innermost frame. `at` is a spawn index, not an event index.
 
+/**
+ * Activation-stack entry. `region` names the activation. `settled` holds the
+ * step ids committed while that entry is top of `frames`.
+ */
 export interface Frame {
   readonly region: string;
   readonly settled: Set<string>;
 }
 
+/** Opened by `openStrand` and sealed by `closeStrand`. */
 export interface StrandRecord {
+  /** Same region string copied onto the frame pushed with this record. */
   readonly region: string;
+  /**
+   * `strands.length` taken before this record is pushed, so it is the index
+   * the record occupies. `strandsSince` keeps records with `at` at or above a mark.
+   */
   readonly at: number;
+  /** Step ids added by `issue` when this record is the innermost one still open. */
   readonly issued: Set<string>;
+  /** Set by `closeStrand` to the popped frame's `settled` set, or to a new empty set when no frame was popped. */
   summary: ReadonlySet<string>;
+  /** Flipped to true by `closeStrand`. The lift loop skips a record while this stays false. */
   closed: boolean;
 }
 
+/** Inputs `joinStrands` uses when the barrier was given an await operand. */
 export interface AwaitedOperand {
+  /** Compared with `StrandRecord.at` to choose regions opened after the save point. */
   mark: number;
   operand: ts.Expression;
 }
@@ -54,6 +69,7 @@ const UNWRAP_KINDS: ReadonlySet<ts.SyntaxKind> = new Set([
   ts.SyntaxKind.SpreadElement,
 ]);
 
+/** Return the last frame. Throw if `frames` has no entry. */
 export function currentFrame(state: TraceState): Frame;
 export function currentFrame(trace: TraceState): Frame {
   const top = trace.frames.at(-1);
@@ -61,11 +77,13 @@ export function currentFrame(trace: TraceState): Frame {
   return top;
 }
 
+/** True when any frame already lists `step` in `settled`. */
 export function isVisiblySettled(state: TraceState, step: string): boolean;
 export function isVisiblySettled(trace: TraceState, step: string): boolean {
   return trace.frames.some((frame) => frame.settled.has(step));
 }
 
+/** Scan `strands` from the end and return the first record that is not closed. */
 export function innermostOpenStrand(state: TraceState): StrandRecord | undefined;
 export function innermostOpenStrand(trace: TraceState): StrandRecord | undefined {
   for (let index = trace.strands.length - 1; index >= 0; index -= 1) {
@@ -74,6 +92,7 @@ export function innermostOpenStrand(trace: TraceState): StrandRecord | undefined
   }
 }
 
+/** Append an open record whose `at` is the pre-push length, then append a frame with an empty `settled` set. */
 export function openStrand(state: TraceState, region: string): StrandRecord;
 export function openStrand(trace: TraceState, region: string): StrandRecord {
   const record = new OpenStrand(region, trace.strands.length);
@@ -82,6 +101,7 @@ export function openStrand(trace: TraceState, region: string): StrandRecord {
   return trace.strands.at(-1) ?? record;
 }
 
+/** Pop one frame and store its `settled` set on `record`, or store a new empty set if the pop yields nothing. */
 export function closeStrand(state: TraceState, record: StrandRecord): void;
 export function closeStrand(trace: TraceState, record: StrandRecord): void {
   const frame = trace.frames.pop();
@@ -89,16 +109,22 @@ export function closeStrand(trace: TraceState, record: StrandRecord): void {
   sealRecord.call(record, settled);
 }
 
+/** Present length of `strands`. */
 export function strandMark(state: TraceState): number;
 export function strandMark(trace: TraceState): number {
   return trace.strands.length;
 }
 
+/** Regions whose records have `at >= mark`, in their current array order. */
 export function strandsSince(state: TraceState, mark: number): string[];
 export function strandsSince(trace: TraceState, mark: number): string[] {
   return trace.strands.filter((record) => record.at >= mark).map((record) => record.region);
 }
 
+/**
+ * Copy each region onto the symbol of every identifier in `name`.
+ * An empty `regions` array does not resolve that binding.
+ */
 export function bindStrands(
   state: TraceState,
   name: ts.BindingName,
@@ -117,6 +143,7 @@ export function bindStrands(
   });
 }
 
+/** True only when `decl` accepts modifiers and one of them is `async`. */
 export function isAsyncFunction(decl: ts.Node): boolean {
   if (!ts.canHaveModifiers(decl)) return false;
   const modifiers = ts.getModifiers(decl);
@@ -202,6 +229,19 @@ function holdsStep(record: StrandRecord, steps: readonly string[]): boolean {
 // Certain joins are strands spawned or named by the operand, plus closed strands
 // whose issued steps this barrier claims for certain. Maybe claims lift the same
 // way. A region is joined at most once.
+/**
+ * Partition joined regions into `certain` and `maybe`.
+ * A region already stored in `joined` is left out; each region that is kept is
+ * recorded there before it is appended.
+ * With `awaited`, regions from `strandsSince(awaited.mark)` go to `certain`, and
+ * so do regions previously bound to identifiers gathered from `awaited.operand`.
+ * Gathering descends through parentheses, `as`, `satisfies`, non-null, and spread,
+ * keeps identifiers, keeps array elements that are not holes, and keeps arguments
+ * of a global `Promise.all`, `allSettled`, `race`, or `any` call. Any other call
+ * contributes nothing from its interior.
+ * Each later closed record is `certain` when one of `certain` occurs in `issued`,
+ * and otherwise `maybe` when one of `maybe` occurs in `issued`.
+ */
 export function joinStrands(
   state: TraceState,
   certain: readonly string[],

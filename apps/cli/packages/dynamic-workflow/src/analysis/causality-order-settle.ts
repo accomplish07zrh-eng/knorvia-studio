@@ -35,7 +35,9 @@ const LOOP_KINDS: ReadonlySet<ts.SyntaxKind> = new Set([
  */
 function iterationAncestorsOf(trace: TraceState, node: ts.Node): Set<ts.Node> {
   const cached = trace.iterationAncestorCache.get(node);
-  if (cached !== undefined) return cached;
+  if (cached !== undefined) {
+    return cached;
+  }
   const found = new Set<ts.Node>();
   let cursor = node.parent;
   while (cursor !== undefined) {
@@ -79,10 +81,7 @@ function foldOccurrences(
   admit: ((step: string) => Admission | undefined) | undefined,
 ): Map<string, SiteRow> {
   const rows = new Map<string, SiteRow>();
-  const present = [];
-  for (const occ of occs) {
-    if (trace.realSteps.has(occ.site)) present.push(occ);
-  }
+  const present = occs.filter((occ) => trace.realSteps.has(occ.site));
   present.forEach((occ) => {
     const how = admit === undefined ? ("issued" as const) : admit(occ.site);
     if (how === undefined) return;
@@ -116,8 +115,11 @@ function claimAt(
   if (only !== undefined && row !== undefined && row.exact && row.issuedFirst) {
     return { certain: [only], maybe: [] };
   }
-  if (sites.length === 0) return NO_CLAIM;
-  return { certain: [], maybe: sites };
+  if (sites.length === 0) {
+    return NO_CLAIM;
+  }
+  const mixed: OracleClaim = { certain: [], maybe: sites };
+  return mixed;
 }
 
 /** Read await-position witnesses using the current temporal admission rule. */
@@ -171,6 +173,7 @@ function pushSettle(
  * Joins attach to the first event, including an empty event when only a join remains.
  * Strand ownership and await-operand interpretation stay in joinStrands.
  */
+// Commit one side before reading the next; certain steps become visible to maybe.
 export function barrier(
   state: TraceState,
   certain: readonly string[],
@@ -185,7 +188,6 @@ export function barrier(
   const hadEvidence = certainNamed.length > 0 || maybeNamed.length > 0;
   const joined = joins.certain.concat(joins.maybe);
   const frame = currentFrame(trace);
-  // Commit one side before reading the next; certain steps become visible to maybe.
   const certainFresh = unseen(trace, certainNamed);
   commit(frame, certainFresh);
   let maybeFresh = unseen(trace, maybeNamed);
@@ -211,13 +213,14 @@ export function barrier(
 
 /** Bind each pattern leaf to ordered step identities; ignore identifiers without symbols. */
 export function bindSteps(state: TraceState, name: ts.BindingName, steps: readonly string[]): void {
-  if (steps.length === 0) return;
+  const idle = steps.length === 0;
+  if (idle) return;
   for (const identifier of boundIdentifiers(name)) {
-    const symbol = state.checker.getSymbolAtLocation(identifier);
-    if (symbol === undefined) continue;
-    const bucket = state.stepsBySymbol.get(symbol) ?? new Set<string>();
+    const located = state.checker.getSymbolAtLocation(identifier);
+    if (located === undefined) continue;
+    const bucket = state.stepsBySymbol.get(located) ?? new Set<string>();
     for (const step of steps) bucket.add(step);
-    state.stepsBySymbol.set(symbol, bucket);
+    state.stepsBySymbol.set(located, bucket);
   }
 }
 
@@ -232,13 +235,15 @@ function appendUnique(into: string[], seen: Set<string>, steps: Iterable<string>
 function guardIdentifiers(guard: ts.Expression): ts.Identifier[] {
   const names: ts.Identifier[] = [];
   const visit = (node: ts.Node): undefined => {
-    if (isFunctionLike(node)) return;
+    if (isFunctionLike(node)) {
+      return undefined;
+    }
     if (node.kind === ts.SyntaxKind.Identifier) {
       names.push(node as ts.Identifier);
-      return;
+      return undefined;
     }
     ts.forEachChild(node, visit);
-    return;
+    return undefined;
   };
   visit(guard);
   return names;
@@ -253,16 +258,16 @@ function controllersOf(
   trace: TraceState,
   guard: ts.Expression,
 ): { controllers: string[]; maybeControllers: string[] } {
-  const controllers: string[] = [];
+  const direct: string[] = [];
   const seen = new Set<string>();
   for (const name of guardIdentifiers(guard)) {
     const symbol = trace.checker.getSymbolAtLocation(name);
     const steps = symbol === undefined ? undefined : trace.stepsBySymbol.get(symbol);
-    if (steps !== undefined) appendUnique(controllers, seen, steps);
+    if (steps !== undefined) appendUnique(direct, seen, steps);
   }
   const claim = claimAt(trace, trace.oracle.guardReads, guard.getStart(trace.scriptFile));
-  appendUnique(controllers, seen, claim.certain);
-  return { controllers, maybeControllers: claim.maybe.filter((step) => !seen.has(step)) };
+  appendUnique(direct, seen, claim.certain);
+  return { controllers: direct, maybeControllers: claim.maybe.filter((step) => !seen.has(step)) };
 }
 
 /** Append a control record only when either controller list has entries. */
