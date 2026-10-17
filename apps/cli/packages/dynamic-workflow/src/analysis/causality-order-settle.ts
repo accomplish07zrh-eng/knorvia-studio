@@ -1,16 +1,19 @@
 import ts from "typescript";
 import type { TaintOcc } from "./domain.js";
 import { isFunctionLike } from "./sites.js";
+import type { SettleEvent } from "./causality-order-types.js";
 import { boundIdentifiers } from "./causality-order-functions.js";
 import type { TraceState } from "./causality-order-state.js";
 import {
   currentFrame,
+  type Frame,
   isVisiblySettled,
   joinStrands,
   type AwaitedOperand,
 } from "./causality-order-strands.js";
 
 // Oracle witnesses, barriers and guard bindings share the existing TraceState.
+
 /** Ordered site claims; empty results share readonly arrays and must not be mutated. */
 interface OracleClaim {
   certain: readonly string[];
@@ -20,6 +23,22 @@ interface OracleClaim {
 const NO_CLAIM: OracleClaim = { certain: [], maybe: [] };
 
 type Admission = "issued" | "repetition";
+
+type Admit = (step: string) => Admission | undefined;
+
+type WitnessTable = ReadonlyMap<number, ReadonlyArray<TaintOcc>>;
+
+type CarriedJoins = { joins?: readonly string[] };
+
+type StrandJoin = { certain: string[]; maybe: string[] };
+
+const NO_JOINS: CarriedJoins = {};
+
+interface Witness {
+  admittedBy: Admission;
+  exactWitness: boolean;
+  step: string;
+}
 
 const LOOP_KINDS: ReadonlySet<ts.SyntaxKind> = new Set([
   ts.SyntaxKind.ForStatement,
@@ -33,24 +52,33 @@ const LOOP_KINDS: ReadonlySet<ts.SyntaxKind> = new Set([
  * Cache lexical loop/callback ancestors by node identity. Parent links and iteration
  * indexes must remain stable while this TraceState cache is in use.
  */
-function iterationAncestorsOf(trace: TraceState, node: ts.Node): Set<ts.Node> {
-  const cached = trace.iterationAncestorCache.get(node);
-  if (cached !== undefined) {
-    return cached;
+function iterationAncestorsOf(trace: TraceState, origin: ts.Node): Set<ts.Node> {
+  const memoized = trace.iterationAncestorCache.get(origin);
+  if (memoized !== undefined) {
+    return memoized;
   }
+  const enclosing = enclosingLoops(trace, origin);
+  trace.iterationAncestorCache.set(origin, enclosing);
+  return enclosing;
+}
+
+function enclosingLoops(trace: TraceState, origin: ts.Node): Set<ts.Node> {
   const found = new Set<ts.Node>();
-  let cursor = node.parent;
+  let cursor: ts.Node | undefined = origin.parent;
   while (cursor !== undefined) {
-    if (hostsIteration(trace, cursor)) found.add(cursor);
+    if (hostsIteration(trace, cursor)) {
+      found.add(cursor);
+    }
     cursor = cursor.parent;
   }
-  trace.iterationAncestorCache.set(node, found);
   return found;
 }
 
-function hostsIteration(trace: TraceState, node: ts.Node): boolean {
+function hostsIteration(trace: TraceState, candidate: ts.Node): boolean {
   return (
-    LOOP_KINDS.has(node.kind) || trace.candByCallback.has(node) || trace.eachCallbackFns.has(node)
+    LOOP_KINDS.has(candidate.kind) ||
+    trace.candByCallback.has(candidate) ||
+    trace.eachCallbackFns.has(candidate)
   );
 }
 
@@ -59,38 +87,29 @@ function hostsIteration(trace: TraceState, node: ts.Node): boolean {
  * the await. Unissued sites outside that shared iteration are excluded.
  */
 function admitStep(trace: TraceState, awaitNode: ts.Node, step: string): Admission | undefined {
-  if (trace.issued.has(step)) return "issued";
-  const call = trace.callByStep.get(step);
-  if (call === undefined) return;
-  const aroundAwait = iterationAncestorsOf(trace, awaitNode);
-  if (aroundAwait.size === 0) return;
-  for (const ancestor of iterationAncestorsOf(trace, call)) {
-    if (aroundAwait.has(ancestor)) return "repetition";
+  if (trace.issued.has(step)) {
+    return "issued";
   }
-  return;
+  const request = trace.callByStep.get(step);
+  const loopShared = request !== undefined && sharesIteration(trace, awaitNode, request);
+  return loopShared ? "repetition" : undefined;
 }
 
-interface SiteRow {
-  issuedFirst: boolean;
-  exact: boolean;
+function sharesIteration(trace: TraceState, awaitNode: ts.Node, request: ts.Node): boolean {
+  const aroundAwait = iterationAncestorsOf(trace, awaitNode);
+  if (aroundAwait.size === 0) {
+    return false;
+  }
+  for (const ancestor of iterationAncestorsOf(trace, request)) {
+    if (aroundAwait.has(ancestor)) {
+      return true;
+    }
+  }
+  return false;
 }
 
-function foldOccurrences(
-  trace: TraceState,
-  occs: readonly TaintOcc[],
-  admit: ((step: string) => Admission | undefined) | undefined,
-): Map<string, SiteRow> {
-  const rows = new Map<string, SiteRow>();
-  const present = occs.filter((occ) => trace.realSteps.has(occ.site));
-  present.forEach((occ) => {
-    const how = admit === undefined ? ("issued" as const) : admit(occ.site);
-    if (how === undefined) return;
-    const prior = rows.get(occ.site);
-    if (prior === undefined)
-      rows.set(occ.site, { issuedFirst: how === "issued", exact: occ.exact });
-    else if (occ.exact) prior.exact = true;
-  });
-  return rows;
+function realOccurrences(trace: TraceState, occurrences: readonly TaintOcc[]): TaintOcc[] {
+  return occurrences.filter((occ) => trace.realSteps.has(occ.site));
 }
 
 /**
@@ -99,71 +118,140 @@ function foldOccurrences(
  * can await a seed or leave the final request pending. Guard reads omit temporal
  * admission because they describe control evidence rather than settlement.
  */
-function claimAt(
+function admittedWitnesses(
   trace: TraceState,
-  map: ReadonlyMap<number, ReadonlyArray<TaintOcc>>,
-  at: number,
-  admit?: (step: string) => Admission | undefined,
-): OracleClaim {
+  table: WitnessTable,
+  position: number,
+  admit?: Admit,
+): Witness[] {
+  const rows: Witness[] = [];
+  const admittedByStep = new Map<string, Witness>();
   // First admission owns eligibility; any admitted exact witness can establish exactness.
-  const occs = map.get(at);
-  const rows =
-    occs === undefined ? new Map<string, SiteRow>() : foldOccurrences(trace, occs, admit);
-  const sites = [...rows.keys()];
-  const only = sites.length === 1 ? sites[0] : undefined;
-  const row = only === undefined ? undefined : rows.get(only);
-  if (only !== undefined && row !== undefined && row.exact && row.issuedFirst) {
-    return { certain: [only], maybe: [] };
+  for (const occ of realOccurrences(trace, table.get(position) ?? [])) {
+    const how = admit === undefined ? ("issued" as const) : admit(occ.site);
+    const prior = how === undefined ? undefined : admittedByStep.get(occ.site);
+    if (prior !== undefined) {
+      prior.exactWitness ||= occ.exact;
+    } else if (how !== undefined) {
+      const row: Witness = { admittedBy: how, exactWitness: occ.exact, step: occ.site };
+      admittedByStep.set(occ.site, row);
+      rows.push(row);
+    }
   }
-  if (sites.length === 0) {
+  return rows;
+}
+
+function claimedSites(rows: readonly Witness[]): string[] {
+  return rows.map((row) => row.step);
+}
+
+function settlesExactly(solo: Witness | undefined): boolean {
+  return solo !== undefined && solo.exactWitness && solo.admittedBy === "issued";
+}
+
+function settleCertainty(rows: readonly Witness[]): OracleClaim {
+  const witnesses = claimedSites(rows);
+  const only = witnesses.length === 1 ? rows[0] : undefined;
+  if (settlesExactly(only)) {
+    return { certain: witnesses, maybe: [] };
+  }
+  if (rows.length === 0) {
     return NO_CLAIM;
   }
-  const mixed: OracleClaim = { certain: [], maybe: sites };
-  return mixed;
+  return { certain: [], maybe: witnesses };
 }
 
 /** Read await-position witnesses using the current temporal admission rule. */
 export function settlesAt(state: TraceState, node: ts.Node, at: number): OracleClaim {
-  return claimAt(state, state.oracle.awaitSettles, at, (step) => admitStep(state, node, step));
+  const admit = (step: string): Admission | undefined => admitStep(state, node, step);
+  return settleCertainty(admittedWitnesses(state, state.oracle.awaitSettles, at, admit));
 }
 
-function summarySteps(trace: TraceState, regions: readonly string[]): string[] {
-  const steps: string[] = [];
+function summarisedStrands(trace: TraceState, regions: readonly string[]): string[] {
+  const summaries: string[] = [];
   for (const region of regions) {
     const record = trace.strands.find((item) => item.region === region);
-    if (record === undefined) continue;
-    for (const step of record.summary) steps.push(step);
+    if (record !== undefined) {
+      summaries.push(...record.summary);
+    }
   }
-  return steps;
+  return summaries;
 }
 
-function unseen(trace: TraceState, steps: readonly string[]): string[] {
-  const fresh: string[] = [];
-  const local = new Set<string>();
-  steps.forEach((step) => {
-    if (local.has(step) || isVisiblySettled(trace, step)) return;
-    local.add(step);
-    fresh.push(step);
+function settledClaims(trace: TraceState, awaited: OracleClaim, joined: StrandJoin): OracleClaim {
+  const certainSummary = summarisedStrands(trace, joined.certain);
+  const maybeSummary = summarisedStrands(trace, joined.maybe);
+  const batch: OracleClaim = {
+    certain: awaited.certain.concat(certainSummary),
+    maybe: awaited.maybe.concat(maybeSummary),
+  };
+  return batch;
+}
+
+function freshlySettled(trace: TraceState, frame: Frame, requested: readonly string[]): string[] {
+  const freshSteps: string[] = [];
+  requested.forEach((step) => {
+    const already = freshSteps.includes(step) || isVisiblySettled(trace, step);
+    if (!already) {
+      frame.settled.add(step);
+      freshSteps.push(step);
+    }
   });
-  return fresh;
+  return freshSteps;
 }
 
-function commit(frame: { settled: Set<string> }, steps: readonly string[]): void {
-  for (const step of steps) frame.settled.add(step);
+function carriedJoins(linked: readonly string[]): CarriedJoins {
+  return linked.length === 0 ? NO_JOINS : { joins: linked };
 }
 
-function pushSettle(
-  trace: TraceState,
-  chain: readonly string[],
+function joinOnlyEvent(chain: readonly string[], linked: readonly string[]): SettleEvent {
+  return { at: "settle", joins: linked, maybe: false, regions: chain, steps: [] };
+}
+
+function settleEvent(
   steps: readonly string[],
   maybe: boolean,
-  joins: readonly string[] | undefined,
+  regions: readonly string[],
+  rides: CarriedJoins,
+): SettleEvent {
+  return { at: "settle", maybe, regions, steps, ...rides };
+}
+
+function publishBarrier(
+  trace: TraceState,
+  regions: readonly string[],
+  settled: readonly string[],
+  pending: readonly string[],
+  linked: readonly string[],
 ): void {
-  if (joins === undefined) {
-    trace.events.push({ at: "settle", maybe, regions: chain, steps });
-    return;
+  const rides = carriedJoins(linked);
+  const silent = settled.length + pending.length === 0;
+  if (silent) {
+    if (linked.length > 0) {
+      trace.events.push(joinOnlyEvent(regions, linked));
+    }
+  } else if (settled.length > 0) {
+    trace.events.push(settleEvent(settled, false, regions, rides));
+    if (pending.length > 0) {
+      trace.events.push(settleEvent(pending, true, regions, NO_JOINS));
+    }
+  } else {
+    trace.events.push(settleEvent(pending, true, regions, rides));
   }
-  trace.events.push({ at: "settle", maybe, regions: chain, steps, joins });
+}
+
+function widenedBatch(
+  trace: TraceState,
+  active: Frame,
+  hadEvidence: boolean,
+  settled: readonly string[],
+  pending: readonly string[],
+): readonly string[] {
+  const nothingResolved = settled.length + pending.length === 0 && !hadEvidence;
+  if (!nothingResolved) {
+    return pending;
+  }
+  return freshlySettled(trace, active, [...trace.issued]);
 }
 
 /**
@@ -181,72 +269,70 @@ export function barrier(
   chain: readonly string[],
   awaited?: AwaitedOperand,
 ): void {
-  const trace = state;
-  const joins = joinStrands(trace, certain, maybe, awaited);
-  const certainNamed = certain.concat(summarySteps(trace, joins.certain));
-  const maybeNamed = maybe.concat(summarySteps(trace, joins.maybe));
-  const hadEvidence = certainNamed.length > 0 || maybeNamed.length > 0;
-  const joined = joins.certain.concat(joins.maybe);
-  const frame = currentFrame(trace);
-  const certainFresh = unseen(trace, certainNamed);
-  commit(frame, certainFresh);
-  let maybeFresh = unseen(trace, maybeNamed);
-  commit(frame, maybeFresh);
-  if (certainFresh.length === 0 && maybeFresh.length === 0 && !hadEvidence) {
-    maybeFresh = unseen(trace, [...trace.issued]);
-    commit(frame, maybeFresh);
-  }
+  const merged = joinStrands(state, certain, maybe, awaited);
+  const claimed = settledClaims(state, { certain, maybe }, merged);
+  const hadEvidence = claimed.certain.length > 0 || claimed.maybe.length > 0;
+  const linked = merged.certain.concat(merged.maybe);
+  const active = currentFrame(state);
+  const settled = freshlySettled(state, active, claimed.certain);
+  const committed = freshlySettled(state, active, claimed.maybe);
+  const pending = widenedBatch(state, active, hadEvidence, settled, committed);
   // Resolve all state changes before publishing; a join with no steps still has an event.
-  let pending: readonly string[] | undefined = joined.length === 0 ? undefined : joined;
-  if (certainFresh.length === 0 && maybeFresh.length === 0) {
-    if (pending !== undefined) {
-      trace.events.push({ at: "settle", joins: pending, maybe: false, regions: chain, steps: [] });
-    }
-    return;
-  }
-  if (certainFresh.length > 0) {
-    pushSettle(trace, chain, certainFresh, false, pending);
-    pending = undefined;
-  }
-  if (maybeFresh.length > 0) pushSettle(trace, chain, maybeFresh, true, pending);
+  publishBarrier(state, chain, settled, pending, linked);
 }
 
 /** Bind each pattern leaf to ordered step identities; ignore identifiers without symbols. */
 export function bindSteps(state: TraceState, name: ts.BindingName, steps: readonly string[]): void {
-  const idle = steps.length === 0;
-  if (idle) return;
-  for (const identifier of boundIdentifiers(name)) {
-    const located = state.checker.getSymbolAtLocation(identifier);
-    if (located === undefined) continue;
-    const bucket = state.stepsBySymbol.get(located) ?? new Set<string>();
-    for (const step of steps) bucket.add(step);
-    state.stepsBySymbol.set(located, bucket);
+  if (steps.length > 0) {
+    for (const leaf of boundIdentifiers(name)) {
+      rememberSteps(state, leaf, steps);
+    }
   }
 }
 
-function appendUnique(into: string[], seen: Set<string>, steps: Iterable<string>): void {
-  for (const step of steps) {
-    if (seen.has(step)) continue;
-    seen.add(step);
-    into.push(step);
+function rememberSteps(trace: TraceState, leaf: ts.Identifier, steps: readonly string[]): void {
+  const symbol = trace.checker.getSymbolAtLocation(leaf);
+  if (symbol !== undefined) {
+    const bucket = trace.stepsBySymbol.get(symbol) ?? new Set<string>();
+    steps.forEach((step) => bucket.add(step));
+    trace.stepsBySymbol.set(symbol, bucket);
   }
 }
 
-function guardIdentifiers(guard: ts.Expression): ts.Identifier[] {
-  const names: ts.Identifier[] = [];
-  const visit = (node: ts.Node): undefined => {
-    if (isFunctionLike(node)) {
-      return undefined;
+function isGuardLeaf(node: ts.Node): node is ts.Identifier {
+  return !isFunctionLike(node) && ts.isIdentifier(node);
+}
+
+function guardNames(collected: ts.Identifier[], node: ts.Node): void {
+  if (isGuardLeaf(node)) {
+    collected.push(node);
+  } else if (!isFunctionLike(node)) {
+    ts.forEachChild(node, (child) => guardNames(collected, child));
+  }
+}
+
+function mergeSteps(
+  leaves: readonly ts.Identifier[],
+  exact: readonly string[],
+  trace: TraceState,
+): string[] {
+  const merged: string[] = [];
+  const take = (steps: Iterable<string>): void => {
+    for (const step of steps) {
+      if (!merged.includes(step)) {
+        merged.push(step);
+      }
     }
-    if (node.kind === ts.SyntaxKind.Identifier) {
-      names.push(node as ts.Identifier);
-      return undefined;
-    }
-    ts.forEachChild(node, visit);
-    return undefined;
   };
-  visit(guard);
-  return names;
+  for (const leaf of leaves) {
+    const symbol = trace.checker.getSymbolAtLocation(leaf);
+    const bound = symbol === undefined ? undefined : trace.stepsBySymbol.get(symbol);
+    if (bound !== undefined) {
+      take(bound);
+    }
+  }
+  take(exact);
+  return merged;
 }
 
 /**
@@ -254,29 +340,20 @@ function guardIdentifiers(guard: ts.Expression): ts.Identifier[] {
  * Syntactic and exact singleton controllers take precedence over ambiguous sites.
  * Both inputs are needed for implicit-control and derived-value evidence.
  */
-function controllersOf(
-  trace: TraceState,
-  guard: ts.Expression,
-): { controllers: string[]; maybeControllers: string[] } {
-  const direct: string[] = [];
-  const seen = new Set<string>();
-  for (const name of guardIdentifiers(guard)) {
-    const symbol = trace.checker.getSymbolAtLocation(name);
-    const steps = symbol === undefined ? undefined : trace.stepsBySymbol.get(symbol);
-    if (steps !== undefined) appendUnique(direct, seen, steps);
-  }
-  const claim = claimAt(trace, trace.oracle.guardReads, guard.getStart(trace.scriptFile));
-  appendUnique(direct, seen, claim.certain);
-  return { controllers: direct, maybeControllers: claim.maybe.filter((step) => !seen.has(step)) };
+function controllerLists(trace: TraceState, condition: ts.Expression): [string[], string[]] {
+  const leaves: ts.Identifier[] = [];
+  guardNames(leaves, condition);
+  const position = condition.getStart(trace.scriptFile);
+  const claim = settleCertainty(admittedWitnesses(trace, trace.oracle.guardReads, position));
+  const controllers = mergeSteps(leaves, claim.certain, trace);
+  const ambiguous = claim.maybe.filter((step) => !controllers.includes(step));
+  return [controllers, ambiguous];
 }
 
 /** Append a control record only when either controller list has entries. */
 export function recordControl(state: TraceState, guard: ts.Expression, region: string): void {
-  const found = controllersOf(state, guard);
-  if (found.controllers.length === 0 && found.maybeControllers.length === 0) return;
-  state.controls.push({
-    controllers: found.controllers,
-    maybeControllers: found.maybeControllers,
-    region,
-  });
+  const [controllers, ambiguous] = controllerLists(state, guard);
+  if (controllers.length > 0 || ambiguous.length > 0) {
+    state.controls.push({ controllers, maybeControllers: ambiguous, region });
+  }
 }

@@ -5,8 +5,12 @@ import { isGlobalLibValue } from "./callbacks.js";
 import { boundIdentifiers } from "./causality-order-functions.js";
 import type { TraceState } from "./causality-order-state.js";
 
-// One settled-set per open activation. The root frame is never a strand. A barrier
-// writes only the innermost frame. `at` is a spawn index, not an event index.
+// The ordering walk keeps its strand bookkeeping here: a frame stack that scopes which
+// settles are already visible, a registry of the activations it has opened, and the rule
+// that hands a finished activation's own awaits to a later barrier. A settle is recorded on
+// the innermost frame only, yet it is visible from the whole stack, so an activation never
+// settles work on behalf of whoever opened it. Each registry entry keeps its push position,
+// and an await's save point is what that position gets compared against.
 
 /**
  * Activation-stack entry. `region` names the activation. `settled` holds the
@@ -26,11 +30,11 @@ export interface StrandRecord {
    * the record occupies. `strandsSince` keeps records with `at` at or above a mark.
    */
   readonly at: number;
-  /** Step ids added by `issue` when this record is the innermost one still open. */
+  /** Each `issue` appends its step id here while this record is the activation being walked. */
   readonly issued: Set<string>;
-  /** Set by `closeStrand` to the popped frame's `settled` set, or to a new empty set when no frame was popped. */
+  /** `closeStrand` stores the frame it pops here, or an empty set when the pop yields nothing. */
   summary: ReadonlySet<string>;
-  /** Flipped to true by `closeStrand`. The lift loop skips a record while this stays false. */
+  /** Written by `closeStrand`; until then `joinStrands` leaves this activation alone. */
   closed: boolean;
 }
 
@@ -77,7 +81,7 @@ export function currentFrame(trace: TraceState): Frame {
   return top;
 }
 
-/** True when any frame already lists `step` in `settled`. */
+/** Whether `step` appears in the `settled` set of any frame; a barrier that sees this skips it. */
 export function isVisiblySettled(state: TraceState, step: string): boolean;
 export function isVisiblySettled(trace: TraceState, step: string): boolean {
   return trace.frames.some((frame) => frame.settled.has(step));
@@ -115,7 +119,7 @@ export function strandMark(trace: TraceState): number {
   return trace.strands.length;
 }
 
-/** Regions whose records have `at >= mark`, in their current array order. */
+/** Regions of the entries with `at >= mark`, kept in registry order, which is push order. */
 export function strandsSince(state: TraceState, mark: number): string[];
 export function strandsSince(trace: TraceState, mark: number): string[] {
   return trace.strands.filter((record) => record.at >= mark).map((record) => record.region);
@@ -143,7 +147,7 @@ export function bindStrands(
   });
 }
 
-/** True only when `decl` accepts modifiers and one of them is `async`. */
+/** Whether `decl` can carry modifiers at all, and whether the `async` keyword is among them. */
 export function isAsyncFunction(decl: ts.Node): boolean {
   if (!ts.canHaveModifiers(decl)) return false;
   const modifiers = ts.getModifiers(decl);
@@ -164,8 +168,10 @@ function innerExpression(node: ts.Node): ts.Expression | undefined {
   }
 }
 
-// Left to right. A call that is not a Promise combinator is opaque, so
-// `await f(work.length)` does not join strands stored in `work`.
+// Appends identifiers in the order the operand lists them, descending only through the
+// wrappers in UNWRAP_KINDS, array-literal elements and the arguments of a recognized
+// `Promise` combinator. Anything else, a helper call included, is a leaf here, so an
+// expression's inner operand tree never contributes names it merely reads.
 class AwaitedNames {
   constructor(
     private readonly trace: TraceState,
@@ -226,9 +232,8 @@ function holdsStep(record: StrandRecord, steps: readonly string[]): boolean {
   return steps.some((step) => record.issued.has(step));
 }
 
-// Certain joins are strands spawned or named by the operand, plus closed strands
-// whose issued steps this barrier claims for certain. Maybe claims lift the same
-// way. A region is joined at most once.
+// `adoptSpawned` runs before the registry pass, so operand-derived regions lead the
+// `certain` array and lifted regions follow it; `joined` is written as each region lands.
 /**
  * Partition joined regions into `certain` and `maybe`.
  * A region already stored in `joined` is left out; each region that is kept is
