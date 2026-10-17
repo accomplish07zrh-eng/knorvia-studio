@@ -1,5 +1,3 @@
-// SPDX-License-Identifier: Apache-2.0
-
 import { KIND_RANK } from "./causality-reduce.js";
 import {
   UNKNOWN_LANE,
@@ -11,9 +9,11 @@ import {
   type Step,
 } from "./causality-graph-types.js";
 
-// Finished-graph lane copies and ordered-pair fact joins. No compiler or I/O.
+// Pure finished-graph expansion and fact joins, without compiler or I/O dependencies.
 
+// Larger candidate sets remain unexpanded.
 const MAY_SET_LANE_CAP = 4;
+// Separator in projected lane-copy ids.
 const COPY_SEPARATOR = "~";
 
 interface LaneCopyPlan {
@@ -88,25 +88,31 @@ function wireEdge(copiesByStep: Map<string, LaneCopyPlan>, link: OrderEdge): Ord
   return joined;
 }
 
-export function expandMaySetLanes(graph: CausalityGraph): CausalityGraph;
-export function expandMaySetLanes(input: CausalityGraph): CausalityGraph {
+/**
+ * Expand candidate lane sets after reduction and before phase projection.
+ * Return the input unchanged when no step expands. Copies retain their source site
+ * and have maybe certainty; FIFO wiring connects equal lanes only.
+ */
+export function expandMaySetLanes(graph: CausalityGraph): CausalityGraph {
   const copiesByStep = new Map<string, LaneCopyPlan>();
-  for (const unit of input.steps) {
+  // Only admitted replacements populate the plan before the identity decision.
+  for (const unit of graph.steps) {
     if (!admitsLaneCopies(unit)) continue;
     const laneNames = unit.lanes ?? [];
     copiesByStep.set(unit.id, { copies: laneNames.map((laneName) => copyForLane(unit, laneName)) });
   }
-  if (copiesByStep.size === 0) return input;
+  if (copiesByStep.size === 0) return graph;
 
-  indexOriginals(copiesByStep, input.steps);
+  // Original lookup and replacements share one entry; a later original cannot erase copies.
+  indexOriginals(copiesByStep, graph.steps);
   const routed: OrderEdge[] = [];
-  for (const link of input.edges) routed.push(...wireEdge(copiesByStep, link));
-  const expanded = input.steps.flatMap((unit) => copiesByStep.get(unit.id)?.copies ?? [unit]);
-  const sink = input.sink;
+  for (const link of graph.edges) routed.push(...wireEdge(copiesByStep, link));
+  const expanded = graph.steps.flatMap((unit) => copiesByStep.get(unit.id)?.copies ?? [unit]);
+  const sink = graph.sink;
   return {
     edges: routed,
-    lanes: input.lanes,
-    regions: input.regions,
+    lanes: graph.lanes,
+    regions: graph.regions,
     steps: expanded,
     ...(sink === undefined
       ? {}
@@ -150,10 +156,13 @@ function joinFact(kept: Fact, row: Fact): Fact {
   return merged;
 }
 
-export function dedupeFacts(facts: readonly Fact[]): Fact[];
-export function dedupeFacts(rows: readonly Fact[]): Fact[] {
+/**
+ * Join ordered-pair facts in first-key order without mutating input records or phase sets.
+ * Higher rank and true exactness win; maybe, absent provenance and non-jump witnesses dominate.
+ */
+export function dedupeFacts(facts: readonly Fact[]): Fact[] {
   const byPair = new Map<string, Fact>();
-  for (const row of rows) {
+  for (const row of facts) {
     const key = row.from + "|" + row.to;
     const kept = byPair.get(key);
     byPair.set(key, kept === undefined ? storedFact(row) : joinFact(kept, row));
@@ -161,8 +170,8 @@ export function dedupeFacts(rows: readonly Fact[]): Fact[] {
   return [...byPair.values()];
 }
 
-export function weakest(values: readonly Certainty[]): Certainty;
-export function weakest(samples: readonly Certainty[]): Certainty {
-  if (samples.includes("maybe")) return "maybe";
+/** Return maybe if present, otherwise always, including for an empty input. */
+export function weakest(values: readonly Certainty[]): Certainty {
+  if (values.includes("maybe")) return "maybe";
   return "always";
 }

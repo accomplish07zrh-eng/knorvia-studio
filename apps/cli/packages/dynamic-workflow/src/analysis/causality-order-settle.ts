@@ -1,5 +1,3 @@
-// SPDX-License-Identifier: Apache-2.0
-
 import ts from "typescript";
 import type { TaintOcc } from "./domain.js";
 import { isFunctionLike } from "./sites.js";
@@ -12,8 +10,8 @@ import {
   type AwaitedOperand,
 } from "./causality-order-strands.js";
 
-// Claims, barriers, and guard bindings. The empty claim is shared and must stay immutable.
-
+// Oracle witnesses, barriers and guard bindings share the existing TraceState.
+/** Ordered site claims; empty results share readonly arrays and must not be mutated. */
 interface OracleClaim {
   certain: readonly string[];
   maybe: readonly string[];
@@ -31,6 +29,10 @@ const LOOP_KINDS: ReadonlySet<ts.SyntaxKind> = new Set([
   ts.SyntaxKind.DoStatement,
 ]);
 
+/**
+ * Cache lexical loop/callback ancestors by node identity. Parent links and iteration
+ * indexes must remain stable while this TraceState cache is in use.
+ */
 function iterationAncestorsOf(trace: TraceState, node: ts.Node): Set<ts.Node> {
   const cached = trace.iterationAncestorCache.get(node);
   if (cached !== undefined) return cached;
@@ -50,6 +52,10 @@ function hostsIteration(trace: TraceState, node: ts.Node): boolean {
   );
 }
 
+/**
+ * Admit issued requests, or later sites sharing an indexed lexical iteration with
+ * the await. Unissued sites outside that shared iteration are excluded.
+ */
 function admitStep(trace: TraceState, awaitNode: ts.Node, step: string): Admission | undefined {
   if (trace.issued.has(step)) return "issued";
   const call = trace.callByStep.get(step);
@@ -88,12 +94,19 @@ function foldOccurrences(
   return rows;
 }
 
+/**
+ * Classify real, admitted sites in first-witness order, combining duplicate exactness.
+ * Only one exact issued site is certain. Repetition stays maybe: boundary iterations
+ * can await a seed or leave the final request pending. Guard reads omit temporal
+ * admission because they describe control evidence rather than settlement.
+ */
 function claimAt(
   trace: TraceState,
   map: ReadonlyMap<number, ReadonlyArray<TaintOcc>>,
   at: number,
   admit?: (step: string) => Admission | undefined,
 ): OracleClaim {
+  // First admission owns eligibility; any admitted exact witness can establish exactness.
   const occs = map.get(at);
   const rows =
     occs === undefined ? new Map<string, SiteRow>() : foldOccurrences(trace, occs, admit);
@@ -107,9 +120,9 @@ function claimAt(
   return { certain: [], maybe: sites };
 }
 
-export function settlesAt(state: TraceState, node: ts.Node, at: number): OracleClaim;
-export function settlesAt(trace: TraceState, node: ts.Node, at: number): OracleClaim {
-  return claimAt(trace, trace.oracle.awaitSettles, at, (step) => admitStep(trace, node, step));
+/** Read await-position witnesses using the current temporal admission rule. */
+export function settlesAt(state: TraceState, node: ts.Node, at: number): OracleClaim {
+  return claimAt(state, state.oracle.awaitSettles, at, (step) => admitStep(state, node, step));
 }
 
 function summarySteps(trace: TraceState, regions: readonly string[]): string[] {
@@ -151,10 +164,13 @@ function pushSettle(
   trace.events.push({ at: "settle", maybe, regions: chain, steps, joins });
 }
 
-// Certain steps are committed before maybe steps are filtered, so a step named
-// both ways is only certain. No evidence widens to every issued step still
-// unsettled on the open frames, and that widen is a may-settle. Joins ride on
-// the first published event, including an empty certain event.
+/**
+ * Settle witnesses and joined summaries in certain-before-maybe order. Visibility
+ * spans active frames; writes affect only the current frame. Already-settled claims
+ * add no steps. Empty evidence widens to pending issued sites and may overstate order.
+ * Joins attach to the first event, including an empty event when only a join remains.
+ * Strand ownership and await-operand interpretation stay in joinStrands.
+ */
 export function barrier(
   state: TraceState,
   certain: readonly string[],
@@ -169,6 +185,7 @@ export function barrier(
   const hadEvidence = certainNamed.length > 0 || maybeNamed.length > 0;
   const joined = joins.certain.concat(joins.maybe);
   const frame = currentFrame(trace);
+  // Commit one side before reading the next; certain steps become visible to maybe.
   const certainFresh = unseen(trace, certainNamed);
   commit(frame, certainFresh);
   let maybeFresh = unseen(trace, maybeNamed);
@@ -177,6 +194,7 @@ export function barrier(
     maybeFresh = unseen(trace, [...trace.issued]);
     commit(frame, maybeFresh);
   }
+  // Resolve all state changes before publishing; a join with no steps still has an event.
   let pending: readonly string[] | undefined = joined.length === 0 ? undefined : joined;
   if (certainFresh.length === 0 && maybeFresh.length === 0) {
     if (pending !== undefined) {
@@ -191,15 +209,15 @@ export function barrier(
   if (maybeFresh.length > 0) pushSettle(trace, chain, maybeFresh, true, pending);
 }
 
-export function bindSteps(state: TraceState, name: ts.BindingName, steps: readonly string[]): void;
-export function bindSteps(trace: TraceState, name: ts.BindingName, steps: readonly string[]): void {
+/** Bind each pattern leaf to ordered step identities; ignore identifiers without symbols. */
+export function bindSteps(state: TraceState, name: ts.BindingName, steps: readonly string[]): void {
   if (steps.length === 0) return;
   for (const identifier of boundIdentifiers(name)) {
-    const symbol = trace.checker.getSymbolAtLocation(identifier);
+    const symbol = state.checker.getSymbolAtLocation(identifier);
     if (symbol === undefined) continue;
-    const bucket = trace.stepsBySymbol.get(symbol) ?? new Set<string>();
+    const bucket = state.stepsBySymbol.get(symbol) ?? new Set<string>();
     for (const step of steps) bucket.add(step);
-    trace.stepsBySymbol.set(symbol, bucket);
+    state.stepsBySymbol.set(symbol, bucket);
   }
 }
 
@@ -226,6 +244,11 @@ function guardIdentifiers(guard: ts.Expression): ts.Identifier[] {
   return names;
 }
 
+/**
+ * Scan guard bindings without entering nested functions, then merge oracle witnesses.
+ * Syntactic and exact singleton controllers take precedence over ambiguous sites.
+ * Both inputs are needed for implicit-control and derived-value evidence.
+ */
 function controllersOf(
   trace: TraceState,
   guard: ts.Expression,
@@ -242,11 +265,11 @@ function controllersOf(
   return { controllers, maybeControllers: claim.maybe.filter((step) => !seen.has(step)) };
 }
 
-export function recordControl(state: TraceState, guard: ts.Expression, region: string): void;
-export function recordControl(trace: TraceState, guard: ts.Expression, region: string): void {
-  const found = controllersOf(trace, guard);
+/** Append a control record only when either controller list has entries. */
+export function recordControl(state: TraceState, guard: ts.Expression, region: string): void {
+  const found = controllersOf(state, guard);
   if (found.controllers.length === 0 && found.maybeControllers.length === 0) return;
-  trace.controls.push({
+  state.controls.push({
     controllers: found.controllers,
     maybeControllers: found.maybeControllers,
     region,
