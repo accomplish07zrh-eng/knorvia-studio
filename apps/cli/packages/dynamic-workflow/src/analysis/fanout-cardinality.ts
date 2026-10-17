@@ -6,169 +6,166 @@ import ts from "typescript";
  * Writes to the binding or its recognized array operations invalidate the count.
  * Alias escapes and wrapped mutation receivers are not tracked by this syntactic check.
  */
-export function literalCardinality(
-  iterated: ts.Expression,
-  checker: ts.TypeChecker,
-): number | undefined {
-  const requested = unwrapWrappers(iterated);
-  if (ts.isArrayLiteralExpression(requested)) return denseLength(requested);
-  if (!ts.isIdentifier(requested)) return undefined;
-  const symbol = checker.getSymbolAtLocation(requested);
-  const bound = constArrayUnder(symbol);
-  if (bound === undefined) return undefined;
-  const count = denseLength(bound.literal);
+export function literalCardinality(iterated: ts.Expression, checker: ts.TypeChecker) {
+  const core = stripWrappers(iterated);
+  if (ts.isArrayLiteralExpression(core)) return countedElements(core);
+  if (!ts.isIdentifier(core)) return undefined;
+  const binding = checker.getSymbolAtLocation(core);
+  const seeded = constArrayUnder(binding);
+  if (seeded === undefined) return undefined;
+  const count = countedElements(seeded.literal);
   if (count === undefined) return undefined;
-  const scope = bound.declaration.getSourceFile();
-  return writtenAnywhere(scope, symbol, checker) ? undefined : count;
+  return writtenThrough(seeded, checker) ? undefined : count;
 }
 
 interface ConstArray {
+  binding: ts.Symbol;
   declaration: ts.VariableDeclaration;
   literal: ts.ArrayLiteralExpression;
 }
 
-type Wrapper = ts.AssertionExpression | ts.NonNullExpression | ts.ParenthesizedExpression;
+type Wrapper =
+  | ts.AsExpression
+  | ts.NonNullExpression
+  | ts.ParenthesizedExpression
+  | ts.SatisfiesExpression
+  | ts.TypeAssertion;
 
-const WRAPPED_KINDS = new Set<ts.SyntaxKind>([
-  ts.SyntaxKind.AsExpression,
-  ts.SyntaxKind.NonNullExpression,
-  ts.SyntaxKind.ParenthesizedExpression,
-  ts.SyntaxKind.SatisfiesExpression,
-  ts.SyntaxKind.TypeAssertionExpression,
-]);
+const reshapingMethods = ["pop", "push", "shift", "splice", "unshift"];
+const reorderingMethods = ["copyWithin", "fill", "reverse", "sort"];
+const inplaceMethods = new Set<string>([...reshapingMethods, ...reorderingMethods]);
 
-const ARRAY_MUTATION_METHODS = new Set<string>([
-  "copyWithin",
-  "fill",
-  "pop",
-  "push",
-  "reverse",
-  "shift",
-  "sort",
-  "splice",
-  "unshift",
-]);
-
-const PATTERN_CONTAINER_KINDS = new Set<ts.SyntaxKind>([
-  ts.SyntaxKind.ArrayLiteralExpression,
-  ts.SyntaxKind.ObjectLiteralExpression,
-  ts.SyntaxKind.PropertyAssignment,
-  ts.SyntaxKind.ShorthandPropertyAssignment,
-  ts.SyntaxKind.SpreadElement,
-]);
-
-function unwrapWrappers(input: ts.Expression): ts.Expression {
-  if (!WRAPPED_KINDS.has(input.kind)) return input;
-  return unwrapWrappers((input as Wrapper).expression);
+function stripWrappers(operand: ts.Expression): ts.Expression {
+  let peeled = wrappedOperand(operand);
+  while (peeled !== undefined) {
+    operand = peeled;
+    peeled = wrappedOperand(operand);
+  }
+  return operand;
 }
 
-function indeterminateElement(element: ts.Expression): boolean {
-  return ts.isSpreadElement(element) || ts.isOmittedExpression(element);
+function wrappedOperand(operand: ts.Expression): ts.Expression | undefined {
+  switch (operand.kind) {
+    case ts.SyntaxKind.AsExpression:
+    case ts.SyntaxKind.NonNullExpression:
+    case ts.SyntaxKind.ParenthesizedExpression:
+    case ts.SyntaxKind.SatisfiesExpression:
+    case ts.SyntaxKind.TypeAssertionExpression:
+      return (operand as Wrapper).expression;
+    default:
+      return undefined;
+  }
 }
 
-function denseLength(literal: ts.ArrayLiteralExpression): number | undefined {
+function countedElements(literal: ts.ArrayLiteralExpression): number | undefined {
   let counted = 0;
-  for (const element of literal.elements) {
-    if (indeterminateElement(element)) return undefined;
+  for (const member of literal.elements) {
+    if (ts.isSpreadElement(member) || ts.isOmittedExpression(member)) return undefined;
     counted += 1;
   }
-  return counted === 0 ? undefined : counted;
+  return counted > 0 ? counted : undefined;
 }
 
-function namedDeclaration(symbol: ts.Symbol | undefined): ts.VariableDeclaration | undefined {
-  const value = symbol?.valueDeclaration;
-  if (value === undefined || !ts.isVariableDeclaration(value)) return undefined;
-  return ts.isIdentifier(value.name) ? value : undefined;
+function namedConst(binding: ts.Symbol): ts.VariableDeclaration | undefined {
+  const declared = binding.valueDeclaration;
+  if (declared === undefined || !ts.isVariableDeclaration(declared)) return undefined;
+  return ts.isIdentifier(declared.name) ? declared : undefined;
 }
 
-function declaredConst(declaration: ts.VariableDeclaration): boolean {
-  const listed = declaration.parent;
-  if (!ts.isVariableDeclarationList(listed)) return false;
-  return (listed.flags & ts.NodeFlags.Const) !== 0;
+function declaredConst(holder: ts.VariableDeclaration): boolean {
+  const listing = holder.parent;
+  if (!ts.isVariableDeclarationList(listing)) return false;
+  return (listing.flags & ts.NodeFlags.Const) !== 0;
 }
 
-function constArrayUnder(symbol: ts.Symbol | undefined): ConstArray | undefined {
-  const declaration = namedDeclaration(symbol);
-  if (declaration === undefined || !declaredConst(declaration)) return undefined;
-  const initial = declaration.initializer;
-  if (initial === undefined) return undefined;
-  const literal = unwrapWrappers(initial);
+function constArrayUnder(binding: ts.Symbol | undefined): ConstArray | undefined {
+  if (binding === undefined) return undefined;
+  const holder = namedConst(binding);
+  if (holder === undefined || !declaredConst(holder)) return undefined;
+  const opening = holder.initializer;
+  if (opening === undefined) return undefined;
+  const literal = stripWrappers(opening);
   if (!ts.isArrayLiteralExpression(literal)) return undefined;
-  return { declaration, literal };
+  return { binding, declaration: holder, literal };
 }
 
 // The query returns its decision through the AST walk, without shared traversal state.
-function writtenAnywhere(
-  scope: ts.SourceFile,
-  binding: ts.Symbol,
-  checker: ts.TypeChecker,
-): boolean {
-  const visit = (node: ts.Node): boolean => {
-    if (ts.isIdentifier(node) && node.parent !== undefined) {
-      if (checker.getSymbolAtLocation(node) === binding && mutatesBinding(node)) return true;
-    }
-    return ts.forEachChild(node, visit) === true;
-  };
-  return visit(scope);
+function writtenThrough(seed: ConstArray, checker: ts.TypeChecker): boolean {
+  const scan = (node: ts.Node): boolean =>
+    wroteBinding(node, seed.binding, checker) || ts.forEachChild(node, scan) === true;
+  return scan(seed.declaration.getSourceFile());
 }
 
-function mutatesBinding(reference: ts.Identifier): boolean {
-  const owner = reference.parent;
-  if (ts.isVariableDeclaration(owner) && owner.name === reference) return false;
-  if (ts.isPropertyAccessExpression(owner) && owner.expression === reference)
-    return owner.name.text === "length" ? written(owner) : emptiedThroughCall(owner);
-  if (ts.isElementAccessExpression(owner) && owner.expression === reference) return written(owner);
-  return written(reference);
+function wroteBinding(node: ts.Node, binding: ts.Symbol, checker: ts.TypeChecker): boolean {
+  if (!ts.isIdentifier(node)) return false;
+  return checker.getSymbolAtLocation(node) === binding && writesThrough(node);
 }
 
-function emptiedThroughCall(access: ts.PropertyAccessExpression): boolean {
-  if (!ARRAY_MUTATION_METHODS.has(access.name.text)) return false;
-  return ts.isCallExpression(access.parent) && access.parent.expression === access;
+function writesThrough(reference: ts.Identifier): boolean {
+  const holder = reference.parent;
+  if (ts.isVariableDeclaration(holder) && holder.name === reference) return false;
+  if (ts.isPropertyAccessExpression(holder) && holder.expression === reference)
+    return holder.name.text === "length" ? shapeWritten(holder) : emptiedByCall(holder);
+  if (ts.isElementAccessExpression(holder) && holder.expression === reference)
+    return shapeWritten(holder);
+  return shapeWritten(reference);
 }
 
-function written(target: ts.Expression): boolean {
-  const use = target.parent;
-  if (ts.isBinaryExpression(use)) return assignedBy(use, target);
-  if (ts.isPrefixUnaryExpression(use) || ts.isPostfixUnaryExpression(use))
-    return stepped(use.operator);
-  if (ts.isDeleteExpression(use)) return true;
-  return patternWrite(target, use);
+function emptiedByCall(access: ts.PropertyAccessExpression): boolean {
+  if (!inplaceMethods.has(access.name.text)) return false;
+  const call = access.parent;
+  return ts.isCallExpression(call) && call.expression === access;
 }
 
-function assignedBy(use: ts.BinaryExpression, target: ts.Expression): boolean {
-  if (use.left !== target) return false;
-  const kind = use.operatorToken.kind;
-  return kind >= ts.SyntaxKind.FirstAssignment && kind <= ts.SyntaxKind.LastAssignment;
+function shapeWritten(subject: ts.Expression): boolean {
+  if (assignedTo(subject) || stepped(subject) || erased(subject)) return true;
+  return destructured(subject);
 }
 
-function stepped(operator: ts.SyntaxKind): boolean {
-  return operator === ts.SyntaxKind.PlusPlusToken || operator === ts.SyntaxKind.MinusMinusToken;
+function assignedTo(subject: ts.Expression): boolean {
+  const where = subject.parent;
+  if (!ts.isBinaryExpression(where) || where.left !== subject) return false;
+  const rank = where.operatorToken.kind;
+  return rank >= ts.SyntaxKind.FirstAssignment && rank <= ts.SyntaxKind.LastAssignment;
 }
 
-function patternMember(use: ts.Node): boolean {
-  return (
-    ts.isArrayLiteralExpression(use) ||
-    ts.isPropertyAssignment(use) ||
-    ts.isShorthandPropertyAssignment(use)
-  );
+function stepped(subject: ts.Expression): boolean {
+  const bump = subject.parent;
+  if (!ts.isPrefixUnaryExpression(bump) && !ts.isPostfixUnaryExpression(bump)) return false;
+  const marker = bump.operator;
+  return marker === ts.SyntaxKind.PlusPlusToken || marker === ts.SyntaxKind.MinusMinusToken;
+}
+
+function erased(subject: ts.Expression): boolean {
+  return ts.isDeleteExpression(subject.parent);
 }
 
 // Destructuring admission uses its syntactic role and the enclosing assignment's span.
-function patternWrite(target: ts.Expression, use: ts.Node): boolean {
-  if (!patternMember(use)) return false;
-  const assignment = enclosingEquals(use);
-  if (assignment === undefined) return false;
-  const left = assignment.left;
-  return left !== undefined && enclosedIn(left, target);
+function destructured(subject: ts.Expression): boolean {
+  const slot = subject.parent;
+  if (!patternSlot(slot)) return false;
+  const opener = enclosingAssignment(slot);
+  return opener !== undefined && covers(opener.left, subject);
 }
 
-function enclosingEquals(use: ts.Node): ts.BinaryExpression | undefined {
-  let node: ts.Node = use;
-  while (PATTERN_CONTAINER_KINDS.has(node.kind)) node = node.parent;
-  if (!ts.isBinaryExpression(node)) return undefined;
-  return node.operatorToken.kind === ts.SyntaxKind.EqualsToken ? node : undefined;
+function patternSlot(node: ts.Node): boolean {
+  if (ts.isArrayLiteralExpression(node)) return true;
+  return ts.isPropertyAssignment(node) || ts.isShorthandPropertyAssignment(node);
 }
 
-function enclosedIn(left: ts.Node, target: ts.Node): boolean {
-  return target.pos >= left.pos && target.end <= left.end;
+function containerLayer(node: ts.Node): boolean {
+  if (ts.isArrayLiteralExpression(node) || ts.isObjectLiteralExpression(node)) return true;
+  if (ts.isSpreadElement(node)) return true;
+  return patternSlot(node);
+}
+
+function enclosingAssignment(slot: ts.Node): ts.BinaryExpression | undefined {
+  let climbed: ts.Node = slot;
+  while (containerLayer(climbed)) climbed = climbed.parent;
+  if (!ts.isBinaryExpression(climbed)) return undefined;
+  return climbed.operatorToken.kind === ts.SyntaxKind.EqualsToken ? climbed : undefined;
+}
+
+function covers(pattern: ts.Node, subject: ts.Node): boolean {
+  return subject.pos >= pattern.pos && subject.end <= pattern.end;
 }
