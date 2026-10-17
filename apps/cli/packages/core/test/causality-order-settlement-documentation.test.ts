@@ -8,16 +8,62 @@ import {
 } from "./causality-order-settlement-documentation-proof.js";
 
 const root = new URL("../../dynamic-workflow/", import.meta.url);
+const claim =
+  "/** Ordered site claims; empty results share readonly arrays and must not be mutated. */";
+const ancestry = `/**
+ * Cache lexical loop/callback ancestors by node identity. Parent links and iteration
+ * indexes must remain stable while this TraceState cache is in use.
+ */`;
+const admission = `/**
+ * Admit issued requests, or later sites sharing an indexed lexical iteration with
+ * the await. Unissued sites outside that shared iteration are excluded.
+ */`;
+const classify = `/**
+ * Classify real, admitted sites in first-witness order, combining duplicate exactness.
+ * Only one exact issued site is certain. Repetition stays maybe: boundary iterations
+ * can await a seed or leave the final request pending. Guard reads omit temporal
+ * admission because they describe control evidence rather than settlement.
+ */`;
+const settle = "/** Read await-position witnesses using the current temporal admission rule. */";
+const barrier = `/**
+ * Settle witnesses and joined summaries in certain-before-maybe order. Visibility
+ * spans active frames; writes affect only the current frame. Already-settled claims
+ * add no steps. Empty evidence widens to pending issued sites and may overstate order.
+ * Joins attach to the first event, including an empty event when only a join remains.
+ * Strand ownership and await-operand interpretation stay in joinStrands.
+ */`;
+const bind =
+  "/** Bind each pattern leaf to ordered step identities; ignore identifiers without symbols. */";
+const control = `/**
+ * Scan guard bindings without entering nested functions, then merge oracle witnesses.
+ * Syntactic and exact singleton controllers take precedence over ambiguous sites.
+ * Both inputs are needed for implicit-control and derived-value evidence.
+ */`;
+const record = "/** Append a control record only when either controller list has entries. */";
 export const sourceComments = [
-  "// SPDX-License-Identifier: Apache-2.0",
-  "// Claims, barriers, and guard bindings. The empty claim is shared and must stay immutable.",
-  "// Certain steps are committed before maybe steps are filtered, so a step named",
-  "// both ways is only certain. No evidence widens to every issued step still",
-  "// unsettled on the open frames, and that widen is a may-settle. Joins ride on",
-  "// the first published event, including an empty certain event.",
+  "// Oracle witnesses, barriers and guard bindings share the existing TraceState.",
+  claim,
+  ancestry,
+  admission,
+  classify,
+  "// First admission owns eligibility; any admitted exact witness can establish exactness.",
+  settle,
+  barrier,
+  "// Commit one side before reading the next; certain steps become visible to maybe.",
+  "// Resolve all state changes before publishing; a join with no steps still has an event.",
+  bind,
+  control,
+  record,
 ];
-export const emittedComments = sourceComments.filter((_, index) => index !== 1);
-export const declarationComments = ["//# sourceMappingURL=causality-order-settle.d.ts.map"];
+export const emittedComments = sourceComments.slice(2);
+export const declarationComments = [
+  claim,
+  settle,
+  barrier,
+  bind,
+  record,
+  "//# sourceMappingURL=causality-order-settle.d.ts.map",
+];
 
 test("settlement documentation preserves source/emitted/API syntax and all parsed comment boundaries", async () => {
   const proof = await loadSettlementDocumentaryProof();

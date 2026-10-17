@@ -8,7 +8,12 @@ import {
 } from "./fanout-cardinality-documentation-proof.js";
 
 const root = new URL("../../dynamic-workflow/", import.meta.url);
-const documentation = "// SPDX-License-Identifier: Apache-2.0";
+const documentation = `/**
+ * Returns a positive dense array-literal length, directly or through a const initializer.
+ * AST and checker evidence are inspected during analysis; uncertain cases return undefined.
+ * Writes to the binding or its recognized array operations invalidate the count.
+ * Alias escapes and wrapped mutation receivers are not tracked by this syntactic check.
+ */`;
 
 test("cardinality documentation preserves source, emitted and declaration syntax", async () => {
   const proof = await loadCardinalityDeclarationProof();
@@ -23,13 +28,13 @@ test("cardinality documentation preserves source, emitted and declaration syntax
   await assertCardinalityDeclarationShape(declaration, proof.declarationSha256);
   assert.notEqual(declaration, proof.declaration);
   const privateComments = [
-    "// In-place writes that make a const array's element count unknowable.",
-    "// Length-changing calls drop or append elements, reordering calls permute them,",
-    "// and filling calls overwrite a span. A read of `.length` is handled separately.",
+    "// The query returns its decision through the AST walk, without shared traversal state.",
+    "// Destructuring admission uses its syntactic role and the enclosing assignment's span.",
   ];
   assert.deepEqual(inspectComments(source), [documentation, ...privateComments]);
   assert.deepEqual(inspectComments(emitted, true), [documentation, ...privateComments]);
   assert.deepEqual(inspectComments(declaration), [
+    documentation,
     "//# sourceMappingURL=fanout-cardinality.d.ts.map",
   ]);
   assert.deepEqual(

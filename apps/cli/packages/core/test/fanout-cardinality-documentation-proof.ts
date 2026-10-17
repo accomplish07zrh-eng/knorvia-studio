@@ -5,7 +5,7 @@ import { syntaxDigest } from "./causality-reduction-documentation-proof.js";
 
 const hash = (bytes: string) => createHash("sha256").update(bytes).digest("hex");
 const proofUrl = new URL("./fanout-cardinality-declaration-baseline.json", import.meta.url);
-const proofSha256 = "be68c51aca8dac53c6b27ffb3f347d9f4b97d452650edda1d6205955b589f256";
+const proofSha256 = "dc7491fd26226bb90ea3841be0ca7313f61764d6d431c177d0d762ccab9864e6";
 const historicalSha256 = "6df2e52e3d50890410d40737bb1eac728909b66b2c8c55dad05a5e9b0c1ead47";
 
 export async function loadCardinalityDeclarationProof(

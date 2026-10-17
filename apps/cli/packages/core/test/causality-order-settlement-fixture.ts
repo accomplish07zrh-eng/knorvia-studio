@@ -12,7 +12,7 @@ export async function loadBaseline(readArchive = read) {
   const bytes = await readArchive(
     new URL("./causality-order-settlement-baseline.json", import.meta.url),
   );
-  assert.equal(sha(bytes), "1069ab83cff3a5af60247db90c749d2a6b2d09989ab12c8f2299e2dab890ce2c");
+  assert.equal(sha(bytes), "62a3e3eb5de6eb5ee0e56e2867494ac13cbd51aef773c978cf37ff7dd61d16ac");
   const archive = JSON.parse(bytes);
   assert.equal(sha(archive.compiled), archive.emittedSha256);
   assert.equal(sha(archive.declaration), archive.declarationSha256);
