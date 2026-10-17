@@ -10,11 +10,6 @@ import type {
   ScriptLoc,
   WorkflowProgram,
 } from "./compile-types.js";
-import {
-  defaultCompilerOptions,
-  SCRIPT_FILE_NAME,
-  WORKFLOW_FUNCTION_NAME,
-} from "./compile-types.js";
 
 export type {
   CompileDiagnostic,
@@ -23,14 +18,37 @@ export type {
   ScriptLoc,
   WorkflowProgram,
 };
-export { SCRIPT_FILE_NAME, WORKFLOW_FUNCTION_NAME };
+
+// File name the in-memory host uses for the wrapped workflow script.
+export const SCRIPT_FILE_NAME = "workflow-script.ts";
+
+// Name of the async function that holds the authored body. Analysis locates
+// this declaration so the walk stays inside the script and can separate a
+// top-level return from a return inside a nested function.
+export const WORKFLOW_FUNCTION_NAME = "__workflowScript__";
+
+// Typecheck-only options. The script targets ES2022, is treated as ESM with
+// bundler resolution, and sees only the ES2022 library. Ambient @types are
+// withheld, strict checking stays on, library files are not rechecked, nothing
+// is emitted, and JavaScript sources are refused.
+function defaultCompilerOptions(): ts.CompilerOptions {
+  const options: ts.CompilerOptions = {};
+  options.target = ts.ScriptTarget.ES2022;
+  options.module = ts.ModuleKind.ESNext;
+  options.moduleResolution = ts.ModuleResolutionKind.Bundler;
+  options.lib = ["lib.es2022.d.ts"];
+  options.types = [];
+  options.strict = true;
+  options.noEmit = true;
+  options.skipLibCheck = true;
+  options.allowJs = false;
+  return options;
+}
 
 const SCRIPT_PRELUDE_HEADER = `async function ${WORKFLOW_FUNCTION_NAME}() {\n`;
 const SCRIPT_EPILOGUE_FOOTER = "\n}\nexport {};\n";
 const SCRIPT_HEADER_LINE_COUNT = 1;
 const CODE_INVALID_MODIFIER = 1184;
-
-const buildCompilerOptions = defaultCompilerOptions;
 
 const AMBIENT_FIX_ADVICE: Record<string, string> = {
   declare:
@@ -107,7 +125,7 @@ export function createWorkflowProgram(
 
   const program = ts.createProgram(
     [SCRIPT_FILE_NAME, FACADE_FILE_NAME],
-    buildCompilerOptions(),
+    defaultCompilerOptions(),
     virtualHost,
   );
 

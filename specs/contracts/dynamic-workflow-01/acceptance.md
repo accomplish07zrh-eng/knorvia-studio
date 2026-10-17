@@ -78,3 +78,13 @@ K9 是 v2 合同修订记录，不是实现差异，见文末。K1–K8 每条�
 `gate-old.json` 仍是 v1 旧实现记录（`pass: true`，node v24.14.0，源码 39/39、dist 39/39、桩替换 0/3 且 `allFail=true`），本轮没有改它的字节。
 
 同一次收尾里，`pnpm --dir apps/cli/packages/dynamic-workflow typecheck` 与 `lint` 退出码都是 0（lint 仍有 5 条既有 warning，不在本轮改动的文件里）。
+
+## 九、计分口径（替换阶段）
+
+与 `docs/knorvia-contracts-01-acceptance.md` 第 26 行同一口径（Lead 裁定，2026-10-12），接口路径换成本合同：
+
+- **运行时/实现文件用普通模式**（行 + 结构）。门槛常量 **0.2 / 8 / 0.4 不改**。报告值取 `--old-rev origin/main` 与上游固定树两侧的最大值。
+- **纯声明/桶文件用 `--declaration --interface specs/contracts/dynamic-workflow-01/interface.md`**。当「兼容面行数本身 ≥ 残留归一化行数的 20%」时，普通模式数学上不可达，该文件按第三步用声明模式计分。工具字段：`declaration-lines` = 被剔除行数，`residual-lines` = 残留归一化行数。
+- `compiler/compile-types.ts` 只留五个公共接口（`CompileDiagnostic`、`CompileResult`、`ScriptLoc`、`WorkflowProgram`、`CreateWorkflowProgramOptions`），走声明模式。
+- 运行时值 `defaultCompilerOptions`、`SCRIPT_FILE_NAME`、`WORKFLOW_FUNCTION_NAME` 在重写后的 `compiler/compile.ts` 里，走普通模式。`defaultCompilerOptions` 不导出。
+- 本节只记录计分模式，不改行为，不覆盖 `gate-old.json`，也不改第八节的 v2 门禁数字。

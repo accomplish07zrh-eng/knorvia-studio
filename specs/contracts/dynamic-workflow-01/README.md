@@ -131,6 +131,10 @@ node scripts/contract-gate.mjs --contract specs/contracts/dynamic-workflow-01 \
 
 ## 计分口径（替换阶段）
 
-- 全部 55 个文件：相似度工具**普通模式**（行 + 结构两道门槛）。
+计分口径（Lead 裁定，2026-10-12，见 `docs/knorvia-contracts-01-acceptance.md` 第 26 行）：**运行时/实现文件用普通模式**；**纯声明/桶文件用 `--declaration --interface specs/contracts/dynamic-workflow-01/interface.md`**；当「兼容面行数本身 ≥ 残留归一化行数的 20%」时，普通模式数学上不可达，该文件按第三步用声明模式计分。门槛常量 **0.2 / 8 / 0.4 不改**。工具字段：`declaration-lines` = 被剔除行数，`residual-lines` = 残留归一化行数。报告值取 `--old-rev origin/main` 与上游固定树两侧的最大值。
+
+- 重写目标与拆分出去的实现文件：普通模式。
+- `compiler/compile-types.ts` 只保留与 `interface.md` 里 `compile.ts` 公共形状一致的五个接口（`CompileDiagnostic`、`CompileResult`、`ScriptLoc`、`WorkflowProgram`、`CreateWorkflowProgramOptions`），按声明模式计分：`node scripts/provenance/similarity.mjs --declaration --interface specs/contracts/dynamic-workflow-01/interface.md`。
+- 运行时值 `SCRIPT_FILE_NAME`、`WORKFLOW_FUNCTION_NAME` 与 `defaultCompilerOptions` 在独立重写的 `compiler/compile.ts` 里，该文件走普通模式。`defaultCompilerOptions` 不导出（不在 `interface.md` 的导出清单里）。
 - 入口桶与本包无关（`src/index.ts`/`src/projections.ts` 不在重写范围），但其再导出的分析符号经 B14 导出面测试守住。
 - core 夹具 sha256 pin 的文件（`causality-reduce.ts` 等）：替换时按 GATE-PLAYBOOK D 节范围化 re-pin。

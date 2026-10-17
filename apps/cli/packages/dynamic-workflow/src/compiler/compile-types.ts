@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
-import ts from "typescript";
+import type ts from "typescript";
 
 export interface CompileDiagnostic {
   code: number;
@@ -13,9 +13,6 @@ export interface CompileResult {
   diagnostics: CompileDiagnostic[];
   ok: boolean;
 }
-
-export const SCRIPT_FILE_NAME = "workflow-script.ts";
-export const WORKFLOW_FUNCTION_NAME = "__workflowScript__";
 
 export interface ScriptLoc {
   line: number;
@@ -30,18 +27,4 @@ export interface WorkflowProgram {
 
 export interface CreateWorkflowProgramOptions {
   facadeDts?: string;
-}
-
-export function defaultCompilerOptions(): ts.CompilerOptions {
-  return {
-    target: ts.ScriptTarget.ES2022,
-    module: ts.ModuleKind.ESNext,
-    moduleResolution: ts.ModuleResolutionKind.Bundler,
-    lib: ["lib.es2022.d.ts"],
-    types: [],
-    strict: true,
-    noEmit: true,
-    skipLibCheck: true,
-    allowJs: false,
-  };
 }
