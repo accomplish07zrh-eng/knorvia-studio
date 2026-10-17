@@ -9,7 +9,7 @@ const proofUrl = new URL(
   import.meta.url,
 );
 const archiveUrl = new URL("./causality-order-settlement-baseline.json", import.meta.url);
-const proofSha256 = "c4ece3a82d34b5ece5023af1e6787bd2723156220abf194b7637e17f25d5f3df";
+const proofSha256 = "498d44db24381001bcb179b543259cd1bc73c717d25a9a9f556918ca83d69079";
 const archiveSha256 = "1069ab83cff3a5af60247db90c749d2a6b2d09989ab12c8f2299e2dab890ce2c";
 const declarationSha256 = "699b1382dc27895a9553f4706e1a4020e204f05a240d0bc245f320de95cfa6e5";
 
