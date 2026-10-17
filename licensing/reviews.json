@@ -95883,7 +95883,7 @@
     },
     {
       "path": "docs/knorvia-independent-replacement-plan.md",
-      "normalizedSha256": "1bf10d4fa8e2ae6303fec64a457567870fe0c7c923c822378049f6a77a1812b9",
+      "normalizedSha256": "7c2177b64b0ca8c945065dad109e897e50a0d51193ac7e25ed23fd0e9d66a720",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored planning document: the synchronized copy of the independent-replacement plan that this work executes. Written by the Knorvia team; it lists scope, decisions, milestones and acceptance criteria and reproduces no upstream source text. Registered as original so the plan copy itself carries its own provenance record.",
@@ -129055,7 +129055,7 @@
     },
     {
       "path": "specs/knorvia-independent-implementation.md",
-      "normalizedSha256": "a7e932db73df50159b21902f0c5774f056d368cd97b3a24eefe5b6108e4a21a1",
+      "normalizedSha256": "d726ddacb9ee349174aeaa58c1cfc550f3d8f90c7cb8f84d12e53dc49d62be55",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Created by Knorvia commit d64e20f7 (2026-09-27) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.03 (.agents/skills/architecture-governance/SKILL.md), longest identical run 1 lines, below the 0.2 / 8-line thresholds. Bookkeeping review only; not a claim of independent replacement of any upstream implementation. Replacement wording in the commit describes the documented work, not this file's origin.",
@@ -143051,6 +143051,28 @@
       "license": "Apache-2.0",
       "basis": "Knorvia-authored shared-03 replacement record (design or acceptance document), written for this package.",
       "evidence": ["specs/contracts/shared-03/README.md"]
+    },
+    {
+      "path": "specs/knorvia-builtin-kernel-dsh.md",
+      "normalizedSha256": "848c88d67aa61ec2c58c6635943180686e99c855bc643b7c6ac612886cded644",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored product specification written on 2026-10-17 for the decision to build the built-in kernel on DeepSeek Harness as a pinned dependency and to restructure the project into internal plugins. It describes Knorvia rules, ownership and acceptance in its own words and reproduces no upstream source text.",
+      "evidence": [
+        "specs/knorvia-independent-implementation.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-internal-plugins.md",
+      "normalizedSha256": "e5032bbba093f94a36cd02e7553cb8cca83cf19994e79a2be2aad7f6af103e61",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored product specification written on 2026-10-17 for the decision to build the built-in kernel on DeepSeek Harness as a pinned dependency and to restructure the project into internal plugins. It describes Knorvia rules, ownership and acceptance in its own words and reproduces no upstream source text.",
+      "evidence": [
+        "specs/knorvia-independent-implementation.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
     }
   ]
 }
