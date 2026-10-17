@@ -6,7 +6,7 @@ import { syntaxDigest } from "./causality-reduction-documentation-proof.js";
 const hash = (bytes: string) => createHash("sha256").update(bytes).digest("hex");
 const proofUrl = new URL("./causality-lane-documentation-baseline.json", import.meta.url);
 const archiveUrl = new URL("./may-set-lane-expansion-baseline.json", import.meta.url);
-const proofSha256 = "0f4b8bc6ace2ff65a90a4717b142a1a19b01b35683c7bba4282e4b7f0e404eab";
+const proofSha256 = "7ed42949cca08452e857993a1ba80e6d7eefa82964bcce2b13874a62da727f40";
 const archiveSha256 = "d410a01e92e7ed22f51bf9e82048c71800c83f3e24d72142ca886fedc41610b0";
 const declarationSha256 = "0e29131a14c0104b949792c25696ee4caded78b5c95eaf4caa088f8c982d8889";
 
