@@ -11,7 +11,7 @@ export async function loadBaseline(readArchive = read) {
   const bytes = await readArchive(
     new URL("./may-set-lane-expansion-baseline.json", import.meta.url),
   );
-  assert.equal(sha(bytes), "211a58a6d6737900ca4f6331992e8e8ce2e27e8739880a076d8e360c5d6a704b");
+  assert.equal(sha(bytes), "d410a01e92e7ed22f51bf9e82048c71800c83f3e24d72142ca886fedc41610b0");
   const archive = JSON.parse(bytes);
   assert.equal(sha(archive.compiled), archive.emittedSha256);
   assert.equal(sha(archive.declaration), archive.declarationSha256);

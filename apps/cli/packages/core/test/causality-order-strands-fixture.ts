@@ -20,7 +20,7 @@ export async function loadBaseline(readArchive = read) {
   const text = await readArchive(
     new URL("./causality-order-strands-baseline.json", import.meta.url),
   );
-  assert.equal(sha(text), "c1f55bc621e6a5b5f71937592c272024f86d3c366c45a0da76b76faf342742d8");
+  assert.equal(sha(text), "3aba96c101e5d35817c954e1e4ee0c46adfb5046526a9d84dc5507a4a8410e87");
   const archive = JSON.parse(text);
   assert.equal(sha(archive.compiled), archive.emittedSha256);
   assert.equal(sha(archive.declaration), archive.declarationSha256);
@@ -28,7 +28,7 @@ export async function loadBaseline(readArchive = read) {
 }
 export const archive = await loadBaseline();
 const selector = await read(new URL("./causality-order-strands-current.json", import.meta.url));
-assert.equal(sha(selector), "8a9abee12922e74dcfcbfaa93ba3e3e18cd56730dfe56a973777d62b2eb52e1d");
+assert.equal(sha(selector), "746dcdbd82c6de66e322325a37a7e848af3d090d86362aec29d6f88cccd03bc6");
 export const pins: { files: Record<string, string> } = JSON.parse(selector);
 async function dynamic(name: string) {
   const url = new URL(`${emitted ? "dist" : "src"}/${name}.${emitted ? "js" : "ts"}`, root);
