@@ -54,16 +54,19 @@ const UNWRAP_KINDS: ReadonlySet<ts.SyntaxKind> = new Set([
   ts.SyntaxKind.SpreadElement,
 ]);
 
+export function currentFrame(state: TraceState): Frame;
 export function currentFrame(trace: TraceState): Frame {
   const top = trace.frames.at(-1);
   if (top === undefined) throw new Error("ordering walk has no active frame");
   return top;
 }
 
+export function isVisiblySettled(state: TraceState, step: string): boolean;
 export function isVisiblySettled(trace: TraceState, step: string): boolean {
   return trace.frames.some((frame) => frame.settled.has(step));
 }
 
+export function innermostOpenStrand(state: TraceState): StrandRecord | undefined;
 export function innermostOpenStrand(trace: TraceState): StrandRecord | undefined {
   for (let index = trace.strands.length - 1; index >= 0; index -= 1) {
     const record = trace.strands[index];
@@ -71,6 +74,7 @@ export function innermostOpenStrand(trace: TraceState): StrandRecord | undefined
   }
 }
 
+export function openStrand(state: TraceState, region: string): StrandRecord;
 export function openStrand(trace: TraceState, region: string): StrandRecord {
   const record = new OpenStrand(region, trace.strands.length);
   trace.strands.push(record);
@@ -78,25 +82,29 @@ export function openStrand(trace: TraceState, region: string): StrandRecord {
   return trace.strands.at(-1) ?? record;
 }
 
+export function closeStrand(state: TraceState, record: StrandRecord): void;
 export function closeStrand(trace: TraceState, record: StrandRecord): void {
   const frame = trace.frames.pop();
   const settled = frame === undefined ? new Set<string>() : frame.settled;
   sealRecord.call(record, settled);
 }
 
+export function strandMark(state: TraceState): number;
 export function strandMark(trace: TraceState): number {
   return trace.strands.length;
 }
 
+export function strandsSince(state: TraceState, mark: number): string[];
 export function strandsSince(trace: TraceState, mark: number): string[] {
   return trace.strands.filter((record) => record.at >= mark).map((record) => record.region);
 }
 
 export function bindStrands(
-  trace: TraceState,
+  state: TraceState,
   name: ts.BindingName,
   regions: readonly string[],
 ): void {
+  const trace = state;
   const identifiers = regions.length === 0 ? [] : boundIdentifiers(name);
   identifiers.forEach((identifier) => {
     const symbol = trace.checker.getSymbolAtLocation(identifier);
@@ -195,11 +203,12 @@ function holdsStep(record: StrandRecord, steps: readonly string[]): boolean {
 // whose issued steps this barrier claims for certain. Maybe claims lift the same
 // way. A region is joined at most once.
 export function joinStrands(
-  trace: TraceState,
+  state: TraceState,
   certain: readonly string[],
   maybe: readonly string[],
   awaited: AwaitedOperand | undefined,
 ): { certain: string[]; maybe: string[] } {
+  const trace = state;
   const joins = { certain: [] as string[], maybe: [] as string[] };
   if (awaited !== undefined) adoptSpawned(trace, awaited, joins.certain);
   for (const record of trace.strands) {

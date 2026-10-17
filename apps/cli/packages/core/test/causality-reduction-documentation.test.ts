@@ -58,7 +58,7 @@ test("documentation keeps exact historical declaration and current artifact chec
   );
   assert.equal(
     hash(archiveBytes),
-    "815f57ebb52a8e1c56544f254ccc0e26564832aad6a5f1b05433712612684aea",
+    "be187ed74221eae63b961cbcf332644394fe64743c714695b91bb6fed5641e50",
   );
   const archive = JSON.parse(archiveBytes);
   assert.equal(hash(archive.compiled), archive.emittedSha256);
@@ -92,31 +92,31 @@ test("documentation keeps exact historical declaration and current artifact chec
 
 test("documentation inventories every remaining comment including after template literals", () => {
   const publicComments = [
-    "/**\n * Reduce ordering graphs using edge-kind strength. Data and control have equal\n * witness strength, followed by fifo and seq. Carry edges represent one iteration\n * boundary and are tested separately from forward edges.\n */",
-    "/** Ordered-pair deduplication ranks; witness eligibility uses separate rules. */",
-    "/** Forward kind used to judge a carry witness; omitted values use data. */",
-    "/**\n * Visit forward edges in input order, then carry edges, removing candidates with\n * surviving eligible witnesses. Return original edge references in input order;\n * shared input references share deletion decisions. Inputs are not modified.\n */",
+    "// SPDX-License-Identifier: Apache-2.0",
+    "/**\n * Remove ordering edges that a surviving path already explains.\n * Data and control witness each other; fifo also accepts fifo; seq accepts\n * every forward kind. Carry edges are a later pass: forward closure, exactly\n * one other eligible carry, then forward closure again. A missing `carryOf`\n * is data. Self-loops are kept. The input array and edge objects stay put.\n */",
+    "/** Dedup rank only. Witness checks use a separate lattice, not these numbers. */",
+    "/** Forward kind a carry was built from. Absent values are judged as data. */",
   ];
-  const strength = "// Witness strength is separate from the public dedup rank.";
+  const strength = "// Queue search over live forward edges. `block` drops every direct hop of that pair.";
   const privateComments = [
-    "// Input occurrences retain their order; aliases share only the liveness decision.",
-    "// Multi-source forward closure, optionally excluding the candidate's direct pair.",
-    "// A bridge joins two forward closures; no second carry can enter either closure.",
+    "/**\n * Forward edges first, in input order, then carries. Aliased input objects share\n * one liveness bit, so a repeated reference is deleted everywhere or nowhere.\n */",
   ];
   assert.deepEqual(inspectComments(source), [
-    ...publicComments.slice(0, 3),
+    ...publicComments,
     strength,
-    publicComments[3],
     ...privateComments,
   ]);
   assert.deepEqual(inspectComments(emitted, true), [
-    ...publicComments.slice(0, 2),
+    publicComments[0],
+    publicComments[2],
     strength,
-    publicComments[3],
     ...privateComments,
   ]);
   assert.deepEqual(inspectComments(declaration), [
-    ...publicComments,
+    publicComments[1],
+    publicComments[2],
+    publicComments[3],
+    ...privateComments,
     "//# sourceMappingURL=causality-reduce.d.ts.map",
   ]);
   const control =

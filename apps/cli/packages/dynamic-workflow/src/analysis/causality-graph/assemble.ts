@@ -167,14 +167,14 @@ function stepFrom(host: CausalityFold, node: Placed, renamed: (id: string) => st
   const membership = host.laneSet.get(node.id);
   const lanesForNode = membership === undefined ? [UNKNOWN_LANE] : membership;
   const home = host.innermost.get(node.id);
-  const record = { id: node.id } as Writable<Step>;
-  record.certainty = certaintyOf(host, node.id);
+  const record = { certainty: certaintyOf(host, node.id) } as Writable<Step>;
+  record.id = node.id;
   record.kind = node.kind as StepKind;
   record.label = node.label;
+  if (node.labelPattern !== undefined) record.labelPattern = node.labelPattern;
   record.lane = lanesForNode[0] ?? UNKNOWN_LANE;
   record.loc = node.loc;
   record.region = renamed(home ?? host.trace.root);
-  if (node.labelPattern !== undefined) record.labelPattern = node.labelPattern;
   if (lanesForNode.length > 1) record.lanes = lanesForNode;
   const repeats = host.repeat.get(node.id);
   if (repeats !== undefined) record.repeat = repeats;

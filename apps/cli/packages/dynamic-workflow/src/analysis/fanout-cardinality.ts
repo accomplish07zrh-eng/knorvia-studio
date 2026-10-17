@@ -38,6 +38,10 @@ function unknown(): undefined {
 }
 
 export function literalCardinality(
+  iterated: ts.Expression,
+  checker: ts.TypeChecker,
+): number | undefined;
+export function literalCardinality(
   expression: ts.Expression,
   types: ts.TypeChecker,
 ): number | undefined {
@@ -66,9 +70,9 @@ function fixedArray(
   if (initializer === undefined) return unknown();
   const initial = unwrap(initializer);
   if (!ts.isArrayLiteralExpression(initial)) return unknown();
-  const total = elementCount(initial);
-  if (total === undefined) return unknown();
-  return { count: total, symbol: bindingSymbol };
+  const count = elementCount(initial);
+  if (count === undefined) return undefined;
+  return { count, symbol: bindingSymbol };
 }
 
 function sourceMutates(root: ts.Node, symbol: ts.Symbol, types: ts.TypeChecker): boolean {

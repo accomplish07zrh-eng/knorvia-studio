@@ -10,14 +10,6 @@
 
 export type OrderKind = "data" | "control" | "fifo" | "seq" | "carry";
 
-export interface ReducibleEdge {
-  from: string;
-  to: string;
-  kind: OrderKind;
-  /** Forward kind a carry was built from. Absent values are judged as data. */
-  carryOf?: Exclude<OrderKind, "carry">;
-}
-
 /** Dedup rank only. Witness checks use a separate lattice, not these numbers. */
 export const KIND_RANK: Record<OrderKind, number> = {
   carry: 0,
@@ -26,6 +18,14 @@ export const KIND_RANK: Record<OrderKind, number> = {
   fifo: 2,
   seq: 1,
 };
+
+export interface ReducibleEdge {
+  from: string;
+  to: string;
+  kind: OrderKind;
+  /** Forward kind a carry was built from. Absent values are judged as data. */
+  carryOf?: Exclude<OrderKind, "carry">;
+}
 
 interface Slot<E extends ReducibleEdge> {
   edge: E;

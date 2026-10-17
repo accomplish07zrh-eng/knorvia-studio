@@ -202,8 +202,8 @@ class Projector {
     const created: FlowNode = {
       id,
       kind: cue.at,
-      phase: cue.phase,
       ...(cue.at === "issue" ? { site: cue.step } : {}),
+      phase: cue.phase,
       ...(alongside.length > 0 ? { alongside } : {}),
     };
     this.nodes.push(created);

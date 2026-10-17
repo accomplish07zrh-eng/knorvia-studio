@@ -8,25 +8,9 @@ import {
 } from "./causality-lane-documentation-proof.js";
 
 const root = new URL("../../dynamic-workflow/", import.meta.url);
-const expand = `/**
- * Expand candidate lane sets after reduction and before phase projection.
- * Return the input unchanged when no step expands. Copies retain their source site
- * and have maybe certainty; FIFO wiring connects equal lanes only.
- */`;
-const facts = `/**
- * Join ordered-pair facts in first-key order without mutating input records or phase sets.
- * Higher rank and true exactness win; maybe, absent provenance and non-jump witnesses dominate.
- */`;
-const weakest = "/** Return maybe if present, otherwise always, including for an empty input. */";
 export const sourceComments = [
-  "// Pure finished-graph expansion and fact joins, without compiler or I/O dependencies.",
-  "// Larger candidate sets remain unexpanded.",
-  "// Separator in projected lane-copy ids.",
-  expand,
-  "// Only admitted replacements populate the plan before the identity decision.",
-  "// Original lookup and replacements share one entry; a later original cannot erase copies.",
-  facts,
-  weakest,
+  "// SPDX-License-Identifier: Apache-2.0",
+  "// Finished-graph lane copies and ordered-pair fact joins. No compiler or I/O.",
 ];
 
 test("lane documentation preserves source, emitted, API syntax and all parsed comments", async () => {
@@ -44,9 +28,6 @@ test("lane documentation preserves source, emitted, API syntax and all parsed co
   assert.deepEqual(inspectComments(source), sourceComments);
   assert.deepEqual(inspectComments(emitted, true), sourceComments);
   assert.deepEqual(inspectComments(declaration), [
-    expand,
-    facts,
-    weakest,
     "//# sourceMappingURL=causality-graph-lanes.d.ts.map",
   ]);
   assert.deepEqual(

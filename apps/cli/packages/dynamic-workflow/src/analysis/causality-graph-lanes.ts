@@ -69,11 +69,11 @@ function wireEdge(copiesByStep: Map<string, LaneCopyPlan>, link: OrderEdge): Ord
   const fromCopies = copiesByStep.get(link.from)?.copies;
   const toCopies = copiesByStep.get(link.to)?.copies;
   if (fromCopies === undefined && toCopies === undefined) return [link];
-  const routed: OrderEdge[] = [];
+  const joined: OrderEdge[] = [];
   for (const sourceEnd of resolveLane(copiesByStep, link.from)) {
     for (const destEnd of resolveLane(copiesByStep, link.to)) {
       if (link.kind === "fifo" && sourceEnd.lane !== destEnd.lane) continue;
-      routed.push({
+      joined.push({
         ...link,
         certainty: weakest([
           link.certainty,
@@ -85,9 +85,10 @@ function wireEdge(copiesByStep: Map<string, LaneCopyPlan>, link: OrderEdge): Ord
       });
     }
   }
-  return routed;
+  return joined;
 }
 
+export function expandMaySetLanes(graph: CausalityGraph): CausalityGraph;
 export function expandMaySetLanes(input: CausalityGraph): CausalityGraph {
   const copiesByStep = new Map<string, LaneCopyPlan>();
   for (const unit of input.steps) {
@@ -149,6 +150,7 @@ function joinFact(kept: Fact, row: Fact): Fact {
   return merged;
 }
 
+export function dedupeFacts(facts: readonly Fact[]): Fact[];
 export function dedupeFacts(rows: readonly Fact[]): Fact[] {
   const byPair = new Map<string, Fact>();
   for (const row of rows) {
@@ -159,6 +161,7 @@ export function dedupeFacts(rows: readonly Fact[]): Fact[] {
   return [...byPair.values()];
 }
 
+export function weakest(values: readonly Certainty[]): Certainty;
 export function weakest(samples: readonly Certainty[]): Certainty {
   if (samples.includes("maybe")) return "maybe";
   return "always";

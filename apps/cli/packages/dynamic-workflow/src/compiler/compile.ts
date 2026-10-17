@@ -135,7 +135,7 @@ export function createWorkflowProgram(
   const toScriptLoc = (pos: number): ScriptLoc => {
     const coords = scriptFile.getLineAndCharacterOfPosition(pos);
     const mappedLine = Math.max(1, coords.line - SCRIPT_HEADER_LINE_COUNT + 1);
-    return { line: mappedLine, column: coords.character + 1 };
+    return { column: coords.character + 1, line: mappedLine };
   };
 
   return { program, scriptFile, toScriptLoc };

@@ -15,8 +15,8 @@ import {
 // Claims, barriers, and guard bindings. The empty claim is shared and must stay immutable.
 
 interface OracleClaim {
-  readonly certain: readonly string[];
-  readonly maybe: readonly string[];
+  certain: readonly string[];
+  maybe: readonly string[];
 }
 
 const NO_CLAIM: OracleClaim = { certain: [], maybe: [] };
@@ -73,8 +73,11 @@ function foldOccurrences(
   admit: ((step: string) => Admission | undefined) | undefined,
 ): Map<string, SiteRow> {
   const rows = new Map<string, SiteRow>();
-  occs.forEach((occ) => {
-    if (!trace.realSteps.has(occ.site)) return;
+  const present = [];
+  for (const occ of occs) {
+    if (trace.realSteps.has(occ.site)) present.push(occ);
+  }
+  present.forEach((occ) => {
     const how = admit === undefined ? ("issued" as const) : admit(occ.site);
     if (how === undefined) return;
     const prior = rows.get(occ.site);
@@ -104,6 +107,7 @@ function claimAt(
   return { certain: [], maybe: sites };
 }
 
+export function settlesAt(state: TraceState, node: ts.Node, at: number): OracleClaim;
 export function settlesAt(trace: TraceState, node: ts.Node, at: number): OracleClaim {
   return claimAt(trace, trace.oracle.awaitSettles, at, (step) => admitStep(trace, node, step));
 }
@@ -152,12 +156,13 @@ function pushSettle(
 // unsettled on the open frames, and that widen is a may-settle. Joins ride on
 // the first published event, including an empty certain event.
 export function barrier(
-  trace: TraceState,
+  state: TraceState,
   certain: readonly string[],
   maybe: readonly string[],
   chain: readonly string[],
   awaited?: AwaitedOperand,
 ): void {
+  const trace = state;
   const joins = joinStrands(trace, certain, maybe, awaited);
   const certainNamed = certain.concat(summarySteps(trace, joins.certain));
   const maybeNamed = maybe.concat(summarySteps(trace, joins.maybe));
@@ -186,6 +191,7 @@ export function barrier(
   if (maybeFresh.length > 0) pushSettle(trace, chain, maybeFresh, true, pending);
 }
 
+export function bindSteps(state: TraceState, name: ts.BindingName, steps: readonly string[]): void;
 export function bindSteps(trace: TraceState, name: ts.BindingName, steps: readonly string[]): void {
   if (steps.length === 0) return;
   for (const identifier of boundIdentifiers(name)) {
@@ -236,6 +242,7 @@ function controllersOf(
   return { controllers, maybeControllers: claim.maybe.filter((step) => !seen.has(step)) };
 }
 
+export function recordControl(state: TraceState, guard: ts.Expression, region: string): void;
 export function recordControl(trace: TraceState, guard: ts.Expression, region: string): void {
   const found = controllersOf(trace, guard);
   if (found.controllers.length === 0 && found.maybeControllers.length === 0) return;
