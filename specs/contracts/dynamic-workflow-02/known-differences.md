@@ -4,14 +4,14 @@ v1。本文件记录**不在本包范围的相邻事实**与**旧行为里看起
 
 ## 1. 不在本包范围的相邻文件
 
-| 相邻面                                                                                        | 归属                                        | 说明                                                                                                                                                                                                                                     |
-| --------------------------------------------------------------------------------------------- | ------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `src/analysis/*.ts`（54 文件）、`src/compiler/compile.ts`                                     | dynamic-workflow-01（已完成 v3）            | 本包**不碰**，但两者都 import 本包的 `facade/dts.js` 与 `facade/registry.js`（见 `callers.md` B 节）：**相对路径与导出名是双向兼容面**。                                                                                                 |
-| `src/compiler/libs.generated.ts`                                                              | 构建期生成物（`scripts/generate-libs.mjs`） | 不进合同覆盖范围。但它决定 `createWorkflowProgram` 看到的 lib 注释文本，因此间接影响本包 B27 的 schema `description`（见 K3）。                                                                                                          |
-| `apps/cli/packages/dynamic-workflow/test/ask-scheduler-{contract.test.ts,fixture.ts}`         | 本包自身的旧测试（`pnpm test:studio` 跑）   | 按相对路径深 import `engine/{scheduler,hash,journal-memory,types,scheduler-types,imported-cache}.js`，是这些模块路径的冻结消费者（`callers.md` C 节）。                                                                                  |
-| `engine/ask-journal-projection.ts`、`engine/scheduler-helpers.ts`、`engine/workflow-error.ts` | `unreviewed`（M0-2/M0-3 复核范围）          | 分类为 unreviewed → **不进重写目标清单**（37 = 40 − 3），不重写、不删（同 shared-01 与 dw01 §1 口径）。见 K12。                                                                                                                          |
-| `fixtures/entry-exports.json`（dw01 的）、`fixtures/corpus.mjs`（dw01 的 324 例语料）         | dynamic-workflow-01                         | 本包的 `surface.test.mjs` 与 `golden.test.mjs` **跨合同读取**这两件资产做对照（入口桶运行时集合逐字一致、语料 expect 分类自检）。这是有意的跨合同复用，代价是 dw01 语料/录制被本包测试依赖，见 K11 与 `README.md` 待决事项。             |
-| `@knorvia/dynamic-workflow` 与 `.../projections` 的 exports map                               | 包配置（`package.json`）                    | 只有两项，包外无法按子路径 import。两个入口桶文件本身**在本包范围内**（scope 的 `""` 桶 2 个文件）——dw01 的 `README.md` §1 把它们写成「不重写」，实际归属本包，本包 `surface.test.mjs` 的 B20/B30 负责钉住其再导出面与浏览器安全不变式。 |
+| 相邻面                                                                                        | 归属                                        | 说明                                                                                                                                                                                                                                                                                                                                            |
+| --------------------------------------------------------------------------------------------- | ------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src/analysis/*.ts`（54 文件）、`src/compiler/compile.ts`                                     | dynamic-workflow-01（已完成 v3）            | 本包**不碰**，但两者都 import 本包的 `facade/dts.js` 与 `facade/registry.js`（见 `callers.md` B 节）：**相对路径与导出名是双向兼容面**。                                                                                                                                                                                                        |
+| `src/compiler/libs.generated.ts`                                                              | 构建期生成物（`scripts/generate-libs.mjs`） | 不进合同覆盖范围。但它决定 `createWorkflowProgram` 看到的 lib 注释文本，因此间接影响本包 B27 的 schema `description`（见 K3）。                                                                                                                                                                                                                 |
+| `apps/cli/packages/dynamic-workflow/test/ask-scheduler-{contract.test.ts,fixture.ts}`         | 本包自身的旧测试（`pnpm test:studio` 跑）   | 按相对路径深 import `engine/{scheduler,hash,journal-memory,types,scheduler-types,imported-cache}.js`，是这些模块路径的冻结消费者（`callers.md` C 节）。                                                                                                                                                                                         |
+| `engine/ask-journal-projection.ts`、`engine/scheduler-helpers.ts`、`engine/workflow-error.ts` | `unreviewed`（M0-2/M0-3 复核范围）          | 分类为 unreviewed → **不进重写目标清单**（37 = 40 − 3），不重写、不删（同 shared-01 与 dw01 §1 口径）。见 K12。                                                                                                                                                                                                                                 |
+| `fixtures/entry-exports.json`（dw01 的）、`fixtures/corpus.mjs`（dw01 的 324 例语料）         | dynamic-workflow-01                         | 本包的 `surface.test.mjs` 与 `golden.test.mjs` **跨合同读取**这两件资产做对照（入口桶运行时集合逐字一致、语料 expect 分类自检）。这是有意的跨合同复用，代价是 dw01 语料被本包测试依赖，因此 `corpus.mjs` 里有 `dw01CorpusPin`（条数 + 逐条摘要的硬校验，不随环境开关关闭）：上游语料一变就抛，逼一次重录与升版本（见 `acceptance.md` 第三节）。 |
+| `@knorvia/dynamic-workflow` 与 `.../projections` 的 exports map                               | 包配置（`package.json`）                    | 只有两项，包外无法按子路径 import。两个入口桶文件本身**在本包范围内**（scope 的 `""` 桶 2 个文件）——dw01 的 `README.md` §1 把它们写成「不重写」，实际归属本包，本包 `surface.test.mjs` 的 B20/B30 负责钉住其再导出面与浏览器安全不变式。                                                                                                        |
 
 ## 2. 旧行为特征（保持原样，勿「修」）
 
@@ -84,7 +84,9 @@ facade 注释写着「Two rules the compiler enforces. The name must be a compil
 - 为什么必须保持：这是本包错误分类的**结构规则**（通道按成员族分裂），流程判断一律用码，绝不匹配 message 文本（`engine/types.ts` 的联合类型注释即此意）。
 - 重写不得：为了「一致性」把两条并到同一个级别，也不得把任何一条折进 `DriverError`。
 
-## K9 facade 资产的锁定口径：声明清单与签名行逐字节锁定，**注释文字不进锁**
+## 3. 合同口径与登记条目（不要求实现侧动作）
+
+### K9 facade 资产的锁定口径：声明清单与签名行逐字节锁定，**注释文字不进锁**
 
 （用户批准，2026-10-19。本条目是合同口径，不要求实现侧动作。）
 
@@ -105,7 +107,7 @@ facade 注释写着「Two rules the compiler enforces. The name must be a compil
 
 **边界**：不进锁的只有注释**文字**。注释里的**结构化内容**仍由条目断言锁定——例如 `ask<T = string>` 的默认值、`ArtifactRef`/`ChartSpec` 等接口的成员与顺序、`SNIPPET_FACADE_DTS` 是生产文本的**子集**（每条 declare 行逐字节出现在生产文本里，而不是改写版）。K1 里那句「Two rules the compiler enforces」是注释散文，重写可以（也应该）自写成不误导的说法；9004 的实际归属由 `lowering.test.mjs` 那两条钉住，与注释无关。
 
-## K10 golden 里钉住了旧实现的**错误消息文本**（登记，并列为待决）
+### K10 golden 里钉住了旧实现的**错误消息文本**（登记，并列为待决）
 
 `fixtures/golden/engine-run.json` 的 26 例把 `WorkflowErrorJson` 整条录进回放，其中含 **21 处** `message` 字符串（例如 repair 预算耗尽、世界读上限、校验反复失败这三类的旧文案）。合同同时规定「流程判断一律用码，绝不匹配错误文本」（`engine/types.ts` 的联合类型注释、K8）。
 
@@ -113,21 +115,21 @@ facade 注释写着「Two rules the compiler enforces. The name must be a compil
 - 现状处理：**不放宽断言**（红线），本条目把它登记为既存张力，列入 `README.md` 待决事项：由 Lead 裁定是（a）把 message 从 golden 的比对载荷里摘掉、只留 `code` 与结构化字段（需要升合同版本并明确说明强度变化），还是（b）要求重写实现复用旧文案（与「注释须自写」的口径不一致）。合同阶段两者都不擅自执行。
 - 静态那一半不受影响：`fixtures/golden/lowering.json` 的 350 例录的是 `diagnostics[].message`（编译诊断文本，由 `typescript` 与 dw01 的 analyze 侧产生）与降级代码文本，不含引擎错误 message。
 
-## K11 入口桶再导出中有 4 个符号全仓零消费者（保留 + 登记，不在合同阶段删除）
+### K11 入口桶再导出中有 4 个符号全仓零消费者（保留 + 登记，不在合同阶段删除）
 
 `artifactFamilyOf`、`formatViolations`、`serializeSchema`、`synthesizeWorkflowSchemas` 由 `src/index.ts` 再导出，但**全仓（`apps` + `packages`）没有任何引用点**；`knip --include=exports,nsExports,types,nsTypes -W @knorvia/dynamic-workflow` 输出为空（入口文件的再导出按公共 API 处理，不计未用导出），所以「无用代码核查」不会把它们报出来。
 
 - 处理：本合同**保留**这四个导出（`interface.md` 照列，`surface.test.mjs` 的归属面断言照钉），不删、也不因此放宽任何断言。它们不是「包外兼容压力」，但也不是本包可以静默消失的导出——删除属实现变更，要走「无用代码单独提交」那条流程与证据，本阶段没有做也没有必要做（用户批准的删除清单为空）。
 - 替换阶段若要删，判据是：`surface.test.mjs` 的入口集合断言、`interface.md` 的对应声明块、以及 dw01 侧无引用（已核对：四个名字在 `analysis/`、`compiler/` 里也无人用）。
 
-## K12 三个 `unreviewed` 文件不进重写目标
+### K12 三个 `unreviewed` 文件不进重写目标
 
 `engine/ask-journal-projection.ts`、`engine/scheduler-helpers.ts`、`engine/workflow-error.ts` 在 `licensing/current-files.json` 里分类为 `unreviewed`（M0-2/M0-3 复核范围）：本包**不重写、不删**，重写目标 = 40 − 3 = **37**，`stubs/targets.txt` 与桩替换验证都按 37 走。
 
 - 注意这三件里包含 `engine/workflow-error.ts`（`WorkflowError` 的定义文件，被 12 个文件引用）——不重写不等于不重要：它的行为由 B1/B4/B10/B18/B19 等条目**从公开面**钉住，重写实现必须继续以同样的构造与 `toJSON()` 形状使用它。
 - 分类与计数唯一真源是 `tests/scope.mjs`（读 `licensing/current-files.json`），`surface.test.mjs` 与 `README.md` 的完成度表都从它取数；复核完成、分类改成 `upstream-*` 时，本包重写目标会自动变 38，届时要同步 `stubs/targets.txt` 与桩替换计数（`surface.test.mjs` 会先红，不会静默漏）。
 
-## K13 合同自身的一处更正：engine-run 的驱动语义（夹具头部注释，已就地改对）
+### K13 合同自身的一处更正：engine-run 的驱动语义（夹具头部注释，已就地改对）
 
 录制 engine-run 族时，`tests/harness.mjs` 与 `fixtures/families/engine-run.mjs` 的头部注释最初把驱动表写成「引擎在 repair 时会重新调用 `startAsk`」。**实测不是这样**：repair / nudge 在**同一次派发**上重试，引擎不再调 `startAsk`；所以一个驱动条目在**派发时**消耗一次、在**每次 reject/nudge 裁决后**再消耗一次。两处头部已按实测改写，`async-helper-keeps-ordinals` 的驱动表也从「两个站点各一条」改成「同一个 `ask#1` 两条」。
 
