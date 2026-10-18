@@ -33,6 +33,22 @@ export const entryBucketFiles = {
   projections: resolve(pkgRoot, mode === "dist" ? "dist/projections.js" : "src/projections.ts"),
 };
 
+/** 入口根目录：surface 测试据此断言 interface.md 列出的每个模块路径在这一侧都存在。 */
+export const entryRootDir = resolve(pkgRoot, mode === "dist" ? "dist" : "src");
+
+/**
+ * 深层模块路径的动态导入（interface.md「兼容入口面」列出的那批包内 import 方按相对路径引用的模块）。
+ * `modulePath` 用**产物**写法（`engine/scheduler.js`），源码侧换成 `.ts`——两侧同一入口，测试不必知道
+ * 自己在哪种模式下。
+ */
+export function importDeep(modulePath) {
+  const file = resolve(
+    entryRootDir,
+    mode === "dist" ? modulePath : modulePath.replace(/\.js$/, ".ts"),
+  );
+  return import(pathToFileURL(file).href);
+}
+
 export const entryLabel = mode;
 export const isDist = mode === "dist";
 
