@@ -420,6 +420,14 @@ export async function runEngineSample(sample) {
   if (missing.length > 0) {
     throw new Error(`${sample.id}: 引擎缺 Boundary A 成员 ${missing.join(", ")}`);
   }
+  // shim 里的 `args` 是自己造的，不是从引擎上搬下来的：引擎上根本没有这个成员（实测
+  // `"args" in engine === false`），它由沙箱子级垫片注入。若哪天引擎自己长出 `args`，
+  // 这条会拦下来——那时「谁拥有 args」就有了两个作者，Boundary A 的分工不再唯一。
+  if ("args" in engine) {
+    throw new Error(
+      `${sample.id}: WorkflowEngine 不该有 args 成员（args 属沙箱注入面，不是引擎面）`,
+    );
+  }
 
   const runFn = new Function(dw.HOST_BINDING, `return (async () => {\n${payload.code}\n})();`);
   let settled;
