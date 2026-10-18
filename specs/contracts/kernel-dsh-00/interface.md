@@ -67,8 +67,14 @@ export interface KernelPluginRow {
   readonly disabled?: boolean;
 }
 
-/** v1 固定组合（README §三），顺序即数组顺序。 */
+/** v1 固定组合的蓝图（README §三）；顺序即数组顺序。 */
 export const KERNEL_PLUGIN_ROWS: readonly KernelPluginRow[];
+
+/**
+ * 把 DSH_HOME 注入需要绝对路径的行（当前只有 session-persistence.root），
+ * 返回可交给物化器的完整 entry 数组。纯函数，不改蓝图。
+ */
+export function createKernelPluginRows(dshHome: string): KernelPluginRow[];
 
 export interface KernelLogger {
   debug(message: string, fields?: Readonly<Record<string, unknown>>): void;
