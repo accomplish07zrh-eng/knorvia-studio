@@ -1,0 +1,150 @@
+# dynamic-workflow-02 调用方原始清单（scan-callers.mjs 输出，机器生成）
+
+扫描口径：全仓源文件（跳过 node_modules/dist/build/coverage/out/.git/third-party）的 import / re-export / 动态 import 说明符，纯语法扫描；
+范围文件 = `licensing/current-files.json` 里 `apps/cli/packages/dynamic-workflow/src/` 下 analysis/ 与
+compiler/ 之外的 40 个文件（见 `tests/scope.mjs`）。与 dep:refs 的符号级 findReferences 互补
+（后者在本包 537 项导出的规模下内存溢出，见 `acceptance.md`）。
+
+## 包外调用方（`@knorvia/dynamic-workflow` 与 `.../projections` 桶）：56 个文件
+
+- `apps/cli/packages/adapters/src/storage/session-store/repositories/dwf-journal-artifacts.ts`
+  - `@knorvia/dynamic-workflow`: NodeRecord
+- `apps/cli/packages/adapters/src/storage/session-store/repositories/dwf-journal-codecs.ts`
+  - `@knorvia/dynamic-workflow`: ActorRecord, NodeRecord, RunRecord, StoredEvent
+- `apps/cli/packages/adapters/src/storage/session-store/repositories/dwf-journal-introspection.ts`
+  - `@knorvia/dynamic-workflow`: NodeRecord, RunStatus, StoredEvent
+- `apps/cli/packages/adapters/src/storage/session-store/repositories/dwf-journal-rows.ts`
+  - `@knorvia/dynamic-workflow`: NodeKind, NodeRecord, NodeRecordStatus, RunRecord
+- `apps/cli/packages/adapters/src/storage/session-store/repositories/dwf-journal-run-state.ts`
+  - `@knorvia/dynamic-workflow`: RunRecord, RunSettlementRecord, RunStatus, RunStopReason, WorkflowErrorJson
+- `apps/cli/packages/adapters/src/storage/session-store/repositories/dwf-journal.ts`
+  - `@knorvia/dynamic-workflow`: JournalStorePort, RunRecord
+- `apps/cli/packages/adapters/src/storage/session-store/sqlite-session-store.ts`
+  - `@knorvia/dynamic-workflow`: JournalStorePort
+- `apps/cli/packages/adapters/test/dwf-journal.target.ts`
+  - `@knorvia/dynamic-workflow`: ActorRecord, JournalStorePort, NodeRecord, RunEvent, RunRecord, RunSettlementRecord, RunStatus
+- `apps/cli/packages/bootstrap/src/app/dynamic-workflow-import.ts`
+  - `@knorvia/dynamic-workflow`: ActorRecord, ImportedActorCandidate, ImportedAskEntry, ImportedRunCache, ImportedWorldEntry, NodeRecord, RunRecord
+- `apps/cli/packages/bootstrap/src/app/dynamic-workflow-run-artifact-projection.ts`
+  - `@knorvia/dynamic-workflow`: JournalStorePort, NodeRecord
+- `apps/cli/packages/bootstrap/src/app/dynamic-workflow-run-artifact-queries.ts`
+  - `@knorvia/dynamic-workflow`: JournalStorePort, NodeRecord
+- `apps/cli/packages/bootstrap/src/app/dynamic-workflow-run-artifact-read.ts`
+  - `@knorvia/dynamic-workflow`: JournalStorePort
+- `apps/cli/packages/bootstrap/src/app/dynamic-workflow-run-introspection.ts`
+  - `@knorvia/dynamic-workflow`: JournalStorePort
+- `apps/cli/packages/bootstrap/src/app/dynamic-workflow-run-journal.ts`
+  - `@knorvia/dynamic-workflow`: JournalStorePort, RunRecord
+- `apps/cli/packages/bootstrap/src/app/dynamic-workflow-run-launch-anchor.ts`
+  - `@knorvia/dynamic-workflow`: JournalStorePort
+- `apps/cli/packages/bootstrap/src/app/dynamic-workflow-run-launch.ts`
+  - `@knorvia/dynamic-workflow`: ActorRef, ActorSubmitProfile, AskSpec, Caps, ImportedRunCache, JournalStorePort, JsonSchema, RunEvent, RunSettlement, ValidateFn, refToString, validate
+- `apps/cli/packages/bootstrap/src/app/dynamic-workflow-run-lifecycle.ts`
+  - `@knorvia/dynamic-workflow`: JournalStorePort, RunSettlement
+- `apps/cli/packages/bootstrap/src/app/dynamic-workflow-run-lineage.ts`
+  - `@knorvia/dynamic-workflow`: RunStatus
+- `apps/cli/packages/bootstrap/src/app/dynamic-workflow-run-observation.ts`
+  - `@knorvia/dynamic-workflow`: JournalStorePort, NodeRecord, RunRecord, RunSettlement, RunStatus, RunStopReason, StoredEvent, WorkflowErrorCode, WorkflowErrorJson
+- `apps/cli/packages/bootstrap/src/app/dynamic-workflow-run-reconcile.ts`
+  - `@knorvia/dynamic-workflow`: JournalStorePort, RunRecord, WorkflowErrorJson
+- `apps/cli/packages/bootstrap/src/app/dynamic-workflow-run-replay.ts`
+  - `@knorvia/dynamic-workflow`: JournalStorePort, RunEvent, StoredEvent
+- `apps/cli/packages/bootstrap/src/app/dynamic-workflow-run-roster-events.ts`
+  - `@knorvia/dynamic-workflow`: StoredEvent
+- `apps/cli/packages/bootstrap/src/app/dynamic-workflow-run-roster-subagents.ts`
+  - `@knorvia/dynamic-workflow`: ActorRecord, NodeRecord
+- `apps/cli/packages/bootstrap/src/app/dynamic-workflow-run-roster.ts`
+  - `@knorvia/dynamic-workflow`: ActorRecord, NodeRecord, StoredEvent
+- `apps/cli/packages/bootstrap/src/app/dynamic-workflow-run-sequence-capture.ts`
+  - `@knorvia/dynamic-workflow`: JournalStorePort, RunEvent, StoredEvent
+- `apps/cli/packages/bootstrap/src/app/dynamic-workflow-run-service.ts`
+  - `@knorvia/dynamic-workflow`: ActorRef, ActorSubmitProfile, Caps, JournalStorePort, PersonaSpec
+- `apps/cli/packages/bootstrap/src/app/dynamic-workflow-run-submit.ts`
+  - `@knorvia/dynamic-workflow`: Caps, CompileDiagnostic, ImportedRunCache, RunSettlement, WorkflowProgram, buildAskSpecs, collectDiagnostics, collectSites, collectWorldRunCommands, createWorkflowProgram, deriveActorSubmitProfilesFor, lowerWorkflow, synthesizeAskSchemas
+- `apps/cli/packages/bootstrap/src/app/dynamic-workflow-run-workspace.ts`
+  - `@knorvia/dynamic-workflow`: JournalStorePort, NodeRecord
+- `apps/cli/packages/bootstrap/src/app/dynamic-workflow-snippet-service.ts`
+  - `@knorvia/dynamic-workflow`: Caps, InMemoryJournalStore, JsonSchema, RunEvent, SNIPPET_FACADE_DTS, ValidateFn, WorkflowDriver, WorkflowError, buildAskSpecs, collectDiagnostics, collectSites, collectWorldRunCommands, createWorkflowProgram, lowerWorkflow, validate
+- `apps/cli/packages/bootstrap/src/app/workflow-actor-transcript.ts`
+  - `@knorvia/dynamic-workflow`: ActorSessionSeed, WorkflowError
+- `apps/cli/packages/bootstrap/src/app/workflow-artifact-publish.ts`
+  - `@knorvia/dynamic-workflow`: ARTIFACT_CAPS, ARTIFACT_ID_PATTERN, ArtifactPublishRequest, ArtifactVersionRecord, WorkflowError
+- `apps/cli/packages/bootstrap/src/app/workflow-concurrency-governor.ts`
+  - `@knorvia/dynamic-workflow`: ConcurrencyChange, ConcurrencyController, ConcurrencyControllerSnapshot, ConcurrencyThrottleReason
+- `apps/cli/packages/bootstrap/src/app/workflow-driver-concurrency.ts`
+  - `@knorvia/dynamic-workflow`: AskLastTool, AskProgress, AskWaitInfo, InstanceRef, RunStallInfo
+- `apps/cli/packages/bootstrap/src/app/workflow-driver-escalation.ts`
+  - `@knorvia/dynamic-workflow`: ActorRef, PersonaSpec, RunEvent, WorkflowError, refToString
+- `apps/cli/packages/bootstrap/src/app/workflow-driver-helpers.ts`
+  - `@knorvia/dynamic-workflow`: ActorRef, AskStats, InstanceRef, PersonaSpec, Violation, WorkflowError, WorkflowReportSink, refToString
+- `apps/cli/packages/bootstrap/src/app/workflow-driver-model-failure.ts`
+  - `@knorvia/dynamic-workflow`: InstanceRef, ProviderStopDetails, WorkflowError, WorkflowReportSink, refToString
+- `apps/cli/packages/bootstrap/src/app/workflow-driver-submit-profile.ts`
+  - `@knorvia/dynamic-workflow`: AskMessage, GENERIC_SUBMIT_PROFILE, InstanceRef, WorkflowError, WorkflowReportSink, canonicalJson, refToString
+- `apps/cli/packages/bootstrap/src/app/workflow-driver-tool-activity.ts`
+  - `@knorvia/dynamic-workflow`: AskLastTool
+- `apps/cli/packages/bootstrap/src/app/workflow-driver-tool-target.ts`
+  - `@knorvia/dynamic-workflow`: AskLastTool, LAST_TOOL_NAME_MAX_CHARS, LAST_TOOL_TARGET_MAX_CHARS
+- `apps/cli/packages/bootstrap/src/app/workflow-driver-transcript.ts`
+  - `@knorvia/dynamic-workflow`: ActorSessionSeed, InstanceRef, WorkflowError, refToString
+- `apps/cli/packages/bootstrap/src/app/workflow-driver-types.ts`
+  - `@knorvia/dynamic-workflow`: ActorRef, ActorSessionSeed, ActorSubmitProfile, InstanceRef, JournalStorePort, PersonaSpec, RunEvent, SessionRef
+- `apps/cli/packages/bootstrap/src/app/workflow-driver.ts`
+  - `@knorvia/dynamic-workflow`: ActorRef, ActorSessionSeed, ArtifactPublishRequest, ArtifactVersionRecord, AskMessage, GENERIC_SUBMIT_PROFILE, InstanceRef, JournalStorePort, PersonaSpec, RunEvent, SessionRef, SubmitVerdict, WorkflowDriver, WorkflowError, WorkflowReportSink, WorldReadOp, refToString
+- `apps/cli/packages/bootstrap/src/app/workflow-git-world-read.ts`
+  - `@knorvia/dynamic-workflow`: WorkflowError
+- `apps/cli/packages/bootstrap/src/app/workflow-world-read.ts`
+  - `@knorvia/dynamic-workflow`: WORLD_READ_CAPS, WorkflowError, WorldReadOp
+- `apps/cli/packages/bootstrap/src/protocol/saved-workflows.ts`
+  - `@knorvia/dynamic-workflow`: JournalStorePort
+- `apps/cli/packages/core/src/runtime/methods/dynamic-workflow-run-start.ts`
+  - `@knorvia/dynamic-workflow`: CompileDiagnostic
+- `apps/cli/packages/core/src/tool/handlers/create-workflow-description.ts`
+  - `@knorvia/dynamic-workflow`: FACADE_DTS
+- `apps/cli/packages/core/src/tool/handlers/create-workflow-graph-bounds.ts`
+  - `@knorvia/dynamic-workflow/projections`: CausalityGraph, ControlFlowGraph, FLOW_ABORT, FLOW_ENTRY, FLOW_SINK, HandoffGraph, UNPHASED
+- `apps/cli/packages/core/src/tool/handlers/create-workflow-graph-fold.ts`
+  - `@knorvia/dynamic-workflow/projections`: ReducibleEdge, reduceOrdering
+- `apps/cli/packages/core/src/tool/handlers/eval-workflow-snippet-description.ts`
+  - `@knorvia/dynamic-workflow`: SNIPPET_FACADE_DTS
+- `apps/cli/packages/core/src/tool/handlers/eval-workflow-snippet.ts`
+  - `@knorvia/dynamic-workflow`: SNIPPET_FACADE_DTS, collectDiagnostics, collectSites, collectWorldRunCommands, createWorkflowProgram
+- `apps/cli/packages/core/src/tool/handlers/save-workflow-description.ts`
+  - `@knorvia/dynamic-workflow`: FACADE_DTS
+- `apps/cli/packages/core/src/tool/handlers/workflow-analysis-display.ts`
+  - `@knorvia/dynamic-workflow`: AnalyzeResult
+- `apps/cli/packages/core/src/tool/handlers/workflow-script-analysis.ts`
+  - `@knorvia/dynamic-workflow`: AnalyzeResult, analyzeWorkflowScript
+- `apps/cli/packages/dynamic-workflow-runtime/src/harness.ts`
+  - `@knorvia/dynamic-workflow`: ActorId, AskSpec, Caps, ImportedRunCache, RunSettlement, ValidateFn, WorkflowDriver, WorkflowEngine, WorkflowError, WorkflowReportSink, lowerWorkflowScript
+- `apps/cli/packages/dynamic-workflow-runtime/src/protocol.ts`
+  - `@knorvia/dynamic-workflow`: ArtifactContentOp, ArtifactPresetOp, WorldReadOp
+
+## 同包非范围调用方（src/analysis、src/compiler 指进本包范围）：5 个文件
+
+- `apps/cli/packages/dynamic-workflow/src/analysis/artifacts.ts`
+  - `../facade/artifact-caps.js`: ARTIFACT_CAPS, ARTIFACT_ID_PATTERN
+  - `../facade/registry.js`: ArtifactOp, isArtifactPresetOp
+- `apps/cli/packages/dynamic-workflow/src/analysis/facade-misuse.ts`
+  - `../facade/dts.js`: FACADE_FILE_NAME
+  - `../facade/registry.js`: SITE_MEMBER_NAMES, facadeContainerOf, isSiteProducing
+- `apps/cli/packages/dynamic-workflow/src/analysis/sites-labels.ts`
+  - `../facade/dts.js`: FACADE_FILE_NAME
+  - `../facade/registry.js`: WorldReadOp
+- `apps/cli/packages/dynamic-workflow/src/analysis/sites.ts`
+  - `../facade/registry.js`: ArtifactOp, WorldReadOp, artifactRowOfSymbol, markerFunctionOfSymbol, siteProducingFunctionOfSymbol, worldReadOpOfSymbol
+- `apps/cli/packages/dynamic-workflow/src/compiler/compile.ts`
+  - `../facade/dts.js`: FACADE_DTS, FACADE_FILE_NAME
+
+## 深层模块路径消费者（本包 test/ 与其它包的相对/字符串路径）：2 个文件
+
+- `apps/cli/packages/dynamic-workflow/test/ask-scheduler-contract.test.ts`
+  - `../src/engine/hash.js`: inputHash
+  - `../src/engine/imported-cache.js`: ImportedActorState
+  - `../src/engine/scheduler-types.js`: defer
+  - `../src/engine/types.js`: NodeRecord, REPAIR_ATTEMPTS, SessionRef, WorkflowError
+- `apps/cli/packages/dynamic-workflow/test/ask-scheduler-fixture.ts`
+  - `../src/engine/journal-memory.js`: InMemoryJournalStore
+  - `../src/engine/scheduler-types.js`: SchedulerHost
+  - `../src/engine/scheduler.js`: AskScheduler
+  - `../src/engine/types.js`: ActorRef, ActorSessionSeed, AskMessage, InstanceRef, NodeRecord, RunEvent, SubmitVerdict, ValidateFn, WorkflowDriver, WorkflowError

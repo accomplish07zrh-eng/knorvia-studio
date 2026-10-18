@@ -1,0 +1,3140 @@
+{
+  "family": "lowering",
+  "samples": [
+    {
+      "id": "legacy/lane-facts-1",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1", "ask#2"],
+      "code": "const a = __host.createActor(\"actor#1\", \"Owned worker\");\n__host.enterPhase(\"Owned first\");\nconst x = await __host.ask(\"ask#1\", a, \"Owned input\");\n__host.enterPhase(\"Owned second\");\nreturn await __host.ask(\"ask#2\", a, x);\n"
+    },
+    {
+      "id": "legacy/lane-facts-2",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1", "ask#2"],
+      "code": "const a = __host.createActor(\"actor#1\", \"Owned worker\");\nlet value = \"Owned seed\";\nfor (let i = 0; i < 3; i++) {\n    if (i === 1) {\n        value = await __host.ask(\"ask#1\", a, value);\n        continue;\n    }\n    value = await __host.ask(\"ask#2\", a, value);\n}\nreturn value;\n"
+    },
+    {
+      "id": "legacy/reduction-1",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "actor#2", "ask#1", "ask#2", "ask#3"],
+      "code": "const a = __host.createActor(\"actor#1\", \"Synthetic alpha\");\nconst b = __host.createActor(\"actor#2\", \"Synthetic beta\");\n__host.enterPhase(\"First\");\nconst x = await __host.ask(\"ask#1\", a, \"Owned first\");\n__host.enterPhase(\"Second\");\nconst y = await __host.ask(\"ask#2\", b, `Owned second ${x}`);\n__host.enterPhase(\"Third\");\nreturn await __host.ask(\"ask#3\", a, `Owned third ${x} ${y}`);\n"
+    },
+    {
+      "id": "legacy/reduction-2",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"Synthetic loop\");\nlet value = \"owned seed\";\nfor (let i = 0; i < 2; i++) {\n    __host.enterPhase(\"Round\");\n    value = await __host.ask(\"ask#1\", a, value);\n}\n__host.enterPhase(\"Done\");\nreturn value;\n"
+    },
+    {
+      "id": "legacy/strands-1",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "actor#2", "ask#1", "ask#2"],
+      "code": "const a = __host.createActor(\"actor#1\", \"Owned A\");\nconst b = __host.createActor(\"actor#2\", \"Owned B\");\nasync function work() { return await __host.ask(\"ask#1\", a, \"Owned inner\"); }\nconst held = work();\nconst parallel = __host.ask(\"ask#2\", b, \"Owned parallel\");\nawait held;\nawait held;\nreturn await parallel;\n"
+    },
+    {
+      "id": "legacy/strands-2",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1", "ask#2"],
+      "code": "const a = __host.createActor(\"actor#1\", \"Owned A\");\nasync function work(label) { return await __host.ask(\"ask#1\", a, label); }\nconst held = [work(\"Owned first\"), work(\"Owned second\")];\nconst answer = await Promise.all(held);\nfor await (const value of held) {\n    await __host.ask(\"ask#2\", a, value);\n}\nreturn answer;\n"
+    },
+    {
+      "id": "legacy/strands-3",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1", "ask#2"],
+      "code": "const a = __host.createActor(\"actor#1\", \"Owned A\");\nasync function work() { const held = __host.ask(\"ask#1\", a, \"Owned seed\"); return await held.then(async (value) => __host.ask(\"ask#2\", a, value)); }\nreturn await work();\n"
+    },
+    {
+      "id": "legacy/may-set-1",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "actor#2", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"Owned alpha\");\nconst b = __host.createActor(\"actor#2\", \"Owned beta\");\nconst condition = true;\nconst chosen = condition ? a : b;\nreturn await __host.ask(\"ask#1\", chosen, \"Owned ask\");\n"
+    },
+    {
+      "id": "legacy/may-set-2",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "actor#2", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"Owned alpha\");\nconst b = __host.createActor(\"actor#2\", \"Owned beta\");\nconst condition = true;\nconst chosen = condition ? a : b;\nlet value = \"Owned seed\";\nfor (let i = 0; i < 2; i++) {\n    value = await __host.ask(\"ask#1\", chosen, value);\n}\nreturn value;\n"
+    },
+    {
+      "id": "legacy/may-set-3",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "actor#2", "ask#1", "ask#2"],
+      "code": "const a = __host.createActor(\"actor#1\", \"Owned alpha\");\nconst b = __host.createActor(\"actor#2\", \"Owned beta\");\nconst condition = true;\nconst chosen = condition ? a : b;\n__host.enterPhase(\"Owned first\");\nconst x = await __host.ask(\"ask#1\", chosen, \"Owned first ask\");\n__host.enterPhase(\"Owned second\");\nreturn await __host.ask(\"ask#2\", chosen, x);\n"
+    },
+    {
+      "id": "legacy/fanout-card-1",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"Owned worker\");\nconst xs = [\"one\", \"two\"];\nreturn await Promise.all(xs.map(async (x) => await __host.ask(\"ask#1\", a, x)));\n"
+    },
+    {
+      "id": "legacy/fanout-card-2",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"Owned worker\");\nconst xs = [\"one\", \"two\"];\nxs.push(\"three\");\nreturn await Promise.all(xs.map(async (x) => await __host.ask(\"ask#1\", a, x)));\n"
+    },
+    {
+      "id": "legacy/fanout-card-3",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"Owned worker\");\nconst xs = [\"one\", \"two\"];\nconst ys = xs;\nys.push(\"three\");\nreturn await Promise.all(xs.map(async (x) => await __host.ask(\"ask#1\", a, x)));\n"
+    },
+    {
+      "id": "basic/empty",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": [],
+      "code": ""
+    },
+    {
+      "id": "basic/whitespace",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": [],
+      "code": ""
+    },
+    {
+      "id": "basic/log-only",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": [],
+      "code": "__host.log(\"hello\");\n"
+    },
+    {
+      "id": "basic/log-template",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": [],
+      "code": "const who = \"world\";\n__host.log(`hello ${who}`);\n"
+    },
+    {
+      "id": "basic/args-read",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": [],
+      "code": "__host.log(String(__host.args.target));\n"
+    },
+    {
+      "id": "basic/args-missing-key",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": [],
+      "code": "__host.log(String(__host.args.nope));\n"
+    },
+    {
+      "id": "basic/single-ask",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\");\nreturn await __host.ask(\"ask#1\", a, \"do\");\n"
+    },
+    {
+      "id": "basic/named-agent",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const planner = __host.createActor(\"actor#1\", \"planner\");\nreturn await __host.ask(\"ask#1\", planner, \"plan\");\n"
+    },
+    {
+      "id": "basic/persona-string",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const p = __host.createActor(\"actor#1\", \"p\", \"you are careful\");\nreturn await __host.ask(\"ask#1\", p, \"x\");\n"
+    },
+    {
+      "id": "basic/persona-object",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const p = __host.createActor(\"actor#1\", \"p\", { system: \"you are careful\" });\nreturn await __host.ask(\"ask#1\", p, \"x\");\n"
+    },
+    {
+      "id": "basic/anonymous-two",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["ask#1", "actor#1", "ask#2", "actor#2"],
+      "code": "const x = await __host.ask(\"ask#1\", __host.createActor(\"actor#1\"), \"first\");\nreturn await __host.ask(\"ask#2\", __host.createActor(\"actor#2\"), x);\n"
+    },
+    {
+      "id": "basic/ask-typed",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const p = __host.createActor(\"actor#1\", \"p\");\nconst plan = await __host.ask(\"ask#1\", p, \"make a plan\");\nreturn plan.steps;\n"
+    },
+    {
+      "id": "basic/ask-literal-union",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst verdict = await __host.ask(\"ask#1\", a, \"judge\");\nreturn verdict;\n"
+    },
+    {
+      "id": "basic/sequential-asks",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1", "ask#2"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst one = await __host.ask(\"ask#1\", a, \"one\");\nconst two = await __host.ask(\"ask#2\", a, one);\nreturn two;\n"
+    },
+    {
+      "id": "basic/return-object",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst r = await __host.ask(\"ask#1\", a, \"r\");\nreturn { r, n: 1 };\n"
+    },
+    {
+      "id": "basic/return-array",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nreturn [await __host.ask(\"ask#1\", a, \"x\")];\n"
+    },
+    {
+      "id": "basic/return-void",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nawait __host.ask(\"ask#1\", a, \"x\");\n"
+    },
+    {
+      "id": "basic/return-number",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst n = (await __host.ask(\"ask#1\", a, \"n\")).length;\nreturn n;\n"
+    },
+    {
+      "id": "basic/return-nothing",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": [],
+      "code": "__host.log(\"no output\");\n"
+    },
+    {
+      "id": "basic/const-shadow",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "actor#2", "ask#1", "ask#2"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\n{\n    const a = __host.createActor(\"actor#2\", \"b\");\n    await __host.ask(\"ask#1\", a, \"inner\");\n}\nreturn await __host.ask(\"ask#2\", a, \"outer\");\n"
+    },
+    {
+      "id": "basic/helper-function",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "async function run(label) { const a = __host.createActor(\"actor#1\", \"w\"); return await __host.ask(\"ask#1\", a, label); }\nreturn await run(\"first\");\n"
+    },
+    {
+      "id": "basic/helper-two-agents",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "actor#2", "ask#1", "ask#2"],
+      "code": "const x = __host.createActor(\"actor#1\", \"x\");\nconst y = __host.createActor(\"actor#2\", \"y\");\nasync function relay(v) { return await __host.ask(\"ask#1\", x, v); }\nreturn await __host.ask(\"ask#2\", y, await relay(\"seed\"));\n"
+    },
+    {
+      "id": "basic/unicode-labels",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const 审查员 = __host.createActor(\"actor#1\", \"审查员\");\n__host.enterPhase(\"\\u6C47\\u603B\\u5E76\\u4EA7\\u51FA\\u6700\\u7EC8\\u62A5\\u544A\");\nconst 审阅 = await __host.ask(\"ask#1\", 审查员, \"审阅 diff\");\nreturn 审阅.length > 0 ? 审阅 : \"empty\";\n"
+    },
+    {
+      "id": "basic/long-instructions",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nreturn await __host.ask(\"ask#1\", a, \"review carefully review carefully review carefully review carefully review carefully review carefully review carefully review carefully review carefully review carefully review carefully review carefully review carefully review carefully review carefully review carefully review carefully review carefully review carefully review carefully \");\n"
+    },
+    {
+      "id": "basic/args-plus-ask",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst target = String(__host.args.target ?? \"src\");\nreturn await __host.ask(\"ask#1\", a, \"review \" + target);\n"
+    },
+    {
+      "id": "basic/nested-let-blocks",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["ask#1", "actor#1", "ask#2", "actor#2"],
+      "code": "let acc = \"seed\";\n{\n    let inner = await __host.ask(\"ask#1\", __host.createActor(\"actor#1\", \"a\"), acc);\n    {\n        acc = await __host.ask(\"ask#2\", __host.createActor(\"actor#2\", \"b\"), inner);\n    }\n}\nreturn acc;\n"
+    },
+    {
+      "id": "basic/for-await-nodes",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst nodes = [\"p\", \"q\"].map((k) => __host.ask(\"ask#1\", a, k));\nconst out = [];\nfor await (const v of nodes) {\n    out.push(v);\n}\nreturn out;\n"
+    },
+    {
+      "id": "basic/helper-node-param",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "async function once(p) { return await p; }\nconst a = __host.createActor(\"actor#1\", \"a\");\nreturn await once(__host.ask(\"ask#1\", a, \"x\"));\n"
+    },
+    {
+      "id": "basic/string-formatting",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst text = await __host.ask(\"ask#1\", a, \"t\");\nreturn `len=${text.length}`;\n"
+    },
+    {
+      "id": "basic/nested-arrow-async",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst run = async (v) => await __host.ask(\"ask#1\", a, v);\nreturn await run(\"seed\");\n"
+    },
+    {
+      "id": "basic/default-param-helper",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["ask#1", "actor#1"],
+      "code": "async function go(label = \"d\") { return await __host.ask(\"ask#1\", __host.createActor(\"actor#1\", \"w\"), label); }\nreturn await go();\n"
+    },
+    {
+      "id": "basic/interface-narrowing",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst box = await __host.ask(\"ask#1\", a, \"b\");\nif (typeof box.v === \"string\") {\n    return box.v;\n}\nreturn \"none\";\n"
+    },
+    {
+      "id": "basic/array-at-helper",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst rows = [];\nrows.push(await __host.ask(\"ask#1\", a, \"x\"));\nreturn rows.at(0) ?? \"none\";\n"
+    },
+    {
+      "id": "basic/boolean-guard-return",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst text = await __host.ask(\"ask#1\", a, \"x\");\nif (text.length > 0) {\n    return true;\n}\nreturn false;\n"
+    },
+    {
+      "id": "basic/number-typed-return",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst n = (await __host.ask(\"ask#1\", a, \"n\")).length;\nreturn n;\n"
+    },
+    {
+      "id": "basic/spread-join-args",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst parts = [\"p\", \"q\"];\nreturn await __host.ask(\"ask#1\", a, parts.join(\",\"));\n"
+    },
+    {
+      "id": "basic/object-return-nested",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst inner = await __host.ask(\"ask#1\", a, \"i\");\nreturn { outer: { inner, n: 1 } };\n"
+    },
+    {
+      "id": "basic/two-helpers-chained",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1", "ask#2"],
+      "code": "const x = __host.createActor(\"actor#1\", \"x\");\nasync function first(v) { return await __host.ask(\"ask#1\", x, v); }\nasync function second(v) { return await __host.ask(\"ask#2\", x, v + \"!\"); }\nreturn await second(await first(\"seed\"));\n"
+    },
+    {
+      "id": "basic/generic-passthrough",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "async function echo(v) { return v; }\nconst a = __host.createActor(\"actor#1\", \"a\");\nreturn await echo(await __host.ask(\"ask#1\", a, \"x\"));\n"
+    },
+    {
+      "id": "phases/single",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["ask#1", "actor#1"],
+      "code": "__host.enterPhase(\"research\");\nreturn await __host.ask(\"ask#1\", __host.createActor(\"actor#1\", \"a\"), \"x\");\n"
+    },
+    {
+      "id": "phases/three-markers",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1", "ask#2", "ask#3"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\n__host.enterPhase(\"one\");\nconst x = await __host.ask(\"ask#1\", a, \"1\");\n__host.enterPhase(\"two\");\nconst y = await __host.ask(\"ask#2\", a, x);\n__host.enterPhase(\"three\");\nreturn await __host.ask(\"ask#3\", a, y);\n"
+    },
+    {
+      "id": "phases/repeated-name-merges",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1", "ask#2"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\n__host.enterPhase(\"gate\");\nconst x = await __host.ask(\"ask#1\", a, \"1\");\nif (x.length > 0) {\n    __host.enterPhase(\"gate\");\n    await __host.ask(\"ask#2\", a, \"2\");\n}\nreturn x;\n"
+    },
+    {
+      "id": "phases/inside-loop",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nfor (const k of [\"1\", \"2\"]) {\n    __host.enterPhase(\"round\");\n    await __host.ask(\"ask#1\", a, k);\n}\nreturn \"done\";\n"
+    },
+    {
+      "id": "phases/inside-if-branch",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1", "ask#2"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst flag = true;\nif (flag) {\n    __host.enterPhase(\"branch\");\n    await __host.ask(\"ask#1\", a, \"in\");\n}\nelse {\n    await __host.ask(\"ask#2\", a, \"out\");\n}\nreturn \"done\";\n"
+    },
+    {
+      "id": "phases/no-substitution-template",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["ask#1", "actor#1"],
+      "code": "__host.enterPhase(\"plain name\");\nreturn await __host.ask(\"ask#1\", __host.createActor(\"actor#1\", \"a\"), \"x\");\n"
+    },
+    {
+      "id": "phases/empty-then-work",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\n__host.enterPhase(\"prep\");\nconst prompt = \"assemble\";\n__host.enterPhase(\"work\");\nreturn await __host.ask(\"ask#1\", a, prompt);\n"
+    },
+    {
+      "id": "phases/trailing-marker-no-work",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst r = await __host.ask(\"ask#1\", a, \"x\");\n__host.enterPhase(\"wrap\");\nreturn r;\n"
+    },
+    {
+      "id": "phases/non-literal-name",
+      "expect": "diagnostics",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["ask#1", "actor#1"],
+      "code": "const name = \"dynamic\";\nvoid 0;\nreturn await __host.ask(\"ask#1\", __host.createActor(\"actor#1\", \"a\"), \"x\");\n"
+    },
+    {
+      "id": "phases/template-with-hole",
+      "expect": "diagnostics",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["ask#1", "actor#1"],
+      "code": "const i = 1;\nvoid 0;\nreturn await __host.ask(\"ask#1\", __host.createActor(\"actor#1\", \"a\"), \"x\");\n"
+    },
+    {
+      "id": "phases/empty-name",
+      "expect": "diagnostics",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["ask#1", "actor#1"],
+      "code": "void 0;\nreturn await __host.ask(\"ask#1\", __host.createActor(\"actor#1\", \"a\"), \"x\");\n"
+    },
+    {
+      "id": "phases/expression-position",
+      "expect": "diagnostics",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst captured = __host.enterPhase(\"bad\");\nreturn await __host.ask(\"ask#1\", a, \"x\");\n"
+    },
+    {
+      "id": "phases/assignment-position",
+      "expect": "diagnostics",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nlet slot = 1;\nslot = __host.enterPhase(\"bad\");\nreturn await __host.ask(\"ask#1\", a, \"x\");\n"
+    },
+    {
+      "id": "phases/in-nested-function",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nasync function inner() { __host.enterPhase(\"deep\"); return await __host.ask(\"ask#1\", a, \"x\"); }\nreturn await inner();\n"
+    },
+    {
+      "id": "phases/around-two-loops",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1", "ask#2"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\n__host.enterPhase(\"first loop\");\nfor (const k of [\"1\", \"2\"]) {\n    await __host.ask(\"ask#1\", a, k);\n}\n__host.enterPhase(\"second loop\");\nfor (const k of [\"3\", \"4\"]) {\n    await __host.ask(\"ask#2\", a, k);\n}\nreturn \"done\";\n"
+    },
+    {
+      "id": "phases/inside-try",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\ntry {\n    __host.enterPhase(\"body\");\n    await __host.ask(\"ask#1\", a, \"x\");\n}\ncatch {\n    __host.log(\"cleanup\");\n}\nreturn \"done\";\n"
+    },
+    {
+      "id": "phases/inside-while",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nlet i = 0;\nwhile (i < 2) {\n    __host.enterPhase(\"round\");\n    await __host.ask(\"ask#1\", a, String(i));\n    i += 1;\n}\nreturn \"done\";\n"
+    },
+    {
+      "id": "phases/prep-then-if-work",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\n__host.enterPhase(\"prep\");\nif (true) {\n    await __host.ask(\"ask#1\", a, \"x\");\n}\nreturn \"done\";\n"
+    },
+    {
+      "id": "phases/then-world-run",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["world-read#1"],
+      "code": "__host.enterPhase(\"run the check\");\nconst r = await __host.worldRead(\"world-read#1\", \"run\", [\"node\", [\"--version\"]]);\nreturn r.stdout;\n"
+    },
+    {
+      "id": "phases/loop-then-close-out",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1", "ask#2"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nfor (const k of [\"1\", \"2\"]) {\n    await __host.ask(\"ask#1\", a, k);\n}\n__host.enterPhase(\"close out\");\nreturn await __host.ask(\"ask#2\", a, \"summary\");\n"
+    },
+    {
+      "id": "phases/no-marker-single-stage",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1", "ask#2"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst one = await __host.ask(\"ask#1\", a, \"1\");\nreturn await __host.ask(\"ask#2\", a, one);\n"
+    },
+    {
+      "id": "fanout/map-inline",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["ask#1", "actor#1"],
+      "code": "const xs = [\"a\", \"b\"];\nreturn await Promise.all(xs.map(async (x) => await __host.ask(\"ask#1\", __host.createActor(\"actor#1\", \"r-\" + x), x)));\n"
+    },
+    {
+      "id": "fanout/map-named-agent",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"reviewer\");\nconst xs = [\"a\", \"b\"];\nreturn await Promise.all(xs.map(async (x) => await __host.ask(\"ask#1\", a, x)));\n"
+    },
+    {
+      "id": "fanout/map-named-callback",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nasync function review(x) { return await __host.ask(\"ask#1\", a, x); }\nconst xs = [\"m\", \"n\"];\nreturn await Promise.all(xs.map(review));\n"
+    },
+    {
+      "id": "fanout/map-sync-callback",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst xs = [\"m\", \"n\"];\nreturn await Promise.all(xs.map((x) => __host.ask(\"ask#1\", a, x)));\n"
+    },
+    {
+      "id": "fanout/map-world-read",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["world-read#1"],
+      "code": "const files3 = [\"a.ts\", \"b.ts\"];\nconst texts = await Promise.all(files3.map(async (f) => await __host.worldRead(\"world-read#1\", \"read\", [f])));\nreturn texts;\n"
+    },
+    {
+      "id": "fanout/filter-then-map",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["ask#1", "actor#1"],
+      "code": "const xs = [\"a\", \"b\", \"c\"];\nconst kept = xs.filter((x) => x !== \"b\");\nreturn await Promise.all(kept.map(async (x) => await __host.ask(\"ask#1\", __host.createActor(\"actor#1\", \"r-\" + x), x)));\n"
+    },
+    {
+      "id": "fanout/flatMap",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["ask#1", "actor#1"],
+      "code": "const groups = [[\"a\", \"b\"], [\"c\"]];\nreturn await Promise.all(groups.flatMap((g) => g.map(async (x) => await __host.ask(\"ask#1\", __host.createActor(\"actor#1\", \"c-\" + x), x))));\n"
+    },
+    {
+      "id": "fanout/forEach-side-effect",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst xs = [\"p\", \"q\"];\nconst held = [];\nxs.forEach((x) => { held.push(__host.ask(\"ask#1\", a, x)); });\nreturn await Promise.all(held);\n"
+    },
+    {
+      "id": "fanout/reduce-to-nodes",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst xs = [\"p\", \"q\"];\nconst held = xs.reduce((acc, x) => { acc.push(__host.ask(\"ask#1\", a, x)); return acc; }, []);\nreturn await Promise.all(held);\n"
+    },
+    {
+      "id": "fanout/array-from",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst keys = [\"k1\", \"k2\"];\nreturn await Promise.all(Array.from(keys, async (k) => await __host.ask(\"ask#1\", a, k)));\n"
+    },
+    {
+      "id": "fanout/for-of-literal",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["ask#1", "actor#1"],
+      "code": "const out = [];\nfor (const k of [\"a\", \"b\"]) {\n    out.push(await __host.ask(\"ask#1\", __host.createActor(\"actor#1\", \"r-\" + k), k));\n}\nreturn out;\n"
+    },
+    {
+      "id": "fanout/for-of-const-binding",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["ask#1", "actor#1"],
+      "code": "const xs = [\"a\", \"b\"];\nconst out = [];\nfor (const x of xs) {\n    out.push(await __host.ask(\"ask#1\", __host.createActor(\"actor#1\", \"r-\" + x), x));\n}\nreturn out;\n"
+    },
+    {
+      "id": "fanout/for-of-await-all",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["ask#1", "actor#1"],
+      "code": "const xs = [\"a\", \"b\"];\nconst held = xs.map((x) => __host.ask(\"ask#1\", __host.createActor(\"actor#1\", \"r-\" + x), x));\nreturn await Promise.all(held);\n"
+    },
+    {
+      "id": "fanout/for-await-of-nodes",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["ask#1", "actor#1"],
+      "code": "const xs = [\"a\", \"b\"];\nconst held = xs.map((x) => __host.ask(\"ask#1\", __host.createActor(\"actor#1\", \"r-\" + x), x));\nconst out = [];\nfor await (const v of held) {\n    out.push(v);\n}\nreturn out;\n"
+    },
+    {
+      "id": "fanout/nested-map",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["ask#1", "actor#1"],
+      "code": "const rows = [[\"a1\", \"a2\"], [\"b1\"]];\nreturn await Promise.all(rows.map(async (row) => await Promise.all(row.map(async (cell) => await __host.ask(\"ask#1\", __host.createActor(\"actor#1\", \"c-\" + cell), cell)))));\n"
+    },
+    {
+      "id": "fanout/map-with-phase",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["ask#1", "actor#1"],
+      "code": "__host.enterPhase(\"review files\");\nconst xs = [\"a.ts\", \"b.ts\"];\nreturn await Promise.all(xs.map(async (x) => await __host.ask(\"ask#1\", __host.createActor(\"actor#1\", \"reviewer-\" + x), \"review \" + x)));\n"
+    },
+    {
+      "id": "fanout/fanout-inside-loop",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["ask#1", "actor#1"],
+      "code": "const out = [];\nfor (const round of [\"r1\", \"r2\"]) {\n    const xs = [\"a\", \"b\"];\n    const batch = await Promise.all(xs.map(async (x) => await __host.ask(\"ask#1\", __host.createActor(\"actor#1\", round + \"-\" + x), x)));\n    out.push(...batch);\n}\nreturn out;\n"
+    },
+    {
+      "id": "fanout/static-name-in-fanout",
+      "expect": "diagnostics",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["ask#1", "actor#1"],
+      "code": "const xs = [\"a\", \"b\"];\nreturn await Promise.all(xs.map(async (x) => await __host.ask(\"ask#1\", __host.createActor(\"actor#1\", \"static\"), x)));\n"
+    },
+    {
+      "id": "fanout/no-facade-in-body",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": [],
+      "code": "const xs = [\"a\", \"b\"];\nconst upper = xs.map((x) => x.toUpperCase());\nreturn upper;\n"
+    },
+    {
+      "id": "fanout/for-of-no-facade",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": [],
+      "code": "let acc = 0;\nfor (const n of [1, 2, 3]) {\n    acc += n;\n}\nreturn acc;\n"
+    },
+    {
+      "id": "fanout/cardinality-1",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst xs = [\"only\"];\nreturn await Promise.all(xs.map(async (x) => await __host.ask(\"ask#1\", a, x)));\n"
+    },
+    {
+      "id": "fanout/cardinality-8",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst xs = [\"1\", \"2\", \"3\", \"4\", \"5\", \"6\", \"7\", \"8\"];\nreturn await Promise.all(xs.map(async (x) => await __host.ask(\"ask#1\", a, x)));\n"
+    },
+    {
+      "id": "fanout/cardinality-9-over-cap",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst xs = [\"1\", \"2\", \"3\", \"4\", \"5\", \"6\", \"7\", \"8\", \"9\"];\nreturn await Promise.all(xs.map(async (x) => await __host.ask(\"ask#1\", a, x)));\n"
+    },
+    {
+      "id": "fanout/cardinality-empty-literal",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst xs = [];\nreturn await Promise.all(xs.map(async (x) => await __host.ask(\"ask#1\", a, x)));\n"
+    },
+    {
+      "id": "fanout/cardinality-let-mutated",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nlet xs = [\"a\", \"b\"];\nxs = [\"c\"];\nreturn await Promise.all(xs.map(async (x) => await __host.ask(\"ask#1\", a, x)));\n"
+    },
+    {
+      "id": "fanout/cardinality-push-invalidates",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst xs = [\"a\", \"b\"];\nxs.push(\"c\");\nreturn await Promise.all(xs.map(async (x) => await __host.ask(\"ask#1\", a, x)));\n"
+    },
+    {
+      "id": "fanout/cardinality-glob",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["world-read#1", "ask#1", "actor#1"],
+      "code": "const names = await __host.worldRead(\"world-read#1\", \"glob\", [\"src/**/*.ts\"]);\nreturn await Promise.all(names.map(async (n) => await __host.ask(\"ask#1\", __host.createActor(\"actor#1\", \"r-\" + n), n)));\n"
+    },
+    {
+      "id": "fanout/callback-receiver-chain",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst xs = [\"m\", \"n\"];\nconst nodes = xs.map((x) => __host.ask(\"ask#1\", a, x));\nreturn await Promise.all(nodes);\n"
+    },
+    {
+      "id": "fanout/map-object-pair",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["ask#1", "actor#1"],
+      "code": "const entries = [[\"k\", \"v\"]];\nreturn await Promise.all(entries.map(async ([k, v]) => await __host.ask(\"ask#1\", __host.createActor(\"actor#1\", \"e-\" + k), k + \"=\" + v)));\n"
+    },
+    {
+      "id": "fanout/generator-array-from",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nfunction* keys() { yield \"x\"; yield \"y\"; }\nreturn await Promise.all(Array.from(keys(), async (k) => await __host.ask(\"ask#1\", a, k)));\n"
+    },
+    {
+      "id": "fanout/map-returns-node-direct",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["ask#1", "actor#1"],
+      "code": "const xs = [\"a\", \"b\"];\nreturn await Promise.all(xs.map((x) => __host.ask(\"ask#1\", __host.createActor(\"actor#1\", \"r-\" + x), x)));\n"
+    },
+    {
+      "id": "fanout/helper-declared-outside",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["ask#1", "actor#1"],
+      "code": "async function review(x) { return await __host.ask(\"ask#1\", __host.createActor(\"actor#1\", \"r\"), x); }\nconst xs = [\"a\", \"b\"];\nreturn await Promise.all(xs.map(async (x) => await review(x)));\n"
+    },
+    {
+      "id": "fanout/typed-generic-callback",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["ask#1", "actor#1"],
+      "code": "async function review(item) { return await __host.ask(\"ask#1\", __host.createActor(\"actor#1\", \"r\"), String(item)); }\nconst xs = [\"a\", \"b\"];\nreturn await Promise.all(xs.map(async (x) => await review(x)));\n"
+    },
+    {
+      "id": "fanout/callback-with-try",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst xs = [\"a\", \"b\"];\nreturn await Promise.all(xs.map(async (x) => {\n    try {\n        return await __host.ask(\"ask#1\", a, x);\n    }\n    catch {\n        return \"fail\";\n    }\n}));\n"
+    },
+    {
+      "id": "fanout/phase-inside-callback",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst xs = [\"a\", \"b\"];\nreturn await Promise.all(xs.map(async (x) => { __host.enterPhase(\"review item\"); return await __host.ask(\"ask#1\", a, x); }));\n"
+    },
+    {
+      "id": "fanout/for-of-push-await",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst out = [];\nfor (const k of [\"a\", \"b\"]) {\n    out.push(await __host.ask(\"ask#1\", a, k));\n}\nreturn out;\n"
+    },
+    {
+      "id": "fanout/for-of-push-world-read",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["world-read#1"],
+      "code": "const out = [];\nfor (const n of [\"a.txt\", \"b.txt\"]) {\n    out.push(await __host.worldRead(\"world-read#1\", \"read\", [n]));\n}\nreturn out;\n"
+    },
+    {
+      "id": "fanout/reduce-async-callback",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst xs = [\"p\", \"q\"];\nconst held = xs.reduce((acc, x) => { acc.push(__host.ask(\"ask#1\", a, x)); return acc; }, []);\nreturn (await Promise.all(held)).join(\"\");\n"
+    },
+    {
+      "id": "fanout/map-over-string-chars",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst s = \"ab\";\nreturn await Promise.all(Array.from(s).map(async (c) => await __host.ask(\"ask#1\", a, c)));\n"
+    },
+    {
+      "id": "fanout/nested-for-of-fanout",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["ask#1", "actor#1"],
+      "code": "const out = [];\nfor (const row of [[\"a1\", \"a2\"], [\"b1\"]]) {\n    for (const cell of row) {\n        out.push(await __host.ask(\"ask#1\", __host.createActor(\"actor#1\", \"c-\" + cell), cell));\n    }\n}\nreturn out;\n"
+    },
+    {
+      "id": "fanout/fanout-inside-try",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\ntry {\n    const xs = [\"a\", \"b\"];\n    return await Promise.all(xs.map(async (x) => await __host.ask(\"ask#1\", a, x)));\n}\ncatch {\n    return [\"recovered\"];\n}\n"
+    },
+    {
+      "id": "fanout/held-batch-then-intro",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1", "ask#2"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst xs = [\"a\", \"b\"];\nconst held = Promise.all(xs.map((x) => __host.ask(\"ask#1\", a, x)));\nawait __host.ask(\"ask#2\", a, \"intro\");\nreturn await held;\n"
+    },
+    {
+      "id": "fanout/map-object-values",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst cfg = { alpha: \"1\", beta: \"2\" };\nreturn await Promise.all(Object.values(cfg).map(async (v) => await __host.ask(\"ask#1\", a, v)));\n"
+    },
+    {
+      "id": "fanout/for-await-map-nodes",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst xs = [\"a\", \"b\"];\nconst nodes = xs.map((x) => __host.ask(\"ask#1\", a, x));\nconst out = [];\nfor await (const v of nodes) {\n    out.push(v);\n}\nreturn out.length;\n"
+    },
+    {
+      "id": "fanout/world-read-in-fanout-callback",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["world-read#1"],
+      "code": "const names = [\"a.txt\", \"b.txt\"];\nreturn await Promise.all(names.map(async (n) => await __host.worldRead(\"world-read#1\", \"read\", [n])));\n"
+    },
+    {
+      "id": "joins/all-two-asks",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "actor#2", "ask#1", "ask#2"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst b = __host.createActor(\"actor#2\", \"b\");\nreturn await Promise.all([__host.ask(\"ask#1\", a, \"1\"), __host.ask(\"ask#2\", b, \"2\")]);\n"
+    },
+    {
+      "id": "joins/all-nested",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1", "ask#2"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst inner = __host.ask(\"ask#1\", a, \"i\");\nconst outer = [inner, __host.ask(\"ask#2\", a, \"o\")];\nreturn await Promise.all(outer);\n"
+    },
+    {
+      "id": "joins/all-settled",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1", "ask#2"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nreturn await Promise.allSettled([__host.ask(\"ask#1\", a, \"1\"), __host.ask(\"ask#2\", a, \"2\")]);\n"
+    },
+    {
+      "id": "joins/all-of-world-reads",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["world-read#1", "world-read#2"],
+      "code": "return await Promise.all([__host.worldRead(\"world-read#1\", \"read\", [\"a.txt\"]), __host.worldRead(\"world-read#2\", \"read\", [\"b.txt\"])]);\n"
+    },
+    {
+      "id": "joins/all-mixed",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "world-read#1", "ask#1", "ask#2"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst text = await __host.worldRead(\"world-read#1\", \"read\", [\"cfg.json\"]);\nreturn await Promise.all([__host.ask(\"ask#1\", a, text), __host.ask(\"ask#2\", a, \"static\")]);\n"
+    },
+    {
+      "id": "joins/join-feeds-ask",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1", "ask#2", "ask#3", "actor#2"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst both = await Promise.all([__host.ask(\"ask#1\", a, \"1\"), __host.ask(\"ask#2\", a, \"2\")]);\nreturn await __host.ask(\"ask#3\", __host.createActor(\"actor#2\", \"sum\"), both.join(\" \"));\n"
+    },
+    {
+      "id": "joins/all-of-empty",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": [],
+      "code": "return await Promise.all([]);\n"
+    },
+    {
+      "id": "joins/all-single",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nreturn await Promise.all([__host.ask(\"ask#1\", a, \"only\")]);\n"
+    },
+    {
+      "id": "joins/spread-into-all",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1", "ask#2"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst parts = [__host.ask(\"ask#1\", a, \"1\"), __host.ask(\"ask#2\", a, \"2\")];\nreturn await Promise.all([...parts]);\n"
+    },
+    {
+      "id": "joins/all-of-then-chains",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1", "ask#2"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst one = __host.ask(\"ask#1\", a, \"1\").then(async (v) => v + \"!\");\nreturn await Promise.all([one, __host.ask(\"ask#2\", a, \"2\")]);\n"
+    },
+    {
+      "id": "joins/all-of-three-agents",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "actor#2", "actor#3", "ask#1", "ask#2", "ask#3"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst b = __host.createActor(\"actor#2\", \"b\");\nconst c = __host.createActor(\"actor#3\", \"c\");\nreturn await Promise.all([__host.ask(\"ask#1\", a, \"1\"), __host.ask(\"ask#2\", b, \"2\"), __host.ask(\"ask#3\", c, \"3\")]);\n"
+    },
+    {
+      "id": "joins/join-inside-helper",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1", "ask#2"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nasync function both() { return await Promise.all([__host.ask(\"ask#1\", a, \"l\"), __host.ask(\"ask#2\", a, \"r\")]); }\nreturn (await both()).join(\"/\");\n"
+    },
+    {
+      "id": "joins/all-of-reads-then-ask",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "world-read#1", "world-read#2", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst texts = await Promise.all([__host.worldRead(\"world-read#1\", \"read\", [\"x.txt\"]), __host.worldRead(\"world-read#2\", \"read\", [\"y.txt\"])]);\nreturn await __host.ask(\"ask#1\", a, texts.join(\"---\"));\n"
+    },
+    {
+      "id": "async/await-in-loop",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nlet acc = \"seed\";\nfor (const k of [\"1\", \"2\", \"3\"]) {\n    acc = await __host.ask(\"ask#1\", a, acc + k);\n}\nreturn acc;\n"
+    },
+    {
+      "id": "async/while-loop-await",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nlet i = 0;\nlet last = \"\";\nwhile (i < 2) {\n    last = await __host.ask(\"ask#1\", a, String(i));\n    i += 1;\n}\nreturn last;\n"
+    },
+    {
+      "id": "async/do-while-await",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nlet i = 0;\nlet last = \"\";\ndo {\n    last = await __host.ask(\"ask#1\", a, String(i));\n    i += 1;\n} while (i < 1);\nreturn last;\n"
+    },
+    {
+      "id": "async/then-chain",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1", "ask#2"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst answer = await __host.ask(\"ask#1\", a, \"seed\").then(async (v) => __host.ask(\"ask#2\", a, v));\nreturn answer;\n"
+    },
+    {
+      "id": "async/then-two-hops",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1", "ask#2", "ask#3"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst answer = await __host.ask(\"ask#1\", a, \"1\").then((v) => __host.ask(\"ask#2\", a, v)).then((v) => __host.ask(\"ask#3\", a, v));\nreturn answer;\n"
+    },
+    {
+      "id": "async/held-await-twice",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst held = __host.ask(\"ask#1\", a, \"held\");\nconst one = await held;\nconst two = await held;\nreturn one + two;\n"
+    },
+    {
+      "id": "async/parallel-hold",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "actor#2", "ask#1", "ask#2"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst b = __host.createActor(\"actor#2\", \"b\");\nconst left = __host.ask(\"ask#1\", a, \"l\");\nconst right = __host.ask(\"ask#2\", b, \"r\");\nreturn (await left) + (await right);\n"
+    },
+    {
+      "id": "async/async-helper-nested",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1", "ask#2"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nasync function step(v) { const mid = await __host.ask(\"ask#1\", a, v); return await __host.ask(\"ask#2\", a, mid); }\nreturn await step(\"seed\");\n"
+    },
+    {
+      "id": "async/recursive-helper",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nasync function descend(depth) {\n    if (depth <= 0)\n        return \"leaf\";\n    return await __host.ask(\"ask#1\", a, await descend(depth - 1));\n}\nreturn await descend(2);\n"
+    },
+    {
+      "id": "async/try-finally-await",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\ntry {\n    return await __host.ask(\"ask#1\", a, \"body\");\n}\nfinally {\n    __host.log(\"cleanup\");\n}\n"
+    },
+    {
+      "id": "async/new-promise-executor",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst value = await new Promise((resolve) => { void __host.ask(\"ask#1\", a, \"x\").then(resolve); });\nreturn value;\n"
+    },
+    {
+      "id": "async/promise-reject-caught",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\ntry {\n    await Promise.reject(new Error(\"boom\"));\n}\ncatch {\n    return await __host.ask(\"ask#1\", a, \"recovered\");\n}\nreturn \"unreachable\";\n"
+    },
+    {
+      "id": "async/await-undefined",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst maybe = undefined;\nconst v = await Promise.resolve(maybe ?? \"fallback\");\nreturn await __host.ask(\"ask#1\", a, v);\n"
+    },
+    {
+      "id": "async/sequential-world-then-ask",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["world-read#1", "ask#1", "actor#1"],
+      "code": "const run = await __host.worldRead(\"world-read#1\", \"run\", [\"node\", [\"-e\", \"console.log(1)\"]]);\nreturn await __host.ask(\"ask#1\", __host.createActor(\"actor#1\", \"a\"), \"exit=\" + run.exitCode);\n"
+    },
+    {
+      "id": "async/iife-await",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst v = await(async () => await __host.ask(\"ask#1\", a, \"x\"))();\nreturn v;\n"
+    },
+    {
+      "id": "async/promise-resolve-static",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nreturn await Promise.resolve(__host.ask(\"ask#1\", a, \"x\"));\n"
+    },
+    {
+      "id": "async/await-array-index",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1", "ask#2"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst held = [__host.ask(\"ask#1\", a, \"1\"), __host.ask(\"ask#2\", a, \"2\")];\nreturn await held[1];\n"
+    },
+    {
+      "id": "async/deep-then-chain",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1", "ask#2", "ask#3", "ask#4"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst v = await __host.ask(\"ask#1\", a, \"1\").then((x) => __host.ask(\"ask#2\", a, x)).then((x) => __host.ask(\"ask#3\", a, x)).then((x) => __host.ask(\"ask#4\", a, x));\nreturn v;\n"
+    },
+    {
+      "id": "async/shared-node-two-helpers",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst held = __host.ask(\"ask#1\", a, \"seed\");\nasync function left() { return await held; }\nasync function right() { return await held; }\nreturn (await left()) + (await right());\n"
+    },
+    {
+      "id": "async/await-in-class-method",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["ask#1", "actor#1"],
+      "code": "class Worker {\n    async go() { return await __host.ask(\"ask#1\", __host.createActor(\"actor#1\", \"w\"), \"x\"); }\n}\nconst w = new Worker();\nreturn await w.go();\n"
+    },
+    {
+      "id": "async/recursion-depth-3",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nasync function descend(depth) {\n    if (depth <= 0)\n        return \"leaf\";\n    return await __host.ask(\"ask#1\", a, await descend(depth - 1));\n}\nreturn await descend(3);\n"
+    },
+    {
+      "id": "async/then-catch-recover",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst v = await __host.ask(\"ask#1\", a, \"s\").then((x) => x, () => \"fallback\");\nreturn v;\n"
+    },
+    {
+      "id": "async/await-maybe-undefined",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst maybe = __host.ask(\"ask#1\", a, \"x\");\nreturn (await maybe) ?? \"none\";\n"
+    },
+    {
+      "id": "async/queue-chain-then",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1", "ask#2"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nlet p = __host.ask(\"ask#1\", a, \"seed\");\nfor (let i = 0; i < 2; i++) {\n    p = p.then(async (v) => await __host.ask(\"ask#2\", a, v + i));\n}\nreturn await p;\n"
+    },
+    {
+      "id": "loops/for-literal-bound",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nfor (let i = 0; i < 2; i++) {\n    await __host.ask(\"ask#1\", a, \"round \" + i);\n}\nreturn \"done\";\n"
+    },
+    {
+      "id": "loops/nested-for",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nfor (let i = 0; i < 2; i++) {\n    for (let j = 0; j < 2; j++) {\n        await __host.ask(\"ask#1\", a, `${i}.${j}`);\n    }\n}\nreturn \"done\";\n"
+    },
+    {
+      "id": "loops/for-in-object",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst cfg = { alpha: \"1\", beta: \"2\" };\nfor (const key in cfg) {\n    await __host.ask(\"ask#1\", a, key + \"=\" + cfg[key]);\n}\nreturn \"done\";\n"
+    },
+    {
+      "id": "loops/break-in-loop",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nfor (const k of [\"a\", \"b\", \"c\"]) {\n    const r = await __host.ask(\"ask#1\", a, k);\n    if (r.length > 100)\n        break;\n}\nreturn \"done\";\n"
+    },
+    {
+      "id": "loops/continue-in-while",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nlet i = 0;\nwhile (i < 3) {\n    i += 1;\n    if (i === 2)\n        continue;\n    await __host.ask(\"ask#1\", a, String(i));\n}\nreturn \"done\";\n"
+    },
+    {
+      "id": "loops/switch-on-ask",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1", "ask#2", "ask#3"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst v = await __host.ask(\"ask#1\", a, \"pick\");\nswitch (v.length % 2) {\n    case 0:\n        await __host.ask(\"ask#2\", a, \"even\");\n        break;\n    default: await __host.ask(\"ask#3\", a, \"odd\");\n}\nreturn \"done\";\n"
+    },
+    {
+      "id": "loops/loop-with-world-run",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["world-read#1"],
+      "code": "const out = [];\nfor (const expr of [\"1\", \"2\"]) {\n    const r = await __host.worldRead(\"world-read#1\", \"run\", [\"node\", [\"-e\", expr]]);\n    out.push(r.exitCode);\n}\nreturn out;\n"
+    },
+    {
+      "id": "loops/early-return-in-helper",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nasync function once(kind) {\n    if (kind === \"skip\")\n        return \"skipped\";\n    return await __host.ask(\"ask#1\", a, kind);\n}\nreturn await once(\"run\");\n"
+    },
+    {
+      "id": "loops/for-step-two",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nfor (let i = 0; i < 4; i += 2) {\n    await __host.ask(\"ask#1\", a, String(i));\n}\nreturn \"done\";\n"
+    },
+    {
+      "id": "loops/nested-for-three-levels",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nfor (let i = 0; i < 2; i++) {\n    for (let j = 0; j < 2; j++) {\n        for (let k = 0; k < 2; k++) {\n            await __host.ask(\"ask#1\", a, `${i}${j}${k}`);\n        }\n    }\n}\nreturn \"done\";\n"
+    },
+    {
+      "id": "loops/while-true-break",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nwhile (true) {\n    const r = await __host.ask(\"ask#1\", a, \"poll\");\n    if (r.length > 0)\n        break;\n}\nreturn \"done\";\n"
+    },
+    {
+      "id": "loops/for-of-break-attempts",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nfor (const k of [\"a\", \"b\", \"c\"]) {\n    const r = await __host.ask(\"ask#1\", a, k);\n    if (r === \"stop\")\n        break;\n}\nreturn \"done\";\n"
+    },
+    {
+      "id": "loops/loop-phase-continue",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nfor (let i = 0; i < 3; i++) {\n    __host.enterPhase(\"round\");\n    if (i === 1) {\n        continue;\n    }\n    await __host.ask(\"ask#1\", a, String(i));\n}\nreturn \"done\";\n"
+    },
+    {
+      "id": "loops/loop-with-try-continue",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nfor (const k of [\"a\", \"b\"]) {\n    try {\n        await __host.ask(\"ask#1\", a, k);\n    }\n    catch {\n        continue;\n    }\n}\nreturn \"done\";\n"
+    },
+    {
+      "id": "control/if-else-asks",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1", "ask#2"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst flag = true;\nif (flag) {\n    return await __host.ask(\"ask#1\", a, \"yes\");\n}\nelse {\n    return await __host.ask(\"ask#2\", a, \"no\");\n}\n"
+    },
+    {
+      "id": "control/ternary-ask",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst flag = true;\nreturn await __host.ask(\"ask#1\", a, flag ? \"hot\" : \"cold\");\n"
+    },
+    {
+      "id": "control/short-circuit-guard",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst cached = undefined;\nconst v = cached || await __host.ask(\"ask#1\", a, \"fresh\");\nreturn v;\n"
+    },
+    {
+      "id": "control/nullish-ask",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst input = null;\nreturn await __host.ask(\"ask#1\", a, input ?? \"default\");\n"
+    },
+    {
+      "id": "control/optional-chain-receiver",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nfunction pick(flag) { return flag ? a : undefined; }\nconst maybe = pick(true);\nreturn (await(maybe === null || maybe === undefined ? undefined : __host.ask(\"ask#1\", maybe, \"skipped\"))) ?? \"none\";\n"
+    },
+    {
+      "id": "control/throw-caught-locally",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\ntry {\n    throw new Error(\"inner\");\n}\ncatch (e) {\n    return await __host.ask(\"ask#1\", a, \"caught \" + e.message);\n}\n"
+    },
+    {
+      "id": "control/uncaught-throw",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nawait __host.ask(\"ask#1\", a, \"x\");\nthrow new Error(\"fatal\");\n"
+    },
+    {
+      "id": "control/nested-branches",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1", "ask#2", "ask#3"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst mode = \"fast\";\nif (mode === \"fast\") {\n    if ((await __host.ask(\"ask#1\", a, \"q\")).length >= 0) {\n        return await __host.ask(\"ask#2\", a, \"fast-path\");\n    }\n}\nreturn await __host.ask(\"ask#3\", a, \"slow-path\");\n"
+    },
+    {
+      "id": "control/if-else-chain-three",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1", "ask#2", "ask#3"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst mode = \"mid\";\nif (mode === \"fast\") {\n    return await __host.ask(\"ask#1\", a, \"f\");\n}\nelse if (mode === \"mid\") {\n    return await __host.ask(\"ask#2\", a, \"m\");\n}\nelse {\n    return await __host.ask(\"ask#3\", a, \"s\");\n}\n"
+    },
+    {
+      "id": "control/throw-in-async-helper-caught",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nasync function boom() { throw new Error(\"x\"); }\ntry {\n    await boom();\n}\ncatch {\n    return await __host.ask(\"ask#1\", a, \"caught\");\n}\nreturn \"unreachable\";\n"
+    },
+    {
+      "id": "control/short-circuit-and-ask",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst flag = true;\nconst v = flag && (await __host.ask(\"ask#1\", a, \"g\"));\nreturn String(v);\n"
+    },
+    {
+      "id": "control/guard-clause-pattern",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst flag = true;\nif (!flag) {\n    return \"skip\";\n}\nreturn await __host.ask(\"ask#1\", a, \"x\");\n"
+    },
+    {
+      "id": "control/switch-fallthrough",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1", "ask#2", "ask#3", "ask#4"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst v = await __host.ask(\"ask#1\", a, \"s\");\nswitch (v.length % 3) {\n    case 0: await __host.ask(\"ask#2\", a, \"even\");\n    case 1:\n        await __host.ask(\"ask#3\", a, \"odd\");\n        break;\n    default: await __host.ask(\"ask#4\", a, \"other\");\n}\nreturn \"done\";\n"
+    },
+    {
+      "id": "control/throw-inside-loop-caught",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\ntry {\n    for (const k of [\"a\", \"b\"]) {\n        throw new Error(k);\n    }\n}\ncatch (e) {\n    return await __host.ask(\"ask#1\", a, \"caught \" + e.message);\n}\nreturn \"unreachable\";\n"
+    },
+    {
+      "id": "world/files-glob",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["world-read#1"],
+      "code": "const names = await __host.worldRead(\"world-read#1\", \"glob\", [\"*.md\"]);\nreturn names.length;\n"
+    },
+    {
+      "id": "world/files-grep",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["world-read#1"],
+      "code": "const hits = await __host.worldRead(\"world-read#1\", \"grep\", [\"TODO\", \"src/**/*.ts\"]);\nreturn hits.length;\n"
+    },
+    {
+      "id": "world/files-grep-glob",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["world-read#1"],
+      "code": "const hits = await __host.worldRead(\"world-read#1\", \"grep\", [\"export\", \"*.ts\"]);\nreturn hits[0]?.line ?? 0;\n"
+    },
+    {
+      "id": "world/files-read",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["world-read#1"],
+      "code": "const text = await __host.worldRead(\"world-read#1\", \"read\", [\"README.md\"]);\nreturn text.length;\n"
+    },
+    {
+      "id": "world/git-status",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["world-read#1"],
+      "code": "const status = await __host.worldRead(\"world-read#1\", \"git-status\", []);\nreturn status.branch ?? \"detached\";\n"
+    },
+    {
+      "id": "world/git-log",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["world-read#1"],
+      "code": "const commits = await __host.worldRead(\"world-read#1\", \"git-log\", [5]);\nreturn commits[0]?.subject ?? \"\";\n"
+    },
+    {
+      "id": "world/git-diff",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["world-read#1"],
+      "code": "const diff = await __host.worldRead(\"world-read#1\", \"git-diff\", [\"HEAD~1\", \"src\"]);\nreturn diff.length;\n"
+    },
+    {
+      "id": "world/git-changed",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["world-read#1"],
+      "code": "return await __host.worldRead(\"world-read#1\", \"git-changed-files\", []);\n"
+    },
+    {
+      "id": "world/run-literal",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["world-read#1"],
+      "code": "const r = await __host.worldRead(\"world-read#1\", \"run\", [\"node\", [\"--version\"]]);\nreturn r.stdout;\n"
+    },
+    {
+      "id": "world/run-no-substitution-template",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["world-read#1"],
+      "code": "const r = await __host.worldRead(\"world-read#1\", \"run\", [`node`, [\"--version\"]]);\nreturn r.stdout;\n"
+    },
+    {
+      "id": "world/run-timeout-opt",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["world-read#1"],
+      "code": "const r = await __host.worldRead(\"world-read#1\", \"run\", [\"node\", [\"--version\"], { timeoutMs: 5000 }]);\nreturn r.exitCode;\n"
+    },
+    {
+      "id": "world/run-non-literal-cmd",
+      "expect": "diagnostics",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["world-read#1"],
+      "code": "const cmd = \"node\";\nconst r = await __host.worldRead(\"world-read#1\", \"run\", [cmd, [\"--version\"]]);\nreturn r.stdout;\n"
+    },
+    {
+      "id": "world/run-template-with-hole",
+      "expect": "diagnostics",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["world-read#1"],
+      "code": "const v = \"1\";\nconst r = await __host.worldRead(\"world-read#1\", \"run\", [`node-${v}`]);\nreturn r.stdout;\n"
+    },
+    {
+      "id": "world/run-two-commands",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["world-read#1", "world-read#2"],
+      "code": "const a = await __host.worldRead(\"world-read#1\", \"run\", [\"git\", [\"status\"]]);\nconst b = await __host.worldRead(\"world-read#2\", \"run\", [\"node\", [\"--version\"]]);\nreturn a.exitCode + b.exitCode;\n"
+    },
+    {
+      "id": "world/run-duplicate-command",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["world-read#1", "world-read#2"],
+      "code": "const a = await __host.worldRead(\"world-read#1\", \"run\", [\"git\", [\"status\"]]);\nconst b = await __host.worldRead(\"world-read#2\", \"run\", [\"git\", [\"diff\"]]);\nreturn a.exitCode + b.exitCode;\n"
+    },
+    {
+      "id": "world/run-in-fanout",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["world-read#1"],
+      "code": "const targets = [\"a\", \"b\"];\nreturn await Promise.all(targets.map(async (t) => await __host.worldRead(\"world-read#1\", \"run\", [\"git\", [\"diff\", t]])));\n"
+    },
+    {
+      "id": "world/read-into-ask",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["world-read#1", "ask#1", "actor#1"],
+      "code": "const text = await __host.worldRead(\"world-read#1\", \"read\", [\"package.json\"]);\nreturn await __host.ask(\"ask#1\", __host.createActor(\"actor#1\", \"explainer\"), text);\n"
+    },
+    {
+      "id": "world/grep-into-fanout",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["world-read#1", "ask#1", "actor#1"],
+      "code": "const hits = await __host.worldRead(\"world-read#1\", \"grep\", [\"describe\\(\", \"test/**/*.ts\"]);\nreturn await Promise.all(hits.map(async (h) => await __host.ask(\"ask#1\", __host.createActor(\"actor#1\", \"r-\" + h.line), h.path + \":\" + h.line)));\n"
+    },
+    {
+      "id": "world/glob-non-literal-pattern",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["world-read#1"],
+      "code": "const pattern = \"src/**/*.ts\";\nconst names = await __host.worldRead(\"world-read#1\", \"glob\", [pattern]);\nreturn names.length;\n"
+    },
+    {
+      "id": "world/grep-no-glob",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["world-read#1"],
+      "code": "const hits = await __host.worldRead(\"world-read#1\", \"grep\", [\"TODO\"]);\nreturn hits.length;\n"
+    },
+    {
+      "id": "world/grep-destructure-first",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["world-read#1"],
+      "code": "const [first] = await __host.worldRead(\"world-read#1\", \"grep\", [\"TODO\", \"*.md\"]);\nreturn first?.line ?? 0;\n"
+    },
+    {
+      "id": "world/run-dynamic-args",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["world-read#1"],
+      "code": "const flags = [\"--version\"];\nconst r = await __host.worldRead(\"world-read#1\", \"run\", [\"node\", flags]);\nreturn r.stdout;\n"
+    },
+    {
+      "id": "world/run-stderr-branch",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["world-read#1"],
+      "code": "const r = await __host.worldRead(\"world-read#1\", \"run\", [\"node\", [\"-e\", \"console.error(1)\"]]);\nreturn r.stderr.length > 0 ? \"warn\" : \"quiet\";\n"
+    },
+    {
+      "id": "world/git-diff-with-path",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["world-read#1"],
+      "code": "const d = await __host.worldRead(\"world-read#1\", \"git-diff\", [\"HEAD\", \"src\"]);\nreturn d.length;\n"
+    },
+    {
+      "id": "world/changed-files-with-base",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["world-read#1"],
+      "code": "const changed = await __host.worldRead(\"world-read#1\", \"git-changed-files\", [\"HEAD~1\"]);\nreturn changed.length;\n"
+    },
+    {
+      "id": "world/world-read-loop",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["world-read#1"],
+      "code": "const out = [];\nfor (const n of [\"a.txt\", \"b.txt\"]) {\n    out.push(await __host.worldRead(\"world-read#1\", \"read\", [n]));\n}\nreturn out;\n"
+    },
+    {
+      "id": "artifacts/report-untagged",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1", "report#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst r = await __host.ask(\"ask#1\", a, \"x\");\n__host.report(\"report#1\", { finding: r });\nreturn r;\n"
+    },
+    {
+      "id": "artifacts/report-tagged-chart",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["artifact#1", "report#1"],
+      "code": "__host.declareArtifact(\"artifact#1\", \"chart\", [\"perf\", { x: { field: \"n\" }, y: { field: \"ms\" } }]);\nfor (let n = 0; n < 2; n++) {\n    __host.report(\"report#1\", { n, ms: n * 10 }, \"perf\");\n}\nreturn \"done\";\n"
+    },
+    {
+      "id": "artifacts/table-with-key",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["artifact#1", "report#1"],
+      "code": "__host.declareArtifact(\"artifact#1\", \"table\", [\"rows\", { columns: [{ field: \"name\" }, { field: \"score\" }], key: \"name\" }]);\n__host.report(\"report#1\", { name: \"a\", score: 1 }, \"rows\");\nreturn \"done\";\n"
+    },
+    {
+      "id": "artifacts/metrics-tiles",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["artifact#1", "report#1"],
+      "code": "__host.declareArtifact(\"artifact#1\", \"metrics\", [\"tiles\", { metrics: [{ field: \"count\", label: \"Count\" }] }]);\n__host.report(\"report#1\", { count: 3 }, \"tiles\");\nreturn \"done\";\n"
+    },
+    {
+      "id": "artifacts/board-columns",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["artifact#1", "report#1"],
+      "code": "__host.declareArtifact(\"artifact#1\", \"board\", [\"kanban\", { key: \"id\", status: \"column\", columns: [\"todo\", \"done\"] }]);\n__host.report(\"report#1\", { id: \"t1\", column: \"todo\" }, \"kanban\");\nreturn \"done\";\n"
+    },
+    {
+      "id": "artifacts/markdown-publish",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["artifact#1"],
+      "code": "const ref = await __host.publishArtifact(\"artifact#1\", \"markdown\", [\"summary\", \"# Title\\n\\nbody\"]);\nreturn ref.version;\n"
+    },
+    {
+      "id": "artifacts/file-publish",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["artifact#1"],
+      "code": "const ref = await __host.publishArtifact(\"artifact#1\", \"file\", [\"report\", \"out/report.html\"]);\nreturn ref.version;\n"
+    },
+    {
+      "id": "artifacts/file-in-try",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["artifact#1", "ask#1", "actor#1"],
+      "code": "try {\n    const ref = await __host.publishArtifact(\"artifact#1\", \"file\", [\"report\", \"out/report.html\"]);\n    return ref.version;\n}\ncatch {\n    return await __host.ask(\"ask#1\", __host.createActor(\"actor#1\", \"a\"), \"write it yourself\");\n}\n"
+    },
+    {
+      "id": "artifacts/primary-markdown",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["artifact#1"],
+      "code": "const ref = await __host.publishArtifact(\"artifact#1\", \"markdown\", [\"deliverable\", \"long form\", { primary: true }]);\nreturn ref.id;\n"
+    },
+    {
+      "id": "artifacts/duplicate-id-same-spec",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["artifact#1", "artifact#2", "report#1"],
+      "code": "__host.declareArtifact(\"artifact#1\", \"metrics\", [\"m\", { metrics: [{ field: \"n\" }] }]);\n__host.declareArtifact(\"artifact#2\", \"metrics\", [\"m\", { metrics: [{ field: \"n\" }] }]);\n__host.report(\"report#1\", { n: 1 }, \"m\");\nreturn \"done\";\n"
+    },
+    {
+      "id": "artifacts/report-tag-unknown",
+      "expect": "diagnostics",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["report#1"],
+      "code": "__host.report(\"report#1\", { n: 1 }, \"missing-preset\");\nreturn \"done\";\n"
+    },
+    {
+      "id": "artifacts/id-non-literal",
+      "expect": "diagnostics",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["artifact#1"],
+      "code": "const id = \"dyn\";\n__host.declareArtifact(\"artifact#1\", \"metrics\", [id, { metrics: [{ field: \"n\" }] }]);\nreturn \"done\";\n"
+    },
+    {
+      "id": "artifacts/primary-conflict",
+      "expect": "diagnostics",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["artifact#1", "artifact#2"],
+      "code": "__host.declareArtifact(\"artifact#1\", \"metrics\", [\"m\", { metrics: [{ field: \"n\" }], primary: true }]);\n__host.declareArtifact(\"artifact#2\", \"table\", [\"t\", { columns: [{ field: \"c\" }], primary: true }]);\nreturn \"done\";\n"
+    },
+    {
+      "id": "artifacts/declaration-in-loop",
+      "expect": "diagnostics",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["artifact#1"],
+      "code": "for (let i = 0; i < 2; i++) {\n    __host.declareArtifact(\"artifact#1\", \"metrics\", [\"m\" + i, { metrics: [{ field: \"n\" }] }]);\n}\nreturn \"done\";\n"
+    },
+    {
+      "id": "artifacts/id-too-long",
+      "expect": "diagnostics",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["artifact#1"],
+      "code": "__host.declareArtifact(\"artifact#1\", \"metrics\", [\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\", { metrics: [{ field: \"n\" }] }]);\nreturn \"done\";\n"
+    },
+    {
+      "id": "artifacts/report-before-declare",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["report#1", "artifact#1"],
+      "code": "__host.report(\"report#1\", { n: 1 }, \"late\");\n__host.declareArtifact(\"artifact#1\", \"metrics\", [\"late\", { metrics: [{ field: \"n\" }] }]);\nreturn \"done\";\n"
+    },
+    {
+      "id": "artifacts/many-ids",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["artifact#1", "artifact#2", "artifact#3", "artifact#4", "report#1"],
+      "code": "__host.declareArtifact(\"artifact#1\", \"metrics\", [\"m1\", { metrics: [{ field: \"a\" }] }]);\n__host.declareArtifact(\"artifact#2\", \"chart\", [\"c1\", { x: { field: \"x\" }, y: { field: \"y\" } }]);\n__host.declareArtifact(\"artifact#3\", \"table\", [\"t1\", { columns: [{ field: \"c\" }] }]);\n__host.declareArtifact(\"artifact#4\", \"board\", [\"b1\", { key: \"id\", status: \"s\", columns: [\"todo\"] }]);\n__host.report(\"report#1\", { a: 1, x: 1, y: 2, c: \"v\", id: \"t\", s: \"todo\" });\nreturn \"done\";\n"
+    },
+    {
+      "id": "artifacts/chart-baseline-log",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["artifact#1", "report#1"],
+      "code": "__host.declareArtifact(\"artifact#1\", \"chart\", [\"perf\", { x: { field: \"n\" }, y: { field: \"ms\" }, scale: \"log\", baseline: { field: \"budget\" } }]);\n__host.report(\"report#1\", { n: 1, ms: 10, budget: 8 }, \"perf\");\nreturn \"done\";\n"
+    },
+    {
+      "id": "artifacts/chart-scatter-type",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["artifact#1", "report#1"],
+      "code": "__host.declareArtifact(\"artifact#1\", \"chart\", [\"scatter\", { type: \"scatter\", x: { field: \"x\" }, y: { field: \"y\" } }]);\n__host.report(\"report#1\", { x: 1, y: 2 }, \"scatter\");\nreturn \"done\";\n"
+    },
+    {
+      "id": "artifacts/table-key-replace",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["artifact#1", "report#1", "report#2"],
+      "code": "__host.declareArtifact(\"artifact#1\", \"table\", [\"t\", { columns: [{ field: \"k\" }, { field: \"v\" }], key: \"k\" }]);\n__host.report(\"report#1\", { k: \"a\", v: 1 }, \"t\");\n__host.report(\"report#2\", { k: \"a\", v: 2 }, \"t\");\nreturn \"done\";\n"
+    },
+    {
+      "id": "artifacts/table-append-only",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["artifact#1", "report#1", "report#2"],
+      "code": "__host.declareArtifact(\"artifact#1\", \"table\", [\"rows\", { columns: [{ field: \"name\" }] }]);\n__host.report(\"report#1\", { name: \"a\" }, \"rows\");\n__host.report(\"report#2\", { name: \"b\" }, \"rows\");\nreturn \"done\";\n"
+    },
+    {
+      "id": "artifacts/metrics-two-tiles",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["artifact#1", "report#1"],
+      "code": "__host.declareArtifact(\"artifact#1\", \"metrics\", [\"tiles\", { metrics: [{ field: \"count\", label: \"Count\" }, { field: \"size\", label: \"Size\", unit: \"KB\" }] }]);\n__host.report(\"report#1\", { count: 3, size: 12 }, \"tiles\");\nreturn \"done\";\n"
+    },
+    {
+      "id": "artifacts/board-cardtitle-detail",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["artifact#1", "report#1"],
+      "code": "__host.declareArtifact(\"artifact#1\", \"board\", [\"b\", { key: \"id\", status: \"s\", columns: [\"todo\"], cardTitle: \"title\", detail: [{ field: \"n\", label: \"N\" }] }]);\n__host.report(\"report#1\", { id: \"1\", s: \"todo\", title: \"T\", n: 1 }, \"b\");\nreturn \"done\";\n"
+    },
+    {
+      "id": "artifacts/markdown-primary-last",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["artifact#1", "artifact#2"],
+      "code": "__host.declareArtifact(\"artifact#1\", \"table\", [\"t\", { columns: [{ field: \"c\" }] }]);\nconst ref = await __host.publishArtifact(\"artifact#2\", \"markdown\", [\"doc\", \"body\", { primary: true }]);\nreturn ref.version;\n"
+    },
+    {
+      "id": "artifacts/report-dot-path",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["artifact#1", "report#1"],
+      "code": "__host.declareArtifact(\"artifact#1\", \"metrics\", [\"m\", { metrics: [{ field: \"timing.after\", label: \"After\" }] }]);\n__host.report(\"report#1\", { timing: { after: 3 } }, \"m\");\nreturn \"done\";\n"
+    },
+    {
+      "id": "artifacts/publish-in-helper",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["artifact#1"],
+      "code": "async function publish() { const ref = await __host.publishArtifact(\"artifact#1\", \"markdown\", [\"doc\", \"body\"]); return ref.version; }\nreturn await publish();\n"
+    },
+    {
+      "id": "artifacts/file-and-md-two-primary",
+      "expect": "diagnostics",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["artifact#1", "artifact#2"],
+      "code": "const f = await __host.publishArtifact(\"artifact#1\", \"file\", [\"out\", \"out.html\", { primary: true }]);\nconst m = await __host.publishArtifact(\"artifact#2\", \"markdown\", [\"doc\", \"body\", { primary: true }]);\nreturn f.version + m.version;\n"
+    },
+    {
+      "id": "actors/duplicate-literal-names",
+      "expect": "diagnostics",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "actor#2", "ask#1", "ask#2"],
+      "code": "const a = __host.createActor(\"actor#1\", \"same\");\nconst b = __host.createActor(\"actor#2\", \"same\");\nawait __host.ask(\"ask#1\", a, \"1\");\nreturn await __host.ask(\"ask#2\", b, \"2\");\n"
+    },
+    {
+      "id": "actors/distinct-literal-names",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "actor#2", "ask#1", "ask#2"],
+      "code": "const a = __host.createActor(\"actor#1\", \"one\");\nconst b = __host.createActor(\"actor#2\", \"two\");\nawait __host.ask(\"ask#1\", a, \"1\");\nreturn await __host.ask(\"ask#2\", b, \"2\");\n"
+    },
+    {
+      "id": "actors/template-name",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const idx = 1;\nconst a = __host.createActor(\"actor#1\", `reviewer-${idx}`);\nreturn await __host.ask(\"ask#1\", a, \"x\");\n"
+    },
+    {
+      "id": "actors/binding-name-fallback",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const reviewer = __host.createActor(\"actor#1\");\nreturn await __host.ask(\"ask#1\", reviewer, \"x\");\n"
+    },
+    {
+      "id": "actors/anonymous-many",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["ask#1", "actor#1", "ask#2", "actor#2", "ask#3", "actor#3"],
+      "code": "await __host.ask(\"ask#1\", __host.createActor(\"actor#1\"), \"1\");\nawait __host.ask(\"ask#2\", __host.createActor(\"actor#2\"), \"2\");\nreturn await __host.ask(\"ask#3\", __host.createActor(\"actor#3\"), \"3\");\n"
+    },
+    {
+      "id": "actors/duplicate-binding-names",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "actor#2", "ask#1", "ask#2"],
+      "code": "const worker = __host.createActor(\"actor#1\", \"one\");\nconst other = __host.createActor(\"actor#2\", \"two\");\nawait __host.ask(\"ask#1\", worker, \"1\");\nreturn await __host.ask(\"ask#2\", other, \"2\");\n"
+    },
+    {
+      "id": "actors/same-name-loop-static",
+      "expect": "diagnostics",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["ask#1", "actor#1"],
+      "code": "for (const k of [\"a\", \"b\"]) {\n    await __host.ask(\"ask#1\", __host.createActor(\"actor#1\", \"static\"), k);\n}\nreturn \"done\";\n"
+    },
+    {
+      "id": "actors/template-name-in-fanout",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["ask#1", "actor#1"],
+      "code": "const xs = [\"a\", \"b\"];\nreturn await Promise.all(xs.map(async (x) => await __host.ask(\"ask#1\", __host.createActor(\"actor#1\", `r-${x}`), x)));\n"
+    },
+    {
+      "id": "actors/persona-and-name",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "actor#2", "ask#1", "ask#2"],
+      "code": "const lead = __host.createActor(\"actor#1\", \"lead\", { system: \"you coordinate\" });\nconst sub = __host.createActor(\"actor#2\", \"sub\");\nreturn await __host.ask(\"ask#1\", lead, await __host.ask(\"ask#2\", sub, \"draft\"));\n"
+    },
+    {
+      "id": "actors/name-number-concat",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"worker-\" + String(1));\nreturn await __host.ask(\"ask#1\", a, \"x\");\n"
+    },
+    {
+      "id": "actors/template-name-two-expressions",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const team = \"core\";\nconst idx = 2;\nconst a = __host.createActor(\"actor#1\", `${team}-worker-${idx}`);\nreturn await __host.ask(\"ask#1\", a, \"x\");\n"
+    },
+    {
+      "id": "actors/persona-and-dup-name",
+      "expect": "diagnostics",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "actor#2", "ask#1", "ask#2"],
+      "code": "const a = __host.createActor(\"actor#1\", \"dup\", { system: \"s1\" });\nconst b = __host.createActor(\"actor#2\", \"dup\", \"s2\");\nawait __host.ask(\"ask#1\", a, \"1\");\nreturn await __host.ask(\"ask#2\", b, \"2\");\n"
+    },
+    {
+      "id": "actors/anonymous-in-loop",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["ask#1", "actor#1"],
+      "code": "for (const k of [\"a\", \"b\"]) {\n    await __host.ask(\"ask#1\", __host.createActor(\"actor#1\"), k);\n}\nreturn \"done\";\n"
+    },
+    {
+      "id": "actors/name-with-spaces",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"review bot\");\nreturn await __host.ask(\"ask#1\", a, \"x\");\n"
+    },
+    {
+      "id": "misuse/alias-agent",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 9001,
+          "column": 15,
+          "line": 1,
+          "message": "facade function 'agent' may only be called directly; taking a reference to it defeats site identity (journal and replay key off call sites)"
+        },
+        {
+          "code": 9001,
+          "column": 32,
+          "line": 1,
+          "message": "facade function 'agent' may only be called directly; taking a reference to it defeats site identity (journal and replay key off call sites)"
+        }
+      ],
+      "siteIds": null,
+      "code": null
+    },
+    {
+      "id": "misuse/alias-ask",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 9001,
+          "column": 38,
+          "line": 1,
+          "message": "facade function 'ask' may only be called directly; taking a reference to it defeats site identity (journal and replay key off call sites)"
+        },
+        {
+          "code": 9001,
+          "column": 56,
+          "line": 1,
+          "message": "facade function 'ask' may only be called directly; taking a reference to it defeats site identity (journal and replay key off call sites)"
+        }
+      ],
+      "siteIds": null,
+      "code": null
+    },
+    {
+      "id": "misuse/destructure-ask",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 9001,
+          "column": 31,
+          "line": 1,
+          "message": "facade function 'ask' may only be called directly; taking a reference to it defeats site identity (journal and replay key off call sites)"
+        },
+        {
+          "code": 9001,
+          "column": 55,
+          "line": 1,
+          "message": "facade function 'ask' may only be called directly; taking a reference to it defeats site identity (journal and replay key off call sites)"
+        }
+      ],
+      "siteIds": null,
+      "code": null
+    },
+    {
+      "id": "misuse/destructure-renamed",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 9001,
+          "column": 31,
+          "line": 1,
+          "message": "facade function 'ask' may only be called directly; taking a reference to it defeats site identity (journal and replay key off call sites)"
+        },
+        {
+          "code": 9001,
+          "column": 61,
+          "line": 1,
+          "message": "facade function 'ask' may only be called directly; taking a reference to it defeats site identity (journal and replay key off call sites)"
+        }
+      ],
+      "siteIds": null,
+      "code": null
+    },
+    {
+      "id": "misuse/destructure-assignment",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 9001,
+          "column": 42,
+          "line": 1,
+          "message": "facade function 'ask' may only be called directly; taking a reference to it defeats site identity (journal and replay key off call sites)"
+        },
+        {
+          "code": 9001,
+          "column": 81,
+          "line": 1,
+          "message": "facade function 'ask' may only be called directly; taking a reference to it defeats site identity (journal and replay key off call sites)"
+        }
+      ],
+      "siteIds": null,
+      "code": null
+    },
+    {
+      "id": "misuse/bind-ask",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 9001,
+          "column": 39,
+          "line": 1,
+          "message": "facade function 'ask' may only be called directly; taking a reference to it defeats site identity (journal and replay key off call sites)"
+        },
+        {
+          "code": 9001,
+          "column": 65,
+          "line": 1,
+          "message": "facade function 'ask' may only be called directly; taking a reference to it defeats site identity (journal and replay key off call sites)"
+        },
+        {
+          "code": 9001,
+          "column": 48,
+          "line": 1,
+          "message": "facade function 'ask' may only be called directly; retyping a facade value to a structurally-compatible non-facade type escapes site identity (the disguised '.ask(...)' resolves to the local type and runs unsited)"
+        }
+      ],
+      "siteIds": null,
+      "code": null
+    },
+    {
+      "id": "misuse/pass-agent-as-argument",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 2345,
+          "column": 73,
+          "line": 1,
+          "message": "Argument of type '<T = string>(instructions: string) => Node<T>' is not assignable to parameter of type '() => void'.\n  Target signature provides too few arguments. Expected 1 or more, but got 0."
+        }
+      ],
+      "siteIds": null,
+      "code": null
+    },
+    {
+      "id": "misuse/computed-member-call",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 9001,
+          "column": 20,
+          "line": 1,
+          "message": "facade function 'read' may only be called directly; taking a reference to it defeats site identity (journal and replay key off call sites)"
+        }
+      ],
+      "siteIds": null,
+      "code": null
+    },
+    {
+      "id": "misuse/retype-as-local-interface",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 9001,
+          "column": 87,
+          "line": 1,
+          "message": "facade function 'ask' may only be called directly; retyping a facade value to a structurally-compatible non-facade type escapes site identity (the disguised '.ask(...)' resolves to the local type and runs unsited)"
+        }
+      ],
+      "siteIds": null,
+      "code": null
+    },
+    {
+      "id": "misuse/retype-into-parameter",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 2345,
+          "column": 121,
+          "line": 1,
+          "message": "Argument of type 'Agent' is not assignable to parameter of type 'Askable'.\n  The types returned by 'ask(...)' are incompatible between these types.\n    Type 'Node<string>' is missing the following properties from type 'Promise<string>': catch, finally, [Symbol.toStringTag]"
+        }
+      ],
+      "siteIds": null,
+      "code": null
+    },
+    {
+      "id": "misuse/alias-files-read",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 9001,
+          "column": 20,
+          "line": 1,
+          "message": "facade function 'read' may only be called directly; taking a reference to it defeats site identity (journal and replay key off call sites)"
+        },
+        {
+          "code": 9001,
+          "column": 42,
+          "line": 1,
+          "message": "facade function 'read' may only be called directly; taking a reference to it defeats site identity (journal and replay key off call sites)"
+        }
+      ],
+      "siteIds": null,
+      "code": null
+    },
+    {
+      "id": "misuse/alias-phase",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 9001,
+          "column": 14,
+          "line": 1,
+          "message": "facade function 'phase' may only be called directly; taking a reference to it defeats site identity (journal and replay key off call sites)"
+        }
+      ],
+      "siteIds": null,
+      "code": null
+    },
+    {
+      "id": "misuse/alias-log",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["ask#1", "actor#1"],
+      "code": "__host.log(\"direct is fine\");\nreturn await __host.ask(\"ask#1\", __host.createActor(\"actor#1\", \"a\"), \"x\");\n"
+    },
+    {
+      "id": "misuse/retyping-result-stays-legal",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst text = await __host.ask(\"ask#1\", a, \"x\");\nreturn text.length;\n"
+    },
+    {
+      "id": "misuse/alias-git-status",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 9001,
+          "column": 15,
+          "line": 1,
+          "message": "facade function 'status' may only be called directly; taking a reference to it defeats site identity (journal and replay key off call sites)"
+        },
+        {
+          "code": 9001,
+          "column": 39,
+          "line": 1,
+          "message": "facade function 'status' may only be called directly; taking a reference to it defeats site identity (journal and replay key off call sites)"
+        }
+      ],
+      "siteIds": null,
+      "code": null
+    },
+    {
+      "id": "misuse/alias-artifact-metrics",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 9001,
+          "column": 20,
+          "line": 1,
+          "message": "facade function 'metrics' may only be called directly; taking a reference to it defeats site identity (journal and replay key off call sites)"
+        },
+        {
+          "code": 9001,
+          "column": 29,
+          "line": 1,
+          "message": "facade function 'metrics' may only be called directly; taking a reference to it defeats site identity (journal and replay key off call sites)"
+        }
+      ],
+      "siteIds": null,
+      "code": null
+    },
+    {
+      "id": "misuse/alias-report",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 9001,
+          "column": 11,
+          "line": 1,
+          "message": "facade function 'report' may only be called directly; taking a reference to it defeats site identity (journal and replay key off call sites)"
+        },
+        {
+          "code": 9001,
+          "column": 19,
+          "line": 1,
+          "message": "facade function 'report' may only be called directly; taking a reference to it defeats site identity (journal and replay key off call sites)"
+        }
+      ],
+      "siteIds": null,
+      "code": null
+    },
+    {
+      "id": "misuse/destructure-files-read",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 9001,
+          "column": 9,
+          "line": 1,
+          "message": "facade function 'read' may only be called directly; taking a reference to it defeats site identity (journal and replay key off call sites)"
+        },
+        {
+          "code": 9001,
+          "column": 41,
+          "line": 1,
+          "message": "facade function 'read' may only be called directly; taking a reference to it defeats site identity (journal and replay key off call sites)"
+        }
+      ],
+      "siteIds": null,
+      "code": null
+    },
+    {
+      "id": "misuse/pass-agent-into-function",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nfunction use(x) { __host.log(\"used\"); }\nuse(a);\nreturn await __host.ask(\"ask#1\", a, \"x\");\n"
+    },
+    {
+      "id": "taint/ask-feeds-ask",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "actor#2", "ask#1", "ask#2"],
+      "code": "const p = __host.createActor(\"actor#1\", \"planner\");\nconst r = __host.createActor(\"actor#2\", \"reviewer\");\nconst plan = await __host.ask(\"ask#1\", p, \"plan it\");\nreturn await __host.ask(\"ask#2\", r, plan);\n"
+    },
+    {
+      "id": "taint/world-read-feeds-two",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["world-read#1", "actor#1", "ask#1", "ask#2"],
+      "code": "const text = await __host.worldRead(\"world-read#1\", \"read\", [\"config.json\"]);\nconst a = __host.createActor(\"actor#1\", \"a\");\nreturn await Promise.all([__host.ask(\"ask#1\", a, text), __host.ask(\"ask#2\", a, text + \" again\")]);\n"
+    },
+    {
+      "id": "taint/destructure-ask-result",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst { title, body } = await __host.ask(\"ask#1\", a, \"fetch\");\nreturn title + body;\n"
+    },
+    {
+      "id": "taint/spread-object",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst base = { note: await __host.ask(\"ask#1\", a, \"seed\") };\nconst merged = { ...base, extra: 1 };\nreturn merged.note + merged.extra;\n"
+    },
+    {
+      "id": "taint/object-assign",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst target = {};\nObject.assign(target, { note: await __host.ask(\"ask#1\", a, \"seed\") });\nreturn target.note ?? \"\";\n"
+    },
+    {
+      "id": "taint/array-push-flow",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst bag = [];\nbag.push(await __host.ask(\"ask#1\", a, \"one\"));\nreturn bag[0] ?? \"\";\n"
+    },
+    {
+      "id": "taint/class-field-roundtrip",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "class Box {\n    note = \"\";\n    fill(v) { this.note = v; }\n}\nconst a = __host.createActor(\"actor#1\", \"a\");\nconst box = new Box();\nbox.fill(await __host.ask(\"ask#1\", a, \"seed\"));\nreturn box.note;\n"
+    },
+    {
+      "id": "taint/json-stringify-flow",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst payload = { note: await __host.ask(\"ask#1\", a, \"seed\") };\nconst encoded = JSON.stringify(payload);\nreturn encoded.length;\n"
+    },
+    {
+      "id": "taint/helper-param-flow",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1", "ask#2"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nasync function relay(v) { return await __host.ask(\"ask#1\", a, v); }\nconst seed = await __host.ask(\"ask#2\", a, \"seed\");\nreturn await relay(seed);\n"
+    },
+    {
+      "id": "taint/join-port-types",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1", "ask#2"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst [l, r] = await Promise.all([__host.ask(\"ask#1\", a, \"left\"), __host.ask(\"ask#2\", a, \"right\")]);\nreturn l.l + r.r;\n"
+    },
+    {
+      "id": "taint/destructive-reassign",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1", "ask#2"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nlet v = \"seed\";\nv = await __host.ask(\"ask#1\", a, v);\nv = await __host.ask(\"ask#2\", a, v + \"!\");\nreturn v;\n"
+    },
+    {
+      "id": "taint/conditional-merge",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1", "ask#2"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst flag = true;\nconst v = flag ? await __host.ask(\"ask#1\", a, \"hot\") : \"cold\";\nreturn await __host.ask(\"ask#2\", a, v);\n"
+    },
+    {
+      "id": "taint/string-built-from-two",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1", "ask#2", "ask#3", "actor#2"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst one = await __host.ask(\"ask#1\", a, \"1\");\nconst two = await __host.ask(\"ask#2\", a, \"2\");\nreturn await __host.ask(\"ask#3\", __host.createActor(\"actor#2\", \"sum\"), one + \"/\" + two);\n"
+    },
+    {
+      "id": "taint/spread-into-all-plus",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1", "ask#2", "ask#3"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst nodes = [__host.ask(\"ask#1\", a, \"1\"), __host.ask(\"ask#2\", a, \"2\")];\nreturn await Promise.all([...nodes, __host.ask(\"ask#3\", a, \"3\")]);\n"
+    },
+    {
+      "id": "taint/destructure-await-all",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1", "ask#2"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst [x, y] = await Promise.all([__host.ask(\"ask#1\", a, \"1\"), __host.ask(\"ask#2\", a, \"2\")]);\nreturn x + y;\n"
+    },
+    {
+      "id": "taint/conditional-both-ask",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1", "ask#2"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst flag = true;\nconst v = flag ? await __host.ask(\"ask#1\", a, \"hot\") : await __host.ask(\"ask#2\", a, \"cold\");\nreturn v;\n"
+    },
+    {
+      "id": "taint/typed-roundtrip",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "class Box {\n    note = \"\";\n    fill(v) { this.note = v; }\n}\nconst a = __host.createActor(\"actor#1\", \"a\");\nconst box = new Box();\nconst n = await __host.ask(\"ask#1\", a, \"s\");\nbox.fill(n.v);\nreturn box.note;\n"
+    },
+    {
+      "id": "taint/json-roundtrip-two",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1", "ask#2"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst payload = { one: await __host.ask(\"ask#1\", a, \"1\"), two: await __host.ask(\"ask#2\", a, \"2\") };\nreturn JSON.stringify(payload).length;\n"
+    },
+    {
+      "id": "taint/helper-param-two-hops",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1", "ask#2"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nasync function first(v) { return await __host.ask(\"ask#1\", a, v); }\nasync function second(v) { return await __host.ask(\"ask#2\", a, v + \"!\"); }\nreturn await second(await first(\"seed\"));\n"
+    },
+    {
+      "id": "errors/type-mismatch",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 2322,
+          "column": 7,
+          "line": 1,
+          "message": "Type 'string' is not assignable to type 'number'."
+        }
+      ],
+      "siteIds": null,
+      "code": null
+    },
+    {
+      "id": "errors/unknown-identifier",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 2304,
+          "column": 8,
+          "line": 1,
+          "message": "Cannot find name 'missingFunction'."
+        }
+      ],
+      "siteIds": null,
+      "code": null
+    },
+    {
+      "id": "errors/wrong-arg-type",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 2345,
+          "column": 42,
+          "line": 1,
+          "message": "Argument of type 'number' is not assignable to parameter of type 'string'."
+        }
+      ],
+      "siteIds": null,
+      "code": null
+    },
+    {
+      "id": "errors/syntax-error",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 1005,
+          "column": 20,
+          "line": 1,
+          "message": "')' expected."
+        }
+      ],
+      "siteIds": null,
+      "code": null
+    },
+    {
+      "id": "errors/declare-modifier",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 1184,
+          "column": 1,
+          "line": 1,
+          "message": "The `declare` modifier is not allowed in a workflow script: the script is compiled inside a function body, where ambient declarations are illegal. Remove `declare` and write a plain declaration (e.g. `interface Foo { ... }`)."
+        }
+      ],
+      "siteIds": null,
+      "code": null
+    },
+    {
+      "id": "errors/export-modifier",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 1184,
+          "column": 1,
+          "line": 1,
+          "message": "`export` is not allowed in a workflow script: the script is compiled inside a function body. Remove `export` — the workflow's output is its final `return` value."
+        }
+      ],
+      "siteIds": null,
+      "code": null
+    },
+    {
+      "id": "errors/await-non-thenable",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": [],
+      "code": "const v = await 5;\nreturn v;\n"
+    },
+    {
+      "id": "errors/duplicate-const",
+      "expect": "diagnostics",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "actor#2", "ask#1", "ask#2"],
+      "code": "const a = __host.createActor(\"actor#1\", \"a\");\nconst a2 = __host.createActor(\"actor#2\", \"a\");\nawait __host.ask(\"ask#1\", a, \"1\");\nreturn await __host.ask(\"ask#2\", a2, \"2\");\n"
+    },
+    {
+      "id": "errors/missing-interface-body",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 1005,
+          "column": 18,
+          "line": 1,
+          "message": "'{' expected."
+        }
+      ],
+      "siteIds": null,
+      "code": null
+    },
+    {
+      "id": "errors/process-ambient-missing",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 2591,
+          "column": 12,
+          "line": 1,
+          "message": "Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig."
+        }
+      ],
+      "siteIds": null,
+      "code": null
+    },
+    {
+      "id": "errors/require-missing",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 2591,
+          "column": 12,
+          "line": 1,
+          "message": "Cannot find name 'require'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig."
+        }
+      ],
+      "siteIds": null,
+      "code": null
+    },
+    {
+      "id": "errors/fetch-ambient-missing",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 2304,
+          "column": 17,
+          "line": 1,
+          "message": "Cannot find name 'fetch'."
+        }
+      ],
+      "siteIds": null,
+      "code": null
+    },
+    {
+      "id": "errors/misuse-and-type-error",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 2322,
+          "column": 36,
+          "line": 1,
+          "message": "Type 'string' is not assignable to type 'number'."
+        },
+        {
+          "code": 2345,
+          "column": 71,
+          "line": 1,
+          "message": "Argument of type 'number' is not assignable to parameter of type 'string'."
+        }
+      ],
+      "siteIds": null,
+      "code": null
+    },
+    {
+      "id": "errors/assign-string-to-number",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 2322,
+          "column": 65,
+          "line": 1,
+          "message": "Type 'string' is not assignable to type 'number'."
+        }
+      ],
+      "siteIds": null,
+      "code": null
+    },
+    {
+      "id": "errors/missing-interface-property",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 2339,
+          "column": 95,
+          "line": 1,
+          "message": "Property 'missing' does not exist on type 'P'."
+        }
+      ],
+      "siteIds": null,
+      "code": null
+    },
+    {
+      "id": "errors/call-non-function",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 2349,
+          "column": 49,
+          "line": 1,
+          "message": "This expression is not callable.\n  Type 'Number' has no call signatures."
+        }
+      ],
+      "siteIds": null,
+      "code": null
+    },
+    {
+      "id": "errors/assign-to-const",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 2588,
+          "column": 51,
+          "line": 1,
+          "message": "Cannot assign to 'x' because it is a constant."
+        }
+      ],
+      "siteIds": null,
+      "code": null
+    },
+    {
+      "id": "errors/wrong-generic-arity",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 2558,
+          "column": 45,
+          "line": 1,
+          "message": "Expected 0-1 type arguments, but got 2."
+        }
+      ],
+      "siteIds": null,
+      "code": null
+    },
+    {
+      "id": "errors/missing-return-annotated",
+      "expect": "diagnostics",
+      "ok": false,
+      "diagnostics": [
+        {
+          "code": 2355,
+          "column": 21,
+          "line": 1,
+          "message": "A function whose declared type is neither 'undefined', 'void', nor 'any' must return a value."
+        }
+      ],
+      "siteIds": null,
+      "code": null
+    },
+    {
+      "id": "combined/review-pipeline",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": [
+        "world-read#1",
+        "world-read#2",
+        "ask#1",
+        "actor#1",
+        "ask#2",
+        "actor#2",
+        "artifact#1"
+      ],
+      "code": "const filesList = await __host.worldRead(\"world-read#1\", \"glob\", [\"src/**/*.ts\"]);\n__host.enterPhase(\"Review each changed file in parallel\");\nconst reviews = await Promise.all(filesList.map(async (f) => {\n    const body = await __host.worldRead(\"world-read#2\", \"read\", [f]);\n    return await __host.ask(\"ask#1\", __host.createActor(\"actor#1\", \"reviewer-\" + f), \"Review \" + f + \":\\n\" + body);\n}));\n__host.enterPhase(\"Summarize the findings\");\nconst summary = await __host.ask(\"ask#2\", __host.createActor(\"actor#2\", \"summarizer\"), reviews.join(\"\\n---\\n\"));\nconst ref = await __host.publishArtifact(\"artifact#1\", \"markdown\", [\"review\", summary, { primary: true }]);\nreturn { version: ref.version, count: reviews.length };\n"
+    },
+    {
+      "id": "combined/release-gate",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["world-read#1", "world-read#2", "ask#1", "actor#1", "artifact#1", "report#1"],
+      "code": "__host.enterPhase(\"Run the release checks\");\nconst results = [];\nconst nodeCheck = await __host.worldRead(\"world-read#1\", \"run\", [\"node\", [\"--version\"]]);\nresults.push({ cmd: \"node\", code: nodeCheck.exitCode });\nconst gitCheck = await __host.worldRead(\"world-read#2\", \"run\", [\"git\", [\"status\"]]);\nresults.push({ cmd: \"git\", code: gitCheck.exitCode });\n__host.enterPhase(\"Decide with a reviewer\");\nconst verdict = await __host.ask(\"ask#1\", __host.createActor(\"actor#1\", \"gatekeeper\"), \"Approve release? \" + JSON.stringify(results));\n__host.declareArtifact(\"artifact#1\", \"table\", [\"checks\", { columns: [{ field: \"cmd\" }, { field: \"code\" }], key: \"cmd\" }]);\nfor (const row of results) {\n    __host.report(\"report#1\", row, \"checks\");\n}\nreturn verdict;\n"
+    },
+    {
+      "id": "combined/docs-cleanup",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["world-read#1", "ask#1", "actor#1", "ask#2", "actor#2"],
+      "code": "const docs = await __host.worldRead(\"world-read#1\", \"glob\", [\"docs/**/*.md\"]);\n__host.enterPhase(\"Inventory the stale documents\");\nconst inventories = await Promise.all(docs.map(async (d) => await __host.ask(\"ask#1\", __host.createActor(\"actor#1\", \"curator-\" + d), \"Inventory \" + d)));\n__host.enterPhase(\"Confirm the deletion list\");\nconst approved = await __host.ask(\"ask#2\", __host.createActor(\"actor#2\", \"approver\"), inventories.join(\"\\n\"));\nreturn { candidates: docs.length, approved };\n"
+    },
+    {
+      "id": "combined/content-pack",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["ask#1", "actor#1", "world-read#1", "artifact#1", "report#1", "artifact#2"],
+      "code": "__host.enterPhase(\"Draft the copy\");\nconst topic = String(__host.args.topic ?? \"release notes\");\nconst draft = await __host.ask(\"ask#1\", __host.createActor(\"actor#1\", \"writer\"), \"Draft copy about \" + topic);\n__host.enterPhase(\"Assemble the pack\");\nconst metrics = await __host.worldRead(\"world-read#1\", \"run\", [\"node\", [\"-e\", \"console.log(42)\"]]);\n__host.declareArtifact(\"artifact#1\", \"metrics\", [\"stats\", { metrics: [{ field: \"lines\" }] }]);\n__host.report(\"report#1\", { lines: draft.split(\"\\n\").length, exit: metrics.exitCode }, \"stats\");\nconst ref = await __host.publishArtifact(\"artifact#2\", \"markdown\", [\"pack-doc\", draft, { primary: true }]);\nreturn { id: ref.id, version: ref.version };\n"
+    },
+    {
+      "id": "combined/triage-with-branches",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["world-read#1", "actor#1", "ask#1", "world-read#2", "ask#2", "ask#3"],
+      "code": "const status = await __host.worldRead(\"world-read#1\", \"git-status\", []);\n__host.enterPhase(\"Triage the working tree\");\nconst a = __host.createActor(\"actor#1\", \"triager\");\nif (status.clean) {\n    return await __host.ask(\"ask#1\", a, \"Working tree is clean; summarize recent commits\");\n}\nconst changed = await __host.worldRead(\"world-read#2\", \"git-changed-files\", []);\nif (changed.length > 10) {\n    return await __host.ask(\"ask#2\", a, \"Too many changes: \" + changed.length);\n}\nreturn await __host.ask(\"ask#3\", a, \"Review: \" + changed.join(\", \"));\n"
+    },
+    {
+      "id": "combined/loop-until-green",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "world-read#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"fixer\");\nlet attempt = 0;\nlet last = \"\";\n__host.enterPhase(\"Iterate until the check passes\");\nwhile (attempt < 3) {\n    const run = await __host.worldRead(\"world-read#1\", \"run\", [\"node\", [\"--version\"]]);\n    last = run.stdout;\n    if (run.exitCode === 0)\n        break;\n    last = await __host.ask(\"ask#1\", a, \"Fix attempt \" + attempt);\n    attempt += 1;\n}\nreturn { attempt, last };\n"
+    },
+    {
+      "id": "combined/deep-nesting",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["world-read#1", "ask#1", "actor#1"],
+      "code": "const out = [];\n__host.enterPhase(\"Nested review rounds\");\nfor (let round = 0; round < 2; round++) {\n    const targets = [\"a\", \"b\"];\n    const roundResults = await Promise.all(targets.map(async (t) => {\n        const text = await __host.worldRead(\"world-read#1\", \"read\", [t + \".md\"]);\n        if (text.length === 0)\n            return \"empty:\" + t;\n        return await __host.ask(\"ask#1\", __host.createActor(\"actor#1\", `round${round}-${t}`), text);\n    }));\n    out.push(...roundResults);\n}\nreturn out;\n"
+    },
+    {
+      "id": "combined/full-pipeline",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": [
+        "world-read#1",
+        "ask#1",
+        "actor#1",
+        "world-read#2",
+        "artifact#1",
+        "report#1",
+        "artifact#2"
+      ],
+      "code": "const names = await __host.worldRead(\"world-read#1\", \"glob\", [\"src/**/*.ts\"]);\n__host.enterPhase(\"Review every file in parallel\");\nconst reviews = await Promise.all(names.map(async (f) => {\n    return await __host.ask(\"ask#1\", __host.createActor(\"actor#1\", \"reviewer-\" + f), \"Review \" + f);\n}));\n__host.enterPhase(\"Run the release check\");\nconst check = await __host.worldRead(\"world-read#2\", \"run\", [\"node\", [\"--version\"]]);\n__host.enterPhase(\"Publish the deliverable\");\n__host.declareArtifact(\"artifact#1\", \"metrics\", [\"stats\", { metrics: [{ field: \"files\" }] }]);\n__host.report(\"report#1\", { files: reviews.length }, \"stats\");\nconst ref = await __host.publishArtifact(\"artifact#2\", \"markdown\", [\"report\", reviews.join(\"\\n\"), { primary: true }]);\nreturn { version: ref.version, exit: check.exitCode };\n"
+    },
+    {
+      "id": "combined/retry-loop-with-artifacts",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "artifact#1", "world-read#1", "report#1", "ask#1"],
+      "code": "const fixer = __host.createActor(\"actor#1\", \"fixer\");\n__host.declareArtifact(\"artifact#1\", \"metrics\", [\"attempts\", { metrics: [{ field: \"attempt\" }] }]);\n__host.enterPhase(\"Iterate until green\");\nlet attempt = 0;\nlet last = \"\";\nwhile (attempt < 3) {\n    const run = await __host.worldRead(\"world-read#1\", \"run\", [\"node\", [\"--version\"]]);\n    __host.report(\"report#1\", { attempt }, \"attempts\");\n    if (run.exitCode === 0)\n        break;\n    last = await __host.ask(\"ask#1\", fixer, \"Fix attempt \" + attempt);\n    attempt += 1;\n}\nreturn { attempt, last };\n"
+    },
+    {
+      "id": "combined/two-agents-handoff",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["ask#1", "actor#1", "ask#2", "actor#2", "artifact#1"],
+      "code": "__host.enterPhase(\"Draft the outline\");\nconst draft = await __host.ask(\"ask#1\", __host.createActor(\"actor#1\", \"drafter\"), String(__host.args.topic ?? \"outline\"));\n__host.enterPhase(\"Review the outline\");\nconst reviewed = await __host.ask(\"ask#2\", __host.createActor(\"actor#2\", \"reviewer\"), draft);\n__host.enterPhase(\"Finalize the document\");\nconst ref = await __host.publishArtifact(\"artifact#1\", \"markdown\", [\"doc\", reviewed, { primary: true }]);\nreturn ref.id;\n"
+    },
+    {
+      "id": "combined/release-check-with-board",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["artifact#1", "world-read#1", "world-read#2", "report#1"],
+      "code": "__host.declareArtifact(\"artifact#1\", \"board\", [\"checks\", { key: \"name\", status: \"state\", columns: [\"pending\", \"done\"] }]);\n__host.enterPhase(\"Collect the check results\");\nconst rows = [];\nconst nodeRun = await __host.worldRead(\"world-read#1\", \"run\", [\"node\", [\"--version\"]]);\nrows.push({ name: \"node\", state: nodeRun.exitCode === 0 ? \"done\" : \"pending\" });\nconst gitRun = await __host.worldRead(\"world-read#2\", \"run\", [\"git\", [\"status\"]]);\nrows.push({ name: \"git\", state: gitRun.exitCode === 0 ? \"done\" : \"pending\" });\n__host.enterPhase(\"Report the board\");\nfor (const row of rows) {\n    __host.report(\"report#1\", row, \"checks\");\n}\nreturn rows.length;\n"
+    },
+    {
+      "id": "combined/research-summary-with-metrics",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": [
+        "world-read#1",
+        "artifact#1",
+        "world-read#2",
+        "ask#1",
+        "actor#1",
+        "report#1",
+        "ask#2",
+        "actor#2",
+        "artifact#2"
+      ],
+      "code": "__host.enterPhase(\"Collect the sources\");\nconst sources = await __host.worldRead(\"world-read#1\", \"glob\", [\"docs/**/*.md\"]);\n__host.declareArtifact(\"artifact#1\", \"metrics\", [\"progress\", { metrics: [{ field: \"read\", label: \"Read\" }] }]);\n__host.enterPhase(\"Read and summarize each source\");\nconst summaries = [];\nfor (const [index, source] of sources.entries()) {\n    const body = await __host.worldRead(\"world-read#2\", \"read\", [source]);\n    const summary = await __host.ask(\"ask#1\", __host.createActor(\"actor#1\", \"reader-\" + index), \"Summarize \" + source + \":\\n\" + body);\n    summaries.push(summary);\n    __host.report(\"report#1\", { read: index + 1 }, \"progress\");\n}\n__host.enterPhase(\"Merge the summaries\");\nconst merged = await __host.ask(\"ask#2\", __host.createActor(\"actor#2\", \"merger\"), summaries.join(\"\\n---\\n\"));\n__host.publishArtifact(\"artifact#2\", \"markdown\", [\"summary\", merged, { primary: true }]);\nreturn summaries.length;\n"
+    },
+    {
+      "id": "settle/push-after-plan",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1", "ask#2", "ask#3"],
+      "code": "const a = __host.createActor(\"actor#1\", \"Owned A\");\nconst first = { steps: [__host.ask(\"ask#1\", a, \"Owned first\")] };\nconst plan = Promise.all(first.steps);\nconst one = await plan;\nfirst.steps.push(__host.ask(\"ask#2\", a, \"Owned extra\"));\nawait plan;\nreturn await __host.ask(\"ask#3\", a, one[0]);\n"
+    },
+    {
+      "id": "settle/held-reassigned-loop",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1", "ask#2", "ask#3"],
+      "code": "const a = __host.createActor(\"actor#1\", \"Owned A\");\nlet held = __host.ask(\"ask#1\", a, \"Owned seed\");\nfor (let i = 0; i < 2; i++) {\n    const previous = await held;\n    held = __host.ask(\"ask#2\", a, previous);\n}\nreturn await __host.ask(\"ask#3\", a, \"Owned after\");\n"
+    },
+    {
+      "id": "settle/parallel-with-phase-in-work",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "actor#2", "ask#1", "ask#2"],
+      "code": "const a = __host.createActor(\"actor#1\", \"Owned A\");\nconst b = __host.createActor(\"actor#2\", \"Owned B\");\nasync function work() { __host.enterPhase(\"Owned inner\"); return await __host.ask(\"ask#1\", a, \"Owned inside\"); }\nconst held = work();\nconst parallel = __host.ask(\"ask#2\", b, \"Owned parallel\");\nawait held;\nreturn await parallel;\n"
+    },
+    {
+      "id": "settle/then-chain-held",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1", "ask#2"],
+      "code": "const a = __host.createActor(\"actor#1\", \"Owned A\");\nconst held = __host.ask(\"ask#1\", a, \"Owned first\");\nconst work = held.then(async (value) => __host.ask(\"ask#2\", a, value));\nreturn await work;\n"
+    },
+    {
+      "id": "settle/for-await-then-guard",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1", "ask#2", "ask#3", "ask#4", "ask#5"],
+      "code": "const a = __host.createActor(\"actor#1\", \"Owned A\");\nconst held = [__host.ask(\"ask#1\", a, \"Owned first\"), __host.ask(\"ask#2\", a, \"Owned second\")];\nfor await (const answer of held) {\n    await __host.ask(\"ask#3\", a, answer);\n}\nconst flag = (await __host.ask(\"ask#4\", a, \"Owned flag\")) ? 1 : 2;\nif (flag) {\n    return await __host.ask(\"ask#5\", a, \"Owned guarded\");\n}\nreturn \"Owned end\";\n"
+    },
+    {
+      "id": "engine-run/untyped-ask",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"lead\");\nreturn await __host.ask(\"ask#1\", a, \"summarise the diff\");\n"
+    },
+    {
+      "id": "engine-run/typed-ask-accept",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"lead\");\nreturn await __host.ask(\"ask#1\", a, \"summarise\");\n"
+    },
+    {
+      "id": "engine-run/typed-ask-invalid",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"lead\");\nreturn await __host.ask(\"ask#1\", a, \"summarise\");\n"
+    },
+    {
+      "id": "engine-run/typed-ask-never-submits",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"lead\");\nreturn await __host.ask(\"ask#1\", a, \"summarise\");\n"
+    },
+    {
+      "id": "engine-run/typed-ask-json-string-payload",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"lead\");\nreturn await __host.ask(\"ask#1\", a, \"summarise\");\n"
+    },
+    {
+      "id": "engine-run/loop-same-site-three-ordinals",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["ask#1", "actor#1"],
+      "code": "const out = [];\nfor (const k of [\"a\", \"b\", \"c\"]) {\n    out.push(await __host.ask(\"ask#1\", __host.createActor(\"actor#1\"), k));\n}\nreturn out;\n"
+    },
+    {
+      "id": "engine-run/same-actor-fifo",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1", "ask#2"],
+      "code": "const a = __host.createActor(\"actor#1\", \"lead\");\nconst x = await __host.ask(\"ask#1\", a, \"one\");\nconst y = await __host.ask(\"ask#2\", a, \"two\");\nreturn x + y;\n"
+    },
+    {
+      "id": "engine-run/fanout-four-capped-two",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["ask#1", "actor#1"],
+      "code": "const xs = [\"a\", \"b\", \"c\", \"d\"];\nreturn await Promise.all(xs.map((x) => __host.ask(\"ask#1\", __host.createActor(\"actor#1\"), x)));\n"
+    },
+    {
+      "id": "engine-run/duplicate-computed-name",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["ask#1", "actor#1"],
+      "code": "const names = [\"same\", \"same\"];\nreturn await Promise.all(names.map(async (n) => await __host.ask(\"ask#1\", __host.createActor(\"actor#1\", n), \"x\")));\n"
+    },
+    {
+      "id": "engine-run/persona-string",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"lead\", \"you lead\");\nreturn await __host.ask(\"ask#1\", a, \"x\");\n"
+    },
+    {
+      "id": "engine-run/persona-object",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"lead\", { system: \"you lead\" });\nreturn await __host.ask(\"ask#1\", a, \"x\");\n"
+    },
+    {
+      "id": "engine-run/world-read-then-branch",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["world-read#1", "ask#1", "actor#1", "ask#2", "actor#2"],
+      "code": "const paths = await __host.worldRead(\"world-read#1\", \"glob\", [\"src/**/*.ts\"]);\nif (paths.length > 1) {\n    return await __host.ask(\"ask#1\", __host.createActor(\"actor#1\"), \"two or more\");\n}\nreturn await __host.ask(\"ask#2\", __host.createActor(\"actor#2\"), \"only one\");\n"
+    },
+    {
+      "id": "engine-run/world-read-error-caught",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["world-read#1"],
+      "code": "let fallback = 0;\ntry {\n    await __host.worldRead(\"world-read#1\", \"read\", [\"missing.ts\"]);\n}\ncatch {\n    fallback = 1;\n}\nreturn { fallback };\n"
+    },
+    {
+      "id": "engine-run/world-read-error-uncaught",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["world-read#1"],
+      "code": "const text = await __host.worldRead(\"world-read#1\", \"read\", [\"missing.ts\"]);\nreturn text.length;\n"
+    },
+    {
+      "id": "engine-run/world-read-multi-op",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["world-read#1", "world-read#2", "world-read#3"],
+      "code": "const st = await __host.worldRead(\"world-read#1\", \"git-status\", []);\nconst hits = await __host.worldRead(\"world-read#2\", \"grep\", [\"TODO\", \"src/**\"]);\nconst changed = await __host.worldRead(\"world-read#3\", \"git-changed-files\", [\"main\"]);\nreturn { branch: st.branch ?? \"none\", hits: hits.length, changed: changed.length };\n"
+    },
+    {
+      "id": "engine-run/report-two-items",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1", "report#1", "report#2"],
+      "code": "const a = __host.createActor(\"actor#1\", \"lead\");\nawait __host.ask(\"ask#1\", a, \"work\");\n__host.report(\"report#1\", { n: 1 });\n__host.report(\"report#2\", { n: 2 });\nreturn \"done\";\n"
+    },
+    {
+      "id": "engine-run/report-tagged-preset",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["artifact#1", "report#1"],
+      "code": "__host.declareArtifact(\"artifact#1\", \"table\", [\"dash\", { columns: [{ field: \"n\" }] }]);\n__host.report(\"report#1\", { n: 1 }, \"dash\");\nreturn \"ok\";\n"
+    },
+    {
+      "id": "engine-run/artifact-markdown-publish",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["artifact#1"],
+      "code": "const ref = await __host.publishArtifact(\"artifact#1\", \"markdown\", [\"notes\", \"# hi\"]);\nreturn ref;\n"
+    },
+    {
+      "id": "engine-run/artifact-file-error-caught",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["artifact#1"],
+      "code": "let published = false;\ntry {\n    await __host.publishArtifact(\"artifact#1\", \"file\", [\"pdf\", \"out/missing.pdf\"]);\n    published = true;\n}\ncatch {\n    published = false;\n}\nreturn { published };\n"
+    },
+    {
+      "id": "engine-run/artifact-preset-bad-spec",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["artifact#1", "report#1"],
+      "code": "__host.declareArtifact(\"artifact#1\", \"chart\", [\"c\", { x: { field: \"a\" }, y: [] }]);\n__host.report(\"report#1\", { a: 1 }, \"c\");\nreturn \"unreachable\";\n"
+    },
+    {
+      "id": "engine-run/phase-markers-and-log",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1", "ask#2"],
+      "code": "__host.enterPhase(\"gather\");\nconst a = __host.createActor(\"actor#1\", \"lead\");\n__host.log(\"created\");\nawait __host.ask(\"ask#1\", a, \"one\");\n__host.enterPhase(\"check\");\nawait __host.ask(\"ask#2\", a, \"two\");\nreturn \"done\";\n"
+    },
+    {
+      "id": "engine-run/phase-name-repeated",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["ask#1", "actor#1"],
+      "code": "__host.enterPhase(\"loop\");\nconst xs = [1, 2];\nfor (const x of xs) {\n    await __host.ask(\"ask#1\", __host.createActor(\"actor#1\"), String(x));\n    __host.enterPhase(\"loop\");\n}\nreturn \"done\";\n"
+    },
+    {
+      "id": "engine-run/args-read",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": [],
+      "code": "return { target: String(__host.args.target ?? \"none\"), keys: Object.keys(__host.args).sort() };\n"
+    },
+    {
+      "id": "engine-run/args-absent-is-empty-object",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": [],
+      "code": "return { type: typeof __host.args, keys: Object.keys(__host.args).length, missingIsUndefined: __host.args.nope === undefined };\n"
+    },
+    {
+      "id": "engine-run/async-helper-keeps-ordinals",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "ask#1"],
+      "code": "const a = __host.createActor(\"actor#1\", \"lead\");\nasync function step(word) { return await __host.ask(\"ask#1\", a, word); }\nconst x = await step(\"one\");\nconst y = await step(\"two\");\nreturn x + y;\n"
+    },
+    {
+      "id": "engine-run/combined-run",
+      "expect": "clean",
+      "ok": true,
+      "diagnostics": [],
+      "siteIds": ["actor#1", "world-read#1", "report#1", "ask#1", "artifact#1"],
+      "code": "__host.enterPhase(\"survey\");\nconst lead = __host.createActor(\"actor#1\", \"lead\", { system: \"you lead\" });\nconst paths = await __host.worldRead(\"world-read#1\", \"glob\", [\"src/**/*.ts\"]);\n__host.report(\"report#1\", { count: paths.length });\n__host.enterPhase(\"review\");\nconst found = await __host.ask(\"ask#1\", lead, \"review \" + paths[0]);\nconst ref = await __host.publishArtifact(\"artifact#1\", \"markdown\", [\"report\", \"# \" + found.items.join(\", \")]);\nreturn { found, ref };\n"
+    }
+  ]
+}
