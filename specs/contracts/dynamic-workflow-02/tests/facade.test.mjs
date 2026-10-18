@@ -5,11 +5,20 @@
 // facade 是脚本作者唯一能看见的 API 面，而注册表是包内三个消费方（站点收集 /
 // facade-siting 诊断 / lowering）的唯一真源。两者都属于「重写时一个字都不能改错」的
 // 数据面，所以这里的断言是逐字的：声明清单、签名文本、表行的顺序与 op 命名。
+//
+// 但**逐字锁的是声明，不是散文**：facade 原文 19067 字符里约 16 KB 是讲解性注释，重写时
+// 注释必须由 Knoravia 自己写（见 README「facade 资产的锁定口径」与 known-differences.md K9），
+// 所以声明文本以「剥掉全部注释」后的形态逐字节比对（`tests/facade-text.mjs` +
+// `fixtures/facade/*.txt`，由 `tests/record-facade.mjs` 录制），而注释文字不进锁。
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import { describe, it } from "node:test";
 import ts from "typescript";
 
+import { declarationsOnly } from "./facade-text.mjs";
 import { dw, importDeep } from "./entry.mjs";
+
+const facadeDir = new URL("../fixtures/facade/", import.meta.url);
 
 const {
   FACADE_DTS,
@@ -219,6 +228,58 @@ return a;
       ],
       [0, 0, 0, 0, 0],
     );
+  });
+});
+
+describe("B29 facade 声明面逐字节锁定（注释文字不进锁）", () => {
+  /** 录制侧与回放侧同一函数：fixtures/facade/ 里的文本就是 declarationsOnly 的输出。 */
+  const recorded = (name) => readFileSync(new URL(name, facadeDir), "utf8");
+
+  it("两份 facade 的去注释声明文本与录制逐字节一致", () => {
+    assert.equal(declarationsOnly(FACADE_DTS), recorded("production-declarations.txt"));
+    assert.equal(declarationsOnly(SNIPPET_FACADE_DTS), recorded("snippet-declarations.txt"));
+  });
+
+  it("锁里没有注释：声明文本比原文小一个量级且不含任何注释标记", () => {
+    // 反向保证：如果打印器哪天没把注释剥干净，这份锁就会把旧实现的散文一起钉住。
+    for (const [name, text] of [
+      ["production", declarationsOnly(FACADE_DTS)],
+      ["snippet", declarationsOnly(SNIPPET_FACADE_DTS)],
+    ]) {
+      assert.equal(/\/\*|\*\//.test(text), false, `${name}：声明文本里还有块注释`);
+      assert.equal(/\/\//.test(text), false, `${name}：声明文本里还有行注释`);
+      assert.ok(
+        Buffer.byteLength(text, "utf8") < Buffer.byteLength(FACADE_DTS, "utf8") / 4,
+        `${name}：声明文本没有比原文小一个量级，说明原文并不是以注释为主`,
+      );
+    }
+    // 原文确实以注释为主（否则上面那条比例断言是空转）。
+    assert.equal(FACADE_DTS.includes("/**"), true);
+    assert.equal(SNIPPET_FACADE_DTS.includes("/**"), true);
+  });
+
+  it("注释怎么写都不碰锁：换文字、加行注释、加块注释，声明文本逐字节不变", () => {
+    const baseline = declarationsOnly(FACADE_DTS);
+    // 1) 把原文第一处块注释的正文整段换掉（模拟重写时自写注释）。
+    const start = FACADE_DTS.indexOf("/*");
+    const end = FACADE_DTS.indexOf("*/", start);
+    assert.ok(start >= 0 && end > start, "facade 原文里没有块注释，这条验证无从做起");
+    const swapped = `${FACADE_DTS.slice(0, start)}/* Knorvia 自写的说明 */${FACADE_DTS.slice(end + 2)}`;
+    assert.notEqual(swapped, FACADE_DTS, "替换没有生效");
+    assert.equal(declarationsOnly(swapped), baseline);
+    // 2) 顶部追加行注释与块注释。
+    assert.equal(declarationsOnly(`// 另一段自写注释\n${FACADE_DTS}`), baseline);
+    assert.equal(declarationsOnly(`/* 又一段 */\n${FACADE_DTS}`), baseline);
+  });
+
+  it("签名改一个字就红：锁对声明面是逐字节的", () => {
+    const signature = "declare function log(message: string): void;";
+    assert.equal(FACADE_DTS.includes(signature), true);
+    const changed = FACADE_DTS.replace(signature, "declare function log(message: string): number;");
+    assert.notEqual(declarationsOnly(changed), declarationsOnly(FACADE_DTS));
+    // 删掉一个声明同样进锁（清单顺序也是锁的一部分）。
+    const removed = FACADE_DTS.replace(signature, "");
+    assert.notEqual(declarationsOnly(removed), declarationsOnly(FACADE_DTS));
   });
 });
 
