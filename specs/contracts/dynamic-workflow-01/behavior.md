@@ -1,6 +1,6 @@
 # dynamic-workflow-01 行为规格（behavior.md）
 
-版本 v2 · 2026-10-17 · v2 起 B20 的 oracle 改指 `interface.md` 导出声明块（见 `known-differences.md` K9）。v1 基线 `49dde725`；旧门提交仍见 `gate-old.json` 的 `commit`。
+版本 v3 · 2026-10-18 · v3 仅新增 `known-differences.md` K10（strands 归档 `declaration` 的注释替换，签名逐字节不变），条目 B1–B20 与断言无变化。v2 起 B20 的 oracle 改指 `interface.md` 导出声明块（见 `known-differences.md` K9）。v1 基线 `49dde725`；旧门提交仍见 `gate-old.json` 的 `commit`。
 
 本文描述 `apps/cli/packages/dynamic-workflow/src/analysis/`（54 个文件）与 `src/compiler/compile.ts`（1 个文件）共 **55 个继承文件**的可观察行为，是重写依据。编号 B1、B2…发布后不重用。每条都给出黑盒可验证的断言；条目→测试对照见 `README.md` 末尾。
 

@@ -2,7 +2,7 @@
 
 // SPDX-License-Identifier: Apache-2.0
 
-v2（v1 + 计划书五.1 / M1 复盘第 4 条：删桩，B20 oracle 改指 `interface.md` 导出声明块，见 README「版本」与 `known-differences.md` K9）。
+v3（v2 + `known-differences.md` K10：strands 归档 `declaration` 的注释替换为 Knorvia 自写文字、类型签名逐字节不变，纯 re-pin 记录，不改变本文所述设计）。v2 = v1 + 计划书五.1 / M1 复盘第 4 条：删桩，B20 oracle 改指 `interface.md` 导出声明块，见 README「版本」与 `known-differences.md` K9。
 
 本文档描述 `dynamic-workflow-01` 合同范围（53 个重写目标文件，位于 `apps/cli/packages/dynamic-workflow/src/analysis/*.ts` 与 `src/compiler/compile.ts`）的独立实现设计。本实现保持全部 55 个模块路径及其对外导出签名、类型与行为（`interface.md` 与 `behavior.md`），确保 324 个 golden 样例逐字节等价，并满足代码相似度与接入门禁。
 
