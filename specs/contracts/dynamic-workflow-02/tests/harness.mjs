@@ -165,3 +165,48 @@ export function settleAsk(engine, instance, typed, value) {
   if (typed) engine.askSubmitAttempted(instance, value);
   else engine.askTurnEnded(instance, value);
 }
+
+/**
+ * 记**写入顺序**的 journal 包裹层：端口上「列值先于事件」「resume 不重建 run」这类承诺说的是两次
+ * 写入的先后，只断言两侧值相等是钉不住的——同一个同步步骤里谁先谁后都相等。
+ * 读方法原样透传，写方法记一笔 `trace`。
+ */
+export function tracedJournal(store) {
+  const trace = [];
+  const at = (label) => trace.push(label);
+  return {
+    trace,
+    journal: {
+      createRun(record) {
+        at("createRun");
+        return store.createRun(record);
+      },
+      getRun: (runId) => store.getRun(runId),
+      updateRunStatus(runId, status, settlement) {
+        at(`updateRunStatus:${status}`);
+        return store.updateRunStatus(runId, status, settlement);
+      },
+      updateRunUsage(runId, spentTokens) {
+        at(`updateRunUsage:${spentTokens}`);
+        return store.updateRunUsage(runId, spentTokens);
+      },
+      putActor(record) {
+        at("putActor");
+        return store.putActor(record);
+      },
+      getActor: (runId, siteId, ordinal) => store.getActor(runId, siteId, ordinal),
+      listActors: (runId) => store.listActors(runId),
+      putNode(record) {
+        at(`putNode:${record.status}`);
+        return store.putNode(record);
+      },
+      getNode: (runId, siteId, ordinal) => store.getNode(runId, siteId, ordinal),
+      listNodes: (runId) => store.listNodes(runId),
+      appendEvent(runId, event) {
+        at(`appendEvent:${event.type}`);
+        return store.appendEvent(runId, event);
+      },
+      listEvents: (runId, opts) => store.listEvents(runId, opts),
+    },
+  };
+}

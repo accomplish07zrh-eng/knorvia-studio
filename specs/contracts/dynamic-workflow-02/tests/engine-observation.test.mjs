@@ -16,56 +16,13 @@ import {
   nodeRow,
   refOf,
   tick,
+  tracedJournal,
   wfError,
 } from "./harness.mjs";
 
 const { InMemoryJournalStore } = dw;
 
 const RUN_ID = "run-1";
-
-/**
- * 记调用顺序的 journal 包裹层：`askStats` 承诺「列值先于事件」，那只能从写入顺序上钉，
- * 断言两侧的值相等是钉不住的（同一同步步骤里谁先谁后都相等）。
- */
-function tracedJournal(store) {
-  const trace = [];
-  const at = (label) => trace.push(label);
-  return {
-    trace,
-    journal: {
-      createRun(record) {
-        at("createRun");
-        return store.createRun(record);
-      },
-      getRun: (runId) => store.getRun(runId),
-      updateRunStatus(runId, status, settlement) {
-        at(`updateRunStatus:${status}`);
-        return store.updateRunStatus(runId, status, settlement);
-      },
-      updateRunUsage(runId, spentTokens) {
-        at(`updateRunUsage:${spentTokens}`);
-        return store.updateRunUsage(runId, spentTokens);
-      },
-      putActor(record) {
-        at("putActor");
-        return store.putActor(record);
-      },
-      getActor: (runId, siteId, ordinal) => store.getActor(runId, siteId, ordinal),
-      listActors: (runId) => store.listActors(runId),
-      putNode(record) {
-        at(`putNode:${record.status}`);
-        return store.putNode(record);
-      },
-      getNode: (runId, siteId, ordinal) => store.getNode(runId, siteId, ordinal),
-      listNodes: (runId) => store.listNodes(runId),
-      appendEvent(runId, event) {
-        at(`appendEvent:${event.type}`);
-        return store.appendEvent(runId, event);
-      },
-      listEvents: (runId, opts) => store.listEvents(runId, opts),
-    },
-  };
-}
 
 /** 一条 live 的 untyped ask：返回 harness、实例、以及那次 ask 的 promise。 */
 async function withLiveAsk(options = {}) {
