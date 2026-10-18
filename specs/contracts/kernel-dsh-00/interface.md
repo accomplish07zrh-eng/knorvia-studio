@@ -129,12 +129,13 @@ export function runKernelProcess(options: RunKernelProcessOptions): Promise<numb
 
 ### 错误码
 
-| code                    | 触发                | 语义                    |
-| ----------------------- | ------------------- | ----------------------- |
-| `KERNEL_ALREADY_BOOTED` | 第二次 `bootKernel` | 不创建第二棵树          |
-| `KERNEL_INVALID_CWD`    | `cwd` 非绝对路径    | 配置错误                |
-| `KERNEL_BOOT_FAILED`    | `boot()` 抛错       | 失败行 `reason=boot`    |
-| `KERNEL_DISPOSE_FAILED` | dispose 抛错或超时  | 失败行 `reason=dispose` |
+| code                    | 触发                             | 语义                             |
+| ----------------------- | -------------------------------- | -------------------------------- |
+| `KERNEL_ALREADY_BOOTED` | 第二次 `bootKernel`              | 不创建第二棵树                   |
+| `KERNEL_INVALID_CWD`    | `cwd` 非绝对路径                 | 配置错误                         |
+| `KERNEL_CONFIG_FAILED`  | 数据根/DSH_HOME/配置文件物化失败 | 配置错误；失败行 `reason=config` |
+| `KERNEL_BOOT_FAILED`    | `boot()` 抛错                    | 失败行 `reason=boot`             |
+| `KERNEL_DISPOSE_FAILED` | dispose 抛错或超时               | 失败行 `reason=dispose`          |
 
 错误对象至少含 `name`、`message`、`code`；`message` 不含凭据与环境变量值。
 
