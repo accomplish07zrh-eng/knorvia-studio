@@ -7,7 +7,7 @@
 // 数据面，所以这里的断言是逐字的：声明清单、签名文本、表行的顺序与 op 命名。
 //
 // 但**逐字锁的是声明，不是散文**：facade 原文 19067 字符里约 16 KB 是讲解性注释，重写时
-// 注释必须由 Knoravia 自己写（见 README「facade 资产的锁定口径」与 known-differences.md K9），
+// 注释必须由 Knorvia 自己写（见 README「facade 资产的锁定口径」与 known-differences.md K9），
 // 所以声明文本以「剥掉全部注释」后的形态逐字节比对（`tests/facade-text.mjs` +
 // `fixtures/facade/*.txt`，由 `tests/record-facade.mjs` 录制），而注释文字不进锁。
 import assert from "node:assert/strict";
