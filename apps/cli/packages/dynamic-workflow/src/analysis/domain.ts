@@ -1,654 +1,68 @@
+// SPDX-License-Identifier: Apache-2.0
 import ts from "typescript";
 import { WORKFLOW_FUNCTION_NAME, type ScriptLoc } from "../compiler/compile.js";
+import {
+  OccurrenceJoin,
+  PlaceholderJoin,
+  ValueJoin,
+  absorbFlat,
+  claim,
+  grewFrom,
+  overCap,
+} from "./domain/lattice.js";
 
-/**
- * The abstract domain of the taint pass and the pure algebra over it. See taint.ts
- * for the analysis that drives these values to a fixpoint.
- *
- * An {@link AbstractValue} carries three orthogonal facts about a runtime value:
- *  - `occs`: the taint labels (artifact/actor site ids) that may have flowed into it,
- *    plus symbolic parameter {@link Placeholder}s when we are inside a function body;
- *  - `fields`: statically-known members (object-literal props, array/tuple indices),
- *    so `x.f` and `[a, b]` stay field-sensitive;
- *  - `fns`: script-local functions reachable as this value, keeping the call graph
- *    total under higher-order code.
- *
- * Every merge is a weak (join-only) union — the analysis is gen-only, so values only
- * ever grow, which is what drives the monotone fixpoint to convergence.
- */
+// Gen-only lattice for the taint fixpoint. A value only grows, which is what makes the
+// pass terminate. Three facts travel together:
+//   occurrences — site labels that reached this value, plus formal placeholders inside a summary
+//   fields — members whose names are known statically (properties and tuple slots)
+//   functions — script-local callees reachable as this value
+// Two extra axes stay off the common path: a bind prefix, and may-alias back-edges.
 
-/** A taint occurrence: a site/actor label with an exactness bit and optional join port. */
+// A label is a site id, an exactness bit, and an optional join or element port.
+// A missing port means the whole value. That portless label replaces every ported
+// label of the same site and keeps exactness if either side was exact. A selected
+// element keeps its port until a whole-value read joins it.
 export interface TaintOcc {
+  port?: number;
   site: string;
   exact: boolean;
-  port?: number;
 }
 
-/** Symbolic taint of a function parameter, used to express context-sensitive summaries. */
+// One formal of one function summary. `rest` means every actual at index >= `param`
+// belongs to this formal. Dropping the bit would stop the tail from being gathered
+// when the summary is substituted (calls.ts) or when facts are emitted (state.ts).
 export interface Placeholder {
+  rest?: boolean;
   fnId: number;
   param: number;
-  /**
-   * A rest parameter (`...parts`) is a single formal that gathers every actual at
-   * index >= `param`. Resolution (substitute in calls.ts, emitFacts in state.ts)
-   * unions ALL those actuals into the formal rather than the single positional one.
-   */
-  rest?: boolean;
 }
 
 export interface AbstractValue {
-  /** Keyed by `${site}|${port ?? ""}`. */
-  occs: Map<string, TaintOcc>;
-  /** Keyed by `${fnId}:${param}`. */
-  phs: Map<string, Placeholder>;
-  fields: Map<string, AbstractValue>;
+  // Script-local functions this value may be. A merged bound and unbound function
+  // cannot say which one carries the prefix, so application tries both alignments.
   fns: Set<ts.Node>;
-  /**
-   * A partial-application prefix from `Function.prototype.bind`: `f.bind(null, a)` yields
-   * a value carrying f in `fns` plus `bound = [a]`. At the eventual call the prefix is
-   * PREPENDED to the actuals (`applyToFns`), so `g()` reaches f's param 0 as `a`. Rebinding
-   * composes (earlier bind's args first). Because `fns` is a set, a merged bound/plain
-   * value (`flag ? f : f.bind(null, a)`) can't say which fn is bound, so application unions
-   * BOTH alignments (with and without the prefix) — sound either way. Undefined for the
-   * overwhelmingly common non-bound value (kept off the hot path).
-   */
+  // Statically named members. Absent means "not tracked", not "empty of taint".
+  fields: Map<string, AbstractValue>;
+  // Keyed by site + "|" + (port ?? "").
+  occs: Map<string, TaintOcc>;
+  // Keyed by fnId + ":" + param. The rest bit is payload, not part of the key.
+  phs: Map<string, Placeholder>;
+  // Arguments already supplied by bind, earlier binds first. Absent when unbound.
+  // At the real call the prefix is prepended to the actuals.
   bound?: AbstractValue[];
-  /**
-   * MAY-ALIAS back-references: live places a WRITE through this value must ALSO weakly
-   * reach, because at runtime this value may BE one of them. Set for a conditional binding
-   * (`const a = flag ? box1 : box2` → a's value may-aliases box1 AND box2) and for a
-   * `Promise.all` result element that aliases its (place) input. Consulted ONLY at the
-   * write primitives ({@link replayMayAliasWrite} in writeField / handleHeapMutator): the
-   * write is replayed into each target INEXACTLY (it happens on one arm only — never a
-   * strong update), recursing into each target's OWN mayAlias (chained aliases). A Set so
-   * unions dedup by slot IDENTITY (loop-carried merges stay finite → the fixpoint
-   * terminates). Undefined for the overwhelmingly common non-aliased value.
-   *
-   * That termination argument has a PREMISE — the **canonical-heap invariant**: every
-   * target is drawn from the pass-stable heap, i.e. values keyed by a static program point
-   * and created once for the whole fixpoint (env slots per symbol, class instances per
-   * class, join results per join call, conditional places per ternary node, and the
-   * persistent fields of any of those). A per-pass temporary must NEVER become a target:
-   * identity dedup cannot recognize it, so each pass would add one more member, `changed`
-   * would stay true forever, and the analysis would hit `ITERATION_CAP` instead of
-   * converging (state.ts `joinResultOf` / `condPlaceOf` record the two repros that did).
-   */
+  // Places a write through this value must also reach, because at runtime this value
+  // may be one of them. Set for a conditional binding (`flag ? box1 : box2`) and for
+  // a Promise.all element that aliases its input. The replay is weak and inexact:
+  // the write lands on one arm only, so it never strong-updates a target, and it
+  // follows each target's own mayAlias set. Identity dedup keeps loop-carried merges
+  // finite.
+  //
+  // That only terminates if every target is a pass-stable heap node: an env slot, a
+  // class instance, a join result, a conditional place, a literal place, or a field
+  // of one of those. A fresh object minted each pass is a new identity, the set grows
+  // forever, and the fixpoint hits the iteration cap. joinResultOf and condPlaceOf
+  // exist so those two nodes stay stable.
   mayAlias?: Set<AbstractValue>;
-}
-
-export function emptyValue(): AbstractValue {
-  return { fields: new Map(), fns: new Set(), occs: new Map(), phs: new Map() };
-}
-
-function occKey(site: string, port: number | undefined): string {
-  return `${site}|${port ?? ""}`;
-}
-
-export function phKey(ph: Placeholder): string {
-  return `${ph.fnId}:${ph.param}`;
-}
-
-/**
- * Add an occurrence, maintaining the port-subsumption invariant of every taint set:
- * occurrences are keyed by (site, port) and distinct ports of a site coexist, BUT a
- * portless occurrence of a site subsumes every ported occurrence of the same site
- * (merging their exactness). A whole-node read is portless, so it collapses element
- * precision; a selected element keeps its port until a whole-node read joins it.
- */
-export function addOcc(target: AbstractValue, occ: TaintOcc): boolean {
-  if (occ.port === undefined) return addPortless(target, occ);
-  // Ported: if a portless occurrence of the site already exists, it subsumes this one.
-  const portless = target.occs.get(occKey(occ.site, undefined));
-  if (portless !== undefined) {
-    if (occ.exact && !portless.exact) {
-      portless.exact = true;
-      return true;
-    }
-    return false;
-  }
-  return addExact(target, occ);
-}
-
-function addPortless(target: AbstractValue, occ: TaintOcc): boolean {
-  // Drop any ported occurrences of the same site, folding their exactness in.
-  let exact = occ.exact;
-  let changed = false;
-  const drop: string[] = [];
-  for (const [key, existing] of target.occs) {
-    if (existing.site === occ.site && existing.port !== undefined) {
-      exact = exact || existing.exact;
-      drop.push(key);
-    }
-  }
-  for (const key of drop) {
-    target.occs.delete(key);
-    changed = true;
-  }
-  return addExact(target, { exact, site: occ.site }) || changed;
-}
-
-function addExact(target: AbstractValue, occ: TaintOcc): boolean {
-  const key = occKey(occ.site, occ.port);
-  const existing = target.occs.get(key);
-  if (existing === undefined) {
-    target.occs.set(key, { exact: occ.exact, port: occ.port, site: occ.site });
-    return true;
-  }
-  if (occ.exact && !existing.exact) {
-    existing.exact = true;
-    return true;
-  }
-  return false;
-}
-
-export function addPlaceholder(target: AbstractValue, ph: Placeholder): boolean {
-  const key = phKey(ph);
-  const existing = target.phs.get(key);
-  if (existing !== undefined) {
-    // A rest bit must not be lost when the same placeholder is merged from a
-    // non-rest witness (e.g. the keystone rule) — otherwise resolution would
-    // stop gathering the tail actuals.
-    if (ph.rest === true && existing.rest !== true) {
-      existing.rest = true;
-      return true;
-    }
-    return false;
-  }
-  target.phs.set(key, {
-    fnId: ph.fnId,
-    param: ph.param,
-    ...(ph.rest === true ? { rest: true } : {}),
-  });
-  return true;
-}
-
-/**
- * Fixed cap on field nesting. Beyond it, structure collapses into the occurrence set,
- * keeping the lattice finite in the presence of cyclic (`a.self = a`) and
- * recursively-grown heap — the premise the monotone fixpoint needs to converge. With
- * place-aliasing an abstract value can be genuinely cyclic (a field pointing back at
- * its container is a single shared node), so every recursive walk below is also
- * cycle-safe (identity guards / visited sets); the two together make divergence and
- * the `ITERATION_CAP` throw unreachable.
- */
-export const VALUE_DEPTH_CAP = 8;
-
-/** Deep weak-merge `source` into `target`; returns true iff `target` grew. */
-export function mergeInto(target: AbstractValue, source: AbstractValue, depth = 0): boolean {
-  if (target === source) return false; // identity guard: mergeInto(x, x) is a no-op (cycle-safe)
-  let changed = false;
-  for (const occ of source.occs.values()) changed = addOcc(target, occ) || changed;
-  for (const ph of source.phs.values()) changed = addPlaceholder(target, ph) || changed;
-  for (const fn of source.fns) {
-    if (!target.fns.has(fn)) {
-      target.fns.add(fn);
-      changed = true;
-    }
-  }
-  if (source.bound !== undefined) changed = mergeBound(target, source.bound, depth) || changed;
-  if (source.mayAlias !== undefined) {
-    // Union may-alias back-references, deduped by slot IDENTITY (Set): a conditional
-    // binding merged across fixpoint passes must reach a fixed point, not append duplicates.
-    const targets = (target.mayAlias ??= new Set());
-    for (const m of source.mayAlias) {
-      if (!targets.has(m)) {
-        targets.add(m);
-        changed = true;
-      }
-    }
-  }
-  if (depth >= VALUE_DEPTH_CAP) {
-    // Depth cap reached: do not descend (a cycle would recurse forever, and unbounded
-    // nesting would break the finite-lattice premise). Fold the remaining structure
-    // into this node's occurrence set instead. collapseInto is cycle-safe and reports
-    // growth, so the fixpoint's `changed` signal stays sound.
-    for (const field of source.fields.values()) changed = collapseInto(target, field) || changed;
-    return changed;
-  }
-  for (const [key, field] of source.fields) {
-    let slot = target.fields.get(key);
-    if (slot === undefined) {
-      slot = emptyValue();
-      target.fields.set(key, slot);
-    }
-    changed = mergeInto(slot, field, depth + 1) || changed;
-  }
-  return changed;
-}
-
-/**
- * Union a bind prefix into `target` element-wise (position i of one bind maps to position
- * i of another). Beyond the depth cap the prefix folds into `target`'s occurrences (an
- * inexact smear that keeps every bound label alive — never a drop), keeping deeply-nested
- * bind-of-bind structure finite.
- *
- * The prefix's LENGTH is capped the same way, at {@link VALUE_DEPTH_CAP} positions — a
- * partial application longer than that is degenerate, and the cap is what keeps the lattice
- * finite along the OTHER axis. A self-rebind (`let h = f; h = h.bind(null, "x")`)
- * grows the prefix by one element per fixpoint pass — the value gets LONGER, never deeper,
- * so the depth cap never fires; without the length cap this loop would extend
- * `target.bound` by index and report `changed` forever, until the analysis hits
- * `ITERATION_CAP`. Over-cap elements collapse into
- * `target`'s occurrences, the identical degrade the depth cap uses. Honesty note: that keeps
- * every label alive ON THE VALUE, but a tracked dispatch does not fold callee-value
- * occurrences into parameters or results, so a prefix with more than CAP *distinct* bound
- * values loses routing for the tail — reachable only by a hand-written >8-argument partial
- * application (the loop-grown repro merely duplicates labels already present in-cap, so it
- * loses nothing). Accepted trade against the ITERATION_CAP crash. Prefixes are only ever
- * BUILT over-length by a per-pass temporary (calls.ts handleInvocationForwarding composes
- * `[...receiver.bound, ...prefixArgs]`); every path into persistent storage runs through
- * here, so persistent `bound` arrays never exceed the cap — which is also what bounds
- * `substitute`, whose output prefix is a 1:1 map of an already-capped summary prefix.
- */
-export function mergeBound(
-  target: AbstractValue,
-  sourceBound: AbstractValue[],
-  depth: number,
-): boolean {
-  let changed = false;
-  if (depth >= VALUE_DEPTH_CAP) {
-    for (const el of sourceBound) changed = collapseInto(target, el) || changed;
-    return changed;
-  }
-  if (target.bound === undefined) target.bound = [];
-  const tb = target.bound;
-  for (let i = 0; i < sourceBound.length; i += 1) {
-    const el = sourceBound[i] as AbstractValue;
-    if (i >= VALUE_DEPTH_CAP) {
-      changed = collapseInto(target, el) || changed; // degrade: smear into occs (never drop)
-      continue;
-    }
-    let slot = tb[i];
-    if (slot === undefined) {
-      slot = emptyValue();
-      tb[i] = slot;
-      changed = true;
-    }
-    changed = mergeInto(slot, el, depth + 1) || changed;
-  }
-  return changed;
-}
-
-export function cloneValue(v: AbstractValue): AbstractValue {
-  const out = emptyValue();
-  mergeInto(out, v);
-  return out;
-}
-
-/** Union of several values into a fresh owned value. */
-export function unionValues(...values: AbstractValue[]): AbstractValue {
-  const out = emptyValue();
-  for (const v of values) mergeInto(out, v);
-  return out;
-}
-
-export function singleOcc(site: string, exact: boolean, port?: number): AbstractValue {
-  const out = emptyValue();
-  addOcc(out, { exact, port, site });
-  return out;
-}
-
-/**
- * Fold a value to its taint occurrences (occs + placeholders), dropping FIELD STRUCTURE
- * but keeping the tracked function values found anywhere in it. Ports are preserved per
- * occurrence; the port-subsumption invariant (a portless occurrence shadows ported ones
- * of the same site) is maintained by {@link addOcc}, so a whole-node read that mixes the
- * node's own portless label with per-element ported labels folds to the single portless
- * label.
- *
- * Widening folds LABELS, never the call graph: a collapsed /
- * computed-access read carries every function value nested in the
- * structure, so a callee selected by `fns[i]` or reached through an iterated element
- * still dispatches to its summary (widened, inexact) rather than becoming an unknown
- * call. Fns sets are finite (bounded by the script's function nodes), so carrying them
- * through collapse stays monotone and cannot diverge the fixpoint.
- */
-export function collapse(v: AbstractValue): AbstractValue {
-  const out = emptyValue();
-  collapseInto(out, v);
-  return out;
-}
-
-/**
- * Fold `v`'s taint (occs + placeholders + fns, recursively through fields) into `out`;
- * returns true iff `out` grew. Cycle-safe via `seen`: a shared/cyclic field object is
- * folded once (its occs already contributed on first visit), so `a.self = a` folds in
- * finite time. Returning growth keeps the depth-cap fold in {@link mergeInto} sound.
- */
-export function collapseInto(
-  out: AbstractValue,
-  v: AbstractValue,
-  seen = new Set<AbstractValue>(),
-): boolean {
-  if (seen.has(v)) return false;
-  seen.add(v);
-  let changed = false;
-  for (const occ of v.occs.values()) changed = addOcc(out, occ) || changed;
-  for (const ph of v.phs.values()) changed = addPlaceholder(out, ph) || changed;
-  // Carry nested function values so widening never drops a callee (see collapse's doc).
-  for (const fn of v.fns) {
-    if (!out.fns.has(fn)) {
-      out.fns.add(fn);
-      changed = true;
-    }
-  }
-  for (const field of v.fields.values()) changed = collapseInto(out, field, seen) || changed;
-  // Bound-prefix args carry taint (occs/placeholders/fns) that must survive folding —
-  // otherwise a bound function collapsed at a summary/emission boundary silently drops its
-  // captured labels.
-  for (const el of v.bound ?? []) changed = collapseInto(out, el, seen) || changed;
-  return changed;
-}
-
-/**
- * Read a statically-known field using smear-on-read: the field's own value
- * unioned with the CONTAINER's own container-level occurrences (occs + placeholders,
- * not its other fields). A write smeared into the container through an untracked path
- * (root-identifier fold, computed index, `push`) lands in the container's occs, and a
- * precise field read must never hide it. Absent field → whole-value read (collapse,
- * exactness preserved — not a widening).
- *
- * The smear is strictly ADDITIVE: a portless container occurrence is NOT merged when the
- * field already carries a ported occurrence of that same site, because addOcc's
- * port-subsumption would otherwise collapse the port. That preserves join-port precision
- * — reading element `k` of a join result keeps `join#K|port=k` rather than folding it to
- * the join's whole-node portless label — while still surfacing genuine untracked writes
- * (which never have a matching ported field occ).
- */
-export function readField(container: AbstractValue, key: string): AbstractValue {
-  const field = container.fields.get(key);
-  if (field === undefined) return collapse(container);
-  const out = cloneValue(field);
-  for (const occ of container.occs.values()) {
-    if (occ.port === undefined && hasPortedOcc(out, occ.site)) continue;
-    addOcc(out, occ);
-  }
-  for (const ph of container.phs.values()) addPlaceholder(out, ph);
-  return out;
-}
-
-function hasPortedOcc(v: AbstractValue, site: string): boolean {
-  for (const occ of v.occs.values()) {
-    if (occ.site === site && occ.port !== undefined) return true;
-  }
-  return false;
-}
-
-/** Copy of `v` with every occurrence's exactness bit cleared (recursively). */
-export function clearExact(v: AbstractValue): AbstractValue {
-  const out = cloneValue(v);
-  clearExactInPlace(out);
-  return out;
-}
-
-function clearExactInPlace(v: AbstractValue, seen = new Set<AbstractValue>()): void {
-  if (seen.has(v)) return; // cycle-safe: a shared/cyclic field is cleared once
-  seen.add(v);
-  for (const occ of v.occs.values()) occ.exact = false;
-  for (const field of v.fields.values()) clearExactInPlace(field, seen);
-  for (const el of v.bound ?? []) clearExactInPlace(el, seen);
-}
-
-/** True for actor labels; everything else (ask/world-read/join/fan-out) is an artifact. */
-export { isActorSite } from "./core.js";
-
-/** Provisional fan-out id used inside occurrences before ordinals are assigned. */
-export function provisionalFanoutId(order: number): string {
-  return `fan-out@${order}`;
-}
-
-// --- small AST helpers shared by the analysis ------------------------------
-
-/**
- * Method names that mutate their receiver in place: array (`push`/`unshift`/`splice`)
- * and collection (`Map.set`, `Set.add`) writes. The transfer weak-merges each
- * argument's taint into the receiver's live value; an unresolvable receiver falls back
- * to the root-identifier smear (never a silent drop — see handleHeapMutator). `set`/`add`
- * are common names, but a false match cannot lose flow: mutator handling only ADDS taint
- * (a sound over-approximation, never a kill), and a member that actually HOLDS a tracked
- * script-local function dispatches as an ordinary call (see evalCall's mutator branch).
- */
-export const HEAP_MUTATORS = new Set<string>(["push", "unshift", "splice", "set", "add"]);
-
-/**
- * Every compound-assignment token (`+=`, `-=`, … and the logical `||=`/`&&=`/`??=`).
- * These read-modify-write the target: gen-only has no kills, so the transfer just
- * weak-merges the RHS into the target (the old value stays) and yields their union.
- */
-export const COMPOUND_ASSIGNMENT_OPS = new Set<ts.SyntaxKind>([
-  ts.SyntaxKind.PlusEqualsToken,
-  ts.SyntaxKind.MinusEqualsToken,
-  ts.SyntaxKind.AsteriskEqualsToken,
-  ts.SyntaxKind.AsteriskAsteriskEqualsToken,
-  ts.SyntaxKind.SlashEqualsToken,
-  ts.SyntaxKind.PercentEqualsToken,
-  ts.SyntaxKind.LessThanLessThanEqualsToken,
-  ts.SyntaxKind.GreaterThanGreaterThanEqualsToken,
-  ts.SyntaxKind.GreaterThanGreaterThanGreaterThanEqualsToken,
-  ts.SyntaxKind.AmpersandEqualsToken,
-  ts.SyntaxKind.BarEqualsToken,
-  ts.SyntaxKind.CaretEqualsToken,
-  ts.SyntaxKind.BarBarEqualsToken,
-  ts.SyntaxKind.AmpersandAmpersandEqualsToken,
-  ts.SyntaxKind.QuestionQuestionEqualsToken,
-]);
-
-export function findWorkflowBody(scriptFile: ts.SourceFile): ts.Block {
-  for (const statement of scriptFile.statements) {
-    if (
-      ts.isFunctionDeclaration(statement) &&
-      statement.name?.text === WORKFLOW_FUNCTION_NAME &&
-      statement.body !== undefined
-    ) {
-      return statement.body;
-    }
-  }
-  throw new Error(`workflow wrapper function ${WORKFLOW_FUNCTION_NAME} not found`);
-}
-
-export function isFunctionLike(node: ts.Node): boolean {
-  return (
-    ts.isFunctionDeclaration(node) ||
-    ts.isFunctionExpression(node) ||
-    ts.isArrowFunction(node) ||
-    ts.isMethodDeclaration(node) ||
-    ts.isGetAccessorDeclaration(node) ||
-    ts.isSetAccessorDeclaration(node) ||
-    ts.isConstructorDeclaration(node)
-  );
-}
-
-/**
- * A function-like node that owns its own `arguments` object — every kind except an arrow
- * (arrows see the lexically-enclosing function's `arguments`). Used to resolve `arguments`
- * to the right function's actuals.
- */
-export function isNonArrowFunctionLike(node: ts.Node): boolean {
-  return isFunctionLike(node) && !ts.isArrowFunction(node);
-}
-
-/** A directly-referenced callee (an identifier or a function literal) preserves exactness. */
-export function isDirectCallee(callee: ts.Expression): boolean {
-  const expr = ts.isParenthesizedExpression(callee) ? callee.expression : callee;
-  return (
-    ts.isIdentifier(expr) ||
-    ts.isPropertyAccessExpression(expr) ||
-    ts.isFunctionExpression(expr) ||
-    ts.isArrowFunction(expr)
-  );
-}
-
-export function isJsonStringify(access: ts.PropertyAccessExpression): boolean {
-  return (
-    ts.isIdentifier(access.expression) &&
-    access.expression.text === "JSON" &&
-    access.name.text === "stringify"
-  );
-}
-
-/** The static field key for `x[k]` when `k` is a string/number literal, else undefined. */
-export function staticIndexKey(arg: ts.Expression): string | undefined {
-  if (ts.isNumericLiteral(arg)) return arg.text;
-  if (ts.isStringLiteralLike(arg)) return arg.text;
-  return undefined;
-}
-
-/**
- * Peel value-preserving wrappers that can sit on a place expression. Besides the pure
- * type-level / grouping wrappers (parens, `as`/`satisfies`, non-null, type assertion),
- * the comma operator `(a, box)` evaluates to its LAST operand, so it IS that place
- * (`control-flow-comma-alias-write`); the discarded operands carry no place and are
- * evaluated for effect separately by callers on the aliasing path. `await` is NOT peeled
- * here — it is a place only when the awaited value is a genuine promise (not a custom
- * thenable, whose `then` transforms the result), a distinction resolvePlace makes on the
- * evaluated value.
- */
-export function peelPlace(expr: ts.Expression): ts.Expression {
-  let cur = expr;
-  while (true) {
-    if (ts.isParenthesizedExpression(cur)) cur = cur.expression;
-    else if (ts.isNonNullExpression(cur)) cur = cur.expression;
-    else if (ts.isAsExpression(cur) || ts.isSatisfiesExpression(cur)) cur = cur.expression;
-    else if (ts.isTypeAssertionExpression(cur)) cur = cur.expression;
-    else if (ts.isBinaryExpression(cur) && cur.operatorToken.kind === ts.SyntaxKind.CommaToken)
-      cur = cur.right;
-    else if (ts.isCommaListExpression(cur) && cur.elements.length > 0) {
-      cur = cur.elements[cur.elements.length - 1] as ts.Expression;
-    } else return cur;
-  }
-}
-
-/** The live field object at `key`, created empty on demand (shared reference). */
-export function liveField(container: AbstractValue, key: string): AbstractValue {
-  let field = container.fields.get(key);
-  if (field === undefined) {
-    field = emptyValue();
-    container.fields.set(key, field);
-  }
-  return field;
-}
-
-/**
- * Replay a field write into `container`'s may-alias targets: `container.f = value` must
- * also reach `target.f` for every place `container` may-alias (a conditional binding's arms,
- * a join result element's input). INEXACT: a may-alias write happens on one arm only, so it
- * clears exactness and never strong-updates a target (the direct write into the container's
- * own slot stays exact — this only affects the replay). Recurses into each target's OWN
- * mayAlias (chained aliases: `d = f2 ? a : e` where `a = f ? b : c`), cycle-safe via an
- * identity seen-set and depth-capped (beyond the cap the collapsed write smears into the
- * target's occs — a widening, never a drop). Returns true iff any target grew.
- */
-export function replayMayAliasWrite(
-  container: AbstractValue,
-  key: string,
-  value: AbstractValue,
-): boolean {
-  if (container.mayAlias === undefined) return false;
-  return replayFieldInto(container.mayAlias, key, clearExact(value), new Set(), 0);
-}
-
-function replayFieldInto(
-  targets: Set<AbstractValue>,
-  key: string,
-  write: AbstractValue,
-  seen: Set<AbstractValue>,
-  depth: number,
-): boolean {
-  let changed = false;
-  for (const target of targets) {
-    if (seen.has(target)) continue;
-    seen.add(target);
-    if (depth >= VALUE_DEPTH_CAP) {
-      changed = collapseInto(target, write) || changed; // degrade: smear into occs (never drop)
-      continue;
-    }
-    changed = mergeInto(liveField(target, key), write) || changed;
-    if (target.mayAlias !== undefined)
-      changed = replayFieldInto(target.mayAlias, key, write, seen, depth + 1) || changed;
-  }
-  return changed;
-}
-
-/**
- * Replay an in-place mutation (`push`/`Map.set`/…) into a container's may-alias targets:
- * the collapsed value smears (INEXACT) into each target's occs, recursing into chained
- * aliases. Same soundness contract as {@link replayMayAliasWrite}. Returns true iff any
- * target grew.
- */
-export function replayMayAliasMerge(container: AbstractValue, value: AbstractValue): boolean {
-  if (container.mayAlias === undefined) return false;
-  return replayMergeInto(container.mayAlias, clearExact(collapse(value)), new Set());
-}
-
-function replayMergeInto(
-  targets: Set<AbstractValue>,
-  write: AbstractValue,
-  seen: Set<AbstractValue>,
-): boolean {
-  let changed = false;
-  for (const target of targets) {
-    if (seen.has(target)) continue;
-    seen.add(target);
-    changed = mergeInto(target, write) || changed;
-    if (target.mayAlias !== undefined)
-      changed = replayMergeInto(target.mayAlias, write, seen) || changed;
-  }
-  return changed;
-}
-
-/**
- * Shallow-copy field sharing: `target` adopts each of `source`'s statically-known field
- * value objects BY REFERENCE, so a later write through `target.f`'s sub-object stays
- * visible through `source.f` and vice versa. Models `Object.assign(target, source)` and
- * spread (`{ ...source }`, `[...source]`), which shallow-copy at runtime — an
- * object-valued property is copied as a shared reference. A colliding target field is weak-merged INTO the
- * source's field first (runtime overwrites; gen-only keeps the union) before both names
- * adopt that one shared object. Returns true iff `target` grew. Only top-level fields are
- * shared (a genuine shallow copy), so no recursion / cycle risk.
- */
-export function adoptFields(target: AbstractValue, source: AbstractValue): boolean {
-  let changed = false;
-  for (const [key, srcField] of source.fields) {
-    const existing = target.fields.get(key);
-    if (existing === srcField) continue;
-    if (existing !== undefined) mergeInto(srcField, existing);
-    target.fields.set(key, srcField);
-    changed = true;
-  }
-  return changed;
-}
-
-/** The statically-known member name a binding element reads, if any. */
-export function bindingPropertyKey(element: ts.BindingElement): string | undefined {
-  if (element.propertyName !== undefined) {
-    if (
-      ts.isIdentifier(element.propertyName) ||
-      ts.isStringLiteralLike(element.propertyName) ||
-      ts.isNumericLiteral(element.propertyName)
-    ) {
-      return element.propertyName.text;
-    }
-    return undefined;
-  }
-  return ts.isIdentifier(element.name) ? element.name.text : undefined;
-}
-
-/** The edge-bearing facts consumed by graph assembly. Fan-out ids are provisional. */
-export interface TaintFacts {
-  /** Artifact occurrences reaching each ask instruction (data in-edges to the ask). */
-  askData: Map<string, TaintOcc[]>;
-  /** Actor occurrences of each ask receiver (drive the context relation). */
-  askActor: Map<string, TaintOcc[]>;
-  /** Artifact occurrences reaching each world-read argument. */
-  worldReadData: Map<string, TaintOcc[]>;
-  /** Artifact occurrences reaching each join, carrying the join input port. */
-  joinIn: Map<string, TaintOcc[]>;
-  /** Artifact occurrences reaching each promoted fan-out (provisional id). */
-  fanoutIn: Map<string, TaintOcc[]>;
-  /** Artifact occurrences reaching the script's return expression(s). */
-  returnData: TaintOcc[];
-  /** Promoted iteration candidates, in source order; `id` is provisional (`fan-out@N`). */
-  promoted: PromotedFanout[];
 }
 
 export interface PromotedFanout {
@@ -656,4 +70,421 @@ export interface PromotedFanout {
   id: string;
   loc: ScriptLoc;
   label: string;
+}
+
+// Edge facts for graph assembly. Fan-out ids are still provisional (`fan-out@N`).
+export interface TaintFacts {
+  promoted: PromotedFanout[];
+  returnData: TaintOcc[];
+  askData: Map<string, TaintOcc[]>;
+  askActor: Map<string, TaintOcc[]>;
+  worldReadData: Map<string, TaintOcc[]>;
+  joinIn: Map<string, TaintOcc[]>;
+  fanoutIn: Map<string, TaintOcc[]>;
+}
+
+// Field chains and bind prefixes both stop here. Deeper structure is smeared into
+// occurrences so a cyclic heap cannot mint a fresh node on every pass. A self-rebind
+// (`h = h.bind(null, x)`) grows the prefix by one slot per pass and never gets deeper,
+// so the same cap also limits prefix length. Past it, each extra element is smeared
+// onto the value. Labels survive; routing through more than CAP distinct bound values
+// does not. Every path into a persistent slot goes through the prefix join, so a
+// stored prefix never exceeds the cap.
+export const VALUE_DEPTH_CAP = 8;
+
+const kind = ts.SyntaxKind;
+const FUNCTION_KINDS = new Set<ts.SyntaxKind>([
+  kind.FunctionDeclaration,
+  kind.FunctionExpression,
+  kind.ArrowFunction,
+  kind.MethodDeclaration,
+  kind.GetAccessor,
+  kind.SetAccessor,
+  kind.Constructor,
+]);
+const DIRECT_CALLEE_KINDS = new Set<ts.SyntaxKind>([
+  kind.Identifier,
+  kind.PropertyAccessExpression,
+  kind.FunctionExpression,
+  kind.ArrowFunction,
+]);
+
+function compoundOps(): Set<ts.SyntaxKind> {
+  return new Set<ts.SyntaxKind>([
+    kind.PlusEqualsToken,
+    kind.MinusEqualsToken,
+    kind.AsteriskEqualsToken,
+    kind.AsteriskAsteriskEqualsToken,
+    kind.SlashEqualsToken,
+    kind.PercentEqualsToken,
+    kind.LessThanLessThanEqualsToken,
+    kind.GreaterThanGreaterThanEqualsToken,
+    kind.GreaterThanGreaterThanGreaterThanEqualsToken,
+    kind.AmpersandEqualsToken,
+    kind.BarEqualsToken,
+    kind.CaretEqualsToken,
+    kind.BarBarEqualsToken,
+    kind.AmpersandAmpersandEqualsToken,
+    kind.QuestionQuestionEqualsToken,
+  ]);
+}
+
+// Names that mutate the receiver: array push/unshift/splice and Map.set / Set.add.
+// A false match only adds taint. A member that actually holds a tracked function
+// still dispatches as a call.
+const HEAP_MUTATOR_NAMES = ["push", "unshift", "splice", "set", "add"] as const;
+export const HEAP_MUTATORS = new Set<string>(HEAP_MUTATOR_NAMES);
+
+// Read-modify-write tokens, including ||=, &&=, and ??=. Gen-only has no kills,
+// so the transfer keeps the old value and weak-merges the right-hand side.
+export const COMPOUND_ASSIGNMENT_OPS = compoundOps();
+
+// Wrappers that do not change which place an expression denotes. The comma operator
+// denotes its last operand. `await` is not peeled: it is a place only when the
+// awaited value is a real promise, which resolvePlace decides from the value.
+const UNWRAP_KINDS = new Set<ts.SyntaxKind>([
+  kind.ParenthesizedExpression,
+  kind.NonNullExpression,
+  kind.AsExpression,
+  kind.SatisfiesExpression,
+  kind.TypeAssertionExpression,
+]);
+
+function peeledChild(expr: ts.Expression): ts.Expression | undefined {
+  if (UNWRAP_KINDS.has(expr.kind)) return (expr as ts.ParenthesizedExpression).expression;
+  if (expr.kind === kind.BinaryExpression) {
+    const bin = expr as ts.BinaryExpression;
+    return bin.operatorToken.kind === kind.CommaToken ? bin.right : undefined;
+  }
+  if (expr.kind !== kind.CommaListExpression) return undefined;
+  return (expr as ts.CommaListExpression).elements.at(-1);
+}
+
+function literalText(node: ts.Node): string | undefined {
+  if (ts.isIdentifier(node) || ts.isStringLiteralLike(node) || ts.isNumericLiteral(node)) {
+    return node.text;
+  }
+  return;
+}
+
+function freshValue(): AbstractValue {
+  const fields = new Map<string, AbstractValue>();
+  const fns = new Set<ts.Node>();
+  const occs = new Map<string, TaintOcc>();
+  const phs = new Map<string, Placeholder>();
+  return { fields, fns, occs, phs };
+}
+
+function grewAt<T>(items: readonly T[], step: (item: T, index: number) => boolean): boolean {
+  let grew = false;
+  let index = 0;
+  while (index < items.length) {
+    const item = items[index];
+    if (item !== undefined && step(item, index)) grew = true;
+    index += 1;
+  }
+  return grew;
+}
+
+function ensureField(container: AbstractValue, key: string): AbstractValue {
+  const found = container.fields.get(key);
+  if (found !== undefined) return found;
+  const created = freshValue();
+  container.fields.set(key, created);
+  return created;
+}
+
+class ValueFold {
+  // Drop field structure. Keep labels, formals, and every nested function. Ports stay
+  // until a portless label of the same site subsumes them. Functions ride along so a
+  // widened read (`fns[i]`, an iterated element) still dispatches instead of becoming
+  // an unknown call. The function set is bounded by the script, so this cannot diverge.
+  static into(out: AbstractValue, source: AbstractValue, seen: Set<AbstractValue>): boolean {
+    if (!claim(seen, source)) return false;
+    const flat = absorbFlat(out, source);
+    const nested = grewFrom(source.fields.values(), (field) => ValueFold.into(out, field, seen));
+    const prefix = source.bound;
+    const bound =
+      prefix === undefined ? false : grewFrom(prefix, (part) => ValueFold.into(out, part, seen));
+    return flat || nested || bound;
+  }
+
+  static fresh(source: AbstractValue): AbstractValue {
+    const folded = freshValue();
+    ValueFold.into(folded, source, new Set());
+    return folded;
+  }
+}
+
+function carriesPort(value: AbstractValue, site: string): boolean {
+  return [...value.occs.values()].some((row) => row.site === site && row.port !== undefined);
+}
+
+// Smear container-level labels onto a field read. Skip a portless container label
+// when the field already carries a port of that site, or the portless label would
+// erase the port. Placeholders always smear. Other fields do not.
+function smearRead(out: AbstractValue, container: AbstractValue): void {
+  for (const occ of container.occs.values()) {
+    if (occ.port === undefined && carriesPort(out, occ.site)) continue;
+    OccurrenceJoin.admit(out, occ);
+  }
+  for (const ph of container.phs.values()) PlaceholderJoin.admit(out, ph);
+}
+
+class Exactness {
+  static cleared(source: AbstractValue): AbstractValue {
+    const copy = freshValue();
+    ValueJoin.into(copy, source, 0);
+    Exactness.scrub(copy, new Set());
+    return copy;
+  }
+
+  private static scrub(node: AbstractValue, seen: Set<AbstractValue>): void {
+    if (!claim(seen, node)) return;
+    for (const occ of node.occs.values()) occ.exact = false;
+    for (const field of node.fields.values()) Exactness.scrub(field, seen);
+    const prefix = node.bound;
+    if (prefix === undefined) return;
+    for (const part of prefix) Exactness.scrub(part, seen);
+  }
+}
+
+interface FieldWave {
+  aliases: Set<AbstractValue>;
+  member: string;
+  payload: AbstractValue;
+  seen: Set<AbstractValue>;
+  depth: number;
+}
+
+interface NodeWave {
+  aliases: Set<AbstractValue>;
+  payload: AbstractValue;
+  seen: Set<AbstractValue>;
+}
+
+class AliasReplay {
+  // A field write also reaches `target[key]` for every place the container may be.
+  // Exactness is cleared first: the write happens on one arm only. The container's
+  // own slot is updated by the caller and stays exact. Chained aliases recurse, and
+  // past the depth cap the write smears into the target's occurrences.
+  static write(container: AbstractValue, key: string, value: AbstractValue): boolean {
+    const aliases = container.mayAlias;
+    if (aliases === undefined) return false;
+    return AliasReplay.fields({
+      aliases,
+      depth: 0,
+      member: key,
+      payload: Exactness.cleared(value),
+      seen: new Set(),
+    });
+  }
+
+  private static fields(wave: FieldWave): boolean {
+    return grewFrom(wave.aliases, (target) => {
+      if (!claim(wave.seen, target)) return false;
+      if (overCap(wave.depth)) return ValueFold.into(target, wave.payload, new Set());
+      const direct = ValueJoin.into(ensureField(target, wave.member), wave.payload, 0);
+      const nested = target.mayAlias;
+      if (nested === undefined) return direct;
+      const deeper = AliasReplay.fields({
+        aliases: nested,
+        depth: wave.depth + 1,
+        member: wave.member,
+        payload: wave.payload,
+        seen: wave.seen,
+      });
+      return direct || deeper;
+    });
+  }
+
+  // In-place mutation (`push`, `Map.set`): smear the collapsed value into each alias.
+  static smear(container: AbstractValue, value: AbstractValue): boolean {
+    const aliases = container.mayAlias;
+    if (aliases === undefined) return false;
+    return AliasReplay.nodes({
+      aliases,
+      payload: Exactness.cleared(ValueFold.fresh(value)),
+      seen: new Set(),
+    });
+  }
+
+  private static nodes(wave: NodeWave): boolean {
+    return grewFrom(wave.aliases, (target) => {
+      if (!claim(wave.seen, target)) return false;
+      const direct = ValueJoin.into(target, wave.payload, 0);
+      const nested = target.mayAlias;
+      if (nested === undefined) return direct;
+      const deeper = AliasReplay.nodes({ aliases: nested, payload: wave.payload, seen: wave.seen });
+      return direct || deeper;
+    });
+  }
+}
+
+// Shallow copy: `target` adopts each of `source`'s field objects by reference, so a
+// later write through either name hits the same node. A colliding field is merged
+// into the source's field first (runtime overwrites; gen-only keeps both), then both
+// names share that object. Only the top level is shared. The merge's own growth is
+// not reported — callers that must not spin the fixpoint rely on that.
+function shareFields(target: AbstractValue, source: AbstractValue): boolean {
+  const adopted = [...source.fields].filter(
+    ([key, incoming]) => target.fields.get(key) !== incoming,
+  );
+  for (const [key, incoming] of adopted) {
+    const prior = target.fields.get(key);
+    if (prior !== undefined) ValueJoin.into(incoming, prior, 0);
+    target.fields.set(key, incoming);
+  }
+  return adopted.length > 0;
+}
+
+export function emptyValue(): AbstractValue {
+  return freshValue();
+}
+export function phKey(ph: Placeholder): string {
+  return PlaceholderJoin.key(ph);
+}
+export function addOcc(target: AbstractValue, occ: TaintOcc): boolean {
+  return OccurrenceJoin.admit(target, occ);
+}
+export function addPlaceholder(target: AbstractValue, ph: Placeholder): boolean {
+  return PlaceholderJoin.admit(target, ph);
+}
+export function mergeInto(target: AbstractValue, source: AbstractValue, depth = 0): boolean {
+  return ValueJoin.into(target, source, depth);
+}
+export function mergeBound(
+  target: AbstractValue,
+  sourceBound: AbstractValue[],
+  depth: number,
+): boolean {
+  if (overCap(depth)) {
+    return grewFrom(sourceBound, (part) => ValueFold.into(target, part, new Set()));
+  }
+  target.bound ??= [];
+  const prefix = target.bound;
+  return grewAt(sourceBound, (part, index) => {
+    if (overCap(index)) return ValueFold.into(target, part, new Set());
+    const prior = prefix[index];
+    const created = prior === undefined;
+    const slot = prior ?? freshValue();
+    if (created) prefix[index] = slot;
+    return ValueJoin.into(slot, part, depth + 1) || created;
+  });
+}
+export function cloneValue(v: AbstractValue): AbstractValue {
+  const copy = freshValue();
+  ValueJoin.into(copy, v, 0);
+  return copy;
+}
+export function unionValues(...values: AbstractValue[]): AbstractValue {
+  const joined = freshValue();
+  grewFrom(values, (value) => ValueJoin.into(joined, value, 0));
+  return joined;
+}
+export function singleOcc(site: string, exact: boolean, port?: number): AbstractValue {
+  const labeled = freshValue();
+  OccurrenceJoin.admit(labeled, { exact, port, site });
+  return labeled;
+}
+export function collapse(v: AbstractValue): AbstractValue {
+  return ValueFold.fresh(v);
+}
+export function collapseInto(
+  out: AbstractValue,
+  v: AbstractValue,
+  seen = new Set<AbstractValue>(),
+): boolean {
+  return ValueFold.into(out, v, seen);
+}
+
+export function readField(container: AbstractValue, key: string): AbstractValue {
+  const known = container.fields.get(key);
+  if (known === undefined) return ValueFold.fresh(container);
+  const snapshot = freshValue();
+  ValueJoin.into(snapshot, known, 0);
+  smearRead(snapshot, container);
+  return snapshot;
+}
+
+export function clearExact(v: AbstractValue): AbstractValue {
+  return Exactness.cleared(v);
+}
+
+export { isActorSite } from "./core.js";
+
+export function provisionalFanoutId(order: number): string {
+  return "fan-out@" + String(order);
+}
+
+function isWorkflowWrapper(statement: ts.Statement): statement is ts.FunctionDeclaration {
+  if (statement.kind !== ts.SyntaxKind.FunctionDeclaration) return false;
+  const decl = statement as ts.FunctionDeclaration;
+  const name = decl.name?.text;
+  return name === WORKFLOW_FUNCTION_NAME && decl.body !== undefined;
+}
+
+export function findWorkflowBody(scriptFile: ts.SourceFile): ts.Block {
+  const body = scriptFile.statements.find(isWorkflowWrapper)?.body;
+  if (body !== undefined) return body;
+  throw new Error("workflow wrapper function " + WORKFLOW_FUNCTION_NAME + " not found");
+}
+
+export function isFunctionLike(node: ts.Node): boolean {
+  return FUNCTION_KINDS.has(node.kind);
+}
+
+// Every function-like node except an arrow owns an `arguments` object. An arrow sees
+// the enclosing function's arguments.
+export function isNonArrowFunctionLike(node: ts.Node): boolean {
+  return node.kind !== kind.ArrowFunction && FUNCTION_KINDS.has(node.kind);
+}
+
+// A directly named callee, or a function literal, keeps exactness. One parenthesis
+// layer is ignored; deeper wrappers are not direct.
+export function isDirectCallee(callee: ts.Expression): boolean {
+  const expr =
+    callee.kind === kind.ParenthesizedExpression
+      ? (callee as ts.ParenthesizedExpression).expression
+      : callee;
+  return DIRECT_CALLEE_KINDS.has(expr.kind);
+}
+
+export function isJsonStringify(access: ts.PropertyAccessExpression): boolean {
+  const receiver = access.expression;
+  return ts.isIdentifier(receiver) && receiver.text === "JSON" && access.name.text === "stringify";
+}
+
+export function staticIndexKey(arg: ts.Expression): string | undefined {
+  return ts.isNumericLiteral(arg) || ts.isStringLiteralLike(arg) ? arg.text : undefined;
+}
+
+export function peelPlace(expr: ts.Expression): ts.Expression {
+  let cursor = expr;
+  let next = peeledChild(cursor);
+  while (next !== undefined) {
+    cursor = next;
+    next = peeledChild(cursor);
+  }
+  return cursor;
+}
+
+export function liveField(container: AbstractValue, key: string): AbstractValue {
+  return ensureField(container, key);
+}
+export function replayMayAliasWrite(
+  container: AbstractValue,
+  key: string,
+  value: AbstractValue,
+): boolean {
+  return AliasReplay.write(container, key, value);
+}
+export function replayMayAliasMerge(container: AbstractValue, value: AbstractValue): boolean {
+  return AliasReplay.smear(container, value);
+}
+export function adoptFields(target: AbstractValue, source: AbstractValue): boolean {
+  return shareFields(target, source);
+}
+export function bindingPropertyKey(element: ts.BindingElement): string | undefined {
+  return literalText(element.propertyName ?? element.name);
 }

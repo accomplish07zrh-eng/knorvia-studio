@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: Apache-2.0
 import ts from "typescript";
 import {
   addPlaceholder,
@@ -12,278 +13,286 @@ import {
 import { applyConstructor } from "./promise-ops.js";
 import type { EvalContext, Evaluator } from "./taint.js";
 
-/**
- * Class modeling: one shared abstract instance per class, evaluated flow-insensitively.
- * Split out of the core evaluator (taint.ts) like calls.ts / literals.ts — same
- * `Evaluator` instance, free-function shape.
- * Field/static initializers and static blocks evaluate with `this` bound to the instance;
- * constructors, methods and accessors are tracked functions whose `this` resolves to it;
- * `new C(args)` applies the constructor and returns a reference to the shared instance;
- * `extends` weak-merges the base instance in. All instances of a class are conflated
- * (weak): a write through any instance, through `this`, or through the class name is
- * visible through every other.
- */
+// One shared instance per class, static and instance members together. `extends`
+// weak-merges the base each pass. A dynamic computed name has no field: methods
+// join the instance's top-level functions, getters smear into the instance, and
+// a field initializer is skipped. Parameter properties are not statements; they
+// are seeded from the constructor's placeholders.
 
-/** Evaluate every class body once per fixpoint pass (driven from Evaluator.iterate). */
-export function evalClasses(ev: Evaluator): void {
-  const ctx: EvalContext = { onReturn: () => {}, regionStack: ["top"] };
-  for (const cls of ev.s.classes) evalClassBody(ev, cls as ts.ClassLikeDeclaration, ctx);
+function grew(analysis: Evaluator, changed: boolean): void {
+  if (changed) analysis.s.changed = true;
 }
 
-function evalClassBody(ev: Evaluator, cls: ts.ClassLikeDeclaration, ctx: EvalContext): void {
-  const instance = ev.s.instanceOf(cls);
-  // `extends`: cheap sound approximation — weak-merge the base class's shared instance
-  // into the derived one each pass, so inherited fields carry taint and inherited
-  // methods/accessors dispatch through the derived instance. Deliberately conflates the
-  // two class instances (weak); per-instance/per-class precision is out of scope.
-  for (const clause of cls.heritageClauses ?? []) {
-    if (clause.token !== ts.SyntaxKind.ExtendsKeyword) continue;
-    for (const type of clause.types) {
-      const base = resolveClassNode(ev, type.expression);
-      if (base !== undefined && mergeInto(instance, ev.s.instanceOf(base))) ev.s.changed = true;
-    }
-  }
-  for (const member of cls.members) {
-    if (ts.isPropertyDeclaration(member)) {
-      const key = staticMemberKey(ev, member.name);
-      if (key === undefined || member.initializer === undefined) continue;
-      // Field/static initializer: `this` in the initializer resolves to the instance
-      // (ThisExpression parent-walks to this class). Weak-merge its value into the field.
-      mergeInstanceField(ev, instance, key, ev.evalExpr(member.initializer, ctx));
-    } else if (ts.isClassStaticBlockDeclaration(member)) {
-      for (const stmt of member.body.statements) ev.visit(stmt, ctx);
-    } else if (ts.isMethodDeclaration(member)) {
-      // A method is a function-valued field, callable through it (`inst.run(x)`). A computed
-      // name that is a static string/number literal (`["run"]`) registers under that name;
-      // a genuinely-dynamic name registers in the instance's top-level fns (see registerMember).
-      registerMember(ev, instance, staticMemberKey(ev, member.name), member);
-    } else if (ts.isGetAccessorDeclaration(member)) {
-      // Getter: the field's read value IS the getter's return summary (re-read each pass;
-      // the fixpoint converges), mirroring object-literal getters in literals.ts.
-      const id = ev.s.fnId.get(member);
-      if (id === undefined) continue;
-      const key = staticMemberKey(ev, member.name);
-      const summary = cloneValue(ev.s.summaryOf(id));
-      // A genuinely-dynamic getter name can only be read through a dynamic-key access, which
-      // collapses the instance — smear its value (inexact) into the container so a `w[k]` read
-      // still surfaces it (a sound over-approximation, never a drop).
-      if (key === undefined) mergeInstanceField(ev, instance, undefined, summary);
-      else mergeInstanceField(ev, instance, key, summary);
-    } else if (ts.isConstructorDeclaration(member)) {
-      applyParameterProperties(ev, instance, member);
-    }
-    // SetAccessorDeclaration: writes are handled globally by settersByProp (collected in
-    // TaintState). ConstructorDeclaration body: applied at `new C(...)` / `super(...)`.
+class ClassPass {
+  constructor(private readonly analysis: Evaluator) {}
+
+  run(): void {
+    const frame: EvalContext = { onReturn: () => undefined, regionStack: ["top"] };
+    this.analysis.s.classes.forEach((cls) =>
+      new ClassBody(this.analysis, cls as ts.ClassLikeDeclaration, frame).eval(),
+    );
   }
 }
 
-/**
- * The static field key a class member is registered / dispatched under: the member name for a
- * plain name, or the static string/number literal of a computed name (`["run"]`). Returns
- * undefined for a genuinely-dynamic computed name (`[expr]`) — such a member cannot be
- * dispatched by name, so it degrades to the sound catch-all (top-level fns / container smear).
- */
-function staticMemberKey(ev: Evaluator, name: ts.PropertyName): string | undefined {
-  if (ts.isComputedPropertyName(name)) return staticIndexKey(name.expression);
-  return name.getText(ev.s.scriptFile);
-}
+class ClassBody {
+  private readonly instance: AbstractValue;
 
-/**
- * Synthesize the implicit `this.x = x` a TS parameter property performs: a constructor
- * parameter carrying an accessibility / `readonly` modifier declares AND initializes an
- * instance field from the argument. Model it by merging the ctor's param placeholder into
- * the named instance field (resolved to the `new`'s actual at emission). Parameter
- * properties are Parameters, not PropertyDeclarations; their implicit field writes are not
- * explicit statements in the constructor body and must be modeled here.
- */
-function applyParameterProperties(
-  ev: Evaluator,
-  instance: AbstractValue,
-  ctor: ts.ConstructorDeclaration,
-): void {
-  const id = ev.s.fnId.get(ctor);
-  if (id === undefined) return;
-  ctor.parameters.forEach((param, index) => {
-    if (!ts.isParameterPropertyDeclaration(param, ctor) || !ts.isIdentifier(param.name)) return;
-    const val = emptyValue();
-    addPlaceholder(val, { fnId: id, param: index });
-    mergeInstanceField(ev, instance, param.name.text, val);
-  });
-}
-
-function mergeInstanceField(
-  ev: Evaluator,
-  instance: AbstractValue,
-  key: string | undefined,
-  value: AbstractValue,
-): void {
-  // A dynamic (undefined) key smears into the container itself (collapse surfaces it).
-  const field = key === undefined ? instance : liveField(instance, key);
-  if (field !== value && mergeInto(field, value)) ev.s.changed = true;
-}
-
-function registerMember(
-  ev: Evaluator,
-  instance: AbstractValue,
-  key: string | undefined,
-  fn: ts.Node,
-): void {
-  // A static-named method lives in a named field (`inst.run` dispatches via readField); a
-  // dynamically-named one lives in the instance's TOP-LEVEL fns, reachable only through the
-  // collapse a dynamic-key call (`inst[k]()`) performs — never picked up by a named field read,
-  // so it adds no false static-name dispatch while keeping the callee sound (never dropped).
-  const target = key === undefined ? instance : liveField(instance, key);
-  if (!target.fns.has(fn)) {
-    target.fns.add(fn);
-    ev.s.changed = true;
+  constructor(
+    private readonly analysis: Evaluator,
+    private readonly cls: ts.ClassLikeDeclaration,
+    private readonly frame: EvalContext,
+  ) {
+    this.instance = analysis.s.instanceOf(cls);
   }
-}
 
-/**
- * The class node an expression names (a class-name identifier, or a `this`/`super` that
- * resolves to one), or undefined for a non-class expression. `new C()`, `super(...)` and
- * every class-name read go through this so static and instance access conflate into the
- * one shared instance.
- */
-export function resolveClassNode(ev: Evaluator, expr: ts.Expression): ts.Node | undefined {
-  const sym = ev.checker.getSymbolAtLocation(expr);
-  return sym === undefined ? undefined : classNodeOfSymbol(ev, sym);
-}
+  eval(): void {
+    resolvedBases(this.analysis, this.cls).forEach((base) => {
+      grew(this.analysis, mergeInto(this.instance, this.analysis.s.instanceOf(base)));
+    });
+    this.cls.members.forEach((member) => this.member(member));
+  }
 
-/** The class node a symbol declares, following alias / field bindings to a class. */
-export function classNodeOfSymbol(
-  ev: Evaluator,
-  sym: ts.Symbol,
-  seen = new Set<ts.Symbol>(),
-): ts.Node | undefined {
-  if (seen.has(sym)) return undefined;
-  seen.add(sym);
-  for (const decl of sym.declarations ?? []) {
+  private member(member: ts.ClassElement): void {
+    const kind = member.kind;
+    if (kind === ts.SyntaxKind.PropertyDeclaration) this.field(member as ts.PropertyDeclaration);
+    else if (kind === ts.SyntaxKind.ClassStaticBlockDeclaration)
+      this.block(member as ts.ClassStaticBlockDeclaration);
+    else if (kind === ts.SyntaxKind.MethodDeclaration) this.method(member as ts.MethodDeclaration);
+    else if (kind === ts.SyntaxKind.GetAccessor) this.getter(member as ts.GetAccessorDeclaration);
+    else if (kind === ts.SyntaxKind.Constructor)
+      this.parameters(member as ts.ConstructorDeclaration);
+  }
+
+  private field(prop: ts.PropertyDeclaration): void {
+    const key = memberKey(this.analysis, prop.name);
+    if (key === undefined || prop.initializer === undefined) return;
+    this.merge(key, this.analysis.evalExpr(prop.initializer, this.frame));
+  }
+
+  private block(block: ts.ClassStaticBlockDeclaration): void {
+    block.body.statements.forEach((stmt) => this.analysis.visit(stmt, this.frame));
+  }
+
+  private method(method: ts.MethodDeclaration): void {
+    this.register(memberKey(this.analysis, method.name), method);
+  }
+
+  // The field's read value is the getter summary, re-read each pass. A dynamic
+  // name cannot be stored under a key, so it smears into the instance.
+  private getter(getter: ts.GetAccessorDeclaration): void {
+    const id = this.analysis.s.fnId.get(getter);
+    if (id === undefined) return;
+    this.merge(memberKey(this.analysis, getter.name), cloneValue(this.analysis.s.summaryOf(id)));
+  }
+
+  private parameters(ctor: ts.ConstructorDeclaration): void {
+    const id = this.analysis.s.fnId.get(ctor);
+    if (id === undefined) return;
+    ctor.parameters.forEach((param, index) => this.parameter(ctor, param, id, index));
+  }
+
+  private parameter(
+    ctor: ts.ConstructorDeclaration,
+    param: ts.ParameterDeclaration,
+    id: number,
+    index: number,
+  ): void {
     if (
-      (ts.isClassDeclaration(decl) || ts.isClassExpression(decl)) &&
-      ev.s.classInstances.has(decl)
+      ts.isParameterPropertyDeclaration(param, ctor) === false ||
+      ts.isIdentifier(param.name) === false
     )
-      return decl;
-    // A class bound through a variable alias (`const Alias = Cfg`) or stored in an
-    // object-literal field (`{ C: class {} }`): resolve the initializer to the class node so
-    // `new Alias(...)` / `new box.C()` applies the constructor and returns that class's shared
-    // instance. Otherwise only the class's own symbol and a directly class-expression-initialized
-    // variable would be recognized, and an alias / field binding would escape to emptyValue.
-    const init =
-      ts.isVariableDeclaration(decl) || ts.isPropertyAssignment(decl)
-        ? decl.initializer
-        : undefined;
-    if (init !== undefined) {
-      const via = classNodeFromExpr(ev, init, seen);
-      if (via !== undefined) return via;
-    }
+      return;
+    const seeded = emptyValue();
+    addPlaceholder(seeded, { fnId: id, param: index });
+    this.merge(param.name.text, seeded);
   }
-  return undefined;
+
+  private merge(key: string | undefined, value: AbstractValue): void {
+    const field = key === undefined ? this.instance : liveField(this.instance, key);
+    if (field !== value) grew(this.analysis, mergeInto(field, value));
+  }
+
+  private register(key: string | undefined, fn: ts.Node): void {
+    const target = key === undefined ? this.instance : liveField(this.instance, key);
+    if (target.fns.has(fn)) return;
+    target.fns.add(fn);
+    this.analysis.s.changed = true;
+  }
 }
 
-/** The class node an initializer expression denotes: a class expression, or an identifier /
- * property access aliasing another class binding (cycle-guarded through `seen`). */
-function classNodeFromExpr(
-  ev: Evaluator,
+function memberKey(analysis: Evaluator, name: ts.PropertyName): string | undefined {
+  if (ts.isComputedPropertyName(name)) return staticIndexKey(name.expression);
+  return name.getText(analysis.s.scriptFile);
+}
+
+function resolvedBases(analysis: Evaluator, cls: ts.ClassLikeDeclaration): ts.Node[] {
+  const found: ts.Node[] = [];
+  (cls.heritageClauses ?? []).forEach((clause) => {
+    if (clause.token !== ts.SyntaxKind.ExtendsKeyword) return;
+    clause.types.forEach((type) => {
+      const base = resolveClassNode(analysis, type.expression);
+      if (base !== undefined) found.push(base);
+    });
+  });
+  return found;
+}
+
+class ClassLookup {
+  constructor(
+    private readonly analysis: Evaluator,
+    private readonly seen: Set<ts.Symbol>,
+  ) {}
+
+  nodeOf(sym: ts.Symbol): ts.Node | undefined {
+    if (this.seen.has(sym)) return undefined;
+    this.seen.add(sym);
+    for (const decl of sym.declarations ?? []) {
+      const hit = this.declaration(decl);
+      if (hit !== undefined) return hit;
+    }
+    return undefined;
+  }
+
+  private declaration(decl: ts.Declaration): ts.Node | undefined {
+    const direct = this.directClass(decl);
+    if (direct !== undefined) return direct;
+    const init = this.initializer(decl);
+    return init === undefined ? undefined : classFromExpr(this.analysis, init, this.seen);
+  }
+
+  private directClass(decl: ts.Declaration): ts.Node | undefined {
+    const isClass =
+      (ts.isClassDeclaration(decl) || ts.isClassExpression(decl)) &&
+      this.analysis.s.classInstances.has(decl);
+    return isClass ? decl : undefined;
+  }
+
+  // `const Alias = Cfg` and `{ C: class {} }` store the class in an initializer.
+  private initializer(decl: ts.Declaration): ts.Expression | undefined {
+    if (ts.isVariableDeclaration(decl) || ts.isPropertyAssignment(decl)) return decl.initializer;
+    return undefined;
+  }
+}
+
+function classFromExpr(
+  analysis: Evaluator,
   expr: ts.Expression,
   seen: Set<ts.Symbol>,
 ): ts.Node | undefined {
-  const e = peelPlace(expr);
-  if (ts.isClassExpression(e) && ev.s.classInstances.has(e)) return e;
-  if (ts.isIdentifier(e) || ts.isPropertyAccessExpression(e)) {
-    const sym = ev.checker.getSymbolAtLocation(e);
-    if (sym !== undefined) return classNodeOfSymbol(ev, sym, seen);
-  }
-  return undefined;
+  const peeled = peelPlace(expr);
+  if (ts.isClassExpression(peeled) && analysis.s.classInstances.has(peeled)) return peeled;
+  if (ts.isIdentifier(peeled) === false && ts.isPropertyAccessExpression(peeled) === false)
+    return undefined;
+  const named = analysis.checker.getSymbolAtLocation(peeled);
+  return named === undefined ? undefined : new ClassLookup(analysis, seen).nodeOf(named);
 }
 
-/**
- * The constructor to apply for `new C(...)`: C's own constructor (with a body), else the
- * nearest inherited one up the `extends` chain (an implicit super forwards the arguments).
- * Overload signatures without a body are skipped. Cycle-guarded.
- */
+class CtorChain {
+  constructor(
+    private readonly analysis: Evaluator,
+    private readonly seen: Set<ts.Node>,
+  ) {}
+
+  // Own body-bearing constructor, else the nearest inherited one. Overload
+  // signatures without a body are skipped. The seen set stops an extends cycle.
+  find(cls: ts.Node): ts.ConstructorDeclaration | undefined {
+    if (this.seen.has(cls)) return undefined;
+    this.seen.add(cls);
+    const host = cls as ts.ClassLikeDeclaration;
+    const own = host.members.find((member): member is ts.ConstructorDeclaration => {
+      return ts.isConstructorDeclaration(member) && member.body !== undefined;
+    });
+    if (own !== undefined) return own;
+    for (const base of resolvedBases(this.analysis, host)) {
+      const inherited = this.find(base);
+      if (inherited !== undefined) return inherited;
+    }
+    return undefined;
+  }
+}
+
+function innermost(syntax: ts.Node): ts.ClassLikeDeclaration | undefined {
+  let cur: ts.Node | undefined = syntax.parent;
+  while (cur !== undefined && ts.isClassLike(cur) === false) cur = cur.parent;
+  return cur;
+}
+
+export function evalClasses(analysis: Evaluator): void {
+  new ClassPass(analysis).run();
+}
+
+export function resolveClassNode(analysis: Evaluator, expr: ts.Expression): ts.Node | undefined {
+  const named = analysis.checker.getSymbolAtLocation(expr);
+  return named === undefined ? undefined : classNodeOfSymbol(analysis, named);
+}
+
+export function classNodeOfSymbol(
+  analysis: Evaluator,
+  sym: ts.Symbol,
+  seen: Set<ts.Symbol> = new Set<ts.Symbol>(),
+): ts.Node | undefined {
+  return new ClassLookup(analysis, seen).nodeOf(sym);
+}
+
 export function classConstructor(
-  ev: Evaluator,
+  analysis: Evaluator,
   cls: ts.Node,
-  seen = new Set<ts.Node>(),
+  seen: Set<ts.Node> = new Set<ts.Node>(),
 ): ts.ConstructorDeclaration | undefined {
-  if (seen.has(cls)) return undefined;
-  seen.add(cls);
-  for (const member of (cls as ts.ClassLikeDeclaration).members) {
-    if (ts.isConstructorDeclaration(member) && member.body !== undefined) return member;
-  }
-  for (const clause of (cls as ts.ClassLikeDeclaration).heritageClauses ?? []) {
-    if (clause.token !== ts.SyntaxKind.ExtendsKeyword) continue;
-    for (const type of clause.types) {
-      const base = resolveClassNode(ev, type.expression);
-      if (base !== undefined) {
-        const inherited = classConstructor(ev, base, seen);
-        if (inherited !== undefined) return inherited;
-      }
-    }
-  }
-  return undefined;
+  return new CtorChain(analysis, seen).find(cls);
 }
 
-/** The shared instance of the class lexically enclosing `node`, or undefined. */
-export function enclosingClassInstance(ev: Evaluator, node: ts.Node): AbstractValue | undefined {
-  for (let cur = node.parent; cur !== undefined; cur = cur.parent) {
-    if (ts.isClassLike(cur)) return ev.s.instanceOf(cur);
-  }
-  return undefined;
+export function enclosingClassInstance(
+  analysis: Evaluator,
+  syntax: ts.Node,
+): AbstractValue | undefined {
+  const host = innermost(syntax);
+  return host === undefined ? undefined : analysis.s.instanceOf(host);
 }
 
-/**
- * The shared instance of the BASE class of the class lexically enclosing `node` — the value
- * `super` denotes inside a derived method: `super.m()` dispatches to the base method summary
- * and `super.x` reads the base field. Only the innermost enclosing class's (resolvable) base
- * counts. Undefined outside a derived class or when the base is an unresolvable heritage.
- */
-export function enclosingBaseInstance(ev: Evaluator, node: ts.Node): AbstractValue | undefined {
-  for (let cur = node.parent; cur !== undefined; cur = cur.parent) {
-    if (!ts.isClassLike(cur)) continue;
-    for (const clause of cur.heritageClauses ?? []) {
-      if (clause.token !== ts.SyntaxKind.ExtendsKeyword) continue;
-      for (const type of clause.types) {
-        const base = resolveClassNode(ev, type.expression);
-        if (base !== undefined) return ev.s.instanceOf(base);
-      }
-    }
-    return undefined; // innermost enclosing class only
-  }
-  return undefined;
+// Only the innermost class. `super` denotes that class's first resolvable base.
+export function enclosingBaseInstance(
+  analysis: Evaluator,
+  syntax: ts.Node,
+): AbstractValue | undefined {
+  const host = innermost(syntax);
+  const base = host === undefined ? undefined : resolvedBases(analysis, host).at(0);
+  return base === undefined ? undefined : analysis.s.instanceOf(base);
 }
 
-/** True iff a class has an `extends` clause whose base cannot be resolved to a class node (a
- * mixin CALL, `class D extends mix(Base)`). The inherited constructor is then unreachable, so
- * `new D(args)` must over-approximate the argument flow (see applyMixinConstructor). */
-export function hasUnresolvedHeritage(ev: Evaluator, cls: ts.Node): boolean {
-  for (const clause of (cls as ts.ClassLikeDeclaration).heritageClauses ?? []) {
-    if (clause.token !== ts.SyntaxKind.ExtendsKeyword) continue;
-    for (const type of clause.types) {
-      if (resolveClassNode(ev, type.expression) === undefined) return true;
-    }
-  }
-  return false;
+export function hasUnresolvedHeritage(analysis: Evaluator, cls: ts.Node): boolean {
+  return ((cls as ts.ClassLikeDeclaration).heritageClauses ?? []).some((clause) => {
+    if (clause.token !== ts.SyntaxKind.ExtendsKeyword) return false;
+    return clause.types.some((type) => resolveClassNode(analysis, type.expression) === undefined);
+  });
 }
 
-/** Apply the base-class constructor for a `super(args)` call inside a derived ctor. */
-export function applySuperCall(ev: Evaluator, node: ts.CallExpression, ctx: EvalContext): void {
-  for (let cur = node.parent; cur !== undefined; cur = cur.parent) {
-    if (!ts.isClassLike(cur)) continue;
-    for (const clause of cur.heritageClauses ?? []) {
-      if (clause.token !== ts.SyntaxKind.ExtendsKeyword) continue;
-      for (const type of clause.types) {
-        const base = resolveClassNode(ev, type.expression);
-        const ctor = base === undefined ? undefined : classConstructor(ev, base);
-        const id = ctor === undefined ? undefined : ev.s.fnId.get(ctor);
-        if (id !== undefined) {
-          const argVals = node.arguments.map((arg) => ev.evalExpr(arg, ctx));
-          const argPlaces = node.arguments.map((arg) => ev.resolvePlace(arg));
-          applyConstructor(ev, id, ctx, argVals, argPlaces, node);
-        }
-      }
-    }
-    return; // only the innermost enclosing class's base is the super target
-  }
+// Innermost class only. Each resolvable base constructor re-reads the arguments.
+export function applySuperCall(
+  analysis: Evaluator,
+  syntax: ts.CallExpression,
+  frame: EvalContext,
+): void {
+  const host = innermost(syntax);
+  if (host === undefined) return;
+  (host.heritageClauses ?? []).forEach((clause) => {
+    if (clause.token !== ts.SyntaxKind.ExtendsKeyword) return;
+    clause.types.forEach((type) =>
+      applyBase(analysis, syntax, frame, resolveClassNode(analysis, type.expression)),
+    );
+  });
+}
+
+function applyBase(
+  analysis: Evaluator,
+  syntax: ts.CallExpression,
+  frame: EvalContext,
+  base: ts.Node | undefined,
+): void {
+  const ctor = base === undefined ? undefined : classConstructor(analysis, base);
+  const id = ctor === undefined ? undefined : analysis.s.fnId.get(ctor);
+  if (id === undefined) return;
+  const argVals = syntax.arguments.map((arg) => analysis.evalExpr(arg, frame));
+  const argPlaces = syntax.arguments.map((arg) => analysis.resolvePlace(arg));
+  applyConstructor(analysis, id, frame, argVals, argPlaces, syntax);
 }

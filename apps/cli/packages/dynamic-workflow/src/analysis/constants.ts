@@ -1,51 +1,55 @@
-/**
- * 追踪词汇：区域种类、跳转种类与兜底阶段 id。它们原本住在 causality-order.ts，但那个文件
- * 在运行时 import `typescript`（走 AST 的 walk 本身），而只读 core 的纯投影（causality-graph /
- * flow-phase / phase-graph）只需要这几个值。把它们放进一个零依赖的小文件，投影模块就不再
- * 把 `typescript` 拖进运行时闭包——这是作品集浏览器包（
- * `@knorvia/dynamic-workflow/projections`）能成立的前提。causality-order.ts 原样再导出，
- * 所有既有引用位置与行为不变。
- */
+// SPDX-License-Identifier: Apache-2.0
 
-/**
- * Region kinds. The analyzer emits `seq` (the root), `loop`,
- * `fanout` and `branch`. `parallel` stays derived — incomparability in the ordering
- * already defines concurrency, and storing it would be a second source of truth.
- * `shared` is reserved for the future specialization cap.
- */
-export type RegionKind = "seq" | "parallel" | "loop" | "fanout" | "branch" | "shared";
+// Kinds the ordering walk records as it steps through the script.
+const WALK_REGION_KINDS = ["seq", "loop", "fanout", "branch"] as const;
 
-/**
- * STRUCTURAL region kinds: the tree nodes
- * the walk always saw but did not record before the control-flow projection needed them.
- * The causality projection looks THROUGH every one of them (its "transparency rule"), which
- * is what keeps the three older views byte-identical while the trace grows.
- *
- *  - `choice`: one if / ternary / switch / short-circuit; its arms are `branch` children
- *  - `call`: one inlined helper body (a `return` target)
- *  - `try` / `attempt` / `catch` / `finally`: one try statement and its three parts
- */
-export type StructuralRegionKind = "choice" | "call" | "try" | "attempt" | "catch" | "finally";
+// `parallel` is derived from incomparability, and `shared` is held for a later cap.
+// Both stay nameable so callers do not invent a second vocabulary.
+const RESERVED_REGION_KINDS = ["parallel", "shared"] as const;
 
-/** Every kind the trace can hold. The public causality `RegionKind` stays the narrow union. */
+type WalkRegionKind = (typeof WALK_REGION_KINDS)[number];
+type ReservedRegionKind = (typeof RESERVED_REGION_KINDS)[number];
+
+export type RegionKind = WalkRegionKind | ReservedRegionKind;
+
+// Nodes the walk always nested through. Causality looks through them; the
+// control-flow projection is what records them.
+// A choice is one conditional whose arms are branch children. A call is one
+// inlined helper, which is also where a return lands. A try is stored as the
+// statement plus its attempt, catch, and finally clauses.
+const CHOICE_KINDS = ["choice"] as const;
+const CALL_KINDS = ["call"] as const;
+const TRY_KINDS = ["try", "attempt", "catch", "finally"] as const;
+
+type ChoiceKind = (typeof CHOICE_KINDS)[number];
+type CallKind = (typeof CALL_KINDS)[number];
+type TryKind = (typeof TRY_KINDS)[number];
+
+export type StructuralRegionKind = ChoiceKind | CallKind | TryKind;
+
+// Every label a trace region can carry, including the structural nodes above.
 export type TraceRegionKind = RegionKind | StructuralRegionKind;
 
 const STRUCTURAL_REGION_KINDS: ReadonlySet<string> = new Set<StructuralRegionKind>([
-  "choice",
-  "call",
-  "try",
-  "attempt",
-  "catch",
-  "finally",
+  ...CHOICE_KINDS,
+  ...CALL_KINDS,
+  ...TRY_KINDS,
 ]);
 
-export function isStructuralRegionKind(kind: TraceRegionKind): kind is StructuralRegionKind {
-  return STRUCTURAL_REGION_KINDS.has(kind);
+export function isStructuralRegionKind(
+  regionKind: TraceRegionKind,
+): regionKind is StructuralRegionKind {
+  return STRUCTURAL_REGION_KINDS.has(regionKind);
 }
 
-/** The reserved fallback phase: the root block's initial current phase, and where every
- * step issued before the script's first marker lands. It has no `name` — the UI shows a
- * localized word, exactly as it does for the `workspace` / `unknown` lanes. */
+// Steps issued before the script's first phase() marker use this id.
 export const UNPHASED_ID = "unphased";
 
-export type JumpKind = "continue" | "break" | "return" | "throw" | "recur";
+// Continue and break stay inside the enclosing loop. The other three leave it.
+const LOOP_JUMPS = ["continue", "break"] as const;
+const EXIT_JUMPS = ["return", "throw", "recur"] as const;
+
+type LoopJump = (typeof LOOP_JUMPS)[number];
+type ExitJump = (typeof EXIT_JUMPS)[number];
+
+export type JumpKind = LoopJump | ExitJump;

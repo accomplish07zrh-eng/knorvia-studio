@@ -58,7 +58,7 @@ test("documentation keeps exact historical declaration and current artifact chec
   );
   assert.equal(
     hash(archiveBytes),
-    "815f57ebb52a8e1c56544f254ccc0e26564832aad6a5f1b05433712612684aea",
+    "be187ed74221eae63b961cbcf332644394fe64743c714695b91bb6fed5641e50",
   );
   const archive = JSON.parse(archiveBytes);
   assert.equal(hash(archive.compiled), archive.emittedSha256);

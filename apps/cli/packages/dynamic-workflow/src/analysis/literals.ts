@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: Apache-2.0
 import ts from "typescript";
 import {
   adoptFields,
@@ -9,47 +10,181 @@ import {
 } from "./domain.js";
 import type { EvalContext, Evaluator } from "./taint.js";
 
-/**
- * Array- and object-literal evaluation, split out of the core evaluator (taint.ts) like
- * the call/relay rules in calls.ts — same `Evaluator` instance, free-function shape. A
- * container literal is field-sensitive: a place element/property stores the LIVE value it
- * denotes (aliasing), and spread copies its source's fields by reference (shallow copy).
- *
- * Both functions build a FRESH value for this pass; the evaluator hands it to
- * `state.literalPlaceOf`, which adopts it on first sight and merges it into the persistent
- * allocation-site place afterwards. So the value that flows on from a literal is storage
- * that survives the pass (a callee may write through it), and the `changed` signal for a
- * re-evaluation that grew is raised there — neither function touches `ev.s.changed`.
- */
+// A container literal is field-sensitive. A place element stores the live value it
+// denotes, and a spread copies the source's fields by reference. Both builders return
+// a fresh value for this pass. The evaluator stores it with literalPlaceOf, which
+// adopts it on first sight and merges later passes. These functions do not touch
+// `changed`; the persistent place raises that signal.
+
+type ObjProp = ts.ObjectLiteralElementLike;
+type PropKind =
+  | "prop"
+  | "computed-prop"
+  | "shorthand"
+  | "spread"
+  | "method"
+  | "computed-member"
+  | "getter"
+  | "skip";
+
+function propKind(prop: ObjProp): PropKind {
+  if (ts.isSpreadAssignment(prop)) return "spread";
+  if (ts.isShorthandPropertyAssignment(prop)) return "shorthand";
+  if (ts.isPropertyAssignment(prop))
+    return ts.isComputedPropertyName(prop.name) ? "computed-prop" : "prop";
+  if (ts.isMethodDeclaration(prop))
+    return ts.isComputedPropertyName(prop.name) ? "computed-member" : "method";
+  if (ts.isGetAccessorDeclaration(prop))
+    return ts.isComputedPropertyName(prop.name) ? "computed-member" : "getter";
+  if (ts.isSetAccessorDeclaration(prop) && ts.isComputedPropertyName(prop.name))
+    return "computed-member";
+  return "skip";
+}
+
+function storedValue(ev: Evaluator, expr: ts.Expression, ctx: EvalContext): AbstractValue {
+  return ev.resolvePlace(expr) ?? ev.evalExpr(expr, ctx);
+}
+
+// If `expr` is a place, share its field objects and merge container-level labels.
+// Growth of a colliding field is not reported here: reporting it would spin the
+// fixpoint, and the overwritten value is only an over-approximation that a later
+// reporting path still observes.
+function shareSpread(ev: Evaluator, out: AbstractValue, expr: ts.Expression): boolean {
+  const place = ev.resolvePlace(expr);
+  if (place === undefined) return false;
+  adoptFields(out, place);
+  mergeInto(out, place);
+  return true;
+}
+
+function nameText(ev: Evaluator, name: ts.PropertyName): string {
+  return name.getText(ev.s.scriptFile);
+}
+
+class ObjectLiteral {
+  constructor(
+    private readonly ev: Evaluator,
+    private readonly ctx: EvalContext,
+    private readonly out = emptyValue(),
+  ) {}
+
+  build(node: ts.ObjectLiteralExpression): AbstractValue {
+    for (const prop of node.properties) this.one(prop);
+    return this.out;
+  }
+
+  private one(prop: ObjProp): void {
+    const kind = propKind(prop);
+    const handler = this.handlers[kind];
+    handler(prop);
+  }
+
+  private readonly handlers: Record<PropKind, (prop: ObjProp) => void> = {
+    prop: (prop) => this.named(prop as ts.PropertyAssignment),
+    "computed-prop": (prop) => this.computedProp(prop as ts.PropertyAssignment),
+    shorthand: (prop) => this.shorthand(prop as ts.ShorthandPropertyAssignment),
+    spread: (prop) => this.spread(prop as ts.SpreadAssignment),
+    method: (prop) => this.method(prop as ts.MethodDeclaration),
+    getter: (prop) => this.getter(prop as ts.GetAccessorDeclaration),
+    "computed-member": (prop) => this.computedKey(prop),
+    skip: () => undefined,
+  };
+
+  private named(prop: ts.PropertyAssignment): void {
+    this.out.fields.set(
+      nameText(this.ev, prop.name),
+      storedValue(this.ev, prop.initializer, this.ctx),
+    );
+  }
+
+  // A computed key cannot be a tracked field. The key expression can host a facade
+  // and its string becomes an observable property name, so both the key and the
+  // value fold into the object's labels.
+  private computedProp(prop: ts.PropertyAssignment): void {
+    if (!ts.isComputedPropertyName(prop.name)) return;
+    this.foldKey(prop.name);
+    collapseInto(this.out, this.ev.evalExpr(prop.initializer, this.ctx));
+  }
+
+  // `{ o }` stores o's live slot. getSymbolAtLocation(prop.name) is the property
+  // symbol, not the referenced local, so the value symbol is the shorthand API.
+  private shorthand(prop: ts.ShorthandPropertyAssignment): void {
+    const sym = this.ev.checker.getShorthandAssignmentValueSymbol(prop);
+    const value = sym === undefined ? emptyValue() : this.ev.s.envSlot(sym);
+    this.out.fields.set(prop.name.text, value);
+  }
+
+  private spread(prop: ts.SpreadAssignment): void {
+    if (shareSpread(this.ev, this.out, prop.expression)) return;
+    mergeInto(this.out, this.ev.evalExpr(prop.expression, this.ctx));
+  }
+
+  private method(prop: ts.MethodDeclaration): void {
+    const fnVal = emptyValue();
+    fnVal.fns.add(prop);
+    this.out.fields.set(nameText(this.ev, prop.name), fnVal);
+  }
+
+  // The field's read value is the getter's return summary, re-read each pass.
+  private getter(prop: ts.GetAccessorDeclaration): void {
+    const id = this.ev.s.fnId.get(prop);
+    const summary = id === undefined ? emptyValue() : cloneValue(this.ev.s.summaryOf(id));
+    this.out.fields.set(nameText(this.ev, prop.name), summary);
+  }
+
+  // Computed method or accessor name. The member value cannot be tracked under a
+  // dynamic key. Set accessors carry no read value; their writes are global.
+  private computedKey(prop: ObjProp): void {
+    if (
+      !ts.isMethodDeclaration(prop) &&
+      !ts.isGetAccessorDeclaration(prop) &&
+      !ts.isSetAccessorDeclaration(prop)
+    )
+      return;
+    if (!ts.isComputedPropertyName(prop.name)) return;
+    this.foldKey(prop.name);
+  }
+
+  private foldKey(name: ts.ComputedPropertyName): void {
+    collapseInto(this.out, this.ev.evalExpr(name.expression, this.ctx));
+  }
+}
+
+class ArrayLiteral {
+  constructor(
+    private readonly ev: Evaluator,
+    private readonly ctx: EvalContext,
+    private readonly out = emptyValue(),
+  ) {}
+
+  build(node: ts.ArrayLiteralExpression): AbstractValue {
+    const spread = node.elements.some((el) => ts.isSpreadElement(el));
+    if (!spread) {
+      node.elements.forEach((el, index) => {
+        this.out.fields.set(String(index), storedValue(this.ev, el, this.ctx));
+      });
+      return this.out;
+    }
+    // A lone `[...xs]` of a place shares numeric element references. Any other
+    // spread shape folds by value; sharing is not modeled there.
+    if (this.soleShare(node)) return this.out;
+    for (const el of node.elements) collapseInto(this.out, this.ev.evalExpr(el, this.ctx));
+    return this.out;
+  }
+
+  private soleShare(node: ts.ArrayLiteralExpression): boolean {
+    const sole = node.elements.length === 1 ? node.elements[0] : undefined;
+    if (sole === undefined || !ts.isSpreadElement(sole)) return false;
+    return shareSpread(this.ev, this.out, sole.expression);
+  }
+}
 
 export function evalArrayLiteral(
   ev: Evaluator,
   node: ts.ArrayLiteralExpression,
   ctx: EvalContext,
 ): AbstractValue {
-  const out = emptyValue();
-  if (node.elements.some((el) => ts.isSpreadElement(el))) {
-    // Sole-spread `[...xs]` where xs is a place: array spread shallow-copies, so each
-    // numeric element reference is shared (a write through `copy[k]` stays visible via
-    // `xs[k]`) — a plain fold would drop that sharing, hence spreadShare below.
-    // A spread beside other elements, or a non-place spread, still folds by value;
-    // reference sharing is not modeled for those cases.
-    const sole = node.elements[0];
-    if (
-      node.elements.length === 1 &&
-      sole !== undefined &&
-      ts.isSpreadElement(sole) &&
-      spreadShare(ev, out, sole.expression)
-    ) {
-      return out;
-    }
-    for (const el of node.elements) collapseInto(out, ev.evalExpr(el, ctx));
-    return out;
-  }
-  // An element that is a place stores the LIVE reference, so an object stored in an array
-  // stays aliased with its name (a write through either is seen through both).
-  node.elements.forEach((el, index) => out.fields.set(String(index), fieldValue(ev, el, ctx)));
-  return out;
+  return new ArrayLiteral(ev, ctx).build(node);
 }
 
 export function evalObjectLiteral(
@@ -57,93 +192,5 @@ export function evalObjectLiteral(
   node: ts.ObjectLiteralExpression,
   ctx: EvalContext,
 ): AbstractValue {
-  const out = emptyValue();
-  for (const prop of node.properties) {
-    if (ts.isPropertyAssignment(prop) && !ts.isComputedPropertyName(prop.name)) {
-      out.fields.set(prop.name.getText(ev.s.scriptFile), fieldValue(ev, prop.initializer, ctx));
-    } else if (ts.isShorthandPropertyAssignment(prop)) {
-      // Shorthand `{ o }` stores o's live value (aliasing) when it is a place; an
-      // unresolvable name folds to empty (evalIdentifier would return the same).
-      // getSymbolAtLocation(prop.name) would return the object's
-      // PROPERTY symbol here, not the referenced local's value symbol, so envSlot
-      // would fabricate a fresh empty slot and the wrapped taint would be dropped at the
-      // literal — invisible at every downstream emission. getShorthandAssignmentValueSymbol
-      // resolves the actual value binding (the same symbol `{ o: o }` would read).
-      const sym = ev.checker.getShorthandAssignmentValueSymbol(prop);
-      out.fields.set(prop.name.text, sym === undefined ? emptyValue() : ev.s.envSlot(sym));
-    } else if (ts.isSpreadAssignment(prop)) {
-      // Object spread `{ ...o }` shallow-copies: nested field references are shared, so a
-      // write through the literal's sub-object stays visible through o (spreadShare adopts
-      // o's fields by reference when o is a place). A plain mergeInto would deep-copy
-      // structure into independent nodes, hiding such a mutation from o.
-      if (!spreadShare(ev, out, prop.expression)) mergeInto(out, ev.evalExpr(prop.expression, ctx));
-    } else if (ts.isMethodDeclaration(prop) && !ts.isComputedPropertyName(prop.name)) {
-      // Shorthand method: a function-valued field, callable through it (obj.run(x)).
-      // Without this case `obj.run` would resolve to no fns and the unknown-call
-      // fallback would never record its param actuals.
-      const fnVal = emptyValue();
-      fnVal.fns.add(prop);
-      out.fields.set(prop.name.getText(ev.s.scriptFile), fnVal);
-    } else if (ts.isGetAccessorDeclaration(prop) && !ts.isComputedPropertyName(prop.name)) {
-      // Getter: the field's read value IS the getter's return summary (re-read each pass;
-      // the fixpoint converges) — without this case accessor fields would be invisible.
-      const id = ev.s.fnId.get(prop);
-      out.fields.set(
-        prop.name.getText(ev.s.scriptFile),
-        id === undefined ? emptyValue() : cloneValue(ev.s.summaryOf(id)),
-      );
-    } else if (ts.isPropertyAssignment(prop)) {
-      // Computed key: cannot track the field name; fold the value into occs. The key
-      // expression must be evaluated too — both for effect (a facade sink inside the key
-      // was never visited, so its edges vanished) and because the key STRING becomes an
-      // observable property name (`Object.keys(o)`), so its taint joins the object
-      // ("strings launder nothing").
-      if (ts.isComputedPropertyName(prop.name))
-        collapseInto(out, ev.evalExpr(prop.name.expression, ctx));
-      collapseInto(out, ev.evalExpr(prop.initializer, ctx));
-    } else if (
-      (ts.isMethodDeclaration(prop) ||
-        ts.isGetAccessorDeclaration(prop) ||
-        ts.isSetAccessorDeclaration(prop)) &&
-      ts.isComputedPropertyName(prop.name)
-    ) {
-      // Computed method/accessor name (`{ [await ask()]() {} }`): the name becomes an
-      // observable key (`Object.keys`) and may host a facade sink, so evaluate the key and
-      // fold its taint in — same treatment as a computed property key. The member value can't
-      // be tracked under a dynamic key (opaque). The `!isComputedPropertyName` guards
-      // above exclude computed method/accessor names from every earlier branch, so this
-      // is the only place their key gets visited.
-      collapseInto(out, ev.evalExpr(prop.name.expression, ctx));
-    }
-    // SetAccessorDeclaration carries no read value; its writes are handled globally by
-    // settersByProp (see recordSetterWrite).
-  }
-  return out;
-}
-
-/** The value to store in a container-literal field: the live place if any, else a clone. */
-function fieldValue(ev: Evaluator, expr: ts.Expression, ctx: EvalContext): AbstractValue {
-  return ev.resolvePlace(expr) ?? ev.evalExpr(expr, ctx);
-}
-
-/**
- * Shallow-copy spread sharing for a literal: if `expr` resolves to a place, adopt its
- * field objects into `out` BY REFERENCE (+ merge container-level occs) and return true,
- * so a write through the copy's sub-object stays visible through the source. `out` is this
- * pass's fresh evaluation; the fixpoint change is signalled when it is merged into the
- * literal's persistent place (state.literalPlaceOf), so this must NOT touch ev.s.changed
- * (doing so would spin forever).
- */
-function spreadShare(ev: Evaluator, out: AbstractValue, expr: ts.Expression): boolean {
-  const place = ev.resolvePlace(expr);
-  if (place === undefined) return false;
-  // adoptFields can weak-merge a colliding field INTO the (persistent) source field without
-  // reporting growth here — a deliberate non-report, per this function's no-`changed`
-  // contract above. Safe: the merged-in value is the one runtime overwrites, so the fact is a
-  // spurious over-approximation whose propagation is merely DELAYED to the next pass that
-  // touches the source through a reporting path; it can never be lost, because nothing in
-  // this gen-only analysis removes it.
-  adoptFields(out, place);
-  mergeInto(out, place);
-  return true;
+  return new ObjectLiteral(ev, ctx).build(node);
 }

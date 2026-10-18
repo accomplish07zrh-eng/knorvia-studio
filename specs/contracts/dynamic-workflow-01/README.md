@@ -1,9 +1,11 @@
-# dynamic-workflow-01 合同（v1）
+# dynamic-workflow-01 合同（v3）
 
-版本 **v1**（2026-10-15）。`apps/cli/packages/dynamic-workflow/src/analysis/`（54 个文件）+ `src/compiler/compile.ts`（1 个文件）的替换合同。计划书「每包流程」第二步的产物；M2 包 dynamic-workflow-01，issue #154。
+版本 **v3**（2026-10-18）。v3 = v2 加 `known-differences.md` **K10**：strands 归档（`causality-order-strands-baseline.json` 顶层的 `declaration` 字段）的注释已替换为 Knorvia 自写文字，类型签名逐字节不变（去注释比对 IDENTICAL）。**只登记已完成 re-pin 的证据口径**——断言、测试代码、实现源码一律不动，不新增也不放宽任何条目。
 
-- 分支：`contract/dynamic-workflow-01`（从 `origin/main` @ `49dde725` 检出，已并入 `95426e41`/`5a129165`）
-- 状态：**合同完成**。旧门在两个入口各 39/39 通过、桩替换 3/3 文件全失败（`gate-old.json`）；替换实现不在本 PR 范围。
+v2 = v1（2026-10-15，issue #154）按计划书「每包流程」五.1、替换验收清单与 M1 复盘第 4 条（core-tool-01 B88，`c7e58013`）的收尾修订：**删除 `stubs/`，B20 的 oracle 从桩目录改指 `interface.md` 各节的 ts 导出声明块**；断言方向与强度逐字不变（重写目标计数 53、文件集 `assert.deepEqual`、源码导出名 ⊆ 合同声明且 `assert.deepEqual(missing, [])`，解析正则与 B88 相同）。其余断言不动、不删、不跳过。`apps/cli/packages/dynamic-workflow/src/analysis/`（54 个文件）+ `src/compiler/compile.ts`（1 个文件）的替换合同。计划书「每包流程」第二步的产物；M2 包 dynamic-workflow-01，issue #154。
+
+- 分支：`replace/dynamic-workflow-01`（合同 v1 起自 `contract/dynamic-workflow-01`，`origin/main` @ `49dde725`，已并入 `95426e41`/`5a129165`）
+- 状态：**v3 收尾**。v1 旧门在两个入口各 39/39 通过、桩替换 3/3 文件全失败，记录留在 `gate-old.json`（v2/v3 均不覆盖）。v2 在新实现上重跑合同门（源码与 dist，不带桩替换）：各 39/39、fail 0、skipped 0。v3 只补 K10 与新实现上的第三次重跑，条目与断言无变化。
 - 任务书选择 10：**golden 样例为主**——本合同含 **324 个输入脚本 → 静态分析结果**的录制样例（16 族），回放逐字节比对。
 
 ## 范围与边界
@@ -21,27 +23,27 @@
 
 ## 完成度
 
-| 产物                                                                                                   | 状态 |
-| ------------------------------------------------------------------------------------------------------ | ---- |
-| 选包与边界（范围 55 继承文件；重写目标 53 = 20 unchanged + 33 modified；2 unreviewed 不动）            | 完成 |
-| `interface.md`（55 文件、283 项运行时导出签名，`tests/gen-interface.mjs` 机器生成）                    | 完成 |
-| `stubs/`（53 个重写目标的模块桩，import 即抛，`stubs/build-stubs.mjs` 生成，`targets.txt` 53 目标）    | 完成 |
-| `behavior.md`（B1–B20，逐条含九项 + golden 族覆盖表）                                                  | 完成 |
-| `tests/`（3 个测试文件 39 例；golden 回放 324 样例 / 16 族；两入口）                                   | 完成 |
-| `fixtures/`（`corpus.mjs` 324 样例、`golden/*.json` 16 族录制 518KB、`entry-exports.json` 导出面录制） | 完成 |
-| dist 入口旧门（`KNORVIA_DW01_ENTRY=dist` + `pnpm --dir apps/cli/packages/dynamic-workflow build`）     | 完成 |
-| `callers.md`（语法级 import 扫描 7,493 文件 + 字符串路径 6 处；`callers-raw.txt` 机器生成）            | 完成 |
-| `known-differences.md`（K1–K8 旧行为特征 + 不在范围相邻文件 + sha pin 作业）                           | 完成 |
-| `acceptance.md` / `gate-old.json`                                                                      | 完成 |
-| `licensing/reviews.json` 登记合同文件、`knip.json` 根 entry                                            | 完成 |
+| 产物                                                                                                                | 状态                                                                                  |
+| ------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| 选包与边界（范围 55 继承文件；重写目标 53 = 20 unchanged + 33 modified；2 unreviewed 不动）                         | 完成                                                                                  |
+| `interface.md`（55 文件、283 项运行时导出签名，`tests/gen-interface.mjs` 机器生成）                                 | 完成                                                                                  |
+| `stubs/`（v1：53 个重写目标的模块桩、生成脚本与目标清单）                                                           | v1 完成 → **v2 已删除**（桩替换 0/3 的证据留存 `gate-old.json` 的 `stubReplacement`） |
+| `behavior.md`（B1–B20，逐条含九项 + golden 族覆盖表）                                                               | 完成                                                                                  |
+| `tests/`（3 个测试文件 39 例；golden 回放 324 样例 / 16 族；两入口）                                                | 完成                                                                                  |
+| `fixtures/`（`corpus.mjs` 324 样例、`golden/*.json` 16 族录制 518KB、`entry-exports.json` 导出面录制）              | 完成                                                                                  |
+| dist 入口旧门（`KNORVIA_DW01_ENTRY=dist` + `pnpm --dir apps/cli/packages/dynamic-workflow build`）                  | 完成                                                                                  |
+| `callers.md`（语法级 import 扫描 7,493 文件 + 字符串路径 6 处；`callers-raw.txt` 机器生成）                         | 完成                                                                                  |
+| `known-differences.md`（K1–K8 旧行为特征 + K9 v2 删桩记录 + K10 v3 归档注释替换 + 不在范围相邻文件 + sha pin 作业） | 完成                                                                                  |
+| `acceptance.md` / `gate-old.json`                                                                                   | 完成                                                                                  |
+| `licensing/reviews.json` 登记合同文件、`knip.json` 根 entry                                                         | 完成                                                                                  |
 
 ## 合同文件
 
 - `behavior.md`：行为条目 B1–B20 + golden 样例族覆盖表。
 - `interface.md`：55 文件的模块路径与导出签名（机器生成，不手改）。
 - `callers.md` + `callers-raw.txt`：调用方全量清单。
-- `known-differences.md`：既存差异与旧行为特征（K1–K8）。
-- `stubs/`：55 个最小桩 + `build-stubs.mjs` + `targets.txt`。
+- `known-differences.md`：既存差异与旧行为特征（K1–K8）；K9 是 v2 删桩、K10 是 v3 归档注释替换的合同修订记录。
+- `stubs/`：v1 的最小桩与生成脚本。**v2 已删除**（桩替换证据留存 `gate-old.json` 的 `stubReplacement`）。
 - `tests/`：3 个契约测试文件（`entry.mjs` 支持源码/dist 两入口）+ 录制/生成脚本。
 - `fixtures/`：`corpus.mjs`（324 样例语料）、`golden/`（16 族旧实现录制）、`entry-exports.json`。
 - `acceptance.md`、`gate-old.json`：验收与旧门结果。
@@ -59,7 +61,11 @@ $env:KNORVIA_DW01_ENTRY = "dist"
 node --import tsx --test "specs/contracts/dynamic-workflow-01/tests/*.test.mjs"
 ```
 
-当前结果（旧实现）：源码入口 39/39、dist 入口 39/39，golden 样例 324/324，预登记差异 8 条（K1–K8，见 `known-differences.md`）。
+当前结果（v1 旧实现，见 `gate-old.json`）：源码入口 39/39、dist 入口 39/39，golden 样例 324/324，预登记差异 8 条（K1–K8，见 `known-differences.md`）。
+
+v2 新实现（2026-10-17，Node v20.19.2，`scripts/contract-gate.mjs`，不带桩替换，报告写在合同目录以外，**没有覆盖 `gate-old.json`**）：源码入口 39/39、dist 入口 39/39，fail 0，skipped 0。dist 前置：`pnpm --dir apps/cli/packages/dynamic-workflow build`。
+
+v3 新实现（2026-10-18，Node v24.14.0，同一 runner 与同一命令，报告写在合同目录以外，同样**没有覆盖 `gate-old.json`**）：源码入口 39/39、dist 入口 39/39，fail 0，skipped 0。v3 无条目变更，重跑只为确认 K10 那次 re-pin 没牵动本包行为。
 
 各测试文件覆盖的条目：
 
@@ -71,9 +77,9 @@ node --import tsx --test "specs/contracts/dynamic-workflow-01/tests/*.test.mjs"
 
 1. **golden 是本合同的主体**（任务书选择 10）。324 个样例的「输入脚本 → 分析结果」由旧实现在 `49dde725`+merge 后的树上一次性录制（`tests/record-golden.mjs`）；回放测试逐字节比对 `ok`、诊断（码/行/列/消息）、产物清单与六个规范文本投影（core / causality / flow / handoff / site / actor）。**重写实现产出任何不同字节即红。**
 2. **语料 expect 分类以旧实现为准**：`corpus.mjs` 每例的 `expect` 是对旧实现 `ok` 的分类断言，录制时逐例校验（0 不符）。新增语料必须先验证分类再落盘。
-3. **桩只含签名**：`stubs/` 由 `stubs/build-stubs.mjs` 生成，53 个重写目标的桩 import 即抛；桩替换验证在旧门里跑过（3/3 文件全失败）。进入替换阶段后随旧文件一起删除。2 个 unreviewed 文件不进桩（不重写不删）。
+3. **桩已删除（v2）**：v1 的桩只含签名，桩替换验证在旧门里跑过（3 个测试文件全失败，`allFail=true`），证据在 `gate-old.json` 的 `stubReplacement`。v2 起该目录不存在，这段验证不再可复跑，也不再作为回退路径。2 个 unreviewed 文件本来就不进桩（不重写不删）。B20 改为以 `interface.md` 的导出声明块为 oracle。
 4. **dep:refs 符号级 findReferences 在本包规模下内存溢出**（283 导出 × 全仓），改用语法级 import 扫描 + 逐文件 `--list-exports`（`--list-exports` 55/55 跑通），见 `callers.md` 与 `acceptance.md`。
-5. **core 测试夹具的 sha256 pin 是替换阶段的已知作业**（5 个夹具 + 1 证据脚本按字符串路径 import 本包深层模块并 pin sha）：替换时范围化 re-pin，行为判据以本合同两入口为准，见 `known-differences.md` §3。
+5. **core 测试夹具的 sha256 pin 是替换阶段的已知作业**（5 个夹具 + 1 证据脚本按字符串路径 import 本包深层模块并 pin sha）：替换时范围化 re-pin，行为判据以本合同两入口为准，见 `known-differences.md` §3；strands 归档 `declaration` 的注释替换与去注释等价证据见 K10。
 6. **重跑录制**：改语料后 `node --import tsx specs/contracts/dynamic-workflow-01/tests/record-golden.mjs` 重录 golden，再跑旧门并升版本。
 
 ## 条目 → 测试对照表
@@ -100,27 +106,46 @@ node --import tsx --test "specs/contracts/dynamic-workflow-01/tests/*.test.mjs"
 | B17 locale 独立性                   | `analysis.test.mjs`「B17 locale 独立性：ASCII id 排序在不同 locale 下一致」                                                 |
 | B18 模块路径兼容面（源码侧）        | `surface.test.mjs`「B18 模块路径兼容面：55 个范围文件存在」                                                                 |
 | B19 dist 产物存在（dist 入口模式）  | `surface.test.mjs`「B19 dist 入口模式下 55 个产物存在」                                                                     |
-| B20 桩面一致性                      | `surface.test.mjs`「B20 桩面：stubs/ 与 53 个重写目标一一对应且只含签名」                                                   |
+| B20 导出声明覆盖                    | `surface.test.mjs`「B20 interface.md 导出声明块覆盖 53 个重写目标的源码导出」                                               |
 
 B1–B20 全部有条目、全部有测试（无空行）；324 个 golden 样例的整体等价由 `golden.test.mjs` 承担（首行）。
 
-## 旧门（旧实现上的结论）
+## 旧门与新实现门禁（v2 / v3）
 
-```powershell
-node scripts/contract-gate.mjs --contract specs/contracts/dynamic-workflow-01 `
-  --tests "*.test.mjs" --dist-env KNORVIA_DW01_ENTRY=dist `
-  --stub-root specs/contracts/dynamic-workflow-01/stubs `
-  --stub-targets specs/contracts/dynamic-workflow-01/stubs/targets.txt `
-  --json specs/contracts/dynamic-workflow-01/gate-old.json
-```
+v1 旧门（旧实现上的结论，机器可读记录在 [`gate-old.json`](gate-old.json)，**v2/v3 不覆盖该文件**）：
 
 - 源码入口：tests=39 **pass=39** fail=0（golden 324/324 样例）
 - dist 入口（前置：`pnpm --dir apps/cli/packages/dynamic-workflow build`）：tests=39 **pass=39** fail=0
 - 桩替换（53 个重写目标文件）：tests=3 **pass=0** fail=3 → `allFail=true`：契约测试确实测到公开行为
-- 预登记差异：K1–K8（`known-differences.md`，各有对应测试/语料）；跳过：0；详细输出见 [`gate-old.json`](gate-old.json)
+- 预登记差异：K1–K8（`known-differences.md`，各有对应测试/语料）；跳过：0
+- v1 命令另带桩替换参数，并把报告写入 `gate-old.json`。目录删除后该段不再可复跑。
+
+v2 在**新实现**上重跑（2026-10-17，Node v20.19.2，实测提交 `417f9244`，不带桩替换）：
+
+```text
+node scripts/contract-gate.mjs --contract specs/contracts/dynamic-workflow-01 \
+  --tests "*.test.mjs" --dist-env KNORVIA_DW01_ENTRY=dist \
+  --json <合同目录以外的路径>
+```
+
+- 源码入口：tests=39 **pass=39** fail=0 skipped=0 exit=0（`duration_ms 59119.399845`）
+- dist 入口：tests=39 **pass=39** fail=0 skipped=0 exit=0（`duration_ms 41903.81015`）
+- `stubReplacement`：null（未启用桩替换）
+- 总判：`pass: true`
+
+v3 用**同一条命令**在新实现上再跑一次（2026-10-18，Node v24.14.0，实测提交 `d0ce5d0f`，报告 `/workspace/ktools/dw01-gate-v3-final.json`，`generatedAt` `2026-10-18T10:33:44.854Z`，不带桩替换；`gate-old.json` 未被写入）：
+
+- 源码入口：tests=39 **pass=39** fail=0 skipped=0 todo=0 exit=0（`duration_ms 34431.080856`）
+- dist 入口：tests=39 **pass=39** fail=0 skipped=0 todo=0 exit=0（`duration_ms 16678.342219`，环境 `KNORVIA_DW01_ENTRY=dist`）
+- `stubReplacement`：null；总判：`pass: true`
+- 触发原因：K10 那次 strands 归档 re-pin 只动 `core/test` 的哈希与归档文本，本包无改动；重跑确认 324 个 golden 样例与 B1–B20 未受影响。合同文档里只有 `interface.md` 被测试读取（`tests/surface.test.mjs`），v3 没有改它。
 
 ## 计分口径（替换阶段）
 
-- 全部 55 个文件：相似度工具**普通模式**（行 + 结构两道门槛）。
+计分口径（Lead 裁定，2026-10-12，见 `docs/knorvia-contracts-01-acceptance.md` 第 26 行）：**运行时/实现文件用普通模式**；**纯声明/桶文件用 `--declaration --interface specs/contracts/dynamic-workflow-01/interface.md`**；当「兼容面行数本身 ≥ 残留归一化行数的 20%」时，普通模式数学上不可达，该文件按第三步用声明模式计分。门槛常量 **0.2 / 8 / 0.4 不改**。工具字段：`declaration-lines` = 被剔除行数，`residual-lines` = 残留归一化行数。报告值取 `--old-rev origin/main` 与上游固定树两侧的最大值。
+
+- 重写目标与拆分出去的实现文件：普通模式。
+- `compiler/compile-types.ts` 只保留与 `interface.md` 里 `compile.ts` 公共形状一致的五个接口（`CompileDiagnostic`、`CompileResult`、`ScriptLoc`、`WorkflowProgram`、`CreateWorkflowProgramOptions`），按声明模式计分：`node scripts/provenance/similarity.mjs --declaration --interface specs/contracts/dynamic-workflow-01/interface.md`。
+- 运行时值 `SCRIPT_FILE_NAME`、`WORKFLOW_FUNCTION_NAME` 与 `defaultCompilerOptions` 在独立重写的 `compiler/compile.ts` 里，该文件走普通模式。`defaultCompilerOptions` 不导出（不在 `interface.md` 的导出清单里）。
 - 入口桶与本包无关（`src/index.ts`/`src/projections.ts` 不在重写范围），但其再导出的分析符号经 B14 导出面测试守住。
 - core 夹具 sha256 pin 的文件（`causality-reduce.ts` 等）：替换时按 GATE-PLAYBOOK D 节范围化 re-pin。
