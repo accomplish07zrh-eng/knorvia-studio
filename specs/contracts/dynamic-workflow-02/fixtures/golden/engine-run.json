@@ -1,0 +1,4034 @@
+{
+  "family": "engine-run",
+  "samples": [
+    {
+      "expect": "clean",
+      "id": "engine-run/untyped-ask",
+      "run": {
+        "status": "completed",
+        "result": "the diff is small",
+        "spentTokens": 0,
+        "caps": {
+          "maxConcurrency": 1
+        }
+      },
+      "events": [
+        {
+          "sequence": 0,
+          "type": "run-started",
+          "runId": "run-golden",
+          "caps": {
+            "maxConcurrency": 1
+          }
+        },
+        {
+          "sequence": 1,
+          "type": "actor-created",
+          "actor": {
+            "siteId": "actor#1",
+            "ordinal": 1
+          },
+          "name": "lead",
+          "persona": {
+            "name": "lead"
+          }
+        },
+        {
+          "sequence": 2,
+          "type": "node-queued",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 1
+          },
+          "kind": "ask",
+          "actor": {
+            "siteId": "actor#1",
+            "ordinal": 1
+          },
+          "actorSeq": 0,
+          "instructionsHead": "summarise the diff"
+        },
+        {
+          "sequence": 3,
+          "type": "node-dispatched",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 1
+          }
+        },
+        {
+          "sequence": 4,
+          "type": "node-settled",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 1
+          },
+          "outcome": "ok"
+        },
+        {
+          "sequence": 5,
+          "type": "run-settled",
+          "status": "completed"
+        }
+      ],
+      "nodes": [
+        {
+          "siteId": "ask#1",
+          "ordinal": 1,
+          "kind": "ask",
+          "actorSiteId": "actor#1",
+          "actorOrdinal": 1,
+          "actorSeq": 0,
+          "inputHash": "15d0a02b",
+          "status": "completed",
+          "result": "the diff is small"
+        }
+      ],
+      "actors": [
+        {
+          "siteId": "actor#1",
+          "ordinal": 1,
+          "name": "lead",
+          "persona": {
+            "name": "lead"
+          },
+          "sessionId": "session@actor#1@1"
+        }
+      ],
+      "driver": {
+        "emits": 6,
+        "sessions": [
+          {
+            "actor": {
+              "siteId": "actor#1",
+              "ordinal": 1
+            },
+            "persona": {
+              "name": "lead"
+            }
+          }
+        ],
+        "starts": [
+          {
+            "session": {
+              "id": "session@actor#1@1"
+            },
+            "instance": {
+              "siteId": "ask#1",
+              "ordinal": 1
+            },
+            "message": {
+              "instructions": "summarise the diff",
+              "typed": false
+            }
+          }
+        ],
+        "replies": [],
+        "cancelled": [],
+        "worldCalls": [],
+        "artifactCalls": []
+      }
+    },
+    {
+      "expect": "clean",
+      "id": "engine-run/typed-ask-accept",
+      "run": {
+        "status": "completed",
+        "result": {
+          "summary": "ok"
+        },
+        "spentTokens": 0,
+        "caps": {
+          "maxConcurrency": 1
+        }
+      },
+      "events": [
+        {
+          "sequence": 0,
+          "type": "run-started",
+          "runId": "run-golden",
+          "caps": {
+            "maxConcurrency": 1
+          }
+        },
+        {
+          "sequence": 1,
+          "type": "actor-created",
+          "actor": {
+            "siteId": "actor#1",
+            "ordinal": 1
+          },
+          "name": "lead",
+          "persona": {
+            "name": "lead"
+          }
+        },
+        {
+          "sequence": 2,
+          "type": "node-queued",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 1
+          },
+          "kind": "ask",
+          "actor": {
+            "siteId": "actor#1",
+            "ordinal": 1
+          },
+          "actorSeq": 0,
+          "instructionsHead": "summarise"
+        },
+        {
+          "sequence": 3,
+          "type": "node-dispatched",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 1
+          }
+        },
+        {
+          "sequence": 4,
+          "type": "node-settled",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 1
+          },
+          "outcome": "ok"
+        },
+        {
+          "sequence": 5,
+          "type": "run-settled",
+          "status": "completed"
+        }
+      ],
+      "nodes": [
+        {
+          "siteId": "ask#1",
+          "ordinal": 1,
+          "kind": "ask",
+          "actorSiteId": "actor#1",
+          "actorOrdinal": 1,
+          "actorSeq": 0,
+          "inputHash": "f41335d7",
+          "status": "completed",
+          "result": {
+            "summary": "ok"
+          }
+        }
+      ],
+      "actors": [
+        {
+          "siteId": "actor#1",
+          "ordinal": 1,
+          "name": "lead",
+          "persona": {
+            "name": "lead"
+          },
+          "sessionId": "session@actor#1@1"
+        }
+      ],
+      "driver": {
+        "emits": 6,
+        "sessions": [
+          {
+            "actor": {
+              "siteId": "actor#1",
+              "ordinal": 1
+            },
+            "persona": {
+              "name": "lead"
+            }
+          }
+        ],
+        "starts": [
+          {
+            "session": {
+              "id": "session@actor#1@1"
+            },
+            "instance": {
+              "siteId": "ask#1",
+              "ordinal": 1
+            },
+            "message": {
+              "instructions": "summarise",
+              "typed": true,
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "summary": {
+                    "type": "string"
+                  }
+                },
+                "required": ["summary"],
+                "additionalProperties": false
+              }
+            }
+          }
+        ],
+        "replies": [
+          {
+            "instance": {
+              "siteId": "ask#1",
+              "ordinal": 1
+            },
+            "verdict": {
+              "kind": "accept"
+            }
+          }
+        ],
+        "cancelled": [],
+        "worldCalls": [],
+        "artifactCalls": []
+      }
+    },
+    {
+      "expect": "clean",
+      "id": "engine-run/typed-ask-invalid",
+      "run": {
+        "status": "errored",
+        "failure": {
+          "code": "DriverError",
+          "message": "submit_result failed schema validation repeatedly and the repair budget is exhausted."
+        },
+        "spentTokens": 0,
+        "caps": {
+          "maxConcurrency": 1
+        }
+      },
+      "events": [
+        {
+          "sequence": 0,
+          "type": "run-started",
+          "runId": "run-golden",
+          "caps": {
+            "maxConcurrency": 1
+          }
+        },
+        {
+          "sequence": 1,
+          "type": "actor-created",
+          "actor": {
+            "siteId": "actor#1",
+            "ordinal": 1
+          },
+          "name": "lead",
+          "persona": {
+            "name": "lead"
+          }
+        },
+        {
+          "sequence": 2,
+          "type": "node-queued",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 1
+          },
+          "kind": "ask",
+          "actor": {
+            "siteId": "actor#1",
+            "ordinal": 1
+          },
+          "actorSeq": 0,
+          "instructionsHead": "summarise"
+        },
+        {
+          "sequence": 3,
+          "type": "node-dispatched",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 1
+          }
+        },
+        {
+          "sequence": 4,
+          "type": "node-repairing",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 1
+          },
+          "attempt": 1,
+          "violations": [
+            {
+              "expected": "string",
+              "got": "number 1",
+              "path": "$.summary"
+            }
+          ]
+        },
+        {
+          "sequence": 5,
+          "type": "node-repairing",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 1
+          },
+          "attempt": 2,
+          "violations": [
+            {
+              "expected": "string",
+              "got": "number 2",
+              "path": "$.summary"
+            }
+          ]
+        },
+        {
+          "sequence": 6,
+          "type": "node-repairing",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 1
+          },
+          "attempt": 3,
+          "violations": [
+            {
+              "expected": "string",
+              "got": "number 3",
+              "path": "$.summary"
+            }
+          ]
+        },
+        {
+          "sequence": 7,
+          "type": "node-settled",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 1
+          },
+          "outcome": "failed",
+          "error": {
+            "code": "ValidationFailed",
+            "message": "submit_result failed schema validation repeatedly and the repair budget is exhausted.",
+            "violations": [
+              {
+                "expected": "string",
+                "got": "number 4",
+                "path": "$.summary"
+              }
+            ]
+          }
+        },
+        {
+          "sequence": 8,
+          "type": "run-settled",
+          "status": "errored",
+          "error": {
+            "code": "DriverError",
+            "message": "submit_result failed schema validation repeatedly and the repair budget is exhausted."
+          }
+        }
+      ],
+      "nodes": [
+        {
+          "siteId": "ask#1",
+          "ordinal": 1,
+          "kind": "ask",
+          "actorSiteId": "actor#1",
+          "actorOrdinal": 1,
+          "actorSeq": 0,
+          "inputHash": "f41335d7",
+          "status": "failed",
+          "error": {
+            "code": "ValidationFailed",
+            "message": "submit_result failed schema validation repeatedly and the repair budget is exhausted.",
+            "violations": [
+              {
+                "expected": "string",
+                "got": "number 4",
+                "path": "$.summary"
+              }
+            ]
+          }
+        }
+      ],
+      "actors": [
+        {
+          "siteId": "actor#1",
+          "ordinal": 1,
+          "name": "lead",
+          "persona": {
+            "name": "lead"
+          },
+          "sessionId": "session@actor#1@1"
+        }
+      ],
+      "driver": {
+        "emits": 9,
+        "sessions": [
+          {
+            "actor": {
+              "siteId": "actor#1",
+              "ordinal": 1
+            },
+            "persona": {
+              "name": "lead"
+            }
+          }
+        ],
+        "starts": [
+          {
+            "session": {
+              "id": "session@actor#1@1"
+            },
+            "instance": {
+              "siteId": "ask#1",
+              "ordinal": 1
+            },
+            "message": {
+              "instructions": "summarise",
+              "typed": true,
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "summary": {
+                    "type": "string"
+                  }
+                },
+                "required": ["summary"],
+                "additionalProperties": false
+              }
+            }
+          }
+        ],
+        "replies": [
+          {
+            "instance": {
+              "siteId": "ask#1",
+              "ordinal": 1
+            },
+            "verdict": {
+              "kind": "reject",
+              "violations": [
+                {
+                  "expected": "string",
+                  "got": "number 1",
+                  "path": "$.summary"
+                }
+              ]
+            }
+          },
+          {
+            "instance": {
+              "siteId": "ask#1",
+              "ordinal": 1
+            },
+            "verdict": {
+              "kind": "reject",
+              "violations": [
+                {
+                  "expected": "string",
+                  "got": "number 2",
+                  "path": "$.summary"
+                }
+              ]
+            }
+          },
+          {
+            "instance": {
+              "siteId": "ask#1",
+              "ordinal": 1
+            },
+            "verdict": {
+              "kind": "reject",
+              "violations": [
+                {
+                  "expected": "string",
+                  "got": "number 3",
+                  "path": "$.summary"
+                }
+              ]
+            }
+          }
+        ],
+        "cancelled": [
+          {
+            "siteId": "ask#1",
+            "ordinal": 1
+          }
+        ],
+        "worldCalls": [],
+        "artifactCalls": []
+      }
+    },
+    {
+      "expect": "clean",
+      "id": "engine-run/typed-ask-never-submits",
+      "run": {
+        "status": "errored",
+        "failure": {
+          "code": "DriverError",
+          "message": "The typed ask ended without a submit_result call, so there is no result."
+        },
+        "spentTokens": 0,
+        "caps": {
+          "maxConcurrency": 1
+        }
+      },
+      "events": [
+        {
+          "sequence": 0,
+          "type": "run-started",
+          "runId": "run-golden",
+          "caps": {
+            "maxConcurrency": 1
+          }
+        },
+        {
+          "sequence": 1,
+          "type": "actor-created",
+          "actor": {
+            "siteId": "actor#1",
+            "ordinal": 1
+          },
+          "name": "lead",
+          "persona": {
+            "name": "lead"
+          }
+        },
+        {
+          "sequence": 2,
+          "type": "node-queued",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 1
+          },
+          "kind": "ask",
+          "actor": {
+            "siteId": "actor#1",
+            "ordinal": 1
+          },
+          "actorSeq": 0,
+          "instructionsHead": "summarise"
+        },
+        {
+          "sequence": 3,
+          "type": "node-dispatched",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 1
+          }
+        },
+        {
+          "sequence": 4,
+          "type": "node-nudged",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 1
+          }
+        },
+        {
+          "sequence": 5,
+          "type": "node-settled",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 1
+          },
+          "outcome": "failed",
+          "error": {
+            "code": "ResultNotSubmitted",
+            "message": "The typed ask ended without a submit_result call, so there is no result.",
+            "finalText": "still chatter"
+          }
+        },
+        {
+          "sequence": 6,
+          "type": "run-settled",
+          "status": "errored",
+          "error": {
+            "code": "DriverError",
+            "message": "The typed ask ended without a submit_result call, so there is no result."
+          }
+        }
+      ],
+      "nodes": [
+        {
+          "siteId": "ask#1",
+          "ordinal": 1,
+          "kind": "ask",
+          "actorSiteId": "actor#1",
+          "actorOrdinal": 1,
+          "actorSeq": 0,
+          "inputHash": "f41335d7",
+          "status": "failed",
+          "error": {
+            "code": "ResultNotSubmitted",
+            "message": "The typed ask ended without a submit_result call, so there is no result.",
+            "finalText": "still chatter"
+          }
+        }
+      ],
+      "actors": [
+        {
+          "siteId": "actor#1",
+          "ordinal": 1,
+          "name": "lead",
+          "persona": {
+            "name": "lead"
+          },
+          "sessionId": "session@actor#1@1"
+        }
+      ],
+      "driver": {
+        "emits": 7,
+        "sessions": [
+          {
+            "actor": {
+              "siteId": "actor#1",
+              "ordinal": 1
+            },
+            "persona": {
+              "name": "lead"
+            }
+          }
+        ],
+        "starts": [
+          {
+            "session": {
+              "id": "session@actor#1@1"
+            },
+            "instance": {
+              "siteId": "ask#1",
+              "ordinal": 1
+            },
+            "message": {
+              "instructions": "summarise",
+              "typed": true,
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "summary": {
+                    "type": "string"
+                  }
+                },
+                "required": ["summary"],
+                "additionalProperties": false
+              }
+            }
+          }
+        ],
+        "replies": [
+          {
+            "instance": {
+              "siteId": "ask#1",
+              "ordinal": 1
+            },
+            "verdict": {
+              "kind": "nudge"
+            }
+          }
+        ],
+        "cancelled": [
+          {
+            "siteId": "ask#1",
+            "ordinal": 1
+          }
+        ],
+        "worldCalls": [],
+        "artifactCalls": []
+      }
+    },
+    {
+      "expect": "clean",
+      "id": "engine-run/typed-ask-json-string-payload",
+      "run": {
+        "status": "completed",
+        "result": {
+          "summary": "encoded"
+        },
+        "spentTokens": 0,
+        "caps": {
+          "maxConcurrency": 1
+        }
+      },
+      "events": [
+        {
+          "sequence": 0,
+          "type": "run-started",
+          "runId": "run-golden",
+          "caps": {
+            "maxConcurrency": 1
+          }
+        },
+        {
+          "sequence": 1,
+          "type": "actor-created",
+          "actor": {
+            "siteId": "actor#1",
+            "ordinal": 1
+          },
+          "name": "lead",
+          "persona": {
+            "name": "lead"
+          }
+        },
+        {
+          "sequence": 2,
+          "type": "node-queued",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 1
+          },
+          "kind": "ask",
+          "actor": {
+            "siteId": "actor#1",
+            "ordinal": 1
+          },
+          "actorSeq": 0,
+          "instructionsHead": "summarise"
+        },
+        {
+          "sequence": 3,
+          "type": "node-dispatched",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 1
+          }
+        },
+        {
+          "sequence": 4,
+          "type": "node-settled",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 1
+          },
+          "outcome": "ok"
+        },
+        {
+          "sequence": 5,
+          "type": "run-settled",
+          "status": "completed"
+        }
+      ],
+      "nodes": [
+        {
+          "siteId": "ask#1",
+          "ordinal": 1,
+          "kind": "ask",
+          "actorSiteId": "actor#1",
+          "actorOrdinal": 1,
+          "actorSeq": 0,
+          "inputHash": "f41335d7",
+          "status": "completed",
+          "result": {
+            "summary": "encoded"
+          }
+        }
+      ],
+      "actors": [
+        {
+          "siteId": "actor#1",
+          "ordinal": 1,
+          "name": "lead",
+          "persona": {
+            "name": "lead"
+          },
+          "sessionId": "session@actor#1@1"
+        }
+      ],
+      "driver": {
+        "emits": 6,
+        "sessions": [
+          {
+            "actor": {
+              "siteId": "actor#1",
+              "ordinal": 1
+            },
+            "persona": {
+              "name": "lead"
+            }
+          }
+        ],
+        "starts": [
+          {
+            "session": {
+              "id": "session@actor#1@1"
+            },
+            "instance": {
+              "siteId": "ask#1",
+              "ordinal": 1
+            },
+            "message": {
+              "instructions": "summarise",
+              "typed": true,
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "summary": {
+                    "type": "string"
+                  }
+                },
+                "required": ["summary"],
+                "additionalProperties": false
+              }
+            }
+          }
+        ],
+        "replies": [
+          {
+            "instance": {
+              "siteId": "ask#1",
+              "ordinal": 1
+            },
+            "verdict": {
+              "kind": "accept"
+            }
+          }
+        ],
+        "cancelled": [],
+        "worldCalls": [],
+        "artifactCalls": []
+      }
+    },
+    {
+      "expect": "clean",
+      "id": "engine-run/loop-same-site-three-ordinals",
+      "run": {
+        "status": "completed",
+        "result": ["A", "B", "C"],
+        "spentTokens": 0,
+        "caps": {
+          "maxConcurrency": 1
+        }
+      },
+      "events": [
+        {
+          "sequence": 0,
+          "type": "run-started",
+          "runId": "run-golden",
+          "caps": {
+            "maxConcurrency": 1
+          }
+        },
+        {
+          "sequence": 1,
+          "type": "actor-created",
+          "actor": {
+            "siteId": "actor#1",
+            "ordinal": 1
+          },
+          "persona": {}
+        },
+        {
+          "sequence": 2,
+          "type": "node-queued",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 1
+          },
+          "kind": "ask",
+          "actor": {
+            "siteId": "actor#1",
+            "ordinal": 1
+          },
+          "actorSeq": 0,
+          "instructionsHead": "a"
+        },
+        {
+          "sequence": 3,
+          "type": "node-dispatched",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 1
+          }
+        },
+        {
+          "sequence": 4,
+          "type": "node-settled",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 1
+          },
+          "outcome": "ok"
+        },
+        {
+          "sequence": 5,
+          "type": "actor-created",
+          "actor": {
+            "siteId": "actor#1",
+            "ordinal": 2
+          },
+          "persona": {}
+        },
+        {
+          "sequence": 6,
+          "type": "node-queued",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 2
+          },
+          "kind": "ask",
+          "actor": {
+            "siteId": "actor#1",
+            "ordinal": 2
+          },
+          "actorSeq": 0,
+          "instructionsHead": "b"
+        },
+        {
+          "sequence": 7,
+          "type": "node-dispatched",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 2
+          }
+        },
+        {
+          "sequence": 8,
+          "type": "node-settled",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 2
+          },
+          "outcome": "ok"
+        },
+        {
+          "sequence": 9,
+          "type": "actor-created",
+          "actor": {
+            "siteId": "actor#1",
+            "ordinal": 3
+          },
+          "persona": {}
+        },
+        {
+          "sequence": 10,
+          "type": "node-queued",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 3
+          },
+          "kind": "ask",
+          "actor": {
+            "siteId": "actor#1",
+            "ordinal": 3
+          },
+          "actorSeq": 0,
+          "instructionsHead": "c"
+        },
+        {
+          "sequence": 11,
+          "type": "node-dispatched",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 3
+          }
+        },
+        {
+          "sequence": 12,
+          "type": "node-settled",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 3
+          },
+          "outcome": "ok"
+        },
+        {
+          "sequence": 13,
+          "type": "run-settled",
+          "status": "completed"
+        }
+      ],
+      "nodes": [
+        {
+          "siteId": "ask#1",
+          "ordinal": 1,
+          "kind": "ask",
+          "actorSiteId": "actor#1",
+          "actorOrdinal": 1,
+          "actorSeq": 0,
+          "inputHash": "61a1cfea",
+          "status": "completed",
+          "result": "A"
+        },
+        {
+          "siteId": "ask#1",
+          "ordinal": 2,
+          "kind": "ask",
+          "actorSiteId": "actor#1",
+          "actorOrdinal": 2,
+          "actorSeq": 0,
+          "inputHash": "d3a93f25",
+          "status": "completed",
+          "result": "B"
+        },
+        {
+          "siteId": "ask#1",
+          "ordinal": 3,
+          "kind": "ask",
+          "actorSiteId": "actor#1",
+          "actorOrdinal": 3,
+          "actorSeq": 0,
+          "inputHash": "69a659b0",
+          "status": "completed",
+          "result": "C"
+        }
+      ],
+      "actors": [
+        {
+          "siteId": "actor#1",
+          "ordinal": 1,
+          "persona": {},
+          "sessionId": "session@actor#1@1"
+        },
+        {
+          "siteId": "actor#1",
+          "ordinal": 2,
+          "persona": {},
+          "sessionId": "session@actor#1@2"
+        },
+        {
+          "siteId": "actor#1",
+          "ordinal": 3,
+          "persona": {},
+          "sessionId": "session@actor#1@3"
+        }
+      ],
+      "driver": {
+        "emits": 14,
+        "sessions": [
+          {
+            "actor": {
+              "siteId": "actor#1",
+              "ordinal": 1
+            },
+            "persona": {}
+          },
+          {
+            "actor": {
+              "siteId": "actor#1",
+              "ordinal": 2
+            },
+            "persona": {}
+          },
+          {
+            "actor": {
+              "siteId": "actor#1",
+              "ordinal": 3
+            },
+            "persona": {}
+          }
+        ],
+        "starts": [
+          {
+            "session": {
+              "id": "session@actor#1@1"
+            },
+            "instance": {
+              "siteId": "ask#1",
+              "ordinal": 1
+            },
+            "message": {
+              "instructions": "a",
+              "typed": false
+            }
+          },
+          {
+            "session": {
+              "id": "session@actor#1@2"
+            },
+            "instance": {
+              "siteId": "ask#1",
+              "ordinal": 2
+            },
+            "message": {
+              "instructions": "b",
+              "typed": false
+            }
+          },
+          {
+            "session": {
+              "id": "session@actor#1@3"
+            },
+            "instance": {
+              "siteId": "ask#1",
+              "ordinal": 3
+            },
+            "message": {
+              "instructions": "c",
+              "typed": false
+            }
+          }
+        ],
+        "replies": [],
+        "cancelled": [],
+        "worldCalls": [],
+        "artifactCalls": []
+      }
+    },
+    {
+      "expect": "clean",
+      "id": "engine-run/same-actor-fifo",
+      "run": {
+        "status": "completed",
+        "result": "12",
+        "spentTokens": 0,
+        "caps": {
+          "maxConcurrency": 1
+        }
+      },
+      "events": [
+        {
+          "sequence": 0,
+          "type": "run-started",
+          "runId": "run-golden",
+          "caps": {
+            "maxConcurrency": 1
+          }
+        },
+        {
+          "sequence": 1,
+          "type": "actor-created",
+          "actor": {
+            "siteId": "actor#1",
+            "ordinal": 1
+          },
+          "name": "lead",
+          "persona": {
+            "name": "lead"
+          }
+        },
+        {
+          "sequence": 2,
+          "type": "node-queued",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 1
+          },
+          "kind": "ask",
+          "actor": {
+            "siteId": "actor#1",
+            "ordinal": 1
+          },
+          "actorSeq": 0,
+          "instructionsHead": "one"
+        },
+        {
+          "sequence": 3,
+          "type": "node-dispatched",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 1
+          }
+        },
+        {
+          "sequence": 4,
+          "type": "node-settled",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 1
+          },
+          "outcome": "ok"
+        },
+        {
+          "sequence": 5,
+          "type": "node-queued",
+          "instance": {
+            "siteId": "ask#2",
+            "ordinal": 1
+          },
+          "kind": "ask",
+          "actor": {
+            "siteId": "actor#1",
+            "ordinal": 1
+          },
+          "actorSeq": 1,
+          "instructionsHead": "two"
+        },
+        {
+          "sequence": 6,
+          "type": "node-dispatched",
+          "instance": {
+            "siteId": "ask#2",
+            "ordinal": 1
+          }
+        },
+        {
+          "sequence": 7,
+          "type": "node-settled",
+          "instance": {
+            "siteId": "ask#2",
+            "ordinal": 1
+          },
+          "outcome": "ok"
+        },
+        {
+          "sequence": 8,
+          "type": "run-settled",
+          "status": "completed"
+        }
+      ],
+      "nodes": [
+        {
+          "siteId": "ask#1",
+          "ordinal": 1,
+          "kind": "ask",
+          "actorSiteId": "actor#1",
+          "actorOrdinal": 1,
+          "actorSeq": 0,
+          "inputHash": "9fe84b97",
+          "status": "completed",
+          "result": "1"
+        },
+        {
+          "siteId": "ask#2",
+          "ordinal": 1,
+          "kind": "ask",
+          "actorSiteId": "actor#1",
+          "actorOrdinal": 1,
+          "actorSeq": 1,
+          "inputHash": "0c902231",
+          "status": "completed",
+          "result": "2"
+        }
+      ],
+      "actors": [
+        {
+          "siteId": "actor#1",
+          "ordinal": 1,
+          "name": "lead",
+          "persona": {
+            "name": "lead"
+          },
+          "sessionId": "session@actor#1@1"
+        }
+      ],
+      "driver": {
+        "emits": 9,
+        "sessions": [
+          {
+            "actor": {
+              "siteId": "actor#1",
+              "ordinal": 1
+            },
+            "persona": {
+              "name": "lead"
+            }
+          }
+        ],
+        "starts": [
+          {
+            "session": {
+              "id": "session@actor#1@1"
+            },
+            "instance": {
+              "siteId": "ask#1",
+              "ordinal": 1
+            },
+            "message": {
+              "instructions": "one",
+              "typed": false
+            }
+          },
+          {
+            "session": {
+              "id": "session@actor#1@1"
+            },
+            "instance": {
+              "siteId": "ask#2",
+              "ordinal": 1
+            },
+            "message": {
+              "instructions": "two",
+              "typed": false
+            }
+          }
+        ],
+        "replies": [],
+        "cancelled": [],
+        "worldCalls": [],
+        "artifactCalls": []
+      }
+    },
+    {
+      "expect": "clean",
+      "id": "engine-run/fanout-four-capped-two",
+      "run": {
+        "status": "completed",
+        "result": ["a", "b", "c", "d"],
+        "spentTokens": 0,
+        "caps": {
+          "maxConcurrency": 2
+        }
+      },
+      "events": [
+        {
+          "sequence": 0,
+          "type": "run-started",
+          "runId": "run-golden",
+          "caps": {
+            "maxConcurrency": 2
+          }
+        },
+        {
+          "sequence": 1,
+          "type": "actor-created",
+          "actor": {
+            "siteId": "actor#1",
+            "ordinal": 1
+          },
+          "persona": {}
+        },
+        {
+          "sequence": 2,
+          "type": "node-queued",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 1
+          },
+          "kind": "ask",
+          "actor": {
+            "siteId": "actor#1",
+            "ordinal": 1
+          },
+          "actorSeq": 0,
+          "instructionsHead": "a"
+        },
+        {
+          "sequence": 3,
+          "type": "actor-created",
+          "actor": {
+            "siteId": "actor#1",
+            "ordinal": 2
+          },
+          "persona": {}
+        },
+        {
+          "sequence": 4,
+          "type": "node-queued",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 2
+          },
+          "kind": "ask",
+          "actor": {
+            "siteId": "actor#1",
+            "ordinal": 2
+          },
+          "actorSeq": 0,
+          "instructionsHead": "b"
+        },
+        {
+          "sequence": 5,
+          "type": "actor-created",
+          "actor": {
+            "siteId": "actor#1",
+            "ordinal": 3
+          },
+          "persona": {}
+        },
+        {
+          "sequence": 6,
+          "type": "node-queued",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 3
+          },
+          "kind": "ask",
+          "actor": {
+            "siteId": "actor#1",
+            "ordinal": 3
+          },
+          "actorSeq": 0,
+          "instructionsHead": "c"
+        },
+        {
+          "sequence": 7,
+          "type": "actor-created",
+          "actor": {
+            "siteId": "actor#1",
+            "ordinal": 4
+          },
+          "persona": {}
+        },
+        {
+          "sequence": 8,
+          "type": "node-queued",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 4
+          },
+          "kind": "ask",
+          "actor": {
+            "siteId": "actor#1",
+            "ordinal": 4
+          },
+          "actorSeq": 0,
+          "instructionsHead": "d"
+        },
+        {
+          "sequence": 9,
+          "type": "node-dispatched",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 1
+          }
+        },
+        {
+          "sequence": 10,
+          "type": "node-dispatched",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 2
+          }
+        },
+        {
+          "sequence": 11,
+          "type": "node-settled",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 1
+          },
+          "outcome": "ok"
+        },
+        {
+          "sequence": 12,
+          "type": "node-settled",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 2
+          },
+          "outcome": "ok"
+        },
+        {
+          "sequence": 13,
+          "type": "node-dispatched",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 3
+          }
+        },
+        {
+          "sequence": 14,
+          "type": "node-dispatched",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 4
+          }
+        },
+        {
+          "sequence": 15,
+          "type": "node-settled",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 3
+          },
+          "outcome": "ok"
+        },
+        {
+          "sequence": 16,
+          "type": "node-settled",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 4
+          },
+          "outcome": "ok"
+        },
+        {
+          "sequence": 17,
+          "type": "run-settled",
+          "status": "completed"
+        }
+      ],
+      "nodes": [
+        {
+          "siteId": "ask#1",
+          "ordinal": 1,
+          "kind": "ask",
+          "actorSiteId": "actor#1",
+          "actorOrdinal": 1,
+          "actorSeq": 0,
+          "inputHash": "61a1cfea",
+          "status": "completed",
+          "result": "a"
+        },
+        {
+          "siteId": "ask#1",
+          "ordinal": 2,
+          "kind": "ask",
+          "actorSiteId": "actor#1",
+          "actorOrdinal": 2,
+          "actorSeq": 0,
+          "inputHash": "d3a93f25",
+          "status": "completed",
+          "result": "b"
+        },
+        {
+          "siteId": "ask#1",
+          "ordinal": 3,
+          "kind": "ask",
+          "actorSiteId": "actor#1",
+          "actorOrdinal": 3,
+          "actorSeq": 0,
+          "inputHash": "69a659b0",
+          "status": "completed",
+          "result": "c"
+        },
+        {
+          "siteId": "ask#1",
+          "ordinal": 4,
+          "kind": "ask",
+          "actorSiteId": "actor#1",
+          "actorOrdinal": 4,
+          "actorSeq": 0,
+          "inputHash": "eb9a5a63",
+          "status": "completed",
+          "result": "d"
+        }
+      ],
+      "actors": [
+        {
+          "siteId": "actor#1",
+          "ordinal": 1,
+          "persona": {},
+          "sessionId": "session@actor#1@1"
+        },
+        {
+          "siteId": "actor#1",
+          "ordinal": 2,
+          "persona": {},
+          "sessionId": "session@actor#1@2"
+        },
+        {
+          "siteId": "actor#1",
+          "ordinal": 3,
+          "persona": {},
+          "sessionId": "session@actor#1@3"
+        },
+        {
+          "siteId": "actor#1",
+          "ordinal": 4,
+          "persona": {},
+          "sessionId": "session@actor#1@4"
+        }
+      ],
+      "driver": {
+        "emits": 18,
+        "sessions": [
+          {
+            "actor": {
+              "siteId": "actor#1",
+              "ordinal": 1
+            },
+            "persona": {}
+          },
+          {
+            "actor": {
+              "siteId": "actor#1",
+              "ordinal": 2
+            },
+            "persona": {}
+          },
+          {
+            "actor": {
+              "siteId": "actor#1",
+              "ordinal": 3
+            },
+            "persona": {}
+          },
+          {
+            "actor": {
+              "siteId": "actor#1",
+              "ordinal": 4
+            },
+            "persona": {}
+          }
+        ],
+        "starts": [
+          {
+            "session": {
+              "id": "session@actor#1@1"
+            },
+            "instance": {
+              "siteId": "ask#1",
+              "ordinal": 1
+            },
+            "message": {
+              "instructions": "a",
+              "typed": false
+            }
+          },
+          {
+            "session": {
+              "id": "session@actor#1@2"
+            },
+            "instance": {
+              "siteId": "ask#1",
+              "ordinal": 2
+            },
+            "message": {
+              "instructions": "b",
+              "typed": false
+            }
+          },
+          {
+            "session": {
+              "id": "session@actor#1@3"
+            },
+            "instance": {
+              "siteId": "ask#1",
+              "ordinal": 3
+            },
+            "message": {
+              "instructions": "c",
+              "typed": false
+            }
+          },
+          {
+            "session": {
+              "id": "session@actor#1@4"
+            },
+            "instance": {
+              "siteId": "ask#1",
+              "ordinal": 4
+            },
+            "message": {
+              "instructions": "d",
+              "typed": false
+            }
+          }
+        ],
+        "replies": [],
+        "cancelled": [],
+        "worldCalls": [],
+        "artifactCalls": []
+      }
+    },
+    {
+      "expect": "clean",
+      "id": "engine-run/duplicate-computed-name",
+      "run": {
+        "status": "errored",
+        "failure": {
+          "code": "DuplicateActorName",
+          "message": "Subagent name \"same\" is used twice in this run (actor#1@1 and actor#1@2). A named subagent is the identity an amended re-run matches its cache by, so names must be unique; give this one its own name or drop the name to make it anonymous."
+        },
+        "spentTokens": 0,
+        "caps": {
+          "maxConcurrency": 1
+        }
+      },
+      "events": [
+        {
+          "sequence": 0,
+          "type": "run-started",
+          "runId": "run-golden",
+          "caps": {
+            "maxConcurrency": 1
+          }
+        },
+        {
+          "sequence": 1,
+          "type": "actor-created",
+          "actor": {
+            "siteId": "actor#1",
+            "ordinal": 1
+          },
+          "name": "same",
+          "persona": {
+            "name": "same"
+          }
+        },
+        {
+          "sequence": 2,
+          "type": "node-queued",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 1
+          },
+          "kind": "ask",
+          "actor": {
+            "siteId": "actor#1",
+            "ordinal": 1
+          },
+          "actorSeq": 0,
+          "instructionsHead": "x"
+        },
+        {
+          "sequence": 3,
+          "type": "run-settled",
+          "status": "errored",
+          "error": {
+            "code": "DuplicateActorName",
+            "message": "Subagent name \"same\" is used twice in this run (actor#1@1 and actor#1@2). A named subagent is the identity an amended re-run matches its cache by, so names must be unique; give this one its own name or drop the name to make it anonymous."
+          }
+        }
+      ],
+      "nodes": [
+        {
+          "siteId": "ask#1",
+          "ordinal": 1,
+          "kind": "ask",
+          "actorSiteId": "actor#1",
+          "actorOrdinal": 1,
+          "actorSeq": 0,
+          "inputHash": "d3df591f",
+          "status": "running"
+        }
+      ],
+      "actors": [
+        {
+          "siteId": "actor#1",
+          "ordinal": 1,
+          "name": "same",
+          "persona": {
+            "name": "same"
+          },
+          "sessionId": "session@actor#1@1"
+        }
+      ],
+      "driver": {
+        "emits": 4,
+        "sessions": [
+          {
+            "actor": {
+              "siteId": "actor#1",
+              "ordinal": 1
+            },
+            "persona": {
+              "name": "same"
+            }
+          }
+        ],
+        "starts": [],
+        "replies": [],
+        "cancelled": [],
+        "worldCalls": [],
+        "artifactCalls": []
+      }
+    },
+    {
+      "expect": "clean",
+      "id": "engine-run/persona-string",
+      "run": {
+        "status": "completed",
+        "result": "done",
+        "spentTokens": 0,
+        "caps": {
+          "maxConcurrency": 1
+        }
+      },
+      "events": [
+        {
+          "sequence": 0,
+          "type": "run-started",
+          "runId": "run-golden",
+          "caps": {
+            "maxConcurrency": 1
+          }
+        },
+        {
+          "sequence": 1,
+          "type": "actor-created",
+          "actor": {
+            "siteId": "actor#1",
+            "ordinal": 1
+          },
+          "name": "lead",
+          "persona": {
+            "system": "you lead",
+            "name": "lead"
+          }
+        },
+        {
+          "sequence": 2,
+          "type": "node-queued",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 1
+          },
+          "kind": "ask",
+          "actor": {
+            "siteId": "actor#1",
+            "ordinal": 1
+          },
+          "actorSeq": 0,
+          "instructionsHead": "x"
+        },
+        {
+          "sequence": 3,
+          "type": "node-dispatched",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 1
+          }
+        },
+        {
+          "sequence": 4,
+          "type": "node-settled",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 1
+          },
+          "outcome": "ok"
+        },
+        {
+          "sequence": 5,
+          "type": "run-settled",
+          "status": "completed"
+        }
+      ],
+      "nodes": [
+        {
+          "siteId": "ask#1",
+          "ordinal": 1,
+          "kind": "ask",
+          "actorSiteId": "actor#1",
+          "actorOrdinal": 1,
+          "actorSeq": 0,
+          "inputHash": "d3df591f",
+          "status": "completed",
+          "result": "done"
+        }
+      ],
+      "actors": [
+        {
+          "siteId": "actor#1",
+          "ordinal": 1,
+          "name": "lead",
+          "persona": {
+            "system": "you lead",
+            "name": "lead"
+          },
+          "sessionId": "session@actor#1@1"
+        }
+      ],
+      "driver": {
+        "emits": 6,
+        "sessions": [
+          {
+            "actor": {
+              "siteId": "actor#1",
+              "ordinal": 1
+            },
+            "persona": {
+              "system": "you lead",
+              "name": "lead"
+            }
+          }
+        ],
+        "starts": [
+          {
+            "session": {
+              "id": "session@actor#1@1"
+            },
+            "instance": {
+              "siteId": "ask#1",
+              "ordinal": 1
+            },
+            "message": {
+              "instructions": "x",
+              "typed": false
+            }
+          }
+        ],
+        "replies": [],
+        "cancelled": [],
+        "worldCalls": [],
+        "artifactCalls": []
+      }
+    },
+    {
+      "expect": "clean",
+      "id": "engine-run/persona-object",
+      "run": {
+        "status": "completed",
+        "result": "done",
+        "spentTokens": 0,
+        "caps": {
+          "maxConcurrency": 1
+        }
+      },
+      "events": [
+        {
+          "sequence": 0,
+          "type": "run-started",
+          "runId": "run-golden",
+          "caps": {
+            "maxConcurrency": 1
+          }
+        },
+        {
+          "sequence": 1,
+          "type": "actor-created",
+          "actor": {
+            "siteId": "actor#1",
+            "ordinal": 1
+          },
+          "name": "lead",
+          "persona": {
+            "system": "you lead",
+            "name": "lead"
+          }
+        },
+        {
+          "sequence": 2,
+          "type": "node-queued",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 1
+          },
+          "kind": "ask",
+          "actor": {
+            "siteId": "actor#1",
+            "ordinal": 1
+          },
+          "actorSeq": 0,
+          "instructionsHead": "x"
+        },
+        {
+          "sequence": 3,
+          "type": "node-dispatched",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 1
+          }
+        },
+        {
+          "sequence": 4,
+          "type": "node-settled",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 1
+          },
+          "outcome": "ok"
+        },
+        {
+          "sequence": 5,
+          "type": "run-settled",
+          "status": "completed"
+        }
+      ],
+      "nodes": [
+        {
+          "siteId": "ask#1",
+          "ordinal": 1,
+          "kind": "ask",
+          "actorSiteId": "actor#1",
+          "actorOrdinal": 1,
+          "actorSeq": 0,
+          "inputHash": "d3df591f",
+          "status": "completed",
+          "result": "done"
+        }
+      ],
+      "actors": [
+        {
+          "siteId": "actor#1",
+          "ordinal": 1,
+          "name": "lead",
+          "persona": {
+            "system": "you lead",
+            "name": "lead"
+          },
+          "sessionId": "session@actor#1@1"
+        }
+      ],
+      "driver": {
+        "emits": 6,
+        "sessions": [
+          {
+            "actor": {
+              "siteId": "actor#1",
+              "ordinal": 1
+            },
+            "persona": {
+              "system": "you lead",
+              "name": "lead"
+            }
+          }
+        ],
+        "starts": [
+          {
+            "session": {
+              "id": "session@actor#1@1"
+            },
+            "instance": {
+              "siteId": "ask#1",
+              "ordinal": 1
+            },
+            "message": {
+              "instructions": "x",
+              "typed": false
+            }
+          }
+        ],
+        "replies": [],
+        "cancelled": [],
+        "worldCalls": [],
+        "artifactCalls": []
+      }
+    },
+    {
+      "expect": "clean",
+      "id": "engine-run/world-read-then-branch",
+      "run": {
+        "status": "completed",
+        "result": "many",
+        "spentTokens": 0,
+        "caps": {
+          "maxConcurrency": 1
+        }
+      },
+      "events": [
+        {
+          "sequence": 0,
+          "type": "run-started",
+          "runId": "run-golden",
+          "caps": {
+            "maxConcurrency": 1
+          }
+        },
+        {
+          "sequence": 1,
+          "type": "node-queued",
+          "instance": {
+            "siteId": "world-read#1",
+            "ordinal": 1
+          },
+          "kind": "world-read"
+        },
+        {
+          "sequence": 2,
+          "type": "node-dispatched",
+          "instance": {
+            "siteId": "world-read#1",
+            "ordinal": 1
+          }
+        },
+        {
+          "sequence": 3,
+          "type": "node-settled",
+          "instance": {
+            "siteId": "world-read#1",
+            "ordinal": 1
+          },
+          "outcome": "ok"
+        },
+        {
+          "sequence": 4,
+          "type": "actor-created",
+          "actor": {
+            "siteId": "actor#1",
+            "ordinal": 1
+          },
+          "persona": {}
+        },
+        {
+          "sequence": 5,
+          "type": "node-queued",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 1
+          },
+          "kind": "ask",
+          "actor": {
+            "siteId": "actor#1",
+            "ordinal": 1
+          },
+          "actorSeq": 0,
+          "instructionsHead": "two or more"
+        },
+        {
+          "sequence": 6,
+          "type": "node-dispatched",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 1
+          }
+        },
+        {
+          "sequence": 7,
+          "type": "node-settled",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 1
+          },
+          "outcome": "ok"
+        },
+        {
+          "sequence": 8,
+          "type": "run-settled",
+          "status": "completed"
+        }
+      ],
+      "nodes": [
+        {
+          "siteId": "world-read#1",
+          "ordinal": 1,
+          "kind": "world-read",
+          "inputHash": "a2fd5d8e",
+          "input": {
+            "op": "glob",
+            "args": ["src/**/*.ts"]
+          },
+          "status": "completed",
+          "result": ["src/a.ts", "src/b.ts"]
+        },
+        {
+          "siteId": "ask#1",
+          "ordinal": 1,
+          "kind": "ask",
+          "actorSiteId": "actor#1",
+          "actorOrdinal": 1,
+          "actorSeq": 0,
+          "inputHash": "97eb6d17",
+          "status": "completed",
+          "result": "many"
+        }
+      ],
+      "actors": [
+        {
+          "siteId": "actor#1",
+          "ordinal": 1,
+          "persona": {},
+          "sessionId": "session@actor#1@1"
+        }
+      ],
+      "driver": {
+        "emits": 9,
+        "sessions": [
+          {
+            "actor": {
+              "siteId": "actor#1",
+              "ordinal": 1
+            },
+            "persona": {}
+          }
+        ],
+        "starts": [
+          {
+            "session": {
+              "id": "session@actor#1@1"
+            },
+            "instance": {
+              "siteId": "ask#1",
+              "ordinal": 1
+            },
+            "message": {
+              "instructions": "two or more",
+              "typed": false
+            }
+          }
+        ],
+        "replies": [],
+        "cancelled": [],
+        "worldCalls": [
+          {
+            "op": "glob",
+            "args": ["src/**/*.ts"]
+          }
+        ],
+        "artifactCalls": []
+      }
+    },
+    {
+      "expect": "clean",
+      "id": "engine-run/world-read-error-caught",
+      "run": {
+        "status": "completed",
+        "result": {
+          "fallback": 1
+        },
+        "spentTokens": 0,
+        "caps": {
+          "maxConcurrency": 1
+        }
+      },
+      "events": [
+        {
+          "sequence": 0,
+          "type": "run-started",
+          "runId": "run-golden",
+          "caps": {
+            "maxConcurrency": 1
+          }
+        },
+        {
+          "sequence": 1,
+          "type": "node-queued",
+          "instance": {
+            "siteId": "world-read#1",
+            "ordinal": 1
+          },
+          "kind": "world-read"
+        },
+        {
+          "sequence": 2,
+          "type": "node-dispatched",
+          "instance": {
+            "siteId": "world-read#1",
+            "ordinal": 1
+          }
+        },
+        {
+          "sequence": 3,
+          "type": "node-settled",
+          "instance": {
+            "siteId": "world-read#1",
+            "ordinal": 1
+          },
+          "outcome": "failed",
+          "error": {
+            "code": "DriverError",
+            "message": "World read failed: read [\"missing.ts\"]."
+          }
+        },
+        {
+          "sequence": 4,
+          "type": "run-settled",
+          "status": "completed"
+        }
+      ],
+      "nodes": [
+        {
+          "siteId": "world-read#1",
+          "ordinal": 1,
+          "kind": "world-read",
+          "inputHash": "74210a6a",
+          "input": {
+            "op": "read",
+            "args": ["missing.ts"]
+          },
+          "status": "failed",
+          "error": {
+            "code": "DriverError",
+            "message": "World read failed: read [\"missing.ts\"]."
+          }
+        }
+      ],
+      "actors": [],
+      "driver": {
+        "emits": 5,
+        "sessions": [],
+        "starts": [],
+        "replies": [],
+        "cancelled": [],
+        "worldCalls": [
+          {
+            "op": "read",
+            "args": ["missing.ts"]
+          }
+        ],
+        "artifactCalls": []
+      }
+    },
+    {
+      "expect": "clean",
+      "id": "engine-run/world-read-error-uncaught",
+      "run": {
+        "status": "errored",
+        "failure": {
+          "code": "DriverError",
+          "message": "World read failed: read [\"missing.ts\"]."
+        },
+        "spentTokens": 0,
+        "caps": {
+          "maxConcurrency": 1
+        }
+      },
+      "events": [
+        {
+          "sequence": 0,
+          "type": "run-started",
+          "runId": "run-golden",
+          "caps": {
+            "maxConcurrency": 1
+          }
+        },
+        {
+          "sequence": 1,
+          "type": "node-queued",
+          "instance": {
+            "siteId": "world-read#1",
+            "ordinal": 1
+          },
+          "kind": "world-read"
+        },
+        {
+          "sequence": 2,
+          "type": "node-dispatched",
+          "instance": {
+            "siteId": "world-read#1",
+            "ordinal": 1
+          }
+        },
+        {
+          "sequence": 3,
+          "type": "node-settled",
+          "instance": {
+            "siteId": "world-read#1",
+            "ordinal": 1
+          },
+          "outcome": "failed",
+          "error": {
+            "code": "DriverError",
+            "message": "World read failed: read [\"missing.ts\"]."
+          }
+        },
+        {
+          "sequence": 4,
+          "type": "run-settled",
+          "status": "errored",
+          "error": {
+            "code": "DriverError",
+            "message": "World read failed: read [\"missing.ts\"]."
+          }
+        }
+      ],
+      "nodes": [
+        {
+          "siteId": "world-read#1",
+          "ordinal": 1,
+          "kind": "world-read",
+          "inputHash": "74210a6a",
+          "input": {
+            "op": "read",
+            "args": ["missing.ts"]
+          },
+          "status": "failed",
+          "error": {
+            "code": "DriverError",
+            "message": "World read failed: read [\"missing.ts\"]."
+          }
+        }
+      ],
+      "actors": [],
+      "driver": {
+        "emits": 5,
+        "sessions": [],
+        "starts": [],
+        "replies": [],
+        "cancelled": [],
+        "worldCalls": [
+          {
+            "op": "read",
+            "args": ["missing.ts"]
+          }
+        ],
+        "artifactCalls": []
+      }
+    },
+    {
+      "expect": "clean",
+      "id": "engine-run/world-read-multi-op",
+      "run": {
+        "status": "completed",
+        "result": {
+          "branch": "feature",
+          "hits": 1,
+          "changed": 2
+        },
+        "spentTokens": 0,
+        "caps": {
+          "maxConcurrency": 1
+        }
+      },
+      "events": [
+        {
+          "sequence": 0,
+          "type": "run-started",
+          "runId": "run-golden",
+          "caps": {
+            "maxConcurrency": 1
+          }
+        },
+        {
+          "sequence": 1,
+          "type": "node-queued",
+          "instance": {
+            "siteId": "world-read#1",
+            "ordinal": 1
+          },
+          "kind": "world-read"
+        },
+        {
+          "sequence": 2,
+          "type": "node-dispatched",
+          "instance": {
+            "siteId": "world-read#1",
+            "ordinal": 1
+          }
+        },
+        {
+          "sequence": 3,
+          "type": "node-settled",
+          "instance": {
+            "siteId": "world-read#1",
+            "ordinal": 1
+          },
+          "outcome": "ok"
+        },
+        {
+          "sequence": 4,
+          "type": "node-queued",
+          "instance": {
+            "siteId": "world-read#2",
+            "ordinal": 1
+          },
+          "kind": "world-read"
+        },
+        {
+          "sequence": 5,
+          "type": "node-dispatched",
+          "instance": {
+            "siteId": "world-read#2",
+            "ordinal": 1
+          }
+        },
+        {
+          "sequence": 6,
+          "type": "node-settled",
+          "instance": {
+            "siteId": "world-read#2",
+            "ordinal": 1
+          },
+          "outcome": "ok"
+        },
+        {
+          "sequence": 7,
+          "type": "node-queued",
+          "instance": {
+            "siteId": "world-read#3",
+            "ordinal": 1
+          },
+          "kind": "world-read"
+        },
+        {
+          "sequence": 8,
+          "type": "node-dispatched",
+          "instance": {
+            "siteId": "world-read#3",
+            "ordinal": 1
+          }
+        },
+        {
+          "sequence": 9,
+          "type": "node-settled",
+          "instance": {
+            "siteId": "world-read#3",
+            "ordinal": 1
+          },
+          "outcome": "ok"
+        },
+        {
+          "sequence": 10,
+          "type": "run-settled",
+          "status": "completed"
+        }
+      ],
+      "nodes": [
+        {
+          "siteId": "world-read#1",
+          "ordinal": 1,
+          "kind": "world-read",
+          "inputHash": "f9971512",
+          "input": {
+            "op": "git-status",
+            "args": []
+          },
+          "status": "completed",
+          "result": {
+            "clean": false,
+            "staged": [],
+            "untracked": ["x.ts"],
+            "branch": "feature"
+          }
+        },
+        {
+          "siteId": "world-read#2",
+          "ordinal": 1,
+          "kind": "world-read",
+          "inputHash": "fefc17c6",
+          "input": {
+            "op": "grep",
+            "args": ["TODO", "src/**"]
+          },
+          "status": "completed",
+          "result": [
+            {
+              "path": "a.ts",
+              "line": 1,
+              "text": "// TODO"
+            }
+          ]
+        },
+        {
+          "siteId": "world-read#3",
+          "ordinal": 1,
+          "kind": "world-read",
+          "inputHash": "43d306ed",
+          "input": {
+            "op": "git-changed-files",
+            "args": ["main"]
+          },
+          "status": "completed",
+          "result": ["a.ts", "b.ts"]
+        }
+      ],
+      "actors": [],
+      "driver": {
+        "emits": 11,
+        "sessions": [],
+        "starts": [],
+        "replies": [],
+        "cancelled": [],
+        "worldCalls": [
+          {
+            "op": "git-status",
+            "args": []
+          },
+          {
+            "op": "grep",
+            "args": ["TODO", "src/**"]
+          },
+          {
+            "op": "git-changed-files",
+            "args": ["main"]
+          }
+        ],
+        "artifactCalls": []
+      }
+    },
+    {
+      "expect": "clean",
+      "id": "engine-run/report-two-items",
+      "run": {
+        "status": "completed",
+        "result": "done",
+        "spentTokens": 0,
+        "caps": {
+          "maxConcurrency": 1
+        }
+      },
+      "events": [
+        {
+          "sequence": 0,
+          "type": "run-started",
+          "runId": "run-golden",
+          "caps": {
+            "maxConcurrency": 1
+          }
+        },
+        {
+          "sequence": 1,
+          "type": "actor-created",
+          "actor": {
+            "siteId": "actor#1",
+            "ordinal": 1
+          },
+          "name": "lead",
+          "persona": {
+            "name": "lead"
+          }
+        },
+        {
+          "sequence": 2,
+          "type": "node-queued",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 1
+          },
+          "kind": "ask",
+          "actor": {
+            "siteId": "actor#1",
+            "ordinal": 1
+          },
+          "actorSeq": 0,
+          "instructionsHead": "work"
+        },
+        {
+          "sequence": 3,
+          "type": "node-dispatched",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 1
+          }
+        },
+        {
+          "sequence": 4,
+          "type": "node-settled",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 1
+          },
+          "outcome": "ok"
+        },
+        {
+          "sequence": 5,
+          "type": "report",
+          "instance": {
+            "siteId": "report#1",
+            "ordinal": 1
+          },
+          "item": {
+            "n": 1
+          }
+        },
+        {
+          "sequence": 6,
+          "type": "report",
+          "instance": {
+            "siteId": "report#2",
+            "ordinal": 1
+          },
+          "item": {
+            "n": 2
+          }
+        },
+        {
+          "sequence": 7,
+          "type": "run-settled",
+          "status": "completed"
+        }
+      ],
+      "nodes": [
+        {
+          "siteId": "ask#1",
+          "ordinal": 1,
+          "kind": "ask",
+          "actorSiteId": "actor#1",
+          "actorOrdinal": 1,
+          "actorSeq": 0,
+          "inputHash": "acdee046",
+          "status": "completed",
+          "result": "ok"
+        },
+        {
+          "siteId": "report#1",
+          "ordinal": 1,
+          "kind": "report",
+          "inputHash": "fdef5c20",
+          "status": "completed",
+          "result": {
+            "n": 1
+          }
+        },
+        {
+          "siteId": "report#2",
+          "ordinal": 1,
+          "kind": "report",
+          "inputHash": "fde70d5b",
+          "status": "completed",
+          "result": {
+            "n": 2
+          }
+        }
+      ],
+      "actors": [
+        {
+          "siteId": "actor#1",
+          "ordinal": 1,
+          "name": "lead",
+          "persona": {
+            "name": "lead"
+          },
+          "sessionId": "session@actor#1@1"
+        }
+      ],
+      "driver": {
+        "emits": 8,
+        "sessions": [
+          {
+            "actor": {
+              "siteId": "actor#1",
+              "ordinal": 1
+            },
+            "persona": {
+              "name": "lead"
+            }
+          }
+        ],
+        "starts": [
+          {
+            "session": {
+              "id": "session@actor#1@1"
+            },
+            "instance": {
+              "siteId": "ask#1",
+              "ordinal": 1
+            },
+            "message": {
+              "instructions": "work",
+              "typed": false
+            }
+          }
+        ],
+        "replies": [],
+        "cancelled": [],
+        "worldCalls": [],
+        "artifactCalls": []
+      }
+    },
+    {
+      "expect": "clean",
+      "id": "engine-run/report-tagged-preset",
+      "run": {
+        "status": "completed",
+        "result": "ok",
+        "spentTokens": 0,
+        "caps": {
+          "maxConcurrency": 1
+        }
+      },
+      "events": [
+        {
+          "sequence": 0,
+          "type": "run-started",
+          "runId": "run-golden",
+          "caps": {
+            "maxConcurrency": 1
+          }
+        },
+        {
+          "sequence": 1,
+          "type": "artifact-published",
+          "instance": {
+            "siteId": "artifact#1",
+            "ordinal": 1
+          },
+          "artifact": {
+            "id": "dash",
+            "kind": "table",
+            "version": 1,
+            "spec": {
+              "columns": [
+                {
+                  "field": "n"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "sequence": 2,
+          "type": "report",
+          "instance": {
+            "siteId": "report#1",
+            "ordinal": 1
+          },
+          "item": {
+            "n": 1
+          },
+          "artifactId": "dash"
+        },
+        {
+          "sequence": 3,
+          "type": "run-settled",
+          "status": "completed"
+        }
+      ],
+      "nodes": [
+        {
+          "siteId": "artifact#1",
+          "ordinal": 1,
+          "kind": "artifact",
+          "inputHash": "c72ed159",
+          "status": "completed",
+          "result": {
+            "id": "dash",
+            "kind": "table",
+            "version": 1,
+            "spec": {
+              "columns": [
+                {
+                  "field": "n"
+                }
+              ]
+            }
+          },
+          "artifactId": "dash"
+        },
+        {
+          "siteId": "report#1",
+          "ordinal": 1,
+          "kind": "report",
+          "inputHash": "fdef5c20",
+          "status": "completed",
+          "result": {
+            "n": 1
+          },
+          "artifactId": "dash"
+        }
+      ],
+      "actors": [],
+      "driver": {
+        "emits": 4,
+        "sessions": [],
+        "starts": [],
+        "replies": [],
+        "cancelled": [],
+        "worldCalls": [],
+        "artifactCalls": []
+      }
+    },
+    {
+      "expect": "clean",
+      "id": "engine-run/artifact-markdown-publish",
+      "run": {
+        "status": "completed",
+        "result": {
+          "id": "notes",
+          "version": 1
+        },
+        "spentTokens": 0,
+        "caps": {
+          "maxConcurrency": 1
+        }
+      },
+      "events": [
+        {
+          "sequence": 0,
+          "type": "run-started",
+          "runId": "run-golden",
+          "caps": {
+            "maxConcurrency": 1
+          }
+        },
+        {
+          "sequence": 1,
+          "type": "artifact-published",
+          "instance": {
+            "siteId": "artifact#1",
+            "ordinal": 1
+          },
+          "artifact": {
+            "id": "notes",
+            "version": 1
+          }
+        },
+        {
+          "sequence": 2,
+          "type": "run-settled",
+          "status": "completed"
+        }
+      ],
+      "nodes": [
+        {
+          "siteId": "artifact#1",
+          "ordinal": 1,
+          "kind": "artifact",
+          "inputHash": "e20924d5",
+          "status": "completed",
+          "result": {
+            "id": "notes",
+            "version": 1
+          },
+          "artifactId": "notes"
+        }
+      ],
+      "actors": [],
+      "driver": {
+        "emits": 3,
+        "sessions": [],
+        "starts": [],
+        "replies": [],
+        "cancelled": [],
+        "worldCalls": [],
+        "artifactCalls": [
+          {
+            "runId": "run-golden",
+            "siteId": "artifact#1",
+            "ordinal": 1,
+            "op": "markdown",
+            "id": "notes",
+            "version": 1,
+            "content": "# hi"
+          }
+        ]
+      }
+    },
+    {
+      "expect": "clean",
+      "id": "engine-run/artifact-file-error-caught",
+      "run": {
+        "status": "completed",
+        "result": {
+          "published": false
+        },
+        "spentTokens": 0,
+        "caps": {
+          "maxConcurrency": 1
+        }
+      },
+      "events": [
+        {
+          "sequence": 0,
+          "type": "run-started",
+          "runId": "run-golden",
+          "caps": {
+            "maxConcurrency": 1
+          }
+        },
+        {
+          "sequence": 1,
+          "type": "artifact-failed",
+          "instance": {
+            "siteId": "artifact#1",
+            "ordinal": 1
+          },
+          "id": "pdf",
+          "op": "file",
+          "error": {
+            "code": "DriverError",
+            "message": "Artifact publish failed: file \"pdf\"."
+          }
+        },
+        {
+          "sequence": 2,
+          "type": "run-settled",
+          "status": "completed"
+        }
+      ],
+      "nodes": [
+        {
+          "siteId": "artifact#1",
+          "ordinal": 1,
+          "kind": "artifact",
+          "inputHash": "2ecd4b2f",
+          "status": "failed",
+          "error": {
+            "code": "DriverError",
+            "message": "Artifact publish failed: file \"pdf\"."
+          },
+          "artifactId": "pdf"
+        }
+      ],
+      "actors": [],
+      "driver": {
+        "emits": 3,
+        "sessions": [],
+        "starts": [],
+        "replies": [],
+        "cancelled": [],
+        "worldCalls": [],
+        "artifactCalls": [
+          {
+            "runId": "run-golden",
+            "siteId": "artifact#1",
+            "ordinal": 1,
+            "op": "file",
+            "id": "pdf",
+            "version": 1,
+            "path": "out/missing.pdf"
+          }
+        ]
+      }
+    },
+    {
+      "expect": "clean",
+      "id": "engine-run/artifact-preset-bad-spec",
+      "run": {
+        "status": "errored",
+        "failure": {
+          "code": "ArtifactSpecInvalid",
+          "message": "Artifact \"c\" has an invalid spec (at artifact#1@1): chart spec y is an empty array; give it at least one series"
+        },
+        "spentTokens": 0,
+        "caps": {
+          "maxConcurrency": 1
+        }
+      },
+      "events": [
+        {
+          "sequence": 0,
+          "type": "run-started",
+          "runId": "run-golden",
+          "caps": {
+            "maxConcurrency": 1
+          }
+        },
+        {
+          "sequence": 1,
+          "type": "run-settled",
+          "status": "errored",
+          "error": {
+            "code": "ArtifactSpecInvalid",
+            "message": "Artifact \"c\" has an invalid spec (at artifact#1@1): chart spec y is an empty array; give it at least one series"
+          }
+        }
+      ],
+      "nodes": [],
+      "actors": [],
+      "driver": {
+        "emits": 2,
+        "sessions": [],
+        "starts": [],
+        "replies": [],
+        "cancelled": [],
+        "worldCalls": [],
+        "artifactCalls": []
+      }
+    },
+    {
+      "expect": "clean",
+      "id": "engine-run/phase-markers-and-log",
+      "run": {
+        "status": "completed",
+        "result": "done",
+        "spentTokens": 0,
+        "caps": {
+          "maxConcurrency": 1
+        }
+      },
+      "events": [
+        {
+          "sequence": 0,
+          "type": "run-started",
+          "runId": "run-golden",
+          "caps": {
+            "maxConcurrency": 1
+          }
+        },
+        {
+          "sequence": 1,
+          "type": "phase-entered",
+          "name": "gather",
+          "ordinal": 1
+        },
+        {
+          "sequence": 2,
+          "type": "actor-created",
+          "actor": {
+            "siteId": "actor#1",
+            "ordinal": 1
+          },
+          "name": "lead",
+          "persona": {
+            "name": "lead"
+          },
+          "phaseName": "gather"
+        },
+        {
+          "sequence": 3,
+          "type": "log",
+          "message": "created"
+        },
+        {
+          "sequence": 4,
+          "type": "node-queued",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 1
+          },
+          "kind": "ask",
+          "actor": {
+            "siteId": "actor#1",
+            "ordinal": 1
+          },
+          "actorSeq": 0,
+          "instructionsHead": "one",
+          "phaseName": "gather"
+        },
+        {
+          "sequence": 5,
+          "type": "node-dispatched",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 1
+          }
+        },
+        {
+          "sequence": 6,
+          "type": "node-settled",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 1
+          },
+          "outcome": "ok"
+        },
+        {
+          "sequence": 7,
+          "type": "phase-entered",
+          "name": "check",
+          "ordinal": 1
+        },
+        {
+          "sequence": 8,
+          "type": "node-queued",
+          "instance": {
+            "siteId": "ask#2",
+            "ordinal": 1
+          },
+          "kind": "ask",
+          "actor": {
+            "siteId": "actor#1",
+            "ordinal": 1
+          },
+          "actorSeq": 1,
+          "instructionsHead": "two",
+          "phaseName": "check"
+        },
+        {
+          "sequence": 9,
+          "type": "node-dispatched",
+          "instance": {
+            "siteId": "ask#2",
+            "ordinal": 1
+          }
+        },
+        {
+          "sequence": 10,
+          "type": "node-settled",
+          "instance": {
+            "siteId": "ask#2",
+            "ordinal": 1
+          },
+          "outcome": "ok"
+        },
+        {
+          "sequence": 11,
+          "type": "run-settled",
+          "status": "completed"
+        }
+      ],
+      "nodes": [
+        {
+          "siteId": "ask#1",
+          "ordinal": 1,
+          "kind": "ask",
+          "actorSiteId": "actor#1",
+          "actorOrdinal": 1,
+          "actorSeq": 0,
+          "inputHash": "9fe84b97",
+          "status": "completed",
+          "result": "1"
+        },
+        {
+          "siteId": "ask#2",
+          "ordinal": 1,
+          "kind": "ask",
+          "actorSiteId": "actor#1",
+          "actorOrdinal": 1,
+          "actorSeq": 1,
+          "inputHash": "0c902231",
+          "status": "completed",
+          "result": "2"
+        }
+      ],
+      "actors": [
+        {
+          "siteId": "actor#1",
+          "ordinal": 1,
+          "name": "lead",
+          "persona": {
+            "name": "lead"
+          },
+          "sessionId": "session@actor#1@1"
+        }
+      ],
+      "driver": {
+        "emits": 12,
+        "sessions": [
+          {
+            "actor": {
+              "siteId": "actor#1",
+              "ordinal": 1
+            },
+            "persona": {
+              "name": "lead"
+            }
+          }
+        ],
+        "starts": [
+          {
+            "session": {
+              "id": "session@actor#1@1"
+            },
+            "instance": {
+              "siteId": "ask#1",
+              "ordinal": 1
+            },
+            "message": {
+              "instructions": "one",
+              "typed": false
+            }
+          },
+          {
+            "session": {
+              "id": "session@actor#1@1"
+            },
+            "instance": {
+              "siteId": "ask#2",
+              "ordinal": 1
+            },
+            "message": {
+              "instructions": "two",
+              "typed": false
+            }
+          }
+        ],
+        "replies": [],
+        "cancelled": [],
+        "worldCalls": [],
+        "artifactCalls": []
+      }
+    },
+    {
+      "expect": "clean",
+      "id": "engine-run/phase-name-repeated",
+      "run": {
+        "status": "completed",
+        "result": "done",
+        "spentTokens": 0,
+        "caps": {
+          "maxConcurrency": 1
+        }
+      },
+      "events": [
+        {
+          "sequence": 0,
+          "type": "run-started",
+          "runId": "run-golden",
+          "caps": {
+            "maxConcurrency": 1
+          }
+        },
+        {
+          "sequence": 1,
+          "type": "phase-entered",
+          "name": "loop",
+          "ordinal": 1
+        },
+        {
+          "sequence": 2,
+          "type": "actor-created",
+          "actor": {
+            "siteId": "actor#1",
+            "ordinal": 1
+          },
+          "persona": {},
+          "phaseName": "loop"
+        },
+        {
+          "sequence": 3,
+          "type": "node-queued",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 1
+          },
+          "kind": "ask",
+          "actor": {
+            "siteId": "actor#1",
+            "ordinal": 1
+          },
+          "actorSeq": 0,
+          "instructionsHead": "1",
+          "phaseName": "loop"
+        },
+        {
+          "sequence": 4,
+          "type": "node-dispatched",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 1
+          }
+        },
+        {
+          "sequence": 5,
+          "type": "node-settled",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 1
+          },
+          "outcome": "ok"
+        },
+        {
+          "sequence": 6,
+          "type": "phase-entered",
+          "name": "loop",
+          "ordinal": 2
+        },
+        {
+          "sequence": 7,
+          "type": "actor-created",
+          "actor": {
+            "siteId": "actor#1",
+            "ordinal": 2
+          },
+          "persona": {},
+          "phaseName": "loop"
+        },
+        {
+          "sequence": 8,
+          "type": "node-queued",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 2
+          },
+          "kind": "ask",
+          "actor": {
+            "siteId": "actor#1",
+            "ordinal": 2
+          },
+          "actorSeq": 0,
+          "instructionsHead": "2",
+          "phaseName": "loop"
+        },
+        {
+          "sequence": 9,
+          "type": "node-dispatched",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 2
+          }
+        },
+        {
+          "sequence": 10,
+          "type": "node-settled",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 2
+          },
+          "outcome": "ok"
+        },
+        {
+          "sequence": 11,
+          "type": "phase-entered",
+          "name": "loop",
+          "ordinal": 3
+        },
+        {
+          "sequence": 12,
+          "type": "run-settled",
+          "status": "completed"
+        }
+      ],
+      "nodes": [
+        {
+          "siteId": "ask#1",
+          "ordinal": 1,
+          "kind": "ask",
+          "actorSiteId": "actor#1",
+          "actorOrdinal": 1,
+          "actorSeq": 0,
+          "inputHash": "012a777a",
+          "status": "completed",
+          "result": "A"
+        },
+        {
+          "siteId": "ask#1",
+          "ordinal": 2,
+          "kind": "ask",
+          "actorSiteId": "actor#1",
+          "actorOrdinal": 2,
+          "actorSeq": 0,
+          "inputHash": "7331e6b5",
+          "status": "completed",
+          "result": "B"
+        }
+      ],
+      "actors": [
+        {
+          "siteId": "actor#1",
+          "ordinal": 1,
+          "persona": {},
+          "sessionId": "session@actor#1@1"
+        },
+        {
+          "siteId": "actor#1",
+          "ordinal": 2,
+          "persona": {},
+          "sessionId": "session@actor#1@2"
+        }
+      ],
+      "driver": {
+        "emits": 13,
+        "sessions": [
+          {
+            "actor": {
+              "siteId": "actor#1",
+              "ordinal": 1
+            },
+            "persona": {}
+          },
+          {
+            "actor": {
+              "siteId": "actor#1",
+              "ordinal": 2
+            },
+            "persona": {}
+          }
+        ],
+        "starts": [
+          {
+            "session": {
+              "id": "session@actor#1@1"
+            },
+            "instance": {
+              "siteId": "ask#1",
+              "ordinal": 1
+            },
+            "message": {
+              "instructions": "1",
+              "typed": false
+            }
+          },
+          {
+            "session": {
+              "id": "session@actor#1@2"
+            },
+            "instance": {
+              "siteId": "ask#1",
+              "ordinal": 2
+            },
+            "message": {
+              "instructions": "2",
+              "typed": false
+            }
+          }
+        ],
+        "replies": [],
+        "cancelled": [],
+        "worldCalls": [],
+        "artifactCalls": []
+      }
+    },
+    {
+      "expect": "clean",
+      "id": "engine-run/args-read",
+      "run": {
+        "status": "completed",
+        "result": {
+          "target": "src/a.ts",
+          "keys": ["limit", "target"]
+        },
+        "args": {
+          "limit": 3,
+          "target": "src/a.ts"
+        },
+        "spentTokens": 0,
+        "caps": {
+          "maxConcurrency": 1
+        }
+      },
+      "events": [
+        {
+          "sequence": 0,
+          "type": "run-started",
+          "runId": "run-golden",
+          "caps": {
+            "maxConcurrency": 1
+          }
+        },
+        {
+          "sequence": 1,
+          "type": "run-settled",
+          "status": "completed"
+        }
+      ],
+      "nodes": [],
+      "actors": [],
+      "driver": {
+        "emits": 2,
+        "sessions": [],
+        "starts": [],
+        "replies": [],
+        "cancelled": [],
+        "worldCalls": [],
+        "artifactCalls": []
+      }
+    },
+    {
+      "expect": "clean",
+      "id": "engine-run/args-absent-is-empty-object",
+      "run": {
+        "status": "completed",
+        "result": {
+          "type": "object",
+          "keys": 0,
+          "missingIsUndefined": true
+        },
+        "spentTokens": 0,
+        "caps": {
+          "maxConcurrency": 1
+        }
+      },
+      "events": [
+        {
+          "sequence": 0,
+          "type": "run-started",
+          "runId": "run-golden",
+          "caps": {
+            "maxConcurrency": 1
+          }
+        },
+        {
+          "sequence": 1,
+          "type": "run-settled",
+          "status": "completed"
+        }
+      ],
+      "nodes": [],
+      "actors": [],
+      "driver": {
+        "emits": 2,
+        "sessions": [],
+        "starts": [],
+        "replies": [],
+        "cancelled": [],
+        "worldCalls": [],
+        "artifactCalls": []
+      }
+    },
+    {
+      "expect": "clean",
+      "id": "engine-run/async-helper-keeps-ordinals",
+      "run": {
+        "status": "completed",
+        "result": "12",
+        "spentTokens": 0,
+        "caps": {
+          "maxConcurrency": 1
+        }
+      },
+      "events": [
+        {
+          "sequence": 0,
+          "type": "run-started",
+          "runId": "run-golden",
+          "caps": {
+            "maxConcurrency": 1
+          }
+        },
+        {
+          "sequence": 1,
+          "type": "actor-created",
+          "actor": {
+            "siteId": "actor#1",
+            "ordinal": 1
+          },
+          "name": "lead",
+          "persona": {
+            "name": "lead"
+          }
+        },
+        {
+          "sequence": 2,
+          "type": "node-queued",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 1
+          },
+          "kind": "ask",
+          "actor": {
+            "siteId": "actor#1",
+            "ordinal": 1
+          },
+          "actorSeq": 0,
+          "instructionsHead": "one"
+        },
+        {
+          "sequence": 3,
+          "type": "node-dispatched",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 1
+          }
+        },
+        {
+          "sequence": 4,
+          "type": "node-settled",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 1
+          },
+          "outcome": "ok"
+        },
+        {
+          "sequence": 5,
+          "type": "node-queued",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 2
+          },
+          "kind": "ask",
+          "actor": {
+            "siteId": "actor#1",
+            "ordinal": 1
+          },
+          "actorSeq": 1,
+          "instructionsHead": "two"
+        },
+        {
+          "sequence": 6,
+          "type": "node-dispatched",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 2
+          }
+        },
+        {
+          "sequence": 7,
+          "type": "node-settled",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 2
+          },
+          "outcome": "ok"
+        },
+        {
+          "sequence": 8,
+          "type": "run-settled",
+          "status": "completed"
+        }
+      ],
+      "nodes": [
+        {
+          "siteId": "ask#1",
+          "ordinal": 1,
+          "kind": "ask",
+          "actorSiteId": "actor#1",
+          "actorOrdinal": 1,
+          "actorSeq": 0,
+          "inputHash": "9fe84b97",
+          "status": "completed",
+          "result": "1"
+        },
+        {
+          "siteId": "ask#1",
+          "ordinal": 2,
+          "kind": "ask",
+          "actorSiteId": "actor#1",
+          "actorOrdinal": 1,
+          "actorSeq": 1,
+          "inputHash": "0c902231",
+          "status": "completed",
+          "result": "2"
+        }
+      ],
+      "actors": [
+        {
+          "siteId": "actor#1",
+          "ordinal": 1,
+          "name": "lead",
+          "persona": {
+            "name": "lead"
+          },
+          "sessionId": "session@actor#1@1"
+        }
+      ],
+      "driver": {
+        "emits": 9,
+        "sessions": [
+          {
+            "actor": {
+              "siteId": "actor#1",
+              "ordinal": 1
+            },
+            "persona": {
+              "name": "lead"
+            }
+          }
+        ],
+        "starts": [
+          {
+            "session": {
+              "id": "session@actor#1@1"
+            },
+            "instance": {
+              "siteId": "ask#1",
+              "ordinal": 1
+            },
+            "message": {
+              "instructions": "one",
+              "typed": false
+            }
+          },
+          {
+            "session": {
+              "id": "session@actor#1@1"
+            },
+            "instance": {
+              "siteId": "ask#1",
+              "ordinal": 2
+            },
+            "message": {
+              "instructions": "two",
+              "typed": false
+            }
+          }
+        ],
+        "replies": [],
+        "cancelled": [],
+        "worldCalls": [],
+        "artifactCalls": []
+      }
+    },
+    {
+      "expect": "clean",
+      "id": "engine-run/combined-run",
+      "run": {
+        "status": "completed",
+        "result": {
+          "found": {
+            "items": ["a", "b"]
+          },
+          "ref": {
+            "id": "report",
+            "version": 1
+          }
+        },
+        "spentTokens": 0,
+        "caps": {
+          "maxConcurrency": 1
+        }
+      },
+      "events": [
+        {
+          "sequence": 0,
+          "type": "run-started",
+          "runId": "run-golden",
+          "caps": {
+            "maxConcurrency": 1
+          }
+        },
+        {
+          "sequence": 1,
+          "type": "phase-entered",
+          "name": "survey",
+          "ordinal": 1
+        },
+        {
+          "sequence": 2,
+          "type": "actor-created",
+          "actor": {
+            "siteId": "actor#1",
+            "ordinal": 1
+          },
+          "name": "lead",
+          "persona": {
+            "system": "you lead",
+            "name": "lead"
+          },
+          "phaseName": "survey"
+        },
+        {
+          "sequence": 3,
+          "type": "node-queued",
+          "instance": {
+            "siteId": "world-read#1",
+            "ordinal": 1
+          },
+          "kind": "world-read",
+          "phaseName": "survey"
+        },
+        {
+          "sequence": 4,
+          "type": "node-dispatched",
+          "instance": {
+            "siteId": "world-read#1",
+            "ordinal": 1
+          }
+        },
+        {
+          "sequence": 5,
+          "type": "node-settled",
+          "instance": {
+            "siteId": "world-read#1",
+            "ordinal": 1
+          },
+          "outcome": "ok"
+        },
+        {
+          "sequence": 6,
+          "type": "report",
+          "instance": {
+            "siteId": "report#1",
+            "ordinal": 1
+          },
+          "item": {
+            "count": 1
+          }
+        },
+        {
+          "sequence": 7,
+          "type": "phase-entered",
+          "name": "review",
+          "ordinal": 1
+        },
+        {
+          "sequence": 8,
+          "type": "node-queued",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 1
+          },
+          "kind": "ask",
+          "actor": {
+            "siteId": "actor#1",
+            "ordinal": 1
+          },
+          "actorSeq": 0,
+          "instructionsHead": "review src/a.ts",
+          "phaseName": "review"
+        },
+        {
+          "sequence": 9,
+          "type": "node-dispatched",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 1
+          }
+        },
+        {
+          "sequence": 10,
+          "type": "node-settled",
+          "instance": {
+            "siteId": "ask#1",
+            "ordinal": 1
+          },
+          "outcome": "ok"
+        },
+        {
+          "sequence": 11,
+          "type": "artifact-published",
+          "instance": {
+            "siteId": "artifact#1",
+            "ordinal": 1
+          },
+          "artifact": {
+            "id": "report",
+            "version": 1
+          }
+        },
+        {
+          "sequence": 12,
+          "type": "run-settled",
+          "status": "completed"
+        }
+      ],
+      "nodes": [
+        {
+          "siteId": "world-read#1",
+          "ordinal": 1,
+          "kind": "world-read",
+          "inputHash": "a2fd5d8e",
+          "input": {
+            "op": "glob",
+            "args": ["src/**/*.ts"]
+          },
+          "status": "completed",
+          "result": ["src/a.ts"]
+        },
+        {
+          "siteId": "report#1",
+          "ordinal": 1,
+          "kind": "report",
+          "inputHash": "3f032095",
+          "status": "completed",
+          "result": {
+            "count": 1
+          }
+        },
+        {
+          "siteId": "ask#1",
+          "ordinal": 1,
+          "kind": "ask",
+          "actorSiteId": "actor#1",
+          "actorOrdinal": 1,
+          "actorSeq": 0,
+          "inputHash": "4a05f504",
+          "status": "completed",
+          "result": {
+            "items": ["a", "b"]
+          }
+        },
+        {
+          "siteId": "artifact#1",
+          "ordinal": 1,
+          "kind": "artifact",
+          "inputHash": "8f75ae3f",
+          "status": "completed",
+          "result": {
+            "id": "report",
+            "version": 1
+          },
+          "artifactId": "report"
+        }
+      ],
+      "actors": [
+        {
+          "siteId": "actor#1",
+          "ordinal": 1,
+          "name": "lead",
+          "persona": {
+            "system": "you lead",
+            "name": "lead"
+          },
+          "sessionId": "session@actor#1@1"
+        }
+      ],
+      "driver": {
+        "emits": 13,
+        "sessions": [
+          {
+            "actor": {
+              "siteId": "actor#1",
+              "ordinal": 1
+            },
+            "persona": {
+              "system": "you lead",
+              "name": "lead"
+            }
+          }
+        ],
+        "starts": [
+          {
+            "session": {
+              "id": "session@actor#1@1"
+            },
+            "instance": {
+              "siteId": "ask#1",
+              "ordinal": 1
+            },
+            "message": {
+              "instructions": "review src/a.ts",
+              "typed": true,
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": ["items"],
+                "additionalProperties": false
+              }
+            }
+          }
+        ],
+        "replies": [
+          {
+            "instance": {
+              "siteId": "ask#1",
+              "ordinal": 1
+            },
+            "verdict": {
+              "kind": "accept"
+            }
+          }
+        ],
+        "cancelled": [],
+        "worldCalls": [
+          {
+            "op": "glob",
+            "args": ["src/**/*.ts"]
+          }
+        ],
+        "artifactCalls": [
+          {
+            "runId": "run-golden",
+            "siteId": "artifact#1",
+            "ordinal": 1,
+            "op": "markdown",
+            "id": "report",
+            "version": 1,
+            "content": "# a, b"
+          }
+        ]
+      }
+    }
+  ]
+}

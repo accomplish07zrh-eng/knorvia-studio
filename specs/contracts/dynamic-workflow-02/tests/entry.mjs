@@ -52,6 +52,10 @@ export function importDeep(modulePath) {
 export const entryLabel = mode;
 export const isDist = mode === "dist";
 
-export const { samples: corpusSamples } = await import(
-  new URL("../fixtures/corpus.mjs", import.meta.url)
-);
+const corpus = await import(new URL("../fixtures/corpus.mjs", import.meta.url));
+
+/** 全部样例（静态 lowering golden 的输入）。 */
+export const corpusSamples = corpus.samples;
+
+/** 带 drive 表的样例（engine-run golden 的输入）。 */
+export const runSamples = corpus.runSamples;
