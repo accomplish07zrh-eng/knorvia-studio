@@ -60,7 +60,10 @@ function artifactRow({ ordinal = 1, siteId = "artifact#1", id, kind, op, version
 
 /** 内容族：一个只认 markdown 的装配。 */
 function contentHarness(options = {}) {
-  return makeHarness({ artifact: (request) => record(request.id, request.op, request.version), ...options });
+  return makeHarness({
+    artifact: (request) => record(request.id, request.op, request.version),
+    ...options,
+  });
 }
 
 const tableSpec = { columns: [{ field: "n" }] };
@@ -228,10 +231,13 @@ describe("B16 内容族：发布是效应", () => {
   it("同一 id 的第 17 版 ⇒ ArtifactVersionCapExceeded", async () => {
     const h = contentHarness();
     for (let version = 1; version <= ARTIFACT_CAPS.maxVersionsPerArtifact; version += 1) {
-      assert.deepEqual(await h.engine.publishArtifact(`artifact#${version}`, "markdown", ["notes", `v${version}`]), {
-        id: "notes",
-        version,
-      });
+      assert.deepEqual(
+        await h.engine.publishArtifact(`artifact#${version}`, "markdown", ["notes", `v${version}`]),
+        {
+          id: "notes",
+          version,
+        },
+      );
     }
     const error = await rejectionOf(
       h.engine.publishArtifact("artifact#17", "markdown", ["notes", "v17"]),
@@ -256,7 +262,9 @@ describe("B16 内容族：发布是效应", () => {
   });
 
   it("replay 命中 completed：返回记录里的 {id, version}，不过 driver、不发事件", async () => {
-    const journal = seedJournal([artifactRow({ id: "notes", kind: "markdown", op: "markdown", version: 3 })]);
+    const journal = seedJournal([
+      artifactRow({ id: "notes", kind: "markdown", op: "markdown", version: 3 }),
+    ]);
     const h = contentHarness({ journal });
     assert.deepEqual(await h.engine.publishArtifact("artifact#1", "markdown", ["notes", "# hi"]), {
       id: "notes",
@@ -280,7 +288,9 @@ describe("B16 内容族：发布是效应", () => {
       },
     ]);
     const h = contentHarness({ journal });
-    const thrown = await rejectionOf(h.engine.publishArtifact("artifact#1", "markdown", ["notes", "# hi"]));
+    const thrown = await rejectionOf(
+      h.engine.publishArtifact("artifact#1", "markdown", ["notes", "# hi"]),
+    );
     assert.deepEqual(thrown.toJSON(), error);
     assert.deepEqual(h.recorded.artifactCalls, []);
   });
@@ -298,17 +308,27 @@ describe("B16 内容族：发布是效应", () => {
       },
     ]);
     const h = contentHarness({ journal });
-    assert.deepEqual(await h.engine.publishArtifact("artifact#2", "markdown", ["notes", "second"]), {
-      id: "notes",
-      version: 2,
-    });
+    assert.deepEqual(
+      await h.engine.publishArtifact("artifact#2", "markdown", ["notes", "second"]),
+      {
+        id: "notes",
+        version: 2,
+      },
+    );
     assert.equal(h.recorded.artifactCalls[0].version, 2);
   });
 
   it("resume 后上限账连续：已 completed 的行认领 id，新版本号从行数续", async () => {
     const journal = seedJournal([
       artifactRow({ id: "notes", kind: "markdown", op: "markdown", version: 1 }),
-      artifactRow({ id: "notes", ordinal: 2, kind: "markdown", op: "markdown", siteId: "artifact#2", version: 2 }),
+      artifactRow({
+        id: "notes",
+        ordinal: 2,
+        kind: "markdown",
+        op: "markdown",
+        siteId: "artifact#2",
+        version: 2,
+      }),
     ]);
     const h = contentHarness({ journal });
     assert.deepEqual(await h.engine.publishArtifact("artifact#3", "markdown", ["notes", "third"]), {
@@ -320,7 +340,9 @@ describe("B16 内容族：发布是效应", () => {
   it("结算之后的发布直接以 run 的错误拒绝", async () => {
     const h = contentHarness();
     h.engine.stop("user");
-    const error = await rejectionOf(h.engine.publishArtifact("artifact#1", "markdown", ["notes", "# hi"]));
+    const error = await rejectionOf(
+      h.engine.publishArtifact("artifact#1", "markdown", ["notes", "# hi"]),
+    );
     assert.equal(error.code, "Cancelled");
     assert.deepEqual(h.recorded.artifactCalls, []);
   });
@@ -346,7 +368,13 @@ describe("B17 预置族：声明不是效应", () => {
     const h = makeHarness({});
     h.engine.declareArtifact("artifact#1", "chart", [
       "c",
-      { baseline: { field: "b" }, description: "d", title: "t", x: { field: "a" }, y: { field: "b" } },
+      {
+        baseline: { field: "b" },
+        description: "d",
+        title: "t",
+        x: { field: "a" },
+        y: { field: "b" },
+      },
     ]);
     const result = nodeRow(h.journal, RUN_ID, "artifact#1").result;
     assert.equal(result.title, "t");
@@ -355,7 +383,10 @@ describe("B17 预置族：声明不是效应", () => {
   });
 
   it("spec 非法（空 columns / 超长的 title）⇒ ArtifactSpecInvalid 让 run 失败，不落行", async () => {
-    for (const spec of [{ columns: [] }, { columns: [{ field: "n" }], title: "x".repeat(ARTIFACT_CAPS.maxTitleLength + 1) }]) {
+    for (const spec of [
+      { columns: [] },
+      { columns: [{ field: "n" }], title: "x".repeat(ARTIFACT_CAPS.maxTitleLength + 1) },
+    ]) {
       const h = makeHarness({});
       h.engine.declareArtifact("artifact#1", "table", ["dash", spec]);
       const settlement = await h.engine.settled;
@@ -368,10 +399,10 @@ describe("B17 预置族：声明不是效应", () => {
     const h = makeHarness({});
     h.engine.declareArtifact("artifact#1", "table", ["dash", tableSpec]);
     h.engine.declareArtifact("artifact#2", "table", ["dash", { columns: [{ field: "n" }] }]);
-    assert.deepEqual(
-      eventTypes(journalEvents(h.journal, RUN_ID)),
-      ["run-started", "artifact-published"],
-    );
+    assert.deepEqual(eventTypes(journalEvents(h.journal, RUN_ID)), [
+      "run-started",
+      "artifact-published",
+    ]);
     assert.equal(nodeRow(h.journal, RUN_ID, "artifact#2"), undefined);
   });
 
@@ -387,10 +418,7 @@ describe("B17 预置族：声明不是效应", () => {
   it("同 id 换种类 ⇒ ArtifactKindMismatch 让 run 失败", async () => {
     const h = makeHarness({});
     h.engine.declareArtifact("artifact#1", "table", ["dash", tableSpec]);
-    h.engine.declareArtifact("artifact#2", "metrics", [
-      "dash",
-      { metrics: [{ field: "n" }] },
-    ]);
+    h.engine.declareArtifact("artifact#2", "metrics", ["dash", { metrics: [{ field: "n" }] }]);
     assert.equal((await h.engine.settled).error.code, "ArtifactKindMismatch");
   });
 
@@ -426,7 +454,9 @@ describe("B17 预置族：声明不是效应", () => {
   it("spec 序列化超过 8KB ⇒ ArtifactSpecInvalid（形状合法也不放行）", async () => {
     const h = makeHarness({});
     const fat = {
-      columns: Array.from({ length: 300 }, (_, index) => ({ field: `${index}`.padStart(3, "0") + "f".repeat(40) })),
+      columns: Array.from({ length: 300 }, (_, index) => ({
+        field: `${index}`.padStart(3, "0") + "f".repeat(40),
+      })),
     };
     assert.ok(canonicalJson(fat).length > ARTIFACT_CAPS.maxSpecSerializedBytes);
     h.engine.declareArtifact("artifact#1", "table", ["dash", fat]);

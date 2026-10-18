@@ -50,10 +50,12 @@ describe("B11 世界读取：准入、结算与 replay", () => {
     await tick();
     assert.deepEqual(value, ["a.ts"]);
     assert.deepEqual(h.recorded.worldCalls, [{ args: ["src/**/*.ts"], op: "glob" }]);
-    assert.deepEqual(
-      eventTypes(journalEvents(h.journal, RUN_ID)),
-      ["run-started", "node-queued", "node-dispatched", "node-settled"],
-    );
+    assert.deepEqual(eventTypes(journalEvents(h.journal, RUN_ID)), [
+      "run-started",
+      "node-queued",
+      "node-dispatched",
+      "node-settled",
+    ]);
     const row = nodeRow(h.journal, RUN_ID, "world-read#1");
     assert.equal(row.kind, "world-read");
     assert.equal(row.ordinal, 1);
@@ -139,12 +141,14 @@ describe("B11 世界读取：准入、结算与 replay", () => {
     const h = worldHarness({ journal });
     assert.deepEqual(await h.engine.worldRead("world-read#1", "glob", args), ["recorded.ts"]);
     assert.deepEqual(h.recorded.worldCalls, []);
-    assert.deepEqual(
-      eventTypes(journalEvents(h.journal, RUN_ID)).slice(1),
-      ["node-settled"],
-    );
+    assert.deepEqual(eventTypes(journalEvents(h.journal, RUN_ID)).slice(1), ["node-settled"]);
     const settled = journalEvents(h.journal, RUN_ID)[1];
-    assert.deepEqual(settled, { cached: true, instance: inst("world-read#1"), outcome: "ok", type: "node-settled" });
+    assert.deepEqual(settled, {
+      cached: true,
+      instance: inst("world-read#1"),
+      outcome: "ok",
+      type: "node-settled",
+    });
   });
 
   it("replay 命中 failed：cached 的失败结算，错误从行里重建", async () => {
@@ -188,10 +192,11 @@ describe("B11 世界读取：准入、结算与 replay", () => {
     const h = worldHarness({ journal });
     assert.deepEqual(await h.engine.worldRead("world-read#1", "glob", args), ["a.ts"]);
     assert.deepEqual(h.recorded.worldCalls, [{ args, op: "glob" }]);
-    assert.deepEqual(
-      eventTypes(journalEvents(h.journal, RUN_ID)).slice(1),
-      ["node-queued", "node-dispatched", "node-settled"],
-    );
+    assert.deepEqual(eventTypes(journalEvents(h.journal, RUN_ID)).slice(1), [
+      "node-queued",
+      "node-dispatched",
+      "node-settled",
+    ]);
     assert.equal(nodeRow(h.journal, RUN_ID, "world-read#1").status, "completed");
   });
 
@@ -261,7 +266,10 @@ describe("B11 世界读取：准入、结算与 replay", () => {
     await tick();
     assert.deepEqual(await h.engine.worldRead("world-read#1", "glob", args), ["a.ts"]);
     assert.equal(nodeRow(h.journal, RUN_ID, "world-read#1").status, "completed");
-    assert.deepEqual(h.recorded.worldCalls.map((c) => c.op), ["run", "glob"]);
+    assert.deepEqual(
+      h.recorded.worldCalls.map((c) => c.op),
+      ["run", "glob"],
+    );
   });
 });
 

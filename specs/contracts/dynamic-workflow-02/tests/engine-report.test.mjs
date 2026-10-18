@@ -4,14 +4,7 @@ import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 
 import { dw } from "./entry.mjs";
-import {
-  eventTypes,
-  inst,
-  journalEvents,
-  makeHarness,
-  nodeRow,
-  tick,
-} from "./harness.mjs";
+import { eventTypes, inst, journalEvents, makeHarness, nodeRow, tick } from "./harness.mjs";
 
 const { InMemoryJournalStore, REPORT_CAPS, inputHash } = dw;
 
@@ -44,10 +37,7 @@ describe("B15 report 的发布路径", () => {
     const h = makeHarness({});
     h.engine.report("report#1", { n: 1 });
     await tick();
-    assert.deepEqual(
-      eventTypes(journalEvents(h.journal, RUN_ID)),
-      ["run-started", "report"],
-    );
+    assert.deepEqual(eventTypes(journalEvents(h.journal, RUN_ID)), ["run-started", "report"]);
     assert.deepEqual(journalEvents(h.journal, RUN_ID)[1], {
       instance: inst("report#1"),
       item: { n: 1 },
