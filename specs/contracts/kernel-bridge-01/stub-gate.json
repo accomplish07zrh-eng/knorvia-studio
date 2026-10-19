@@ -1,0 +1,13 @@
+{
+  "allFail": true,
+  "entry": "stub",
+  "engine": "stub",
+  "exitCode": 1,
+  "tests": 10,
+  "pass": 0,
+  "fail": 10,
+  "skipped": 0,
+  "todo": 0,
+  "outputTail": "  + }\n  - undefined\n  \n      at expectedAccepted (file:///workspace/wt-bridge01/specs/contracts/kernel-bridge-01/tests/_protocol.mjs:234:10)\n      at createDraftSession (file:///workspace/wt-bridge01/specs/contracts/kernel-bridge-01/tests/_protocol.mjs:259:15)\n      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n      at async TestContext.<anonymous> (file:///workspace/wt-bridge01/specs/contracts/kernel-bridge-01/tests/two-links-contract.test.mjs:30:25)\n      at async Test.run (node:internal/test_runner/test:1125:7)\n      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {\n    generatedMessage: false,\n    code: 'ERR_ASSERTION',\n    actual: { code: -32601, message: 'Method not found (contract stub)' },\n    expected: undefined,\n    operator: 'strictEqual',\n    diff: 'simple'\n  }",
+  "note": "桩只实现 app-server --stdio 的 transport 签名（按 id 回 Method not found），不含任何 v4 方法或帧语义"
+}
