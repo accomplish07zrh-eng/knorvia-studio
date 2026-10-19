@@ -146724,6 +146724,20 @@
       "license": "Apache-2.0",
       "basis": "Acceptance record for the node-repl-host-broker rework (#197): per-file similarity values, old-gate and new-contract results, gate summary, first failures and fixes, provenance plan and uncovered risks; produced by this agent from contract v1 and measured tool output.",
       "evidence": ["specs/contracts/node-repl-host-broker/gate-old.json"]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-bridge/interface.ts",
+      "normalizedSha256": "2cb6c68b3b7845024ead15cec147ae2f13e376951be0d068dc03ccc0b2be6195",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-bridge-01 interface definition between segment A (wiring, command-inbox, lifecycle) and segment B (projection, sequence, snapshot, links). Type declarations only. Written from specs/contracts/kernel-bridge-01/interface.md, behavior.md and acceptance.md; no DSH source and no inherited implementation was copied. Similarity against old core and zai-org/ZCode@872ad960: max line containment 0.062, longest identical run 1, structural similarity 0.019.",
+      "evidence": [
+        "specs/knorvia-builtin-kernel-dsh.md",
+        "specs/contracts/kernel-bridge-01/README.md",
+        "specs/contracts/kernel-bridge-01/behavior.md",
+        "specs/contracts/kernel-bridge-01/interface.md",
+        "specs/contracts/kernel-bridge-01/acceptance.md"
+      ]
     }
   ]
 }
