@@ -1,0 +1,21 @@
+{
+  "contract": "kernel-bridge-01",
+  "contractVersion": "v1",
+  "node": "v24.14.0",
+  "command": "node --test-reporter=spec --test --test-concurrency=1 --test-timeout=120000 <tests/*.test.mjs>",
+  "engine": "legacy",
+  "assertionsRelaxed": false,
+  "runs": [
+    {
+      "entry": "dist",
+      "engine": "legacy",
+      "exitCode": 0,
+      "tests": 20,
+      "pass": 20,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0,
+      "outputTail": "  ✔ unsubscribe 只终止本订阅，其他链路继续收帧 (431.645023ms)\n✔ kernel-bridge-01 · 快照与序号在 v4 公开入口上可重建 (1749.783552ms)\n▶ kernel-bridge-01 · 两条客户端链路共享同一 v4 语义\n  ✔ 两个 profile 的帧外壳与快照身份完全同构 (1.135025ms)\n  ✔ 同一状态变更在两条链路上产生相同 seq 与相同 deltas (148.692213ms)\n  ✔ connection flow saturated 暂停投递，drained 后原序补发 (537.16625ms)\n  ✔ clientMode 是订阅期唯一链路选择，非法值在边界拒绝 (53.398817ms)\n✔ kernel-bridge-01 · 两条客户端链路共享同一 v4 语义 (1955.699882ms)\nℹ tests 20\nℹ suites 0\nℹ pass 20\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 6484.848811"
+    }
+  ]
+}
