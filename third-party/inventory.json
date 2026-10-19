@@ -1203,7 +1203,7 @@
     "packages/server/package.json": "b4cf8e856729969f38b1fdd2fa1c56630ded2cfc64e952ec3d0ef21463efa364",
     "packages/services/package.json": "70822bcf17e9723e083fbc7b8de7345cbbeddcf6f4ec35ffe99b026b8b66e372",
     "packages/shared/package.json": "eb91f4e0cdbf3e7b37d7bfadcff2120d5e16b7102909a8f50beec131ec628408",
-    "packages/shared/src/protocol-v4/wire-codec.ts": "177c8725847ac34315165777b7adf68854da9621f10cb75c74dfdad5b2048eff",
+    "packages/shared/src/protocol-v4/wire-codec.ts": "683cf3d39412eb7b2cfbaf058a06de7c46501022ae2cab1e3078ec1d3d8c3287",
     "packages/ui/package.json": "d9569afc3ec1c6d3bb58a134593d722c8aae46637175416c4cfe13947bb97d01",
     "packages/ui/src/components/ai-elements/agent.tsx": "830e7ea9e927de1524851337f1d35bda0e5690e3e4fa307fff854b60006b16c7",
     "packages/ui/src/components/ai-elements/artifact.tsx": "7d73f08864d6280ac86c77d32e56d0e702f8aa6208e5910820139d0fb08ce64c",
