@@ -4,7 +4,9 @@
 // 相似度工具：行相似度 + 结构相似度。
 //
 // 比较对象：被替换的旧文件（--old，可来自指定提交）与整个上游固定提交（--upstream-dir，
-// 仓库外缓存目录）。两道门槛的算法与校准见 scripts/provenance/similarity-lines.mjs、
+// 仓库外缓存目录）。行比较前两侧都先用仓库配置的 oxfmt 统一格式化并去掉注释（只计代码行），
+// 见 similarity-normalize.mjs；结构相似度本来就忽略空白与注释。
+// 两道门槛的算法与校准见 scripts/provenance/similarity-lines.mjs、
 // similarity-structural.mjs 与 docs/knorvia-similarity-calibration-20261011.md；
 // 门槛写入常量后不再调整。
 import { readFileSync, writeFileSync } from "node:fs";
@@ -21,6 +23,7 @@ import {
   longestRun,
   longestRunDetail,
 } from "./similarity-lines.mjs";
+import { loadOxfmtOptions } from "./similarity-normalize.mjs";
 import {
   structuralFingerprints,
   structuralOverlap,
@@ -111,14 +114,23 @@ const declarationNames = (values.interface ?? []).flatMap((file) =>
 if (values.declaration && declarationNames.length === 0)
   usageError("--declaration requires --interface with at least one name");
 
-const oldFiles = [
-  ...(values.old ?? []),
-  ...(values["old-list"] ? readPathList(values["old-list"]) : []),
-].map((givenPath) => readOldFile({ repo, givenPath, revision: values["old-rev"] }));
+const oxfmtOptions = loadOxfmtOptions(repo);
+const oldFiles = await Promise.all(
+  [...(values.old ?? []), ...(values["old-list"] ? readPathList(values["old-list"]) : [])].map(
+    (givenPath) => readOldFile({ repo, givenPath, revision: values["old-rev"], oxfmtOptions }),
+  ),
+);
 
-const upstream = loadUpstream(upstreamRoot);
-const candidates = candidatePaths.map((givenPath) =>
-  loadCandidate({ repo, givenPath, declarationNames: values.declaration ? declarationNames : [] }),
+const upstream = await loadUpstream(upstreamRoot, { oxfmtOptions });
+const candidates = await Promise.all(
+  candidatePaths.map((givenPath) =>
+    loadCandidate({
+      repo,
+      givenPath,
+      declarationNames: values.declaration ? declarationNames : [],
+      oxfmtOptions,
+    }),
+  ),
 );
 const results = candidates.map((candidate) => evaluateLines(candidate));
 if (gates !== "line") applyStructural(results);
@@ -138,6 +150,12 @@ const calibration = values.calibrate ? calibrate(results) : null;
 process.stdout.write(
   `similarity: ${summary.candidates} candidate(s), ${summary.passed} passed, ${summary.failed} failed; upstream ${upstreamRoot} (${upstream.files.length} files, ${upstream.binary} binary) gates=${gates}\n`,
 );
+const comparedFallbacks =
+  upstream.formatFallbacks + oldFiles.filter((file) => !file.binary && !file.formatted).length;
+if (comparedFallbacks > 0)
+  process.stdout.write(
+    `format-fallback: ${upstream.formatFallbacks} upstream + ${comparedFallbacks - upstream.formatFallbacks} old file(s) kept original text\n`,
+  );
 
 if (values.json) {
   writeFileSync(
@@ -152,6 +170,7 @@ if (values.json) {
           revision: values["upstream-rev"] ?? null,
           files: upstream.files.length,
           binary: upstream.binary,
+          formatFallbacks: upstream.formatFallbacks,
           kinds: upstream.kindCounts,
         },
         candidates: results,
@@ -180,6 +199,8 @@ function evaluateLines(candidate) {
     strippedLines: linesBeforeStrip - residualLines,
     residualLines,
     strippedBlocks: candidate.strippedBlocks ?? 0,
+    formatted: candidate.formatted,
+    formatError: candidate.formatError,
     maxContainment: null,
     longestRun: null,
     structural: null,
@@ -358,8 +379,10 @@ function describe(result) {
     : gates === "line"
       ? " structural=skipped"
       : ` structural=${format(result.structural.value)} (${result.structural.file})`;
+  // 格式化失败（语法错误或格式不支持）时退回原文比较，必须让使用者看得到。
+  const formatNote = result.formatted ? "" : " format=fallback";
   const verdict = result.violations.length ? ` -> ${result.violations.join("; ")}` : "";
-  return `${result.pass ? "PASS " : "FAIL "} ${result.path} lines=${result.lines}${declaration}${line}${structural}${verdict}`;
+  return `${result.pass ? "PASS " : "FAIL "} ${result.path} lines=${result.lines}${declaration}${formatNote}${line}${structural}${verdict}`;
 }
 
 function calibrate(results) {

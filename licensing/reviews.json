@@ -96039,7 +96039,7 @@
     },
     {
       "path": "scripts/provenance/similarity.mjs",
-      "normalizedSha256": "88194f2efc54c0366d10abc856a7d8a102b68455a25e24f08019b4ed08adf5d9",
+      "normalizedSha256": "db60685005359f2aa0001f9d913d43cbc5a8c6c5e84c5f4b02b5a5485d4eafd4",
       "decision": "original",
       "license": "MIT",
       "basis": "Knorvia-authored provenance tooling for M0-8 (line and structural similarity checker). The author read docs/knorvia-provenance-bookkeeping-20261010.md section 4 for the bookkeeping line algorithm and the task plan's tool requirements; no upstream or replaced implementation code was copied, renamed or rewritten line by line. Calibration on the 439 registered independent-replacement files: observed structural maximum 1.000, threshold 0.4 (23 files over the cap are queued for replacement); four renamed copies of real upstream-modified files were all blocked. License follows licensing/README.md for new scripts/provenance tools. Entry point: candidate/old/upstream resolution, gate evaluation, JSON report and exit code.",
@@ -96051,10 +96051,22 @@
     },
     {
       "path": "scripts/provenance/similarity-lines.mjs",
-      "normalizedSha256": "59d777952362c0d9b5eca1cc2041a73162eb725870e2f5de161d36ac8de8ee92",
+      "normalizedSha256": "6256fd5350ad958efad060ae566d6c8ad2b58b5203837252d2ec6a24aea6fc81",
       "decision": "original",
       "license": "MIT",
       "basis": "Knorvia-authored provenance tooling for M0-8 (line and structural similarity checker). The author read docs/knorvia-provenance-bookkeeping-20261010.md section 4 for the bookkeeping line algorithm and the task plan's tool requirements; no upstream or replaced implementation code was copied, renamed or rewritten line by line. Calibration on the 439 registered independent-replacement files: observed structural maximum 1.000, threshold 0.4 (23 files over the cap are queued for replacement); four renamed copies of real upstream-modified files were all blocked. License follows licensing/README.md for new scripts/provenance tools. Line normalization, containment and longest-run metrics.",
+      "evidence": [
+        "licensing/README.md",
+        "docs/knorvia-similarity-calibration-20261011.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "scripts/provenance/similarity-normalize.mjs",
+      "normalizedSha256": "2b5d60be9b8420dd4eb8d1691b93a6ef038eb6e978ae4fbfe7c20659e6d0267d",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored provenance tooling for M0-8 (line and structural similarity checker). The author read docs/knorvia-provenance-bookkeeping-20261010.md section 4 for the bookkeeping line algorithm and the task plan's tool requirements; no upstream or replaced implementation code was copied, renamed or rewritten line by line. License follows licensing/README.md for new scripts/provenance tools. Gate-only normalization for the 2026-10-19 anti-gaming rule: oxfmt with the repository configuration plus the collapse override, TypeScript-AST comment stripping, and bounded-concurrency preparation shared by candidates, old files and the upstream tree.",
       "evidence": [
         "licensing/README.md",
         "docs/knorvia-similarity-calibration-20261011.md",
@@ -96075,7 +96087,7 @@
     },
     {
       "path": "scripts/provenance/similarity.test.mjs",
-      "normalizedSha256": "bc40728eab2f319bb4321f8613c91be1b72345ed6225c042b6bace9bd338fcfa",
+      "normalizedSha256": "0ea86e321d272b6e8666ea07d68440f97265f9af415de7bac4b529e8dc1399fb",
       "decision": "original",
       "license": "MIT",
       "basis": "Knorvia-authored provenance tooling for M0-8 (line and structural similarity checker). The author read docs/knorvia-provenance-bookkeeping-20261010.md section 4 for the bookkeeping line algorithm and the task plan's tool requirements; no upstream or replaced implementation code was copied, renamed or rewritten line by line. Calibration on the 439 registered independent-replacement files: observed structural maximum 1.000, threshold 0.4 (23 files over the cap are queued for replacement); four renamed copies of real upstream-modified files were all blocked. License follows licensing/README.md for new scripts/provenance tools. Contract tests: line boundaries (exactly ten lines, run 7 vs 8, containment 0.19 vs 0.2), renamed copy blocked, independently structured implementation passing, declaration line stripping, binary skip, Windows newlines, JSON fields and exit codes.",
@@ -96087,7 +96099,7 @@
     },
     {
       "path": "docs/knorvia-similarity-calibration-20261011.md",
-      "normalizedSha256": "45bce9c2a802821a3ead24d2be22c8ebc0a2c0cf11aee53641b2bd1d97359807",
+      "normalizedSha256": "b09da52bc2439e64eaf65eb9bb847334111928a0f171789df07a0c89e80675f7",
       "decision": "original",
       "license": "MIT",
       "basis": "New Knorvia calibration report for the M0-8 similarity tool: upstream tree provenance and full verification, threshold derivation, the 439-file rerun and the renamed-copy validation. Prior sources were read for the algorithm and the pinned upstream tree; no upstream text was copied into the report.",
@@ -96098,7 +96110,7 @@
     },
     {
       "path": "scripts/provenance/similarity-inputs.mjs",
-      "normalizedSha256": "1bfbc9319e6bdab98d7c88e6cbcf8ba135731aa4a18ee2e18dea2f9782a077fb",
+      "normalizedSha256": "1a691ef2aae6bad333b4f7ad881c14d1cd85519bdde5a65817f139e524bd8f79",
       "decision": "original",
       "license": "MIT",
       "basis": "Knorvia-authored provenance tooling for M0-8 (line and structural similarity checker). The author read docs/knorvia-provenance-bookkeeping-20261010.md section 4 for the bookkeeping line algorithm and the task plan's tool requirements; no upstream or replaced implementation code was copied, renamed or rewritten line by line. Calibration on the 439 registered independent-replacement files: observed structural maximum 1.000, threshold 0.4 (23 files over the cap are queued for replacement); four renamed copies of real upstream-modified files were all blocked. License follows licensing/README.md for new scripts/provenance tools. Input loading for the upstream tree, candidates and replaced old files.",

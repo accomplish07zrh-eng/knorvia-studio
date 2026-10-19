@@ -59,6 +59,11 @@ function normalizeLine(raw) {
   return line;
 }
 
+/**
+ * 记账口径的行规范化：去首尾空白、空行、纯分隔符行与 import/re-export，注释保留。
+ * 这里的语义保持不变，供相似度测试与人工抽查使用；相似度门禁的防刷口径（先格式
+ * 化再去注释、只计代码行）由 similarity-normalize.mjs 的 gateLines 负责，两者互不影响。
+ */
 export function normalizeLines(text) {
   const raw = text.split(/\r?\n/u);
   const lines = [];

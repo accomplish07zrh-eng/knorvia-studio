@@ -218,3 +218,141 @@ node scripts/provenance/similarity.mjs --repo . --candidate <新文件> --candid
 | **本次细化后**         | **138 / 301** | **1.000**  | **23（同一批文件，逐条核对一致）** |
 
 通过数增加是因为「导入名字列表」不再计入包含率——这是把既有的「丢弃 import 与 re-export 行」口径落实到多行语句，**不是放宽门槛**：结构门槛仍取 0.4（最大值 1.000 未变）、超限文件仍是同一批 23 个、门槛常量 0.2 / 8 / 0.4 未动。工具的 `similarity.test.mjs` 增加了 2 个用例（多行 import / `export type { … } from` 整条丢弃；`export const` / `export function` / 动态 `import(` 保留），共 23 个用例。
+
+## 11. 防刷口径：oxfmt 统一格式 + 去注释只计代码行（2026-10-19）
+
+**背景（用户裁决）**：dynamic-workflow-02 复查发现两种刷法——(1) 把多行代码压成一行（再填空行），使「包含的规范化行数 ÷ 候选规范化行数」做小；(2) 用大段注释填充，稀释分母。计划书「工具要求」的 2026-10-19 条款要求：比对前先用仓库的 oxfmt（与 `pnpm fmt` 同一配置）统一格式；包含率的分子分母都只计代码行。阈值常量 0.2 / 8 / 0.4 / minLines 10 一律不动。
+
+**范围**：只改门禁路径（`scripts/provenance/similarity*.mjs`）。记账路径（`bookkeeping-round2*`）与 `similarity-lines.mjs#normalizeLines` 的语义保持不变（注释保留，供人工抽查）；新口径在新增的 `similarity-normalize.mjs`（`prepareGateText` / `gateLines`）中实现，两者的分工写在文件头注释里。
+
+**管线**（候选、旧文件、上游文件一视同仁）：
+
+1. 读取仓库 `.oxfmtrc.json`，去掉 CLI 专用的 `$schema` 与 `ignorePatterns`，并固定 `objectWrap: "collapse"`。collapse 只用于比较文本：默认 `preserve` 会保留对象/类型字面量原有的多行布局，同一段代码拆行后行数会变；collapse 让布局只由打印宽度决定。该覆盖不修改仓库文件，也不改变 `pnpm fmt` 的行为。
+2. 用 oxfmt 进程内格式化（`format(fileName, text, options)`，不落盘、不复制临时目录）。
+3. 脚本文件：用 TypeScript 语法树（底层 scanner）收集行注释、块注释、JSDoc 的精确范围，逐个替换为一个空格；字符串、模板字面量、正则与 JSX 文本里的 `//` 不受影响。
+4. 再格式化一次，消除替换留下的空格，并按同一规则换行。
+5. 送入既有 `normalizeLines`（SPDX/版权行、空行、纯分隔符、多行 import / re-export 等既有过滤规则不变）。
+
+非脚本文件（md/json 等）：oxfmt 支持则格式化，不支持则维持原文后走既有行规范化。格式化失败（语法错误、扩展名不支持）回退原文：候选/旧文件在 JSON 里标 `formatted: false` 与 `formatError`，上游汇总为 `formatFallbacks`，标准输出出现 `format=fallback`。
+
+声明模式：格式化、去注释先做，再按 interface.md 剔除整块声明与兼容行；结构相似度仍用**原始源码**（声明模式下先剔除声明），因为 oxfmt 会补箭头函数参数括号与分号等，改变 token 流。实测 537 个候选的结构值与旧工具逐文件一致（479 个参与结构比较 0 差异，58 个跳过也一致）。
+
+**不变性验证**（`similarity.test.mjs`，共 35 个用例，本次新增 8 个）：
+
+- 压行 / 拆行 / 增删注释三种变换前后，包含率、最长段、结构相似度逐项 `assert.equal`；
+- 注释文字改动不影响行结果；
+- 字符串、模板与正则里的 `//` 不计为注释；
+- 压行样例与凑注释样例相对「逐行相同的旧文件」均判不过；
+- 格式化失败回退原文并在报告里标注；
+- 门禁读取仓库 `.oxfmtrc.json` 的格式化选项（忽略 `$schema` / `ignorePatterns`）。
+
+既有用例全部保留。唯一改动是 zod 声明样例中依赖对象布局的 `lines=6` 断言：collapse 下该校验链收为 4 个代码行，改为 `lines=4`，用例名由「普通模式不变」改为「普通模式照常计分」；其余断言（不通过、`containment=1.000`、声明模式 `residual-lines=0` / `stripped-blocks=2`）不变。
+
+**性能**：进程内调用 + 并发 8（`FORMAT_CONCURRENCY`）。完整上游树 7060 个文件（93 个二进制）在本机加载约 14.4 秒；4090 个脚本全部格式化成功（0 回退）；2568 个非脚本文本按原规范化（其中 SVG 2306、TXT 209、sourcemap 10，oxfmt 不支持）。537 个候选普通模式 0 个格式化回退。
+
+**2026-10-19 全量复跑（537 个 `independent-replacement`）**：
+
+| 指标                | 旧工具（origin/main） | 新工具（本分支）           |
+| ------------------- | --------------------- | -------------------------- |
+| 通过 / 不通过       | 384 / 153             | **310 / 227**              |
+| 由过变不过          | —                     | **77**                     |
+| 由不过变过          | —                     | **3**                      |
+| 结论相同但数值变化  | —                     | 305（另 152 个数值不变）   |
+| 结构相似度最大值    | 1.000                 | **1.000（逐文件 0 差异）** |
+| 结构相似度 > 0.4 的 | 24                    | **24（同一批）**           |
+
+77 个由过变不过全部是脚本文件；按新工具的违规项分类：包含率单独 63、最长段单独 2、两者同时 9、少于 10 行且包含率不为 0 共 3，结构相似度 0。多数文件是压行/换行差异被格式化还原后暴露了与上游相同的代码行（例：`bash-file-output.ts` 包含率 0.182 → 0.537、最长段 3 → 8；`dwf-journal-introspection.ts` 0.115 → 0.330、最长段 2 → 11）。
+
+3 个由不过变过（需要说明，不是放宽规则）：
+
+| 文件                                                                      | 行数    | 包含率        | 最长段 | 原因                                                                |
+| ------------------------------------------------------------------------- | ------- | ------------- | ------ | ------------------------------------------------------------------- |
+| `apps/cli/packages/core/src/tool/executor/permission-flow/publication.ts` | 55 → 53 | 0.200 → 0.189 | 3 → 3  | 旧口径把同时命中的 JSDoc/中文注释计入分母，去注释后包含率降到门槛下 |
+| `apps/cli/packages/core/src/tool/tool-input-validation-issues.ts`         | 59 → 55 | 0.203 → 0.182 | 3 → 3  | 注释不再计入；折行的对象属性被 collapse 成一行对象字面量            |
+| `apps/cli/packages/node-repl-host/src/request-context.ts`                 | 39 → 36 | 0.205 → 0.194 | 2 → 2  | JSDoc 与中文注释不再计入；条件对象被 collapse                       |
+
+三者结构相似度与旧工具相同（0.022 / 0.000 / 0.120），没有结构门槛放行。其余 305 个结论相同的候选数值变化主要是行数（格式化与去注释）与包含率，结构值同样 0 差异。
+
+**附：77 个由过变不过的逐文件数值**（行数 old→new、包含率 old→new、最长段 old→new、新工具违规项）：
+
+| 文件                                                                                             | 行数      | 包含率        | 最长段 | 新违规项                                                |
+| ------------------------------------------------------------------------------------------------ | --------- | ------------- | ------ | ------------------------------------------------------- |
+| `apps/cli/packages/adapters/src/auth/browser.ts`                                                 | 68 → 55   | 0.162 → 0.200 | 5 → 5  | containment 0.200 >= 0.2                                |
+| `apps/cli/packages/adapters/src/exec/bash-file-output.ts`                                        | 154 → 149 | 0.182 → 0.537 | 3 → 8  | containment 0.537 >= 0.2; longest identical run 8 >= 8  |
+| `apps/cli/packages/adapters/src/exec/bash-output-policy.ts`                                      | 16 → 16   | 0.063 → 0.250 | 1 → 2  | containment 0.250 >= 0.2                                |
+| `apps/cli/packages/adapters/src/exec/bash-output-preview.ts`                                     | 27 → 27   | 0.037 → 0.407 | 1 → 6  | containment 0.407 >= 0.2                                |
+| `apps/cli/packages/adapters/src/exec/bash-progress-poller.ts`                                    | 44 → 41   | 0.114 → 0.317 | 1 → 4  | containment 0.317 >= 0.2                                |
+| `apps/cli/packages/adapters/src/exec/bash-resource-telemetry.ts`                                 | 70 → 68   | 0.157 → 0.456 | 4 → 7  | containment 0.456 >= 0.2                                |
+| `apps/cli/packages/adapters/src/exec/bash-shell-provider.ts`                                     | 113 → 113 | 0.115 → 0.265 | 3 → 8  | containment 0.265 >= 0.2; longest identical run 8 >= 8  |
+| `apps/cli/packages/adapters/src/exec/bash-startup-script.ts`                                     | 57 → 52   | 0.193 → 0.385 | 3 → 9  | containment 0.385 >= 0.2; longest identical run 9 >= 8  |
+| `apps/cli/packages/adapters/src/exec/cwd-capture.ts`                                             | 44 → 43   | 0.114 → 0.488 | 1 → 6  | containment 0.488 >= 0.2                                |
+| `apps/cli/packages/adapters/src/exec/node-execution-adapter-base.ts`                             | 165 → 165 | 0.182 → 0.236 | 2 → 5  | containment 0.236 >= 0.2                                |
+| `apps/cli/packages/adapters/src/exec/node-execution-adapter-lifecycle.ts`                        | 235 → 234 | 0.179 → 0.295 | 4 → 6  | containment 0.295 >= 0.2                                |
+| `apps/cli/packages/adapters/src/exec/node-execution-adapter-process.ts`                          | 201 → 200 | 0.164 → 0.245 | 5 → 5  | containment 0.245 >= 0.2                                |
+| `apps/cli/packages/adapters/src/exec/node-execution-adapter.ts`                                  | 35 → 34   | 0.171 → 0.206 | 4 → 4  | containment 0.206 >= 0.2                                |
+| `apps/cli/packages/adapters/src/exec/outputEncoding.ts`                                          | 141 → 140 | 0.142 → 0.329 | 3 → 6  | containment 0.329 >= 0.2                                |
+| `apps/cli/packages/adapters/src/exec/process-tree.ts`                                            | 68 → 66   | 0.132 → 0.424 | 2 → 4  | containment 0.424 >= 0.2                                |
+| `apps/cli/packages/adapters/src/http/index.ts`                                                   | 202 → 166 | 0.198 → 0.241 | 3 → 3  | containment 0.241 >= 0.2                                |
+| `apps/cli/packages/adapters/src/http/public-egress-policy.ts`                                    | 97 → 88   | 0.196 → 0.227 | 5 → 5  | containment 0.227 >= 0.2                                |
+| `apps/cli/packages/adapters/src/mcp/client-cleanup.ts`                                           | 106 → 80  | 0.198 → 0.263 | 3 → 3  | containment 0.263 >= 0.2                                |
+| `apps/cli/packages/adapters/src/mcp/client-lifecycle.ts`                                         | 149 → 116 | 0.195 → 0.250 | 2 → 2  | containment 0.250 >= 0.2                                |
+| `apps/cli/packages/adapters/src/mcp/client-official.ts`                                          | 126 → 101 | 0.198 → 0.248 | 4 → 4  | containment 0.248 >= 0.2                                |
+| `apps/cli/packages/adapters/src/mcp/client-state.ts`                                             | 87 → 78   | 0.195 → 0.218 | 4 → 4  | containment 0.218 >= 0.2                                |
+| `apps/cli/packages/adapters/src/mcp/client-transport.ts`                                         | 71 → 61   | 0.197 → 0.213 | 2 → 2  | containment 0.213 >= 0.2                                |
+| `apps/cli/packages/adapters/src/mcp/descriptor.ts`                                               | 62 → 49   | 0.177 → 0.245 | 6 → 6  | containment 0.245 >= 0.2                                |
+| `apps/cli/packages/adapters/src/mcp/index.ts`                                                    | 33 → 21   | 0.182 → 0.286 | 2 → 2  | containment 0.286 >= 0.2                                |
+| `apps/cli/packages/adapters/src/mcp/network.ts`                                                  | 60 → 51   | 0.183 → 0.216 | 4 → 4  | containment 0.216 >= 0.2                                |
+| `apps/cli/packages/adapters/src/mcp/oauth-interactive-transaction.ts`                            | 190 → 169 | 0.195 → 0.219 | 6 → 6  | containment 0.219 >= 0.2                                |
+| `apps/cli/packages/adapters/src/mcp/oauth-refresh.ts`                                            | 199 → 166 | 0.196 → 0.241 | 3 → 7  | containment 0.241 >= 0.2                                |
+| `apps/cli/packages/adapters/src/mcp/official-auth-response.ts`                                   | 65 → 54   | 0.185 → 0.222 | 2 → 2  | containment 0.222 >= 0.2                                |
+| `apps/cli/packages/adapters/src/mcp/pool-identity.ts`                                            | 40 → 32   | 0.175 → 0.219 | 2 → 2  | containment 0.219 >= 0.2                                |
+| `apps/cli/packages/adapters/src/mcp/stdio-transport.ts`                                          | 139 → 91  | 0.173 → 0.264 | 6 → 6  | containment 0.264 >= 0.2                                |
+| `apps/cli/packages/adapters/src/mcp/timeout.ts`                                                  | 82 → 65   | 0.183 → 0.231 | 4 → 4  | containment 0.231 >= 0.2                                |
+| `apps/cli/packages/adapters/src/mcp/windows-job-object.ts`                                       | 148 → 141 | 0.149 → 0.461 | 6 → 12 | containment 0.461 >= 0.2; longest identical run 12 >= 8 |
+| `apps/cli/packages/adapters/src/model/runner-debug-redaction.ts`                                 | 16 → 15   | 0.188 → 0.200 | 3 → 3  | containment 0.200 >= 0.2                                |
+| `apps/cli/packages/adapters/src/network/http-config.ts`                                          | 163 → 134 | 0.196 → 0.239 | 5 → 5  | containment 0.239 >= 0.2                                |
+| `apps/cli/packages/adapters/src/plugins/atomic-protocol.ts`                                      | 79 → 79   | 0.177 → 0.228 | 3 → 4  | containment 0.228 >= 0.2                                |
+| `apps/cli/packages/adapters/src/plugins/catalog-describe.ts`                                     | 67 → 63   | 0.164 → 0.254 | 1 → 2  | containment 0.254 >= 0.2                                |
+| `apps/cli/packages/adapters/src/plugins/catalog-listing.ts`                                      | 56 → 49   | 0.089 → 0.510 | 2 → 7  | containment 0.510 >= 0.2                                |
+| `apps/cli/packages/adapters/src/plugins/catalog-refresh.ts`                                      | 170 → 170 | 0.188 → 0.235 | 3 → 4  | containment 0.235 >= 0.2                                |
+| `apps/cli/packages/adapters/src/plugins/catalog-repository.ts`                                   | 84 → 82   | 0.155 → 0.256 | 3 → 5  | containment 0.256 >= 0.2                                |
+| `apps/cli/packages/adapters/src/plugins/catalog-validation.ts`                                   | 145 → 139 | 0.172 → 0.338 | 2 → 8  | containment 0.338 >= 0.2; longest identical run 8 >= 8  |
+| `apps/cli/packages/adapters/src/plugins/discovery-candidates.ts`                                 | 59 → 57   | 0.169 → 0.351 | 1 → 3  | containment 0.351 >= 0.2                                |
+| `apps/cli/packages/adapters/src/plugins/discovery-manifest.ts`                                   | 78 → 75   | 0.192 → 0.307 | 4 → 7  | containment 0.307 >= 0.2                                |
+| `apps/cli/packages/adapters/src/plugins/discovery-runtime.ts`                                    | 93 → 92   | 0.161 → 0.315 | 2 → 3  | containment 0.315 >= 0.2                                |
+| `apps/cli/packages/adapters/src/plugins/markdown-frontmatter.ts`                                 | 52 → 52   | 0.192 → 0.212 | 2 → 2  | containment 0.212 >= 0.2                                |
+| `apps/cli/packages/adapters/src/plugins/mcp-official-auth.ts`                                    | 18 → 18   | 0.167 → 0.389 | 2 → 4  | containment 0.389 >= 0.2                                |
+| `apps/cli/packages/adapters/src/plugins/mcp.ts`                                                  | 79 → 79   | 0.165 → 0.215 | 2 → 9  | containment 0.215 >= 0.2; longest identical run 9 >= 8  |
+| `apps/cli/packages/adapters/src/plugins/official-marketplace.ts`                                 | 85 → 78   | 0.094 → 0.295 | 1 → 4  | containment 0.295 >= 0.2                                |
+| `apps/cli/packages/adapters/src/plugins/plugin-document.ts`                                      | 82 → 79   | 0.098 → 0.203 | 2 → 3  | containment 0.203 >= 0.2                                |
+| `apps/cli/packages/adapters/src/plugins/plugin-validation.ts`                                    | 119 → 113 | 0.168 → 0.310 | 3 → 3  | containment 0.310 >= 0.2                                |
+| `apps/cli/packages/adapters/src/plugins/source-errors.ts`                                        | 40 → 28   | 0.075 → 0.214 | 1 → 1  | containment 0.214 >= 0.2                                |
+| `apps/cli/packages/adapters/src/plugins/source-redaction.ts`                                     | 14 → 13   | 0.143 → 0.231 | 1 → 2  | containment 0.231 >= 0.2                                |
+| `apps/cli/packages/adapters/src/plugins/version-compare.ts`                                      | 28 → 25   | 0.036 → 0.560 | 1 → 7  | containment 0.560 >= 0.2                                |
+| `apps/cli/packages/adapters/src/storage/index.ts`                                                | 74 → 67   | 0.189 → 0.209 | 5 → 5  | containment 0.209 >= 0.2                                |
+| `apps/cli/packages/adapters/src/storage/session-store/json.ts`                                   | 16 → 8    | 0.125 → 0.250 | 1 → 1  | containment 0.250 must be 0 below 10 normalized lines   |
+| `apps/cli/packages/adapters/src/storage/session-store/record-projection.ts`                      | 11 → 10   | 0.182 → 0.200 | 1 → 1  | containment 0.200 >= 0.2                                |
+| `apps/cli/packages/adapters/src/storage/session-store/repositories/dwf-journal-artifacts.ts`     | 69 → 58   | 0.188 → 0.224 | 4 → 8  | containment 0.224 >= 0.2; longest identical run 8 >= 8  |
+| `apps/cli/packages/adapters/src/storage/session-store/repositories/dwf-journal-introspection.ts` | 131 → 115 | 0.115 → 0.330 | 2 → 11 | containment 0.330 >= 0.2; longest identical run 11 >= 8 |
+| `apps/cli/packages/adapters/src/storage/session-store/repositories/dwf-journal-run-state.ts`     | 95 → 81   | 0.189 → 0.222 | 5 → 5  | containment 0.222 >= 0.2                                |
+| `apps/cli/packages/adapters/src/storage/session-store/repositories/usage-values.ts`              | 12 → 3    | 0.167 → 0.333 | 1 → 1  | containment 0.333 must be 0 below 10 normalized lines   |
+| `apps/cli/packages/adapters/src/storage/session-store/repositories/write-transaction.ts`         | 24 → 21   | 0.167 → 0.286 | 1 → 2  | containment 0.286 >= 0.2                                |
+| `apps/cli/packages/adapters/src/storage/session-store/session-store-connection.ts`               | 40 → 27   | 0.175 → 0.259 | 2 → 2  | containment 0.259 >= 0.2                                |
+| `apps/cli/packages/adapters/src/storage/session-store/shared-context-commit.ts`                  | 85 → 73   | 0.176 → 0.205 | 3 → 3  | containment 0.205 >= 0.2                                |
+| `apps/cli/packages/adapters/src/storage/session-target.ts`                                       | 104 → 96  | 0.173 → 0.208 | 6 → 6  | containment 0.208 >= 0.2                                |
+| `apps/cli/packages/core/src/browser-client/runtime-installation.ts`                              | 36 → 35   | 0.194 → 0.200 | 4 → 4  | containment 0.200 >= 0.2                                |
+| `apps/cli/packages/core/src/runtime/methods/support/event-pipeline.ts`                           | 115 → 98  | 0.174 → 0.204 | 3 → 3  | containment 0.204 >= 0.2                                |
+| `apps/cli/packages/core/src/runtime/methods/support/recover-step.ts`                             | 87 → 65   | 0.172 → 0.231 | 5 → 8  | containment 0.231 >= 0.2; longest identical run 8 >= 8  |
+| `apps/cli/packages/core/src/runtime/methods/support/sink-notify.ts`                              | 37 → 25   | 0.135 → 0.200 | 1 → 1  | containment 0.200 >= 0.2                                |
+| `apps/cli/packages/core/src/runtime/methods/support/status-log-table.ts`                         | 175 → 146 | 0.131 → 0.151 | 2 → 8  | longest identical run 8 >= 8                            |
+| `apps/cli/packages/core/src/runtime/methods/support/stream-event-record.ts`                      | 25 → 13   | 0.120 → 0.231 | 1 → 1  | containment 0.231 >= 0.2                                |
+| `apps/cli/packages/core/src/tool/executor/display-text.ts`                                       | 11 → 10   | 0.182 → 0.400 | 1 → 4  | containment 0.400 >= 0.2                                |
+| `apps/cli/packages/node-repl-host/src/broker-transaction.ts`                                     | 48 → 44   | 0.188 → 0.205 | 2 → 2  | containment 0.205 >= 0.2                                |
+| `packages/shared/src/node/nodeSelfResourceTelemetry.ts`                                          | 68 → 51   | 0.103 → 0.216 | 2 → 3  | containment 0.216 >= 0.2                                |
+| `packages/shared/src/protocol-v4/profiles.ts`                                                    | 26 → 16   | 0.154 → 0.250 | 1 → 1  | containment 0.250 >= 0.2                                |
+| `packages/shared/src/protocol-v4/shared-context-import.ts`                                       | 32 → 21   | 0.188 → 0.286 | 2 → 2  | containment 0.286 >= 0.2                                |
+| `packages/shared/src/protocol-v4/wire-codec.ts`                                                  | 209 → 180 | 0.019 → 0.117 | 1 → 9  | longest identical run 9 >= 8                            |
+| `packages/shared/src/protocol-v4/workflow-artifact.ts`                                           | 17 → 10   | 0.176 → 0.300 | 1 → 2  | containment 0.300 >= 0.2                                |
+| `packages/shared/src/protocol-v4/workflow-runs-lineage.ts`                                       | 13 → 7    | 0.154 → 0.286 | 1 → 1  | containment 0.286 must be 0 below 10 normalized lines   |
+
+**结论**：新口径堵住「压行 + 注释稀释」，同时保持阈值与结构算法不变；相对旧工具整体更严（77 个过→不过，3 个不过→过），且 3 个不过→过均可逐行归因于「注释行不再计分（以及对象折叠）」，不是放宽规则。按计划书要求，上述 77 个文件与结构门槛超过 0.4 的文件在合并后需重新打开返工，返工前不计为完成。
