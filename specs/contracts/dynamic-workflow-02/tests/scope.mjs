@@ -19,6 +19,38 @@ export const BUCKETS = ["", "engine", "facade", "lowering", "schema"];
 /** 属 dynamic-workflow-01 的两个目录（本包不碰）。 */
 const OUT_OF_SCOPE_DIRS = ["analysis", "compiler"];
 
+/**
+ * 合同基线里与上游逐字节一致、分类为 upstream-unchanged 的 24 个模块。
+ * 替换后 current-files.json 按新字节重算 upstream.relation，37 个目标全部会变成
+ * modified；范围断言钉的是**继承时**的分类（24 + 13 + 3），所以这里冻结名单。
+ */
+const UNCHANGED_AT_CONTRACT = new Set([
+  "engine/ask-observation-types.ts",
+  "engine/concurrency.ts",
+  "engine/engine-launch.ts",
+  "engine/engine-report.ts",
+  "engine/engine-settlement.ts",
+  "engine/engine-state.ts",
+  "engine/engine-world.ts",
+  "engine/engine.ts",
+  "engine/hash.ts",
+  "engine/imported-cache-types.ts",
+  "engine/run-terminal.ts",
+  "engine/scheduler-types.ts",
+  "engine/world-read-input.ts",
+  "facade/artifact-caps.ts",
+  "facade/dts.ts",
+  "facade/registry.ts",
+  "facade/report-caps.ts",
+  "facade/world-read-caps.ts",
+  "index.ts",
+  "lowering/index.ts",
+  "lowering/lower.ts",
+  "schema/actor-submit-profiles.ts",
+  "schema/serialize.ts",
+  "schema/types.ts",
+]);
+
 function bucketOf(modulePath) {
   const slash = modulePath.indexOf("/");
   return slash === -1 ? "" : modulePath.slice(0, slash);
@@ -41,11 +73,12 @@ export function loadScope() {
     if (!BUCKETS.includes(bucketOf(modulePath))) continue;
     // 替换阶段登记后，37 个重写目标的 classification 会变成 original，4 个新拆模块
     // （upstream 缺席）也会作为新文件进册。本包的继承范围仍是原 40 个文件：
-    // 已登记的目标按 upstream.relation 归位成 upstream-*，新拆模块不进兼容面。
+    // 已登记的目标按合同基线冻结的 unchanged 名单归位，其余算 upstream-modified；
+    // 新拆模块不进兼容面。
     if (entry.classification === "original" && !entry.upstream) continue;
     const classification =
-      entry.classification === "original" && entry.upstream
-        ? `upstream-${entry.upstream.relation}`
+      entry.classification === "original"
+        ? `upstream-${UNCHANGED_AT_CONTRACT.has(modulePath) ? "unchanged" : "modified"}`
         : entry.classification;
     rows.push({
       path,

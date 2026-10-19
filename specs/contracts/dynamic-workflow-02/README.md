@@ -2,7 +2,7 @@
 
 **v3 · 2026-10-19 · 分支 `replace/dynamic-workflow-02`（合同分支基线 `origin/main@3e9505cd`）**
 
-v3（2026-10-19）：替换收尾，按计划书「每包流程」第五步删除 `stubs/`（37 个桩 + `build-stubs.mjs` + `targets.txt`），新增 `design.md`，登记合同文件与替换实现的来源。测试断言一字未改；`tests/scope.mjs` 只增加「登记后按 `upstream.relation` 归位、新拆模块不进兼容面」的读数口径，使范围断言在 `licensing/current-files.json` 重生成后仍指向原 40 个继承文件。新实现上重跑合同门：源码与 dist 各 420/420。桩替换的 allFail 证据留在 `gate-old.json` / `gate-old-v2.json`，不再可复跑，也不作为回退路径。
+v3（2026-10-19）：替换收尾，按计划书「每包流程」第五步删除 `stubs/`（37 个桩 + `build-stubs.mjs` + `targets.txt`），新增 `design.md`，登记合同文件与替换实现的来源。测试断言一字未改；`tests/scope.mjs` 只增加「登记后按合同基线冻结的 unchanged 名单归位、新拆模块不进兼容面」的读数口径，使范围断言在 `licensing/current-files.json` 重生成后仍指向原 40 个继承文件。新实现上重跑合同门：源码与 dist 各 420/420。桩替换的 allFail 证据留在 `gate-old.json` / `gate-old-v2.json`，不再可复跑，也不作为回退路径。
 
 v2（2026-10-19）：按用户裁决，把声明模式计分的纯数据常量表在 `interface.md` 中逐条列出键与值，替换原来的 `…`；测试断言未改，旧门对旧实现 `8c9a9e86` 重跑并记录在 `acceptance.md` 第九节与 `gate-old-v2.json`（v1 的 `gate-old.json` 保持原样）。
 
