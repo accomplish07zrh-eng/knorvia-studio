@@ -13,7 +13,7 @@ const MIN_ONE = "reasoningLevel.values 不能为空";
 const NON_BLANK = "reasoningLevel.values 必须是非空字符串";
 const DUPLICATE = "reasoningLevel.values 不能重复";
 
-const strictObject = (shape: z.ZodRawShape) => z.object(shape).strict();
+const strictObject = <S extends z.ZodRawShape>(shape: S) => z.object(shape).strict();
 const bool = () => z.boolean();
 const positiveInt = () => z.number().int().positive();
 
@@ -21,12 +21,18 @@ const positiveInt = () => z.number().int().positive();
 const loose = <T extends z.ZodTypeAny>(schema: T) => schema.nullable().optional();
 
 /** 由完整形状派生补丁形状：先整体放宽，再让调用方替换需要特殊处理的嵌套字段。 */
-const forkComplete = (complete: z.ZodObject<z.ZodRawShape>, overrides: z.ZodRawShape = {}) => {
-  const relax = (schema: z.ZodType) => schema.nullable().optional();
+type Relaxed<S extends z.ZodRawShape> = {
+  [K in keyof S]: z.ZodOptional<z.ZodNullable<S[K]>>;
+};
+
+const forkComplete = <S extends z.ZodRawShape, O extends z.ZodRawShape = {}>(
+  complete: z.ZodObject<S>,
+  overrides?: O,
+) => {
   const relaxed = Object.fromEntries(
-    Object.entries(complete.shape).map(([field, schema]) => [field, relax(schema as z.ZodType)]),
-  );
-  return strictObject({ ...relaxed, ...overrides });
+    Object.entries(complete.shape).map(([field, schema]) => [field, loose(schema as z.ZodTypeAny)]),
+  ) as unknown as Relaxed<S>;
+  return strictObject({ ...relaxed, ...(overrides ?? ({} as O)) } as Omit<Relaxed<S>, keyof O> & O);
 };
 
 /** 编译失败的原因；null 表示通过。用返回值而不是异常表达正常校验结果。 */
@@ -81,10 +87,12 @@ const INPUT_MODALITIES = [
   "supportsVideo",
   "supportsAudio",
   "supportsPdf",
-];
+] as const;
+
+type ModalityShape = Record<(typeof INPUT_MODALITIES)[number], z.ZodBoolean>;
 
 const modalityShape = () =>
-  Object.fromEntries(INPUT_MODALITIES.map((modality) => [modality, bool()]));
+  Object.fromEntries(INPUT_MODALITIES.map((modality) => [modality, bool()])) as ModalityShape;
 
 export const completeModelInputFormatDataSchema = strictObject(modalityShape());
 
@@ -94,7 +102,7 @@ export const modelInputFormatDataSchema = forkComplete(completeModelInputFormatD
 
 export const modelOutputFormatDataSchema = forkComplete(completeModelOutputFormatDataSchema);
 
-const propertyShape = (inputFormat: z.ZodType, outputFormat: z.ZodType) => ({
+const propertyShape = <I extends z.ZodTypeAny, O extends z.ZodTypeAny>(inputFormat: I, outputFormat: O) => ({
   requiresMfjsToolSchema: bool(),
   contextWindow: positiveInt(),
   inputFormat,
@@ -114,7 +122,10 @@ export const modelPropertiesDataSchema = forkComplete(completeModelPropertiesDat
   outputFormat: loose(modelOutputFormatDataSchema),
 });
 
-const optionSpecsShape = (reasoningLevel: z.ZodType, maxOutputTokens: z.ZodType) => ({
+const optionSpecsShape = <R extends z.ZodTypeAny, M extends z.ZodTypeAny>(
+  reasoningLevel: R,
+  maxOutputTokens: M,
+) => ({
   reasoningLevel,
   maxOutputTokens,
 });
@@ -128,7 +139,7 @@ export const modelOptionSpecsDataSchema = forkComplete(completeModelOptionSpecsD
   maxOutputTokens: loose(limitOptionSpecDataSchema),
 });
 
-const modelConfigShape = (properties: z.ZodType, optionSpecs: z.ZodType) => ({
+const modelConfigShape = <P extends z.ZodTypeAny, S extends z.ZodTypeAny>(properties: P, optionSpecs: S) => ({
   enabled: bool(),
   properties,
   optionSpecs,
