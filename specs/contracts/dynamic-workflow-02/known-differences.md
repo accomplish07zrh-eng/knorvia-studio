@@ -1,6 +1,6 @@
 # dynamic-workflow-02 既存差异（known-differences.md）
 
-v1。本文件记录**不在本包范围的相邻事实**与**旧行为里看起来奇怪但必须原样保留**的特征。重写时不得「顺手修掉」K1–K8；K9–K13 是合同口径与登记条目（K9 是 facade 锁定口径，K10–K13 是替换阶段需要知道的既存事实），不要求实现侧去「修正」旧行为。
+v2。本文件记录**不在本包范围的相邻事实**与**旧行为里看起来奇怪但必须原样保留**的特征。重写时不得「顺手修掉」K1–K8；K9–K14 是合同口径与登记条目（K9 是 facade 锁定口径，K10–K13 是替换阶段需要知道的既存事实，K14 是 v2 的常量表列名口径），不要求实现侧去「修正」旧行为。
 
 ## 1. 不在本包范围的相邻文件
 
@@ -124,10 +124,10 @@ facade 注释写着「Two rules the compiler enforces. The name must be a compil
 
 ### K12 三个 `unreviewed` 文件不进重写目标
 
-`engine/ask-journal-projection.ts`、`engine/scheduler-helpers.ts`、`engine/workflow-error.ts` 在 `licensing/current-files.json` 里分类为 `unreviewed`（M0-2/M0-3 复核范围）：本包**不重写、不删**，重写目标 = 40 − 3 = **37**，`stubs/targets.txt` 与桩替换验证都按 37 走。
+`engine/ask-journal-projection.ts`、`engine/scheduler-helpers.ts`、`engine/workflow-error.ts` 在 `licensing/current-files.json` 里分类为 `unreviewed`（M0-2/M0-3 复核范围）：本包**不重写、不删**，重写目标 = 40 − 3 = **37**（v1/v2 的 `stubs/targets.txt` 与桩替换验证都按 37 走；v3 已删桩，证据留在 `gate-old-v2.json`）。
 
 - 注意这三件里包含 `engine/workflow-error.ts`（`WorkflowError` 的定义文件，被 12 个文件引用）——不重写不等于不重要：它的行为由 B1/B4/B10/B18/B19 等条目**从公开面**钉住，重写实现必须继续以同样的构造与 `toJSON()` 形状使用它。
-- 分类与计数唯一真源是 `tests/scope.mjs`（读 `licensing/current-files.json`），`surface.test.mjs` 与 `README.md` 的完成度表都从它取数；复核完成、分类改成 `upstream-*` 时，本包重写目标会自动变 38，届时要同步 `stubs/targets.txt` 与桩替换计数（`surface.test.mjs` 会先红，不会静默漏）。
+- 分类与计数唯一真源是 `tests/scope.mjs`（读 `licensing/current-files.json`），`surface.test.mjs` 与 `README.md` 的完成度表都从它取数。v3 登记后，37 个重写目标的 `classification` 变成 `original`、4 个新拆模块（无 upstream）进册，`scope.mjs` 因此把已登记目标按合同基线冻结的 `upstream-unchanged` 名单归位、其余算 `upstream-modified`，并跳过新拆模块——范围断言仍指向原 40 个继承文件、分类计数仍是 24 / 13 / 3，断言本身一字未改。若未来审计把某个 `unreviewed` 复核成继承分类或新增继承文件，先改合同口径与 `interface.md`，`surface.test.mjs` 会先红，不会静默漏。
 
 ### K13 合同自身的一处更正：engine-run 的驱动语义（夹具头部注释，已就地改对）
 
@@ -135,6 +135,25 @@ facade 注释写着「Two rules the compiler enforces. The name must be a compil
 
 - 这不是实现侧差异，而是**合同侧文档的一次就地更正**；登记在此是为了让按早期草稿评审的人知道判据变了哪一句。
 - 同批更正：`args` 不在 Boundary A / 引擎上。`WorkflowEngine` 没有 `args` 成员——它由沙箱子级垫片注入（`dynamic-workflow-runtime/src/child-source.ts`），`EngineConfig.args` 只落 `RunRecord.args`。装配夹具因此显式构造 `{ 8 个 Boundary A 成员 + args }` 的垫片，并断言 `WorkflowEngine` 确实**没有** `args`（少一层假设就少一处可能的错判）。
+
+### K14 interface.md 逐条列出声明模式常量表的键与值（v2，用户裁决）
+
+（用户裁决，2026-10-19。本条目是合同口径，不改行为、不改测试断言。）
+
+**规则**：键名与数值由合同写死的纯数据常量表，`interface.md` 必须逐条列出每个条目的键与值，不得把初始值截成 `…`。替换阶段按声明模式计分的文件恰为三处、五张声明：
+
+| 文件                        | 声明                  | 条目                                                   |
+| --------------------------- | --------------------- | ------------------------------------------------------ |
+| `facade/artifact-caps.ts`   | `ARTIFACT_CAPS`       | 8 个键，数值见 B22                                     |
+| `facade/artifact-caps.ts`   | `ARTIFACT_ID_PATTERN` | 源串 `^[A-Za-z0-9_.-]+$`，无标志（B22；v1 已完整列出） |
+| `facade/world-read-caps.ts` | `WORLD_READ_CAPS`     | 9 个键，数值见 B22                                     |
+| `facade/registry.ts`        | `WORLD_READ_REGISTRY` | 8 行 × `container`/`member`/`op`（B29）                |
+| `facade/registry.ts`        | `ARTIFACT_REGISTRY`   | 6 行 × `container`/`member`/`op`/`family`（B29）       |
+
+- 来源是**合同断言**而不是旧实现：`pure.test.mjs`「`WORLD_READ_CAPS` 恰好这九个键与这些数字」「`REPORT_CAPS` 与 `ARTIFACT_CAPS` 的键集合」「产物 id 字符集：非空的 `[A-Za-z0-9_.-]`，且不带 g 标志」与 `facade.test.mjs`「world 表：八行，op 命名不与成员名强绑」「artifact 表：六行，op 与成员同名，族别住在同一行里」。测试断言零改动。
+- `REPORT_CAPS` 经核查不走声明模式（普通模式 containment 0.000），因此不在本次补充范围，其 `interface.md` 条目仍是 `…`。
+- 生成方式：`tests/gen-interface.mjs` 增加合同表映射，在契约基线树（`8c9a9e86`）上重新生成 `interface.md`，除本表与说明句外仅 oxfmt 统一了代码块的行尾分号；随后 `npx oxfmt`。替换实现内部如何拆文件（例如两张表迁到 `registry-tables.ts`）不受本条约束——`interface.md` 只钉合同面。
+- 旧门重跑结果见 `acceptance.md` 第九节与 `gate-old-v2.json`；v1 的 `gate-old.json` 保持原样。
 
 ## 4. 替换阶段需要知道的既有作业（本阶段不做）
 

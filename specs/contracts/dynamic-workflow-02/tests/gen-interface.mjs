@@ -16,20 +16,85 @@ const BUCKET_TITLE = {
   schema: "schema 合成与校验",
 };
 
+// 合同冻结的纯数据常量表：条目与数值取自 B22/B29 的断言（pure.test.mjs 与 facade.test.mjs），
+// 不取旧实现。这些文件按声明模式计分，interface.md 必须逐条列出键与值，而不是把初始值截成 …。
+const CONTRACT_TABLES = new Map([
+  [
+    "facade/artifact-caps.ts:ARTIFACT_CAPS",
+    `export const ARTIFACT_CAPS = {
+  maxArtifactsPerRun: 32,
+  maxDescriptionLength: 500,
+  maxFileBytes: 20971520,
+  maxIdLength: 64,
+  maxMarkdownBytes: 262144,
+  maxSpecSerializedBytes: 8192,
+  maxTitleLength: 120,
+  maxVersionsPerArtifact: 16,
+} as const`,
+  ],
+  [
+    "facade/world-read-caps.ts:WORLD_READ_CAPS",
+    `export const WORLD_READ_CAPS = {
+  gitDiffMaxBytes: 524288,
+  gitLogDefaultCount: 20,
+  gitLogMaxCount: 100,
+  globMaxFiles: 2000,
+  grepMaxMatches: 2000,
+  grepMaxSerializedBytes: 262144,
+  runDefaultTimeoutMs: 300000,
+  runStderrMaxBytes: 262144,
+  runStdoutMaxBytes: 262144,
+} as const`,
+  ],
+  [
+    "facade/registry.ts:WORLD_READ_REGISTRY",
+    `export const WORLD_READ_REGISTRY = [
+  { container: "files", member: "glob", op: "glob" },
+  { container: "files", member: "read", op: "read" },
+  { container: "files", member: "grep", op: "grep" },
+  { container: "git", member: "changedFiles", op: "git-changed-files" },
+  { container: "git", member: "diff", op: "git-diff" },
+  { container: "git", member: "status", op: "git-status" },
+  { container: "git", member: "log", op: "git-log" },
+  { container: "world", member: "run", op: "run" },
+] as const`,
+  ],
+  [
+    "facade/registry.ts:ARTIFACT_REGISTRY",
+    `export const ARTIFACT_REGISTRY = [
+  { container: "artifact", member: "file", op: "file", family: "content" },
+  { container: "artifact", member: "markdown", op: "markdown", family: "content" },
+  { container: "artifact", member: "chart", op: "chart", family: "preset" },
+  { container: "artifact", member: "table", op: "table", family: "preset" },
+  { container: "artifact", member: "metrics", op: "metrics", family: "preset" },
+  { container: "artifact", member: "board", op: "board", family: "preset" },
+] as const`,
+  ],
+]);
+
 const sections = [];
 let totalExports = 0;
 for (const row of scope) {
   const rows = extractExports(repoRoot, row.modulePath);
   totalExports += rows.length;
   const runtimeCount = rows.filter((entry) => entry.runtime).length;
+  const overridden = rows.filter((entry) =>
+    CONTRACT_TABLES.has(`${row.modulePath}:${entry.name}`),
+  ).length;
+  const provenance =
+    overridden === 0
+      ? "签名逐字取自源码。"
+      : "合同冻结的数据表按键值逐条列出（取自 B22/B29 断言），其余签名逐字取自源码。";
   const lines = [
     `### \`apps/cli/packages/dynamic-workflow/src/${row.modulePath}\``,
     "",
     `导出 ${rows.length} 项（运行时 ${runtimeCount} / 纯类型 ${rows.length - runtimeCount}），` +
-      `分类 \`${row.classification}\`。签名逐字取自源码。`,
+      `分类 \`${row.classification}\`。${provenance}`,
     "",
     "```ts",
-    ...rows.map((entry) => entry.signature),
+    ...rows.map(
+      (entry) => CONTRACT_TABLES.get(`${row.modulePath}:${entry.name}`) ?? entry.signature,
+    ),
     "```",
     "",
   ];

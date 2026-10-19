@@ -1,7 +1,12 @@
+// SPDX-License-Identifier: Apache-2.0
+
+// Knorvia 动态工作流运行时：根公开入口桶
+// 导出工作流引擎、编译器、静态分析器、架构图投影、Schema 校验与 Facade 资产。
+
+// Facade 资产与原语上限常量
 export { FACADE_DTS, FACADE_FILE_NAME, SNIPPET_FACADE_DTS } from "./facade/dts.js";
 export { WORLD_READ_CAPS } from "./facade/world-read-caps.js";
 export { REPORT_CAPS } from "./facade/report-caps.js";
-// 用户面产物：上限常量、注册表词汇、编译期清单与诊断。
 export { ARTIFACT_CAPS, ARTIFACT_ID_PATTERN } from "./facade/artifact-caps.js";
 export {
   ARTIFACT_REGISTRY,
@@ -12,6 +17,8 @@ export {
   type ArtifactPresetOp,
   type ArtifactRow,
 } from "./facade/registry.js";
+
+// 静态分析与产物声明收集
 export {
   ARTIFACT_DECLARATION_CODE,
   ARTIFACT_HOISTING_CODE,
@@ -20,6 +27,8 @@ export {
   type ArtifactDeclarations,
   type DeclaredArtifact,
 } from "./analysis/artifacts.js";
+
+// 编译器与语法分析原语
 export {
   collectDiagnostics,
   compileWorkflowScript,
@@ -39,6 +48,8 @@ export {
   type WorldRunCommands,
 } from "./analysis/world-run.js";
 export { collectPhaseMarkerDiagnostics, PHASE_MARKER_CODE } from "./analysis/phases.js";
+
+// 智能体拓扑与因果图投影
 export {
   toActorGraph,
   type ActorEdge,
@@ -61,9 +72,6 @@ export {
   type Step,
   type StepKind,
 } from "./analysis/causality-graph.js";
-// 贪心不可约传递归约。display
-// 裁剪层复用它对单一种类的边做无类型归约
-// ——全部前向边同 kind、回边作 carry，它就退化成普通的不可约归约，且在有环输入上可靠。
 export { reduceOrdering, type ReducibleEdge } from "./analysis/causality-reduce.js";
 export {
   UNPHASED_ID,
@@ -71,7 +79,8 @@ export {
   type StructuralRegionKind,
   type TraceRegionKind,
 } from "./analysis/causality-order.js";
-// 控制流投影：occurrence 级 CFG 与阶段商。
+
+// 控制流图与流程可视化导出
 export {
   FLOW_ABORT,
   FLOW_ENTRY,
@@ -94,13 +103,11 @@ export {
   phaseGraphToMermaid,
   siteGraphToMermaid,
 } from "./analysis/mermaid.js";
-// 因果图的规范文本形式（快照面）。
 export {
   serializeCausalityGraph,
   serializeControlFlow,
   serializeHandoffGraph,
 } from "./analysis/serialize.js";
-// 交接图投影：板面第二层的参与者卡与交接边。
 export {
   FANOUT_EXPAND_CAP,
   projectHandoffGraph,
@@ -109,8 +116,8 @@ export {
   type HandoffGraph,
   type HandoffParticipant,
 } from "./analysis/handoff-graph.js";
-// 统一分析的核心产物与其规范文本形式：
-// 站点图 / 因果图 / actor 图都是它上面的纯投影。
+
+// 分析核心状态 Core 与数据结构
 export {
   serializeCore,
   type AnalysisCore,
@@ -122,8 +129,6 @@ export {
   type CoreSites,
   type CoreTypes,
 } from "./analysis/core.js";
-// core 的 JSON 编解码：样例包把 `AnalysisCore` 冻结成
-// `core.json`，下游浏览器端在冻结产物上现场重算投影；Map 以有序 `[key, value][]` 落盘。
 export {
   decodeAnalysisCore,
   encodeAnalysisCore,
@@ -137,6 +142,8 @@ export type {
   SiteLoc,
   SiteNode,
 } from "./analysis/types.js";
+
+// 模式合成与数据校验
 export {
   buildAskSpecs,
   synthesizeAskSchemas,
@@ -144,7 +151,6 @@ export {
   type SchemaSynthesisResult,
 } from "./schema/synthesize.js";
 export { validate, formatViolation, formatViolations } from "./schema/validate.js";
-// 每个 actor 站点的 submit profile：编译期决定子代理拿 typed / generic / 无 submit_result 工具。
 export {
   GENERIC_SUBMIT_PROFILE,
   deriveActorSubmitProfiles,
@@ -160,6 +166,8 @@ export {
   type JsonValue,
   type Violation,
 } from "./schema/types.js";
+
+// 降级 Lowering 模块
 export {
   HOST_BINDING,
   lowerWorkflow,
@@ -167,6 +175,8 @@ export {
   type LoweredWorkflow,
   type LowerResult,
 } from "./lowering/index.js";
+
+// 工作流调度引擎与日记记录核心
 export {
   WorkflowEngine,
   InMemoryJournalStore,
@@ -231,6 +241,8 @@ export {
   type ConcurrencyChange,
   type ConcurrencyChangeReason,
 } from "./engine/index.js";
+
+// 并发自适应控制调度器
 export {
   ConcurrencyController,
   CONCURRENCY_DECREASE_FACTOR,
