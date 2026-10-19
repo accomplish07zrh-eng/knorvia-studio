@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "description": "kernel-dsh-00 隔离夹具的键名清单；不含任何真实值或凭据。",
+  "providerKeyNames": [
+    "DEEPSEEK_API_KEY",
+    "OPENAI_API_KEY",
+    "ANTHROPIC_API_KEY",
+    "ANTHROPIC_AUTH_TOKEN",
+    "GOOGLE_API_KEY",
+    "GEMINI_API_KEY",
+    "MISTRAL_API_KEY",
+    "XAI_API_KEY",
+    "GROQ_API_KEY",
+    "OPENROUTER_API_KEY",
+    "AZURE_OPENAI_API_KEY",
+    "DASHSCOPE_API_KEY",
+    "MOONSHOT_API_KEY",
+    "ZHIPUAI_API_KEY",
+    "ZAI_API_KEY",
+    "BIGMODEL_API_KEY",
+    "SILICONFLOW_API_KEY",
+    "TOGETHER_API_KEY",
+    "FIREWORKS_API_KEY",
+    "COHERE_API_KEY",
+    "PERPLEXITY_API_KEY"
+  ],
+  "prefixesToClear": ["DSH_"],
+  "suffixesToClear": ["_API_KEY"],
+  "preservedPrefixes": ["KNORVIA_"],
+  "dotenvSentinelKey": "DSH_KERNEL_DOTENV_SENTINEL",
+  "patchSentinelRowId": "kernel-dsh-test-patch",
+  "skillSentinelName": "kernel-dsh-test-skill"
+}
