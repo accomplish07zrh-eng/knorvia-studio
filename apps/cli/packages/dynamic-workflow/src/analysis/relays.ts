@@ -1,12 +1,72 @@
+// SPDX-License-Identifier: Apache-2.0
 import ts from "typescript";
 import { addOcc, collapse, liveField, mergeInto, singleOcc, type AbstractValue } from "./domain.js";
 import type { EvalContext, Evaluator } from "./taint.js";
 
-/**
- * Facade sink and relay transfers: `Agent.ask`, `files.glob`/`read` (world reads), and
- * `Promise.all` join relays. Split out of calls.ts (pure move, no behavior change) to keep
- * that file under the line cap; `evalCall` dispatches here via the site lookups.
- */
+// Port used when a join input is not a closed array literal. Negative so it never
+// collides with a real element index, and so emission drops the port on the edge.
+const OPAQUE_JOIN_PORT = -1;
+
+function note(ev: Evaluator, grew: boolean): void {
+  if (grew) ev.s.changed = true;
+}
+
+interface SinkTarget {
+  bucket: Map<string, AbstractValue>;
+  id: string;
+  expr: ts.Expression;
+}
+
+// One facade call: mark the region, sink the operands, and publish one exact occurrence.
+class FacadePass {
+  constructor(
+    private readonly ev: Evaluator,
+    private readonly ctx: EvalContext,
+  ) {}
+
+  enter(): void {
+    const stack = this.ctx.regionStack;
+    this.ev.s.markFacade(stack);
+  }
+
+  ask(node: ts.CallExpression, askId: string): AbstractValue {
+    this.enter();
+    const recorded = this.ev.s.askSites.get(askId);
+    if (recorded !== undefined) {
+      this.sink({ bucket: this.ev.s.askRecv, expr: recorded.receiver, id: askId });
+      if (recorded.instructions !== undefined) {
+        this.sink({ bucket: this.ev.s.askInstr, expr: recorded.instructions, id: askId });
+      }
+    }
+    this.visitTail(node.arguments);
+    return this.occurrence(askId);
+  }
+
+  world(id: string, args: readonly ts.Expression[]): AbstractValue {
+    this.enter();
+    // Every position is a dependency. World ops disagree on arity, and an artifact
+    // in a trailing optional slot is still data the read depends on.
+    args.forEach((expr) => this.sink({ bucket: this.ev.s.worldRead, expr, id }));
+    return this.occurrence(id);
+  }
+
+  private occurrence(site: string): AbstractValue {
+    return singleOcc(site, true);
+  }
+
+  private sink(target: SinkTarget): void {
+    const value = collapse(this.ev.evalExpr(target.expr, this.ctx));
+    this.ev.s.mergeSink(target.bucket, target.id, value);
+  }
+
+  // Ask's receiver is sunk through the site record. Later arguments are visited only
+  // so writes and nested facades still run.
+  private visitTail(args: readonly ts.Expression[]): void {
+    args.slice(1).forEach((extra) => {
+      this.ev.evalExpr(extra, this.ctx);
+    });
+  }
+}
 
 export function handleAsk(
   ev: Evaluator,
@@ -14,19 +74,7 @@ export function handleAsk(
   askId: string,
   ctx: EvalContext,
 ): AbstractValue {
-  ev.s.markFacade(ctx.regionStack);
-  const site = ev.s.askSites.get(askId);
-  if (site !== undefined) {
-    ev.s.mergeSink(ev.s.askRecv, askId, collapse(ev.evalExpr(site.receiver, ctx)));
-    if (site.instructions !== undefined) {
-      ev.s.mergeSink(ev.s.askInstr, askId, collapse(ev.evalExpr(site.instructions, ctx)));
-    }
-  }
-  // Evaluate any extra arguments for their side effects (heap writes etc.).
-  node.arguments.forEach((arg, index) => {
-    if (index !== 0) ev.evalExpr(arg, ctx);
-  });
-  return singleOcc(askId, true);
+  return new FacadePass(ev, ctx).ask(node, askId);
 }
 
 export function handleWorldRead(
@@ -35,11 +83,69 @@ export function handleWorldRead(
   args: readonly ts.Expression[],
   ctx: EvalContext,
 ): AbstractValue {
-  ev.s.markFacade(ctx.regionStack);
-  // Every positional argument is a sink: ops differ in arity (`files.grep(pattern, glob?)`,
-  // `git.diff(base?, path?)`), and an artifact reaching any of them is a data dependency.
-  for (const arg of args) ev.s.mergeSink(ev.s.worldRead, id, collapse(ev.evalExpr(arg, ctx)));
-  return singleOcc(id, true);
+  return new FacadePass(ev, ctx).world(id, args);
+}
+
+function closedArray(arg: ts.Expression | undefined): arg is ts.ArrayLiteralExpression {
+  if (arg === undefined || !ts.isArrayLiteralExpression(arg)) return false;
+  return arg.elements.some((element) => ts.isSpreadElement(element)) === false;
+}
+
+// A place element may-aliases its tuple slot: Promise.all resolves a non-promise
+// input to that value itself, so a later write through the slot reaches it. The
+// port occurrence stays on the field, so the relay edge is not replaced by the alias.
+function rememberAlias(ev: Evaluator, field: AbstractValue, place: AbstractValue): void {
+  const targets = field.mayAlias ?? new Set<AbstractValue>();
+  if (field.mayAlias === undefined) field.mayAlias = targets;
+  if (targets.has(place)) return;
+  targets.add(place);
+  note(ev, true);
+}
+
+class JoinRelay {
+  constructor(
+    private readonly ev: Evaluator,
+    private readonly id: string,
+    private readonly result: AbstractValue,
+    private readonly ctx: EvalContext,
+  ) {}
+
+  static open(ev: Evaluator, node: ts.CallExpression, id: string, ctx: EvalContext): JoinRelay {
+    // joinResultOf is the pass-stable heap node. A fresh value each pass would be a
+    // new mayAlias identity and the fixpoint would never settle. Merges below are
+    // weak and must raise `changed`, or a consumer visited earlier in the pass
+    // would miss the growth.
+    return new JoinRelay(ev, id, ev.s.joinResultOf(node), ctx);
+  }
+
+  transfer(arg: ts.Expression | undefined): AbstractValue {
+    if (closedArray(arg)) this.tuple(arg);
+    else if (arg !== undefined) this.opaque(arg);
+    note(this.ev, addOcc(this.result, { exact: true, site: this.id }));
+    return this.result;
+  }
+
+  private tuple(literal: ts.ArrayLiteralExpression): void {
+    literal.elements.forEach((element, port) => {
+      this.port(port, element);
+    });
+  }
+
+  private port(port: number, element: ts.Expression): void {
+    const elemValue = this.ev.evalExpr(element, this.ctx);
+    this.ev.s.mergeJoinIn(this.id, port, collapse(elemValue));
+    const field = liveField(this.result, String(port));
+    note(this.ev, mergeInto(field, elemValue));
+    note(this.ev, addOcc(field, { exact: true, port, site: this.id }));
+    const place = this.ev.resolvePlace(element);
+    if (place !== undefined) rememberAlias(this.ev, field, place);
+  }
+
+  private opaque(arg: ts.Expression): void {
+    const folded = collapse(this.ev.evalExpr(arg, this.ctx));
+    this.ev.s.mergeJoinIn(this.id, OPAQUE_JOIN_PORT, folded);
+    note(this.ev, mergeInto(this.result, folded));
+  }
 }
 
 export function handleJoin(
@@ -49,48 +155,6 @@ export function handleJoin(
   arg: ts.Expression | undefined,
   ctx: EvalContext,
 ): AbstractValue {
-  ev.s.markFacade(ctx.regionStack);
-  // The join result is the PERSISTENT node of this call site (state.ts joinResultOf), NOT a
-  // fresh value per pass: it is a place other values may-alias, and the canonical-heap
-  // invariant requires every alias target to have pass-stable identity. Each merge below is
-  // therefore weak and reports its growth into `ev.s.changed` — a pass in which only this
-  // node grew must not terminate the fixpoint, or a consumer evaluated earlier in the pass
-  // (a function body, a later re-read) would never observe the growth.
-  const result = ev.s.joinResultOf(node);
-  if (
-    arg !== undefined &&
-    ts.isArrayLiteralExpression(arg) &&
-    !arg.elements.some(ts.isSpreadElement)
-  ) {
-    // Static array literal: element positions become ports.
-    arg.elements.forEach((el, port) => {
-      const elemValue = ev.evalExpr(el, ctx);
-      ev.s.mergeJoinIn(id, port, collapse(elemValue));
-      const field = liveField(result, String(port));
-      if (mergeInto(field, elemValue)) ev.s.changed = true;
-      if (addOcc(field, { exact: true, port, site: id })) ev.s.changed = true;
-      // A place element aliases its slot in the resolved tuple: `Promise.all([secret, box])`
-      // resolves the non-promise `box` to box ITSELF, so a write through `res[k]` / a
-      // destructured element reaches the original (weak, inexact via mayAlias). The field
-      // KEEPS the join port occ (added above), so no relay edge is lost.
-      const elemPlace = ev.resolvePlace(el);
-      if (elemPlace !== undefined) {
-        const targets = (field.mayAlias ??= new Set());
-        if (!targets.has(elemPlace)) {
-          targets.add(elemPlace);
-          ev.s.changed = true;
-        }
-      }
-    });
-    if (addOcc(result, { exact: true, site: id })) ev.s.changed = true;
-    return result;
-  }
-  // Non-literal iterable: portless in-taint; the result is an additive relay.
-  if (arg !== undefined) {
-    const argCollapsed = collapse(ev.evalExpr(arg, ctx));
-    ev.s.mergeJoinIn(id, -1, argCollapsed);
-    if (mergeInto(result, argCollapsed)) ev.s.changed = true;
-  }
-  if (addOcc(result, { exact: true, site: id })) ev.s.changed = true;
-  return result;
+  new FacadePass(ev, ctx).enter();
+  return JoinRelay.open(ev, node, id, ctx).transfer(arg);
 }

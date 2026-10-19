@@ -1,0 +1,41 @@
+declare const args: Readonly<Record<string, unknown>>;
+declare function log(message: string): void;
+declare interface GrepMatch {
+    path: string;
+    line: number;
+    text: string;
+}
+declare const files: {
+    glob(pattern: string): Promise<string[]>;
+    read(path: string): Promise<string>;
+    grep(pattern: string, glob?: string): Promise<GrepMatch[]>;
+};
+declare interface GitStatus {
+    branch?: string;
+    clean: boolean;
+    staged: string[];
+    unstaged: string[];
+    untracked: string[];
+}
+declare interface GitCommit {
+    hash: string;
+    subject: string;
+    author: string;
+    date: string;
+}
+declare const git: {
+    changedFiles(base?: string): Promise<string[]>;
+    diff(base?: string, path?: string): Promise<string>;
+    status(): Promise<GitStatus>;
+    log(count?: number): Promise<GitCommit[]>;
+};
+declare interface WorldRunResult {
+    exitCode: number;
+    stdout: string;
+    stderr: string;
+}
+declare const world: {
+    run(cmd: string, args?: string[], opts?: {
+        timeoutMs?: number;
+    }): Promise<WorldRunResult>;
+};

@@ -1,315 +1,427 @@
+// SPDX-License-Identifier: Apache-2.0
+
 import type { ScriptLoc } from "../compiler/compile.js";
+import type {
+  ActorEvent,
+  ControlFact,
+  IssueEvent,
+  JumpEvent,
+  MarkEvent,
+  OrderEvent,
+  OrderRegion,
+  OrderTrace,
+  PhaseInfo,
+  SettleEvent,
+} from "./causality-order.js";
 import type { TaintOcc } from "./domain.js";
-import type { OrderTrace } from "./causality-order.js";
 import type { NamePattern } from "./types.js";
 
-/**
- * The analysis core: the single, self-contained artifact one interpretation of a
- * workflow script produces. It carries the
- * data-dependency half (the taint facts) AND the temporal half (the ordering trace) in
- * one value, and every graph the analyzer serves — site graph, causality graph, actor
- * graph — is a pure projection of it.
- *
- * The design principle is **no position dependence**: anything that needs raw source
- * offsets or the TypeScript checker is resolved when the core is minted
- * (interpret.ts), never by a projection. That is what "projections never look at the
- * code again" means mechanically, and it is checkable: a projection module must not
- * import `typescript`.
- *
- *  - `within` containment (site lexically inside a promoted fan-out body) is resolved
- *    onto each site entry here — the projection reads a string, not a span;
- *  - fan-out ids are FINAL (`fan-out#N`); the taint pass's provisional `fan-out@order`
- *    vocabulary dies at minting, including inside every occurrence and type key;
- *  - artifact types are materialized strings (the checker's answers), keyed by final id.
- *
- * `ScriptLoc` (line:column) fields remain — they are rendering data, not AST access.
- */
+// Text form of an analysis core. Fact sinks are ordered by UTF-16 code unit
+// (ASCII order for site ids). Trace events stay in the order they were recorded.
 
-/** An `ask` site, AST-free. `within` is the enclosing promoted fan-out, when any. */
-export interface CoreAskSite {
-  id: string;
-  order: number;
-  label: string;
-  labelPattern?: NamePattern;
-  loc: ScriptLoc;
-  within?: string;
+type SiteId = string;
+type OrderNo = number;
+type LabelText = string;
+type PatternSlot = NamePattern;
+type Cardinality = number;
+type OccList = TaintOcc[];
+type OccMap = Map<SiteId, OccList>;
+type TypeMap = Map<SiteId, string>;
+type PortTypes = (string | undefined)[];
+type PortMap = Map<SiteId, PortTypes>;
+type AskSites = CoreAskSite[];
+type SimpleSites = CoreSimpleSite[];
+type ActorSites = CoreActorSite[];
+type FanoutSites = CoreFanoutSite[];
+type CoreSiteTable = CoreSites;
+type CoreFactTable = CoreFacts;
+type CoreTrace = OrderTrace;
+type CoreTypeTable = CoreTypes;
+
+interface OrderedId {
+  id: SiteId;
+  order: OrderNo;
 }
 
-/** A world-read or join site, AST-free. */
-export interface CoreSimpleSite {
-  id: string;
-  order: number;
-  label: string;
+interface Placed {
   loc: ScriptLoc;
-  within?: string;
+  within?: SiteId;
 }
 
-/** An `agent()` site, AST-free. */
-export interface CoreActorSite {
-  id: string;
-  order: number;
-  loc: ScriptLoc;
-  name?: string;
-  namePattern?: NamePattern;
-  within?: string;
+/** An `ask` site with no AST pointer. `within` is the enclosing promoted fan-out. */
+export interface CoreAskSite extends OrderedId, Placed {
+  label: LabelText;
+  labelPattern?: PatternSlot;
+}
+
+/** A world-read or join site with no AST pointer. */
+export interface CoreSimpleSite extends OrderedId, Placed {
+  label: LabelText;
+}
+
+/** An `agent()` site with no AST pointer. */
+export interface CoreActorSite extends OrderedId, Placed {
+  name?: LabelText;
+  namePattern?: PatternSlot;
 }
 
 /**
- * A PROMOTED fan-out, under its final `fan-out#N` id (source order). Non-promoted
- * iteration candidates are not part of the core — they are graph nodes in nothing.
+ * A promoted fan-out under its final id. `cardinality` is set only when the
+ * iterated collection is a static literal (or an unread const binding of one).
  */
-export interface CoreFanoutSite {
-  id: string;
-  order: number;
-  label: string;
-  loc: ScriptLoc;
-  within?: string;
-  /**
-   * 字面量基数：被迭代的是无展开的数组字面量
-   * 或从未被写入的 `const` 字面量绑定时的元素个数；其余缺席。铸造期算好，投影只读。
-   */
-  cardinality?: number;
+export interface CoreFanoutSite extends OrderedId, Placed {
+  label: LabelText;
+  cardinality?: Cardinality;
 }
 
 export interface CoreSites {
-  asks: CoreAskSite[];
-  worldReads: CoreSimpleSite[];
-  joins: CoreSimpleSite[];
-  actors: CoreActorSite[];
-  fanouts: CoreFanoutSite[];
+  asks: AskSites;
+  worldReads: SimpleSites;
+  joins: SimpleSites;
+  actors: ActorSites;
+  fanouts: FanoutSites;
 }
 
-/**
- * The edge-bearing taint facts, exactly {@link TaintFacts} minus `promoted` (folded
- * into {@link CoreSites.fanouts}) — with every occurrence site and every `fanoutIn`
- * key already renamed to final ids.
- */
+/** Taint edges with every site id already renamed to its final form. */
 export interface CoreFacts {
-  askData: Map<string, TaintOcc[]>;
-  askActor: Map<string, TaintOcc[]>;
-  worldReadData: Map<string, TaintOcc[]>;
-  joinIn: Map<string, TaintOcc[]>;
-  fanoutIn: Map<string, TaintOcc[]>;
-  returnData: TaintOcc[];
+  askData: OccMap;
+  askActor: OccMap;
+  worldReadData: OccMap;
+  joinIn: OccMap;
+  fanoutIn: OccMap;
+  returnData: OccList;
 }
 
-/** The checker's answers, materialized. Keys are final site ids. */
+/** Checker answers materialized as strings, keyed by final site id. */
 export interface CoreTypes {
-  /** Whole-value artifact type per producer site. */
-  siteType: Map<string, string>;
-  /** Per-element awaited types of a join over a static array literal. */
-  joinPortTypes: Map<string, (string | undefined)[]>;
+  siteType: TypeMap;
+  joinPortTypes: PortMap;
 }
 
 export interface AnalysisCore {
-  sites: CoreSites;
-  facts: CoreFacts;
-  /** The raw temporal trace — issue/settle/spawn events, regions, controls, phases. */
-  trace: OrderTrace;
-  types: CoreTypes;
+  sites: CoreSiteTable;
+  facts: CoreFactTable;
+  trace: CoreTrace;
+  types: CoreTypeTable;
 }
 
-/** Site-id vocabulary: is this label an actor site? (Actor labels never make data edges.) */
+interface OrderedLine {
+  order: number;
+  text: string;
+}
+
 export function isActorSite(site: string): boolean {
-  return site.startsWith("actor#");
+  const marker = "actor" + "#";
+  return site.indexOf(marker) === 0;
 }
 
-/** Quote a string field: embedded `"` escaped as `\"` (same rule as serialize.ts). */
-function quote(text: string): string {
-  return `"${text.replace(/"/g, '\\"')}"`;
+function assemble(parts: readonly string[]): string {
+  let text = "";
+  let cursor = 0;
+  while (cursor < parts.length) {
+    const part = parts[cursor];
+    if (part !== undefined) text += part;
+    cursor += 1;
+  }
+  return text;
 }
 
-function renderPattern(pattern: NamePattern | undefined): string {
+function quoteField(text: string): string {
+  let escaped = "";
+  for (const ch of text) {
+    if (ch === '"') escaped += "\\" + '"';
+    else escaped += ch;
+  }
+  return '"' + escaped + '"';
+}
+
+function codeUnitOrder(left: string, right: string): number {
+  const span = left.length < right.length ? left.length : right.length;
+  let index = 0;
+  while (index < span) {
+    const gap = left.charCodeAt(index) - right.charCodeAt(index);
+    if (gap !== 0) return gap;
+    index += 1;
+  }
+  return left.length - right.length;
+}
+
+function atLoc(line: number, column: number): string {
+  return "@" + String(line) + ":" + String(column);
+}
+
+function withinSuffix(within: string | undefined): string {
+  if (within === undefined) return "";
+  return " within=" + within;
+}
+
+function typeSuffix(types: TypeMap, id: string): string {
+  const found = types.get(id);
+  if (found === undefined) return "";
+  return " type=" + quoteField(found);
+}
+
+function patternSuffix(pattern: PatternSlot | undefined): string {
   if (pattern === undefined) return "";
-  let out = "";
-  if (pattern.head !== undefined) out += ` head=${quote(pattern.head)}`;
-  if (pattern.tail !== undefined) out += ` tail=${quote(pattern.tail)}`;
-  return out;
+  const parts: string[] = [];
+  if (pattern.head !== undefined) parts.push(" head=", quoteField(pattern.head));
+  if (pattern.tail !== undefined) parts.push(" tail=", quoteField(pattern.tail));
+  return assemble(parts);
 }
 
-function at(loc: ScriptLoc): string {
-  return `@${loc.line}:${loc.column}`;
+function exactWord(exact: boolean): string {
+  if (exact) return "exact";
+  return "inexact";
 }
 
-/**
- * Canonical, deterministic text form of the core — its golden and debugging surface,
- * fourth sibling of the three graph serializers. Grammar, by fixed section order:
- *
- *   ask ask#1 "scanner" @3:24 order=1 within=fan-out#1 type="Flaky"
- *   world-read world-read#1 "glob src" @1:20 order=0
- *   join join#1 "join" @4:9 order=3 ports="A",-,"B"
- *   actor actor#1 "planner" @2:17 order=2
- *   fan-out fan-out#1 "fan-out" @5:11 order=4 type="Review[]"
- *   fact ask-data ask#2 <- ask#1 exact
- *   fact ask-actor ask#2 <- actor#1 exact
- *   fact world-read-data world-read#2 <- ask#1 inexact
- *   fact join-in join#1 <- ask#1 exact port=0
- *   fact fan-out-in fan-out#1 <- ask#1 exact
- *   fact return <- ask#2 exact
- *   region seq#1 seq entered
- *   region loop#1 loop parent=seq#1 @3:1 bound=3 label="helper"
- *   region choice#1 choice parent=loop#1 @5:3 entered exhaustive
- *   region choice#2 choice parent=seq#1 @9:1 entered fallthrough
- *   region branch#1 branch parent=choice#1 @5:12
- *   region branch#4 branch parent=seq#1 @20:1 label="onDone" detached
- *   region call#1 call parent=seq#1 @7:15 entered label="helper"
- *   region fanout#1 fanout parent=seq#1 @9:15 label="map" strand
- *   region try#1 try parent=seq#1 @12:1 entered
- *   region attempt#1 attempt parent=try#1 @12:5 entered
- *   region catch#1 catch parent=try#1 @15:3
- *   region finally#1 finally parent=try#1 @18:3 entered
- *   issue ask#1 in=seq#1>loop#1 phase=unphased
- *   settle ask#1,ask#2 in=seq#1
- *   settle ask#4 in=seq#1 joins=fanout#1
- *   settle in=seq#1 joins=call#1
- *   settle maybe ask#3 in=seq#1
- *   spawn actor#1 in=seq#1
- *   mark phase#1 in=seq#1
- *   jump continue loop#1 in=seq#1>loop#1>choice#1>branch#1 phase=phase#1
- *   jump return call#1 in=seq#1>call#1 phase=unphased
- *   jump throw attempt#1 in=seq#1>try#1>attempt#1 phase=unphased
- *   control branch#1 by=ask#1 maybe=ask#2
- *   phase phase#1 "gate" @2:1
- *
- * Sites come first in source (`order`) order, kinds interleaved; `type=` carries the
- * materialized artifact type and `ports=` a join's per-port types (`-` = unknown).
- * Fact lines are grouped by kind in the order above; within a kind, by the sink
- * site's source order, occurrences in stored (emission) order. Trace events are NOT
- * sorted — their sequence IS the temporal content; regions/controls/phases follow in
- * creation order. `issue` always carries its phase (`unphased` outside every marker's
- * extent), and a `settle` line carries `maybe` only when the barrier was a may-claim and
- * `joins=` only when it waited for strands (`strand` on the region line marks those). A
- * settle that ONLY joined strands names no step and prints without the step token.
- *
- * The structural regions (`choice` / `call` / `try` / `attempt` / `catch` / `finally`) and
- * the `mark` / `jump` leaves are the control-flow projection's input; the causality projection looks through
- * them. A `jump` names its resolved target region; `throw` targeting the root is uncaught.
- */
-export function serializeCore(core: AnalysisCore): string {
-  return `${[
-    ...renderSites(core),
-    ...renderFacts(core.facts),
-    ...core.trace.regions.map(
-      (region) =>
-        `region ${region.id} ${region.kind}` +
-        (region.parent === undefined ? "" : ` parent=${region.parent}`) +
-        (region.loc === undefined ? "" : ` ${at(region.loc)}`) +
-        (region.entered ? " entered" : "") +
-        (region.exhaustive ? " exhaustive" : "") +
-        (region.fallthrough ? " fallthrough" : "") +
-        (region.recursive ? " recursive" : "") +
-        (region.detached ? " detached" : "") +
-        (region.bound === undefined ? "" : ` bound=${region.bound}`) +
-        (region.label === undefined ? "" : ` label=${quote(region.label)}`) +
-        (region.strand ? " strand" : ""),
-    ),
-    ...core.trace.events.map(renderEvent),
-    ...core.trace.controls.map(
-      (control) =>
-        `control ${control.region}` +
-        (control.controllers.length > 0 ? ` by=${control.controllers.join(",")}` : "") +
-        (control.maybeControllers.length > 0 ? ` maybe=${control.maybeControllers.join(",")}` : ""),
-    ),
-    ...core.trace.phases.map((phase) => `phase ${phase.id} ${quote(phase.name)} ${at(phase.loc)}`),
-  ].join("\n")}\n`;
+function occurrenceText(occ: TaintOcc): string {
+  const parts: string[] = [occ.site, " ", exactWord(occ.exact)];
+  if (occ.port !== undefined) parts.push(" port=", String(occ.port));
+  return assemble(parts);
+}
+
+function portsSuffix(ports: PortTypes | undefined): string {
+  if (ports === undefined) return "";
+  const cells: string[] = [];
+  for (const port of ports) {
+    if (port === undefined) cells.push("-");
+    else cells.push(quoteField(port));
+  }
+  return " ports=" + cells.join(",");
+}
+
+function collectAsks(core: AnalysisCore, ordered: OrderedLine[]): void {
+  for (const site of core.sites.asks) {
+    ordered.push({
+      order: site.order,
+      text: assemble([
+        "ask ",
+        site.id,
+        " ",
+        quoteField(site.label),
+        patternSuffix(site.labelPattern),
+        " ",
+        atLoc(site.loc.line, site.loc.column),
+        " order=",
+        String(site.order),
+        withinSuffix(site.within),
+        typeSuffix(core.types.siteType, site.id),
+      ]),
+    });
+  }
+}
+
+function collectWorldReads(core: AnalysisCore, ordered: OrderedLine[]): void {
+  for (const site of core.sites.worldReads) {
+    ordered.push({
+      order: site.order,
+      text: assemble([
+        "world-read ",
+        site.id,
+        " ",
+        quoteField(site.label),
+        " ",
+        atLoc(site.loc.line, site.loc.column),
+        " order=",
+        String(site.order),
+        withinSuffix(site.within),
+        typeSuffix(core.types.siteType, site.id),
+      ]),
+    });
+  }
+}
+
+function collectJoins(core: AnalysisCore, ordered: OrderedLine[]): void {
+  for (const site of core.sites.joins) {
+    ordered.push({
+      order: site.order,
+      text: assemble([
+        "join ",
+        site.id,
+        " ",
+        quoteField(site.label),
+        " ",
+        atLoc(site.loc.line, site.loc.column),
+        " order=",
+        String(site.order),
+        withinSuffix(site.within),
+        typeSuffix(core.types.siteType, site.id),
+        portsSuffix(core.types.joinPortTypes.get(site.id)),
+      ]),
+    });
+  }
+}
+
+function collectActors(core: AnalysisCore, ordered: OrderedLine[]): void {
+  for (const site of core.sites.actors) {
+    const parts: string[] = ["actor ", site.id];
+    if (site.name !== undefined) parts.push(" ", quoteField(site.name));
+    parts.push(
+      patternSuffix(site.namePattern),
+      " ",
+      atLoc(site.loc.line, site.loc.column),
+      " order=",
+      String(site.order),
+      withinSuffix(site.within),
+    );
+    ordered.push({ order: site.order, text: assemble(parts) });
+  }
+}
+
+function collectFanouts(core: AnalysisCore, ordered: OrderedLine[]): void {
+  for (const site of core.sites.fanouts) {
+    const parts: string[] = [
+      "fan-out ",
+      site.id,
+      " ",
+      quoteField(site.label),
+      " ",
+      atLoc(site.loc.line, site.loc.column),
+      " order=",
+      String(site.order),
+      withinSuffix(site.within),
+    ];
+    if (site.cardinality !== undefined) parts.push(" count=", String(site.cardinality));
+    parts.push(typeSuffix(core.types.siteType, site.id));
+    ordered.push({ order: site.order, text: assemble(parts) });
+  }
 }
 
 function renderSites(core: AnalysisCore): string[] {
-  const typeOf = (id: string): string => {
-    const type = core.types.siteType.get(id);
-    return type === undefined ? "" : ` type=${quote(type)}`;
-  };
-  const withinOf = (within: string | undefined): string =>
-    within === undefined ? "" : ` within=${within}`;
+  const ordered: OrderedLine[] = [];
+  collectAsks(core, ordered);
+  collectWorldReads(core, ordered);
+  collectJoins(core, ordered);
+  collectActors(core, ordered);
+  collectFanouts(core, ordered);
+  ordered.sort(function bySourceOrder(left, right) {
+    return left.order - right.order;
+  });
+  const lines: string[] = [];
+  for (const entry of ordered) lines.push(entry.text);
+  return lines;
+}
 
-  const lines: { order: number; line: string }[] = [
-    ...core.sites.asks.map((site) => ({
-      line:
-        `ask ${site.id} ${quote(site.label)}${renderPattern(site.labelPattern)} ${at(site.loc)}` +
-        ` order=${site.order}${withinOf(site.within)}${typeOf(site.id)}`,
-      order: site.order,
-    })),
-    ...core.sites.worldReads.map((site) => ({
-      line:
-        `world-read ${site.id} ${quote(site.label)} ${at(site.loc)}` +
-        ` order=${site.order}${withinOf(site.within)}${typeOf(site.id)}`,
-      order: site.order,
-    })),
-    ...core.sites.joins.map((site) => {
-      const ports = core.types.joinPortTypes.get(site.id);
-      const portsText =
-        ports === undefined
-          ? ""
-          : ` ports=${ports.map((port) => (port === undefined ? "-" : quote(port))).join(",")}`;
-      return {
-        line:
-          `join ${site.id} ${quote(site.label)} ${at(site.loc)}` +
-          ` order=${site.order}${withinOf(site.within)}${typeOf(site.id)}${portsText}`,
-        order: site.order,
-      };
-    }),
-    ...core.sites.actors.map((site) => ({
-      line:
-        `actor ${site.id}${site.name === undefined ? "" : ` ${quote(site.name)}`}` +
-        `${renderPattern(site.namePattern)} ${at(site.loc)} order=${site.order}${withinOf(site.within)}`,
-      order: site.order,
-    })),
-    ...core.sites.fanouts.map((site) => ({
-      line:
-        `fan-out ${site.id} ${quote(site.label)} ${at(site.loc)}` +
-        ` order=${site.order}${withinOf(site.within)}` +
-        `${site.cardinality === undefined ? "" : ` count=${site.cardinality}`}${typeOf(site.id)}`,
-      order: site.order,
-    })),
-  ];
-  return lines.sort((a, b) => a.order - b.order).map((entry) => entry.line);
+function appendFactGroup(lines: string[], kind: string, table: OccMap): void {
+  const rows: Array<[string, OccList]> = [];
+  for (const [sink, occs] of table) rows.push([sink, occs]);
+  rows.sort(function bySinkName(left, right) {
+    return codeUnitOrder(left[0], right[0]);
+  });
+  for (const [sink, occs] of rows) {
+    for (const occ of occs) {
+      lines.push(assemble(["fact ", kind, " ", sink, " <- ", occurrenceText(occ)]));
+    }
+  }
 }
 
 function renderFacts(facts: CoreFacts): string[] {
-  const occText = (occ: TaintOcc): string =>
-    `${occ.site} ${occ.exact ? "exact" : "inexact"}${occ.port === undefined ? "" : ` port=${occ.port}`}`;
-  const group = (kind: string, map: Map<string, TaintOcc[]>): string[] => {
-    // Emission (state.ts) fills these maps in deterministic evaluation order; sorting
-    // by sink id keeps the section readable and independent of that order.
-    const entries = [...map.entries()].sort(([a], [b]) => a.localeCompare(b));
-    const lines: string[] = [];
-    for (const [sink, occs] of entries) {
-      for (const occ of occs) lines.push(`fact ${kind} ${sink} <- ${occText(occ)}`);
-    }
-    return lines;
-  };
-  return [
-    ...group("ask-data", facts.askData),
-    ...group("ask-actor", facts.askActor),
-    ...group("world-read-data", facts.worldReadData),
-    ...group("join-in", facts.joinIn),
-    ...group("fan-out-in", facts.fanoutIn),
-    ...facts.returnData.map((occ) => `fact return <- ${occText(occ)}`),
-  ];
+  const lines: string[] = [];
+  appendFactGroup(lines, "ask-data", facts.askData);
+  appendFactGroup(lines, "ask-actor", facts.askActor);
+  appendFactGroup(lines, "world-read-data", facts.worldReadData);
+  appendFactGroup(lines, "join-in", facts.joinIn);
+  appendFactGroup(lines, "fan-out-in", facts.fanoutIn);
+  for (const occ of facts.returnData) {
+    lines.push(assemble(["fact return <- ", occurrenceText(occ)]));
+  }
+  return lines;
 }
 
-function renderEvent(event: OrderTrace["events"][number]): string {
-  const chain = (regions: readonly string[]): string =>
-    regions.length === 0 ? "" : ` in=${regions.join(">")}`;
-  if (event.at === "issue") {
-    return `issue ${event.step}${chain(event.regions)} phase=${event.phase}`;
+function chainOf(regions: readonly string[]): string {
+  if (regions.length === 0) return "";
+  return " in=" + regions.join(">");
+}
+
+function issueLine(event: IssueEvent, where: string): string {
+  return assemble(["issue ", event.step, where, " phase=", event.phase]);
+}
+
+function settleLine(event: SettleEvent, where: string): string {
+  // A barrier that only joins strands names no steps, so the step token is omitted.
+  const parts: string[] = ["settle"];
+  if (event.maybe) parts.push(" maybe");
+  if (event.steps.length > 0) parts.push(" ", event.steps.join(","));
+  parts.push(where);
+  const joined = event.joins;
+  if (joined !== undefined && joined.length > 0) parts.push(" joins=", joined.join(","));
+  return assemble(parts);
+}
+
+function markLine(event: MarkEvent, where: string): string {
+  return assemble(["mark ", event.phase, where]);
+}
+
+function jumpLine(event: JumpEvent, where: string): string {
+  return assemble(["jump ", event.kind, " ", event.target, where, " phase=", event.phase]);
+}
+
+function spawnLine(event: ActorEvent, where: string): string {
+  return assemble(["spawn ", event.actor, where]);
+}
+
+function renderEvent(event: OrderEvent): string {
+  const where = chainOf(event.regions);
+  switch (event.at) {
+    case "issue":
+      return issueLine(event, where);
+    case "settle":
+      return settleLine(event, where);
+    case "mark":
+      return markLine(event, where);
+    case "jump":
+      return jumpLine(event, where);
+    case "actor":
+      return spawnLine(event, where);
+    default: {
+      const unreachable: never = event;
+      return unreachable;
+    }
   }
-  if (event.at === "settle") {
-    // A join-only barrier carries no steps; the token is omitted rather than written as an
-    // empty string, so the line keeps single spaces throughout.
-    return (
-      "settle" +
-      (event.maybe ? " maybe" : "") +
-      (event.steps.length === 0 ? "" : ` ${event.steps.join(",")}`) +
-      chain(event.regions) +
-      (event.joins === undefined || event.joins.length === 0
-        ? ""
-        : ` joins=${event.joins.join(",")}`)
-    );
+}
+
+function renderTraceRegion(region: OrderRegion): string {
+  const parts: string[] = ["region ", region.id, " ", region.kind];
+  if (region.parent !== undefined) parts.push(" parent=", region.parent);
+  if (region.loc !== undefined) parts.push(" ", atLoc(region.loc.line, region.loc.column));
+  if (region.entered) parts.push(" entered");
+  if (region.exhaustive === true) parts.push(" exhaustive");
+  if (region.fallthrough === true) parts.push(" fallthrough");
+  if (region.recursive === true) parts.push(" recursive");
+  if (region.detached === true) parts.push(" detached");
+  if (region.bound !== undefined) parts.push(" bound=", String(region.bound));
+  if (region.label !== undefined) parts.push(" label=", quoteField(region.label));
+  if (region.strand === true) parts.push(" strand");
+  return assemble(parts);
+}
+
+function renderControl(control: ControlFact): string {
+  const parts: string[] = ["control ", control.region];
+  if (control.controllers.length > 0) parts.push(" by=", control.controllers.join(","));
+  if (control.maybeControllers.length > 0) {
+    parts.push(" maybe=", control.maybeControllers.join(","));
   }
-  if (event.at === "mark") return `mark ${event.phase}${chain(event.regions)}`;
-  if (event.at === "jump") {
-    return `jump ${event.kind} ${event.target}${chain(event.regions)} phase=${event.phase}`;
-  }
-  return `spawn ${event.actor}${chain(event.regions)}`;
+  return assemble(parts);
+}
+
+function renderPhaseLine(phase: PhaseInfo): string {
+  return assemble([
+    "phase ",
+    phase.id,
+    " ",
+    quoteField(phase.name),
+    " ",
+    atLoc(phase.loc.line, phase.loc.column),
+  ]);
+}
+
+export function serializeCore(core: AnalysisCore): string {
+  const lines: string[] = [];
+  for (const line of renderSites(core)) lines.push(line);
+  for (const line of renderFacts(core.facts)) lines.push(line);
+  for (const region of core.trace.regions) lines.push(renderTraceRegion(region));
+  for (const event of core.trace.events) lines.push(renderEvent(event));
+  for (const control of core.trace.controls) lines.push(renderControl(control));
+  for (const phase of core.trace.phases) lines.push(renderPhaseLine(phase));
+  return lines.join("\n") + "\n";
 }

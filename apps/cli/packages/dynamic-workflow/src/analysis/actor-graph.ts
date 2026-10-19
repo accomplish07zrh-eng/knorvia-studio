@@ -1,143 +1,141 @@
+// SPDX-License-Identifier: Apache-2.0
+
 import type { SiteGraph, SiteLoc, SiteNode } from "./types.js";
 
-/**
- * The actor graph: a derived, presentation-level view of a {@link SiteGraph} with
- * **actors as nodes and messages as edges**. It is a PURE projection of an
- * already-built site graph (no program/table access); the site graph stays canonical
- * (journal, ordinals, and runtime marks all key off sites) and this view is recovered
- * on demand, the same category as SCC loop-box recovery. An agent-relevance filter
- * keeps the view about collaboration: an edge must touch at least one actor, so
- * endpoint-to-endpoint plumbing is dropped and endpoints left dangling are pruned.
- * Aggregated actor edges also carry the deduped producer artifact types of their
- * contributing site edges as `types` — the message types flowing between the lanes.
- */
-
-/** A node: an actor lane, or one of the virtual endpoints `source` / `sink` / `workspace`. */
+// Actor lanes are the nodes. A message edge exists only when at least one end is an actor.
 export interface ActorNode {
-  /**
-   * An actor-site id (`actor#1`); `"source"` / `"sink"` — the orchestrator's enter
-   * and exit roles, kept unmerged so the graph reads as a pipeline; or `"workspace"`.
-   */
-  id: string;
-  name?: string;
-  loc?: SiteLoc;
-  /** Enclosing promoted fan-out id when the actor site is a lane family (×N). */
-  family?: string;
+  readonly id: string;
+  readonly name?: string;
+  readonly loc?: SiteLoc;
+  readonly family?: string;
 }
 
-/** A message edge: aggregated site data-flow between two actor lanes. */
 export interface ActorEdge {
-  from: string;
-  to: string;
-  /** OR over the contributing site edges' exactness (a may-projection forces false). */
-  exact: boolean;
-  /** How many site data-edges collapsed into this actor edge. */
-  count: number;
-  /**
-   * The producer artifact types carried by the contributing site edges — the message
-   * types on this actor edge (provenance: values of these types flow `from` -> `to`).
-   * Deduped, in contribution order (site-edge iteration order). Present iff non-empty;
-   * contributing edges with no type (e.g. `source` edges) add nothing.
-   */
-  types?: string[];
+  readonly from: string;
+  readonly to: string;
+  readonly exact: boolean;
+  readonly count: number;
+  readonly types?: readonly string[];
 }
 
 export interface ActorGraph {
-  nodes: ActorNode[];
-  edges: ActorEdge[];
+  readonly nodes: readonly ActorNode[];
+  readonly edges: readonly ActorEdge[];
 }
 
-const SOURCE = "source";
-const SINK = "sink";
-const WORKSPACE = "workspace";
+const LANE_ID = {
+  source: "source",
+  sink: "sink",
+  workspace: "workspace",
+} as const;
 
-/** Project a site graph to its derived actor graph (pure). */
-export function toActorGraph(graph: SiteGraph): ActorGraph {
-  const kindOf = new Map<string, SiteNode["kind"]>(graph.nodes.map((node) => [node.id, node.kind]));
-  const actorsOf = new Map<string, string[]>(
-    graph.nodes.filter((node) => node.kind === "ask").map((node) => [node.id, node.actors ?? []]),
+const TERMINALS: ReadonlySet<string> = new Set([LANE_ID.source, LANE_ID.sink, LANE_ID.workspace]);
+
+function lanesFor(
+  id: string,
+  kinds: ReadonlyMap<string, SiteNode["kind"]>,
+  askActors: ReadonlyMap<string, readonly string[]>,
+): readonly string[] {
+  if (id === LANE_ID.source || id === LANE_ID.sink) return [id];
+  const kind = kinds.get(id);
+  if (kind === "world-read") return [LANE_ID.workspace];
+  if (kind === "ask") return [...(askActors.get(id) ?? [])];
+  return new Array<string>(0);
+}
+
+function isTerminal(id: string): boolean {
+  return TERMINALS.has(id);
+}
+
+function attachType(edge: ActorEdge, type: string | undefined): ActorEdge {
+  if (type === undefined) return edge;
+  const prior = edge.types;
+  if (prior === undefined) return { ...edge, types: [type] };
+  if (prior.includes(type)) return edge;
+  return { ...edge, types: prior.concat(type) };
+}
+
+function pairKey(from: string, to: string): string {
+  return from + "|" + to;
+}
+
+function contribute(
+  buckets: Map<string, ActorEdge>,
+  from: string,
+  to: string,
+  exact: boolean,
+  type: string | undefined,
+): void {
+  const key = pairKey(from, to);
+  const prior = buckets.get(key);
+  if (prior === undefined) {
+    buckets.set(key, attachType({ count: 1, exact, from, to }, type));
+    return;
+  }
+  buckets.set(
+    key,
+    attachType({ ...prior, count: prior.count + 1, exact: prior.exact || exact }, type),
   );
+}
 
-  // The lane(s) a site projects onto. The virtual source/sink pass through UNMERGED
-  // (two roles of the orchestrator, kept apart so the graph reads as a pipeline
-  // rather than a hub with back-edges into its start); world-reads -> the single
-  // workspace node; asks -> their actor set (empty when unresolved); join/fan-out
-  // relays -> nothing (dropped: additive relay labels guarantee a direct
-  // producer -> consumer edge already exists, so no transitive composition is lost).
-  const project = (id: string): string[] => {
-    if (id === SOURCE || id === SINK) return [id];
-    const kind = kindOf.get(id);
-    if (kind === "world-read") return [WORKSPACE];
-    if (kind === "ask") return actorsOf.get(id) ?? [];
-    return [];
+function actorNode(actor: SiteGraph["actors"][number]): ActorNode {
+  const name = actor.name;
+  const family = actor.within;
+  return {
+    id: actor.id,
+    loc: actor.loc,
+    ...(name === undefined ? {} : { name }),
+    ...(family === undefined ? {} : { family }),
   };
+}
 
-  // Aggregate contributed edges by (from, to): count them, OR their exactness, and
-  // collect the deduped producer types in contribution order.
-  const agg = new Map<string, ActorEdge>();
-  const contribute = (from: string, to: string, exact: boolean, type: string | undefined): void => {
-    const key = `${from}|${to}`;
-    const existing = agg.get(key);
-    if (existing === undefined) {
-      agg.set(key, { count: 1, exact, from, to, ...(type === undefined ? {} : { types: [type] }) });
-      return;
-    }
-    existing.count += 1;
-    existing.exact = existing.exact || exact;
-    if (type !== undefined) {
-      const types = (existing.types ??= []);
-      if (!types.includes(type)) types.push(type);
-    }
-  };
-
-  for (const edge of graph.edges) {
-    if (edge.kind !== "data") continue; // context edges dissolve (same actor = same node)
-    // source -> world-read drops: the workspace is itself an origin, not fed by source.
-    if (edge.from === SOURCE && kindOf.get(edge.to) === "world-read") continue;
-    const fromNodes = project(edge.from);
-    const toNodes = project(edge.to);
-    if (fromNodes.length === 0 || toNodes.length === 0) continue; // a relay endpoint: drop
-    // A non-singleton (may) projection on either side forces every contributed edge
-    // inexact — the ask might run in any of its candidate lanes.
-    const exact = edge.exact && fromNodes.length === 1 && toNodes.length === 1;
-    for (const from of fromNodes) for (const to of toNodes) contribute(from, to, exact, edge.type);
+export function toActorGraph(sites: SiteGraph): ActorGraph {
+  const kinds = new Map<string, SiteNode["kind"]>();
+  const askActors = new Map<string, readonly string[]>();
+  for (const node of sites.nodes) {
+    kinds.set(node.id, node.kind);
+    if (node.kind === "ask") askActors.set(node.id, node.actors ?? []);
   }
 
-  // Agent-relevance filter: an actor edge must touch at least one actor, so
-  // endpoint-to-endpoint plumbing (e.g. `workspace -> sink`, a world read flowing
-  // untouched into the result) is dropped — honest in the site graph, noise in a
-  // collaboration view. We filter the aggregated set (one pass) rather than skipping
-  // at contribution, so the rule sits in one place next to the pruning it feeds.
-  const isEndpoint = (id: string): boolean => id === SOURCE || id === SINK || id === WORKSPACE;
-  const kept = [...agg.values()].filter((edge) => !(isEndpoint(edge.from) && isEndpoint(edge.to)));
+  const buckets = new Map<string, ActorEdge>();
+  for (const link of sites.edges) {
+    if (link.kind !== "data") continue;
+    if (link.from === LANE_ID.source && kinds.get(link.to) === "world-read") continue;
+    const origins = lanesFor(link.from, kinds, askActors);
+    const destinations = lanesFor(link.to, kinds, askActors);
+    if (origins.length === 0 || destinations.length === 0) continue;
+    const exact = link.exact && origins.length === 1 && destinations.length === 1;
+    for (const from of origins) {
+      for (const to of destinations) contribute(buckets, from, to, exact, link.type);
+    }
+  }
 
-  // Prune any endpoint node the filter (or the projection) leaves with no incident
-  // edge — a dangling source/workspace/sink bubble is as noisy as the edge was. Actor
-  // nodes always render, even edge-less.
-  const incident = new Set<string>();
+  const kept: ActorEdge[] = [];
+  for (const edge of buckets.values()) {
+    if (isTerminal(edge.from) && isTerminal(edge.to)) continue;
+    kept.push(edge);
+  }
+
+  const touched = new Set<string>();
   for (const edge of kept) {
-    incident.add(edge.from);
-    incident.add(edge.to);
+    touched.add(edge.from);
+    touched.add(edge.to);
   }
 
-  // Node order: source first, workspace second, actors in site order (graph.actors is
-  // already source-ordered), sink LAST — so `flowchart LR` reads as a pipeline.
-  const nodes: ActorNode[] = [];
-  if (incident.has(SOURCE)) nodes.push({ id: SOURCE });
-  if (incident.has(WORKSPACE)) nodes.push({ id: WORKSPACE });
-  for (const actor of graph.actors) {
-    nodes.push({
-      id: actor.id,
-      loc: actor.loc,
-      ...(actor.name === undefined ? {} : { name: actor.name }),
-      ...(actor.within === undefined ? {} : { family: actor.within }),
-    });
-  }
-  if (incident.has(SINK)) nodes.push({ id: SINK });
+  const roster: ActorNode[] = [];
+  if (touched.has(LANE_ID.source)) roster.push({ id: LANE_ID.source });
+  if (touched.has(LANE_ID.workspace)) roster.push({ id: LANE_ID.workspace });
+  for (const actor of sites.actors) roster.push(actorNode(actor));
+  if (touched.has(LANE_ID.sink)) roster.push({ id: LANE_ID.sink });
 
-  const position = new Map(nodes.map((node, index) => [node.id, index]));
+  const position = new Map<string, number>();
+  let index = 0;
+  while (index < roster.length) {
+    const node = roster[index];
+    if (node !== undefined) position.set(node.id, index);
+    index += 1;
+  }
   const rank = (id: string): number => position.get(id) ?? Number.MAX_SAFE_INTEGER;
-  const edges = kept.sort((a, b) => rank(a.from) - rank(b.from) || rank(a.to) - rank(b.to));
-
-  return { edges, nodes };
+  kept.sort((left, right) => rank(left.from) - rank(right.from) || rank(left.to) - rank(right.to));
+  return { edges: kept, nodes: roster };
 }

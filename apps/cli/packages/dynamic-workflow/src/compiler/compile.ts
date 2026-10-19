@@ -1,212 +1,181 @@
+// SPDX-License-Identifier: Apache-2.0
+
 import ts from "typescript";
 import { FACADE_DTS, FACADE_FILE_NAME } from "../facade/dts.js";
 import { TS_LIBS } from "./libs.generated.js";
+import type {
+  CompileDiagnostic,
+  CompileResult,
+  CreateWorkflowProgramOptions,
+  ScriptLoc,
+  WorkflowProgram,
+} from "./compile-types.js";
 
-/** One diagnostic, positioned in the author's script (1-based line/column). */
-export interface CompileDiagnostic {
-  code: number;
-  column: number;
-  line: number;
-  message: string;
-}
-
-export interface CompileResult {
-  diagnostics: CompileDiagnostic[];
-  ok: boolean;
-}
-
-export const SCRIPT_FILE_NAME = "workflow-script.ts";
-
-// Name of the wrapper function the script body is spliced into (see SCRIPT_PRELUDE).
-// The site walk locates this declaration to bound its traversal to the authored
-// body and to tell top-level `return`s apart from ones in nested functions.
-export const WORKFLOW_FUNCTION_NAME = "__workflowScript__";
-
-// The script is wrapped in an async function before typechecking, mirroring the
-// runtime execution shape (AsyncFunction body): top-level await and a final
-// `return <artifact>` are both legal, and the file stays a non-module global
-// script so the facade declarations are in scope without imports.
-// No return-type annotation: an annotated Promise<unknown> would demand a return
-// statement (TS2355), but scripts may legitimately end without one.
-const SCRIPT_PRELUDE = `async function ${WORKFLOW_FUNCTION_NAME}() {\n`;
-const SCRIPT_EPILOGUE = "\n}\nexport {};\n";
-const PRELUDE_LINES = 1;
-
-const COMPILER_OPTIONS: ts.CompilerOptions = {
-  allowJs: false,
-  lib: ["lib.es2022.d.ts"],
-  module: ts.ModuleKind.ESNext,
-  moduleResolution: ts.ModuleResolutionKind.Bundler,
-  noEmit: true,
-  skipLibCheck: true,
-  // `strict` on, `noUncheckedIndexedAccess` deliberately OFF. Models write TS as
-  // if the flag were off — training corpora almost universally have it off — so
-  // with it on, TS2532/TS18048 on `items[i]` was the single largest source of
-  // compile failures (96% of the undefined-family diagnostics in local runs),
-  // almost all on indexes whose bounds the surrounding logic already proved.
-  // `strictNullChecks` stays: `.find()` / `match()` / optional properties are
-  // real hazards and their messages name the cause.
-  strict: true,
-  target: ts.ScriptTarget.ES2022,
-  // No ambient @types: the script sees ES2022 + the facade and nothing else.
-  // `process`, `fetch`, `require` etc. fail typechecking — the purity contract
-  // starts at compile time.
-  types: [],
+export type {
+  CompileDiagnostic,
+  CompileResult,
+  CreateWorkflowProgramOptions,
+  ScriptLoc,
+  WorkflowProgram,
 };
 
-/** A prelude-adjusted, 1-based location in the author's script coordinates. */
-export interface ScriptLoc {
-  line: number;
-  column: number;
+// File name the in-memory host uses for the wrapped workflow script.
+export const SCRIPT_FILE_NAME = "workflow-script.ts";
+
+// Name of the async function that holds the authored body. Analysis locates
+// this declaration so the walk stays inside the script and can separate a
+// top-level return from a return inside a nested function.
+export const WORKFLOW_FUNCTION_NAME = "__workflowScript__";
+
+// Typecheck-only options. The script targets ES2022, is treated as ESM with
+// bundler resolution, and sees only the ES2022 library. Ambient @types are
+// withheld, strict checking stays on, library files are not rechecked, nothing
+// is emitted, and JavaScript sources are refused.
+function defaultCompilerOptions(): ts.CompilerOptions {
+  const options: ts.CompilerOptions = {};
+  options.target = ts.ScriptTarget.ES2022;
+  options.module = ts.ModuleKind.ESNext;
+  options.moduleResolution = ts.ModuleResolutionKind.Bundler;
+  options.lib = ["lib.es2022.d.ts"];
+  options.types = [];
+  options.strict = true;
+  options.noEmit = true;
+  options.skipLibCheck = true;
+  options.allowJs = false;
+  return options;
 }
 
-/**
- * The typed program plus the two things every downstream analysis needs: the
- * wrapped script's source file (to walk) and a mapper from raw scanner positions
- * back into the author's 1-based, prelude-stripped coordinates.
- */
-export interface WorkflowProgram {
-  program: ts.Program;
-  scriptFile: ts.SourceFile;
-  toScriptLoc(pos: number): ScriptLoc;
+const SCRIPT_PRELUDE_HEADER = `async function ${WORKFLOW_FUNCTION_NAME}() {\n`;
+const SCRIPT_EPILOGUE_FOOTER = "\n}\nexport {};\n";
+const SCRIPT_HEADER_LINE_COUNT = 1;
+const CODE_INVALID_MODIFIER = 1184;
+
+const AMBIENT_FIX_ADVICE: Record<string, string> = {
+  declare:
+    "The `declare` modifier is not allowed in a workflow script: the script is compiled inside a function body, where ambient declarations are illegal. Remove `declare` and write a plain declaration (e.g. `interface Foo { ... }`).",
+  export:
+    "`export` is not allowed in a workflow script: the script is compiled inside a function body. Remove `export` — the workflow's output is its final `return` value.",
+};
+
+class InMemoryVirtualHost implements ts.CompilerHost {
+  private readonly fileMap = new Map<string, string>();
+  private readonly fileCache = new Map<string, ts.SourceFile>();
+
+  constructor(mainScript: string, facadeDefs: string) {
+    for (const [libName, libContent] of Object.entries(TS_LIBS)) {
+      this.fileMap.set(libName, libContent);
+    }
+    this.fileMap.set(SCRIPT_FILE_NAME, mainScript);
+    this.fileMap.set(FACADE_FILE_NAME, facadeDefs);
+  }
+
+  getSourceFile(
+    fileName: string,
+    langVer: ts.ScriptTarget | ts.CreateSourceFileOptions,
+  ): ts.SourceFile | undefined {
+    const hit = this.fileCache.get(fileName);
+    if (hit) return hit;
+    const content = this.fileMap.get(fileName);
+    if (content === undefined) return undefined;
+    const parsed = ts.createSourceFile(fileName, content, langVer, true);
+    this.fileCache.set(fileName, parsed);
+    return parsed;
+  }
+
+  getDefaultLibFileName(options: ts.CompilerOptions): string {
+    return ts.getDefaultLibFileName(options);
+  }
+
+  writeFile(): never {
+    throw new Error("workflow virtual compilation is noEmit; output files are forbidden");
+  }
+
+  getCurrentDirectory(): string {
+    return "/";
+  }
+
+  getCanonicalFileName(fileName: string): string {
+    return fileName;
+  }
+
+  useCaseSensitiveFileNames(): boolean {
+    return true;
+  }
+
+  getNewLine(): string {
+    return "\n";
+  }
+
+  fileExists(fileName: string): boolean {
+    return this.fileMap.has(fileName);
+  }
+
+  readFile(fileName: string): string | undefined {
+    return this.fileMap.get(fileName);
+  }
 }
 
-/**
- * {@link createWorkflowProgram} 的选项。`facadeDts` 允许注入一份**替代的 facade 文本**
- * （snippet eval 的 scratch facade）；它永远以
- * {@link FACADE_FILE_NAME} 为文件名进虚拟 host——facade 身份在 registry / sites /
- * facade-misuse / lowering 五处按声明文件名判定，换名字会让站点收集静默变空。
- */
-export interface CreateWorkflowProgramOptions {
-  facadeDts?: string;
-}
-
-/**
- * Build the typed program for a workflow script: the wrapped script + facade
- * `.d.ts` + embedded stdlib, compiled in the virtual host. This is the shared
- * substrate — diagnostics, schema synthesis and site-graph extraction all hang
- * off the one Program and checker built here.
- */
 export function createWorkflowProgram(
   scriptText: string,
   options?: CreateWorkflowProgramOptions,
 ): WorkflowProgram {
-  const wrapped = `${SCRIPT_PRELUDE}${scriptText}${SCRIPT_EPILOGUE}`;
-  const host = createVirtualHost(wrapped, options?.facadeDts ?? FACADE_DTS);
-  const program = ts.createProgram({
-    host,
-    options: COMPILER_OPTIONS,
-    rootNames: [SCRIPT_FILE_NAME, FACADE_FILE_NAME],
-  });
+  const wrappedScript = `${SCRIPT_PRELUDE_HEADER}${scriptText}${SCRIPT_EPILOGUE_FOOTER}`;
+  const facadeContent = options?.facadeDts ?? FACADE_DTS;
+  const virtualHost = new InMemoryVirtualHost(wrappedScript, facadeContent);
+
+  const program = ts.createProgram(
+    [SCRIPT_FILE_NAME, FACADE_FILE_NAME],
+    defaultCompilerOptions(),
+    virtualHost,
+  );
+
   const scriptFile = program.getSourceFile(SCRIPT_FILE_NAME);
-  if (scriptFile === undefined) {
-    throw new Error("workflow script source file missing from program");
-  }
+  if (!scriptFile) throw new Error("workflow script source file missing from program");
+
   const toScriptLoc = (pos: number): ScriptLoc => {
-    const { character, line } = scriptFile.getLineAndCharacterOfPosition(pos);
-    return { column: character + 1, line: Math.max(1, line - PRELUDE_LINES + 1) };
+    const coords = scriptFile.getLineAndCharacterOfPosition(pos);
+    const mappedLine = Math.max(1, coords.line - SCRIPT_HEADER_LINE_COUNT + 1);
+    return { column: coords.character + 1, line: mappedLine };
   };
+
   return { program, scriptFile, toScriptLoc };
 }
 
-/** Collect and script-position the program's syntactic + semantic diagnostics. */
+function customizeModifierDiagnostic(diag: ts.Diagnostic): string | undefined {
+  if (diag.code !== CODE_INVALID_MODIFIER) return undefined;
+  if (diag.file?.fileName !== SCRIPT_FILE_NAME) return undefined;
+  if (diag.start === undefined || diag.length === undefined) return undefined;
+  const token = diag.file.text.slice(diag.start, diag.start + diag.length);
+  return AMBIENT_FIX_ADVICE[token];
+}
+
+function normalizeDiagnostic(diag: ts.Diagnostic): CompileDiagnostic {
+  const message = ts.flattenDiagnosticMessageText(diag.messageText, "\n");
+  if (!diag.file || diag.start === undefined) {
+    return { code: diag.code, column: 1, line: 1, message };
+  }
+  const pos = diag.file.getLineAndCharacterOfPosition(diag.start);
+  const adjustedLine =
+    diag.file.fileName === SCRIPT_FILE_NAME ? pos.line - SCRIPT_HEADER_LINE_COUNT : pos.line;
+  const finalMessage = customizeModifierDiagnostic(diag) ?? message;
+
+  return {
+    code: diag.code,
+    column: pos.character + 1,
+    line: Math.max(1, adjustedLine + 1),
+    message: finalMessage,
+  };
+}
+
 export function collectDiagnostics(program: ts.Program): CompileDiagnostic[] {
-  return [...program.getSyntacticDiagnostics(), ...program.getSemanticDiagnostics()].map(
-    toCompileDiagnostic,
-  );
+  const diagnosticsList: ts.Diagnostic[] = [];
+  for (const d of program.getSyntacticDiagnostics()) diagnosticsList.push(d);
+  for (const d of program.getSemanticDiagnostics()) diagnosticsList.push(d);
+  return diagnosticsList.map(normalizeDiagnostic);
 }
 
-/**
- * Typecheck a workflow script against the facade in a fully virtual compiler host.
- * Scaffold scope: diagnostics only. Schema synthesis, site-graph extraction and
- * dependency inference build on the same Program in later steps.
- */
 export function compileWorkflowScript(scriptText: string): CompileResult {
-  const { program } = createWorkflowProgram(scriptText);
-  const diagnostics = collectDiagnostics(program);
-  return { diagnostics, ok: diagnostics.length === 0 };
-}
-
-// Fully virtual compiler host: every file the program can see — the wrapped
-// script, the facade, and the embedded TS stdlib closure (TS_LIBS) — is served
-// from an in-memory Map. Nothing touches disk, so the bundled/SEA CLI (no
-// node_modules) behaves identically to dev: a missing lib fails package tests
-// too, instead of only breaking in the bundle.
-function createVirtualHost(wrappedScript: string, facadeDts: string): ts.CompilerHost {
-  const virtualFiles = new Map<string, string>([
-    [SCRIPT_FILE_NAME, wrappedScript],
-    [FACADE_FILE_NAME, facadeDts],
-    ...Object.entries(TS_LIBS),
-  ]);
-  const sourceFileCache = new Map<string, ts.SourceFile>();
-
-  return {
-    getSourceFile: (fileName, languageVersionOrOptions) => {
-      const cached = sourceFileCache.get(fileName);
-      if (cached !== undefined) return cached;
-      const text = virtualFiles.get(fileName);
-      if (text === undefined) return undefined;
-      const sourceFile = ts.createSourceFile(fileName, text, languageVersionOrOptions, true);
-      sourceFileCache.set(fileName, sourceFile);
-      return sourceFile;
-    },
-    getDefaultLibFileName: (options) => ts.getDefaultLibFileName(options),
-    writeFile: () => {
-      throw new Error("workflow compile is noEmit; nothing may write output");
-    },
-    getCurrentDirectory: () => "/",
-    getCanonicalFileName: (fileName) => fileName,
-    useCaseSensitiveFileNames: () => true,
-    getNewLine: () => "\n",
-    fileExists: (fileName) => virtualFiles.has(fileName),
-    readFile: (fileName) => virtualFiles.get(fileName),
-  };
-}
-
-// TS1184 ("Modifiers cannot appear here.") is what a script-top-level `declare`
-// or `export` compiles to, because the body is spliced into SCRIPT_PRELUDE's
-// function — ambient declarations and exports are both illegal there. The raw
-// text never names the offending modifier, so the model's self-repair loop can
-// only guess; these rewrites name it and give the fix. Keyed on the exact
-// modifier span, so any other misplaced modifier keeps the compiler's wording.
-const AMBIENT_MODIFIER_MESSAGES = new Map<string, string>([
-  [
-    "declare",
-    "The `declare` modifier is not allowed in a workflow script: the script is compiled inside a function body, where ambient declarations are illegal. Remove `declare` and write a plain declaration (e.g. `interface Foo { ... }`).",
-  ],
-  [
-    "export",
-    "`export` is not allowed in a workflow script: the script is compiled inside a function body. Remove `export` — the workflow's output is its final `return` value.",
-  ],
-]);
-
-const MISPLACED_MODIFIER_CODE = 1184;
-
-function toCompileDiagnostic(diagnostic: ts.Diagnostic): CompileDiagnostic {
-  const message = ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n");
-  if (diagnostic.file === undefined || diagnostic.start === undefined) {
-    return { code: diagnostic.code, column: 1, line: 1, message };
-  }
-  const { character, line } = diagnostic.file.getLineAndCharacterOfPosition(diagnostic.start);
-  const scriptLine = diagnostic.file.fileName === SCRIPT_FILE_NAME ? line - PRELUDE_LINES : line;
-  return {
-    code: diagnostic.code,
-    column: character + 1,
-    line: Math.max(1, scriptLine + 1),
-    message: rewriteAmbientModifierMessage(diagnostic) ?? message,
-  };
-}
-
-/** The actionable replacement for a script-level `declare` / `export`, if this is one. */
-function rewriteAmbientModifierMessage(diagnostic: ts.Diagnostic): string | undefined {
-  if (
-    diagnostic.code !== MISPLACED_MODIFIER_CODE ||
-    diagnostic.file?.fileName !== SCRIPT_FILE_NAME ||
-    diagnostic.start === undefined ||
-    diagnostic.length === undefined
-  ) {
-    return undefined;
-  }
-  const span = diagnostic.file.text.slice(diagnostic.start, diagnostic.start + diagnostic.length);
-  return AMBIENT_MODIFIER_MESSAGES.get(span);
+  const prog = createWorkflowProgram(scriptText);
+  const detected = collectDiagnostics(prog.program);
+  return { diagnostics: detected, ok: detected.length === 0 };
 }

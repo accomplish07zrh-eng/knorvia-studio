@@ -1,97 +1,131 @@
+// SPDX-License-Identifier: Apache-2.0
+
 import type { OrderTrace } from "./causality-order.js";
 import type { AnalysisCore, CoreSites } from "./core.js";
 import type { TaintOcc } from "./domain.js";
 
-/**
- * `AnalysisCore` 的 JSON 编解码。
- *
- * core 本身已是无位置依赖的纯数据，唯一挡住 `JSON.stringify` 的是 `facts.*` 与 `types.*`
- * 里的 `Map`——它们会被序列化成 `{}`。这里把每个 Map 换成**有序** `[key, value][]`：
- * 数组保住插入序，解码用 `new Map(entries)` 原样还回去，于是 `serializeCore(decode(encode(c)))`
- * 与 `serializeCore(c)` 逐字节相同，投影在冻结工件上算出的图与导出当刻一致。
- *
- * `sites` 与 `trace` 只含普通对象、数组与可选字段，原样穿过：`JSON.stringify` 丢掉值为
- * `undefined` 的属性，解码器**不**把它们补回来——投影全部按「字段缺席」而非「字段为
- * undefined」判定，两种形状等价。唯一的例外是 `joinPortTypes` 的值：`(string | undefined)[]`
- * 里的 `undefined` 落进数组会被 JSON 写成 `null`，所以编码时显式写 `null`，解码时换回
- * `undefined`，让「该端口类型不可知」的洞在往返后仍是 `undefined` 而不是 `null`。
- */
+// JSON shape of an analysis core. Maps become ordered pairs so insertion order
+// survives `JSON.stringify`. A missing join-port type is `null` in JSON and
+// `undefined` again after decode; other absent fields stay absent.
 
-/** 有序的 Map 条目：数组序即 Map 的插入序。 */
-export type MapEntries<V> = [string, V][];
+const FORMAT_VERSION = 1 as const;
+
+export type MapEntries<V> = Array<[string, V]>;
+
+type OccRows = MapEntries<TaintOcc[]>;
+type PortCells = (string | null)[];
+type PortRows = MapEntries<PortCells>;
+type TypeRows = MapEntries<string>;
+
+interface FactTablesJson {
+  askData: OccRows;
+  askActor: OccRows;
+  worldReadData: OccRows;
+  joinIn: OccRows;
+  fanoutIn: OccRows;
+  returnData: TaintOcc[];
+}
+
+interface TypeTablesJson {
+  siteType: TypeRows;
+  joinPortTypes: PortRows;
+}
 
 export interface AnalysisCoreJson {
-  /** 格式版本；解码器只认识它认得的版本，其余抛错而不是猜。 */
-  version: 1;
+  version: typeof FORMAT_VERSION;
   sites: CoreSites;
-  facts: {
-    askData: MapEntries<TaintOcc[]>;
-    askActor: MapEntries<TaintOcc[]>;
-    worldReadData: MapEntries<TaintOcc[]>;
-    joinIn: MapEntries<TaintOcc[]>;
-    fanoutIn: MapEntries<TaintOcc[]>;
-    returnData: TaintOcc[];
-  };
+  facts: FactTablesJson;
   trace: OrderTrace;
-  types: {
-    siteType: MapEntries<string>;
-    /** 端口类型的洞（`undefined`）在这里是 `null`——JSON 数组里没有 `undefined`。 */
-    joinPortTypes: MapEntries<(string | null)[]>;
-  };
+  types: TypeTablesJson;
 }
 
-const VERSION = 1;
+function pairsFrom<V>(table: Map<string, V>): MapEntries<V> {
+  const pairs: MapEntries<V> = [];
+  for (const [key, value] of table) {
+    const row: [string, V] = [key, value];
+    pairs.push(row);
+  }
+  return pairs;
+}
 
-/** 把 core 变成可直接 `JSON.stringify` 的纯对象；`sites` 与 `trace` 共享原引用。 */
+function tableFrom<V>(pairs: MapEntries<V>): Map<string, V> {
+  const table = new Map<string, V>();
+  for (const [key, value] of pairs) table.set(key, value);
+  return table;
+}
+
+function encodePorts(table: Map<string, (string | undefined)[]>): PortRows {
+  const pairs: PortRows = [];
+  for (const [id, ports] of table) {
+    const encoded: PortCells = [];
+    for (const port of ports) {
+      const cell: string | null = port === undefined ? null : port;
+      encoded.push(cell);
+    }
+    pairs.push([id, encoded]);
+  }
+  return pairs;
+}
+
+function decodePorts(pairs: PortRows): Map<string, (string | undefined)[]> {
+  const table = new Map<string, (string | undefined)[]>();
+  for (const [id, ports] of pairs) {
+    const decoded: (string | undefined)[] = [];
+    for (const port of ports) {
+      decoded.push(port === null ? undefined : port);
+    }
+    table.set(id, decoded);
+  }
+  return table;
+}
+
+function rejectVersion(version: number): never {
+  const seen = String(version);
+  const expected = String(FORMAT_VERSION);
+  throw new Error("unsupported AnalysisCoreJson version " + seen + " (expected " + expected + ")");
+}
+
 export function encodeAnalysisCore(core: AnalysisCore): AnalysisCoreJson {
-  return {
-    facts: {
-      askActor: [...core.facts.askActor],
-      askData: [...core.facts.askData],
-      fanoutIn: [...core.facts.fanoutIn],
-      joinIn: [...core.facts.joinIn],
-      returnData: core.facts.returnData,
-      worldReadData: [...core.facts.worldReadData],
-    },
+  const facts: FactTablesJson = {
+    askActor: pairsFrom(core.facts.askActor),
+    askData: pairsFrom(core.facts.askData),
+    fanoutIn: pairsFrom(core.facts.fanoutIn),
+    joinIn: pairsFrom(core.facts.joinIn),
+    returnData: core.facts.returnData,
+    worldReadData: pairsFrom(core.facts.worldReadData),
+  };
+  const types: TypeTablesJson = {
+    joinPortTypes: encodePorts(core.types.joinPortTypes),
+    siteType: pairsFrom(core.types.siteType),
+  };
+  const encoded: AnalysisCoreJson = {
+    facts,
     sites: core.sites,
     trace: core.trace,
-    types: {
-      joinPortTypes: [...core.types.joinPortTypes].map(([id, ports]) => [
-        id,
-        ports.map((port) => (port === undefined ? null : port)),
-      ]),
-      siteType: [...core.types.siteType],
-    },
-    version: VERSION,
+    types,
+    version: FORMAT_VERSION,
   };
+  return encoded;
 }
 
-/** 从 JSON 形态重建 core（Map 保持原插入序）。未知版本抛普通 `Error`。 */
 export function decodeAnalysisCore(json: AnalysisCoreJson): AnalysisCore {
-  if (json.version !== VERSION) {
-    throw new Error(
-      `unsupported AnalysisCoreJson version ${String(json.version)} (expected ${VERSION})`,
-    );
-  }
+  if (json.version !== FORMAT_VERSION) rejectVersion(json.version);
+  const facts = json.facts;
+  const types = json.types;
   return {
     facts: {
-      askActor: new Map(json.facts.askActor),
-      askData: new Map(json.facts.askData),
-      fanoutIn: new Map(json.facts.fanoutIn),
-      joinIn: new Map(json.facts.joinIn),
-      returnData: json.facts.returnData,
-      worldReadData: new Map(json.facts.worldReadData),
+      askActor: tableFrom(facts.askActor),
+      askData: tableFrom(facts.askData),
+      fanoutIn: tableFrom(facts.fanoutIn),
+      joinIn: tableFrom(facts.joinIn),
+      returnData: facts.returnData,
+      worldReadData: tableFrom(facts.worldReadData),
     },
     sites: json.sites,
     trace: json.trace,
     types: {
-      joinPortTypes: new Map(
-        json.types.joinPortTypes.map(([id, ports]) => [
-          id,
-          ports.map((port) => (port === null ? undefined : port)),
-        ]),
-      ),
-      siteType: new Map(json.types.siteType),
+      joinPortTypes: decodePorts(types.joinPortTypes),
+      siteType: tableFrom(types.siteType),
     },
   };
 }
