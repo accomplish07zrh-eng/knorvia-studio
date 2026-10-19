@@ -1,0 +1,57 @@
+{
+  "contract": "packages-02",
+  "commit": "43011e4fd351a655e45242c1d43f0c58a51c7e10",
+  "node": "v24.14.0",
+  "generatedAt": "2026-10-19T03:45:07.587Z",
+  "runner": "scripts/contract-gate.mjs",
+  "testFiles": [
+    "specs/contracts/packages-02/tests/provider-facade.test.mjs",
+    "specs/contracts/packages-02/tests/provider-paths-codec.test.mjs",
+    "specs/contracts/packages-02/tests/provider-repository.test.mjs",
+    "specs/contracts/packages-02/tests/provider-runtime.test.mjs",
+    "specs/contracts/packages-02/tests/provider-surface.test.mjs",
+    "specs/contracts/packages-02/tests/rpc-channels.test.mjs",
+    "specs/contracts/packages-02/tests/rpc-examples.test.mjs",
+    "specs/contracts/packages-02/tests/rpc-foundation.test.mjs",
+    "specs/contracts/packages-02/tests/rpc-ipc-remote.test.mjs",
+    "specs/contracts/packages-02/tests/rpc-middleware.test.mjs",
+    "specs/contracts/packages-02/tests/rpc-proxy.test.mjs",
+    "specs/contracts/packages-02/tests/rpc-surface.test.mjs",
+    "specs/contracts/packages-02/tests/rpc-wire.test.mjs"
+  ],
+  "sourceFrom": "src",
+  "entries": {
+    "source": {
+      "exitCode": 0,
+      "tests": 99,
+      "pass": 99,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0,
+      "outputTail": "✔ B6 SocketProtocol 发送包帧与录制字节一致 (0.381659ms)\n✔ B6 SocketProtocol 跨 chunk、多帧、零长度与非 Regular 帧 (0.415607ms)\n✔ B6 SocketProtocol dispose 只退订，不释放 socket (0.146774ms)\n✔ B6 createQueuePair 宏任务投递 (6.106034ms)\n✔ B7 MessagePortProtocol 控制消息、二进制同一性与释放 (0.684065ms)\n✔ B6 PersistentProtocol 首帧 id=1、ack=0 (0.480541ms)\nℹ tests 99\nℹ suites 0\nℹ pass 99\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 13529.156788"
+    },
+    "dist": {
+      "exitCode": 0,
+      "tests": 99,
+      "pass": 95,
+      "fail": 0,
+      "skipped": 4,
+      "todo": 0,
+      "outputTail": "✔ B6 SocketProtocol 发送包帧与录制字节一致 (0.381972ms)\n✔ B6 SocketProtocol 跨 chunk、多帧、零长度与非 Regular 帧 (0.321705ms)\n✔ B6 SocketProtocol dispose 只退订，不释放 socket (0.130199ms)\n✔ B6 createQueuePair 宏任务投递 (3.354469ms)\n✔ B7 MessagePortProtocol 控制消息、二进制同一性与释放 (0.554038ms)\n✔ B6 PersistentProtocol 首帧 id=1、ack=0 (0.51816ms)\nℹ tests 99\nℹ suites 0\nℹ pass 95\nℹ fail 0\nℹ cancelled 0\nℹ skipped 4\nℹ todo 0\nℹ duration_ms 11867.097852",
+      "environment": {
+        "KNORVIA_PACKAGES_02_ENTRY": "dist"
+      },
+      "loader": null
+    }
+  },
+  "stubReplacement": {
+    "replacedFiles": 29,
+    "tests": 13,
+    "pass": 0,
+    "fail": 13,
+    "allFail": true,
+    "exitCode": 1,
+    "outputTail": "✖ /workspace/wt-pk02/specs/contracts/packages-02/tests/rpc-middleware.test.mjs (187.089983ms)\n  'test failed'\n\ntest at specs/contracts/packages-02/tests/rpc-proxy.test.mjs:1:1\n✖ /workspace/wt-pk02/specs/contracts/packages-02/tests/rpc-proxy.test.mjs (177.326387ms)\n  'test failed'\n\ntest at specs/contracts/packages-02/tests/rpc-surface.test.mjs:1:1\n✖ /workspace/wt-pk02/specs/contracts/packages-02/tests/rpc-surface.test.mjs (742.291068ms)\n  'test failed'\n\ntest at specs/contracts/packages-02/tests/rpc-wire.test.mjs:1:1\n✖ /workspace/wt-pk02/specs/contracts/packages-02/tests/rpc-wire.test.mjs (236.938471ms)\n  'test failed'"
+  },
+  "pass": true
+}
