@@ -1,0 +1,804 @@
+{
+  "contract": "shared-04",
+  "generatedBy": "build-scope-files.mjs（生成器留在执行工作区 .scratch-shared04，不入库）",
+  "note": "licensing/current-files.json 的历史分类不随替换翻转；本清单是第一批 44 件，index.ts 根桶按 shared-03 README 归末批。",
+  "counts": {
+    "upstream-modified": 34,
+    "upstream-unchanged": 10
+  },
+  "total": 44,
+  "files": [
+    {
+      "path": "packages/shared/src/app-runtime-preferences.ts",
+      "sha256": "8027f3f8208f3ec51425ee4b57f1f15cbb8e78d331fb712cb9e40ff332bc32d2",
+      "normalizedSha256": "8027f3f8208f3ec51425ee4b57f1f15cbb8e78d331fb712cb9e40ff332bc32d2",
+      "encoding": "utf8-lf",
+      "bytes": 572,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/app-runtime-preferences.ts",
+        "blob": "5785630160f81abe5f30c95df56dfae635511f2a",
+        "normalizedSha256": "cc784180b3785af071b0995e7f3809e69d4f12b455fd116bc463296aa3b8a0f3",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "thirdParty": [],
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/clientConfig.ts",
+      "sha256": "2931b5a88800201779ec827d612e7a34274262c191d6e9ea9a49d83f1da08b4f",
+      "normalizedSha256": "2931b5a88800201779ec827d612e7a34274262c191d6e9ea9a49d83f1da08b4f",
+      "encoding": "utf8-lf",
+      "bytes": 995,
+      "classification": "upstream-unchanged",
+      "upstream": {
+        "relation": "unchanged",
+        "path": "packages/shared/src/clientConfig.ts",
+        "blob": "00553a5c27ea67fb079a5c322aa4af2e171418c0",
+        "normalizedSha256": "2931b5a88800201779ec827d612e7a34274262c191d6e9ea9a49d83f1da08b4f",
+        "contentMatchedPaths": ["packages/shared/src/clientConfig.ts"]
+      },
+      "license": "NOASSERTION",
+      "thirdParty": [],
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/database-startup.ts",
+      "sha256": "6220865e2bb103bc13647117b714158744d7a41d9c244d4cd5ef9258fc4a3ac7",
+      "normalizedSha256": "6220865e2bb103bc13647117b714158744d7a41d9c244d4cd5ef9258fc4a3ac7",
+      "encoding": "utf8-lf",
+      "bytes": 7098,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/database-startup.ts",
+        "blob": "9bbfb1ff18e2f641d0ff21e8a71b344984b20768",
+        "normalizedSha256": "ac7fb12cb5e902bfa5a733a1c989e7e094e686294236186dae62524a32004def",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "thirdParty": [],
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/desktopMenu.ts",
+      "sha256": "6fe08011e435c75e5329955701fd49e6dcc6c4a1e206330542f2bb440ac6e4de",
+      "normalizedSha256": "6fe08011e435c75e5329955701fd49e6dcc6c4a1e206330542f2bb440ac6e4de",
+      "encoding": "utf8-lf",
+      "bytes": 8754,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/desktopMenu.ts",
+        "blob": "5c0f43259430cbd0a2668e4fcfe3dc058812655e",
+        "normalizedSha256": "4539c6aa5caa333236d02b5909938d6619ddd072aa3c46d5e298acae912b8837",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "thirdParty": [],
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/dynamic-workflow-feature.ts",
+      "sha256": "210b8d1bdda0981b85ddf465f91c4c882245d974f68d7910d792e32233d84c42",
+      "normalizedSha256": "210b8d1bdda0981b85ddf465f91c4c882245d974f68d7910d792e32233d84c42",
+      "encoding": "utf8-lf",
+      "bytes": 3767,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/dynamic-workflow-feature.ts",
+        "blob": "7c51c927b554a4e53602d5ecbe47a17a0b25af96",
+        "normalizedSha256": "0f2bba2afae6af2edb99c499c77507bdb258b0c6939b3c44c914e9ce11231536",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "thirdParty": [],
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/e2e-test-bridge.ts",
+      "sha256": "5cae1c6d8d0bbce6aa230747290dab50fe54f95e8351a912362f713564a57710",
+      "normalizedSha256": "5cae1c6d8d0bbce6aa230747290dab50fe54f95e8351a912362f713564a57710",
+      "encoding": "utf8-lf",
+      "bytes": 484,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/e2e-test-bridge.ts",
+        "blob": "db7fb35fdae8a84f298add25b47a1f2c16526754",
+        "normalizedSha256": "f158e658b8b4027adbc78d9a40908fa3bb29f7a0d32cc7fbe30766cd70077661",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "thirdParty": [],
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/endpointHostname.ts",
+      "sha256": "98446dc8e9edc6215d96f4a185308f4e46552e0bc08e7e5d3d29fc3ad044137b",
+      "normalizedSha256": "98446dc8e9edc6215d96f4a185308f4e46552e0bc08e7e5d3d29fc3ad044137b",
+      "encoding": "utf8-lf",
+      "bytes": 460,
+      "classification": "upstream-unchanged",
+      "upstream": {
+        "relation": "unchanged",
+        "path": "packages/shared/src/endpointHostname.ts",
+        "blob": "4847dedc99a9a611eb1f8a9f707314eab54acd77",
+        "normalizedSha256": "98446dc8e9edc6215d96f4a185308f4e46552e0bc08e7e5d3d29fc3ad044137b",
+        "contentMatchedPaths": ["packages/shared/src/endpointHostname.ts"]
+      },
+      "license": "NOASSERTION",
+      "thirdParty": [],
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/feedback.ts",
+      "sha256": "47e472adb9c7fdd0304b280708afa8e8c25320da586b4a19e7359117b6179ffa",
+      "normalizedSha256": "47e472adb9c7fdd0304b280708afa8e8c25320da586b4a19e7359117b6179ffa",
+      "encoding": "utf8-lf",
+      "bytes": 6457,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/feedback.ts",
+        "blob": "472c0d88a4dfeff928564d527875b71999dc2a4f",
+        "normalizedSha256": "e523289820588eca4c097dad74ffd2339c4d3d8140c60ce15b278b7764233cd9",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "thirdParty": [],
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/feedbackPrivacy.ts",
+      "sha256": "b730494a365704ccb7229154f7f9f99a0a091aaba3aa381cedee8748cbb41143",
+      "normalizedSha256": "b730494a365704ccb7229154f7f9f99a0a091aaba3aa381cedee8748cbb41143",
+      "encoding": "utf8-lf",
+      "bytes": 7167,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/feedbackPrivacy.ts",
+        "blob": "461a6a0bb4ae0c0338eb7ceca9f0f21f68ee0c36",
+        "normalizedSha256": "f663f9d34bbed0de62ced1a4712dd2d52dad69e7b1a9c55aa78ed106b43547b6",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "thirdParty": [],
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/helpAppConfig.ts",
+      "sha256": "60d0fad30abc342eae4284dd284f59a0a89db2cba5e732a3bacc4f1b8037e71b",
+      "normalizedSha256": "60d0fad30abc342eae4284dd284f59a0a89db2cba5e732a3bacc4f1b8037e71b",
+      "encoding": "utf8-lf",
+      "bytes": 1275,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/helpAppConfig.ts",
+        "blob": "cf822976c2c49868c83cf6120fb120d11638f200",
+        "normalizedSha256": "cf5a7295adc4f54a4cb8ecee7c864e8cdd2a15994237c05beb41a3a6e50568fc",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "thirdParty": [],
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/intranetDefaults.ts",
+      "sha256": "e0b9849dff2550e8f11700a4de736179f21c2c208d26b3134bbf04d60748eaf6",
+      "normalizedSha256": "e0b9849dff2550e8f11700a4de736179f21c2c208d26b3134bbf04d60748eaf6",
+      "encoding": "utf8-lf",
+      "bytes": 1736,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/intranetDefaults.ts",
+        "blob": "0a07bcd150f58ed9f37e034189ca19fd611b7218",
+        "normalizedSha256": "641eed817c6f172d40fe90ee7147099ab02f3b3b009d44a842137ea9f020f6bd",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "thirdParty": [],
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/intranetProbe.ts",
+      "sha256": "dbdfe4a44feeb976674b70a72928432d4e938e86066111a17d1f096aa7a55277",
+      "normalizedSha256": "dbdfe4a44feeb976674b70a72928432d4e938e86066111a17d1f096aa7a55277",
+      "encoding": "utf8-lf",
+      "bytes": 2465,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/intranetProbe.ts",
+        "blob": "516b70c126dcab9fe11ac29730d9c6e019718cfc",
+        "normalizedSha256": "f3a7ea054998ebdf004323a3d1c941b3c2caabd1da0520a63260cf325e107eb8",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "thirdParty": [],
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/launchMarks.ts",
+      "sha256": "30de70ec0c82adb647451374eb3fe94627603511a72f5964c8d7278c4dd8f43c",
+      "normalizedSha256": "30de70ec0c82adb647451374eb3fe94627603511a72f5964c8d7278c4dd8f43c",
+      "encoding": "utf8-lf",
+      "bytes": 1383,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/launchMarks.ts",
+        "blob": "b1d0cde3953871ba9157b9a9c612d980c880ac95",
+        "normalizedSha256": "2770193b2ef8d1b05c923a261bb451df12fb2a4d828f779fa382b65f9d4d26c8",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "thirdParty": [],
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/lineChangeStat.ts",
+      "sha256": "35a2b5c3b78a461f0759c610f3996ed2965aa6bdf15af2e9c129aae352c63a0f",
+      "normalizedSha256": "35a2b5c3b78a461f0759c610f3996ed2965aa6bdf15af2e9c129aae352c63a0f",
+      "encoding": "utf8-lf",
+      "bytes": 2077,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/lineChangeStat.ts",
+        "blob": "67417c3e03ef35febb9c5c32d4be624009bd894c",
+        "normalizedSha256": "cf5124855da67dbe78f920e9f19f27cb7ffa506acd3f18f6c8fb6c6ac1205655",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "thirdParty": [],
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/localTtft.ts",
+      "sha256": "b6f6963535fddb455bf6adcf1c82e08dd609fb2f8bf7b6398c16cd164b3b3597",
+      "normalizedSha256": "b6f6963535fddb455bf6adcf1c82e08dd609fb2f8bf7b6398c16cd164b3b3597",
+      "encoding": "utf8-lf",
+      "bytes": 6819,
+      "classification": "upstream-unchanged",
+      "upstream": {
+        "relation": "unchanged",
+        "path": "packages/shared/src/localTtft.ts",
+        "blob": "27d70653a1c56fe28e00ed0987ce826f8fd440f3",
+        "normalizedSha256": "b6f6963535fddb455bf6adcf1c82e08dd609fb2f8bf7b6398c16cd164b3b3597",
+        "contentMatchedPaths": ["packages/shared/src/localTtft.ts"]
+      },
+      "license": "NOASSERTION",
+      "thirdParty": [],
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/markdown-artifact-images.ts",
+      "sha256": "af6e5f1753ab35b84fbf138de4844771ed5f40250c5c1d30977022ca4048d77f",
+      "normalizedSha256": "af6e5f1753ab35b84fbf138de4844771ed5f40250c5c1d30977022ca4048d77f",
+      "encoding": "utf8-lf",
+      "bytes": 2263,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/markdown-artifact-images.ts",
+        "blob": "74fb12cfa95611147749dd447e551b27e555a1ea",
+        "normalizedSha256": "5ad24f3c59525415f6897049f36d0bb614257c22b3327166dca6ff4422360dcd",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "thirdParty": [],
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/mcp.ts",
+      "sha256": "15bf6ab8470f65dac2b85d63f7b600b147230d648b18cd16e41e08f38191d202",
+      "normalizedSha256": "15bf6ab8470f65dac2b85d63f7b600b147230d648b18cd16e41e08f38191d202",
+      "encoding": "utf8-lf",
+      "bytes": 8638,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/mcp.ts",
+        "blob": "3e020d5036b81d956fc47ed4954f638f8a495aca",
+        "normalizedSha256": "20903fb8806923434dcf5c319cb1becc5cbaa3418bc6c6e9bcf56848ad9312ac",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "thirdParty": [],
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/memoryDiagnostics.ts",
+      "sha256": "68678f92f79c5816b357a4857e78baa07f81a389f6b1fae39c1c2c42c893bd75",
+      "normalizedSha256": "68678f92f79c5816b357a4857e78baa07f81a389f6b1fae39c1c2c42c893bd75",
+      "encoding": "utf8-lf",
+      "bytes": 5489,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/memoryDiagnostics.ts",
+        "blob": "e2e32a7efb7ea0b169face78e3f3e83913386bdb",
+        "normalizedSha256": "6f7881b27e0c146788af6290dfdf35cf9b2713273310560a992c7ea9c5a65b77",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "thirdParty": [],
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/model-config.ts",
+      "sha256": "c25bbbfeee56d0eca660c7ee383296aab146c4456a9acaa2177d0cd497567b29",
+      "normalizedSha256": "c25bbbfeee56d0eca660c7ee383296aab146c4456a9acaa2177d0cd497567b29",
+      "encoding": "utf8-lf",
+      "bytes": 4370,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/model-config.ts",
+        "blob": "18531677c4f9e82b552e2705591835e7d7aab5a3",
+        "normalizedSha256": "5d8f79c5add78054fad680493e530fa8ed01af99ffb907875a216cc462e6c0f0",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "thirdParty": [],
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/model-execution.ts",
+      "sha256": "53f00f3b60bf00507c9ca5707da65537f343d9a4a62b5c85fe1e0a53aa5401e1",
+      "normalizedSha256": "53f00f3b60bf00507c9ca5707da65537f343d9a4a62b5c85fe1e0a53aa5401e1",
+      "encoding": "utf8-lf",
+      "bytes": 664,
+      "classification": "upstream-unchanged",
+      "upstream": {
+        "relation": "unchanged",
+        "path": "packages/shared/src/model-execution.ts",
+        "blob": "33d41b73f6e0fd7e5788375c3c4921e747bb4375",
+        "normalizedSha256": "53f00f3b60bf00507c9ca5707da65537f343d9a4a62b5c85fe1e0a53aa5401e1",
+        "contentMatchedPaths": ["packages/shared/src/model-execution.ts"]
+      },
+      "license": "NOASSERTION",
+      "thirdParty": [],
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/node.ts",
+      "sha256": "f1941a04d78b75a3faa5650c4873f09da9591cc7e6318f5a8b94bfc3fd936d2b",
+      "normalizedSha256": "f1941a04d78b75a3faa5650c4873f09da9591cc7e6318f5a8b94bfc3fd936d2b",
+      "encoding": "utf8-lf",
+      "bytes": 774,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/node.ts",
+        "blob": "480a70f36a5c5f584f5aba1891ce8e9722272915",
+        "normalizedSha256": "e37d70cb8640c19907a8b0dd2c652d67638037b5a43b986669dcae2871578ca7",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "thirdParty": [],
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/oauth.ts",
+      "sha256": "ffd15cbfdfb894c687759c30c9e82391751aecc992cb6a19a5b75a8faf8dfcd4",
+      "normalizedSha256": "ffd15cbfdfb894c687759c30c9e82391751aecc992cb6a19a5b75a8faf8dfcd4",
+      "encoding": "utf8-lf",
+      "bytes": 1670,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/oauth.ts",
+        "blob": "3c6bb8bcb7a0cf06e9ebead872c0470ba8f05355",
+        "normalizedSha256": "426441fab7296a7a110523b455dbb3b8b86f291da5b6e3e0127058f63e26841b",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "thirdParty": [],
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/official-mcp-auth.ts",
+      "sha256": "8163d7f717a7924c0cb3e890bd3d7d10dd9e3167b9f67059a9c8bb830e1388c5",
+      "normalizedSha256": "8163d7f717a7924c0cb3e890bd3d7d10dd9e3167b9f67059a9c8bb830e1388c5",
+      "encoding": "utf8-lf",
+      "bytes": 6349,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/official-mcp-auth.ts",
+        "blob": "e8b890415328a543724c596fddb085b56e618788",
+        "normalizedSha256": "b54f40f504fd2ba89e34953d93592d66712cff1e16ea5d7cb8c04f5bf6f94ae8",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "thirdParty": [],
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/official-mcp-tool-error.ts",
+      "sha256": "09ec909450ecc21ab290065563dbcecb3957250be53e30feedab4aefb7ab47f4",
+      "normalizedSha256": "09ec909450ecc21ab290065563dbcecb3957250be53e30feedab4aefb7ab47f4",
+      "encoding": "utf8-lf",
+      "bytes": 2841,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/official-mcp-tool-error.ts",
+        "blob": "612dd7a23d5dcb5a36c2eefcb516c0005aa92975",
+        "normalizedSha256": "74f966961b89565e035b50b93523cd643c9fe4f61cca4fab70e8c8759ef3fcc8",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "thirdParty": [],
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/onboardingRecord.ts",
+      "sha256": "2823ebb94367a9bee190f50e56b23cf871c95c8dabdea3d08b3b266e748db14b",
+      "normalizedSha256": "2823ebb94367a9bee190f50e56b23cf871c95c8dabdea3d08b3b266e748db14b",
+      "encoding": "utf8-lf",
+      "bytes": 1669,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/onboardingRecord.ts",
+        "blob": "9456fd43424186b06e9ee2bf814bdbc537ec5def",
+        "normalizedSha256": "d57c67edc9fd98221ab6f4b3689d89d68c9ba222c632cf843c25c586558573c5",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "thirdParty": [],
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/openrouter-attribution.ts",
+      "sha256": "bcc07413cc9ff912705f81e4a799ebf80eb1ca054ad5b1ee54430acba60c829c",
+      "normalizedSha256": "bcc07413cc9ff912705f81e4a799ebf80eb1ca054ad5b1ee54430acba60c829c",
+      "encoding": "utf8-lf",
+      "bytes": 841,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/openrouter-attribution.ts",
+        "blob": "20e32f17124af4c22f03883fe67f8650705fbe17",
+        "normalizedSha256": "6382c69ac3950bd4343a38e479d5c386dd7323fd34d49f85e56963a350ffd306",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "thirdParty": [],
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/plan-identity.ts",
+      "sha256": "8a589ba5b0851e8cff9f7100d8356d2c7ecdfd1f0a1dd4acc6af669e95c0ceb5",
+      "normalizedSha256": "8a589ba5b0851e8cff9f7100d8356d2c7ecdfd1f0a1dd4acc6af669e95c0ceb5",
+      "encoding": "utf8-lf",
+      "bytes": 2591,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/plan-identity.ts",
+        "blob": "dfcdcd4602e40006c80ea4181a068389f78daf5c",
+        "normalizedSha256": "8ad7c90d3fd7a9b52ac0594a0fb2de92f0b389d11481532ba921350d7bbd57c8",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "thirdParty": [],
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/plugin-display-name.ts",
+      "sha256": "242482c37f8504d98700e6331c94f8204feb05fa9e8f1381f9537cb342df3fe8",
+      "normalizedSha256": "242482c37f8504d98700e6331c94f8204feb05fa9e8f1381f9537cb342df3fe8",
+      "encoding": "utf8-lf",
+      "bytes": 1593,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/plugin-display-name.ts",
+        "blob": "92533f7bfa06f2eab3e29f9e3dc74c07c18ace7f",
+        "normalizedSha256": "5d1204c6b14758ba452d459634ef104e9bbdc68eb1bb56bb4c6b80c313026ca9",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "thirdParty": [],
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/plugin-marketplaces.ts",
+      "sha256": "5af55c961bfd6923480391a784c4a4da97ae5662cfa5224699ec4a3d5a8286be",
+      "normalizedSha256": "5af55c961bfd6923480391a784c4a4da97ae5662cfa5224699ec4a3d5a8286be",
+      "encoding": "utf8-lf",
+      "bytes": 2012,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/plugin-marketplaces.ts",
+        "blob": "d0028637b3c3baf75bd743c144acc5f8dbd7a085",
+        "normalizedSha256": "e4e42c6122c1f732928a403b7f67b6941927de361daa39dd52e21d74ea7c04db",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "thirdParty": [],
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/pluginStoreOrder.ts",
+      "sha256": "b5368ef5f36d5cff6f395fe257ec45ce326f72f0e6521f2b2e0884ae18a62942",
+      "normalizedSha256": "b5368ef5f36d5cff6f395fe257ec45ce326f72f0e6521f2b2e0884ae18a62942",
+      "encoding": "utf8-lf",
+      "bytes": 810,
+      "classification": "upstream-unchanged",
+      "upstream": {
+        "relation": "unchanged",
+        "path": "packages/shared/src/pluginStoreOrder.ts",
+        "blob": "388cdc25399e4e4c2908ab8ca467d1536665d5f1",
+        "normalizedSha256": "b5368ef5f36d5cff6f395fe257ec45ce326f72f0e6521f2b2e0884ae18a62942",
+        "contentMatchedPaths": ["packages/shared/src/pluginStoreOrder.ts"]
+      },
+      "license": "NOASSERTION",
+      "thirdParty": [],
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/pluginStoreOrdering.ts",
+      "sha256": "1207f4add81f87c7f75357618371952c9624840a296916b6ba9be988406f7804",
+      "normalizedSha256": "1207f4add81f87c7f75357618371952c9624840a296916b6ba9be988406f7804",
+      "encoding": "utf8-lf",
+      "bytes": 3610,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/pluginStoreOrdering.ts",
+        "blob": "284634c6b307278aaecd1183857ef7d4d01ef875",
+        "normalizedSha256": "a1ac0bd3b3835edc370e7c949450cb48ecb3b0d450fd04468639d9742007b962",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "thirdParty": [],
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/provider-provisioning.ts",
+      "sha256": "7554301b1df13765bf1290f05aba9ee3e50c5b5ba30ca03cf2935e0d9166c385",
+      "normalizedSha256": "7554301b1df13765bf1290f05aba9ee3e50c5b5ba30ca03cf2935e0d9166c385",
+      "encoding": "utf8-lf",
+      "bytes": 3434,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/provider-provisioning.ts",
+        "blob": "433fadb690a2bfe57ee38dd85647f754a2671566",
+        "normalizedSha256": "6cb5dfcde127d923683116827c8e1009e7006428e780c27c7721eb848d449055",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "thirdParty": [],
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/remote-sync.ts",
+      "sha256": "046c39889f0b094baf3100f79872041772594c1e72c342bbb594946d058ab09a",
+      "normalizedSha256": "046c39889f0b094baf3100f79872041772594c1e72c342bbb594946d058ab09a",
+      "encoding": "utf8-lf",
+      "bytes": 98,
+      "classification": "upstream-unchanged",
+      "upstream": {
+        "relation": "unchanged",
+        "path": "packages/shared/src/remote-sync.ts",
+        "blob": "9de5c7857456467cb59a532a2f62e3f2d9a4da69",
+        "normalizedSha256": "046c39889f0b094baf3100f79872041772594c1e72c342bbb594946d058ab09a",
+        "contentMatchedPaths": ["packages/shared/src/remote-sync.ts"]
+      },
+      "license": "NOASSERTION",
+      "thirdParty": [],
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/remote-workspace-identity.ts",
+      "sha256": "eb845d89d177614b1f901c61068688500e4d3864a75d7a427080bb4bc7023089",
+      "normalizedSha256": "eb845d89d177614b1f901c61068688500e4d3864a75d7a427080bb4bc7023089",
+      "encoding": "utf8-lf",
+      "bytes": 2830,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/remote-workspace-identity.ts",
+        "blob": "f246cb325b36e9c933fe2689199bc616d0c6fe79",
+        "normalizedSha256": "1392ae30f222a4aedaf0427318527839a623e7b43dd455f061f5babc1264ce0f",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "thirdParty": [],
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/remoteAppConfig.ts",
+      "sha256": "c6c0c5ea3415d45ff4ba356d6059f22eff4d802ea13253aea96697088960f1a6",
+      "normalizedSha256": "c6c0c5ea3415d45ff4ba356d6059f22eff4d802ea13253aea96697088960f1a6",
+      "encoding": "utf8-lf",
+      "bytes": 2784,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/remoteAppConfig.ts",
+        "blob": "d92d10fcd199b93046308a02abcb7fbb99d8401b",
+        "normalizedSha256": "de7ab8ccb11701eb44642531808831321f9b95fa21b70f8d9436f139917681b8",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "thirdParty": [],
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/remoteUsageTelemetry.ts",
+      "sha256": "8991d4d8cb8e66a3f0158ff7e2ce04c5ee19efc760b02d6846bffde06d4cc750",
+      "normalizedSha256": "8991d4d8cb8e66a3f0158ff7e2ce04c5ee19efc760b02d6846bffde06d4cc750",
+      "encoding": "utf8-lf",
+      "bytes": 2860,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/remoteUsageTelemetry.ts",
+        "blob": "80144a20116938b915b9e9afcd42ef380c0cdb39",
+        "normalizedSha256": "cba734ec10059e3071f0f30a19c0062fba945f6ef37ca42fbcf07ecd01170345",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "thirdParty": [],
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/rendererActionTrace.ts",
+      "sha256": "223ac6dbb7d08c8f7f232d789ab1d50c73728759f86aa9b9255b9bb16c4e6915",
+      "normalizedSha256": "223ac6dbb7d08c8f7f232d789ab1d50c73728759f86aa9b9255b9bb16c4e6915",
+      "encoding": "utf8-lf",
+      "bytes": 4910,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/rendererActionTrace.ts",
+        "blob": "a6e3875d6e8019b0857caf726d91e6282cb5a96d",
+        "normalizedSha256": "f16a27bea2934df23fa449bde40ec900509f085e4eac5ebc6013d4ff39c993bf",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "thirdParty": [],
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/server-remote.ts",
+      "sha256": "b13a97126ec4c69e9b3a2a3798e812e57bdd95d820460645894ef038b10d2ddd",
+      "normalizedSha256": "b13a97126ec4c69e9b3a2a3798e812e57bdd95d820460645894ef038b10d2ddd",
+      "encoding": "utf8-lf",
+      "bytes": 1283,
+      "classification": "upstream-unchanged",
+      "upstream": {
+        "relation": "unchanged",
+        "path": "packages/shared/src/server-remote.ts",
+        "blob": "091c1f80e4685461f28c14844303bc838c01a233",
+        "normalizedSha256": "b13a97126ec4c69e9b3a2a3798e812e57bdd95d820460645894ef038b10d2ddd",
+        "contentMatchedPaths": ["packages/shared/src/server-remote.ts"]
+      },
+      "license": "NOASSERTION",
+      "thirdParty": [],
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/serviceAuthority.ts",
+      "sha256": "b033f843842f68e15d3756f7080947150f1e766e8d2c7cf22cf9717843450cf6",
+      "normalizedSha256": "b033f843842f68e15d3756f7080947150f1e766e8d2c7cf22cf9717843450cf6",
+      "encoding": "utf8-lf",
+      "bytes": 1161,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/serviceAuthority.ts",
+        "blob": "cf86e93063e6354da31b24b8a76d2d9aeab9de81",
+        "normalizedSha256": "9a6bfe167341c7fe8a9ae17f8cefaa168803d91f7fcbcf10d4f8edb1cf068363",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "thirdParty": [],
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/session-debug.ts",
+      "sha256": "b099a78aa28b8b388ecb8bce34d42f2738571b0c4afcf288c38e73f73fbcdd86",
+      "normalizedSha256": "b099a78aa28b8b388ecb8bce34d42f2738571b0c4afcf288c38e73f73fbcdd86",
+      "encoding": "utf8-lf",
+      "bytes": 3326,
+      "classification": "upstream-unchanged",
+      "upstream": {
+        "relation": "unchanged",
+        "path": "packages/shared/src/session-debug.ts",
+        "blob": "e4d7535f9efdbd03e8cace16ac06b40b75866d57",
+        "normalizedSha256": "b099a78aa28b8b388ecb8bce34d42f2738571b0c4afcf288c38e73f73fbcdd86",
+        "contentMatchedPaths": ["packages/shared/src/session-debug.ts"]
+      },
+      "license": "NOASSERTION",
+      "thirdParty": [],
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/sessionCreateTelemetry.ts",
+      "sha256": "cabe36ab269a85d8f73e7f9e6b81ed987e5ba0d1a84c641ddd32abfbfbed3a79",
+      "normalizedSha256": "cabe36ab269a85d8f73e7f9e6b81ed987e5ba0d1a84c641ddd32abfbfbed3a79",
+      "encoding": "utf8-lf",
+      "bytes": 1605,
+      "classification": "upstream-unchanged",
+      "upstream": {
+        "relation": "unchanged",
+        "path": "packages/shared/src/sessionCreateTelemetry.ts",
+        "blob": "86aa6c89c079afab26ae1723dc74a4c825bda026",
+        "normalizedSha256": "cabe36ab269a85d8f73e7f9e6b81ed987e5ba0d1a84c641ddd32abfbfbed3a79",
+        "contentMatchedPaths": ["packages/shared/src/sessionCreateTelemetry.ts"]
+      },
+      "license": "NOASSERTION",
+      "thirdParty": [],
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/skill-scan-policy.ts",
+      "sha256": "9b41fc8e3447ca5833418345fe0d717bedb5e845662ceeaaeaa88e4781d925eb",
+      "normalizedSha256": "9b41fc8e3447ca5833418345fe0d717bedb5e845662ceeaaeaa88e4781d925eb",
+      "encoding": "utf8-lf",
+      "bytes": 2066,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/skill-scan-policy.ts",
+        "blob": "6975fff8ff1d4ae5c96be71cdaf3ca68c5f68f1b",
+        "normalizedSha256": "41f8ff7a52e9dc7a5154a87b3464cb56c78fa5965a8da6d328b1e3e4ec0d40aa",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "thirdParty": [],
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/update.ts",
+      "sha256": "ee59e763bc6f74621841ef28011da6acc833f74763049173072dd2a126b86245",
+      "normalizedSha256": "ee59e763bc6f74621841ef28011da6acc833f74763049173072dd2a126b86245",
+      "encoding": "utf8-lf",
+      "bytes": 1811,
+      "classification": "upstream-unchanged",
+      "upstream": {
+        "relation": "unchanged",
+        "path": "packages/shared/src/update.ts",
+        "blob": "652f25570fceaaf015472500d591b490fa8e4dc7",
+        "normalizedSha256": "ee59e763bc6f74621841ef28011da6acc833f74763049173072dd2a126b86245",
+        "contentMatchedPaths": ["packages/shared/src/update.ts"]
+      },
+      "license": "NOASSERTION",
+      "thirdParty": [],
+      "review": null
+    },
+    {
+      "path": "packages/shared/src/wslUserValidation.ts",
+      "sha256": "de27a789b433e641237c124619caadfdf267407a4ca0bd48fecdf3a9b259fadd",
+      "normalizedSha256": "de27a789b433e641237c124619caadfdf267407a4ca0bd48fecdf3a9b259fadd",
+      "encoding": "utf8-lf",
+      "bytes": 834,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/wslUserValidation.ts",
+        "blob": "879e1366c3caa2ef4521fce160620fc36aa687b5",
+        "normalizedSha256": "96c18113f6273cc80bae560e04353cf3e991f4607ab6eb29d088954a8eec167c",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "thirdParty": [],
+      "review": null
+    }
+  ]
+}

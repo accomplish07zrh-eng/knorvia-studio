@@ -1,0 +1,1055 @@
+{
+  "databaseStartup": {
+    "codes": [
+      "backup_failed",
+      "checksum_mismatch",
+      "corrupt",
+      "io_error",
+      "lock_timeout",
+      "newer_database",
+      "open_failed",
+      "out_of_memory",
+      "permission_denied",
+      "sql_failed",
+      "startup_status_timeout",
+      "storage_full",
+      "transport_closed",
+      "unsupported_runtime"
+    ],
+    "phases": [
+      "starting",
+      "preparing_host_storage",
+      "preparing_session_storage",
+      "starting_services",
+      "ready",
+      "failed"
+    ],
+    "state": [
+      {
+        "input": {
+          "schemaVersion": 1,
+          "startupId": "s",
+          "attemptId": "a",
+          "sequence": 0,
+          "startedAt": 1,
+          "updatedAt": 2,
+          "phase": "ready",
+          "disk": []
+        },
+        "success": true
+      },
+      {
+        "input": {
+          "schemaVersion": 1,
+          "startupId": "s",
+          "attemptId": "a",
+          "sequence": 0,
+          "startedAt": 1,
+          "updatedAt": 2,
+          "phase": "failed",
+          "failedPhase": "starting_services",
+          "errorCode": "io_error",
+          "sqliteCode": 13,
+          "systemCode": "ENOSPC",
+          "disk": []
+        },
+        "success": true
+      },
+      {
+        "input": {
+          "schemaVersion": 1,
+          "startupId": "s",
+          "attemptId": "a",
+          "sequence": 0,
+          "startedAt": 1,
+          "updatedAt": 2,
+          "phase": "ready",
+          "disk": [],
+          "extra": true
+        },
+        "success": false
+      }
+    ],
+    "classify": [
+      {
+        "input": {
+          "code": "ENOSPC"
+        },
+        "output": "storage_full"
+      },
+      {
+        "input": {
+          "errcode": 13
+        },
+        "output": "storage_full"
+      },
+      {
+        "input": {
+          "errcode": 3
+        },
+        "output": "permission_denied"
+      },
+      {
+        "input": {
+          "errcode": 8
+        },
+        "output": "permission_denied"
+      },
+      {
+        "input": {
+          "errcode": 10
+        },
+        "output": "io_error"
+      },
+      {
+        "input": {
+          "errcode": 7
+        },
+        "output": "out_of_memory"
+      },
+      {
+        "input": {
+          "errcode": 11
+        },
+        "output": "corrupt"
+      },
+      {
+        "input": {
+          "errcode": 26
+        },
+        "output": "corrupt"
+      },
+      {
+        "input": {
+          "errcode": 14
+        },
+        "output": "open_failed"
+      },
+      {
+        "input": {
+          "errcode": 5
+        },
+        "output": "lock_timeout"
+      },
+      {
+        "input": {
+          "errcode": 0
+        },
+        "output": "sql_failed"
+      },
+      {
+        "input": {
+          "cause": {
+            "cause": {
+              "kind": "corrupt"
+            }
+          }
+        },
+        "output": "corrupt"
+      },
+      {
+        "input": {
+          "errcode": 5,
+          "cause": {
+            "errcode": 13
+          }
+        },
+        "output": "storage_full"
+      },
+      {
+        "input": {
+          "kind": "checksum_mismatch"
+        },
+        "output": "checksum_mismatch"
+      },
+      {
+        "input": {
+          "code": "SQLITE_IOERR"
+        },
+        "output": "sql_failed"
+      },
+      {
+        "input": {
+          "type": "error",
+          "message": "ENOSPC: no space left"
+        },
+        "output": "sql_failed"
+      }
+    ],
+    "details": [
+      {
+        "sqliteCode": 3,
+        "systemCode": "ENOSPC",
+        "migrationId": "m-1"
+      },
+      {},
+      {}
+    ],
+    "retry": [
+      {
+        "input": {
+          "phase": "failed",
+          "failedPhase": "starting"
+        },
+        "output": true
+      },
+      {
+        "input": {
+          "phase": "failed",
+          "failedPhase": "starting_services",
+          "errorCode": "io_error"
+        },
+        "output": false
+      },
+      {
+        "input": {
+          "phase": "failed",
+          "failedPhase": "starting",
+          "errorCode": "corrupt"
+        },
+        "output": false
+      },
+      {
+        "input": {
+          "phase": "ready",
+          "failedPhase": "starting"
+        },
+        "output": false
+      },
+      {
+        "input": {
+          "phase": "failed",
+          "failedPhase": "starting",
+          "errorCode": "checksum_mismatch"
+        },
+        "output": false
+      },
+      {
+        "input": {
+          "phase": "failed",
+          "failedPhase": "starting",
+          "errorCode": "newer_database"
+        },
+        "output": false
+      },
+      {
+        "input": {
+          "phase": "failed",
+          "failedPhase": "starting",
+          "errorCode": "transport_closed"
+        },
+        "output": false
+      },
+      {
+        "input": {
+          "phase": "failed",
+          "failedPhase": "starting",
+          "errorCode": "startup_status_timeout"
+        },
+        "output": false
+      },
+      {
+        "input": {
+          "phase": "failed",
+          "failedPhase": "starting",
+          "errorCode": "unsupported_runtime"
+        },
+        "output": false
+      },
+      {
+        "input": {
+          "phase": "failed",
+          "failedPhase": "starting",
+          "errorCode": "lock_timeout"
+        },
+        "output": true
+      }
+    ],
+    "schemas": {
+      "control": [
+        {
+          "input": {
+            "action": "snapshot"
+          },
+          "success": true
+        },
+        {
+          "input": {
+            "action": "exit"
+          },
+          "success": true
+        },
+        {
+          "input": {
+            "action": "retry",
+            "attemptId": "a"
+          },
+          "success": true
+        },
+        {
+          "input": {
+            "action": "retry"
+          },
+          "success": false
+        },
+        {
+          "input": {
+            "action": "reset"
+          },
+          "success": false
+        }
+      ],
+      "portPayload": [
+        {
+          "input": {
+            "databaseStartupId": "s"
+          },
+          "success": true
+        },
+        {
+          "input": {
+            "databaseStartupId": ""
+          },
+          "success": false
+        },
+        {
+          "input": {
+            "phase": "ready"
+          },
+          "success": false
+        }
+      ],
+      "migration": [
+        {
+          "input": "m-1",
+          "success": true
+        },
+        {
+          "input": "",
+          "success": false
+        },
+        {
+          "input": "a b",
+          "success": false
+        },
+        {
+          "input": "a/b",
+          "success": false
+        }
+      ]
+    }
+  },
+  "memory": {
+    "constants": {
+      "intervalMs": 60000,
+      "defaultHeapDeltaRatio": 0.05,
+      "defaultNativeDeltaRatio": 0.1,
+      "defaultHeartbeatMs": 300000
+    },
+    "gate": ["first", null, "changed", "changed", null, "heartbeat", null],
+    "format": [
+      2,
+      0,
+      {
+        "rssKb": 1,
+        "heapUsedKb": 2,
+        "externalKb": 0
+      },
+      "[memory] role=renderer reason=first rssKb=10 heapUsedKb=2 a=2 b=2",
+      "[memory] role=main reason=changed z=1",
+      "[memory] role=main reason=heartbeat"
+    ],
+    "registry": {
+      "first": {
+        "a.x": 1
+      },
+      "replaced": {
+        "a.x": 2
+      },
+      "afterDispose": {}
+    }
+  },
+  "localTtft": {
+    "constants": {
+      "stages": [
+        "renderer_prepare",
+        "command_admission",
+        "execution_wait",
+        "request_prepare",
+        "model_request",
+        "output_return"
+      ],
+      "buckets": [1, 5, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000, 30000, 60000, 300000],
+      "maxDetails": 64,
+      "preparationStages": [
+        "context",
+        "hooks",
+        "persistence",
+        "compaction",
+        "mcp",
+        "tools",
+        "request_assembly"
+      ],
+      "pending": 128,
+      "ttl": 300000,
+      "clockErrorTtl": 60000,
+      "clockErrorMax": 10
+    },
+    "calibration": [
+      {
+        "start": 100,
+        "end": 200,
+        "facts": {
+          "instanceId": "i",
+          "receivedAt": 110,
+          "sentAt": 190
+        },
+        "output": {
+          "instanceId": "i",
+          "offsetMs": 0,
+          "errorMs": 10,
+          "measuredAt": 200
+        }
+      },
+      {
+        "start": 100,
+        "end": 200,
+        "facts": {
+          "instanceId": "i",
+          "receivedAt": 150,
+          "sentAt": 100
+        }
+      },
+      {
+        "start": 100,
+        "end": 200,
+        "facts": {
+          "instanceId": "i",
+          "receivedAt": 100,
+          "sentAt": 220
+        }
+      },
+      {
+        "start": 100,
+        "end": 100,
+        "facts": {
+          "instanceId": "i",
+          "receivedAt": 50,
+          "sentAt": 50
+        },
+        "output": {
+          "instanceId": "i",
+          "offsetMs": 50,
+          "errorMs": 0,
+          "measuredAt": 100
+        }
+      },
+      {
+        "start": 200,
+        "end": 100,
+        "facts": {
+          "instanceId": "i",
+          "receivedAt": 50,
+          "sentAt": 50
+        }
+      },
+      {
+        "start": "NaN",
+        "end": 100,
+        "facts": {
+          "instanceId": "i",
+          "receivedAt": 50,
+          "sentAt": 50
+        }
+      },
+      {
+        "start": 100,
+        "end": 200,
+        "facts": {
+          "instanceId": "",
+          "receivedAt": 50,
+          "sentAt": 50
+        }
+      }
+    ],
+    "schemas": {
+      "detail": [
+        {
+          "input": {
+            "id": "a",
+            "stage": "context",
+            "start": 5,
+            "end": 4,
+            "source": "cli"
+          },
+          "success": false
+        },
+        {
+          "input": {
+            "id": "a",
+            "stage": "context",
+            "start": 4,
+            "end": 4,
+            "source": "cli"
+          },
+          "success": true
+        },
+        {
+          "input": {
+            "id": "a",
+            "stage": "bogus",
+            "start": 4,
+            "end": 5,
+            "source": "cli"
+          },
+          "success": false
+        }
+      ],
+      "record": [
+        {
+          "input": {
+            "version": 1,
+            "observationId": "00000000-0000-4000-8000-000000000000",
+            "kind": "start",
+            "outcome": "success",
+            "start": 5,
+            "end": 4,
+            "quality": "complete",
+            "intervals": []
+          },
+          "success": false
+        },
+        {
+          "input": {
+            "version": 1,
+            "observationId": "00000000-0000-4000-8000-000000000000",
+            "kind": "start",
+            "outcome": "success",
+            "start": 4,
+            "end": 4,
+            "quality": "complete",
+            "intervals": []
+          },
+          "success": true
+        },
+        {
+          "input": {
+            "version": 2,
+            "observationId": "00000000-0000-4000-8000-000000000000",
+            "kind": "start",
+            "outcome": "success",
+            "start": 4,
+            "end": 5,
+            "quality": "complete",
+            "intervals": []
+          },
+          "success": false
+        }
+      ],
+      "batch": [
+        {
+          "input": {
+            "version": 1,
+            "rendererInstanceId": "r",
+            "sequence": 0,
+            "records": [],
+            "dropped": 0
+          },
+          "success": true
+        },
+        {
+          "input": {
+            "version": 1,
+            "rendererInstanceId": "r",
+            "sequence": -1,
+            "records": [],
+            "dropped": 0
+          },
+          "success": false
+        }
+      ],
+      "facts": [
+        {
+          "input": {
+            "version": 1,
+            "observationId": "00000000-0000-4000-8000-000000000000",
+            "instanceId": "i",
+            "commandId": "c",
+            "receivedAt": 1
+          },
+          "success": true
+        },
+        {
+          "input": {
+            "version": 1,
+            "observationId": "bad",
+            "instanceId": "i",
+            "commandId": "c",
+            "receivedAt": 1
+          },
+          "success": false
+        }
+      ]
+    }
+  },
+  "sessionDebug": {
+    "constants": {
+      "rounds": 200,
+      "network": 100,
+      "dedupe": 2000
+    },
+    "tps": [
+      {
+        "outputTokens": 10,
+        "durationMs": 1000,
+        "output": 10
+      },
+      {
+        "outputTokens": 0,
+        "durationMs": 1000,
+        "output": 0
+      },
+      {
+        "outputTokens": 10,
+        "durationMs": 0,
+        "output": null
+      },
+      {
+        "outputTokens": -1,
+        "durationMs": 1000,
+        "output": null
+      },
+      {
+        "outputTokens": null,
+        "durationMs": 1000,
+        "output": null
+      },
+      {
+        "outputTokens": 10,
+        "durationMs": null,
+        "output": null
+      },
+      {
+        "outputTokens": "Infinity",
+        "durationMs": 1000,
+        "output": null
+      },
+      {
+        "outputTokens": 10,
+        "durationMs": "Infinity",
+        "output": null
+      },
+      {
+        "outputTokens": 5,
+        "durationMs": 2000,
+        "output": 2.5
+      }
+    ]
+  },
+  "rendererActionTrace": {
+    "constants": {
+      "serviceName": "knorvia-desktop-renderer",
+      "maxSampleRatio": 0.2,
+      "maxBatchSpans": 32,
+      "maxBatchBytes": 262144,
+      "disabled": {
+        "enabled": false,
+        "sampleRatio": 0,
+        "enabledGroups": [],
+        "configVersion": "disabled"
+      }
+    },
+    "config": [
+      {
+        "input": {
+          "enabled": true,
+          "sampleRatio": 0.2,
+          "enabledGroups": [],
+          "configVersion": "v"
+        },
+        "success": true
+      },
+      {
+        "input": {
+          "enabled": true,
+          "sampleRatio": 0.21,
+          "enabledGroups": [],
+          "configVersion": "v"
+        },
+        "success": false
+      },
+      {
+        "input": {
+          "enabled": false,
+          "sampleRatio": 0,
+          "enabledGroups": [],
+          "configVersion": "disabled",
+          "extra": true
+        },
+        "success": false
+      }
+    ],
+    "span": [
+      {
+        "input": {
+          "traceId": "00000000000000000000000000000000",
+          "spanId": "aaaaaaaaaaaaaaaa",
+          "name": "ui_action",
+          "startTimeUnixMs": 5,
+          "endTimeUnixMs": 4,
+          "status": "ok",
+          "attributes": {
+            "feature_id": "f",
+            "action": "a",
+            "catalog_group": "core",
+            "operation_kind": "command",
+            "surface": "s",
+            "trigger": "button",
+            "outcome": "completed",
+            "action_id": "00000000-0000-4000-8000-000000000000"
+          }
+        },
+        "success": false
+      },
+      {
+        "input": {
+          "traceId": "00000000000000000000000000000000",
+          "spanId": "aaaaaaaaaaaaaaaa",
+          "name": "ui_action",
+          "startTimeUnixMs": 4,
+          "endTimeUnixMs": 4,
+          "status": "ok",
+          "attributes": {
+            "feature_id": "f",
+            "action": "a",
+            "catalog_group": "core",
+            "operation_kind": "command",
+            "surface": "s",
+            "trigger": "button",
+            "outcome": "completed",
+            "action_id": "00000000-0000-4000-8000-000000000000"
+          }
+        },
+        "success": true
+      },
+      {
+        "input": {
+          "traceId": "00000000000000000000000000000000",
+          "spanId": "aaaaaaaaaaaaaaaa",
+          "name": "ui_action",
+          "startTimeUnixMs": 4,
+          "endTimeUnixMs": 5,
+          "status": "ok",
+          "attributes": {
+            "feature_id": "f",
+            "action": "a",
+            "catalog_group": "core",
+            "operation_kind": "command",
+            "surface": "s",
+            "trigger": "button",
+            "outcome": "completed",
+            "action_id": "00000000-0000-4000-8000-000000000000",
+            "extra": true
+          }
+        },
+        "success": false
+      }
+    ],
+    "batch": [
+      {
+        "input": {
+          "version": 1,
+          "rendererInstanceId": "a",
+          "sequence": 0,
+          "droppedSinceLastFlush": 0,
+          "resource": {
+            "serviceName": "knorvia-desktop-renderer",
+            "serviceVersion": "1.0.0",
+            "deploymentEnvironment": "test",
+            "rendererInstanceId": "b"
+          },
+          "spans": []
+        },
+        "success": false
+      },
+      {
+        "input": {
+          "version": 1,
+          "rendererInstanceId": "a",
+          "sequence": 0,
+          "droppedSinceLastFlush": 0,
+          "resource": {
+            "serviceName": "knorvia-desktop-renderer",
+            "serviceVersion": "1.0.0",
+            "deploymentEnvironment": "test",
+            "rendererInstanceId": "a"
+          },
+          "spans": []
+        },
+        "success": true
+      }
+    ]
+  },
+  "lineChange": [
+    {
+      "before": null,
+      "after": "a\nb\n",
+      "output": {
+        "added": 2,
+        "removed": 0
+      }
+    },
+    {
+      "before": "a\nb\n",
+      "after": "a\nc\nb\n",
+      "output": {
+        "added": 1,
+        "removed": 0
+      }
+    },
+    {
+      "before": "a\r\nb\r\n",
+      "after": "a\r\nc\r\n",
+      "output": {
+        "added": 1,
+        "removed": 1
+      }
+    },
+    {
+      "before": "",
+      "after": "",
+      "output": {
+        "added": 0,
+        "removed": 0
+      }
+    },
+    {
+      "before": "a\nb\na\n",
+      "after": "a\nb\n",
+      "output": {
+        "added": 0,
+        "removed": 1
+      }
+    },
+    {
+      "before": "a\nb",
+      "after": "a\nb\n",
+      "output": {
+        "added": 0,
+        "removed": 0
+      }
+    },
+    {
+      "before": "x\ny\nz\n",
+      "after": "x\ny\n",
+      "output": {
+        "added": 0,
+        "removed": 1
+      }
+    },
+    {
+      "before": "",
+      "after": "a",
+      "output": {
+        "added": 1,
+        "removed": 0
+      }
+    },
+    {
+      "before": "a",
+      "after": "",
+      "output": {
+        "added": 0,
+        "removed": 1
+      }
+    }
+  ],
+  "markdownImages": {
+    "extract": [
+      {
+        "input": "![x](knorvia-artifact://a/b) ![y](<knorvia-artifact://c d>) ![z](https://x)",
+        "output": ["knorvia-artifact://a/b"]
+      },
+      {
+        "input": "```\n![x](knorvia-artifact://a)\n```\n![y](knorvia-artifact://b)",
+        "output": ["knorvia-artifact://b"]
+      },
+      {
+        "input": "~~~\n![x](knorvia-artifact://a)\n~~~",
+        "output": []
+      },
+      {
+        "input": "`![x](knorvia-artifact://a)`",
+        "output": ["knorvia-artifact://a"]
+      },
+      {
+        "input": "",
+        "output": []
+      }
+    ],
+    "rewrite": [
+      {
+        "input": "![x](knorvia-artifact://a/b \"title\")",
+        "output": "![x](/__knorvia_artifact_image__/knorvia-artifact%3A%2F%2Fa%2Fb \"title\")"
+      },
+      {
+        "input": "![x](knorvia-artifact://a b)",
+        "output": "![x](knorvia-artifact://a b)"
+      },
+      {
+        "input": "![x](https://x)",
+        "output": "![x](https://x)"
+      }
+    ],
+    "decode": [
+      {
+        "input": "/__knorvia_artifact_image__/knorvia-artifact%3A%2F%2Fa%2Fb",
+        "output": "knorvia-artifact://a/b"
+      },
+      {
+        "input": "/__knorvia_artifact_image__/https%3A%2F%2Fx",
+        "output": null
+      },
+      {
+        "input": "bad",
+        "output": null
+      },
+      {
+        "input": "/__knorvia_artifact_image__/%E0%A4%A",
+        "output": null
+      }
+    ]
+  },
+  "sessionCreateTelemetry": {
+    "mobile": [
+      {
+        "input": {
+          "elementName": "session_create",
+          "eventRegion": "app",
+          "eventType": "result",
+          "talkId": "t",
+          "messageId": "m",
+          "context": {
+            "clientTimezone": "z",
+            "clientLanguage": "l",
+            "screenResolution": "s"
+          },
+          "eventExtraDetail": {
+            "create_source": "group",
+            "client_kind": "mobile",
+            "workspace_kind": "remote",
+            "remote_kind": "server"
+          }
+        },
+        "success": true
+      },
+      {
+        "input": {
+          "elementName": "session_create",
+          "eventRegion": "app",
+          "eventType": "result",
+          "talkId": "t",
+          "messageId": "m",
+          "context": {
+            "clientTimezone": "z",
+            "clientLanguage": "l",
+            "screenResolution": "s"
+          },
+          "eventExtraDetail": {
+            "create_source": "automation_idle",
+            "client_kind": "mobile",
+            "workspace_kind": "local",
+            "remote_kind": ""
+          }
+        },
+        "success": false
+      },
+      {
+        "input": {
+          "elementName": "session_create",
+          "eventRegion": "app",
+          "eventType": "result",
+          "talkId": "t",
+          "messageId": "m",
+          "context": {
+            "clientTimezone": "z",
+            "clientLanguage": "l",
+            "screenResolution": "s"
+          },
+          "eventExtraDetail": {
+            "create_source": "group",
+            "client_kind": "mobile",
+            "workspace_kind": "local",
+            "remote_kind": ""
+          }
+        },
+        "success": true
+      }
+    ],
+    "automation": [
+      {
+        "input": {
+          "elementName": "session_create",
+          "eventRegion": "app",
+          "eventType": "result",
+          "talkId": "t",
+          "messageId": "m",
+          "context": {
+            "clientTimezone": "z",
+            "clientLanguage": "l",
+            "screenResolution": "s"
+          },
+          "eventExtraDetail": {
+            "create_source": "automation_idle",
+            "client_kind": "desktop",
+            "workspace_kind": "local",
+            "remote_kind": ""
+          }
+        },
+        "success": true
+      },
+      {
+        "input": {
+          "elementName": "session_create",
+          "eventRegion": "app",
+          "eventType": "result",
+          "talkId": "t",
+          "messageId": "m",
+          "context": {
+            "clientTimezone": "z",
+            "clientLanguage": "l",
+            "screenResolution": "s"
+          },
+          "eventExtraDetail": {
+            "create_source": "automation_scheduled",
+            "client_kind": "desktop",
+            "workspace_kind": "remote",
+            "remote_kind": "ssh"
+          }
+        },
+        "success": true
+      },
+      {
+        "input": {
+          "elementName": "session_create",
+          "eventRegion": "app",
+          "eventType": "result",
+          "talkId": "t",
+          "messageId": "m",
+          "context": {
+            "clientTimezone": "z",
+            "clientLanguage": "l",
+            "screenResolution": "s"
+          },
+          "eventExtraDetail": {
+            "create_source": "group",
+            "client_kind": "desktop",
+            "workspace_kind": "local",
+            "remote_kind": ""
+          }
+        },
+        "success": false
+      }
+    ]
+  }
+}

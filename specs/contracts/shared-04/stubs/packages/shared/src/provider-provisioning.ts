@@ -1,0 +1,35 @@
+// SPDX-License-Identifier: Apache-2.0
+// shared-04 合同桩：仅保留公开导出名，导入即抛。
+throw new Error("not implemented: shared-04");
+
+export const isProviderProvisioningAccountCredentialKey: unknown = (..._args: unknown[]): never => {
+  throw new Error("not implemented: shared-04");
+};
+
+export const providerProvisioningAccountSettingsSchema: unknown = (..._args: unknown[]): never => {
+  throw new Error("not implemented: shared-04");
+};
+
+export const providerProvisioningCredentialEntrySchema: unknown = (..._args: unknown[]): never => {
+  throw new Error("not implemented: shared-04");
+};
+
+export const providerProvisioningCredentialScopeSchema: unknown = (..._args: unknown[]): never => {
+  throw new Error("not implemented: shared-04");
+};
+
+export const providerProvisioningEnvelopeSchema: unknown = (..._args: unknown[]): never => {
+  throw new Error("not implemented: shared-04");
+};
+
+export const providerProvisioningPersonalConfigSchema: unknown = (..._args: unknown[]): never => {
+  throw new Error("not implemented: shared-04");
+};
+
+export const providerProvisioningResultSchema: unknown = (..._args: unknown[]): never => {
+  throw new Error("not implemented: shared-04");
+};
+
+export const providerProvisioningTriggerSchema: unknown = (..._args: unknown[]): never => {
+  throw new Error("not implemented: shared-04");
+};

@@ -1,0 +1,632 @@
+{
+  "officialMcpAuth": {
+    "constants": {
+      "headerNames": {
+        "authorization": "Authorization",
+        "codingPlanAuthorization": "X-Bigmodel-Authorization",
+        "targetType": "Bigmodel-Target-Type",
+        "organization": "Bigmodel-Organization",
+        "project": "Bigmodel-Project"
+      },
+      "metaKey": "com.knorvia-studio/official-mcp-auth",
+      "failureReasons": ["official_auth_unavailable", "official_auth_plan_required"],
+      "portFailureReasons": [
+        "official_auth_unavailable",
+        "official_auth_plan_required",
+        "official_mcp_origin_untrusted"
+      ],
+      "reservedHeaders": [
+        "authorization",
+        "bigmodel-organization",
+        "bigmodel-project",
+        "bigmodel-target-type",
+        "mcp-protocol-version",
+        "mcp-session-id",
+        "x-bigmodel-authorization",
+        "x-coding-plan-api-key"
+      ]
+    },
+    "reserved": [
+      {
+        "input": {
+          " Authorization ": "x",
+          "X-Coding-Plan-Api-Key": "y",
+          "Other": "z"
+        },
+        "output": ["authorization", "x-coding-plan-api-key"]
+      },
+      {
+        "input": {
+          "Authorization": "x",
+          "authorization": "y"
+        },
+        "output": ["authorization"]
+      },
+      {
+        "input": {},
+        "output": []
+      },
+      {
+        "input": {
+          "Bigmodel-Organization": "o"
+        },
+        "output": ["bigmodel-organization"]
+      }
+    ],
+    "isReserved": [
+      {
+        "input": " MCP-Session-ID ",
+        "output": true
+      },
+      {
+        "input": "Authorization",
+        "output": true
+      },
+      {
+        "input": "Other",
+        "output": false
+      },
+      {
+        "input": "",
+        "output": false
+      }
+    ],
+    "identitySummary": [
+      {
+        "input": {
+          "Bigmodel-Organization": "o",
+          "Bigmodel-Target-Type": "TEAM",
+          "Foo": "bar"
+        },
+        "output": {
+          "identityHeaderNames": ["bigmodel-organization", "bigmodel-target-type", "foo"],
+          "identityOrganizationPresent": true,
+          "identityProjectPresent": false,
+          "identityTeamPaired": false,
+          "identityTargetType": "TEAM"
+        }
+      },
+      {
+        "input": {
+          "Bigmodel-Project": "p",
+          "Bigmodel-Organization": "o"
+        },
+        "output": {
+          "identityHeaderNames": ["bigmodel-organization", "bigmodel-project"],
+          "identityOrganizationPresent": true,
+          "identityProjectPresent": true,
+          "identityTeamPaired": true
+        }
+      },
+      {
+        "input": {},
+        "output": {
+          "identityHeaderNames": [],
+          "identityOrganizationPresent": false,
+          "identityProjectPresent": false,
+          "identityTeamPaired": true
+        }
+      }
+    ],
+    "trust": [
+      {
+        "input": {
+          "origin": "https://api.knorvia.test",
+          "pluginId": "p",
+          "knorviaApiOrigin": "https://api.knorvia.test/path"
+        },
+        "output": {
+          "detail": "ok",
+          "trusted": true
+        }
+      },
+      {
+        "input": {
+          "origin": "http://127.0.0.1:3000",
+          "pluginId": "p",
+          "devTrustedOriginsRaw": " http://localhost:3000 , http://[::1]:1",
+          "knorviaApiOrigin": "https://api"
+        },
+        "output": {
+          "detail": "origin_mismatch",
+          "trusted": false
+        }
+      },
+      {
+        "input": {
+          "origin": "http://localhost:3000",
+          "pluginId": "p",
+          "devTrustedOriginsRaw": "http://127.0.0.1:3000",
+          "knorviaApiOrigin": "https://api"
+        },
+        "output": {
+          "detail": "origin_mismatch",
+          "trusted": false
+        }
+      },
+      {
+        "input": {
+          "origin": "  ",
+          "pluginId": "p",
+          "knorviaApiOrigin": "https://api"
+        },
+        "output": {
+          "detail": "invalid_input",
+          "trusted": false
+        }
+      },
+      {
+        "input": {
+          "origin": "https://api",
+          "pluginId": "p",
+          "knorviaApiOrigin": ""
+        },
+        "output": {
+          "detail": "knorvia_origin_unresolved",
+          "trusted": false
+        }
+      },
+      {
+        "input": {
+          "origin": "https://api/x",
+          "pluginId": "p",
+          "knorviaApiOrigin": "https://api"
+        },
+        "output": {
+          "detail": "ok",
+          "trusted": true
+        }
+      },
+      {
+        "input": {
+          "origin": "https://api",
+          "pluginId": "p",
+          "knorviaApiOrigin": "https://other"
+        },
+        "output": {
+          "detail": "origin_mismatch",
+          "trusted": false
+        }
+      },
+      {
+        "input": {
+          "origin": "https://api",
+          "pluginId": "",
+          "knorviaApiOrigin": "https://api"
+        },
+        "output": {
+          "detail": "ok",
+          "trusted": true
+        }
+      },
+      {
+        "input": {
+          "origin": "https://api/dev",
+          "pluginId": "p",
+          "devTrustedOriginsRaw": "https://api/dev"
+        },
+        "output": {
+          "detail": "knorvia_origin_unresolved",
+          "trusted": false
+        }
+      }
+    ]
+  },
+  "toolError": [
+    {
+      "input": "{\"error_code\":\"quota_exceeded\",\"message\":\" m \",\"request_id\":\"r\"}",
+      "output": {
+        "code": "quota_exceeded",
+        "message": "m",
+        "requestId": "r"
+      }
+    },
+    {
+      "input": "{\"error_code\":\"coding_plan_required\",\"message\":\"m\"}",
+      "output": {
+        "code": "coding_plan_required",
+        "message": "m"
+      }
+    },
+    {
+      "input": "{\"error_code\":\"internal_error\"}"
+    },
+    {
+      "input": "prefix"
+    },
+    {
+      "input": "[]"
+    },
+    {
+      "input": "{\"error_code\":\"quota_exceeded\",\"extra\":1}",
+      "output": {
+        "code": "quota_exceeded"
+      }
+    },
+    {
+      "input": "not json"
+    }
+  ],
+  "oauth": {
+    "constants": {
+      "bigmodelProviderId": "bigmodel",
+      "zaiProviderId": "zai",
+      "decryptPrefix": "凭据解密失败：",
+      "decryptCode": "KNORVIA_CREDENTIAL_DECRYPT_FAILED"
+    },
+    "isDecryptError": [
+      {
+        "input": {
+          "code": "KNORVIA_CREDENTIAL_DECRYPT_FAILED"
+        },
+        "output": true
+      },
+      {
+        "input": {
+          "type": "error",
+          "message": "凭据解密失败：x"
+        },
+        "output": true
+      },
+      {
+        "input": {
+          "type": "error",
+          "message": "other"
+        },
+        "output": false
+      },
+      {
+        "input": {
+          "message": "凭据解密失败：x"
+        },
+        "output": true
+      },
+      {
+        "input": {
+          "code": "KNORVIA_CREDENTIAL_DECRYPT_FAILED",
+          "message": "x"
+        },
+        "output": true
+      },
+      {
+        "input": null,
+        "output": false
+      }
+    ]
+  },
+  "modelConfig": {
+    "data": [
+      {
+        "input": {},
+        "success": true
+      },
+      {
+        "input": {
+          "enabled": true
+        },
+        "success": true
+      },
+      {
+        "input": {
+          "enabled": "true"
+        },
+        "success": false
+      },
+      {
+        "input": null,
+        "success": false
+      }
+    ],
+    "complete": [
+      {
+        "input": {
+          "enabled": true,
+          "properties": {
+            "requiresMfjsToolSchema": false,
+            "contextWindow": 1,
+            "inputFormat": {
+              "supportsText": true,
+              "supportsImage": false,
+              "supportsVideo": false,
+              "supportsAudio": false,
+              "supportsPdf": false
+            },
+            "outputFormat": {
+              "supportsText": true
+            },
+            "supportsToolCall": true,
+            "supportsJsonSchemaOutput": false,
+            "supportsNativeWebSearch": false,
+            "supportsMidConversationSystem": false
+          },
+          "optionSpecs": {
+            "reasoningLevel": {
+              "values": ["low"],
+              "map": "low:low"
+            },
+            "maxOutputTokens": {
+              "max": 1,
+              "map": "1:1"
+            }
+          }
+        },
+        "success": false
+      },
+      {
+        "input": {
+          "enabled": true,
+          "properties": {
+            "requiresMfjsToolSchema": false,
+            "contextWindow": 1,
+            "inputFormat": {
+              "supportsText": true,
+              "supportsImage": false,
+              "supportsVideo": false,
+              "supportsAudio": false,
+              "supportsPdf": false
+            },
+            "outputFormat": {
+              "supportsText": true
+            },
+            "supportsToolCall": true,
+            "supportsJsonSchemaOutput": false,
+            "supportsNativeWebSearch": false,
+            "supportsMidConversationSystem": false,
+            "extra": true
+          },
+          "optionSpecs": {
+            "reasoningLevel": {
+              "values": ["low"],
+              "map": "low:low"
+            },
+            "maxOutputTokens": {
+              "max": 1,
+              "map": "1:1"
+            }
+          }
+        },
+        "success": false
+      }
+    ],
+    "enumOption": [
+      {
+        "input": {
+          "values": ["a", "a"],
+          "map": "x:y"
+        },
+        "success": false
+      },
+      {
+        "input": {
+          "values": [],
+          "map": "x:y"
+        },
+        "success": false
+      },
+      {
+        "input": {
+          "values": ["a"],
+          "map": ""
+        },
+        "success": false
+      }
+    ]
+  },
+  "modelExecution": [
+    {
+      "input": {
+        "selectionScope": "execution"
+      },
+      "success": true
+    },
+    {
+      "input": {
+        "selectionScope": "session"
+      },
+      "success": false
+    },
+    {
+      "input": {
+        "selectionScope": "execution",
+        "requestAuth": {
+          "apiKey": ""
+        }
+      },
+      "success": false
+    },
+    {
+      "input": {
+        "selectionScope": "bogus"
+      },
+      "success": false
+    },
+    {
+      "input": {},
+      "success": false
+    }
+  ],
+  "provisioning": {
+    "key": [
+      {
+        "input": "account-provider:zai:api-key",
+        "output": true
+      },
+      {
+        "input": " account-provider:zai:api-key",
+        "output": false
+      },
+      {
+        "input": "account-provider:zai:token",
+        "output": false
+      },
+      {
+        "input": "account-provider::api-key",
+        "output": false
+      },
+      {
+        "input": "x",
+        "output": false
+      }
+    ],
+    "trigger": [
+      "environment-online",
+      "personal-config",
+      "configured-default",
+      "account-settings",
+      "credential"
+    ],
+    "scope": ["oauth-session", "account-provider"],
+    "envelope": [
+      {
+        "input": {
+          "schemaVersion": 1,
+          "syncId": "s",
+          "personalConfig": {
+            "providerConfigRules": {
+              "providerRules": []
+            },
+            "modelConfigRules": {
+              "providerModelRules": [],
+              "manualProviderModelRules": []
+            }
+          },
+          "accountSettings": {
+            "providerFamilyDomain": null,
+            "providerFamilyConnectionSelections": {}
+          },
+          "credentials": []
+        },
+        "success": true
+      },
+      {
+        "input": {
+          "schemaVersion": 2,
+          "syncId": "s"
+        },
+        "success": false
+      },
+      {
+        "input": {
+          "schemaVersion": 1,
+          "syncId": ""
+        },
+        "success": false
+      }
+    ]
+  },
+  "planIdentity": [
+    {
+      "input": {
+        "providerFamilyDomain": null,
+        "codingPlanEntitlement": null,
+        "startPlanEntitlement": null,
+        "now": 100,
+        "entitlementCacheTtlMs": 10
+      },
+      "output": {
+        "generatedAt": 100,
+        "planStatus": "unknown",
+        "planProductId": ""
+      }
+    },
+    {
+      "input": {
+        "providerFamilyDomain": "zai",
+        "codingPlanEntitlement": null,
+        "startPlanEntitlement": null,
+        "now": 100,
+        "entitlementCacheTtlMs": 10
+      },
+      "output": {
+        "generatedAt": 100,
+        "planStatus": "unknown",
+        "planProductId": ""
+      }
+    },
+    {
+      "input": {
+        "providerFamilyDomain": "zai",
+        "codingPlanEntitlement": {
+          "generatedAt": 95,
+          "authenticated": true,
+          "quota": true
+        },
+        "startPlanEntitlement": null,
+        "now": 100,
+        "entitlementCacheTtlMs": 10
+      },
+      "output": {
+        "generatedAt": 95,
+        "planStatus": "coding_plan",
+        "planProductId": ""
+      }
+    },
+    {
+      "input": {
+        "providerFamilyDomain": "zai",
+        "codingPlanEntitlement": {
+          "generatedAt": 50,
+          "authenticated": true,
+          "quota": true
+        },
+        "startPlanEntitlement": {
+          "generatedAt": 99,
+          "authenticated": true,
+          "subscription": {
+            "details": [
+              {
+                "productId": "p"
+              }
+            ]
+          }
+        },
+        "now": 100,
+        "entitlementCacheTtlMs": 10
+      },
+      "output": {
+        "generatedAt": 100,
+        "planStatus": "unknown",
+        "planProductId": ""
+      }
+    },
+    {
+      "input": {
+        "providerFamilyDomain": "zai",
+        "codingPlanEntitlement": {
+          "generatedAt": 99,
+          "authenticated": true,
+          "unavailableReason": "no_plan"
+        },
+        "startPlanEntitlement": {
+          "generatedAt": 99,
+          "authenticated": true,
+          "unavailableReason": "no_plan"
+        },
+        "now": 100,
+        "entitlementCacheTtlMs": 10
+      },
+      "output": {
+        "generatedAt": 100,
+        "planStatus": "no_plan",
+        "planProductId": ""
+      }
+    },
+    {
+      "input": {
+        "providerFamilyDomain": "zai",
+        "codingPlanEntitlement": {
+          "generatedAt": 99,
+          "authenticated": false
+        },
+        "startPlanEntitlement": null,
+        "now": 100,
+        "entitlementCacheTtlMs": 10
+      },
+      "output": {
+        "generatedAt": 100,
+        "planStatus": "unknown",
+        "planProductId": ""
+      }
+    }
+  ]
+}
