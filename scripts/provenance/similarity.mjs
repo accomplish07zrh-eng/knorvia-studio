@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint-disable max-lines -- 相似度 CLI 入口：行/结构门槛与再导出追踪同文件便于审计。 */
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2026 Knorvia Studio contributors
 // 相似度工具：行相似度 + 结构相似度。
@@ -14,6 +15,7 @@ import { join, resolve } from "node:path";
 import { parseArgs } from "node:util";
 import { extractDeclarationNames } from "./similarity-declarations.mjs";
 import { loadCandidate, loadUpstream, readOldFile, readPathList } from "./similarity-inputs.mjs";
+import { appendSiblingOldFiles, pathExistsInRev } from "./similarity-reexport.mjs";
 import {
   THRESHOLDS,
   containment,
@@ -24,6 +26,7 @@ import {
   longestRunDetail,
 } from "./similarity-lines.mjs";
 import { loadOxfmtOptions } from "./similarity-normalize.mjs";
+import { packedLiteralSplits } from "./similarity-packed-literal.mjs";
 import {
   structuralFingerprints,
   structuralOverlap,
@@ -115,9 +118,13 @@ if (values.declaration && declarationNames.length === 0)
   usageError("--declaration requires --interface with at least one name");
 
 const oxfmtOptions = loadOxfmtOptions(repo);
+const oldPathArgs = [
+  ...(values.old ?? []),
+  ...(values["old-list"] ? readPathList(values["old-list"]) : []),
+].filter((givenPath) => pathExistsInRev(repo, values["old-rev"], givenPath));
 const oldFiles = await Promise.all(
-  [...(values.old ?? []), ...(values["old-list"] ? readPathList(values["old-list"]) : [])].map(
-    (givenPath) => readOldFile({ repo, givenPath, revision: values["old-rev"], oxfmtOptions }),
+  oldPathArgs.map((givenPath) =>
+    readOldFile({ repo, givenPath, revision: values["old-rev"], oxfmtOptions }),
   ),
 );
 
@@ -132,8 +139,11 @@ const candidates = await Promise.all(
     }),
   ),
 );
-const results = candidates.map((candidate) => evaluateLines(candidate));
+const results = [];
+for (const candidate of candidates) results.push(await evaluateLines(candidate));
 if (gates !== "line") applyStructural(results);
+// 压行拆分是独立 gate：与行/结构门槛分开计数，任一命中即 FAIL。
+applyPackedLiteralGate(results, candidates);
 for (const result of results) result.pass = result.violations.length === 0;
 
 const failed = results.filter((result) => !result.pass);
@@ -185,7 +195,7 @@ if (values.json) {
 }
 process.exit(failed.length === 0 ? 0 : 1);
 
-function evaluateLines(candidate) {
+async function evaluateLines(candidate) {
   const structuralSkipped = !candidate.binary && candidate.kind !== "script";
   const residualLines = candidate.binary ? 0 : candidate.lines.length;
   const linesBeforeStrip = candidate.binary ? 0 : candidate.linesBeforeStrip;
@@ -209,12 +219,53 @@ function evaluateLines(candidate) {
     violations: [],
     pass: true,
   };
-  if (candidate.binary || gates === "structural") return base;
-  const comparedOld = oldFiles.filter((file) => !file.binary && file.kind === candidate.kind);
+  if (candidate.reexportUnresolved) {
+    return {
+      ...base,
+      tracedFrom: candidate.tracedFrom ?? null,
+      reexportUnresolved: candidate.reexportUnresolved,
+      violations: [`pure-reexport-unresolved: ${candidate.reexportUnresolved}`],
+      pass: false,
+    };
+  }
+  if (candidate.binary || gates === "structural") {
+    return { ...base, tracedFrom: candidate.tracedFrom ?? null };
+  }
+  let comparedOld = oldFiles.filter((file) => !file.binary && file.kind === candidate.kind);
+  comparedOld = await appendSiblingOldFiles({
+    repo,
+    oldRev: values["old-rev"],
+    candidatePath: candidate.givenPath,
+    candidateKind: candidate.kind,
+    comparedOld,
+    oxfmtOptions,
+    readOldFile,
+  });
+  if (candidate.tracedLeaves?.length) {
+    let worst = { maxContainment: { value: -1 }, longestRun: { value: -1 }, lines: 0 };
+    for (const leaf of candidate.tracedLeaves) {
+      const metrics = lineMetrics(leaf, upstream.byKind.get(leaf.kind), comparedOld);
+      if (metrics.maxContainment.value > worst.maxContainment.value) {
+        worst = { ...metrics, lines: leaf.lines.length };
+      }
+    }
+    const violations = lineViolations(worst.lines, worst);
+    return {
+      ...base,
+      lines: worst.lines,
+      residualLines: worst.lines,
+      tracedFrom: candidate.tracedFrom ?? null,
+      maxContainment: worst.maxContainment,
+      longestRun: worst.longestRun,
+      checks: { ...base.checks, line: violations.length === 0 },
+      violations: [...violations],
+    };
+  }
   const metrics = lineMetrics(candidate, upstream.byKind.get(candidate.kind), comparedOld);
   const violations = lineViolations(candidate.lines.length, metrics);
   return {
     ...base,
+    tracedFrom: candidate.tracedFrom ?? null,
     maxContainment: metrics.maxContainment,
     longestRun: metrics.longestRun,
     checks: { ...base.checks, line: violations.length === 0 },
@@ -249,6 +300,26 @@ function lineMetrics(candidate, group, comparedOld) {
     if (run > longest.value) longest = { value: run, file: file.path };
   }
   return { maxContainment, longestRun: longest };
+}
+
+/**
+ * 压行拆分独立 gate：扫描候选里写死的空白分隔字面量在运行时拆成列表的写法，
+ * 命中即 FAIL。只对脚本生效；不随 --gates 关闭，因为它是单独的 gate。
+ */
+function applyPackedLiteralGate(results, candidates) {
+  results.forEach((result, index) => {
+    const candidate = candidates[index];
+    if (candidate.binary || candidate.kind !== "script") return;
+    const texts = candidate.tracedLeaves?.length
+      ? candidate.tracedLeaves.map((leaf) => leaf.text)
+      : [candidate.text];
+    const hits = texts.flatMap((text) => packedLiteralSplits(candidate.path, text));
+    result.packedLiteralSplits = hits;
+    if (hits.length === 0) return;
+    result.violations.push(
+      `packed-literal-split: ${hits.length} 处写死字面量按空白拆分（首个 ${hits[0].line}:${hits[0].column} ${hits[0].via}）`,
+    );
+  });
 }
 
 /**
@@ -366,6 +437,7 @@ function explainResults(candidates, results) {
 }
 
 function describe(result) {
+  const traced = result.tracedFrom ? ` traced-from=${result.tracedFrom}` : "";
   if (result.binary) return `SKIP  ${result.path} binary`;
   const declaration = result.declaration
     ? ` declaration=true declaration-lines=${result.strippedLines} residual-lines=${result.residualLines} stripped-blocks=${result.strippedBlocks}`
@@ -373,7 +445,9 @@ function describe(result) {
   const line =
     gates === "structural"
       ? " line=skipped"
-      : ` containment=${format(result.maxContainment.value)} (${result.maxContainment.file}) run=${result.longestRun.value} (${result.longestRun.file})`;
+      : result.maxContainment == null
+        ? " containment=n/a run=n/a"
+        : ` containment=${format(result.maxContainment.value)} (${result.maxContainment.file}) run=${result.longestRun.value} (${result.longestRun.file})`;
   const structural = result.structuralSkipped
     ? " structural=not-a-script"
     : gates === "line"
@@ -382,7 +456,7 @@ function describe(result) {
   // 格式化失败（语法错误或格式不支持）时退回原文比较，必须让使用者看得到。
   const formatNote = result.formatted ? "" : " format=fallback";
   const verdict = result.violations.length ? ` -> ${result.violations.join("; ")}` : "";
-  return `${result.pass ? "PASS " : "FAIL "} ${result.path} lines=${result.lines}${declaration}${formatNote}${line}${structural}${verdict}`;
+  return `${result.pass ? "PASS " : "FAIL "} ${result.path} lines=${result.lines}${declaration}${formatNote}${line}${structural}${verdict}${traced}`;
 }
 
 function calibrate(results) {

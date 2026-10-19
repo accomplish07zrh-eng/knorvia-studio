@@ -1,0 +1,3 @@
+apps/cli/scripts/clean-dist.mjs
+apps/cli/scripts/count-ts-lines.mjs
+apps/cli/scripts/generate-bash-command-registry.mjs

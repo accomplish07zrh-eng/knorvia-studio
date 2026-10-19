@@ -87,12 +87,28 @@ test("B8 listen 在首/末监听器时发送订阅与退订", async () => {
   const emitter = new Emitter();
   let subscriptions = 0;
   let unsubscriptions = 0;
+  let subscriptionWaiter = null;
+  let unsubscriptionWaiter = null;
+  const armSubscription = () =>
+    new Promise((resolve) => {
+      subscriptionWaiter = resolve;
+    });
+  const armUnsubscription = () =>
+    new Promise((resolve) => {
+      unsubscriptionWaiter = resolve;
+    });
   const tracked = (listener) => {
     subscriptions++;
+    const notify = subscriptionWaiter;
+    subscriptionWaiter = null;
+    notify?.();
     const disposable = emitter.event(listener);
     return {
       dispose() {
         unsubscriptions++;
+        const notifyUnsub = unsubscriptionWaiter;
+        unsubscriptionWaiter = null;
+        notifyUnsub?.();
         disposable.dispose();
       },
     };
@@ -108,22 +124,39 @@ test("B8 listen 在首/末监听器时发送订阅与退订", async () => {
   });
   const channel = client.getChannel("events");
   const received = [];
-  const first = channel.listen("onData")((value) => received.push(value));
-  await delay(10);
+  const waitSub1 = armSubscription();
+  let resolveA;
+  const gotA = new Promise((resolve) => {
+    resolveA = resolve;
+  });
+  const first = channel.listen("onData")((value) => {
+    received.push(value);
+    resolveA(value);
+  });
+  await waitSub1;
   assert.equal(subscriptions, 1);
   emitter.fire("a");
-  await delay(10);
+  await gotA;
   assert.deepEqual(received, ["a"]);
 
+  const waitUnsub1 = armUnsubscription();
   first.dispose();
-  await delay(10);
+  await waitUnsub1;
   assert.equal(unsubscriptions, 1);
 
-  const second = channel.listen("onData")((value) => received.push(value));
-  await delay(10);
+  const waitSub2 = armSubscription();
+  let resolveB;
+  const gotB = new Promise((resolve) => {
+    resolveB = resolve;
+  });
+  const second = channel.listen("onData")((value) => {
+    received.push(value);
+    resolveB(value);
+  });
+  await waitSub2;
   assert.equal(subscriptions, 2);
   emitter.fire("b");
-  await delay(10);
+  await gotB;
   assert.deepEqual(received, ["a", "b"]);
   second.dispose();
   server.dispose();

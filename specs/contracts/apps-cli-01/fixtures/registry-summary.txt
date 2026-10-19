@@ -1,0 +1,1 @@
+{"bytes":1906984,"figVersion":"2.692.3","hash":"1b0d34b4f4fadc4dafab139702e8687830396154c01f23c5a7d523cecd8dad03","roots":707,"skipped":{"dynamicSubcommands":0,"imports":0,"invalidNodes":0,"loadSpecNodes":522}}
