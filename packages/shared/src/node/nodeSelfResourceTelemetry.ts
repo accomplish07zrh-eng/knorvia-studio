@@ -9,11 +9,9 @@ import { availableParallelism } from "node:os";
 import { bytesToKb } from "../memoryDiagnostics.js";
 import type { NodeSelfResourceSample } from "../validation.js";
 
-// CPU 累计读数：字段面与 process.cpuUsage() 的返回值一致，注入方可以直接把这个方法交进来。
-interface CpuReading {
-  user: /* 用户态累计微秒 */ number;
-  system: /* 内核态累计微秒 */ number;
-}
+// CPU 累计读数（用户态 + 内核态，合计微秒）：字段面与 process.cpuUsage() 的返回值一致，
+// 注入方可以直接把这个方法交进来。
+type CpuReading = { user: number; system: number };
 
 // 一次抓取的两样东西必须成对出现：只有同一刻的 CPU 微秒与单调时钟纳秒才谈得上「差了多少」。
 interface ReadingSnapshot {
@@ -21,21 +19,22 @@ interface ReadingSnapshot {
   clockNs: bigint;
 }
 
-// 自采周期固定 60 秒，与本地内存诊断日志保持同一个节拍。
-export const NODE_SELF_RESOURCE_SAMPLE_INTERVAL_MS = 60_000;
+// 自采周期固定 60 秒（60 × 1000 毫秒），与本地内存诊断日志保持同一个节拍。
+export const NODE_SELF_RESOURCE_SAMPLE_INTERVAL_MS = 60 * 1_000;
 
 // 采样器的可注入面：三个读数来源都能换，缺省分别走 process.cpuUsage、process.hrtime 与 os。
-export interface NodeSelfResourceSamplerOptions {
-  readCpuUsage?: () => CpuReading;
-  readMonotonicTimeNs?: /* 单调时钟，纳秒精度 */ () => bigint;
-  logicalCpuCount?: /* 本机逻辑核数，缺省现取 */ number;
-}
+// 构造后不再改写，因此字段全部只读。
+export type NodeSelfResourceSamplerOptions = {
+  readonly readCpuUsage?: () => CpuReading;
+  readonly logicalCpuCount?: number;
+  readonly readMonotonicTimeNs?: () => bigint;
+};
 
 // 采样器只暴露一个方法：拿调用方刚读到的内存快照换一条样本，换不出来就交 null。
-export interface NodeSelfResourceSampler {
+export type NodeSelfResourceSampler = {
   // 基线不可用（首次读数失败、时钟未前进、CPU 计数回退）时返回 null，只丢当前样本。
   sample(usage: NodeJS.MemoryUsage): NodeSelfResourceSample | null;
-}
+};
 
 // 百分比保留 4 位小数，与 CLI 自采样本同口径；放大与取整共用一个因子，避免两处各写一遍。
 const PERCENT_ROUNDING = 10_000;
@@ -65,16 +64,16 @@ export const createNodeSelfResourceSampler = (
   const pollClock = settings.readMonotonicTimeNs ?? (() => process.hrtime.bigint());
   const coreCount = clampCoreCount(settings.logicalCpuCount);
 
-  // 构造时就取一次读数做基线，省得第一个 tick 空转一轮只为了建立基线。
+  // 同一刻成对抓取 CPU 与时钟；读数抛错按缺席处理，只丢这一拍。
   const takeReading = (): ReadingSnapshot | null => {
     try {
-      const reading: ReadingSnapshot = { cpu: pollCpu(), clockNs: pollClock() };
-      return reading;
+      return { cpu: pollCpu(), clockNs: pollClock() };
     } catch {
       return null;
     }
   };
 
+  // 构造时就取一次读数做基线，省得第一个 tick 空转一轮只为了建立基线。
   let baseline = takeReading();
 
   return {
