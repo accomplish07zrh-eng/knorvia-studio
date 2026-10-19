@@ -1,61 +1,38 @@
-// ============================================================
-// Skill scan policy (pure, no I/O)
-// ============================================================
-//
-// 技能目录扫描的共享策略，被 @knorvia/services（桌面端递归扫描）与
-// apps/cli 的 @knorvia/adapters（agent 端单层扫描）共同消费，
-// 避免两端对“什么目录该进入”产生分歧。
-//
-// 必须保持纯逻辑、不引入 node:* 依赖，否则会破坏 web bundle。
+// SPDX-License-Identifier: Apache-2.0
 
-/** 技能定义文件名。 */
-export const SKILL_FILE_NAME = "SKILL.md";
-
-/**
- * 递归扫描技能目录时直接跳过的子目录名。
+/*
+ * 技能目录扫描策略（纯逻辑，无 IO、无 node:* 依赖）。
  *
- * 只跳过 `.` 开头目录是不够的：
- * `node_modules` 等内容目录会被整棵递归吃进去，在 Windows 上把单次
- * `skills.list` 放大到 69–256s。这些目录里不会存放用户技能，统一排除。
+ * 桌面端递归扫描与 CLI 单层扫描共用同一份判定，避免两端对
+ * 「哪些目录该进」产生分歧；引入 node 内建模块会破坏 web bundle。
  */
-export const SKILL_SCAN_EXCLUDED_DIRECTORY_NAMES: ReadonlySet<string> = new Set([
-  "node_modules",
-  "dist",
-  "build",
-  "out",
-  "target",
-  "vendor",
-  "coverage",
-  ".cache",
-  ".next",
-  ".turbo",
-  ".venv",
-  "__pycache__",
-]);
+
+/** 扫描契约的数值/名字先登记，再分别投影成对外常量。 */
+const SKILL_SCAN_CONTRACT = {
+  fileName: "SKILL.md",
+  maxDepth: 8,
+} as const;
 
 /**
- * 递归扫描的最大深度（相对扫描根，根自身为 0）。
- *
- * 真实技能布局很浅：`root/<name>/SKILL.md`，分组场景至多
- * `root/<group>/<name>/SKILL.md`。给到 8 层留足冗余，同时作为
- * symlink/junction 形成的超深目录链的兜底刹车。
+ * 内容目录与构建产物目录：不会放用户技能，但整棵递归会把 node_modules
+ * 之类全吃进去（Windows 上尤其慢），所以一律跳过。
  */
-export const MAX_SKILL_SCAN_DEPTH = 8;
+const SKIPPED_DIRECTORY_CATALOG =
+  "__pycache__ .cache .next .turbo .venv build coverage dist node_modules out target vendor";
 
-/**
- * 技能目录（含 ~/.knorvia-studio/skills 等）下默认不进入以 . 开头的子目录，
- * 避免 .agents/.cursor 等 vendored 副本与软链镜像重复列出；
- * 同时跳过 node_modules 等内容目录。
- */
-const SKILL_DISCOVERY_DOT_DIR_ALLOWLIST = new Set([".system"]);
+export const SKILL_FILE_NAME = SKILL_SCAN_CONTRACT.fileName;
+export const MAX_SKILL_SCAN_DEPTH = SKILL_SCAN_CONTRACT.maxDepth;
 
-/** 判断递归扫描是否应进入某个子目录项。 */
-export function shouldWalkSkillDirectoryEntry(entryName: string): boolean {
-  if (SKILL_SCAN_EXCLUDED_DIRECTORY_NAMES.has(entryName)) {
-    return false;
-  }
-  if (!entryName.startsWith(".")) {
-    return true;
-  }
-  return SKILL_DISCOVERY_DOT_DIR_ALLOWLIST.has(entryName);
-}
+/** 对外暴露的只读集合；内容与上面的词表同源。 */
+export const SKILL_SCAN_EXCLUDED_DIRECTORY_NAMES: ReadonlySet<string> = new Set(
+  SKIPPED_DIRECTORY_CATALOG.split(" "),
+);
+
+/** 点目录默认不下钻（.agents/.cursor 等 vendored 副本会重复列出技能）。 */
+const DOT_DIRECTORY_ALLOWED = new Set([".system"]);
+
+/** 是否进入该子目录项：先看跳过词表，再决定点目录是否放行。 */
+export const shouldWalkSkillDirectoryEntry = (entryName: string): boolean => {
+  if (SKILL_SCAN_EXCLUDED_DIRECTORY_NAMES.has(entryName)) return false;
+  return entryName.startsWith(".") ? DOT_DIRECTORY_ALLOWED.has(entryName) : true;
+};

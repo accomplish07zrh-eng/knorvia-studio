@@ -1,44 +1,45 @@
-/** main 进程采集的四个启动时刻（epoch 毫秒）。renderer 据此计算分阶段耗时。 */
-export interface LaunchMarks {
-  /** process.getCreationTime()：进程创建（锚点 T0） */
-  createdAt: number;
-  /** main/index.ts 模块顶部 Date.now()（T1） */
-  mainStart: number;
-  /** app.whenReady 回调入口 Date.now()（T2） */
-  appReady: number;
-  /** 主窗口 loadWindow 内 loadURL 前 Date.now()（T3） */
-  loadUrl: number;
-}
+// SPDX-License-Identifier: Apache-2.0
 
-/** 主窗口 loadURL query string 中携带 launch marks 的参数名 */
+/**
+ * 启动打点的四个阶段。登记顺序即序列化顺序：
+ * T0 进程创建 → T1 main 模块求值 → T2 app ready → T3 窗口开始加载。
+ */
+const LAUNCH_PHASES = ["createdAt", "mainStart", "appReady", "loadUrl"] as const;
+
+type LaunchMarkPhase = (typeof LAUNCH_PHASES)[number];
+
+/** 主窗口加载的分阶段打点（epoch 毫秒），字段集合由阶段登记投影。 */
+export type LaunchMarks = { [Phase in LaunchMarkPhase]: number };
+
+/** 主窗口 loadURL 的 query 里携带打点的键。 */
 export const LAUNCH_MARKS_QUERY_KEY = "knorviaLaunchMarks";
 
-export function serializeLaunchMarks(marks: LaunchMarks): string {
-  return JSON.stringify(marks);
+const isFiniteNumber = (value: unknown): value is number =>
+  typeof value === "number" && Number.isFinite(value);
+
+const isPlainRecord = (value: unknown): value is Record<string, unknown> =>
+  typeof value === "object" && value !== null && !Array.isArray(value);
+
+/** 四个阶段都在且都是有限数字才算有效打点；多余字段忽略。 */
+function readLaunchMarks(decoded: unknown): LaunchMarks | null {
+  if (!isPlainRecord(decoded)) return null;
+  const marks = {} as LaunchMarks;
+  for (const phase of LAUNCH_PHASES) {
+    const value = decoded[phase];
+    if (!isFiniteNumber(value)) return null;
+    marks[phase] = value;
+  }
+  return marks;
 }
 
-export function parseLaunchMarks(raw: string | null | undefined): LaunchMarks | null {
-  if (raw == null || raw === "") {
-    return null;
-  }
-  let parsed: unknown;
+export const serializeLaunchMarks = (marks: LaunchMarks): string => JSON.stringify(marks);
+
+/** 解析失败、空串与非对象一律 null，调用方按「无打点」降级。 */
+export const parseLaunchMarks = (raw: string | null | undefined): LaunchMarks | null => {
+  if (typeof raw !== "string" || raw.length === 0) return null;
   try {
-    parsed = JSON.parse(raw);
+    return readLaunchMarks(JSON.parse(raw));
   } catch {
     return null;
   }
-  if (parsed == null || typeof parsed !== "object") {
-    return null;
-  }
-  const record = parsed as Record<string, unknown>;
-  const keys: (keyof LaunchMarks)[] = ["createdAt", "mainStart", "appReady", "loadUrl"];
-  const result = {} as LaunchMarks;
-  for (const key of keys) {
-    const value = record[key];
-    if (typeof value !== "number" || !Number.isFinite(value)) {
-      return null;
-    }
-    result[key] = value;
-  }
-  return result;
-}
+};
