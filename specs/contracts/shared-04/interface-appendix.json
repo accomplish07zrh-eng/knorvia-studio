@@ -1,0 +1,957 @@
+{
+  "scope": "shared-04",
+  "generatedFrom": "TypeScript compiler API program (tsconfig.base.json, packages/shared roots)",
+  "totalRuntime": 204,
+  "totalTypes": 152,
+  "files": [
+    {
+      "path": "packages/shared/src/app-runtime-preferences.ts",
+      "runtime": [
+        "APP_RUNTIME_PREFERENCES_CHANGED_BROADCAST_CHANNEL",
+        "appRuntimePreferencesChangedBroadcastPayloadSchema",
+        "ASK_USER_QUESTION_E2E_CLOCK_SCALE_ENV"
+      ],
+      "pureTypes": ["AppRuntimePreferencesChangedBroadcastPayload"],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": [
+        "APP_RUNTIME_PREFERENCES_CHANGED_BROADCAST_CHANNEL",
+        "appRuntimePreferencesChangedBroadcastPayloadSchema",
+        "ASK_USER_QUESTION_E2E_CLOCK_SCALE_ENV"
+      ]
+    },
+    {
+      "path": "packages/shared/src/clientConfig.ts",
+      "runtime": ["clientConfigReadOptionsSchema", "parseClientConfigSnapshot"],
+      "pureTypes": ["ClientConfigReadOptions", "ClientConfigSnapshot"],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": ["clientConfigReadOptionsSchema", "parseClientConfigSnapshot"]
+    },
+    {
+      "path": "packages/shared/src/database-startup.ts",
+      "runtime": [
+        "canRetryDatabaseStartup",
+        "classifyDatabaseStartupError",
+        "databaseMigrationFactsSchema",
+        "databaseMigrationIdSchema",
+        "databaseStartupControlSchema",
+        "databaseStartupErrorCodeSchema",
+        "databaseStartupErrorDetails",
+        "databaseStartupErrorDetailsSchema",
+        "databaseStartupPhaseSchema",
+        "databaseStartupPortPayloadSchema",
+        "databaseStartupStateSchema",
+        "startupDiskSummarySchema"
+      ],
+      "pureTypes": [
+        "DatabaseMigrationFacts",
+        "DatabaseStartupControl",
+        "DatabaseStartupErrorCode",
+        "DatabaseStartupState",
+        "StartupDiskSummary"
+      ],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": [
+        "canRetryDatabaseStartup",
+        "classifyDatabaseStartupError",
+        "databaseMigrationFactsSchema",
+        "databaseMigrationIdSchema",
+        "databaseStartupControlSchema",
+        "databaseStartupErrorCodeSchema",
+        "databaseStartupErrorDetails",
+        "databaseStartupErrorDetailsSchema",
+        "databaseStartupPhaseSchema",
+        "databaseStartupPortPayloadSchema",
+        "databaseStartupStateSchema",
+        "startupDiskSummarySchema"
+      ]
+    },
+    {
+      "path": "packages/shared/src/desktopMenu.ts",
+      "runtime": [
+        "desktopMenuMessageIds",
+        "desktopMenuMessages",
+        "formatDesktopMenuMessage",
+        "getDesktopMenuMessage"
+      ],
+      "pureTypes": ["DesktopMenuMessageId"],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": [
+        "desktopMenuMessageIds",
+        "desktopMenuMessages",
+        "formatDesktopMenuMessage",
+        "getDesktopMenuMessage"
+      ]
+    },
+    {
+      "path": "packages/shared/src/dynamic-workflow-feature.ts",
+      "runtime": [
+        "createDynamicWorkflowClientConfig",
+        "DEFAULT_DYNAMIC_WORKFLOW_MODE",
+        "DYNAMIC_WORKFLOW_MODES",
+        "isDynamicWorkflowModeEnabled",
+        "KNORVIA_DYNAMIC_WORKFLOW_MODE_ENV",
+        "normalizeDynamicWorkflowMode",
+        "resolveDynamicWorkflowClientConfig"
+      ],
+      "pureTypes": [
+        "DynamicWorkflowClientConfig",
+        "DynamicWorkflowClientConfigSource",
+        "DynamicWorkflowMode"
+      ],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": [
+        "createDynamicWorkflowClientConfig",
+        "DEFAULT_DYNAMIC_WORKFLOW_MODE",
+        "DYNAMIC_WORKFLOW_MODES",
+        "isDynamicWorkflowModeEnabled",
+        "KNORVIA_DYNAMIC_WORKFLOW_MODE_ENV",
+        "normalizeDynamicWorkflowMode",
+        "resolveDynamicWorkflowClientConfig"
+      ]
+    },
+    {
+      "path": "packages/shared/src/e2e-test-bridge.ts",
+      "runtime": ["shouldEnableE2ETestBridge"],
+      "pureTypes": ["E2ETestBridgeEnvironment"],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": ["shouldEnableE2ETestBridge"]
+    },
+    {
+      "path": "packages/shared/src/endpointHostname.ts",
+      "runtime": ["resolveSafeEndpointHostname"],
+      "pureTypes": [],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": ["resolveSafeEndpointHostname"]
+    },
+    {
+      "path": "packages/shared/src/feedback.ts",
+      "runtime": [
+        "DEFAULT_FEEDBACK_TICKET_FRAMEWORK",
+        "FEEDBACK_FRAMEWORK_NONE",
+        "FEEDBACK_TICKET_FRAMEWORK_OPTIONS",
+        "FEEDBACK_TICKET_FRAMEWORKS",
+        "FEEDBACK_TICKET_MODULES",
+        "FEEDBACK_TICKET_SEVERITIES",
+        "FEEDBACK_TICKET_TYPES"
+      ],
+      "pureTypes": [
+        "CreateFeedbackTicketInput",
+        "FeedbackAttachment",
+        "FeedbackAttachmentKind",
+        "FeedbackComment",
+        "FeedbackCommentAttachment",
+        "FeedbackDeviceInfo",
+        "FeedbackListQuery",
+        "FeedbackListResult",
+        "FeedbackReporter",
+        "FeedbackTicketDetail",
+        "FeedbackTicketEvent",
+        "FeedbackTicketEventType",
+        "FeedbackTicketFramework",
+        "FeedbackTicketFrameworkSelectValue",
+        "FeedbackTicketModule",
+        "FeedbackTicketSeverity",
+        "FeedbackTicketStatus",
+        "FeedbackTicketSummary",
+        "FeedbackTicketType"
+      ],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": [
+        "DEFAULT_FEEDBACK_TICKET_FRAMEWORK",
+        "FEEDBACK_FRAMEWORK_NONE",
+        "FEEDBACK_TICKET_FRAMEWORK_OPTIONS",
+        "FEEDBACK_TICKET_FRAMEWORKS",
+        "FEEDBACK_TICKET_MODULES",
+        "FEEDBACK_TICKET_SEVERITIES",
+        "FEEDBACK_TICKET_TYPES"
+      ]
+    },
+    {
+      "path": "packages/shared/src/feedbackPrivacy.ts",
+      "runtime": ["redactFeedbackText"],
+      "pureTypes": [],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": ["redactFeedbackText"]
+    },
+    {
+      "path": "packages/shared/src/helpAppConfig.ts",
+      "runtime": ["resolveHelpAppConfig"],
+      "pureTypes": ["HelpAppConfig"],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": ["resolveHelpAppConfig"]
+    },
+    {
+      "path": "packages/shared/src/intranetDefaults.ts",
+      "runtime": [
+        "DEFAULT_INTRANET_MACHINE_HOST",
+        "INTRANET_ASSET_BASE_URL",
+        "INTRANET_ASSET_SERVICE_PORT",
+        "INTRANET_DEPS_BASE_URL",
+        "INTRANET_MACHINE_HOST",
+        "INTRANET_PROBE_SERVICE_PATH",
+        "INTRANET_PROBE_SERVICE_PORT",
+        "INTRANET_PROBE_SERVICE_URL",
+        "resolveIntranetDepsBaseUrl",
+        "resolveIntranetMachineHost"
+      ],
+      "pureTypes": [],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": [
+        "DEFAULT_INTRANET_MACHINE_HOST",
+        "INTRANET_ASSET_BASE_URL",
+        "INTRANET_ASSET_SERVICE_PORT",
+        "INTRANET_DEPS_BASE_URL",
+        "INTRANET_MACHINE_HOST",
+        "INTRANET_PROBE_SERVICE_PATH",
+        "INTRANET_PROBE_SERVICE_PORT",
+        "INTRANET_PROBE_SERVICE_URL",
+        "resolveIntranetDepsBaseUrl",
+        "resolveIntranetMachineHost"
+      ]
+    },
+    {
+      "path": "packages/shared/src/intranetProbe.ts",
+      "runtime": [],
+      "pureTypes": [
+        "IntranetProbeRequest",
+        "IntranetProbeResult",
+        "IntranetProbeServiceResponse",
+        "IntranetProbeServiceTarget",
+        "IntranetProbeServiceTargetResult",
+        "IntranetProbeTarget",
+        "IntranetProbeTargetResult",
+        "IntranetProbeTcpTarget",
+        "IntranetProbeTcpTargetResult"
+      ],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": []
+    },
+    {
+      "path": "packages/shared/src/launchMarks.ts",
+      "runtime": ["LAUNCH_MARKS_QUERY_KEY", "parseLaunchMarks", "serializeLaunchMarks"],
+      "pureTypes": ["LaunchMarks"],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": ["LAUNCH_MARKS_QUERY_KEY", "parseLaunchMarks", "serializeLaunchMarks"]
+    },
+    {
+      "path": "packages/shared/src/lineChangeStat.ts",
+      "runtime": ["computeLineChangeStat"],
+      "pureTypes": ["LineChangeStat"],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": ["computeLineChangeStat"]
+    },
+    {
+      "path": "packages/shared/src/localTtft.ts",
+      "runtime": [
+        "calibrateLocalTtftClock",
+        "LOCAL_TTFT_BUCKETS_MS",
+        "LOCAL_TTFT_CLOCK_MAX_ERROR_MS",
+        "LOCAL_TTFT_CLOCK_TTL_MS",
+        "LOCAL_TTFT_MAX_DETAILS",
+        "LOCAL_TTFT_MAX_PENDING",
+        "LOCAL_TTFT_PREPARATION_STAGES",
+        "LOCAL_TTFT_STAGES",
+        "LOCAL_TTFT_TTL_MS",
+        "localTtftBatchSchema",
+        "localTtftClockSchema",
+        "localTtftContextSchema",
+        "localTtftDetailSchema",
+        "localTtftFactsSchema",
+        "localTtftIntervalSchema",
+        "localTtftNow",
+        "localTtftOutputKindSchema",
+        "localTtftRecordSchema"
+      ],
+      "pureTypes": [
+        "LocalTtftBatch",
+        "LocalTtftCalibration",
+        "LocalTtftClock",
+        "LocalTtftContext",
+        "LocalTtftDetail",
+        "LocalTtftFacts",
+        "LocalTtftOutputKind",
+        "LocalTtftRecord"
+      ],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": [
+        "calibrateLocalTtftClock",
+        "LOCAL_TTFT_BUCKETS_MS",
+        "LOCAL_TTFT_CLOCK_MAX_ERROR_MS",
+        "LOCAL_TTFT_CLOCK_TTL_MS",
+        "LOCAL_TTFT_MAX_DETAILS",
+        "LOCAL_TTFT_MAX_PENDING",
+        "LOCAL_TTFT_PREPARATION_STAGES",
+        "LOCAL_TTFT_STAGES",
+        "LOCAL_TTFT_TTL_MS",
+        "localTtftBatchSchema",
+        "localTtftClockSchema",
+        "localTtftContextSchema",
+        "localTtftDetailSchema",
+        "localTtftFactsSchema",
+        "localTtftIntervalSchema",
+        "localTtftNow",
+        "localTtftOutputKindSchema",
+        "localTtftRecordSchema"
+      ]
+    },
+    {
+      "path": "packages/shared/src/markdown-artifact-images.ts",
+      "runtime": [
+        "decodeMarkdownArtifactImageSource",
+        "extractMarkdownArtifactImageRefs",
+        "rewriteMarkdownArtifactImageSources"
+      ],
+      "pureTypes": [],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": [
+        "decodeMarkdownArtifactImageSource",
+        "extractMarkdownArtifactImageRefs",
+        "rewriteMarkdownArtifactImageSources"
+      ]
+    },
+    {
+      "path": "packages/shared/src/mcp.ts",
+      "runtime": [
+        "convertToKnorviaAgentMcpServer",
+        "getMcpServerRequestHeaders",
+        "isKnorviaCuaMcpCommand",
+        "isKnorviaCuaMcpPackageArg",
+        "KNORVIA_CUA_OFFICIAL_MCP_NAMESPACE_NAME",
+        "KNORVIA_CUA_OFFICIAL_PLUGIN_ID",
+        "KNORVIA_PLUGIN_ID_ENV_KEY"
+      ],
+      "pureTypes": [
+        "CliMcpConfig",
+        "CliMcpSource",
+        "KnorviaAgentMcpServer",
+        "KnorviaMcpServer",
+        "LoadCliMcpFromUserDirectoryRequest",
+        "LoadCliMcpFromUserDirectoryResult",
+        "McpAuthorizationCodeOAuthConfig",
+        "McpClientCredentialsOAuthConfig",
+        "McpConfig",
+        "McpFileFormat",
+        "McpOAuthConfig",
+        "McpScope",
+        "McpServerConfig",
+        "McpServerListItem",
+        "McpServerStatus",
+        "McpSource",
+        "McpTestResult",
+        "MigrateLegacyCommonMcpRequest",
+        "MigrateLegacyCommonMcpResult",
+        "NativeMcpFileReference",
+        "NativeMcpServerRecord",
+        "SaveCliMcpToUserDirectoryRequest"
+      ],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": [
+        "convertToKnorviaAgentMcpServer",
+        "getMcpServerRequestHeaders",
+        "isKnorviaCuaMcpCommand",
+        "isKnorviaCuaMcpPackageArg",
+        "KNORVIA_CUA_OFFICIAL_MCP_NAMESPACE_NAME",
+        "KNORVIA_CUA_OFFICIAL_PLUGIN_ID",
+        "KNORVIA_PLUGIN_ID_ENV_KEY"
+      ]
+    },
+    {
+      "path": "packages/shared/src/memoryDiagnostics.ts",
+      "runtime": [
+        "bytesToKb",
+        "createMemoryDiagnosticsRegistry",
+        "createMemorySampleWriteGate",
+        "formatMemorySampleLine",
+        "MEMORY_SAMPLE_HEAP_DELTA_RATIO",
+        "MEMORY_SAMPLE_HEARTBEAT_MS",
+        "MEMORY_SAMPLE_INTERVAL_MS",
+        "MEMORY_SAMPLE_NATIVE_DELTA_RATIO",
+        "memoryUsageToSampleFields"
+      ],
+      "pureTypes": [
+        "MemoryDiagnosticsProvider",
+        "MemoryDiagnosticsRegistry",
+        "MemorySample",
+        "MemorySampleFields",
+        "MemorySampleRole",
+        "MemorySampleWriteGate",
+        "MemorySampleWriteGateOptions",
+        "MemorySampleWriteReason"
+      ],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": [
+        "bytesToKb",
+        "createMemoryDiagnosticsRegistry",
+        "createMemorySampleWriteGate",
+        "formatMemorySampleLine",
+        "MEMORY_SAMPLE_HEAP_DELTA_RATIO",
+        "MEMORY_SAMPLE_HEARTBEAT_MS",
+        "MEMORY_SAMPLE_INTERVAL_MS",
+        "MEMORY_SAMPLE_NATIVE_DELTA_RATIO",
+        "memoryUsageToSampleFields"
+      ]
+    },
+    {
+      "path": "packages/shared/src/model-config.ts",
+      "runtime": [
+        "completeEnumOptionSpecDataSchema",
+        "completeLimitOptionSpecDataSchema",
+        "completeModelConfigDataSchema",
+        "completeModelInputFormatDataSchema",
+        "completeModelOptionSpecsDataSchema",
+        "completeModelOutputFormatDataSchema",
+        "completeModelPropertiesDataSchema",
+        "enumOptionSpecDataSchema",
+        "limitOptionSpecDataSchema",
+        "modelConfigDataSchema",
+        "modelInputFormatDataSchema",
+        "modelOptionSpecsDataSchema",
+        "modelOutputFormatDataSchema",
+        "modelPropertiesDataSchema"
+      ],
+      "pureTypes": [
+        "EnumOptionSpecData",
+        "LimitOptionSpecData",
+        "ModelInputFormatData",
+        "ModelOptionSpecsData",
+        "ModelOutputFormatData",
+        "ModelPropertiesData"
+      ],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": [
+        "completeEnumOptionSpecDataSchema",
+        "completeLimitOptionSpecDataSchema",
+        "completeModelConfigDataSchema",
+        "completeModelInputFormatDataSchema",
+        "completeModelOptionSpecsDataSchema",
+        "completeModelOutputFormatDataSchema",
+        "completeModelPropertiesDataSchema",
+        "enumOptionSpecDataSchema",
+        "limitOptionSpecDataSchema",
+        "modelConfigDataSchema",
+        "modelInputFormatDataSchema",
+        "modelOptionSpecsDataSchema",
+        "modelOutputFormatDataSchema",
+        "modelPropertiesDataSchema"
+      ]
+    },
+    {
+      "path": "packages/shared/src/model-execution.ts",
+      "runtime": ["modelExecutionSchema"],
+      "pureTypes": [],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": ["modelExecutionSchema"]
+    },
+    {
+      "path": "packages/shared/src/node.ts",
+      "runtime": [],
+      "pureTypes": [
+        "acquireFileLock",
+        "atomicWritePrivateTextFile",
+        "backupCorruptFile",
+        "createNodeSelfResourceSampler",
+        "migrateSubagentStateFile",
+        "migrateUserSubagentMarkdown",
+        "NODE_SELF_RESOURCE_SAMPLE_INTERVAL_MS",
+        "NodeSelfResourceSampler",
+        "NodeSelfResourceSamplerOptions",
+        "resolveKnorviaDataRoot",
+        "scanOfficialPluginCacheRoots",
+        "SharedFileLockOptions",
+        "withFileLock"
+      ],
+      "reexportStars": [],
+      "reexportNamed": [
+        {
+          "from": "./node/atomicFileLock.js",
+          "names": ["acquireFileLock"]
+        },
+        {
+          "from": "./node/knorviaPaths.js",
+          "names": ["resolveKnorviaDataRoot"]
+        },
+        {
+          "from": "./node/officialPluginCache.js",
+          "names": ["scanOfficialPluginCacheRoots"]
+        },
+        {
+          "from": "./node/subagentMarkdownMigration.js",
+          "names": ["migrateUserSubagentMarkdown", "migrateSubagentStateFile"]
+        },
+        {
+          "from": "./node/privateFilePersistence.js",
+          "names": [
+            "atomicWritePrivateTextFile",
+            "backupCorruptFile",
+            "withFileLock",
+            "type SharedFileLockOptions"
+          ]
+        },
+        {
+          "from": "./node/nodeSelfResourceTelemetry.js",
+          "names": [
+            "createNodeSelfResourceSampler",
+            "NODE_SELF_RESOURCE_SAMPLE_INTERVAL_MS",
+            "type NodeSelfResourceSampler",
+            "type NodeSelfResourceSamplerOptions"
+          ]
+        }
+      ],
+      "staticRuntimeNames": []
+    },
+    {
+      "path": "packages/shared/src/oauth.ts",
+      "runtime": [
+        "BIGMODEL_PROVIDER_ID",
+        "CREDENTIAL_DECRYPT_ERROR_CODE",
+        "CREDENTIAL_DECRYPT_ERROR_PREFIX",
+        "isCredentialDecryptError",
+        "ZAI_PROVIDER_ID"
+      ],
+      "pureTypes": ["OAuthProviderId"],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": [
+        "BIGMODEL_PROVIDER_ID",
+        "CREDENTIAL_DECRYPT_ERROR_CODE",
+        "CREDENTIAL_DECRYPT_ERROR_PREFIX",
+        "isCredentialDecryptError",
+        "ZAI_PROVIDER_ID"
+      ]
+    },
+    {
+      "path": "packages/shared/src/official-mcp-auth.ts",
+      "runtime": [
+        "createOfficialMcpTrustedOriginRegistry",
+        "findOfficialMcpReservedHeaders",
+        "isOfficialMcpOriginTrusted",
+        "isOfficialMcpReservedHeaderName",
+        "KNORVIA_OFFICIAL_MCP_AUTH_PROVIDER_JWT_TOKEN",
+        "KNORVIA_OFFICIAL_MCP_AUTH_TYPE",
+        "KNORVIA_WORKSPACE_IDENTITY_ENV",
+        "OFFICIAL_MCP_AUTH_FAILURE_REASONS",
+        "OFFICIAL_MCP_AUTH_HEADER_NAMES",
+        "OFFICIAL_MCP_AUTH_META_KEY",
+        "OFFICIAL_MCP_AUTH_PORT_FAILURE_REASONS",
+        "OFFICIAL_MCP_DEV_TRUSTED_ORIGINS_ENV",
+        "OFFICIAL_MCP_RESERVED_HEADER_NAMES",
+        "summarizeOfficialMcpIdentityHeaders"
+      ],
+      "pureTypes": [
+        "CreateOfficialMcpTrustedOriginRegistryOptions",
+        "IsOfficialMcpOriginTrustedInput",
+        "OfficialMcpAuthFailureKind",
+        "OfficialMcpAuthFailureReason",
+        "OfficialMcpAuthPortFailureReason",
+        "OfficialMcpTargetType",
+        "OfficialMcpTrustedOriginRegistry",
+        "OfficialMcpTrustResult"
+      ],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": [
+        "createOfficialMcpTrustedOriginRegistry",
+        "findOfficialMcpReservedHeaders",
+        "isOfficialMcpOriginTrusted",
+        "isOfficialMcpReservedHeaderName",
+        "KNORVIA_OFFICIAL_MCP_AUTH_PROVIDER_JWT_TOKEN",
+        "KNORVIA_OFFICIAL_MCP_AUTH_TYPE",
+        "KNORVIA_WORKSPACE_IDENTITY_ENV",
+        "OFFICIAL_MCP_AUTH_FAILURE_REASONS",
+        "OFFICIAL_MCP_AUTH_HEADER_NAMES",
+        "OFFICIAL_MCP_AUTH_META_KEY",
+        "OFFICIAL_MCP_AUTH_PORT_FAILURE_REASONS",
+        "OFFICIAL_MCP_DEV_TRUSTED_ORIGINS_ENV",
+        "OFFICIAL_MCP_RESERVED_HEADER_NAMES",
+        "summarizeOfficialMcpIdentityHeaders"
+      ]
+    },
+    {
+      "path": "packages/shared/src/official-mcp-tool-error.ts",
+      "runtime": ["OFFICIAL_MCP_TOOL_ERROR_CODES", "parseOfficialMcpToolError"],
+      "pureTypes": ["OfficialMcpToolError", "OfficialMcpToolErrorCode"],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": ["OFFICIAL_MCP_TOOL_ERROR_CODES", "parseOfficialMcpToolError"]
+    },
+    {
+      "path": "packages/shared/src/onboardingRecord.ts",
+      "runtime": [
+        "onboardingInterfaceModeSchema",
+        "onboardingOccupationSchema",
+        "onboardingRecordEntrySchema",
+        "onboardingRecordFileSchema"
+      ],
+      "pureTypes": ["OnboardingRecordEntry", "OnboardingRecordEntryInput", "OnboardingRecordFile"],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": [
+        "onboardingInterfaceModeSchema",
+        "onboardingOccupationSchema",
+        "onboardingRecordEntrySchema",
+        "onboardingRecordFileSchema"
+      ]
+    },
+    {
+      "path": "packages/shared/src/openrouter-attribution.ts",
+      "runtime": [
+        "isOpenRouterBaseUrl",
+        "OPENROUTER_ATTRIBUTION_HEADERS",
+        "withOpenRouterAttributionHeaders"
+      ],
+      "pureTypes": [],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": [
+        "isOpenRouterBaseUrl",
+        "OPENROUTER_ATTRIBUTION_HEADERS",
+        "withOpenRouterAttributionHeaders"
+      ]
+    },
+    {
+      "path": "packages/shared/src/plan-identity.ts",
+      "runtime": ["resolvePlanIdentitySnapshot"],
+      "pureTypes": [],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": ["resolvePlanIdentitySnapshot"]
+    },
+    {
+      "path": "packages/shared/src/plugin-display-name.ts",
+      "runtime": ["formatCanonicalPluginName", "resolveLocalizedText", "resolvePluginDisplayName"],
+      "pureTypes": [],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": [
+        "formatCanonicalPluginName",
+        "resolveLocalizedText",
+        "resolvePluginDisplayName"
+      ]
+    },
+    {
+      "path": "packages/shared/src/plugin-marketplaces.ts",
+      "runtime": [
+        "DEFAULT_ENABLED_OFFICIAL_PLUGIN_IDS",
+        "DEFAULT_PLUGIN_MARKETPLACES",
+        "isPublicStoreMarketplaceId",
+        "KNORVIA_OFFICIAL_PLUGIN_MARKETPLACE_ID",
+        "PUBLIC_STORE_MARKETPLACE_IDS"
+      ],
+      "pureTypes": ["DefaultPluginMarketplace"],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": [
+        "DEFAULT_ENABLED_OFFICIAL_PLUGIN_IDS",
+        "DEFAULT_PLUGIN_MARKETPLACES",
+        "isPublicStoreMarketplaceId",
+        "KNORVIA_OFFICIAL_PLUGIN_MARKETPLACE_ID",
+        "PUBLIC_STORE_MARKETPLACE_IDS"
+      ]
+    },
+    {
+      "path": "packages/shared/src/pluginStoreOrder.ts",
+      "runtime": ["parsePluginStoreOrder"],
+      "pureTypes": ["PluginStoreModeOrder", "PluginStoreOrder"],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": ["parsePluginStoreOrder"]
+    },
+    {
+      "path": "packages/shared/src/pluginStoreOrdering.ts",
+      "runtime": [
+        "compareDocumentPluginPriority",
+        "FALLBACK_PLUGIN_STORE_CATEGORY",
+        "PLUGIN_STORE_CATEGORY_ORDER",
+        "resolvePluginStoreCategory",
+        "sortPluginStoreEntries"
+      ],
+      "pureTypes": [],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": [
+        "compareDocumentPluginPriority",
+        "FALLBACK_PLUGIN_STORE_CATEGORY",
+        "PLUGIN_STORE_CATEGORY_ORDER",
+        "resolvePluginStoreCategory",
+        "sortPluginStoreEntries"
+      ]
+    },
+    {
+      "path": "packages/shared/src/provider-provisioning.ts",
+      "runtime": [
+        "isProviderProvisioningAccountCredentialKey",
+        "providerProvisioningAccountSettingsSchema",
+        "providerProvisioningCredentialEntrySchema",
+        "providerProvisioningCredentialScopeSchema",
+        "providerProvisioningEnvelopeSchema",
+        "providerProvisioningPersonalConfigSchema",
+        "providerProvisioningResultSchema",
+        "providerProvisioningTriggerSchema"
+      ],
+      "pureTypes": [
+        "ProviderProvisioningAccountSettings",
+        "ProviderProvisioningCredentialEntry",
+        "ProviderProvisioningCredentialScope",
+        "ProviderProvisioningEnvelope",
+        "ProviderProvisioningPersonalConfig",
+        "ProviderProvisioningResult",
+        "ProviderProvisioningTrigger"
+      ],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": [
+        "isProviderProvisioningAccountCredentialKey",
+        "providerProvisioningAccountSettingsSchema",
+        "providerProvisioningCredentialEntrySchema",
+        "providerProvisioningCredentialScopeSchema",
+        "providerProvisioningEnvelopeSchema",
+        "providerProvisioningPersonalConfigSchema",
+        "providerProvisioningResultSchema",
+        "providerProvisioningTriggerSchema"
+      ]
+    },
+    {
+      "path": "packages/shared/src/remote-sync.ts",
+      "runtime": [],
+      "pureTypes": ["RemoteSyncWriteAccessResult"],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": []
+    },
+    {
+      "path": "packages/shared/src/remote-workspace-identity.ts",
+      "runtime": [
+        "buildRemoteWorkspaceIdentity",
+        "isRemoteWorkspaceIdentity",
+        "parseRemoteWorkspaceIdentity"
+      ],
+      "pureTypes": ["ParsedRemoteWorkspaceIdentity", "RemoteWorkspaceIdentityKind"],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": [
+        "buildRemoteWorkspaceIdentity",
+        "isRemoteWorkspaceIdentity",
+        "parseRemoteWorkspaceIdentity"
+      ]
+    },
+    {
+      "path": "packages/shared/src/remoteAppConfig.ts",
+      "runtime": [
+        "getCommunityUrlFromConfig",
+        "getCommunityUrlFromConfigs",
+        "getCommunityUrlsFromConfig",
+        "getFeedbackApiBaseFromConfig",
+        "getFeedbackUrlFromConfig",
+        "getFeedbackUseExternalFormFromConfig",
+        "getForceUpdateMinimalVersionFromConfig"
+      ],
+      "pureTypes": [],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": [
+        "getCommunityUrlFromConfig",
+        "getCommunityUrlFromConfigs",
+        "getCommunityUrlsFromConfig",
+        "getFeedbackApiBaseFromConfig",
+        "getFeedbackUrlFromConfig",
+        "getFeedbackUseExternalFormFromConfig",
+        "getForceUpdateMinimalVersionFromConfig"
+      ]
+    },
+    {
+      "path": "packages/shared/src/remoteUsageTelemetry.ts",
+      "runtime": [
+        "buildRemoteWorkspaceConnectResultTelemetry",
+        "classifyRemoteUsageError",
+        "resolveWorkspaceTelemetryDetail"
+      ],
+      "pureTypes": [
+        "RemoteUsageErrorCategory",
+        "RemoteUsageRemoteKind",
+        "RemoteUsageResult",
+        "RemoteUsageWorkspaceKind",
+        "RemoteWorkspaceConnectTrigger"
+      ],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": [
+        "buildRemoteWorkspaceConnectResultTelemetry",
+        "classifyRemoteUsageError",
+        "resolveWorkspaceTelemetryDetail"
+      ]
+    },
+    {
+      "path": "packages/shared/src/rendererActionTrace.ts",
+      "runtime": [
+        "DISABLED_RENDERER_ACTION_TRACE_CONFIG",
+        "RENDERER_ACTION_TRACE_MAX_BATCH_BYTES",
+        "RENDERER_ACTION_TRACE_MAX_BATCH_SPANS",
+        "RENDERER_ACTION_TRACE_MAX_SAMPLE_RATIO",
+        "RENDERER_ACTION_TRACE_SERVICE_NAME",
+        "rendererActionTraceAttributesSchema",
+        "rendererActionTraceBatchSchema",
+        "rendererActionTraceConfigSchema",
+        "rendererActionTraceGroupSchema",
+        "rendererActionTraceResourceSchema",
+        "rendererActionTraceSpanSchema"
+      ],
+      "pureTypes": [
+        "RendererActionTraceAttributes",
+        "RendererActionTraceBatchV1",
+        "RendererActionTraceConfigV1",
+        "RendererActionTraceGroup",
+        "RendererActionTraceResourceV1",
+        "RendererActionTraceSpanV1"
+      ],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": [
+        "DISABLED_RENDERER_ACTION_TRACE_CONFIG",
+        "RENDERER_ACTION_TRACE_MAX_BATCH_BYTES",
+        "RENDERER_ACTION_TRACE_MAX_BATCH_SPANS",
+        "RENDERER_ACTION_TRACE_MAX_SAMPLE_RATIO",
+        "RENDERER_ACTION_TRACE_SERVICE_NAME",
+        "rendererActionTraceAttributesSchema",
+        "rendererActionTraceBatchSchema",
+        "rendererActionTraceConfigSchema",
+        "rendererActionTraceGroupSchema",
+        "rendererActionTraceResourceSchema",
+        "rendererActionTraceSpanSchema"
+      ]
+    },
+    {
+      "path": "packages/shared/src/server-remote.ts",
+      "runtime": [
+        "SERVER_REMOTE_PROTOCOL_VERSION",
+        "serverRemoteHostCapabilitySchema",
+        "serverRemoteInfoSchema",
+        "serverRemoteWorkspaceInfoSchema"
+      ],
+      "pureTypes": ["ServerRemoteHostCapability", "ServerRemoteInfo", "ServerRemoteWorkspaceInfo"],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": [
+        "SERVER_REMOTE_PROTOCOL_VERSION",
+        "serverRemoteHostCapabilitySchema",
+        "serverRemoteInfoSchema",
+        "serverRemoteWorkspaceInfoSchema"
+      ]
+    },
+    {
+      "path": "packages/shared/src/serviceAuthority.ts",
+      "runtime": [
+        "isServiceAuthorityMode",
+        "parseServiceAuthorityMode",
+        "SERVICE_AUTHORITY_MODE_ENV",
+        "serviceAuthorityModes",
+        "shouldUseProviderRegistrySourceForAuthorityMode"
+      ],
+      "pureTypes": ["ServiceAuthorityMode"],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": [
+        "isServiceAuthorityMode",
+        "parseServiceAuthorityMode",
+        "SERVICE_AUTHORITY_MODE_ENV",
+        "serviceAuthorityModes",
+        "shouldUseProviderRegistrySourceForAuthorityMode"
+      ]
+    },
+    {
+      "path": "packages/shared/src/session-debug.ts",
+      "runtime": [
+        "calculateOutputTps",
+        "SESSION_DEBUG_LIMITS",
+        "sessionDebugNetworkEntrySchema",
+        "sessionDebugParamsSchema",
+        "sessionDebugRoundSchema",
+        "sessionDebugSnapshotSchema"
+      ],
+      "pureTypes": ["SessionDebugNetworkEntry", "SessionDebugSnapshot"],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": [
+        "calculateOutputTps",
+        "SESSION_DEBUG_LIMITS",
+        "sessionDebugNetworkEntrySchema",
+        "sessionDebugParamsSchema",
+        "sessionDebugRoundSchema",
+        "sessionDebugSnapshotSchema"
+      ]
+    },
+    {
+      "path": "packages/shared/src/sessionCreateTelemetry.ts",
+      "runtime": ["automationSessionCreateTelemetrySchema", "sessionCreateTelemetrySchema"],
+      "pureTypes": [
+        "AutomationSessionCreateTelemetry",
+        "MobileSessionCreateTelemetry",
+        "SessionCreateClientKind",
+        "SessionCreateSource"
+      ],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": [
+        "automationSessionCreateTelemetrySchema",
+        "sessionCreateTelemetrySchema"
+      ]
+    },
+    {
+      "path": "packages/shared/src/skill-scan-policy.ts",
+      "runtime": [
+        "MAX_SKILL_SCAN_DEPTH",
+        "shouldWalkSkillDirectoryEntry",
+        "SKILL_FILE_NAME",
+        "SKILL_SCAN_EXCLUDED_DIRECTORY_NAMES"
+      ],
+      "pureTypes": [],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": [
+        "MAX_SKILL_SCAN_DEPTH",
+        "shouldWalkSkillDirectoryEntry",
+        "SKILL_FILE_NAME",
+        "SKILL_SCAN_EXCLUDED_DIRECTORY_NAMES"
+      ]
+    },
+    {
+      "path": "packages/shared/src/update.ts",
+      "runtime": [],
+      "pureTypes": [
+        "PostUpdateReleaseNotesPayload",
+        "UpdateCheckResultPayload",
+        "UpdateStatePayload"
+      ],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": []
+    },
+    {
+      "path": "packages/shared/src/wslUserValidation.ts",
+      "runtime": ["isValidWslUser", "WSL_USER_MAX_LENGTH", "wslUserSchema"],
+      "pureTypes": [],
+      "reexportStars": [],
+      "reexportNamed": [],
+      "staticRuntimeNames": ["isValidWslUser", "WSL_USER_MAX_LENGTH", "wslUserSchema"]
+    }
+  ]
+}

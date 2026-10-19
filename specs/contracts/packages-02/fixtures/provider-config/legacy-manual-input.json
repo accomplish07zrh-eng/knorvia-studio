@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "config": {
+    "providerConfigRules": {
+      "providerRules": []
+    },
+    "modelConfigRules": {
+      "providerModelRules": [],
+      "manualProviderModelRules": [
+        {
+          "providerId": "personal-openai",
+          "modelId": "legacy-manual",
+          "config": {
+            "enabled": false,
+            "properties": {
+              "contextWindow": 12345,
+              "supportsJsonSchemaOutput": false,
+              "supportsNativeWebSearch": true,
+              "supportsMidConversationSystem": false,
+              "requiresMfjsToolSchema": true,
+              "inputFormat": {
+                "supportsImage": true,
+                "supportsVideo": false,
+                "supportsPdf": false
+              }
+            },
+            "optionSpecs": {
+              "reasoningLevel": {
+                "values": ["synthetic-low", "synthetic-high"],
+                "map": "{\"synthetic_reasoning\": reasoningLevel}"
+              },
+              "maxOutputTokens": {
+                "max": 321
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "note": "由旧实现 decodeProviderConfigFile 录制的版本错误；name/message/version 逐字冻结。",
+  "cases": [
+    {
+      "name": "non-object",
+      "input": "not-an-object",
+      "expected": {
+        "name": "UnsupportedProviderConfigVersionError",
+        "message": "Provider Config 缺少 schemaVersion",
+        "version": null,
+        "isUnsupportedVersion": true
+      }
+    },
+    {
+      "name": "missing-version",
+      "input": {
+        "config": {}
+      },
+      "expected": {
+        "name": "UnsupportedProviderConfigVersionError",
+        "message": "Provider Config 缺少 schemaVersion",
+        "version": null,
+        "isUnsupportedVersion": true
+      }
+    },
+    {
+      "name": "negative-version",
+      "input": {
+        "schemaVersion": -1,
+        "config": {}
+      },
+      "expected": {
+        "name": "UnsupportedProviderConfigVersionError",
+        "message": "Provider Config schemaVersion 必须是非负整数",
+        "version": null,
+        "isUnsupportedVersion": true
+      }
+    },
+    {
+      "name": "float-version",
+      "input": {
+        "schemaVersion": 1.5,
+        "config": {}
+      },
+      "expected": {
+        "name": "UnsupportedProviderConfigVersionError",
+        "message": "Provider Config schemaVersion 必须是非负整数",
+        "version": null,
+        "isUnsupportedVersion": true
+      }
+    },
+    {
+      "name": "future-version",
+      "input": {
+        "schemaVersion": 2,
+        "config": {}
+      },
+      "expected": {
+        "name": "UnsupportedProviderConfigVersionError",
+        "message": "Provider Config schemaVersion 2 高于当前支持的 1",
+        "version": 2,
+        "isUnsupportedVersion": true
+      }
+    },
+    {
+      "name": "older-version",
+      "input": {
+        "schemaVersion": 0,
+        "config": {}
+      },
+      "expected": {
+        "name": "UnsupportedProviderConfigVersionError",
+        "message": "缺少 Provider Config schemaVersion 0 到 1 的迁移器",
+        "version": 0,
+        "isUnsupportedVersion": true
+      }
+    }
+  ]
+}
