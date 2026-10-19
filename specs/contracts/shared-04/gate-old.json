@@ -1,0 +1,52 @@
+{
+  "contract": "shared-04",
+  "commit": "d724c39d4683d7bb97aca7c0f056f88494a60a7a",
+  "node": "v24.14.0",
+  "generatedAt": "2026-10-19T03:42:08.201Z",
+  "runner": "scripts/contract-gate.mjs",
+  "testFiles": [
+    "specs/contracts/shared-04/tests/auth-model.test.mjs",
+    "specs/contracts/shared-04/tests/config.test.mjs",
+    "specs/contracts/shared-04/tests/diagnostics.test.mjs",
+    "specs/contracts/shared-04/tests/feedback.test.mjs",
+    "specs/contracts/shared-04/tests/misc.test.mjs",
+    "specs/contracts/shared-04/tests/plugins.test.mjs",
+    "specs/contracts/shared-04/tests/remote-identity.test.mjs",
+    "specs/contracts/shared-04/tests/surface.test.mjs"
+  ],
+  "sourceFrom": "src",
+  "entries": {
+    "source": {
+      "exitCode": 0,
+      "tests": 51,
+      "pass": 51,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0,
+      "outputTail": "✔ B27 模块路径面：44 个模块在 source 入口均可加载且导出集合与附录一致 (25.050707ms)\n✔ B27 三个纯类型模块不暴露运行时值（update/remote-sync/intranetProbe） (0.796299ms)\n✔ B27 node 子路径桶再导出 10 个运行时值 (0.295577ms)\n✔ B27 根 barrel 可达性：除两个例外外全部运行时导出逐名存在 (0.651947ms)\n✔ B27 两个例外：model-config 导出面经子路径、model-execution 不进根桶 (0.162123ms)\n✔ B27 scope-files.json 覆盖 44 件且分类计数一致 (0.146996ms)\nℹ tests 51\nℹ suites 0\nℹ pass 51\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 5306.388213"
+    },
+    "dist": {
+      "exitCode": 0,
+      "tests": 51,
+      "pass": 51,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0,
+      "outputTail": "✔ B27 模块路径面：44 个模块在 dist 入口均可加载且导出集合与附录一致 (27.60823ms)\n✔ B27 三个纯类型模块不暴露运行时值（update/remote-sync/intranetProbe） (0.923731ms)\n✔ B27 node 子路径桶再导出 10 个运行时值 (0.424025ms)\n✔ B27 根 barrel 可达性：除两个例外外全部运行时导出逐名存在 (1.071344ms)\n✔ B27 两个例外：model-config 导出面经子路径、model-execution 不进根桶 (0.24557ms)\n✔ B27 scope-files.json 覆盖 44 件且分类计数一致 (0.2567ms)\nℹ tests 51\nℹ suites 0\nℹ pass 51\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 4689.798106",
+      "environment": {
+        "KNORVIA_SHARED_04_ENTRY": "dist"
+      },
+      "loader": null
+    }
+  },
+  "stubReplacement": {
+    "replacedFiles": 44,
+    "tests": 8,
+    "pass": 0,
+    "fail": 8,
+    "allFail": true,
+    "exitCode": 1,
+    "outputTail": "✖ /workspace/wt-shared04/specs/contracts/shared-04/tests/misc.test.mjs (537.351031ms)\n  'test failed'\n\ntest at specs/contracts/shared-04/tests/plugins.test.mjs:1:1\n✖ /workspace/wt-shared04/specs/contracts/shared-04/tests/plugins.test.mjs (506.245792ms)\n  'test failed'\n\ntest at specs/contracts/shared-04/tests/remote-identity.test.mjs:1:1\n✖ /workspace/wt-shared04/specs/contracts/shared-04/tests/remote-identity.test.mjs (473.707815ms)\n  'test failed'\n\ntest at specs/contracts/shared-04/tests/surface.test.mjs:1:1\n✖ /workspace/wt-shared04/specs/contracts/shared-04/tests/surface.test.mjs (501.755611ms)\n  'test failed'"
+  },
+  "pass": true
+}

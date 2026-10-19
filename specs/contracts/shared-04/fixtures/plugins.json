@@ -1,0 +1,615 @@
+{
+  "displayName": {
+    "canonical": [
+      {
+        "name": "mcp-aws_knorvia",
+        "locale": "en-US",
+        "output": "MCP AWS Knorvia Studio"
+      },
+      {
+        "name": "hello-world",
+        "locale": "en-US",
+        "output": "Hello World"
+      },
+      {
+        "name": "a_b-c",
+        "locale": "zh-CN",
+        "output": "A B C"
+      },
+      {
+        "name": "",
+        "locale": "en-US",
+        "output": ""
+      },
+      {
+        "name": "---",
+        "locale": "en-US",
+        "output": ""
+      }
+    ],
+    "localized": [
+      {
+        "locale": "pt-BR",
+        "base": "base",
+        "map": {
+          "pt": "pt",
+          "en-US": "en"
+        },
+        "output": "pt"
+      },
+      {
+        "locale": "zh-CN",
+        "base": "base",
+        "map": {
+          "zh-CN": "中文"
+        },
+        "output": "中文"
+      },
+      {
+        "locale": "fr-FR",
+        "base": "base",
+        "map": {
+          "en": "en"
+        },
+        "output": "base"
+      },
+      {
+        "locale": "",
+        "base": "base",
+        "map": null,
+        "output": "base"
+      },
+      {
+        "locale": "en-US",
+        "base": "base",
+        "map": {
+          "": "blank"
+        },
+        "output": "base"
+      }
+    ],
+    "display": [
+      {
+        "plugin": {
+          "name": "mcp-aws",
+          "listing": {
+            "displayName": "MCP AWS",
+            "displayNameI18n": {
+              "zh-CN": "中文"
+            }
+          }
+        },
+        "locale": "zh-CN",
+        "output": "中文"
+      },
+      {
+        "plugin": {
+          "name": "mcp-aws",
+          "listing": {
+            "displayName": "MCP AWS",
+            "displayNameI18n": {
+              "zh-CN": "中文"
+            }
+          }
+        },
+        "locale": "fr-FR",
+        "output": "MCP AWS"
+      },
+      {
+        "plugin": {
+          "name": "plain-name"
+        },
+        "locale": "en-US",
+        "output": "Plain Name"
+      },
+      {
+        "plugin": {
+          "name": "plain-name",
+          "listing": {
+            "displayName": "  "
+          }
+        },
+        "locale": "en-US",
+        "output": "  "
+      }
+    ]
+  },
+  "marketplaces": {
+    "officialId": "knorvia-plugins-bundled",
+    "defaultEnabled": [
+      "browser-use@knorvia-plugins-bundled",
+      "documents@knorvia-plugins-bundled",
+      "image-search@knorvia-plugins-bundled",
+      "knorvia-guide@knorvia-plugins-bundled",
+      "node-repl-host@knorvia-plugins-bundled",
+      "pdf@knorvia-plugins-bundled",
+      "plugin-creator@knorvia-plugins-bundled",
+      "presentations@knorvia-plugins-bundled",
+      "skill-creator@knorvia-plugins-bundled",
+      "spreadsheets@knorvia-plugins-bundled"
+    ],
+    "defaults": [],
+    "publicIds": ["knorvia-plugins-bundled"],
+    "isPublic": [
+      {
+        "input": "knorvia-plugins-bundled",
+        "output": true
+      },
+      {
+        "input": "x",
+        "output": false
+      },
+      {
+        "input": "",
+        "output": false
+      }
+    ]
+  },
+  "order": {
+    "parse": [
+      {
+        "input": {
+          "code": {
+            "categoryOrder": ["b", "a", "b"]
+          }
+        },
+        "output": {
+          "code": {
+            "categoryOrder": ["b", "a"]
+          }
+        }
+      },
+      {
+        "input": {
+          "code": 123,
+          "work": {
+            "categoryOrder": ["x"]
+          }
+        },
+        "output": {
+          "work": {
+            "categoryOrder": ["x"]
+          }
+        }
+      },
+      {
+        "input": null,
+        "output": null
+      },
+      {
+        "input": {},
+        "output": {}
+      },
+      {
+        "input": {
+          "code": {
+            "categoryOrder": [" a ", "", "b"]
+          },
+          "work": {
+            "pluginOrder": {
+              "template": ["x", "x"]
+            }
+          }
+        },
+        "output": {
+          "work": {
+            "pluginOrder": {
+              "template": ["x"]
+            }
+          }
+        }
+      }
+    ]
+  },
+  "ordering": {
+    "categoryOrder": [
+      "productivity",
+      "developer-tools",
+      "utilities",
+      "finance",
+      "legal",
+      "template"
+    ],
+    "fallback": "other",
+    "resolveCategory": [
+      {
+        "input": " guides ",
+        "output": "utilities"
+      },
+      {
+        "input": " "
+      },
+      {
+        "input": null
+      },
+      {
+        "input": "developer-tools",
+        "output": "developer-tools"
+      },
+      {
+        "input": "productivity",
+        "output": "productivity"
+      },
+      {
+        "input": "finance",
+        "output": "finance"
+      },
+      {
+        "input": "template",
+        "output": "template"
+      },
+      {
+        "input": "other",
+        "output": "other"
+      }
+    ],
+    "sortDefault": [
+      "b",
+      "d",
+      "z",
+      "m",
+      "pdf@knorvia-plugins-bundled",
+      "presentations@knorvia-plugins-bundled",
+      "aa",
+      "zz",
+      "a"
+    ],
+    "sortCustom": [
+      "zz",
+      "pdf@knorvia-plugins-bundled",
+      "presentations@knorvia-plugins-bundled",
+      "aa",
+      "b",
+      "d",
+      "z",
+      "m",
+      "a"
+    ],
+    "sortStable": ["b", "a"],
+    "sortFallbackLast": ["y", "x", "z"],
+    "documentPriority": [
+      {
+        "left": "pdf@knorvia-plugins-bundled",
+        "right": "documents@knorvia-plugins-bundled",
+        "output": -3
+      },
+      {
+        "left": "documents@knorvia-plugins-bundled",
+        "right": "zz",
+        "output": -1
+      },
+      {
+        "left": "zz",
+        "right": "aa",
+        "output": 0
+      },
+      {
+        "left": "spreadsheets@knorvia-plugins-bundled",
+        "right": "presentations@knorvia-plugins-bundled",
+        "output": 1
+      },
+      {
+        "left": "documents@knorvia-plugins-bundled",
+        "right": "pdf@knorvia-plugins-bundled",
+        "output": 3
+      },
+      {
+        "left": "pdf",
+        "right": "pdf@other",
+        "output": 0
+      }
+    ]
+  },
+  "skill": {
+    "fileName": "SKILL.md",
+    "maxDepth": 8,
+    "excluded": [
+      ".cache",
+      ".next",
+      ".turbo",
+      ".venv",
+      "__pycache__",
+      "build",
+      "coverage",
+      "dist",
+      "node_modules",
+      "out",
+      "target",
+      "vendor"
+    ],
+    "walk": [
+      {
+        "input": ".system",
+        "output": true
+      },
+      {
+        "input": ".agents",
+        "output": false
+      },
+      {
+        "input": ".git",
+        "output": false
+      },
+      {
+        "input": "node_modules",
+        "output": false
+      },
+      {
+        "input": "dist",
+        "output": false
+      },
+      {
+        "input": "skills",
+        "output": true
+      },
+      {
+        "input": "",
+        "output": true
+      },
+      {
+        "input": ".unknown",
+        "output": false
+      },
+      {
+        "input": "SKILL.md",
+        "output": true
+      }
+    ]
+  },
+  "mcp": {
+    "constants": {
+      "cuaPluginId": "computer-use@knorvia-plugins-bundled",
+      "cuaNamespace": "plugin:computer-use:computer-use",
+      "pluginIdEnvKey": "KNORVIA_PLUGIN_ID"
+    },
+    "headers": [
+      {
+        "input": {
+          "headers": {
+            "H": "v"
+          },
+          "http_headers": {
+            "X": "y"
+          }
+        },
+        "output": {
+          "H": "v"
+        }
+      },
+      {
+        "input": {
+          "http_headers": {
+            "X": "y"
+          }
+        },
+        "output": {
+          "X": "y"
+        }
+      },
+      {
+        "input": {},
+        "output": null
+      }
+    ],
+    "cuaCommand": [
+      {
+        "input": "cua",
+        "output": true
+      },
+      {
+        "input": "CUA",
+        "output": false
+      },
+      {
+        "input": "/usr/bin/cua",
+        "output": true
+      },
+      {
+        "input": "cua.exe",
+        "output": true
+      },
+      {
+        "input": "cua-mcp",
+        "output": false
+      },
+      {
+        "input": " cua ",
+        "output": false
+      },
+      {
+        "input": "acu",
+        "output": false
+      },
+      {
+        "input": "",
+        "output": false
+      }
+    ],
+    "cuaPackage": [
+      {
+        "input": "cua",
+        "output": true
+      },
+      {
+        "input": "cua-mcp",
+        "output": false
+      },
+      {
+        "input": "cua.latest",
+        "output": true
+      },
+      {
+        "input": "cua@1",
+        "output": true
+      },
+      {
+        "input": "cua==",
+        "output": true
+      },
+      {
+        "input": "computer-use",
+        "output": false
+      },
+      {
+        "input": "cuaX",
+        "output": false
+      }
+    ],
+    "convert": [
+      {
+        "input": [
+          "a",
+          {
+            "command": "npx",
+            "args": ["x"],
+            "env": {
+              "A": "1"
+            },
+            "timeoutMs": 5,
+            "isolation": "session",
+            "protocolVersion": "auto",
+            "headers": {
+              "H": "v"
+            }
+          }
+        ],
+        "output": {
+          "name": "a",
+          "command": "npx",
+          "args": ["x"],
+          "env": [
+            {
+              "name": "A",
+              "value": "1"
+            }
+          ],
+          "timeoutMs": 5,
+          "isolation": "session",
+          "protocolVersion": "auto"
+        }
+      },
+      {
+        "input": [
+          "b",
+          {
+            "url": "https://x",
+            "type": "sse",
+            "http_headers": {
+              "H": "v"
+            },
+            "oauth": {
+              "type": "authorization_code",
+              "clientId": "id"
+            }
+          }
+        ],
+        "output": {
+          "name": "b",
+          "type": "sse",
+          "url": "https://x",
+          "headers": [
+            {
+              "name": "H",
+              "value": "v"
+            }
+          ],
+          "oauth": {
+            "type": "authorization_code",
+            "clientId": "id"
+          }
+        }
+      },
+      {
+        "input": [
+          "c",
+          {
+            "url": "https://x",
+            "oauth": {
+              "type": "client_credentials",
+              "clientId": " ",
+              "clientSecret": "s"
+            }
+          }
+        ],
+        "output": {
+          "name": "c",
+          "type": "http",
+          "url": "https://x",
+          "headers": []
+        }
+      },
+      {
+        "input": ["d", {}],
+        "output": null
+      },
+      {
+        "input": [
+          "e",
+          {
+            "command": "cmd",
+            "args": ["/c", "npx", "x"],
+            "timeoutMs": -1,
+            "isolation": "bogus",
+            "protocolVersion": "bogus"
+          }
+        ],
+        "output": {
+          "name": "e",
+          "command": "cmd",
+          "args": ["/c", "npx", "x"],
+          "env": []
+        }
+      },
+      {
+        "input": [
+          "f",
+          {
+            "url": "http://x",
+            "type": "http",
+            "oauth": {
+              "type": "authorization_code",
+              "clientId": "id",
+              "clientSecret": "s"
+            }
+          }
+        ],
+        "output": {
+          "name": "f",
+          "type": "http",
+          "url": "http://x",
+          "headers": [],
+          "oauth": {
+            "type": "authorization_code",
+            "clientId": "id",
+            "clientSecret": "s"
+          }
+        }
+      },
+      {
+        "input": [
+          "g",
+          {
+            "command": "node",
+            "args": ["x"],
+            "env": {
+              "B": "2"
+            },
+            "cwd": "/tmp",
+            "timeoutMs": 1.5
+          }
+        ],
+        "output": {
+          "name": "g",
+          "command": "node",
+          "args": ["x"],
+          "env": [
+            {
+              "name": "B",
+              "value": "2"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
