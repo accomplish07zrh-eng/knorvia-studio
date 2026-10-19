@@ -22634,13 +22634,15 @@
     },
     {
       "path": "apps/cli/packages/node-repl-host/src/broker-transaction.ts",
-      "normalizedSha256": "2d61d8c02fbd3af3eeb09977ab896d7db795ffb605e7f1781e3e0b159a0a3021",
-      "decision": "independent-replacement",
+      "normalizedSha256": "e9fb18b987332094af753f7252faba64f76d3e01ff60bbd55015ff38b6586d15",
+      "decision": "original",
       "license": "MIT",
-      "basis": "Independent host IPC design separates an incremental byte-budgeted UTF-8/JSON reader, a single connection transaction with a pre-connection request snapshot, and explicit browser/computer metadata projection. Public function names and protocol identity/error fields remain interoperability requirements. Thirty initial black-box assertions ran before replacement: 25 passed and 5 exposed serialization crash, over-counted trailing bytes, raw parse diagnostics, EOF waiting, and interceptable cancellation. Thirty-two assertions and actual built MCP/browser/CUA simulated transactions validate the new boundary. Existing source access is disclosed; this is not a no-access clean-room claim or a claim that hash differences establish originality. Node runtime facilities remain third-party dependencies; other host modules are not reclassified.",
+      "basis": "Single-file rework of the broker transaction for issue #197 under contract v1 (specs/contracts/node-repl-host-broker). The author read the replaced implementation to understand behavior and rewrote from the contract: a request sealer that generates the id and overrides token/id before any connection, a separate reply validator for correlation and error text, and a per-call connection that races the frame reader against a transport-fault promise instead of an internal AbortController with a combined signal. Public exports and protocol fields are unchanged. Old gate 19/19 and new implementation 19/19 on the source entry; node-repl-host package tests 143/143. Compared with the replaced file and the pinned upstream tree: maximum line containment 0.172, longest identical run 3, structural similarity 0.000. No line compression, comment padding or test weakening. Existing source access is disclosed; this is not a no-access clean-room claim, and hash differences are not treated as proof of originality. Node runtime facilities remain third-party dependencies; companion host modules are not reclassified.",
       "evidence": [
         "specs/knorvia-repl-transport.md",
-        "docs/knorvia-independence-progress-20260927.md"
+        "specs/contracts/node-repl-host-broker/README.md",
+        "specs/contracts/node-repl-host-broker/gate-old.json",
+        "docs/knorvia-node-repl-host-broker-acceptance.md"
       ]
     },
     {
@@ -146634,6 +146636,94 @@
         "specs/knorvia-internal-plugins.md",
         "specs/contracts/apps-cli-packages-02/README.md"
       ]
+    },
+    {
+      "path": "specs/contracts/node-repl-host-broker/README.md",
+      "normalizedSha256": "ae2c9ae642e007e3507d348da9d7c77643330f832c40cc20c02a8474e350ba7e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored node-repl-host-broker contract artifact for issue #197 (broker transaction). Written from specs/knorvia-repl-transport.md, the caller surface and the observed old behavior; the replacement implementation is validated only through the public brokerCall entry, and no upstream text was copied. Scope, file table, old-gate entry and B1..B6 test mapping.",
+      "evidence": ["specs/knorvia-repl-transport.md"]
+    },
+    {
+      "path": "specs/contracts/node-repl-host-broker/behavior.md",
+      "normalizedSha256": "467d4176f60e32fa04b60f41fe8d7d27feb9e079037d723a81ad4890f5980004",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored node-repl-host-broker contract artifact for issue #197 (broker transaction). Written from specs/knorvia-repl-transport.md, the caller surface and the observed old behavior; the replacement implementation is validated only through the public brokerCall entry, and no upstream text was copied. Behavior entries B1..B6 fixing the public envelope, pre-connect snapshot, response correlation, cancellation lifecycle, frame bounds and concurrency guarantees.",
+      "evidence": ["specs/knorvia-repl-transport.md"]
+    },
+    {
+      "path": "specs/contracts/node-repl-host-broker/interface.md",
+      "normalizedSha256": "e5e0b3c024fce335e7fa37ce61202e2a0890a51a41bc6f20233affb1da129337",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored node-repl-host-broker contract artifact for issue #197 (broker transaction). Written from specs/knorvia-repl-transport.md, the caller surface and the observed old behavior; the replacement implementation is validated only through the public brokerCall entry, and no upstream text was copied. Public module paths, BrokerConnection shape and brokerCall signature, plus the unchanged internal dependencies of the transaction.",
+      "evidence": ["specs/contracts/node-repl-host-broker/behavior.md"]
+    },
+    {
+      "path": "specs/contracts/node-repl-host-broker/callers.md",
+      "normalizedSha256": "bc0fbac5b5bce771cad5676cc5c5861d024af9fb2cd4412dc3068ef570dc15c1",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored node-repl-host-broker contract artifact for issue #197 (broker transaction). Written from specs/knorvia-repl-transport.md, the caller surface and the observed old behavior; the replacement implementation is validated only through the public brokerCall entry, and no upstream text was copied. Caller inventory: ipc re-export, browser and computer-use bridges, package tests, with the similarly named rpc module excluded.",
+      "evidence": ["apps/cli/packages/node-repl-host/src/ipc.ts"]
+    },
+    {
+      "path": "specs/contracts/node-repl-host-broker/known-differences.md",
+      "normalizedSha256": "b4cf651cd232fdf42dd1bf9a5d17653d26d805289085ee1e2d8d52ed052ff38a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored node-repl-host-broker contract artifact for issue #197 (broker transaction). Written from specs/knorvia-repl-transport.md, the caller surface and the observed old behavior; the replacement implementation is validated only through the public brokerCall entry, and no upstream text was copied. Records that the rework introduces no pre-registered behavioral differences; every observed old behavior is covered by the contract tests.",
+      "evidence": ["specs/contracts/node-repl-host-broker/gate-old.json"]
+    },
+    {
+      "path": "specs/contracts/node-repl-host-broker/acceptance.md",
+      "normalizedSha256": "fa9ac55746ebe84ef62d1e44b5b8d403ab8751b26bac18bf8b1b35d8ef89a35f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored node-repl-host-broker contract artifact for issue #197 (broker transaction). Written from specs/knorvia-repl-transport.md, the caller surface and the observed old behavior; the replacement implementation is validated only through the public brokerCall entry, and no upstream text was copied. Acceptance record for the contract itself: source-entry old gate 19/19, dist entry not applicable, uncovered content and the failing-then-fixed contract cases.",
+      "evidence": ["specs/contracts/node-repl-host-broker/gate-old.json"]
+    },
+    {
+      "path": "specs/contracts/node-repl-host-broker/gate-old.json",
+      "normalizedSha256": "64ad248fc9dd88aa392b695408ebc8813c10355d41b1ccd18d4b46a058db4578",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored node-repl-host-broker contract artifact for issue #197 (broker transaction). Written from specs/knorvia-repl-transport.md, the caller surface and the observed old behavior; the replacement implementation is validated only through the public brokerCall entry, and no upstream text was copied. Generated old-gate evidence: 19/19 source-entry contract cases on commit 1091e45e, with the dist entry marked not applicable because the package emits declarations and a single bundle.",
+      "evidence": ["specs/contracts/node-repl-host-broker/tests/run-old-gate.mjs"]
+    },
+    {
+      "path": "specs/contracts/node-repl-host-broker/tests/broker-transaction.test.ts",
+      "normalizedSha256": "ee2c4b72579f5e264ef5b354413f3d78f2908709304a1ef8f96ffcfcd2e96b53",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored node-repl-host-broker contract artifact for issue #197 (broker transaction). Written from specs/knorvia-repl-transport.md, the caller surface and the observed old behavior; the replacement implementation is validated only through the public brokerCall entry, and no upstream text was copied. Black-box node:test cases B1..B6 using a local POSIX socket or Windows named pipe fixture; they exercise the shipped brokerCall entry only, never internal helpers.",
+      "evidence": ["specs/contracts/node-repl-host-broker/behavior.md"]
+    },
+    {
+      "path": "specs/contracts/node-repl-host-broker/tests/run-old-gate.mjs",
+      "normalizedSha256": "e18b9bfcf02b9d55891fa68059d7e98579b38850faecd60191e98ab848704a9f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored node-repl-host-broker contract artifact for issue #197 (broker transaction). Written from specs/knorvia-repl-transport.md, the caller surface and the observed old behavior; the replacement implementation is validated only through the public brokerCall entry, and no upstream text was copied. Source-entry old-gate runner that executes the contract tests and writes gate-old.json; source-only because this package has no separate dist transaction module.",
+      "evidence": ["specs/contracts/node-repl-host-broker/README.md"]
+    },
+    {
+      "path": "specs/contracts/node-repl-host-broker/design.md",
+      "normalizedSha256": "6731d66a837ad2f3401af5db54dfca3dfc82593355505547bdaa727656294565",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "node-repl-host-broker contract design note (v1): state ownership, module split, event order and compatibility-surface decisions for the single-file rework; written by this agent from the contract and measured tool output, no upstream text copied.",
+      "evidence": ["specs/contracts/node-repl-host-broker/gate-old.json"]
+    },
+    {
+      "path": "docs/knorvia-node-repl-host-broker-acceptance.md",
+      "normalizedSha256": "b5df6ba0e20b744509371b84775d41ffec642a98c8e1eae3f8f0e0d2f1840b7a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Acceptance record for the node-repl-host-broker rework (#197): per-file similarity values, old-gate and new-contract results, gate summary, first failures and fixes, provenance plan and uncovered risks; produced by this agent from contract v1 and measured tool output.",
+      "evidence": ["specs/contracts/node-repl-host-broker/gate-old.json"]
     }
   ]
 }
