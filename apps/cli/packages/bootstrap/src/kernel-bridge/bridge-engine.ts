@@ -65,7 +65,13 @@ export class BridgeEngine implements BridgeCommandExecutor {
 
   /** 订阅 ctx 的 session/event 等事件并转给 projection.ingestDshEvent。 */
   start(): void {
-    throw new Error("TODO(A): attach DSH event listeners");
+    // interface.md §六.4：DSH session/event 是会话事实的唯一来源，桥只在事件提交后转发。
+    // 只投影本桥登记的会话：宿主自己创建的 agent 会话没有 v4 身份，不能混进协议面。
+    const detach = this.options.context.on("session/event", (session, event) => {
+      if (!this.sessions.has(session.id)) return;
+      this.projection.ingestDshEvent({ sessionId: session.id, event });
+    });
+    this.detachEvents.push(detach);
   }
 
   /** v4/command：准入（inbox）→ execute → ACK。 */

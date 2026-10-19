@@ -84,13 +84,9 @@ export function runBridge(options: RunBridgeOptions): RunningBridge {
     },
   });
 
-  // 段 A 的 DSH 事件接线尚未落地时 start() 仍会抛 TODO；协议面不能因此起不来，
-  // 但也不能把失败咽掉：记 warn 后继续提供命令面，帧面等接线补齐后自然恢复。
-  try {
-    engine.start();
-  } catch (error) {
-    log("warn", "kernel.bridge.start.unavailable", { error: messageOf(error) });
-  }
+  // 事件接线失败就是启动失败：没有事件投影，v4 帧面不可能正确工作。
+  // 让错误冒泡到 process.ts 的启动失败路径（退出码 1），不在这里降级成只剩命令面。
+  engine.start();
 
   reader.on("line", onLine);
   reader.on("close", onReaderClose);
