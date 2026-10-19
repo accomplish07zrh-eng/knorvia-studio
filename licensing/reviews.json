@@ -135523,7 +135523,7 @@
     },
     {
       "path": "packages/shared/src/node/nodeSelfResourceTelemetry.ts",
-      "normalizedSha256": "4284524b5eca3648f844bdf996e09005fca46db86b74d08b9013db815301d652",
+      "normalizedSha256": "4c88ce07b3848dd0dd93b9fd8a23cd2e4adb9d969397d5e6e2809ffffca7132c",
       "decision": "independent-replacement",
       "license": "Apache-2.0",
       "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
@@ -135603,7 +135603,7 @@
     },
     {
       "path": "packages/shared/src/protocol-v4/profiles.ts",
-      "normalizedSha256": "5dd725cbf07b52e51d8f7c2dc8838ffbe6351be8e6c8405d7a7eb694a2e7ae1a",
+      "normalizedSha256": "f0e070052bb4b2bccea5e75d4c25336bb28a4b4faf90a109d942553b52293051",
       "decision": "independent-replacement",
       "license": "Apache-2.0",
       "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
@@ -135627,7 +135627,7 @@
     },
     {
       "path": "packages/shared/src/protocol-v4/shared-context-import.ts",
-      "normalizedSha256": "925353aca2ffd6d6c4f867443b09930c3b2100ba083bedf2f829779740d015ff",
+      "normalizedSha256": "8b65d9b8704d567265be5e10e4dccec30ee77eb842c051d5e28f29d647ecaa86",
       "decision": "independent-replacement",
       "license": "Apache-2.0",
       "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
@@ -135651,7 +135651,7 @@
     },
     {
       "path": "packages/shared/src/protocol-v4/wire-codec.ts",
-      "normalizedSha256": "177c8725847ac34315165777b7adf68854da9621f10cb75c74dfdad5b2048eff",
+      "normalizedSha256": "b0e6bf8cb5290d6246bbcbe29373e36c1099cc2c62331572a9d35ddb3c1a51aa",
       "decision": "independent-replacement",
       "license": "Apache-2.0",
       "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
@@ -135667,7 +135667,7 @@
     },
     {
       "path": "packages/shared/src/protocol-v4/workflow-artifact.ts",
-      "normalizedSha256": "bda621284d521ac59780953ee0a65c6eed4f86f7c0c512d85edc0dfc68e319f5",
+      "normalizedSha256": "9c0889d1be7de7d1d18ffbeb4858ab09b1951951534f4dac30217061fa787990",
       "decision": "independent-replacement",
       "license": "Apache-2.0",
       "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
@@ -135683,7 +135683,7 @@
     },
     {
       "path": "packages/shared/src/protocol-v4/workflow-runs-lineage.ts",
-      "normalizedSha256": "1c9a70ab79974a3be74ecfe876636307f8e5250e5fe0c2b231a03431870f5475",
+      "normalizedSha256": "7e8a37d17c03a5990af183418b49bac32634afceb7512888f2078d8b58c6dd87",
       "decision": "independent-replacement",
       "license": "Apache-2.0",
       "basis": "Knorvia rewrite of shared-01 against contract v2 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate re-run on the replaced implementation (Node v24.14.0, commit 5a129165): source 56/56, dist 56/56, stub replacement 0/6 allFail (evidence retained in gate-old.json). New implementation: source 56/56, dist 56/56, 0 skipped. Two similarity gates measured with scripts/provenance/similarity.mjs against the replaced files (origin/main) and the pinned upstream 872ad960: normal mode for the 11 implementation files and declaration mode (--interface interface.md plus interface-appendix-protocol-v4.md) for the 16 pure-declaration files; max normalized-line containment 0.177, longest identical run 4, structural similarity max 0.368; all 27 candidates pass both gates. Wire frame bytes, limit numbers, error reason codes, zod issue text and persisted formats are unchanged; only module-internal organisation, identifiers, comments and control-flow shape changed.",
@@ -146724,6 +146724,32 @@
       "license": "Apache-2.0",
       "basis": "Acceptance record for the node-repl-host-broker rework (#197): per-file similarity values, old-gate and new-contract results, gate summary, first failures and fixes, provenance plan and uncovered risks; produced by this agent from contract v1 and measured tool output.",
       "evidence": ["specs/contracts/node-repl-host-broker/gate-old.json"]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/scripts/generate-libs.mjs",
+      "normalizedSha256": "a593a04fbe439c0a9121501235c7a2aca0e0133d7e9a4f33f339f64408e6800e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia independent rewrite of dynamic-workflow-03 stdlib generator (scripts/generate-libs.mjs) per coordinator ruling on issue #208. The script embeds the TypeScript stdlib closure for SEA/bundler execution and is required by build and typecheck. The author read the inherited script to understand generation requirements and rewrote independently: an async pipeline using import.meta.resolve and node:fs/promises with deterministic sorting and idempotency short-circuit. It was measured against the pinned upstream tree 872ad960 with the M0-8 similarity tool: max line containment 0.114 (packages/desktop/scripts/bundle.mjs), longest identical run 2 (.vscode/vite-dev.mjs), structural similarity 0.000 (none), below the 0.2 / 8 / 0.4 thresholds. Both line and structural gates pass. No code was copied, renamed or rewritten line by line.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "apps/cli/packages/dynamic-workflow/package.json",
+        "scripts/build-desktop-agent-cli.mjs",
+        "docs/knorvia-dynamic-workflow-03-acceptance.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-dynamic-workflow-03-acceptance.md",
+      "normalizedSha256": "cad9fc39b870fc4a2c318f033bcd265e835b78e84691f35bc5b10f8f34ba62e3",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored dynamic-workflow-03 acceptance record (M0/M2 batch for issue #208). It records that scratch/run.mjs and scripts/generate-mermaid.mjs were confirmed deleted with no live build/test references, that scripts/generate-libs.mjs is kept and independently rewritten to pass the similarity gate per coordinator ruling, the measured similarity gate readings, and the full gate verification.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "apps/cli/packages/dynamic-workflow/package.json",
+        "apps/cli/packages/dynamic-workflow/scripts/generate-libs.mjs",
+        "scripts/build-desktop-agent-cli.mjs"
+      ]
     }
   ]
 }

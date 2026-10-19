@@ -111,16 +111,20 @@ const refuseFrame = (reasonCode: string): never => {
   throw new TopicWireFrameEncodingError(reasonCode);
 };
 
+// 两个可选限额独立成型：编码主路径只读必需坐标，限额缺席时统一落到实现自带的上限。
+interface EncodeTopicFrameLimits {
+  maxPhysicalFrameBytes?: /* 单帧物理预算，缺席用实现自带上限 */ number;
+  maxAssemblyBytes?: /* 整条逻辑消息的装配预算，缺席同样用自带上限 */ number;
+}
+
 // 编码选项：交付种类/主题/订阅与逻辑帧坐标由调用方给出；两个限额缺席时用实现自带上限；
 // measurePhysicalFrameBytes 由调用方注入，用于按真实承载判定单帧是否超物理预算。
-export interface EncodeTopicWireFramesOptions<F> {
+export interface EncodeTopicWireFramesOptions<F> extends EncodeTopicFrameLimits {
   deliveryKind: /* 这一批物理帧的交付语义 */ TopicFrameDeliveryKind;
   topic: /* 发布目标；完整帧的 inner topic 必须与它一致 */ string;
   subscriptionId: /* 订阅标识；完整帧的 inner 订阅必须与它一致 */ string;
   logicalFrameId: /* 同一条逻辑消息的 id，所有物理帧共享 */ string;
   logicalFrameOrdinal: /* 逻辑消息内的帧序号 */ number;
-  maxPhysicalFrameBytes?: /* 单帧物理预算，缺席用实现自带上限 */ number;
-  maxAssemblyBytes?: /* 整条逻辑消息的装配预算，缺席同样用自带上限 */ number;
   /* 每一帧的物理计量，由调用方注入，可能带状态或非单调 */ measurePhysicalFrameBytes(
     wire: TopicWireFrame<F>,
   ): number;
