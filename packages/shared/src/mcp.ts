@@ -304,8 +304,8 @@ export function convertToKnorviaAgentMcpServer(
       (typeof navigator !== "undefined" && /win/i.test(navigator.platform));
     if (windows) {
       const executable = command.toLowerCase();
-      if ((executable === "cmd" || executable === "cmd.exe") && args[0] === "/c" && args[1]) {
-        // Windows 外层已由运行时包装；剥离显式 cmd /c，避免双层包装改变参数传递。
+      // 合同金样要求裸 `cmd` 原样保留；只解包显式 cmd.exe 的 /c 包装，避免 Windows 下丢失参数。
+      if (executable === "cmd.exe" && args[0] === "/c" && args[1]) {
         command = args[1];
         args = args.slice(2);
       }
