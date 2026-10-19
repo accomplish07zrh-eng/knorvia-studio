@@ -1,4 +1,12 @@
-// SPDX-License-Identifier: Apache-2.0
-export type { E2ETestBridgeEnvironment } from "./internal-s04/e2e-test-bridge.js";
+export interface E2ETestBridgeEnvironment {
+  VITE_KNORVIA_E2E_STORE_BRIDGE?: string;
+  KNORVIA_E2E_RUN_ID?: string;
+}
 
-export { shouldEnableE2ETestBridge } from "./internal-s04/e2e-test-bridge.js";
+/**
+ * Main/preload 的 E2E 能力必须同时命中专用 build flag 和真实 runner run id。
+ * KNORVIA_ENV=test 只是产品环境，不能据此扩大 renderer 可读面。
+ */
+export function shouldEnableE2ETestBridge(env: E2ETestBridgeEnvironment): boolean {
+  return env.VITE_KNORVIA_E2E_STORE_BRIDGE === "1" && Boolean(env.KNORVIA_E2E_RUN_ID?.trim());
+}

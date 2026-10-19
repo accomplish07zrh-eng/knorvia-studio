@@ -1,8 +1,15 @@
-// SPDX-License-Identifier: Apache-2.0
-export type { AppRuntimePreferencesChangedBroadcastPayload } from "./internal-s04/app-runtime-preferences.js";
+import { z } from "zod";
 
-export {
-  APP_RUNTIME_PREFERENCES_CHANGED_BROADCAST_CHANNEL,
-  appRuntimePreferencesChangedBroadcastPayloadSchema,
-  ASK_USER_QUESTION_E2E_CLOCK_SCALE_ENV,
-} from "./internal-s04/app-runtime-preferences.js";
+export const APP_RUNTIME_PREFERENCES_CHANGED_BROADCAST_CHANNEL = "settings:app-runtime-preferences";
+export const ASK_USER_QUESTION_E2E_CLOCK_SCALE_ENV = "KNORVIA_E2E_ASK_USER_QUESTION_CLOCK_SCALE";
+
+export const appRuntimePreferencesChangedBroadcastPayloadSchema = z
+  .object({
+    askUserQuestionAutoResolutionEnabled: z.boolean(),
+    modelIoFullRetentionEnabled: z.boolean().default(false),
+  })
+  .strict();
+
+export type AppRuntimePreferencesChangedBroadcastPayload = z.infer<
+  typeof appRuntimePreferencesChangedBroadcastPayloadSchema
+>;
