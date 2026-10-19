@@ -17,17 +17,17 @@
 | 7   | 生成器固定 `@withfig/autocomplete@2.692.3`；版本不符即中止；摘要里的 `roots=707`、`loadSpecNodes=522` 等计数是固定输入的结果 | 升级依赖时容易直接改版本号                         | B15/B18  |
 | 8   | `--check` 与 `--output` 同时出现时 `--check` 生效；未知参数被忽略                                                            | 参数解析看起来过于宽松                             | B15      |
 
-## 二、有意的跨平台修复（替换实现必须做）
+## 二、跨平台差异与有意的跨平台修复（替换实现必须做）
 
 **生成器内容哈希的路径分隔符。** 旧实现 `hashBuildFiles` 用
 `filePath.slice(directory.length + 1)` 作为哈希输入，保留平台原生分隔符：
 
-- POSIX：`commands/git.js` → 已提交的哈希 `1b0d34b4…`；
-- Windows：`commands\git.js` → 不同哈希，已提交文件无法通过 `--check`。
-
-替换实现统一把相对路径规范化为 `/` 再哈希。**POSIX 输出字节不变**（B15/B16/B18 继续锁定已提交文件），
-Windows 会从“永远 stale”变为与 POSIX 一致的 `1b0d34b4…`。这是有意的缺陷修复，不登记为测试差异，
-也不放宽任何断言；Windows 上的实际重建留给 CI/替换阶段验证。
+- 事实：
+  - POSIX：子文件相对路径如 `commands/git.js`（正斜杠 `/`）→ 计算得到哈希 `1b0d34b4f4fadc4dafab139702e8687830396154c01f23c5a7d523cecd8dad03`，与仓库已提交文件一致；
+  - Windows：子文件相对路径如 `commands\git.js`（反斜杠 `\`）→ 计算得到哈希 `288fc32dfc73797f47d192109deceb06e0f174ea15247ca2c6b70e6a9d5ea5fa`。
+- 影响：旧实现在 Windows 上执行 `--check` 时，临时生成的 `288fc…` 与已提交的 `1b0d…` 比较必然不相等，按设计抛出 `Generated Bash command registry is stale`（退出码 1）；执行 `--output` 时写出含 Windows 哈希的文件。
+- 契约测试处理：测试 B15、B16、B18、B19 精确断言旧实现在各自平台的真实行为（POSIX 期望 `1b0d…` 与 `--check` 成功；Windows 期望 `288fc…` 与 `--check` 报 stale，B19 写出后恢复仓库文件），两平台均严格断言、不跳过、不按平台放宽断言。
+- 替换实现要求：替换实现统一把相对路径规范化为 `/` 再哈希。**POSIX 输出字节不变**（B15/B16/B18 继续锁定已提交文件），Windows 会从“永远 stale”修复为与 POSIX 一致的 `1b0d34b4…`。替换 PR 重建时两平台行为归一，届时契约测试将相应更新以验证统一行为。
 
 ## 三、未覆盖的分支（行为必须保留，但没有黑盒测试）
 

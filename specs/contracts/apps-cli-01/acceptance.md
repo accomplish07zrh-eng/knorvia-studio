@@ -89,6 +89,12 @@ node scripts/contract-gate.mjs \
    放宽任何用例。
 4. **补充断言**：加入“`--output` 相对 cwd 解析”和“`formatReport([])` 的空输入输出”两处断言；
    旧实现直接通过，没有为通过修改实现。
+5. **Windows CI 平台断言匹配旧实现真实行为**：旧实现 `generate-bash-command-registry.mjs`
+   在 Windows 上因未规范化路径分隔符，递归列出构建文件时使用反斜杠 `\` 计算相对路径，得到哈希
+   `288fc32dfc73797f47d192109deceb06e0f174ea15247ca2c6b70e6a9d5ea5fa`；而仓库中已提交文件是在 POSIX
+   （正斜杠 `/`）下生成的 `1b0d34b4…`。因此旧实现在 Windows 上执行 `--check` 时必然抛出 stale 错误。
+   修改测试 B15、B16、B18、B19 依平台精确反映旧实现真实行为（Windows 上断言 `288fc…` 与 `--check` 报 stale，
+   B19 写出后恢复仓库文件），两平台均严格断言、不跳过用例、不按平台放宽断言，实现未改。
 
 ## 六、未覆盖 / 留给替换阶段
 
