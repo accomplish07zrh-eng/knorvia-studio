@@ -142406,7 +142406,7 @@
     },
     {
       "path": "specs/knorvia-builtin-kernel-dsh.md",
-      "normalizedSha256": "848c88d67aa61ec2c58c6635943180686e99c855bc643b7c6ac612886cded644",
+      "normalizedSha256": "b172fd65af743cb68303cc49c60786ae380d40f2c7b870fb0468ce31c59e0e05",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored product specification written on 2026-10-17 for the decision to build the built-in kernel on DeepSeek Harness as a pinned dependency and to restructure the project into internal plugins. It describes Knorvia rules, ownership and acceptance in its own words and reproduces no upstream source text.",
@@ -143112,6 +143112,70 @@
       "license": "Apache-2.0",
       "basis": "Knorvia-authored dynamic-workflow-01 replacement record (design or acceptance document), written for this package; it records the 61 rewritten sources, the 39/39 old and new gates in both modes and the v3 archive re-pin.",
       "evidence": ["specs/contracts/dynamic-workflow-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/kernel-dsh-00/README.md",
+      "normalizedSha256": "e0f029de7ea33b30b4e64f6cca2775e0a539e99a40b9b78bd5e88bef68629f96",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-dsh-00 contract artifact for the DSH-backed built-in kernel access package (M2). Written from specs/knorvia-builtin-kernel-dsh.md, the public DSH 0.2.0-rc.2 package surface and the planned process contract; no DSH source was copied and no upstream or old-runtime implementation was rewritten. The contract reuses existing specs, lists the protocol-level tests deferred to kernel-bridge-01, and its contract-stage tests assert black-box CLI behavior only.",
+      "evidence": ["specs/contracts/kernel-dsh-00/README.md", "specs/knorvia-builtin-kernel-dsh.md"]
+    },
+    {
+      "path": "specs/contracts/kernel-dsh-00/behavior.md",
+      "normalizedSha256": "9d6d13d33cb16eb3d872c7ea152bc371b0d434ff41cb17b2f88c9675c6b618a6",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-dsh-00 contract artifact for the DSH-backed built-in kernel access package (M2). Written from specs/knorvia-builtin-kernel-dsh.md, the public DSH 0.2.0-rc.2 package surface and the planned process contract; no DSH source was copied and no upstream or old-runtime implementation was rewritten. The contract reuses existing specs, lists the protocol-level tests deferred to kernel-bridge-01, and its contract-stage tests assert black-box CLI behavior only.",
+      "evidence": ["specs/contracts/kernel-dsh-00/README.md", "specs/knorvia-builtin-kernel-dsh.md"]
+    },
+    {
+      "path": "specs/contracts/kernel-dsh-00/interface.md",
+      "normalizedSha256": "103fe82013c05f7003b3dee38319ba67b054c0aee6db4158d83587eeef27e981",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-dsh-00 contract artifact for the DSH-backed built-in kernel access package (M2). Written from specs/knorvia-builtin-kernel-dsh.md, the public DSH 0.2.0-rc.2 package surface and the planned process contract; no DSH source was copied and no upstream or old-runtime implementation was rewritten. The contract reuses existing specs, lists the protocol-level tests deferred to kernel-bridge-01, and its contract-stage tests assert black-box CLI behavior only.",
+      "evidence": ["specs/contracts/kernel-dsh-00/README.md", "specs/knorvia-builtin-kernel-dsh.md"]
+    },
+    {
+      "path": "specs/contracts/kernel-dsh-00/callers.md",
+      "normalizedSha256": "7aabe5383fc592cb10f6ffe62d686efe7acebeb616720b830e29411d65947a59",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-dsh-00 contract artifact for the DSH-backed built-in kernel access package (M2). Written from specs/knorvia-builtin-kernel-dsh.md, the public DSH 0.2.0-rc.2 package surface and the planned process contract; no DSH source was copied and no upstream or old-runtime implementation was rewritten. The contract reuses existing specs, lists the protocol-level tests deferred to kernel-bridge-01, and its contract-stage tests assert black-box CLI behavior only.",
+      "evidence": ["specs/contracts/kernel-dsh-00/README.md", "specs/knorvia-builtin-kernel-dsh.md"]
+    },
+    {
+      "path": "specs/contracts/kernel-dsh-00/known-differences.md",
+      "normalizedSha256": "b242a498f04858db582da9bc35e183385768f5f08e5153b9294d46bcbbeac197",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-dsh-00 contract artifact for the DSH-backed built-in kernel access package (M2). Written from specs/knorvia-builtin-kernel-dsh.md, the public DSH 0.2.0-rc.2 package surface and the planned process contract; no DSH source was copied and no upstream or old-runtime implementation was rewritten. The contract reuses existing specs, lists the protocol-level tests deferred to kernel-bridge-01, and its contract-stage tests assert black-box CLI behavior only.",
+      "evidence": ["specs/contracts/kernel-dsh-00/README.md", "specs/knorvia-builtin-kernel-dsh.md"]
+    },
+    {
+      "path": "specs/contracts/kernel-dsh-00/acceptance.md",
+      "normalizedSha256": "ca1bd90c5c3f9e10559ad6bdd91c74d4f436c59b6870c0738a3e13e417e85658",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-dsh-00 contract artifact for the DSH-backed built-in kernel access package (M2). Written from specs/knorvia-builtin-kernel-dsh.md, the public DSH 0.2.0-rc.2 package surface and the planned process contract; no DSH source was copied and no upstream or old-runtime implementation was rewritten. The contract reuses existing specs, lists the protocol-level tests deferred to kernel-bridge-01, and its contract-stage tests assert black-box CLI behavior only.",
+      "evidence": ["specs/contracts/kernel-dsh-00/README.md", "specs/knorvia-builtin-kernel-dsh.md"]
+    },
+    {
+      "path": "specs/contracts/kernel-dsh-00/tests/engine-selection-default.test.mjs",
+      "normalizedSha256": "ec6599696e0402ff06db4763e545550e52ac2dfc00c1fc2c60f5a80f565190ee",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-dsh-00 contract artifact for the DSH-backed built-in kernel access package (M2). Written from specs/knorvia-builtin-kernel-dsh.md, the public DSH 0.2.0-rc.2 package surface and the planned process contract; no DSH source was copied and no upstream or old-runtime implementation was rewritten. The contract reuses existing specs, lists the protocol-level tests deferred to kernel-bridge-01, and its contract-stage tests assert black-box CLI behavior only.",
+      "evidence": ["specs/contracts/kernel-dsh-00/README.md", "specs/knorvia-builtin-kernel-dsh.md"]
+    },
+    {
+      "path": "specs/contracts/kernel-dsh-00/fixtures/isolation-env.json",
+      "normalizedSha256": "f95ae443ceb21608cf080bd4b8f9fc0b32f228b3598fa986616c00c2f443163c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-dsh-00 contract artifact for the DSH-backed built-in kernel access package (M2). Written from specs/knorvia-builtin-kernel-dsh.md, the public DSH 0.2.0-rc.2 package surface and the planned process contract; no DSH source was copied and no upstream or old-runtime implementation was rewritten. The contract reuses existing specs, lists the protocol-level tests deferred to kernel-bridge-01, and its contract-stage tests assert black-box CLI behavior only.",
+      "evidence": ["specs/contracts/kernel-dsh-00/README.md", "specs/knorvia-builtin-kernel-dsh.md"]
     },
     {
       "path": "specs/contracts/shared-04/README.md",
