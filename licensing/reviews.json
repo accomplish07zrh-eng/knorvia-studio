@@ -143176,6 +143176,655 @@
       "license": "Apache-2.0",
       "basis": "Knorvia-authored kernel-dsh-00 contract artifact for the DSH-backed built-in kernel access package (M2). Written from specs/knorvia-builtin-kernel-dsh.md, the public DSH 0.2.0-rc.2 package surface and the planned process contract; no DSH source was copied and no upstream or old-runtime implementation was rewritten. The contract reuses existing specs, lists the protocol-level tests deferred to kernel-bridge-01, and its contract-stage tests assert black-box CLI behavior only.",
       "evidence": ["specs/contracts/kernel-dsh-00/README.md", "specs/knorvia-builtin-kernel-dsh.md"]
+    },
+    {
+      "path": "specs/contracts/packages-02/README.md",
+      "normalizedSha256": "5fb285c302401a92da619027f559a54f39c75349ee162b201dbe75f62da071ee",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored packages-02 contract v1 document for the independent replacement of packages/rpc and packages/provider-node/src (issue #191). Behavior was derived by reading and running the replaced implementation and is described in the authors' own words; no code was copied, renamed or rewritten line by line.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "specs/contracts/packages-02/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/packages-02/acceptance.md",
+      "normalizedSha256": "d033876daa967883c59829ab713657b53fc240ca945802ee9d52ce3d1f81d048",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored packages-02 contract v1 document for the independent replacement of packages/rpc and packages/provider-node/src (issue #191). Behavior was derived by reading and running the replaced implementation and is described in the authors' own words; no code was copied, renamed or rewritten line by line.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/packages-02/behavior.md",
+      "normalizedSha256": "71d2a8cb006799a65acf824cea8beed6472bd3dd104f1512a3e1c02dcee424c8",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored packages-02 contract v1 document for the independent replacement of packages/rpc and packages/provider-node/src (issue #191). Behavior was derived by reading and running the replaced implementation and is described in the authors' own words; no code was copied, renamed or rewritten line by line.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/packages-02/callers.md",
+      "normalizedSha256": "7aa7321170e00851384e54c4fb7bc3c5ba64ab6214dfd146f20658202ab144e0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored packages-02 contract v1 document for the independent replacement of packages/rpc and packages/provider-node/src (issue #191). Behavior was derived by reading and running the replaced implementation and is described in the authors' own words; no code was copied, renamed or rewritten line by line.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/packages-02/fixtures/provider-config/invalid-version.json",
+      "normalizedSha256": "6160ec328d26c048313b5ae4c406ac18b5a2537302dda933074d8497b5106974",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Synthetic packages-02 contract fixture recorded from the unmodified implementation's public behavior; contains no real user data, credentials or internal service addresses. No implementation code copied.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/packages-02/fixtures/provider-config/legacy-manual-expected.json",
+      "normalizedSha256": "3b61abfa0eadc0e1b51361656c33e8431c4a32419f338567a567a361c521dd71",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Synthetic packages-02 contract fixture recorded from the unmodified implementation's public behavior; contains no real user data, credentials or internal service addresses. No implementation code copied.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/packages-02/fixtures/provider-config/legacy-manual-input.json",
+      "normalizedSha256": "05c7d6a84479ecc06e4c3dc025b6f055b7eb04693242cf7fe3d1544918814e66",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Synthetic packages-02 contract fixture recorded from the unmodified implementation's public behavior; contains no real user data, credentials or internal service addresses. No implementation code copied.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/packages-02/fixtures/provider-config/old-write.json",
+      "normalizedSha256": "0e33fd52d9a3c81a4cc1adf1fdd278e1498f4a5204e039a1e864726af369f8a9",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Synthetic packages-02 contract fixture recorded from the unmodified implementation's public behavior; contains no real user data, credentials or internal service addresses. No implementation code copied.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/packages-02/fixtures/wire/frames.json",
+      "normalizedSha256": "66858358b6a076aea8743413de6414863ff357eb86c87cacf75b76058f41e1b4",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Synthetic packages-02 contract fixture recorded from the unmodified implementation's public behavior; contains no real user data, credentials or internal service addresses. No implementation code copied.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/packages-02/fixtures/wire/serialization.json",
+      "normalizedSha256": "d2af53c0af8fabb853d1ce88d05925aac7f659a59389e459e6152c7efd090077",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Synthetic packages-02 contract fixture recorded from the unmodified implementation's public behavior; contains no real user data, credentials or internal service addresses. No implementation code copied.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/packages-02/gate-old.json",
+      "normalizedSha256": "e99a60f966e35e2cc17130103f44951624246ee9c57c74576e3fd6334158529b",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored packages-02 contract v1 evidence: recorded measurements of the unmodified implementation (source and dist entries plus stub replacement) and the per-file scope inventory. No implementation code copied.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/packages-02/interface.md",
+      "normalizedSha256": "67b5b46ea6ff9060a83624a61188b6b2b663381c62a005c7a64ba841353f9392",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored packages-02 contract v1 document for the independent replacement of packages/rpc and packages/provider-node/src (issue #191). Behavior was derived by reading and running the replaced implementation and is described in the authors' own words; no code was copied, renamed or rewritten line by line.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/packages-02/known-differences.md",
+      "normalizedSha256": "0b2883c62f7311b365db370031641ed8b4fbe49f5d728ab4ef1e7c6345f2cb06",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored packages-02 contract v1 document for the independent replacement of packages/rpc and packages/provider-node/src (issue #191). Behavior was derived by reading and running the replaced implementation and is described in the authors' own words; no code was copied, renamed or rewritten line by line.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/packages-02/scope-files.json",
+      "normalizedSha256": "7601a0bc6fe603fea238bbcdfdcfc33240bdf77b38776a02dfdc8e4a40ffb22b",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored packages-02 contract v1 evidence: recorded measurements of the unmodified implementation (source and dist entries plus stub replacement) and the per-file scope inventory. No implementation code copied.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/packages-02/stubs/provider-node/src/legacy-reasoning-level-renames.ts",
+      "normalizedSha256": "fc429d7f22dac2cf3fc344808d6a4cfd0a71a7ac7c0741e6f643137b65c49bce",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Minimal packages-02 contract stub: keeps only the frozen interface.md names and throws at import, proving the contract tests fail without an implementation. No implementation code copied.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/packages-02/stubs/provider-node/src/legacy-reasoning-level.ts",
+      "normalizedSha256": "fc429d7f22dac2cf3fc344808d6a4cfd0a71a7ac7c0741e6f643137b65c49bce",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Minimal packages-02 contract stub: keeps only the frozen interface.md names and throws at import, proving the contract tests fail without an implementation. No implementation code copied.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/packages-02/stubs/provider-node/src/model-selection-config-repository.ts",
+      "normalizedSha256": "fc429d7f22dac2cf3fc344808d6a4cfd0a71a7ac7c0741e6f643137b65c49bce",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Minimal packages-02 contract stub: keeps only the frozen interface.md names and throws at import, proving the contract tests fail without an implementation. No implementation code copied.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/packages-02/stubs/provider-node/src/model-selection-facade.ts",
+      "normalizedSha256": "fc429d7f22dac2cf3fc344808d6a4cfd0a71a7ac7c0741e6f643137b65c49bce",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Minimal packages-02 contract stub: keeps only the frozen interface.md names and throws at import, proving the contract tests fail without an implementation. No implementation code copied.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/packages-02/stubs/provider-node/src/personal-provider-config-repository.ts",
+      "normalizedSha256": "fc429d7f22dac2cf3fc344808d6a4cfd0a71a7ac7c0741e6f643137b65c49bce",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Minimal packages-02 contract stub: keeps only the frozen interface.md names and throws at import, proving the contract tests fail without an implementation. No implementation code copied.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/packages-02/stubs/provider-node/src/provider-config-file-codec.ts",
+      "normalizedSha256": "fc429d7f22dac2cf3fc344808d6a4cfd0a71a7ac7c0741e6f643137b65c49bce",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Minimal packages-02 contract stub: keeps only the frozen interface.md names and throws at import, proving the contract tests fail without an implementation. No implementation code copied.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/packages-02/stubs/provider-node/src/provider-config-runtime.ts",
+      "normalizedSha256": "fc429d7f22dac2cf3fc344808d6a4cfd0a71a7ac7c0741e6f643137b65c49bce",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Minimal packages-02 contract stub: keeps only the frozen interface.md names and throws at import, proving the contract tests fail without an implementation. No implementation code copied.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/packages-02/stubs/provider-node/src/provider-registry-runtime.ts",
+      "normalizedSha256": "fc429d7f22dac2cf3fc344808d6a4cfd0a71a7ac7c0741e6f643137b65c49bce",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Minimal packages-02 contract stub: keeps only the frozen interface.md names and throws at import, proving the contract tests fail without an implementation. No implementation code copied.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/packages-02/stubs/provider-node/src/runtime-paths.ts",
+      "normalizedSha256": "fc429d7f22dac2cf3fc344808d6a4cfd0a71a7ac7c0741e6f643137b65c49bce",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Minimal packages-02 contract stub: keeps only the frozen interface.md names and throws at import, proving the contract tests fail without an implementation. No implementation code copied.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/packages-02/stubs/rpc/examples/01-basic-ipc.ts",
+      "normalizedSha256": "fc429d7f22dac2cf3fc344808d6a4cfd0a71a7ac7c0741e6f643137b65c49bce",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Minimal packages-02 contract stub: keeps only the frozen interface.md names and throws at import, proving the contract tests fail without an implementation. No implementation code copied.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/packages-02/stubs/rpc/examples/02-proxy-channel.ts",
+      "normalizedSha256": "fc429d7f22dac2cf3fc344808d6a4cfd0a71a7ac7c0741e6f643137b65c49bce",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Minimal packages-02 contract stub: keeps only the frozen interface.md names and throws at import, proving the contract tests fail without an implementation. No implementation code copied.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/packages-02/stubs/rpc/examples/03-ipc-server-client.ts",
+      "normalizedSha256": "fc429d7f22dac2cf3fc344808d6a4cfd0a71a7ac7c0741e6f643137b65c49bce",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Minimal packages-02 contract stub: keeps only the frozen interface.md names and throws at import, proving the contract tests fail without an implementation. No implementation code copied.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/packages-02/stubs/rpc/examples/04-remote-connection.ts",
+      "normalizedSha256": "fc429d7f22dac2cf3fc344808d6a4cfd0a71a7ac7c0741e6f643137b65c49bce",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Minimal packages-02 contract stub: keeps only the frozen interface.md names and throws at import, proving the contract tests fail without an implementation. No implementation code copied.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/packages-02/stubs/rpc/src/buffer.ts",
+      "normalizedSha256": "fc429d7f22dac2cf3fc344808d6a4cfd0a71a7ac7c0741e6f643137b65c49bce",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Minimal packages-02 contract stub: keeps only the frozen interface.md names and throws at import, proving the contract tests fail without an implementation. No implementation code copied.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/packages-02/stubs/rpc/src/channelClient.ts",
+      "normalizedSha256": "fc429d7f22dac2cf3fc344808d6a4cfd0a71a7ac7c0741e6f643137b65c49bce",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Minimal packages-02 contract stub: keeps only the frozen interface.md names and throws at import, proving the contract tests fail without an implementation. No implementation code copied.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/packages-02/stubs/rpc/src/channelServer.ts",
+      "normalizedSha256": "fc429d7f22dac2cf3fc344808d6a4cfd0a71a7ac7c0741e6f643137b65c49bce",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Minimal packages-02 contract stub: keeps only the frozen interface.md names and throws at import, proving the contract tests fail without an implementation. No implementation code copied.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/packages-02/stubs/rpc/src/channels.shared.ts",
+      "normalizedSha256": "fc429d7f22dac2cf3fc344808d6a4cfd0a71a7ac7c0741e6f643137b65c49bce",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Minimal packages-02 contract stub: keeps only the frozen interface.md names and throws at import, proving the contract tests fail without an implementation. No implementation code copied.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/packages-02/stubs/rpc/src/channels.ts",
+      "normalizedSha256": "fc429d7f22dac2cf3fc344808d6a4cfd0a71a7ac7c0741e6f643137b65c49bce",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Minimal packages-02 contract stub: keeps only the frozen interface.md names and throws at import, proving the contract tests fail without an implementation. No implementation code copied.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/packages-02/stubs/rpc/src/delayedChannel.ts",
+      "normalizedSha256": "fc429d7f22dac2cf3fc344808d6a4cfd0a71a7ac7c0741e6f643137b65c49bce",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Minimal packages-02 contract stub: keeps only the frozen interface.md names and throws at import, proving the contract tests fail without an implementation. No implementation code copied.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/packages-02/stubs/rpc/src/foundation.ts",
+      "normalizedSha256": "fc429d7f22dac2cf3fc344808d6a4cfd0a71a7ac7c0741e6f643137b65c49bce",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Minimal packages-02 contract stub: keeps only the frozen interface.md names and throws at import, proving the contract tests fail without an implementation. No implementation code copied.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/packages-02/stubs/rpc/src/index.ts",
+      "normalizedSha256": "fc429d7f22dac2cf3fc344808d6a4cfd0a71a7ac7c0741e6f643137b65c49bce",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Minimal packages-02 contract stub: keeps only the frozen interface.md names and throws at import, proving the contract tests fail without an implementation. No implementation code copied.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/packages-02/stubs/rpc/src/ipc.ts",
+      "normalizedSha256": "fc429d7f22dac2cf3fc344808d6a4cfd0a71a7ac7c0741e6f643137b65c49bce",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Minimal packages-02 contract stub: keeps only the frozen interface.md names and throws at import, proving the contract tests fail without an implementation. No implementation code copied.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/packages-02/stubs/rpc/src/logging-middleware.ts",
+      "normalizedSha256": "fc429d7f22dac2cf3fc344808d6a4cfd0a71a7ac7c0741e6f643137b65c49bce",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Minimal packages-02 contract stub: keeps only the frozen interface.md names and throws at import, proving the contract tests fail without an implementation. No implementation code copied.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/packages-02/stubs/rpc/src/network-telemetry-middleware.ts",
+      "normalizedSha256": "fc429d7f22dac2cf3fc344808d6a4cfd0a71a7ac7c0741e6f643137b65c49bce",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Minimal packages-02 contract stub: keeps only the frozen interface.md names and throws at import, proving the contract tests fail without an implementation. No implementation code copied.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/packages-02/stubs/rpc/src/persistent-protocol.ts",
+      "normalizedSha256": "fc429d7f22dac2cf3fc344808d6a4cfd0a71a7ac7c0741e6f643137b65c49bce",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Minimal packages-02 contract stub: keeps only the frozen interface.md names and throws at import, proving the contract tests fail without an implementation. No implementation code copied.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/packages-02/stubs/rpc/src/protocol.ts",
+      "normalizedSha256": "fc429d7f22dac2cf3fc344808d6a4cfd0a71a7ac7c0741e6f643137b65c49bce",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Minimal packages-02 contract stub: keeps only the frozen interface.md names and throws at import, proving the contract tests fail without an implementation. No implementation code copied.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/packages-02/stubs/rpc/src/proxy-channel.ts",
+      "normalizedSha256": "fc429d7f22dac2cf3fc344808d6a4cfd0a71a7ac7c0741e6f643137b65c49bce",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Minimal packages-02 contract stub: keeps only the frozen interface.md names and throws at import, proving the contract tests fail without an implementation. No implementation code copied.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/packages-02/stubs/rpc/src/remote.ts",
+      "normalizedSha256": "fc429d7f22dac2cf3fc344808d6a4cfd0a71a7ac7c0741e6f643137b65c49bce",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Minimal packages-02 contract stub: keeps only the frozen interface.md names and throws at import, proving the contract tests fail without an implementation. No implementation code copied.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/packages-02/stubs/rpc/src/serialization.ts",
+      "normalizedSha256": "fc429d7f22dac2cf3fc344808d6a4cfd0a71a7ac7c0741e6f643137b65c49bce",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Minimal packages-02 contract stub: keeps only the frozen interface.md names and throws at import, proving the contract tests fail without an implementation. No implementation code copied.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/packages-02/stubs/targets.txt",
+      "normalizedSha256": "855f13e76392dc788c291fdb6d99a6d85340053b0b7e4d83491074d54f123dbe",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored packages-02 contract v1 stub target list for the 29 inherited files covered by this contract. No implementation code copied.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/packages-02/tests/entry.mjs",
+      "normalizedSha256": "aefd6086e61da7a54cddbfd536411096d27cdf25e1c455652bbe60e6c5c03e42",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored packages-02 contract v1 black-box test: exercises the frozen public behavior of the inherited rpc and provider-node modules through public entries on both source and dist entries, recorded against the unmodified implementation. No implementation code copied into the contract.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/packages-02/tests/provider-facade.test.mjs",
+      "normalizedSha256": "bd5bfa48b97969d358797db848a52696c0e3475b81a17bd68a0f9a68e44682c6",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored packages-02 contract v1 black-box test: exercises the frozen public behavior of the inherited rpc and provider-node modules through public entries on both source and dist entries, recorded against the unmodified implementation. No implementation code copied into the contract.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/packages-02/tests/provider-paths-codec.test.mjs",
+      "normalizedSha256": "d232361437a2d44b1e7abfbf58d5a37ddfd2a765f181fead435c942a4924eb8f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored packages-02 contract v1 black-box test: exercises the frozen public behavior of the inherited rpc and provider-node modules through public entries on both source and dist entries, recorded against the unmodified implementation. No implementation code copied into the contract.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/packages-02/tests/provider-repository.test.mjs",
+      "normalizedSha256": "1eaf2ba20de48e60833e0eea228f9ecf65eacc1e1bcb450e1f5dd84ecedeaff3",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored packages-02 contract v1 black-box test: exercises the frozen public behavior of the inherited rpc and provider-node modules through public entries on both source and dist entries, recorded against the unmodified implementation. No implementation code copied into the contract.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/packages-02/tests/provider-runtime.test.mjs",
+      "normalizedSha256": "9dfd3891f42a88e1aaf7ee9236e9b64bc67b4c101b473a732e8d554c1834faf1",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored packages-02 contract v1 black-box test: exercises the frozen public behavior of the inherited rpc and provider-node modules through public entries on both source and dist entries, recorded against the unmodified implementation. No implementation code copied into the contract.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/packages-02/tests/provider-surface.test.mjs",
+      "normalizedSha256": "a78a421ecc2b4b4846a359a9b2745e811e8fce6b40def0c9f422eac55e30d543",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored packages-02 contract v1 black-box test: exercises the frozen public behavior of the inherited rpc and provider-node modules through public entries on both source and dist entries, recorded against the unmodified implementation. No implementation code copied into the contract.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/packages-02/tests/rpc-channels.test.mjs",
+      "normalizedSha256": "bb7d7360455032cb54821a838aab9753dab8fa6bfc5d8b4f56768926d39c2134",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored packages-02 contract v1 black-box test: exercises the frozen public behavior of the inherited rpc and provider-node modules through public entries on both source and dist entries, recorded against the unmodified implementation. No implementation code copied into the contract.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/packages-02/tests/rpc-examples.test.mjs",
+      "normalizedSha256": "e3437bba9aa6a67ea5a7d800ca2a92cacaf458e86f7151ca7e592b66ba3f50cd",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored packages-02 contract v1 black-box test: exercises the frozen public behavior of the inherited rpc and provider-node modules through public entries on both source and dist entries, recorded against the unmodified implementation. No implementation code copied into the contract.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/packages-02/tests/rpc-foundation.test.mjs",
+      "normalizedSha256": "788ebab62c5af8a372b829c779fc71670af1442157d53e97eb4897413f313f52",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored packages-02 contract v1 black-box test: exercises the frozen public behavior of the inherited rpc and provider-node modules through public entries on both source and dist entries, recorded against the unmodified implementation. No implementation code copied into the contract.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/packages-02/tests/rpc-ipc-remote.test.mjs",
+      "normalizedSha256": "2251d1887de75d6881b5e71173814b1cea327e41f274936241fc8bf80496595a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored packages-02 contract v1 black-box test: exercises the frozen public behavior of the inherited rpc and provider-node modules through public entries on both source and dist entries, recorded against the unmodified implementation. No implementation code copied into the contract.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/packages-02/tests/rpc-middleware.test.mjs",
+      "normalizedSha256": "0ffa914926e7d60a42ca99fdbe307d91c6ba593b71c63b4d8a8ba6526232155a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored packages-02 contract v1 black-box test: exercises the frozen public behavior of the inherited rpc and provider-node modules through public entries on both source and dist entries, recorded against the unmodified implementation. No implementation code copied into the contract.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/packages-02/tests/rpc-proxy.test.mjs",
+      "normalizedSha256": "f8fada6d201428ef5c85f7f6b663739094974a27079f51366387eddb52d4a026",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored packages-02 contract v1 black-box test: exercises the frozen public behavior of the inherited rpc and provider-node modules through public entries on both source and dist entries, recorded against the unmodified implementation. No implementation code copied into the contract.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/packages-02/tests/rpc-surface.test.mjs",
+      "normalizedSha256": "a0745d9f82e353a376e97b1039f4c8ac2b7fd62904e6c976d5dac2b1d26ecb02",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored packages-02 contract v1 black-box test: exercises the frozen public behavior of the inherited rpc and provider-node modules through public entries on both source and dist entries, recorded against the unmodified implementation. No implementation code copied into the contract.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/packages-02/tests/rpc-wire.test.mjs",
+      "normalizedSha256": "674fc5522ff5b84751fe3deedce57a9a0333d55aab99c60586073e33647adaa8",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored packages-02 contract v1 black-box test: exercises the frozen public behavior of the inherited rpc and provider-node modules through public entries on both source and dist entries, recorded against the unmodified implementation. No implementation code copied into the contract.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/packages-02/tests/surface.mjs",
+      "normalizedSha256": "45c0de170d26aaa0d58f6fe55db9eab35a3648aee4bd170fc79b08ddeaa6dfa7",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored packages-02 contract v1 black-box test: exercises the frozen public behavior of the inherited rpc and provider-node modules through public entries on both source and dist entries, recorded against the unmodified implementation. No implementation code copied into the contract.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
     }
   ]
 }
