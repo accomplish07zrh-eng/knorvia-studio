@@ -1,0 +1,286 @@
+{
+  "constants": {
+    "modules": [
+      "Plugin / MCP",
+      "Agent任务执行失败",
+      "模型配置 / API Key",
+      "模型调用报错",
+      "权限 / 配置保存",
+      "SSH连接失败",
+      "WSL连接失败",
+      "UI布局 / 交互",
+      "模型响应慢 / 额度",
+      "崩溃 / Internal Error",
+      "文档 / 使用咨询",
+      "其它"
+    ],
+    "types": [
+      {
+        "value": "bug",
+        "label": "Bug 反馈"
+      },
+      {
+        "value": "usage",
+        "label": "使用问题"
+      },
+      {
+        "value": "feature",
+        "label": "功能建议"
+      },
+      {
+        "value": "performance",
+        "label": "性能问题"
+      }
+    ],
+    "severities": ["P1-高", "P2-中", "P3-低"],
+    "defaultFramework": "agent",
+    "frameworkNone": "none",
+    "frameworkOptions": [
+      {
+        "value": "agent",
+        "label": "Knorvia Studio Agent"
+      }
+    ],
+    "frameworks": [
+      {
+        "value": "none",
+        "label": "未指定"
+      },
+      {
+        "value": "agent",
+        "label": "Knorvia Studio Agent"
+      }
+    ]
+  },
+  "redaction": [
+    {
+      "input": "password=hunter2 token: abc\nAuthorization: Bearer xyz",
+      "options": {},
+      "output": "password=[REDACTED] token: [REDACTED]\nAuthorization: [REDACTED]"
+    },
+    {
+      "input": "{\"apiKey\":\"abc\",\"content\":\"hello\"}",
+      "options": {},
+      "output": "{\"apiKey\":\"[REDACTED]\",\"content\":\"hello\"}"
+    },
+    {
+      "input": "{\"nested\":{\"content\":\"x\",\"ok\":1}}",
+      "options": {
+        "diagnostic": true
+      },
+      "output": "{\"nested\":{\"content\":\"[REDACTED]\",\"ok\":1}}"
+    },
+    {
+      "input": "messages: hi there",
+      "options": {
+        "diagnostic": true
+      },
+      "output": "[REDACTED]"
+    },
+    {
+      "input": "messages: hi there",
+      "options": {},
+      "output": "messages: hi there"
+    },
+    {
+      "input": "input {\"a\":1}",
+      "options": {
+        "diagnostic": true
+      },
+      "output": "input {\"a\":1}"
+    },
+    {
+      "input": "visit https://user:pass@example.com/a/reset?token=1 now",
+      "options": {},
+      "output": "visit https://example.com/[REDACTED] now"
+    },
+    {
+      "input": "https://hooks.slack.com/services/T/B/X",
+      "options": {},
+      "output": "https://hooks.slack.com/[REDACTED]"
+    },
+    {
+      "input": "https://example.com/downloads/file.zip",
+      "options": {},
+      "output": "https://example.com/[REDACTED]"
+    },
+    {
+      "input": "https://example.com/invitations/abc",
+      "options": {},
+      "output": "https://example.com/[REDACTED]"
+    },
+    {
+      "input": "https://example.com/api?apiKey=1&x=2",
+      "options": {},
+      "output": "https://example.com/[REDACTED]"
+    },
+    {
+      "input": "https://example.com/api?X-Amz-Signature=1",
+      "options": {},
+      "output": "https://example.com/[REDACTED]"
+    },
+    {
+      "input": "https://example.com/api/users?id=1",
+      "options": {},
+      "output": "https://example.com/api/users"
+    },
+    {
+      "input": "path /home/me/secret.txt email a@b.com",
+      "options": {},
+      "output": "path [USER_PATH] email a@b.com"
+    },
+    {
+      "input": "path /home/me/secret.txt email a@b.com",
+      "options": {
+        "diagnostic": true
+      },
+      "output": "path [USER_PATH] email [EMAIL]"
+    },
+    {
+      "input": "prefix {\"password\":\"x\",\"a\":1} suffix",
+      "options": {},
+      "output": "prefix {\"password\":\"[REDACTED]\",\"a\":1} suffix"
+    },
+    {
+      "input": "Proxy-Authorization: Basic abc\nSet-Cookie: sid=1",
+      "options": {},
+      "output": "Proxy-Authorization: [REDACTED]\nSet-Cookie: [REDACTED]"
+    },
+    {
+      "input": "-----BEGIN RSA PRIVATE KEY-----\nabc\n-----END RSA PRIVATE KEY-----",
+      "options": {},
+      "output": "[REDACTED]"
+    },
+    {
+      "input": "ok=1 data={\"x\":1}",
+      "options": {},
+      "output": "ok=1 data={\"x\":1}"
+    },
+    {
+      "input": "{\"items\":[{\"token\":\"t\"},{\"n\":1}]}",
+      "options": {},
+      "output": "{\"items\":[{\"token\":\"[REDACTED]\"},{\"n\":1}]}"
+    },
+    {
+      "input": "{\"a\":\"b\"",
+      "options": {
+        "diagnostic": true
+      },
+      "output": "{\"a\":\"b\""
+    },
+    {
+      "input": "C:\\Users\\me\\file.txt",
+      "options": {},
+      "output": "[USER_PATH]"
+    },
+    {
+      "input": "email USER@Example.COM",
+      "options": {
+        "diagnostic": true
+      },
+      "output": "email [EMAIL]"
+    }
+  ],
+  "onboarding": {
+    "file": [
+      {
+        "input": {
+          "version": 1,
+          "deviceMid": "d",
+          "entries": []
+        },
+        "success": true
+      },
+      {
+        "input": {
+          "version": 1,
+          "deviceMid": "d",
+          "entries": [
+            {
+              "userId": null,
+              "occupation": "dev",
+              "interfaceMode": "coding",
+              "memoryEnabled": null,
+              "proactiveSuggestionsEnabled": true,
+              "completedAt": "t",
+              "uploadState": "pending"
+            }
+          ]
+        },
+        "success": true
+      },
+      {
+        "input": {
+          "version": 2,
+          "deviceMid": "d",
+          "entries": []
+        },
+        "success": false
+      },
+      {
+        "input": {
+          "version": 1,
+          "deviceMid": "",
+          "entries": []
+        },
+        "success": false
+      },
+      {
+        "input": {
+          "version": 1,
+          "deviceMid": "d",
+          "entries": [
+            {
+              "userId": "",
+              "occupation": null,
+              "interfaceMode": null,
+              "memoryEnabled": null,
+              "proactiveSuggestionsEnabled": null,
+              "completedAt": "t",
+              "uploadState": "pending"
+            }
+          ]
+        },
+        "success": false
+      }
+    ],
+    "entry": [
+      {
+        "input": {
+          "userId": "u",
+          "occupation": "dev",
+          "interfaceMode": "office",
+          "memoryEnabled": true,
+          "proactiveSuggestionsEnabled": false,
+          "completedAt": "t",
+          "uploadState": "pending"
+        },
+        "success": true
+      },
+      {
+        "input": {
+          "userId": "u",
+          "occupation": 1,
+          "interfaceMode": "coding",
+          "memoryEnabled": null,
+          "proactiveSuggestionsEnabled": null,
+          "completedAt": "t",
+          "uploadState": "pending"
+        },
+        "success": false
+      },
+      {
+        "input": {
+          "userId": "u",
+          "occupation": null,
+          "interfaceMode": "bogus",
+          "memoryEnabled": null,
+          "proactiveSuggestionsEnabled": null,
+          "completedAt": "t",
+          "uploadState": "pending"
+        },
+        "success": false
+      }
+    ]
+  }
+}
