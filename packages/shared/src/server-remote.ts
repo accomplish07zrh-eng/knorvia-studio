@@ -1,37 +1,50 @@
+// SPDX-License-Identifier: Apache-2.0
 import { z } from "zod";
 
-export const SERVER_REMOTE_PROTOCOL_VERSION = 1;
+/** 握手协议版本；Server 与 Host 必须同版才交出能力，不做隐式降级。 */
+export const SERVER_REMOTE_PROTOCOL_VERSION = 1 as const;
 
-export const serverRemoteWorkspaceInfoSchema = z.object({
-  path: z.string().trim().min(1),
-  label: z.string().trim().min(1).optional(),
-  workspaceIdentity: z.string().trim().min(1).optional(),
+const PROTOCOL_VERSION = SERVER_REMOTE_PROTOCOL_VERSION;
+const text = () => z.string();
+const trimmed = () => z.string().trim().min(1);
+
+/* 能力表分成「必须声明」与「可选观测」两组，后者允许旧 Server 缺省。 */
+// 旧 Server 缺少新增 dynamic event，必须先声明能力再订阅，避免异常打进对端读循环；
+// 因此动态事件能力单独列为可选，false literal 的两项是握手成立的前提。
+const capabilitiesShape = (): z.ZodRawShape => ({
+  desktopContinuous: z.literal(true),
+  websocketRpc: z.literal(true),
+  processResourceTelemetry: z.boolean().optional(),
 });
 
-export const serverRemoteInfoSchema = z.object({
-  serverId: z.string().trim().min(1),
-  name: z.string().trim().min(1).optional(),
-  version: z.string(),
-  protocolVersion: z.literal(SERVER_REMOTE_PROTOCOL_VERSION),
+const workspaceShape = (): z.ZodRawShape => ({
+  path: trimmed(),
+  label: trimmed().optional(),
+  workspaceIdentity: trimmed().optional(),
+});
+
+const infoShape = (): z.ZodRawShape => ({
+  serverId: trimmed(),
+  name: trimmed().optional(),
+  version: text(),
+  protocolVersion: z.literal(PROTOCOL_VERSION),
   authRequired: z.boolean(),
   workspaces: z.array(serverRemoteWorkspaceInfoSchema),
-  capabilities: z.object({
-    desktopContinuous: z.literal(true),
-    websocketRpc: z.literal(true),
-    // 旧 Server 缺少新增 dynamic event，必须先声明能力再订阅，避免异常打进对端读循环。
-    processResourceTelemetry: z.boolean().optional(),
-  }),
+  capabilities: z.object(capabilitiesShape()),
 });
 
-export type ServerRemoteWorkspaceInfo = z.infer<typeof serverRemoteWorkspaceInfoSchema>;
+export const serverRemoteWorkspaceInfoSchema = z.object(workspaceShape());
 
-export type ServerRemoteInfo = z.infer<typeof serverRemoteInfoSchema>;
+export const serverRemoteInfoSchema = z.object(infoShape());
 
-export const serverRemoteHostCapabilitySchema = z
-  .object({
-    capability: z.string().trim().min(1),
-    expiresAt: z.number().int().positive(),
-  })
-  .strict();
+export type ServerRemoteWorkspaceInfo = z.output<typeof serverRemoteWorkspaceInfoSchema>;
+export type ServerRemoteInfo = z.output<typeof serverRemoteInfoSchema>;
 
-export type ServerRemoteHostCapability = z.infer<typeof serverRemoteHostCapabilitySchema>;
+const hostCapabilityShape = (): z.ZodRawShape => ({
+  capability: trimmed(),
+  expiresAt: z.number().int().positive(),
+});
+
+export const serverRemoteHostCapabilitySchema = z.object(hostCapabilityShape()).strict();
+
+export type ServerRemoteHostCapability = z.output<typeof serverRemoteHostCapabilitySchema>;
