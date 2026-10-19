@@ -9749,7 +9749,7 @@
     },
     {
       "path": "apps/cli/packages/bootstrap/src/kernel/process.ts",
-      "normalizedSha256": "11a8c9f5d14bbae7ae199a601c7556f793ee4205753122bb3e7d0c99b2511126",
+      "normalizedSha256": "d4658750b2d606a4ee281b80f2f4148a1ded716449697dc2eeb70499d9635dd3",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored kernel-dsh-00 runtime for the DSH-backed built-in kernel. runKernelProcess：就绪/失败标记、stdin EOF 与信号关闭、退出码映射。 Written from specs/knorvia-builtin-kernel-dsh.md, the kernel-dsh-00 contract and the public @deepseek-ai/dsh 0.2.0-rc.2 package surface. The author read the replaced apps/cli/packages/bootstrap/src/app/create-app.ts, apps/cli/packages/bootstrap/src/protocol-entrypoint.ts and apps/cli/packages/core/src/runtime/** to understand existing behavior only; no DSH source and no inherited implementation was copied, renamed or line-rewritten. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.173, longest identical run 2, structural similarity 0.000.",
@@ -146785,6 +146785,20 @@
       "evidence": [
         "third-party/upstream/f29b60ea39a2132e3baa98927c2d473b349a54143da44a0c6762b243e6459452.txt",
         "https://registry.npmjs.org/quickjs-wasi/2.2.0"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-bridge/interface.ts",
+      "normalizedSha256": "2cb6c68b3b7845024ead15cec147ae2f13e376951be0d068dc03ccc0b2be6195",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-bridge-01 interface definition between segment A (wiring, command-inbox, lifecycle) and segment B (projection, sequence, snapshot, links). Type declarations only. Written from specs/contracts/kernel-bridge-01/interface.md, behavior.md and acceptance.md; no DSH source and no inherited implementation was copied. Similarity against old core and zai-org/ZCode@872ad960: max line containment 0.062, longest identical run 1, structural similarity 0.019.",
+      "evidence": [
+        "specs/knorvia-builtin-kernel-dsh.md",
+        "specs/contracts/kernel-bridge-01/README.md",
+        "specs/contracts/kernel-bridge-01/behavior.md",
+        "specs/contracts/kernel-bridge-01/interface.md",
+        "specs/contracts/kernel-bridge-01/acceptance.md"
       ]
     }
   ]
