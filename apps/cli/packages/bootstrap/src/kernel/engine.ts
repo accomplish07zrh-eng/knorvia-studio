@@ -7,7 +7,7 @@ export const KERNEL_ENGINE_ENV = "KNORVIA_KERNEL_ENGINE";
 export const KERNEL_ENGINE_DSH = "dsh";
 
 export function resolveKernelEngine(
-  env: Readonly<Record<string, string | undefined>>,
+  sourceEnv: Readonly<Record<string, string | undefined>>,
 ): KernelEngine {
-  return env[KERNEL_ENGINE_ENV]?.trim() === KERNEL_ENGINE_DSH ? "dsh" : "legacy";
+  return sourceEnv[KERNEL_ENGINE_ENV]?.trim() === KERNEL_ENGINE_DSH ? "dsh" : "legacy";
 }
