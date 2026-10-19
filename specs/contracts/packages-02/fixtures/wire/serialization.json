@@ -1,0 +1,26 @@
+{
+  "note": "由旧实现 packages/rpc/src/serialization.ts 录制；hex 为 BufferWriter 输出字节。",
+  "cases": {
+    "undefined": "00",
+    "string-ascii": "01026869",
+    "string-utf8": "0106e4bda0e5a5bd",
+    "string-empty": "0100",
+    "uint8array": "02030102ff",
+    "vsbuffer": "03026162",
+    "array-mixed": "0403060101016100",
+    "array-empty": "0400",
+    "object-simple": "05077b2261223a317d",
+    "object-empty": "05027b7d",
+    "object-nested-bytes": "05457b226279746573223a7b225f5f6b6e6f727669615f7270635f6e65737465645f75696e743861727261795f7631223a747275652c22626173653634223a224151493d227d7d",
+    "object-null": "05046e756c6c",
+    "object-bool": "050474727565",
+    "int-zero": "0600",
+    "int-127": "067f",
+    "int-128": "068001",
+    "int-300": "06ac02",
+    "int-max": "06ffffffff07",
+    "int-negative-one": "06ffffffff0f",
+    "int-negative-min": "068080808008",
+    "float": "0503312e35"
+  }
+}

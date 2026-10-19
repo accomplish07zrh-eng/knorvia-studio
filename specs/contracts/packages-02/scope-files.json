@@ -1,0 +1,313 @@
+{
+  "packageId": "packages-02",
+  "milestone": "M3",
+  "issue": 191,
+  "branch": "contract/packages-02",
+  "baseline": "详见 gate-old.json 的 commit 字段",
+  "counts": {
+    "rpcInherited": 22,
+    "rpcRewrite": 20,
+    "providerNodeInherited": 11,
+    "providerNodeRewrite": 9,
+    "totalRewrite": 29,
+    "providerNodeAlreadyOriginal": 7,
+    "configOnly": [
+      "packages/rpc/package.json",
+      "packages/rpc/tsconfig.json",
+      "packages/provider-node/package.json",
+      "packages/provider-node/tsconfig.json"
+    ]
+  },
+  "files": [
+    {
+      "path": "packages/rpc/src/buffer.ts",
+      "bytes": 1866,
+      "lines": 70,
+      "sha256": "600a3c1fc93b132c1211d7cf8b730747c0d842e58da4e8d168a43934e0e321b4",
+      "licensing": "upstream-modified",
+      "m0Relation": "modified",
+      "rewrite": true,
+      "reason": "重写 ZCode 改动部分"
+    },
+    {
+      "path": "packages/rpc/src/channelClient.ts",
+      "bytes": 7936,
+      "lines": 256,
+      "sha256": "5f2409b75cfaba1c9e5e093bc1f4273ab243aeec05dd0bac1bb28b442a5ef6fd",
+      "licensing": "upstream-modified",
+      "m0Relation": "modified",
+      "rewrite": true,
+      "reason": "重写 ZCode 改动部分"
+    },
+    {
+      "path": "packages/rpc/src/channels.shared.ts",
+      "bytes": 1723,
+      "lines": 66,
+      "sha256": "e2d3ce17dfb23d53ea8fef6cd4dc87bef4558ff6e72b458e50fd456b0b2a6ae2",
+      "licensing": "upstream-unchanged",
+      "m0Relation": "modified",
+      "rewrite": true,
+      "reason": "按 M0-6 结论视同 ZCode 改过；licensing 记为 unchanged 属旧分类"
+    },
+    {
+      "path": "packages/rpc/src/channels.ts",
+      "bytes": 199,
+      "lines": 4,
+      "sha256": "afaba1724055a3d2e6b8b379553569489b71ac6eb252f636ab91649657485209",
+      "licensing": "upstream-unchanged",
+      "m0Relation": "no-upstream",
+      "rewrite": true,
+      "reason": "M0-6 判无上游，视同 ZCode 代码重写"
+    },
+    {
+      "path": "packages/rpc/src/channelServer.ts",
+      "bytes": 7365,
+      "lines": 246,
+      "sha256": "00757689372616d9fb8b3e82d722f4774a968649323ae31724dc140eb22c557b",
+      "licensing": "upstream-modified",
+      "m0Relation": "modified",
+      "rewrite": true,
+      "reason": "重写 ZCode 改动部分"
+    },
+    {
+      "path": "packages/rpc/src/delayedChannel.ts",
+      "bytes": 632,
+      "lines": 17,
+      "sha256": "e7607b7fe9f35c742db206df90852e2ccafb75abc088606cf1ddbae801574ecf",
+      "licensing": "upstream-unchanged",
+      "m0Relation": "modified",
+      "rewrite": true,
+      "reason": "按 M0-6 结论视同 ZCode 改过；licensing 记为 unchanged 属旧分类"
+    },
+    {
+      "path": "packages/rpc/src/foundation.ts",
+      "bytes": 4675,
+      "lines": 201,
+      "sha256": "fc2d655c586b91f9326adf2ab3e1649c1b3aaaa02ac69e60ac1fb8dcb193c140",
+      "licensing": "upstream-modified",
+      "m0Relation": "modified",
+      "rewrite": true,
+      "reason": "重写 ZCode 改动部分"
+    },
+    {
+      "path": "packages/rpc/src/index.ts",
+      "bytes": 5013,
+      "lines": 132,
+      "sha256": "6a5adcfb0e6c7a7d385e10fede09c3e9c808e3555c27b938091868cdf0c3fbef",
+      "licensing": "upstream-unchanged",
+      "m0Relation": "modified",
+      "rewrite": true,
+      "reason": "按 M0-6 结论视同 ZCode 改过；导出面冻结"
+    },
+    {
+      "path": "packages/rpc/src/ipc.ts",
+      "bytes": 8173,
+      "lines": 244,
+      "sha256": "b74ebf2694a2504e884df80cd727673893bfcc4d2d0dd97fc92ce6a104c230a7",
+      "licensing": "upstream-modified",
+      "m0Relation": "modified",
+      "rewrite": true,
+      "reason": "重写 ZCode 改动部分"
+    },
+    {
+      "path": "packages/rpc/src/logging-middleware.ts",
+      "bytes": 3240,
+      "lines": 100,
+      "sha256": "6d3b327b0bb5c56b7a8f1aad7b64b7da23fb4d22616bc1f18fa919dd625f287e",
+      "licensing": "upstream-modified",
+      "m0Relation": "no-upstream",
+      "rewrite": true,
+      "reason": "M0-6 判无上游，视同 ZCode 代码重写"
+    },
+    {
+      "path": "packages/rpc/src/network-telemetry-middleware.ts",
+      "bytes": 4205,
+      "lines": 142,
+      "sha256": "ee97f63bf5598f1f69b6607e9e6728ea22b6f0156f072b08a8ff08cf8c2e4d48",
+      "licensing": "upstream-modified",
+      "m0Relation": "no-upstream",
+      "rewrite": true,
+      "reason": "M0-6 判无上游，视同 ZCode 代码重写"
+    },
+    {
+      "path": "packages/rpc/src/persistent-protocol.ts",
+      "bytes": 6973,
+      "lines": 219,
+      "sha256": "409baee902025acbdfc4f5e3059ff57f9e0f64679d73359ecc063d9d9f0540c0",
+      "licensing": "upstream-modified",
+      "m0Relation": "modified",
+      "rewrite": true,
+      "reason": "重写 ZCode 改动部分"
+    },
+    {
+      "path": "packages/rpc/src/protocol.ts",
+      "bytes": 8100,
+      "lines": 297,
+      "sha256": "02e5815d8e109dd3f85d53452d73480272569f9d3f4f7a5f8fadbda76f00b592",
+      "licensing": "upstream-modified",
+      "m0Relation": "modified",
+      "rewrite": true,
+      "reason": "重写 ZCode 改动部分"
+    },
+    {
+      "path": "packages/rpc/src/proxy-channel.ts",
+      "bytes": 3770,
+      "lines": 129,
+      "sha256": "cceb7734ed1c11a3135939341acedca2916e4f0eeaa06ed2e2c54e39f28cbe01",
+      "licensing": "upstream-modified",
+      "m0Relation": "modified",
+      "rewrite": true,
+      "reason": "重写 ZCode 改动部分"
+    },
+    {
+      "path": "packages/rpc/src/remote.ts",
+      "bytes": 6185,
+      "lines": 185,
+      "sha256": "793b3e8723436177e0f3f0412fbece45403b435f35511db990004723a57028fe",
+      "licensing": "upstream-modified",
+      "m0Relation": "modified",
+      "rewrite": true,
+      "reason": "重写 ZCode 改动部分"
+    },
+    {
+      "path": "packages/rpc/src/serialization.ts",
+      "bytes": 5892,
+      "lines": 232,
+      "sha256": "55f6c0460c9f0f09661068176ec14afd4454af5131bdcbbb62f65c44b4ca0116",
+      "licensing": "upstream-modified",
+      "m0Relation": "modified",
+      "rewrite": true,
+      "reason": "重写 ZCode 改动部分"
+    },
+    {
+      "path": "packages/rpc/examples/01-basic-ipc.ts",
+      "bytes": 4281,
+      "lines": 143,
+      "sha256": "bb4423c1642918846010f9307262c379536ca9541d79df6ebba120b5cf792f3e",
+      "licensing": "upstream-unchanged",
+      "m0Relation": "no-upstream",
+      "rewrite": true,
+      "reason": "示例代码，视同 ZCode 代码重写"
+    },
+    {
+      "path": "packages/rpc/examples/02-proxy-channel.ts",
+      "bytes": 4190,
+      "lines": 126,
+      "sha256": "66dda9aec12cd46da8a56560cb765a3de590917bbc40f329185e6fd05a388fff",
+      "licensing": "upstream-unchanged",
+      "m0Relation": "no-upstream",
+      "rewrite": true,
+      "reason": "示例代码，视同 ZCode 代码重写"
+    },
+    {
+      "path": "packages/rpc/examples/03-ipc-server-client.ts",
+      "bytes": 5437,
+      "lines": 167,
+      "sha256": "9b873f565b4a3426ee3a5338a975cb6ab76e29af094cf6bbee4f7030f872f758",
+      "licensing": "upstream-unchanged",
+      "m0Relation": "no-upstream",
+      "rewrite": true,
+      "reason": "示例代码，视同 ZCode 代码重写"
+    },
+    {
+      "path": "packages/rpc/examples/04-remote-connection.ts",
+      "bytes": 10545,
+      "lines": 327,
+      "sha256": "db268ab9e21a6e20eff2a16ce7c88de571d6688a6f46aa9eb0508ca734bcdc1c",
+      "licensing": "upstream-modified",
+      "m0Relation": "no-upstream",
+      "rewrite": true,
+      "reason": "示例代码，视同 ZCode 代码重写"
+    },
+    {
+      "path": "packages/provider-node/src/legacy-reasoning-level-renames.ts",
+      "bytes": 2218,
+      "lines": 103,
+      "sha256": "c4c7406a29f9f1371132234de557d63be56ba1293bd5c135af7b366331a73627",
+      "licensing": "upstream-unchanged",
+      "m0Relation": null,
+      "rewrite": true,
+      "reason": "继承自 ZCode，按 M3 独立重写"
+    },
+    {
+      "path": "packages/provider-node/src/legacy-reasoning-level.ts",
+      "bytes": 2835,
+      "lines": 72,
+      "sha256": "ba1b15da3cc5abb451de613f94ff2b6b79e56a76f0f170b6009e6c4279e00b6e",
+      "licensing": "upstream-modified",
+      "m0Relation": null,
+      "rewrite": true,
+      "reason": "继承自 ZCode，按 M3 独立重写"
+    },
+    {
+      "path": "packages/provider-node/src/model-selection-config-repository.ts",
+      "bytes": 1801,
+      "lines": 54,
+      "sha256": "7cb3af2395e5e3d9d219d91c5c8da07ce63352a9493194a80239bdabb367b4c8",
+      "licensing": "upstream-modified",
+      "m0Relation": null,
+      "rewrite": true,
+      "reason": "继承自 ZCode，按 M3 独立重写"
+    },
+    {
+      "path": "packages/provider-node/src/model-selection-facade.ts",
+      "bytes": 998,
+      "lines": 25,
+      "sha256": "28c20ca3119f65ce1d81f148caf40c9c53d69409bab38ea6d7e5eeb6697eb38b",
+      "licensing": "upstream-modified",
+      "m0Relation": null,
+      "rewrite": true,
+      "reason": "继承自 ZCode，按 M3 独立重写"
+    },
+    {
+      "path": "packages/provider-node/src/personal-provider-config-repository.ts",
+      "bytes": 7991,
+      "lines": 211,
+      "sha256": "9f84cafb05f218e11cdc4d686a0ab7c3d849e1fedc4da7992f2c8bfd3bd07ea6",
+      "licensing": "upstream-modified",
+      "m0Relation": null,
+      "rewrite": true,
+      "reason": "继承自 ZCode，按 M3 独立重写"
+    },
+    {
+      "path": "packages/provider-node/src/provider-config-file-codec.ts",
+      "bytes": 4937,
+      "lines": 125,
+      "sha256": "654e6777a38f2a5082482461ec1ba651e17c8a7af4405901ce6393b2540f2216",
+      "licensing": "upstream-modified",
+      "m0Relation": null,
+      "rewrite": true,
+      "reason": "继承自 ZCode，按 M3 独立重写"
+    },
+    {
+      "path": "packages/provider-node/src/provider-config-runtime.ts",
+      "bytes": 6995,
+      "lines": 213,
+      "sha256": "92dbb2d678a0399bfb4891324e881d7de318e530db231b69580a8a514f3d9763",
+      "licensing": "upstream-modified",
+      "m0Relation": null,
+      "rewrite": true,
+      "reason": "继承自 ZCode，按 M3 独立重写"
+    },
+    {
+      "path": "packages/provider-node/src/provider-registry-runtime.ts",
+      "bytes": 2792,
+      "lines": 85,
+      "sha256": "91d92386783353487587359e9dfdbe08c0b2a62909574fd811f51af9e9eb4ef1",
+      "licensing": "upstream-modified",
+      "m0Relation": null,
+      "rewrite": true,
+      "reason": "继承自 ZCode，按 M3 独立重写"
+    },
+    {
+      "path": "packages/provider-node/src/runtime-paths.ts",
+      "bytes": 1400,
+      "lines": 31,
+      "sha256": "d2fa7223ea70bba975316d010bee7a52f403735dd06c45f1a78fe102dc1b698f",
+      "licensing": "upstream-modified",
+      "m0Relation": null,
+      "rewrite": true,
+      "reason": "继承自 ZCode，按 M3 独立重写"
+    }
+  ]
+}
