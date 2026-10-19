@@ -1,0 +1,10 @@
+TypeScript file lengths (.ts, .tsx)
+Files: 4
+Total lines: 5
+Total bytes: 11
+
+Lines  Bytes  File
+    2      4  src/a.ts
+    2      4  src/b.tsx
+    1      3  src/nested/g.tsx
+    0      0  src/empty.ts
