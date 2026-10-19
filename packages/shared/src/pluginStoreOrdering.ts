@@ -1,5 +1,11 @@
 // SPDX-License-Identifier: Apache-2.0
 import { KNORVIA_OFFICIAL_PLUGIN_MARKETPLACE_ID } from "./plugin-marketplaces.js";
+import {
+  DOCUMENT_PLUGIN_SLUGS,
+  FALLBACK_PLUGIN_STORE_CATEGORY,
+  LEGACY_CATEGORY_ALIASES,
+  PLUGIN_STORE_CATEGORY_ORDER,
+} from "./pluginStoreOrdering-data.js";
 
 import type { PluginStoreModeOrder } from "./pluginStoreOrder.js";
 
@@ -8,24 +14,10 @@ import type { PluginStoreModeOrder } from "./pluginStoreOrder.js";
  *   服务端下发的分类顺序 → 本地默认分类顺序 → 服务端下发的插件顺序
  *   → 文档类插件优先级 → 展示名（按 locale 比较）→ 原始下标
  * 最后一级保证排序稳定，同样的输入永远得到同样的输出。
+ * 纯数据表见 ./pluginStoreOrdering-data.js。
  */
 
-/** 分类缺失或空串时归到这里，并固定排在已知分类之后。 */
-export const FALLBACK_PLUGIN_STORE_CATEGORY = "other";
-
-/**
- * 排序名次表都写成空白分隔的词表：一处登记，Set/数组/名次表都从它投影，
- * 免得「加了一个分类但忘了同步顺序表」这类漏改。
- */
-const CATEGORY_ORDER_CATALOG = "productivity developer-tools utilities finance legal template";
-
-/** 官方文档类插件的展示优先级：先表格类、后文字类。 */
-const DOCUMENT_PLUGIN_PRIORITY_CATALOG = "pdf presentations spreadsheets documents";
-
-export const PLUGIN_STORE_CATEGORY_ORDER: readonly string[] = CATEGORY_ORDER_CATALOG.split(" ");
-
-/** 旧分类名到现行分类名的迁移表。 */
-const LEGACY_CATEGORY_ALIASES: Readonly<Record<string, string>> = { guides: "utilities" };
+export { FALLBACK_PLUGIN_STORE_CATEGORY, PLUGIN_STORE_CATEGORY_ORDER };
 
 /** 把有序数组压成「值 → 名次」表；重复值保留首次出现的位置。 */
 function toRankTable(values: readonly string[]): Map<string, number> {
@@ -42,12 +34,8 @@ function rankOf(table: ReadonlyMap<string, number>, value: string): number {
 }
 
 const DOCUMENT_PLUGIN_RANKS = toRankTable(
-  DOCUMENT_PLUGIN_PRIORITY_CATALOG.split(" ").map(
-    (slug) => `${slug}@${KNORVIA_OFFICIAL_PLUGIN_MARKETPLACE_ID}`,
-  ),
+  DOCUMENT_PLUGIN_SLUGS.map((slug) => `${slug}@${KNORVIA_OFFICIAL_PLUGIN_MARKETPLACE_ID}`),
 );
-
-const DEFAULT_CATEGORY_RANKS = toRankTable(PLUGIN_STORE_CATEGORY_ORDER);
 
 /** 文档类插件的固定展示顺序。 */
 export const compareDocumentPluginPriority = (leftId: string, rightId: string): number =>
@@ -72,14 +60,22 @@ type RankedEntry<T> = {
   slot: number;
 } & PluginStoreSortEntry & { category: string };
 
-/** 默认分类顺序：已知分类按表排，未知分类按名字排，兜底分类永远最后。 */
-function compareCategoryByDefault(left: string, right: string): number {
+/**
+ * 默认分类顺序：已知分类按表排，未知分类按名字排，兜底分类永远最后。
+ * 名次表由调用方每次排序时现算并传进来：导出的分类序数组是可变的，
+ * 调用方改过之后排序结果必须跟着变（契约测试即按此断言）。
+ */
+function compareCategoryByDefault(
+  left: string,
+  right: string,
+  defaultRanks: ReadonlyMap<string, number>,
+): number {
   if (left === right) return 0;
   if (left === FALLBACK_PLUGIN_STORE_CATEGORY) return 1;
   if (right === FALLBACK_PLUGIN_STORE_CATEGORY) return -1;
 
-  const leftRank = DEFAULT_CATEGORY_RANKS.get(left);
-  const rightRank = DEFAULT_CATEGORY_RANKS.get(right);
+  const leftRank = defaultRanks.get(left);
+  const rightRank = defaultRanks.get(right);
   if (leftRank !== undefined && rightRank !== undefined) return leftRank - rightRank;
   if (leftRank !== undefined) return -1;
   if (rightRank !== undefined) return 1;
@@ -116,13 +112,18 @@ function compareRanked<T>(
   right: RankedEntry<T>,
   locale: string,
   categoryRanks: ReadonlyMap<string, number>,
+  defaultCategoryRanks: ReadonlyMap<string, number>,
   pluginRanksByCategory: ReadonlyMap<string, ReadonlyMap<string, number>>,
 ): number {
   const byServerCategory =
     rankOf(categoryRanks, left.category) - rankOf(categoryRanks, right.category);
   if (byServerCategory !== 0) return byServerCategory;
 
-  const byDefaultCategory = compareCategoryByDefault(left.category, right.category);
+  const byDefaultCategory = compareCategoryByDefault(
+    left.category,
+    right.category,
+    defaultCategoryRanks,
+  );
   if (byDefaultCategory !== 0) return byDefaultCategory;
 
   const pluginRanks = pluginRanksByCategory.get(left.category);
@@ -147,10 +148,11 @@ export function sortPluginStoreEntries<T>(
   order?: PluginStoreModeOrder,
 ): T[] {
   const categoryRanks = toRankTable(order?.categoryOrder ?? []);
+  const defaultCategoryRanks = toRankTable(PLUGIN_STORE_CATEGORY_ORDER);
   const pluginRanksByCategory = buildPluginRankTables(order);
   const ranked = rankEntries(items, project);
   ranked.sort((left, right) =>
-    compareRanked(left, right, locale, categoryRanks, pluginRanksByCategory),
+    compareRanked(left, right, locale, categoryRanks, defaultCategoryRanks, pluginRanksByCategory),
   );
   return ranked.map((entry) => entry.item);
 }

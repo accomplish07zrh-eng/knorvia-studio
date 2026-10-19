@@ -1,86 +1,96 @@
 // SPDX-License-Identifier: Apache-2.0
 import { z } from "zod";
+import {
+  ALIGNED_SOURCES,
+  DETAIL_OUTCOMES,
+  DETAIL_ROLES,
+  EXCLUSION_REASONS,
+  LOCAL_TTFT_BUCKETS_MS,
+  LOCAL_TTFT_CLOCK_MAX_ERROR_MS,
+  LOCAL_TTFT_CLOCK_TTL_MS,
+  LOCAL_TTFT_DETAIL_EXTRA_STAGES,
+  LOCAL_TTFT_MAX_DETAILS,
+  LOCAL_TTFT_MAX_PENDING,
+  LOCAL_TTFT_PREPARATION_STAGES,
+  LOCAL_TTFT_STAGES,
+  LOCAL_TTFT_TTL_MS,
+  NORMALIZED_ID_FIELDS,
+  OBSERVATION_SOURCES,
+  OUTPUT_KINDS,
+  RECORD_KINDS,
+  RECORD_OUTCOMES,
+  RECORD_QUALITIES,
+  SEND_MODES,
+  TERMINAL_OUTCOMES,
+  VISIBILITY_STATES,
+} from "./localTtft-data.js";
 
-/** 空白分词；每个词在类型层保持字面量，zod 的枚举键才不会被抹成 string。 */
-type Words<Source extends string> = Source extends `${infer Head} ${infer Rest}`
-  ? [Head, ...Words<Rest>]
-  : [Source];
+/*
+ * 本地 TTFT 观测的线格式：桌面 renderer 采样、主进程聚合、CLI 侧对齐共用一套 schema。
+ * 阶段序、上限与枚举取值集中在 ./localTtft-data.js，这里只写构造与校验。
+ * 同一批字段在 facts / record / batch 里反复出现，因此先做一层小构造器再拼形状，
+ * 既保证三处校验强度一致，也避免「改了一处忘了另一处」。
+ */
 
-/** 词表统一用空白分隔的字符串登记：zod 需要元组，类型从同一处投影。 */
-const words = <const Source extends string>(source: Source): Words<Source> =>
-  source.trim().split(/\s+/u) as Words<Source>;
+export {
+  LOCAL_TTFT_BUCKETS_MS,
+  LOCAL_TTFT_CLOCK_MAX_ERROR_MS,
+  LOCAL_TTFT_CLOCK_TTL_MS,
+  LOCAL_TTFT_MAX_DETAILS,
+  LOCAL_TTFT_MAX_PENDING,
+  LOCAL_TTFT_PREPARATION_STAGES,
+  LOCAL_TTFT_STAGES,
+  LOCAL_TTFT_TTL_MS,
+};
 
-const enumWords = <const Source extends string>(source: Source) => z.enum(words(source));
+/** 把登记表的取值投影成 z.enum 需要的非空元组。 */
+const enumValues = <Value extends string>(table: Readonly<Record<string, Value>>) =>
+  Object.values(table) as [Value, ...Value[]];
 
 const strictShape = <S extends z.ZodRawShape>(shape: S) => z.object(shape).strict();
 
-/** 六段流水线：顺序即因果顺序，缺失段落由导出侧据此判定。 */
-const STAGE_LIST =
-  "renderer_prepare command_admission execution_wait request_prepare model_request output_return";
-
-export const LOCAL_TTFT_STAGES: Readonly<Words<typeof STAGE_LIST>> = words(STAGE_LIST);
-
-const PREPARATION_LIST = "context hooks persistence compaction mcp tools request_assembly";
-
-export const LOCAL_TTFT_PREPARATION_STAGES: Readonly<Words<typeof PREPARATION_LIST>> =
-  words(PREPARATION_LIST);
-
-const TTFT_BUCKETS: readonly number[] = [
-  1, 5, 10, 20, 50, 100, 200, 500, 1_000, 2_000, 5_000, 10_000, 30_000, 60_000, 300_000,
-];
-
-export const LOCAL_TTFT_BUCKETS_MS: number[] = [...TTFT_BUCKETS];
-
-/** 上限与 TTL 集中登记，导出名逐个投影，避免数值散落在 schema 里。 */
-const LIMITS = {
-  details: 64,
-  pending: 128,
-  ttl: 300_000,
-  clockErrorMs: 10,
-  clockTtlMs: 60_000,
-} as const;
-
-export const LOCAL_TTFT_MAX_DETAILS = LIMITS.details;
-export const LOCAL_TTFT_MAX_PENDING = LIMITS.pending;
-export const LOCAL_TTFT_TTL_MS = LIMITS.ttl;
-export const LOCAL_TTFT_CLOCK_MAX_ERROR_MS = LIMITS.clockErrorMs;
-export const LOCAL_TTFT_CLOCK_TTL_MS = LIMITS.clockTtlMs;
-
+/** 非负有限的时间点。 */
 const timestamp = () => z.number().finite().nonnegative();
+const optionalTimestamp = () => timestamp().optional();
+
+/** 1–128 字符的标识文案。 */
 const label = () => z.string().min(1).max(128);
 
-/** facts 与 record 共用的归一化标识字段：都可缺省，缺省即不参与聚合。 */
-const NORMALIZED_ID_FIELDS = words(
-  "sessionId turnId productTurnId queryId requestId logicalCallId cliVersion provider model",
-);
+const optionalLabel = () => label().optional();
+const optionalFlag = () => z.boolean().optional();
+const optionalInteger = () => z.number().int().nonnegative().optional();
+const optionalEnum = <Values extends readonly [string, ...string[]]>(values: Values) =>
+  z.enum(values).optional();
 
-/** 由字段名元组直接投影出同键可选 schema，保留键名供 z.output 推导。 */
+/** facts 与 record 共用的归一化标识字段：都可缺省，缺省即不参与聚合。 */
 type OptionalLabels<Fields extends readonly string[]> = {
   [Field in Fields[number]]: z.ZodOptional<z.ZodString>;
 };
 
 const normalizedOptional = (): OptionalLabels<typeof NORMALIZED_ID_FIELDS> =>
   Object.fromEntries(
-    NORMALIZED_ID_FIELDS.map((field) => [field, label().optional()]),
+    NORMALIZED_ID_FIELDS.map((field) => [field, optionalLabel()]),
   ) as OptionalLabels<typeof NORMALIZED_ID_FIELDS>;
 
-const DETAIL_STAGE_LIST = `${PREPARATION_LIST} attempt retry_wait user_confirmation`;
+/** 每条观测记录都以「协议版本 + 观测 id」开头，context / facts / record 三处共用。 */
+const OBSERVATION_HEAD = { version: z.literal(1), observationId: z.string().uuid() };
 
-const detailStageSchema = enumWords(DETAIL_STAGE_LIST);
+const outputKindField = () => z.enum(enumValues(OUTPUT_KINDS)).optional();
+const sendModeField = () => optionalEnum(enumValues(SEND_MODES));
 
 const detailWindowOk = (value: { start: number; end?: number }): boolean =>
   value.end === undefined || value.end >= value.start;
 
 const detailShape = () => ({
   id: label(),
-  stage: detailStageSchema,
+  stage: z.enum([...LOCAL_TTFT_PREPARATION_STAGES, ...LOCAL_TTFT_DETAIL_EXTRA_STAGES]),
   start: timestamp(),
-  end: timestamp().optional(),
-  outcome: enumWords("completed failed cancelled first_output").optional(),
-  requestId: label().optional(),
-  logicalCallId: label().optional(),
-  role: enumWords("response preparation").optional(),
-  source: enumWords("renderer cli"),
+  end: optionalTimestamp(),
+  outcome: optionalEnum(enumValues(DETAIL_OUTCOMES)),
+  requestId: optionalLabel(),
+  logicalCallId: optionalLabel(),
+  role: optionalEnum(enumValues(DETAIL_ROLES)),
+  source: z.enum(enumValues(OBSERVATION_SOURCES)),
 });
 
 export const localTtftDetailSchema = strictShape(detailShape()).refine((value) =>
@@ -89,9 +99,7 @@ export const localTtftDetailSchema = strictShape(detailShape()).refine((value) =
 
 export type LocalTtftDetail = z.output<typeof localTtftDetailSchema>;
 
-export const localTtftContextSchema = z
-  .object({ version: z.literal(1), observationId: z.string().uuid() })
-  .strict();
+export const localTtftContextSchema = z.object(OBSERVATION_HEAD).strict();
 
 export type LocalTtftContext = z.output<typeof localTtftContextSchema>;
 
@@ -131,7 +139,7 @@ export const calibrateLocalTtftClock = (
   if (asymmetry < 0) return undefined;
 
   const errorMs = asymmetry / 2;
-  if (errorMs > LIMITS.clockErrorMs) return undefined;
+  if (errorMs > LOCAL_TTFT_CLOCK_MAX_ERROR_MS) return undefined;
 
   const offsetMs = (start + end - clock.receivedAt - clock.sentAt) / 2;
   return {
@@ -142,31 +150,30 @@ export const calibrateLocalTtftClock = (
   };
 };
 
-export const localTtftOutputKindSchema = enumWords("text reasoning tool");
+export const localTtftOutputKindSchema = z.enum(enumValues(OUTPUT_KINDS));
 
 export type LocalTtftOutputKind = z.output<typeof localTtftOutputKindSchema>;
 
-const optionalInteger = () => z.number().int().nonnegative().optional();
+const detailsField = () => z.array(localTtftDetailSchema).max(LOCAL_TTFT_MAX_DETAILS).optional();
 
 const factsShape = () => ({
-  version: z.literal(1),
-  observationId: z.string().uuid(),
+  ...OBSERVATION_HEAD,
   instanceId: label(),
   commandId: label(),
   ...normalizedOptional(),
-  details: z.array(localTtftDetailSchema).max(LIMITS.details).optional(),
-  truncated: z.boolean().optional(),
+  details: detailsField(),
+  truncated: optionalFlag(),
   revision: optionalInteger(),
-  sendMode: enumWords("idle queued guided").optional(),
-  clockInvalid: z.boolean().optional(),
+  sendMode: sendModeField(),
+  clockInvalid: optionalFlag(),
   receivedAt: timestamp(),
-  admittedAt: timestamp().optional(),
-  executionAt: timestamp().optional(),
-  requestAt: timestamp().optional(),
-  outputAt: timestamp().optional(),
-  outputKind: localTtftOutputKindSchema.optional(),
-  terminal: enumWords("completed failed cancelled rejected interrupted").optional(),
-  excluded: enumWords("busy retry unsupported failed capacity").optional(),
+  admittedAt: optionalTimestamp(),
+  executionAt: optionalTimestamp(),
+  requestAt: optionalTimestamp(),
+  outputAt: optionalTimestamp(),
+  outputKind: outputKindField(),
+  terminal: optionalEnum(enumValues(TERMINAL_OUTCOMES)),
+  excluded: optionalEnum(enumValues(EXCLUSION_REASONS)),
 });
 
 export const localTtftFactsSchema = strictShape(factsShape());
@@ -177,52 +184,39 @@ const intervalWindowOk = (value: { start: number; end: number }): boolean =>
   value.end >= value.start;
 
 export const localTtftIntervalSchema = strictShape({
-  stage: enumWords(STAGE_LIST),
+  stage: z.enum(LOCAL_TTFT_STAGES),
   start: timestamp(),
   end: timestamp(),
-  source: enumWords("renderer cli aligned"),
+  source: z.enum(enumValues(ALIGNED_SOURCES)),
 }).refine((value) => intervalWindowOk(value as { start: number; end: number }));
-
-const RECORD_KINDS = enumWords("start first_output first_text no_text excluded checkpoint");
-
-// 桌面 continuous 缓冲溢出/投影重建后的 online snapshot；不是手机 replayable 恢复。
-const RECORD_OUTCOME_LIST =
-  "success busy retry unsupported failed cancelled background expired capacity recovery resync clock_invalid rejected interrupted guided unclosed";
-
-const RECORD_OUTCOMES = enumWords(RECORD_OUTCOME_LIST);
 
 const recordWindowOk = (value: { start: number; end: number }): boolean => value.end >= value.start;
 
 const visibilityChangeSchema = strictShape({ at: timestamp(), foreground: z.boolean() });
 
-const recordExtraIds = () => ({
-  cliInstanceId: label().optional(),
-  checkpointId: label().optional(),
-});
-
 const recordShape = () => ({
-  version: z.literal(1),
-  observationId: z.string().uuid(),
-  commandId: label().optional(),
+  ...OBSERVATION_HEAD,
+  commandId: optionalLabel(),
   ...normalizedOptional(),
-  ...recordExtraIds(),
-  kind: RECORD_KINDS,
-  outcome: RECORD_OUTCOMES,
+  cliInstanceId: optionalLabel(),
+  checkpointId: optionalLabel(),
+  kind: z.enum(enumValues(RECORD_KINDS)),
+  outcome: z.enum(enumValues(RECORD_OUTCOMES)),
   start: timestamp(),
   end: timestamp(),
-  firstOutputKind: localTtftOutputKindSchema.optional(),
-  quality: enumWords("complete missing clock_invalid"),
-  clockErrorMs: timestamp().optional(),
+  firstOutputKind: outputKindField(),
+  quality: z.enum(enumValues(RECORD_QUALITIES)),
+  clockErrorMs: optionalTimestamp(),
   intervals: z.array(localTtftIntervalSchema).max(6),
-  details: z.array(localTtftDetailSchema).max(LIMITS.details).optional(),
-  truncated: z.boolean().optional(),
-  sendMode: enumWords("idle queued guided").optional(),
-  visibility: enumWords("foreground background background_returned").optional(),
+  details: detailsField(),
+  truncated: optionalFlag(),
+  sendMode: sendModeField(),
+  visibility: optionalEnum(enumValues(VISIBILITY_STATES)),
   visibilityChanges: z.array(visibilityChangeSchema).max(32).optional(),
-  userWaitMs: timestamp().optional(),
-  executionMs: timestamp().optional(),
-  timingReliable: z.boolean().optional(),
-  cliTimingReliable: z.boolean().optional(),
+  userWaitMs: optionalTimestamp(),
+  executionMs: optionalTimestamp(),
+  timingReliable: optionalFlag(),
+  cliTimingReliable: optionalFlag(),
 });
 
 export const localTtftRecordSchema = strictShape(recordShape()).refine((value) =>

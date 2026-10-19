@@ -46,7 +46,53 @@
 6. **schema 对象本身是运行时值**：zod schema 的 `safeParse` 接受/拒绝结论由金样锁定，内部构造可重写。
 7. 声明模式相似度：以上名字（含再导出）即剔除清单；剔除后残留按行/结构两道门槛计分。
 
-## 4. 不在本包的相邻面
+## 4. 纯数据常量表（声明模式计分）
+
+键名与取值由合同写死的纯数据表集中放在 `<原模块名>-data.ts`；原模块 import 后，属于公开面的
+常量按原样再导出，仅内部使用的常量不再导出（导出面仍以 §3 与机器附录为准）。
+下列常量名是这些数据文件的全部声明，也是 `--declaration` 计分的剔除清单；数据文件内不得出现
+函数、条件、计算、split、展开或模板插值。取值按 B 条目逐字冻结，此处只登记名字与条目数。
+
+### `packages/shared/src/localTtft-data.ts`
+
+- `LOCAL_TTFT_STAGES`：6 段流水线，顺序即因果顺序
+- `LOCAL_TTFT_PREPARATION_STAGES`：7 个请求准备子步骤，按执行顺序
+- `LOCAL_TTFT_BUCKETS_MS`：15 个分桶上界，1…300000 毫秒
+- `LOCAL_TTFT_MAX_DETAILS`：64
+- `LOCAL_TTFT_MAX_PENDING`：128
+- `LOCAL_TTFT_TTL_MS`：300000
+- `LOCAL_TTFT_CLOCK_MAX_ERROR_MS`：10
+- `LOCAL_TTFT_CLOCK_TTL_MS`：60000
+- `LOCAL_TTFT_DETAIL_EXTRA_STAGES`：3 个额外阶段
+- `NORMALIZED_ID_FIELDS`：9 个归一化标识字段名
+- `DETAIL_OUTCOMES`：4 个取值
+- `DETAIL_ROLES`：2 个取值
+- `OBSERVATION_SOURCES`：2 个取值
+- `OUTPUT_KINDS`：3 个取值
+- `SEND_MODES`：3 个取值
+- `TERMINAL_OUTCOMES`：5 个取值
+- `EXCLUSION_REASONS`：5 个取值
+- `ALIGNED_SOURCES`：3 个取值
+- `RECORD_KINDS`：6 个取值
+- `RECORD_OUTCOMES`：16 个取值
+- `RECORD_QUALITIES`：3 个取值
+- `VISIBILITY_STATES`：3 个取值
+
+### `packages/shared/src/pluginStoreOrdering-data.ts`
+
+- `FALLBACK_PLUGIN_STORE_CATEGORY`：other
+- `PLUGIN_STORE_CATEGORY_ORDER`：6 个分类，按默认展示顺序
+- `LEGACY_CATEGORY_ALIASES`：1 条迁移，guides 归入 utilities
+- `DOCUMENT_PLUGIN_SLUGS`：4 个文档类插件短名，按优先级
+
+### `packages/shared/src/skill-scan-policy-data.ts`
+
+- `SKILL_FILE_NAME`：SKILL.md
+- `MAX_SKILL_SCAN_DEPTH`：8
+- `SKILL_SCAN_EXCLUDED_DIRECTORY_NAMES`：12 个跳过目录名
+- `SKILL_SCAN_DOT_DIRECTORY_ALLOWLIST`：1 个放行的点目录
+
+## 5. 不在本包的相邻面
 
 `index.ts` 根 barrel（shared-04 末批）；`node/**`、`protocol-v4/**`（shared-01）；shared-02 的 58 件；
 shared-03 的 34 件；`unreviewed` 21 件（M0-2/M0-3 口径，不入本包）。
