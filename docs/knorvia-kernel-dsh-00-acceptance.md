@@ -41,6 +41,7 @@
 | 4   | `pnpm licenses notices` 拒绝 15 个 DSH 传递依赖缺完整许可 | AWS/pi/koffi/standardwebhooks 等安装包不带 LICENSE                      | 增加版本固定快照（AWS `v3.972.0`/`v3.997.0`、pi `f07218c`、koffi@3.1.1、standardwebhooks `libraries/LICENSE`）；旧包用 README 许可段；`proxy-agent-negotiate` 如实登记材料缺口 |
 | 5   | `pnpm licenses notices` 输入摘要过期                      | `bootstrap/package.json` 与 `pnpm-lock.yaml` 变更                       | 先刷新 `third-party/inventory.json.inputs`，再重建                                                                                                                             |
 | 6   | 格式化工具不可用（`pnpm exec prettier`）                  | 仓库使用 oxfmt                                                          | 使用 `pnpm fmt` / `pnpm exec oxfmt`；格式-only 改动单独提交                                                                                                                    |
+| 7   | Windows CI B2/B20 `ERR_UNSUPPORTED_ESM_URL_SCHEME` `c:`   | `node --import` 收到盘符绝对路径，Node 按 URL 解析                      | 追踪注册文件改用 `pathToFileURL(...).href`；只修路径协议，不改断言语义                                                                                                         |
 
 未通过删测试、放宽断言或调整门槛解决任何失败。B13 的 dispose 超时无法经公开 `runKernelProcess` 注入（根 `context.fiber` 由 DSH 在 boot 内创建）；宿主级用例直接替换 `fiber.dispose`，进程级用例覆盖 config/boot 失败标记。该测试固定放在文件最后，因为超时后单例令牌保持占用是刻意行为。
 
@@ -68,7 +69,7 @@
 | `tests/boot-contract.test.mjs`            |         31 |      0.129 |      2 | 0.038 |
 | `tests/composition.test.mjs`              |         81 |      0.049 |      1 | 0.038 |
 | `tests/engine-selection-default.test.mjs` |         47 |      0.170 |      2 | 0.000 |
-| `tests/engine-selection.test.mjs`         |        106 |      0.094 |      3 | 0.036 |
+| `tests/engine-selection.test.mjs`         |        104 |      0.096 |      2 | 0.036 |
 | `tests/entry.mjs`                         |         16 |      0.063 |      1 | 0.000 |
 | `tests/identity.test.mjs`                 |         27 |      0.111 |      1 | 0.045 |
 | `tests/isolation.test.mjs`                |        120 |      0.108 |      1 | 0.016 |
@@ -94,7 +95,7 @@ B1 要求日志 `info kernel.engine=legacy|dsh`，B2/B20 要求默认路径“�
 | 检查     | 命令                                               | 结果                                                                                                             |
 | -------- | -------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
 | 类型     | `pnpm typecheck`                                   | ✅                                                                                                               |
-| Lint     | `pnpm lint`                                        | ✅ 0 errors / 210 个仓库既有 warning                                                                             |
+| Lint     | `pnpm lint`                                        | ✅ 0 errors；仅仓库既有 warning                                                                                  |
 | 格式     | `pnpm fmt:check`                                   | ✅                                                                                                               |
 | 架构     | `pnpm architecture:check`                          | ✅ 0 violations                                                                                                  |
 | 构建     | `pnpm build:cli-packages`                          | ✅（esbuild 既有 `import.meta`/动态 import warning，不影响产物）                                                 |
