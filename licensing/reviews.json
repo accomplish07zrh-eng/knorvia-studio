@@ -143178,6 +143178,350 @@
       "evidence": ["specs/contracts/kernel-dsh-00/README.md", "specs/knorvia-builtin-kernel-dsh.md"]
     },
     {
+      "path": "apps/cli/packages/bootstrap/src/kernel/composition.ts",
+      "normalizedSha256": "38ce2f9f45e5ebe263ba39cceaac9aabcfa442f00ecfbca78d45cf9807f3197d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-dsh-00 runtime for the DSH-backed built-in kernel. 固定 v1 组合蓝图与 entry 物化；会话持久化根目录由 dshHome 注入。 Written from specs/knorvia-builtin-kernel-dsh.md, the kernel-dsh-00 contract and the public @deepseek-ai/dsh 0.2.0-rc.2 package surface. The author read the replaced apps/cli/packages/bootstrap/src/app/create-app.ts, apps/cli/packages/bootstrap/src/protocol-entrypoint.ts and apps/cli/packages/core/src/runtime/** to understand existing behavior only; no DSH source and no inherited implementation was copied, renamed or line-rewritten. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.068, longest identical run 2, structural similarity 0.107.",
+      "evidence": [
+        "specs/knorvia-builtin-kernel-dsh.md",
+        "specs/contracts/kernel-dsh-00/README.md",
+        "specs/contracts/kernel-dsh-00/behavior.md",
+        "specs/contracts/kernel-dsh-00/interface.md",
+        "specs/contracts/kernel-dsh-00/acceptance.md",
+        "docs/knorvia-kernel-dsh-00-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel/constants.ts",
+      "normalizedSha256": "84e28b7260bbc58abb8bdd7ed1ecb0c6469b377159a61acffde863096bf2a22e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-dsh-00 runtime for the DSH-backed built-in kernel. 锁定 DSH 版本、就绪/失败标记与 Knorvia persona 常量。 Written from specs/knorvia-builtin-kernel-dsh.md, the kernel-dsh-00 contract and the public @deepseek-ai/dsh 0.2.0-rc.2 package surface. The author read the replaced apps/cli/packages/bootstrap/src/app/create-app.ts, apps/cli/packages/bootstrap/src/protocol-entrypoint.ts and apps/cli/packages/core/src/runtime/** to understand existing behavior only; no DSH source and no inherited implementation was copied, renamed or line-rewritten. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.000, longest identical run 0, structural similarity 0.000.",
+      "evidence": [
+        "specs/knorvia-builtin-kernel-dsh.md",
+        "specs/contracts/kernel-dsh-00/README.md",
+        "specs/contracts/kernel-dsh-00/behavior.md",
+        "specs/contracts/kernel-dsh-00/interface.md",
+        "specs/contracts/kernel-dsh-00/acceptance.md",
+        "docs/knorvia-kernel-dsh-00-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel/engine.ts",
+      "normalizedSha256": "9d8b95def2788a8947cb573b3053675d6ac35d66ec0ea7befbbed4c8dba84079",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-dsh-00 runtime for the DSH-backed built-in kernel. 不含 DSH import 的引擎选择纯函数，保证默认路径零加载。 Written from specs/knorvia-builtin-kernel-dsh.md, the kernel-dsh-00 contract and the public @deepseek-ai/dsh 0.2.0-rc.2 package surface. The author read the replaced apps/cli/packages/bootstrap/src/app/create-app.ts, apps/cli/packages/bootstrap/src/protocol-entrypoint.ts and apps/cli/packages/core/src/runtime/** to understand existing behavior only; no DSH source and no inherited implementation was copied, renamed or line-rewritten. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.000, longest identical run 0, structural similarity 0.000.",
+      "evidence": [
+        "specs/knorvia-builtin-kernel-dsh.md",
+        "specs/contracts/kernel-dsh-00/README.md",
+        "specs/contracts/kernel-dsh-00/behavior.md",
+        "specs/contracts/kernel-dsh-00/interface.md",
+        "specs/contracts/kernel-dsh-00/acceptance.md",
+        "docs/knorvia-kernel-dsh-00-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel/environment.ts",
+      "normalizedSha256": "49b6129f09babbd99111a95fc1b7d523b3709fe09cb255e0796596d9df92f387",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-dsh-00 runtime for the DSH-backed built-in kernel. 清理 DSH 与供应商凭据变量、设置 DSH_HOME 与遥测关闭标记，并创建数据目录。 Written from specs/knorvia-builtin-kernel-dsh.md, the kernel-dsh-00 contract and the public @deepseek-ai/dsh 0.2.0-rc.2 package surface. The author read the replaced apps/cli/packages/bootstrap/src/app/create-app.ts, apps/cli/packages/bootstrap/src/protocol-entrypoint.ts and apps/cli/packages/core/src/runtime/** to understand existing behavior only; no DSH source and no inherited implementation was copied, renamed or line-rewritten. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.075, longest identical run 1, structural similarity 0.194.",
+      "evidence": [
+        "specs/knorvia-builtin-kernel-dsh.md",
+        "specs/contracts/kernel-dsh-00/README.md",
+        "specs/contracts/kernel-dsh-00/behavior.md",
+        "specs/contracts/kernel-dsh-00/interface.md",
+        "specs/contracts/kernel-dsh-00/acceptance.md",
+        "docs/knorvia-kernel-dsh-00-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel/errors.ts",
+      "normalizedSha256": "6010d70ada2aab5c9507c77ec768c47487d8e2b2ac93e71ce380003ea235bcc4",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-dsh-00 runtime for the DSH-backed built-in kernel. kernel-dsh-00 错误码与错误类型，message 不携带凭据。 Written from specs/knorvia-builtin-kernel-dsh.md, the kernel-dsh-00 contract and the public @deepseek-ai/dsh 0.2.0-rc.2 package surface. The author read the replaced apps/cli/packages/bootstrap/src/app/create-app.ts, apps/cli/packages/bootstrap/src/protocol-entrypoint.ts and apps/cli/packages/core/src/runtime/** to understand existing behavior only; no DSH source and no inherited implementation was copied, renamed or line-rewritten. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.067, longest identical run 2, structural similarity 0.333.",
+      "evidence": [
+        "specs/knorvia-builtin-kernel-dsh.md",
+        "specs/contracts/kernel-dsh-00/README.md",
+        "specs/contracts/kernel-dsh-00/behavior.md",
+        "specs/contracts/kernel-dsh-00/interface.md",
+        "specs/contracts/kernel-dsh-00/acceptance.md",
+        "docs/knorvia-kernel-dsh-00-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel/host.ts",
+      "normalizedSha256": "3f2702ded7eafade6d3857007bc4b00da75fea9f7fd1658d8dffb79dce00cddb",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-dsh-00 runtime for the DSH-backed built-in kernel. 调用 @deepseek-ai/dsh-app-boot 的 boot() 启动进程内宿主，并实现 5 秒有界释放。 Written from specs/knorvia-builtin-kernel-dsh.md, the kernel-dsh-00 contract and the public @deepseek-ai/dsh 0.2.0-rc.2 package surface. The author read the replaced apps/cli/packages/bootstrap/src/app/create-app.ts, apps/cli/packages/bootstrap/src/protocol-entrypoint.ts and apps/cli/packages/core/src/runtime/** to understand existing behavior only; no DSH source and no inherited implementation was copied, renamed or line-rewritten. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.140, longest identical run 3, structural similarity 0.043.",
+      "evidence": [
+        "specs/knorvia-builtin-kernel-dsh.md",
+        "specs/contracts/kernel-dsh-00/README.md",
+        "specs/contracts/kernel-dsh-00/behavior.md",
+        "specs/contracts/kernel-dsh-00/interface.md",
+        "specs/contracts/kernel-dsh-00/acceptance.md",
+        "docs/knorvia-kernel-dsh-00-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel/index.ts",
+      "normalizedSha256": "0ceb06e0786562e908cb15b3fdb7181190e95b3c005b3f0b3ee666158d2da1f7",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-dsh-00 runtime for the DSH-backed built-in kernel. kernel 公共入口的单一导出面。 Written from specs/knorvia-builtin-kernel-dsh.md, the kernel-dsh-00 contract and the public @deepseek-ai/dsh 0.2.0-rc.2 package surface. The author read the replaced apps/cli/packages/bootstrap/src/app/create-app.ts, apps/cli/packages/bootstrap/src/protocol-entrypoint.ts and apps/cli/packages/core/src/runtime/** to understand existing behavior only; no DSH source and no inherited implementation was copied, renamed or line-rewritten. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.000, longest identical run 0, structural similarity 0.000.",
+      "evidence": [
+        "specs/knorvia-builtin-kernel-dsh.md",
+        "specs/contracts/kernel-dsh-00/README.md",
+        "specs/contracts/kernel-dsh-00/behavior.md",
+        "specs/contracts/kernel-dsh-00/interface.md",
+        "specs/contracts/kernel-dsh-00/acceptance.md",
+        "docs/knorvia-kernel-dsh-00-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel/logger.ts",
+      "normalizedSha256": "4924a0b849f79949e99bf63a4a3919353badc588bfafee50b2a3984121f7b7e7",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-dsh-00 runtime for the DSH-backed built-in kernel. 宿主 logger 端口与默认 stderr 实现；日志失败不影响内核。 Written from specs/knorvia-builtin-kernel-dsh.md, the kernel-dsh-00 contract and the public @deepseek-ai/dsh 0.2.0-rc.2 package surface. The author read the replaced apps/cli/packages/bootstrap/src/app/create-app.ts, apps/cli/packages/bootstrap/src/protocol-entrypoint.ts and apps/cli/packages/core/src/runtime/** to understand existing behavior only; no DSH source and no inherited implementation was copied, renamed or line-rewritten. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.100, longest identical run 1, structural similarity 0.000.",
+      "evidence": [
+        "specs/knorvia-builtin-kernel-dsh.md",
+        "specs/contracts/kernel-dsh-00/README.md",
+        "specs/contracts/kernel-dsh-00/behavior.md",
+        "specs/contracts/kernel-dsh-00/interface.md",
+        "specs/contracts/kernel-dsh-00/acceptance.md",
+        "docs/knorvia-kernel-dsh-00-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel/module-url.ts",
+      "normalizedSha256": "611d09ac869f112364df2b3437876ae8281de2eadd89365761f4bcc8a6cfe2ab",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-dsh-00 runtime for the DSH-backed built-in kernel. ESM/CJS 构建下解析模块基址的辅助函数。 Written from specs/knorvia-builtin-kernel-dsh.md, the kernel-dsh-00 contract and the public @deepseek-ai/dsh 0.2.0-rc.2 package surface. The author read the replaced apps/cli/packages/bootstrap/src/app/create-app.ts, apps/cli/packages/bootstrap/src/protocol-entrypoint.ts and apps/cli/packages/core/src/runtime/** to understand existing behavior only; no DSH source and no inherited implementation was copied, renamed or line-rewritten. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.000, longest identical run 0, structural similarity 0.000.",
+      "evidence": [
+        "specs/knorvia-builtin-kernel-dsh.md",
+        "specs/contracts/kernel-dsh-00/README.md",
+        "specs/contracts/kernel-dsh-00/behavior.md",
+        "specs/contracts/kernel-dsh-00/interface.md",
+        "specs/contracts/kernel-dsh-00/acceptance.md",
+        "docs/knorvia-kernel-dsh-00-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel/process.ts",
+      "normalizedSha256": "11a8c9f5d14bbae7ae199a601c7556f793ee4205753122bb3e7d0c99b2511126",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-dsh-00 runtime for the DSH-backed built-in kernel. runKernelProcess：就绪/失败标记、stdin EOF 与信号关闭、退出码映射。 Written from specs/knorvia-builtin-kernel-dsh.md, the kernel-dsh-00 contract and the public @deepseek-ai/dsh 0.2.0-rc.2 package surface. The author read the replaced apps/cli/packages/bootstrap/src/app/create-app.ts, apps/cli/packages/bootstrap/src/protocol-entrypoint.ts and apps/cli/packages/core/src/runtime/** to understand existing behavior only; no DSH source and no inherited implementation was copied, renamed or line-rewritten. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.173, longest identical run 2, structural similarity 0.000.",
+      "evidence": [
+        "specs/knorvia-builtin-kernel-dsh.md",
+        "specs/contracts/kernel-dsh-00/README.md",
+        "specs/contracts/kernel-dsh-00/behavior.md",
+        "specs/contracts/kernel-dsh-00/interface.md",
+        "specs/contracts/kernel-dsh-00/acceptance.md",
+        "docs/knorvia-kernel-dsh-00-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/cli/src/kernel-engine.ts",
+      "normalizedSha256": "220df141978b726e9179f6cbfce711c055cd0d587344120b2cc4ab0c31558332",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-dsh-00 runtime for the DSH-backed built-in kernel. CLI 侧对引擎选择纯函数的再导出，不在默认路径加载 kernel 运行时。 Written from specs/knorvia-builtin-kernel-dsh.md, the kernel-dsh-00 contract and the public @deepseek-ai/dsh 0.2.0-rc.2 package surface. The author read the replaced apps/cli/packages/bootstrap/src/app/create-app.ts, apps/cli/packages/bootstrap/src/protocol-entrypoint.ts and apps/cli/packages/core/src/runtime/** to understand existing behavior only; no DSH source and no inherited implementation was copied, renamed or line-rewritten. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.000, longest identical run 0, structural similarity 0.000.",
+      "evidence": [
+        "specs/knorvia-builtin-kernel-dsh.md",
+        "specs/contracts/kernel-dsh-00/README.md",
+        "specs/contracts/kernel-dsh-00/behavior.md",
+        "specs/contracts/kernel-dsh-00/interface.md",
+        "specs/contracts/kernel-dsh-00/acceptance.md",
+        "docs/knorvia-kernel-dsh-00-acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-dsh-00/tests/_kernel.mjs",
+      "normalizedSha256": "2f72d70400f6f25c2702cb4ff7e1e11e7248ae53f41177922418a8c0eea24c19",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-dsh-00 contract test/support artifact for the DSH-backed built-in kernel (M2). Assertions are written from the kernel-dsh-00 contract and exercise black-box CLI or public host behavior; no DSH source and no inherited runtime implementation was copied. Similarity against create-app.ts, protocol-entrypoint.ts, core/src/runtime/** and zai-org/ZCode@872ad960: max line containment 0.119, longest identical run 2, structural similarity 0.075.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-00/README.md",
+        "specs/contracts/kernel-dsh-00/behavior.md",
+        "specs/contracts/kernel-dsh-00/interface.md",
+        "specs/contracts/kernel-dsh-00/acceptance.md",
+        "docs/knorvia-kernel-dsh-00-acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-dsh-00/tests/_process.mjs",
+      "normalizedSha256": "0ab06a6e2f1220c883f38cbaf40aad616811449333995e8ebe90ca68fb679137",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-dsh-00 contract test/support artifact for the DSH-backed built-in kernel (M2). Assertions are written from the kernel-dsh-00 contract and exercise black-box CLI or public host behavior; no DSH source and no inherited runtime implementation was copied. Similarity against create-app.ts, protocol-entrypoint.ts, core/src/runtime/** and zai-org/ZCode@872ad960: max line containment 0.133, longest identical run 3, structural similarity 0.019.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-00/README.md",
+        "specs/contracts/kernel-dsh-00/behavior.md",
+        "specs/contracts/kernel-dsh-00/interface.md",
+        "specs/contracts/kernel-dsh-00/acceptance.md",
+        "docs/knorvia-kernel-dsh-00-acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-dsh-00/tests/boot-contract.test.mjs",
+      "normalizedSha256": "058280759881b21fcce86748d74c9bc4e127295a0d50b503b5aa23341f20b595",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-dsh-00 contract test/support artifact for the DSH-backed built-in kernel (M2). Assertions are written from the kernel-dsh-00 contract and exercise black-box CLI or public host behavior; no DSH source and no inherited runtime implementation was copied. Similarity against create-app.ts, protocol-entrypoint.ts, core/src/runtime/** and zai-org/ZCode@872ad960: max line containment 0.129, longest identical run 2, structural similarity 0.038.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-00/README.md",
+        "specs/contracts/kernel-dsh-00/behavior.md",
+        "specs/contracts/kernel-dsh-00/interface.md",
+        "specs/contracts/kernel-dsh-00/acceptance.md",
+        "docs/knorvia-kernel-dsh-00-acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-dsh-00/tests/composition.test.mjs",
+      "normalizedSha256": "ad5e7566d2a9702423b47e0a79ea867c4a706712c70362773fa143671720bdbb",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-dsh-00 contract test/support artifact for the DSH-backed built-in kernel (M2). Assertions are written from the kernel-dsh-00 contract and exercise black-box CLI or public host behavior; no DSH source and no inherited runtime implementation was copied. Similarity against create-app.ts, protocol-entrypoint.ts, core/src/runtime/** and zai-org/ZCode@872ad960: max line containment 0.049, longest identical run 1, structural similarity 0.038.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-00/README.md",
+        "specs/contracts/kernel-dsh-00/behavior.md",
+        "specs/contracts/kernel-dsh-00/interface.md",
+        "specs/contracts/kernel-dsh-00/acceptance.md",
+        "docs/knorvia-kernel-dsh-00-acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-dsh-00/tests/engine-selection.test.mjs",
+      "normalizedSha256": "e66f9499df6f1d9fe3efd4da504cd12d4126f8de2011e95b901e514813bb7aad",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-dsh-00 contract test/support artifact for the DSH-backed built-in kernel (M2). Assertions are written from the kernel-dsh-00 contract and exercise black-box CLI or public host behavior; no DSH source and no inherited runtime implementation was copied. Similarity against create-app.ts, protocol-entrypoint.ts, core/src/runtime/** and zai-org/ZCode@872ad960: max line containment 0.096, longest identical run 2, structural similarity 0.036.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-00/README.md",
+        "specs/contracts/kernel-dsh-00/behavior.md",
+        "specs/contracts/kernel-dsh-00/interface.md",
+        "specs/contracts/kernel-dsh-00/acceptance.md",
+        "docs/knorvia-kernel-dsh-00-acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-dsh-00/tests/entry.mjs",
+      "normalizedSha256": "37f3329a04619110cbe4d93bce7716a22a31067fc7cfddc3827a39bee58d3068",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-dsh-00 contract test/support artifact for the DSH-backed built-in kernel (M2). Assertions are written from the kernel-dsh-00 contract and exercise black-box CLI or public host behavior; no DSH source and no inherited runtime implementation was copied. Similarity against create-app.ts, protocol-entrypoint.ts, core/src/runtime/** and zai-org/ZCode@872ad960: max line containment 0.063, longest identical run 1, structural similarity 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-00/README.md",
+        "specs/contracts/kernel-dsh-00/behavior.md",
+        "specs/contracts/kernel-dsh-00/interface.md",
+        "specs/contracts/kernel-dsh-00/acceptance.md",
+        "docs/knorvia-kernel-dsh-00-acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-dsh-00/tests/identity.test.mjs",
+      "normalizedSha256": "6e3738a245714c36aabc2cb7c6aaff68dbbe08f065aa73b6034309937608fe4c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-dsh-00 contract test/support artifact for the DSH-backed built-in kernel (M2). Assertions are written from the kernel-dsh-00 contract and exercise black-box CLI or public host behavior; no DSH source and no inherited runtime implementation was copied. Similarity against create-app.ts, protocol-entrypoint.ts, core/src/runtime/** and zai-org/ZCode@872ad960: max line containment 0.111, longest identical run 1, structural similarity 0.045.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-00/README.md",
+        "specs/contracts/kernel-dsh-00/behavior.md",
+        "specs/contracts/kernel-dsh-00/interface.md",
+        "specs/contracts/kernel-dsh-00/acceptance.md",
+        "docs/knorvia-kernel-dsh-00-acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-dsh-00/tests/isolation.test.mjs",
+      "normalizedSha256": "00dec8839dc5ee0d432b395aecead5175f061916de4b77041a98a883e44fd160",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-dsh-00 contract test/support artifact for the DSH-backed built-in kernel (M2). Assertions are written from the kernel-dsh-00 contract and exercise black-box CLI or public host behavior; no DSH source and no inherited runtime implementation was copied. Similarity against create-app.ts, protocol-entrypoint.ts, core/src/runtime/** and zai-org/ZCode@872ad960: max line containment 0.108, longest identical run 1, structural similarity 0.016.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-00/README.md",
+        "specs/contracts/kernel-dsh-00/behavior.md",
+        "specs/contracts/kernel-dsh-00/interface.md",
+        "specs/contracts/kernel-dsh-00/acceptance.md",
+        "docs/knorvia-kernel-dsh-00-acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-dsh-00/tests/paths.test.mjs",
+      "normalizedSha256": "4b43ca6bba3746c2c92f2d95a48de06d4f037a33d8f171a7f601275407c6f1ce",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-dsh-00 contract test/support artifact for the DSH-backed built-in kernel (M2). Assertions are written from the kernel-dsh-00 contract and exercise black-box CLI or public host behavior; no DSH source and no inherited runtime implementation was copied. Similarity against create-app.ts, protocol-entrypoint.ts, core/src/runtime/** and zai-org/ZCode@872ad960: max line containment 0.154, longest identical run 1, structural similarity 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-00/README.md",
+        "specs/contracts/kernel-dsh-00/behavior.md",
+        "specs/contracts/kernel-dsh-00/interface.md",
+        "specs/contracts/kernel-dsh-00/acceptance.md",
+        "docs/knorvia-kernel-dsh-00-acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-dsh-00/tests/process-contract.test.mjs",
+      "normalizedSha256": "929d71a36317ef9713ad274f358c383bc502ba8d1c350f19d500b7507ec993a4",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-dsh-00 contract test/support artifact for the DSH-backed built-in kernel (M2). Assertions are written from the kernel-dsh-00 contract and exercise black-box CLI or public host behavior; no DSH source and no inherited runtime implementation was copied. Similarity against create-app.ts, protocol-entrypoint.ts, core/src/runtime/** and zai-org/ZCode@872ad960: max line containment 0.089, longest identical run 1, structural similarity 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-00/README.md",
+        "specs/contracts/kernel-dsh-00/behavior.md",
+        "specs/contracts/kernel-dsh-00/interface.md",
+        "specs/contracts/kernel-dsh-00/acceptance.md",
+        "docs/knorvia-kernel-dsh-00-acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-dsh-00/tests/session-contract.test.mjs",
+      "normalizedSha256": "e1be4ca3cb5e1f2785fe301ae859ae749051d6d8ee05cf4fc2736c28fe47c354",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-dsh-00 contract test/support artifact for the DSH-backed built-in kernel (M2). Assertions are written from the kernel-dsh-00 contract and exercise black-box CLI or public host behavior; no DSH source and no inherited runtime implementation was copied. Similarity against create-app.ts, protocol-entrypoint.ts, core/src/runtime/** and zai-org/ZCode@872ad960: max line containment 0.095, longest identical run 1, structural similarity 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-00/README.md",
+        "specs/contracts/kernel-dsh-00/behavior.md",
+        "specs/contracts/kernel-dsh-00/interface.md",
+        "specs/contracts/kernel-dsh-00/acceptance.md",
+        "docs/knorvia-kernel-dsh-00-acceptance.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-kernel-dsh-00-packaging.md",
+      "normalizedSha256": "98ca537063925f7d3972e93cb6f549ec76d99bb25dd01100e7565973cfa6ba8c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored packaging note for kernel-dsh-00. Records the exact locked DSH dependency set, the external bundle boundary, runtime-tree staging, bareModuleBaseUrl semantics and native-module unpack/verification steps. Written from specs/knorvia-builtin-kernel-dsh.md and the kernel-dsh-00 contract; no deployment script, DSH source or inherited packaging implementation was copied. Installation testing is explicitly deferred to kernel-switch.",
+      "evidence": [
+        "specs/knorvia-builtin-kernel-dsh.md",
+        "specs/contracts/kernel-dsh-00/README.md",
+        "specs/contracts/kernel-dsh-00/acceptance.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-kernel-dsh-00-acceptance.md",
+      "normalizedSha256": "c0ef98379b6f3006d829f9893126b2e43a5678a1df5bc2bc73c7597d193ef0b7",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored implementation acceptance record for kernel-dsh-00. Records scope, contract test counts, first failures and fixes, measured similarity values for 22 new files, third-party registration and deferred items. Written from the kernel-dsh-00 contract and actual local runs; no DSH source or inherited implementation was copied.",
+      "evidence": [
+        "specs/knorvia-builtin-kernel-dsh.md",
+        "specs/contracts/kernel-dsh-00/README.md",
+        "specs/contracts/kernel-dsh-00/acceptance.md",
+        "docs/knorvia-kernel-dsh-00-packaging.md"
+      ]
+    },
+    {
       "path": "specs/contracts/apps-cli-packages-02/README.md",
       "normalizedSha256": "43666f6ccdcf9757bea55fe35da337f3a7ae0917c62d7470c01574069604a7ea",
       "decision": "original",

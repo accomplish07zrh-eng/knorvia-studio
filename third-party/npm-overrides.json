@@ -506,5 +506,131 @@
     "source": "https://registry.npmjs.org/%40arms%2frum-electron%400.0.3",
     "evidenceKind": "publisher-license-identifier-and-standard-terms",
     "license": "MIT"
+  },
+  {
+    "package": "@aws-sdk/credential-provider-http@3.972.76",
+    "file": "third-party/upstream/edea91454b811f127fbdea3d86f378f6719bd372ed440abf82b232f6fca06c3d.txt",
+    "sha256": "edea91454b811f127fbdea3d86f378f6719bd372ed440abf82b232f6fca06c3d",
+    "source": "https://raw.githubusercontent.com/aws/aws-sdk-js-v3/v3.972.0/LICENSE"
+  },
+  {
+    "package": "@aws-sdk/credential-provider-login@3.972.81",
+    "file": "third-party/upstream/edea91454b811f127fbdea3d86f378f6719bd372ed440abf82b232f6fca06c3d.txt",
+    "sha256": "edea91454b811f127fbdea3d86f378f6719bd372ed440abf82b232f6fca06c3d",
+    "source": "https://raw.githubusercontent.com/aws/aws-sdk-js-v3/v3.972.0/LICENSE"
+  },
+  {
+    "package": "@aws-sdk/nested-clients@3.997.48",
+    "file": "third-party/upstream/edea91454b811f127fbdea3d86f378f6719bd372ed440abf82b232f6fca06c3d.txt",
+    "sha256": "edea91454b811f127fbdea3d86f378f6719bd372ed440abf82b232f6fca06c3d",
+    "source": "https://raw.githubusercontent.com/aws/aws-sdk-js-v3/v3.997.0/LICENSE"
+  },
+  {
+    "package": "@earendil-works/pi-ai@0.87.1",
+    "file": "third-party/upstream/0457f5bcec3b3b211605dfb5d1a49042fd638f3686a410fe099c24a25af13c48.txt",
+    "sha256": "0457f5bcec3b3b211605dfb5d1a49042fd638f3686a410fe099c24a25af13c48",
+    "source": "https://raw.githubusercontent.com/earendil-works/pi/f07218c4d4bbc12bef056a7058c3dd49dfe41abe/LICENSE"
+  },
+  {
+    "package": "@earendil-works/pi-telemetry@0.87.1",
+    "file": "third-party/upstream/0457f5bcec3b3b211605dfb5d1a49042fd638f3686a410fe099c24a25af13c48.txt",
+    "sha256": "0457f5bcec3b3b211605dfb5d1a49042fd638f3686a410fe099c24a25af13c48",
+    "source": "https://raw.githubusercontent.com/earendil-works/pi/f07218c4d4bbc12bef056a7058c3dd49dfe41abe/LICENSE"
+  },
+  {
+    "package": "@koromix/koffi-darwin-arm64@3.1.1",
+    "file": "third-party/upstream/22bcbbbacd739b026a8dc484f62a31484ce4c4e31f3408b60b29b4e41d62b290.txt",
+    "sha256": "22bcbbbacd739b026a8dc484f62a31484ce4c4e31f3408b60b29b4e41d62b290",
+    "source": "https://registry.npmjs.org/koffi/3.1.1",
+    "reviewEvidence": {
+      "checkedOn": "2026-10-19",
+      "result": "The versioned platform archive contains no standalone LICENSE; the complete MIT text is taken byte-for-byte from the main koffi@3.1.1 archive published from the same source revision."
+    }
+  },
+  {
+    "package": "@koromix/koffi-darwin-x64@3.1.1",
+    "file": "third-party/upstream/22bcbbbacd739b026a8dc484f62a31484ce4c4e31f3408b60b29b4e41d62b290.txt",
+    "sha256": "22bcbbbacd739b026a8dc484f62a31484ce4c4e31f3408b60b29b4e41d62b290",
+    "source": "https://registry.npmjs.org/koffi/3.1.1",
+    "reviewEvidence": {
+      "checkedOn": "2026-10-19",
+      "result": "The versioned platform archive contains no standalone LICENSE; the complete MIT text is taken byte-for-byte from the main koffi@3.1.1 archive published from the same source revision."
+    }
+  },
+  {
+    "package": "@koromix/koffi-linux-arm64@3.1.1",
+    "file": "third-party/upstream/22bcbbbacd739b026a8dc484f62a31484ce4c4e31f3408b60b29b4e41d62b290.txt",
+    "sha256": "22bcbbbacd739b026a8dc484f62a31484ce4c4e31f3408b60b29b4e41d62b290",
+    "source": "https://registry.npmjs.org/koffi/3.1.1",
+    "reviewEvidence": {
+      "checkedOn": "2026-10-19",
+      "result": "The versioned platform archive contains no standalone LICENSE; the complete MIT text is taken byte-for-byte from the main koffi@3.1.1 archive published from the same source revision."
+    }
+  },
+  {
+    "package": "@koromix/koffi-linux-x64@3.1.1",
+    "file": "third-party/upstream/22bcbbbacd739b026a8dc484f62a31484ce4c4e31f3408b60b29b4e41d62b290.txt",
+    "sha256": "22bcbbbacd739b026a8dc484f62a31484ce4c4e31f3408b60b29b4e41d62b290",
+    "source": "https://registry.npmjs.org/koffi/3.1.1",
+    "reviewEvidence": {
+      "checkedOn": "2026-10-19",
+      "result": "The versioned platform archive contains no standalone LICENSE; the complete MIT text is taken byte-for-byte from the main koffi@3.1.1 archive published from the same source revision."
+    }
+  },
+  {
+    "package": "@koromix/koffi-win32-arm64@3.1.1",
+    "file": "third-party/upstream/22bcbbbacd739b026a8dc484f62a31484ce4c4e31f3408b60b29b4e41d62b290.txt",
+    "sha256": "22bcbbbacd739b026a8dc484f62a31484ce4c4e31f3408b60b29b4e41d62b290",
+    "source": "https://registry.npmjs.org/koffi/3.1.1",
+    "reviewEvidence": {
+      "checkedOn": "2026-10-19",
+      "result": "The versioned platform archive contains no standalone LICENSE; the complete MIT text is taken byte-for-byte from the main koffi@3.1.1 archive published from the same source revision."
+    }
+  },
+  {
+    "package": "@koromix/koffi-win32-x64@3.1.1",
+    "file": "third-party/upstream/22bcbbbacd739b026a8dc484f62a31484ce4c4e31f3408b60b29b4e41d62b290.txt",
+    "sha256": "22bcbbbacd739b026a8dc484f62a31484ce4c4e31f3408b60b29b4e41d62b290",
+    "source": "https://registry.npmjs.org/koffi/3.1.1",
+    "reviewEvidence": {
+      "checkedOn": "2026-10-19",
+      "result": "The versioned platform archive contains no standalone LICENSE; the complete MIT text is taken byte-for-byte from the main koffi@3.1.1 archive published from the same source revision."
+    }
+  },
+  {
+    "package": "standardwebhooks@1.1.1",
+    "file": "third-party/upstream/5ec8c7b26b64d881a6706617bed25c049f97f2f35de034c756de8546fd6dbe27.txt",
+    "sha256": "5ec8c7b26b64d881a6706617bed25c049f97f2f35de034c756de8546fd6dbe27",
+    "source": "https://raw.githubusercontent.com/standard-webhooks/standard-webhooks/b4d2c14fc5b4ccff3ff271e3b087dff812254c59/libraries/LICENSE"
+  },
+  {
+    "package": "agent-base@6.0.2",
+    "file": "third-party/upstream/9392da8d1d2ccb224d60025fee4d6223ae0b863469fcd8c6b9461145723cf1c4.txt",
+    "sha256": "9392da8d1d2ccb224d60025fee4d6223ae0b863469fcd8c6b9461145723cf1c4",
+    "source": "https://raw.githubusercontent.com/TooTallNate/node-agent-base/6.0.2/README.md#license",
+    "license": "MIT"
+  },
+  {
+    "package": "https-proxy-agent@5.0.1",
+    "file": "third-party/upstream/58f4074efa400c8397add18c6561d0a17e4721e24bfd1b4d1e8ca764a8cb3eca.txt",
+    "sha256": "58f4074efa400c8397add18c6561d0a17e4721e24bfd1b4d1e8ca764a8cb3eca",
+    "source": "https://raw.githubusercontent.com/TooTallNate/node-https-proxy-agent/5.0.1/README.md#license",
+    "license": "MIT"
+  },
+  {
+    "package": "proxy-agent-negotiate@1.1.0",
+    "repo": "TooTallNate/proxy-agents",
+    "refs": ["proxy-agent-negotiate@1.1.0"],
+    "license": "MIT",
+    "acceptedMissingNotice": "no complete upstream license text is published for this version",
+    "evidenceKind": "publisher-license-identifier-and-standard-terms",
+    "reviewEvidence": {
+      "checkedOn": "2026-10-19",
+      "result": "The versioned npm archive and the pinned packages/negotiate subtree contain no standalone complete LICENSE; the publisher MIT declaration remains preserved. Other packages in the same monorepo carry LICENSE files, but none covers this package.",
+      "npmArchiveSha256": "6eec23d5d381a8b0ffafe91c19876d3a052e463618695981a7529f3a8bca1997",
+      "sourceRevision": "b7e5f7ccce1a3ac5b339cc4c587974e8989cbc16",
+      "sourceTreeUrl": "https://api.github.com/repos/TooTallNate/proxy-agents/git/trees/b7e5f7ccce1a3ac5b339cc4c587974e8989cbc16?recursive=1",
+      "upstreamLicenseFiles": []
+    }
   }
 ]
