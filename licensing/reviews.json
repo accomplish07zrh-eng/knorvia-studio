@@ -95883,7 +95883,7 @@
     },
     {
       "path": "docs/knorvia-independent-replacement-plan.md",
-      "normalizedSha256": "7c2177b64b0ca8c945065dad109e897e50a0d51193ac7e25ed23fd0e9d66a720",
+      "normalizedSha256": "355fadb2bdd7609f31af2e5dad9cefe140288e13ce4a07d108315a456b73dee7",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored planning document: the synchronized copy of the independent-replacement plan that this work executes. Written by the Knorvia team; it lists scope, decisions, milestones and acceptance criteria and reproduces no upstream source text. Registered as original so the plan copy itself carries its own provenance record.",
