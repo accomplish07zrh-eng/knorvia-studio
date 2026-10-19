@@ -1,341 +1,239 @@
 // SPDX-License-Identifier: Apache-2.0
 /**
- * 反馈工单领域模型与工单状态机规范。
- * 管理用户工单全生命周期状态流转、严重度分级、诊断附件模型及事件追踪。
+ * 反馈工单领域模型：类型、状态、严重度、模块、附件种类与提交框架的字典表，以及由字典派生的纯类型。
+ *
+ * 数据流：每个枚举先登记成 `as const` 字典（工单类型带标签、模块带归属域、状态带生命周期阶段、
+ * 严重度带紧急度权重），运行时常量表由字典投影或排序得到，纯类型用 `typeof` 从同一份字典取键。
+ * 字典是唯一事实来源，新增一个模块/类型/状态只需要改一处登记，派生结果自动跟上。
+ *
+ * 纯声明式模块：无状态、无 IO、无日志，任何时刻重复读取都得到同一份结果。
  */
 
-interface TicketTypeConfigItem {
-  readonly value: "bug" | "usage" | "feature" | "performance";
-  readonly label: string;
-  readonly defaultPriority: "P1-高" | "P2-中" | "P3-低";
-}
+/** 下拉选项的统一投影形态。 */
+type LabeledOption<Value extends string> = { value: Value; label: string };
 
-const TICKET_TYPE_CATALOG: readonly TicketTypeConfigItem[] = [
-  { value: "bug", label: "Bug 反馈", defaultPriority: "P1-高" },
-  { value: "usage", label: "使用问题", defaultPriority: "P3-低" },
-  { value: "feature", label: "功能建议", defaultPriority: "P3-低" },
-  { value: "performance", label: "性能问题", defaultPriority: "P2-中" },
-];
+/** 把字典投影成 `{value,label}` 选项表；字典里的其他列不对外暴露。 */
+const projectLabeledOptions = <Id extends string>(
+  dictionary: readonly { readonly id: Id; readonly label: string }[],
+): LabeledOption<Id>[] => dictionary.map(({ id, label }) => ({ value: id, label }));
 
-export type FeedbackTicketType = (typeof TICKET_TYPE_CATALOG)[number]["value"];
+/**
+ * 字段袋：把取值形态相同的字段名写成联合字面量，一次声明它们的取值类型。
+ * 工单模型的 11 个接口用 `extends` 组合若干字段袋，字段的必填/可选由袋类型决定。
+ */
+type RequiredBag<Keys extends PropertyKey, Value> = Record<Keys, Value>;
+type OptionalBag<Keys extends PropertyKey, Value> = Partial<Record<Keys, Value>>;
 
-export const FEEDBACK_TICKET_TYPES: { value: FeedbackTicketType; label: string }[] =
-  TICKET_TYPE_CATALOG.map((item) => ({
-    value: item.value,
-    label: item.label,
-  }));
+// ── 工单类型：4 项，顺序即展示顺序 ────────────────────────────────────────────
 
-const TICKET_STATUS_LIFECYCLE_STEPS = [
-  "已提交",
-  "信息不足",
-  "已采纳",
-  "开发中",
-  "已解决",
-  "已上线",
-  "答复关闭",
-  "已拒绝",
-  "已归档",
+const TICKET_TYPE_DICTIONARY = [
+  { id: "bug", label: "Bug 反馈" },
+  { id: "usage", label: "使用问题" },
+  { id: "feature", label: "功能建议" },
+  { id: "performance", label: "性能问题" },
 ] as const;
 
-export type FeedbackTicketStatus = (typeof TICKET_STATUS_LIFECYCLE_STEPS)[number];
+export type FeedbackTicketType = (typeof TICKET_TYPE_DICTIONARY)[number]["id"];
 
-const ATTACHMENT_MEDIA_KINDS = ["log", "image", "other"] as const;
-export type FeedbackAttachmentKind = (typeof ATTACHMENT_MEDIA_KINDS)[number];
+export const FEEDBACK_TICKET_TYPES: LabeledOption<FeedbackTicketType>[] =
+  projectLabeledOptions(TICKET_TYPE_DICTIONARY);
 
-interface TicketModuleCatalogEntry {
-  readonly moduleName:
-    | "Plugin / MCP"
-    | "Agent任务执行失败"
-    | "模型配置 / API Key"
-    | "模型调用报错"
-    | "权限 / 配置保存"
-    | "SSH连接失败"
-    | "WSL连接失败"
-    | "UI布局 / 交互"
-    | "模型响应慢 / 额度"
-    | "崩溃 / Internal Error"
-    | "文档 / 使用咨询"
-    | "其它";
-  readonly domainGroup: string;
-}
+// ── 工单状态：9 个生命周期状态，phase 标注所处阶段 ────────────────────────────
 
-const TICKET_MODULE_REGISTRY: readonly TicketModuleCatalogEntry[] = [
-  { moduleName: "Plugin / MCP", domainGroup: "plugins" },
-  { moduleName: "Agent任务执行失败", domainGroup: "agent" },
-  { moduleName: "模型配置 / API Key", domainGroup: "models" },
-  { moduleName: "模型调用报错", domainGroup: "models" },
-  { moduleName: "权限 / 配置保存", domainGroup: "config" },
-  { moduleName: "SSH连接失败", domainGroup: "remote" },
-  { moduleName: "WSL连接失败", domainGroup: "remote" },
-  { moduleName: "UI布局 / 交互", domainGroup: "ui" },
-  { moduleName: "模型响应慢 / 额度", domainGroup: "models" },
-  { moduleName: "崩溃 / Internal Error", domainGroup: "runtime" },
-  { moduleName: "文档 / 使用咨询", domainGroup: "help" },
-  { moduleName: "其它", domainGroup: "general" },
-];
+const TICKET_STATUS_DICTIONARY = [
+  { id: "已提交", phase: "intake" },
+  { id: "信息不足", phase: "intake" },
+  { id: "已采纳", phase: "triage" },
+  { id: "开发中", phase: "delivery" },
+  { id: "已解决", phase: "resolution" },
+  { id: "已上线", phase: "released" },
+  { id: "答复关闭", phase: "closed" },
+  { id: "已拒绝", phase: "closed" },
+  { id: "已归档", phase: "archived" },
+] as const;
 
-export type FeedbackTicketModule = (typeof TICKET_MODULE_REGISTRY)[number]["moduleName"];
+export type FeedbackTicketStatus = (typeof TICKET_STATUS_DICTIONARY)[number]["id"];
 
-export const FEEDBACK_TICKET_MODULES: FeedbackTicketModule[] = TICKET_MODULE_REGISTRY.map(
-  (entry) => entry.moduleName,
+// ── 问题模块：12 项固定顺序，domain 标注归属功能域 ────────────────────────────
+
+const TICKET_MODULE_DICTIONARY = [
+  { id: "Plugin / MCP", domain: "plugins" },
+  { id: "Agent任务执行失败", domain: "agent" },
+  { id: "模型配置 / API Key", domain: "models" },
+  { id: "模型调用报错", domain: "models" },
+  { id: "权限 / 配置保存", domain: "config" },
+  { id: "SSH连接失败", domain: "remote" },
+  { id: "WSL连接失败", domain: "remote" },
+  { id: "UI布局 / 交互", domain: "ui" },
+  { id: "模型响应慢 / 额度", domain: "models" },
+  { id: "崩溃 / Internal Error", domain: "runtime" },
+  { id: "文档 / 使用咨询", domain: "help" },
+  { id: "其它", domain: "general" },
+] as const;
+
+export type FeedbackTicketModule = (typeof TICKET_MODULE_DICTIONARY)[number]["id"];
+
+export const FEEDBACK_TICKET_MODULES: FeedbackTicketModule[] = TICKET_MODULE_DICTIONARY.map(
+  (entry) => entry.id,
 );
 
-export type FeedbackTicketFramework = "agent";
+// ── 严重度：按紧急度权重降序投影，权重是排序的唯一依据 ────────────────────────
 
-export const FEEDBACK_FRAMEWORK_NONE = "none" as const;
+const SEVERITY_DICTIONARY = [
+  { id: "P1-高", urgency: 3 },
+  { id: "P2-中", urgency: 2 },
+  { id: "P3-低", urgency: 1 },
+] as const;
 
-export type FeedbackTicketFrameworkSelectValue =
-  | FeedbackTicketFramework
-  | typeof FEEDBACK_FRAMEWORK_NONE;
+export type FeedbackTicketSeverity = (typeof SEVERITY_DICTIONARY)[number]["id"];
 
-const TICKET_SEVERITY_LEVEL_LIST = ["P1-高", "P2-中", "P3-低"] as const;
+export const FEEDBACK_TICKET_SEVERITIES: FeedbackTicketSeverity[] = SEVERITY_DICTIONARY.toSorted(
+  (left, right) => right.urgency - left.urgency,
+).map((entry) => entry.id);
 
-export type FeedbackTicketSeverity = (typeof TICKET_SEVERITY_LEVEL_LIST)[number];
+// ── 提交框架：内置 agent 框架 + 未指定哨兵值 ─────────────────────────────────
 
-export const FEEDBACK_TICKET_SEVERITIES: FeedbackTicketSeverity[] = [
-  ...TICKET_SEVERITY_LEVEL_LIST,
+const FRAMEWORK_OPTION_DICTIONARY = [{ id: "agent", label: "Knorvia Studio Agent" }] as const;
+const FRAMEWORK_NONE_ID = "none" as const;
+
+export type FeedbackTicketFramework = (typeof FRAMEWORK_OPTION_DICTIONARY)[number]["id"];
+
+export type FeedbackTicketFrameworkSelectValue = FeedbackTicketFramework | typeof FRAMEWORK_NONE_ID;
+
+export const DEFAULT_FEEDBACK_TICKET_FRAMEWORK = "agent" satisfies FeedbackTicketFramework;
+
+export const FEEDBACK_FRAMEWORK_NONE = FRAMEWORK_NONE_ID;
+
+export const FEEDBACK_TICKET_FRAMEWORK_OPTIONS: LabeledOption<FeedbackTicketFramework>[] =
+  projectLabeledOptions(FRAMEWORK_OPTION_DICTIONARY);
+
+export const FEEDBACK_TICKET_FRAMEWORKS: LabeledOption<FeedbackTicketFrameworkSelectValue>[] = [
+  { value: FEEDBACK_FRAMEWORK_NONE, label: "未指定" },
+  ...FEEDBACK_TICKET_FRAMEWORK_OPTIONS,
 ];
 
-export const DEFAULT_FEEDBACK_TICKET_FRAMEWORK: FeedbackTicketFramework = "agent";
+// ── 附件种类与事件种类 ───────────────────────────────────────────────────────
 
-export const FEEDBACK_TICKET_FRAMEWORK_OPTIONS: {
-  value: FeedbackTicketFramework;
-  label: string;
-}[] = [{ value: "agent", label: "Knorvia Studio Agent" }];
+const ATTACHMENT_KIND_IDS = ["log", "image", "other"] as const;
 
-export const FEEDBACK_TICKET_FRAMEWORKS: {
-  value: FeedbackTicketFrameworkSelectValue;
-  label: string;
-}[] = [{ value: FEEDBACK_FRAMEWORK_NONE, label: "未指定" }, ...FEEDBACK_TICKET_FRAMEWORK_OPTIONS];
+export type FeedbackAttachmentKind = (typeof ATTACHMENT_KIND_IDS)[number];
 
-export interface FeedbackReporter {
-  user_id?: string;
-  username?: string;
-  display_name?: string;
-}
+const TICKET_EVENT_KIND_IDS = [
+  "created",
+  "status_changed",
+  "assignee_changed",
+  "staff_replied",
+  "user_replied",
+] as const;
 
-interface HostPlatformDiagnosticIdentity {
-  osType?: string;
-  osPlatform?: string;
-  osRelease?: string;
-  osVersion?: string;
-  osArch?: string;
-  hostname?: string;
-  deviceMid?: string;
-}
+export type FeedbackTicketEventType = (typeof TICKET_EVENT_KIND_IDS)[number];
 
-interface ApplicationBuildDiagnosticMeta {
-  appVersion?: string;
-  buildCommitId?: string;
-  buildTime?: string;
-  electronVersion?: string;
-  nodeVersion?: string;
-}
+// ── 工单模型：全部由字段袋交叉而成 ───────────────────────────────────────────
 
-interface AgentDiagnosticTelemetryState {
-  agentProvider?: string;
-  agentFramework?: FeedbackTicketFramework;
-  agentModel?: string;
-  agentModelDisplay?: string;
-  agentModelOptionCount?: number;
-  agentModelOptionsPreview?: string[];
-}
+export interface FeedbackReporter extends OptionalBag<
+  "user_id" | "username" | "display_name",
+  string
+> {}
 
 export interface FeedbackDeviceInfo
-  extends HostPlatformDiagnosticIdentity,
-    ApplicationBuildDiagnosticMeta,
-    AgentDiagnosticTelemetryState {}
-
-interface TicketContentSubmissionPayload {
-  title: string;
-  description: string;
-  type: FeedbackTicketType;
-  severity?: FeedbackTicketSeverity;
-  module?: FeedbackTicketModule;
-  framework?: FeedbackTicketFramework;
-  source?: string;
-}
-
-interface TicketContextSubmissionMeta {
-  reporter?: FeedbackReporter;
-  device?: FeedbackDeviceInfo;
-  contact?: string;
-  locale?: "zh-CN" | "en-US";
-}
+  extends
+    OptionalBag<
+      | "appVersion"
+      | "buildCommitId"
+      | "buildTime"
+      | "electronVersion"
+      | "nodeVersion"
+      | "osType"
+      | "osPlatform"
+      | "osRelease"
+      | "osVersion"
+      | "osArch"
+      | "hostname"
+      | "deviceMid"
+      | "agentProvider"
+      | "agentModel"
+      | "agentModelDisplay",
+      string
+    >,
+    OptionalBag<"agentFramework", FeedbackTicketFramework>,
+    OptionalBag<"agentModelOptionCount", number>,
+    OptionalBag<"agentModelOptionsPreview", string[]> {}
 
 export interface CreateFeedbackTicketInput
-  extends TicketContentSubmissionPayload,
-    TicketContextSubmissionMeta {}
-
-interface TicketIdentityClassification {
-  id: string;
-  title: string;
-  type: FeedbackTicketType;
-  severity?: FeedbackTicketSeverity;
-  module?: FeedbackTicketModule;
-  status: FeedbackTicketStatus;
-}
-
-interface TicketAssigneeParticipantMeta {
-  assignee_id?: string | null;
-  assignee_display?: string | null;
-  reporter_display?: string | null;
-}
-
-interface TicketLifecycleTimestamps {
-  unread?: boolean;
-  last_user_activity_at?: string | null;
-  created_at: string;
-  updated_at: string;
-}
+  extends
+    RequiredBag<"title" | "description", string>,
+    RequiredBag<"type", FeedbackTicketType>,
+    OptionalBag<"severity", FeedbackTicketSeverity>,
+    OptionalBag<"module", FeedbackTicketModule>,
+    OptionalBag<"framework", FeedbackTicketFramework>,
+    OptionalBag<"source" | "contact", string>,
+    OptionalBag<"locale", "zh-CN" | "en-US">,
+    OptionalBag<"reporter", FeedbackReporter>,
+    OptionalBag<"device", FeedbackDeviceInfo> {}
 
 export interface FeedbackTicketSummary
-  extends TicketIdentityClassification,
-    TicketAssigneeParticipantMeta,
-    TicketLifecycleTimestamps {}
+  extends
+    RequiredBag<"id" | "title", string>,
+    RequiredBag<"type", FeedbackTicketType>,
+    RequiredBag<"status", FeedbackTicketStatus>,
+    RequiredBag<"created_at" | "updated_at", string>,
+    OptionalBag<"severity", FeedbackTicketSeverity>,
+    OptionalBag<"module", FeedbackTicketModule>,
+    OptionalBag<"unread", boolean>,
+    OptionalBag<
+      "assignee_id" | "assignee_display" | "reporter_display" | "last_user_activity_at",
+      string | null
+    > {}
 
-export type FeedbackTicketEventType =
-  | "created"
-  | "status_changed"
-  | "assignee_changed"
-  | "staff_replied"
-  | "user_replied";
+export interface FeedbackTicketEvent
+  extends
+    RequiredBag<"id", number>,
+    RequiredBag<"type", FeedbackTicketEventType>,
+    RequiredBag<"summary" | "created_at", string>,
+    OptionalBag<"actor_display_name", string | null>,
+    OptionalBag<"payload", Record<string, unknown> | null> {}
 
-export interface FeedbackTicketEvent {
-  id: number;
-  type: FeedbackTicketEventType;
-  summary: string;
-  actor_display_name?: string | null;
-  payload?: Record<string, unknown> | null;
-  created_at: string;
-}
+export interface FeedbackCommentAttachment
+  extends
+    RequiredBag<"id" | "size", number>,
+    RequiredBag<"filename", string>,
+    OptionalBag<"content_type" | "download_url" | "preview_url", string | null> {}
 
-interface RemoteAssetMetadataFields {
-  id: number;
-  filename: string;
-  size: number;
-  content_type?: string | null;
-  download_url?: string | null;
-  preview_url?: string | null;
-}
+export interface FeedbackAttachment
+  extends
+    FeedbackCommentAttachment,
+    RequiredBag<"kind", FeedbackAttachmentKind>,
+    RequiredBag<"redacted", boolean>,
+    RequiredBag<"created_at", string>,
+    OptionalBag<"sha256", string | null> {}
 
-export interface FeedbackCommentAttachment extends RemoteAssetMetadataFields {}
-
-export interface FeedbackAttachment extends RemoteAssetMetadataFields {
-  kind: FeedbackAttachmentKind;
-  sha256?: string | null;
-  redacted: boolean;
-  created_at: string;
-}
-
-export interface FeedbackComment {
-  id: number;
-  message_id?: string;
-  author_user_id?: string | null;
-  author_display_name?: string | null;
-  body: string;
-  attachments?: FeedbackCommentAttachment[];
-  is_staff: boolean;
-  created_at: string;
-}
-
-interface TicketDetailSupplementaryBody {
-  description: string;
-  framework?: FeedbackTicketFramework;
-  reporter?: FeedbackReporter | null;
-  device?: FeedbackDeviceInfo | null;
-  lark_record_id?: string | null;
-}
-
-interface TicketDetailCompositeCollections {
-  attachments: FeedbackAttachment[];
-  comments: FeedbackComment[];
-  events: FeedbackTicketEvent[];
-}
+export interface FeedbackComment
+  extends
+    RequiredBag<"id", number>,
+    RequiredBag<"body" | "created_at", string>,
+    RequiredBag<"is_staff", boolean>,
+    OptionalBag<"message_id", string>,
+    OptionalBag<"author_user_id" | "author_display_name", string | null>,
+    OptionalBag<"attachments", FeedbackCommentAttachment[]> {}
 
 export interface FeedbackTicketDetail
-  extends FeedbackTicketSummary,
-    TicketDetailSupplementaryBody,
-    TicketDetailCompositeCollections {}
+  extends
+    FeedbackTicketSummary,
+    RequiredBag<"description", string>,
+    RequiredBag<"attachments", FeedbackAttachment[]>,
+    RequiredBag<"comments", FeedbackComment[]>,
+    RequiredBag<"events", FeedbackTicketEvent[]>,
+    OptionalBag<"framework", FeedbackTicketFramework>,
+    OptionalBag<"lark_record_id", string | null>,
+    OptionalBag<"reporter", FeedbackReporter | null>,
+    OptionalBag<"device", FeedbackDeviceInfo | null> {}
 
-export interface FeedbackListQuery {
-  mine?: boolean;
-  status?: FeedbackTicketStatus;
-  type?: FeedbackTicketType;
-  offset?: number;
-  limit?: number;
-}
+export interface FeedbackListQuery
+  extends
+    OptionalBag<"mine", boolean>,
+    OptionalBag<"status", FeedbackTicketStatus>,
+    OptionalBag<"type", FeedbackTicketType>,
+    OptionalBag<"offset" | "limit", number> {}
 
-export interface FeedbackListResult {
-  items: FeedbackTicketSummary[];
-  total: number;
-}
-
-// 内部状态机驱动：工单生命周期合法流转判定表
-const ALLOWED_TICKET_STATUS_TRANSITIONS: ReadonlyMap<
-  FeedbackTicketStatus,
-  ReadonlySet<FeedbackTicketStatus>
-> = new Map([
-  [
-    "已提交",
-    new Set<FeedbackTicketStatus>(["信息不足", "已采纳", "已拒绝", "答复关闭"]),
-  ],
-  ["信息不足", new Set<FeedbackTicketStatus>(["已提交", "已归档", "已拒绝"])],
-  ["已采纳", new Set<FeedbackTicketStatus>(["开发中", "已拒绝"])],
-  ["开发中", new Set<FeedbackTicketStatus>(["已解决", "已拒绝"])],
-  ["已解决", new Set<FeedbackTicketStatus>(["已上线", "已归档"])],
-  ["已上线", new Set<FeedbackTicketStatus>(["已归档"])],
-  ["已拒绝", new Set<FeedbackTicketStatus>(["已归档"])],
-  ["答复关闭", new Set<FeedbackTicketStatus>(["已归档", "已提交"])],
-  ["已归档", new Set<FeedbackTicketStatus>()],
-]);
-
-function isPermittedStatusTransition(
-  sourceStatus: FeedbackTicketStatus,
-  targetStatus: FeedbackTicketStatus,
-): boolean {
-  if (sourceStatus === targetStatus) {
-    return true;
-  }
-  const allowedNext = ALLOWED_TICKET_STATUS_TRANSITIONS.get(sourceStatus);
-  return allowedNext !== undefined && allowedNext.has(targetStatus);
-}
-
-function resolveSeverityRankWeight(severity: FeedbackTicketSeverity | undefined): number {
-  switch (severity) {
-    case "P1-高":
-      return 30;
-    case "P2-中":
-      return 20;
-    case "P3-低":
-      return 10;
-    default:
-      return 0;
-  }
-}
-
-function classifyTicketResolutionMaturity(status: FeedbackTicketStatus): "open" | "progress" | "resolved" | "closed" {
-  switch (status) {
-    case "已提交":
-    case "信息不足":
-      return "open";
-    case "已采纳":
-    case "开发中":
-      return "progress";
-    case "已解决":
-    case "已上线":
-      return "resolved";
-    case "已归档":
-    case "已拒绝":
-    case "答复关闭":
-      return "closed";
-  }
-}
-
-function sanitizeReporterDisplayIdentity(reporter: FeedbackReporter | null | undefined): string | null {
-  if (!reporter) {
-    return null;
-  }
-  const candidate = reporter.display_name?.trim() || reporter.username?.trim();
-  return candidate && candidate.length > 0 ? candidate : null;
-}
+export interface FeedbackListResult
+  extends RequiredBag<"total", number>, RequiredBag<"items", FeedbackTicketSummary[]> {}
