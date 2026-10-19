@@ -118,6 +118,12 @@ export function stripDeclarationBlocks(text, names) {
     }
     const kind = start ? start[1] : "const";
     const end = findDeclarationEnd(lines, index, kind);
+    if (kind === "const" && !isPureDataConst(lines.slice(index, end + 1).join("\n"))) {
+      // 列名的 const 夹带函数、条件或计算：不享受声明豁免，整块照常计分。
+      kept.push(...lines.slice(index, end + 1));
+      index = end + 1;
+      continue;
+    }
     strippedBlocks += 1;
     index = end + 1;
   }
@@ -144,4 +150,31 @@ function findDeclarationEnd(lines, start, kind) {
     if (opened || /\}\s*;?\s*$/u.test(lines[index])) return index;
   }
   return lines.length - 1;
+}
+
+/** 允许出现在纯数据常量表里的调用：只做字面量收口，不做计算。 */
+const PURE_DATA_CALLS = new Set(["z.enum", "Object.freeze"]);
+
+/**
+ * 纯数据常量：右侧只由字符串/数字/布尔/null 字面量、数组、对象、`as const`、
+ * `satisfies`/类型注解，以及 `z.enum([...])` / `Object.freeze(...)` 包装组成。
+ * 出现箭头函数、function、条件、逻辑/算术运算、模板插值、展开或其他调用即不算纯数据。
+ */
+export function isPureDataConst(block) {
+  const eq = block.search(/[^=!<>]=(?![=>])/u);
+  if (eq < 0) return false;
+  let body = block.slice(eq + 2);
+  if (/\$\{/u.test(body)) return false;
+  body = body
+    .replace(/\/\/[^\n]*/gu, " ")
+    .replace(/\/\*[\s\S]*?\*\//gu, " ")
+    .replace(/"(?:[^"\\\n]|\\.)*"|'(?:[^'\\\n]|\\.)*'|`[^`$]*`/gu, " S ");
+  // 负数字面量（`-1`）是数据；其余减号都算计算。
+  body = body.replace(/([[(,:=]\s*)-(?=\s*\d)/gu, "$1");
+  const operators = /=>|\bfunction\b|\?|&&|\|\||\.\.\.|\bnew\b|[-+*/%<>]/u;
+  if (operators.test(body.replace(/\bas const\b/gu, " "))) return false;
+  for (const call of body.matchAll(/([A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*)*)\s*\(/gu))
+    if (!PURE_DATA_CALLS.has(call[1])) return false;
+  if (/\.[A-Za-z_$][\w$]*\s*(?!\()/u.test(body.replace(/z\.enum|Object\.freeze/gu, " "))) return false;
+  return true;
 }

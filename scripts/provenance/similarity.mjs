@@ -26,6 +26,7 @@ import {
   longestRunDetail,
 } from "./similarity-lines.mjs";
 import { loadOxfmtOptions } from "./similarity-normalize.mjs";
+import { packedLiteralSplits } from "./similarity-packed-literal.mjs";
 import {
   structuralFingerprints,
   structuralOverlap,
@@ -141,6 +142,8 @@ const candidates = await Promise.all(
 const results = [];
 for (const candidate of candidates) results.push(await evaluateLines(candidate));
 if (gates !== "line") applyStructural(results);
+// 压行拆分是独立 gate：与行/结构门槛分开计数，任一命中即 FAIL。
+applyPackedLiteralGate(results, candidates);
 for (const result of results) result.pass = result.violations.length === 0;
 
 const failed = results.filter((result) => !result.pass);
@@ -297,6 +300,26 @@ function lineMetrics(candidate, group, comparedOld) {
     if (run > longest.value) longest = { value: run, file: file.path };
   }
   return { maxContainment, longestRun: longest };
+}
+
+/**
+ * 压行拆分独立 gate：扫描候选里写死的空白分隔字面量在运行时拆成列表的写法，
+ * 命中即 FAIL。只对脚本生效；regardless of --gates 都跑，因为它是单独的 gate。
+ */
+function applyPackedLiteralGate(results, candidates) {
+  results.forEach((result, index) => {
+    const candidate = candidates[index];
+    if (candidate.binary || candidate.kind !== "script") return;
+    const texts = candidate.tracedLeaves?.length
+      ? candidate.tracedLeaves.map((leaf) => leaf.text)
+      : [candidate.text];
+    const hits = texts.flatMap((text) => packedLiteralSplits(candidate.path, text));
+    result.packedLiteralSplits = hits;
+    if (hits.length === 0) return;
+    result.violations.push(
+      `packed-literal-split: ${hits.length} 处写死字面量按空白拆分（首个 ${hits[0].line}:${hits[0].column} ${hits[0].via}）`,
+    );
+  });
 }
 
 /**
