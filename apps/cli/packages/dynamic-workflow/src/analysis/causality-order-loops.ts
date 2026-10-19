@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: Apache-2.0
+
 import ts from "typescript";
 import {
   innermost,
@@ -9,161 +11,200 @@ import {
 import { barrier, recordControl, settlesAt } from "./causality-order-settle.js";
 import { strandMark } from "./causality-order-strands.js";
 
-// causality-order.ts 顶到 oxlint max-lines 上限（400 行），把循环语句的访问器
-// （for / for-of / for-in / while / do…while）连同 `for` 字面量轮数的推导拆到本文件；公开面
-// 仍从 causality-order.ts 导出。{@link walkLoop} 在 walk 的 if 链里占原来四个分支的位置，
-// 判定顺序与原文件逐字一致。
+// Loop visitors. A `for` header is walked outside the loop region, in source order.
+// `do` is entered and its condition is not a guard. `for await` barriers inside.
 
-/** Walk a loop body with its statement registered as a jump target for the duration. */
-function walkLoopBody(
-  state: TraceState,
+interface CountedEntry {
+  entered: boolean;
+  bound?: number;
+}
+
+type LoopWalker = (trace: TraceState, node: ts.Node, chain: readonly string[]) => void;
+
+function withStatementTarget(
+  trace: TraceState,
   statement: ts.Node,
   body: ts.Node,
   chain: readonly string[],
 ): void {
-  state.regionByStatement.set(statement, innermost(state, chain));
-  state.walk(body, chain);
-  state.regionByStatement.delete(statement);
+  trace.regionByStatement.set(statement, innermost(trace, chain));
+  trace.walk(body, chain);
+  trace.regionByStatement.delete(statement);
 }
 
-/** The loop cases of the visitor. Returns false when `node` is not a loop statement. */
-export function walkLoop(state: TraceState, node: ts.Node, chain: readonly string[]): boolean {
-  const { walk } = state;
-  if (ts.isForStatement(node)) {
-    const { bound, entered } = literalForBound(node);
-    if (node.initializer !== undefined) walk(node.initializer, chain);
-    if (node.condition !== undefined) walk(node.condition, chain);
-    if (node.incrementor !== undefined) walk(node.incrementor, chain);
-    const id = openRegion(state, "loop", innermost(state, chain), {
-      entered,
-      loc: locOf(state, node),
-      ...(bound === undefined ? {} : { bound }),
-    });
-    if (node.condition !== undefined) recordControl(state, node.condition, id);
-    walkLoopBody(state, node, node.statement, [...chain, id]);
-    return true;
-  }
-
-  if (ts.isForOfStatement(node) || ts.isForInStatement(node)) {
-    const mark = state.events.length;
-    const spawned = strandMark(state);
-    walk(node.expression, chain);
-    const id = openRegion(state, "loop", innermost(state, chain), {
-      entered: false,
-      loc: locOf(state, node),
-    });
-    const inside = [...chain, id];
-    // `for await (… of …)` awaits every element, so each iteration opens with a
-    // barrier over whatever the iterated expression issued — plus, from the oracle,
-    // whatever labels that expression's VALUE carries (an array of pending promises
-    // issues nothing at this point, which is the whole reason the oracle exists).
-    if (ts.isForOfStatement(node) && node.awaitModifier !== undefined) {
-      const claim = settlesAt(state, node.expression, node.expression.getStart(state.scriptFile));
-      barrier(state, [...issuesSince(state, mark), ...claim.certain], claim.maybe, inside, {
-        mark: spawned,
-        operand: node.expression,
-      });
-    }
-    walk(node.initializer, inside);
-    walkLoopBody(state, node, node.statement, inside);
-    return true;
-  }
-
-  if (ts.isWhileStatement(node)) {
-    walk(node.expression, chain);
-    const id = openRegion(state, "loop", innermost(state, chain), {
-      entered: false,
-      loc: locOf(state, node),
-    });
-    recordControl(state, node.expression, id);
-    walkLoopBody(state, node, node.statement, [...chain, id]);
-    return true;
-  }
-
-  if (ts.isDoStatement(node)) {
-    // A `do…while` body is unconditional on first entry, so it is `entered` and its
-    // condition is NOT a guard.
-    const id = openRegion(state, "loop", innermost(state, chain), {
-      entered: true,
-      loc: locOf(state, node),
-    });
-    walkLoopBody(state, node, node.statement, [...chain, id]);
-    walk(node.expression, [...chain, id]);
-    return true;
-  }
-
-  return false;
+function extend(chain: readonly string[], id: string): readonly string[] {
+  return chain.concat(id);
 }
 
-/**
- * A `for` loop's provable entry and round count: `for (let i = <a>; i < <b>; i++)`
- * with numeric literals and `a < b` runs `b - a` times. `entered` needs only the
- * literal comparison; `bound` additionally needs a unit increment, or the count would
- * be a guess.
- */
-function literalForBound(node: ts.ForStatement): { entered: boolean; bound?: number } {
-  const initializer = node.initializer;
-  const condition = node.condition;
-  if (initializer === undefined || !ts.isVariableDeclarationList(initializer)) {
-    return { entered: false };
-  }
-  const decl = initializer.declarations[0];
-  if (decl === undefined || !ts.isIdentifier(decl.name) || decl.initializer === undefined) {
-    return { entered: false };
-  }
-  const start = numericValue(decl.initializer);
-  if (start === undefined || condition === undefined || !ts.isBinaryExpression(condition)) {
-    return { entered: false };
-  }
-  if (!ts.isIdentifier(condition.left) || condition.left.text !== decl.name.text) {
-    return { entered: false };
-  }
-  const limit = numericValue(condition.right);
-  if (limit === undefined) return { entered: false };
-
-  const operator = condition.operatorToken.kind;
-  const rounds =
-    operator === ts.SyntaxKind.LessThanToken && start < limit
-      ? limit - start
-      : operator === ts.SyntaxKind.LessThanEqualsToken && start <= limit
-        ? limit - start + 1
-        : undefined;
-  if (rounds === undefined) return { entered: false };
-  return isUnitIncrement(node.incrementor, decl.name.text)
-    ? { bound: rounds, entered: true }
-    : { entered: true };
+function walkIfPresent(
+  trace: TraceState,
+  node: ts.Node | undefined,
+  chain: readonly string[],
+): void {
+  if (node !== undefined) trace.walk(node, chain);
 }
 
-function numericValue(expr: ts.Expression): number | undefined {
-  if (ts.isNumericLiteral(expr)) return Number(expr.text);
-  if (ts.isPrefixUnaryExpression(expr) && expr.operator === ts.SyntaxKind.MinusToken) {
-    const inner = numericValue(expr.operand);
-    return inner === undefined ? undefined : -inner;
-  }
-  return undefined;
+function signedLiteral(expr: ts.Expression): number | undefined {
+  if (expr.kind === ts.SyntaxKind.NumericLiteral) return Number((expr as ts.NumericLiteral).text);
+  if (expr.kind !== ts.SyntaxKind.PrefixUnaryExpression) return undefined;
+  const prefix = expr as ts.PrefixUnaryExpression;
+  if (prefix.operator !== ts.SyntaxKind.MinusToken) return undefined;
+  const inner = signedLiteral(prefix.operand);
+  return inner === undefined ? undefined : -inner;
 }
 
-function isUnitIncrement(incrementor: ts.Expression | undefined, name: string): boolean {
+function sameName(expr: ts.Expression, name: string): boolean {
+  return expr.kind === ts.SyntaxKind.Identifier && (expr as ts.Identifier).text === name;
+}
+
+interface CounterStart {
+  name: string;
+  value: number;
+}
+
+function counterStart(initializer: ts.ForInitializer | undefined): CounterStart | undefined {
+  if (initializer === undefined || initializer.kind !== ts.SyntaxKind.VariableDeclarationList) {
+    return undefined;
+  }
+  const decl = (initializer as ts.VariableDeclarationList).declarations[0];
+  if (
+    decl === undefined ||
+    decl.name.kind !== ts.SyntaxKind.Identifier ||
+    decl.initializer === undefined
+  ) {
+    return undefined;
+  }
+  const value = signedLiteral(decl.initializer);
+  if (value === undefined) return undefined;
+  return { name: (decl.name as ts.Identifier).text, value };
+}
+
+const ROUND_FROM_LIMIT: ReadonlyMap<
+  ts.SyntaxKind,
+  (start: number, limit: number) => number | undefined
+> = new Map([
+  [ts.SyntaxKind.LessThanToken, (start, limit) => (start < limit ? limit - start : undefined)],
+  [
+    ts.SyntaxKind.LessThanEqualsToken,
+    (start, limit) => (start <= limit ? limit - start + 1 : undefined),
+  ],
+]);
+
+function provedRounds(
+  condition: ts.Expression | undefined,
+  start: CounterStart,
+): number | undefined {
+  if (condition === undefined || condition.kind !== ts.SyntaxKind.BinaryExpression)
+    return undefined;
+  const binary = condition as ts.BinaryExpression;
+  if (!sameName(binary.left, start.name)) return undefined;
+  const limit = signedLiteral(binary.right);
+  if (limit === undefined) return undefined;
+  const law = ROUND_FROM_LIMIT.get(binary.operatorToken.kind);
+  return law === undefined ? undefined : law(start.value, limit);
+}
+
+function bumpsCounter(incrementor: ts.Expression | undefined, name: string): boolean {
   if (incrementor === undefined) return false;
   if (
-    ts.isPostfixUnaryExpression(incrementor) &&
-    incrementor.operator === ts.SyntaxKind.PlusPlusToken
+    incrementor.kind === ts.SyntaxKind.PostfixUnaryExpression ||
+    incrementor.kind === ts.SyntaxKind.PrefixUnaryExpression
   ) {
-    return ts.isIdentifier(incrementor.operand) && incrementor.operand.text === name;
+    const unary = incrementor as ts.PrefixUnaryExpression | ts.PostfixUnaryExpression;
+    return unary.operator === ts.SyntaxKind.PlusPlusToken && sameName(unary.operand, name);
   }
-  if (
-    ts.isPrefixUnaryExpression(incrementor) &&
-    incrementor.operator === ts.SyntaxKind.PlusPlusToken
-  ) {
-    return ts.isIdentifier(incrementor.operand) && incrementor.operand.text === name;
+  if (incrementor.kind !== ts.SyntaxKind.BinaryExpression) return false;
+  const binary = incrementor as ts.BinaryExpression;
+  return (
+    binary.operatorToken.kind === ts.SyntaxKind.PlusEqualsToken &&
+    sameName(binary.left, name) &&
+    signedLiteral(binary.right) === 1
+  );
+}
+
+function countedFor(node: ts.ForStatement): CountedEntry {
+  const start = counterStart(node.initializer);
+  if (start === undefined) return { entered: false };
+  const rounds = provedRounds(node.condition, start);
+  if (rounds === undefined) return { entered: false };
+  if (!bumpsCounter(node.incrementor, start.name)) return { entered: true };
+  return { bound: rounds, entered: true };
+}
+
+function openLoop(
+  trace: TraceState,
+  node: ts.Node,
+  chain: readonly string[],
+  entered: boolean,
+  bound?: number,
+): { id: string; inside: readonly string[] } {
+  const id = openRegion(trace, "loop", innermost(trace, chain), {
+    entered,
+    loc: locOf(trace, node),
+    ...(bound === undefined ? {} : { bound }),
+  });
+  return { id, inside: extend(chain, id) };
+}
+
+function walkFor(trace: TraceState, node: ts.Node, chain: readonly string[]): void {
+  const statement = node as ts.ForStatement;
+  walkIfPresent(trace, statement.initializer, chain);
+  walkIfPresent(trace, statement.condition, chain);
+  walkIfPresent(trace, statement.incrementor, chain);
+  const counted = countedFor(statement);
+  const opened = openLoop(trace, statement, chain, counted.entered, counted.bound);
+  if (statement.condition !== undefined) recordControl(trace, statement.condition, opened.id);
+  withStatementTarget(trace, statement, statement.statement, opened.inside);
+}
+
+function walkForOfIn(trace: TraceState, node: ts.Node, chain: readonly string[]): void {
+  const statement = node as ts.ForOfStatement | ts.ForInStatement;
+  const mark = trace.events.length;
+  const spawned = strandMark(trace);
+  trace.walk(statement.expression, chain);
+  const opened = openLoop(trace, statement, chain, false);
+  if (statement.kind === ts.SyntaxKind.ForOfStatement && statement.awaitModifier !== undefined) {
+    const claim = settlesAt(
+      trace,
+      statement.expression,
+      statement.expression.getStart(trace.scriptFile),
+    );
+    barrier(trace, [...issuesSince(trace, mark), ...claim.certain], claim.maybe, opened.inside, {
+      mark: spawned,
+      operand: statement.expression,
+    });
   }
-  if (
-    ts.isBinaryExpression(incrementor) &&
-    incrementor.operatorToken.kind === ts.SyntaxKind.PlusEqualsToken &&
-    ts.isIdentifier(incrementor.left) &&
-    incrementor.left.text === name
-  ) {
-    return numericValue(incrementor.right) === 1;
-  }
-  return false;
+  trace.walk(statement.initializer, opened.inside);
+  withStatementTarget(trace, statement, statement.statement, opened.inside);
+}
+
+function walkWhile(trace: TraceState, node: ts.Node, chain: readonly string[]): void {
+  const statement = node as ts.WhileStatement;
+  trace.walk(statement.expression, chain);
+  const opened = openLoop(trace, statement, chain, false);
+  recordControl(trace, statement.expression, opened.id);
+  withStatementTarget(trace, statement, statement.statement, opened.inside);
+}
+
+function walkDo(trace: TraceState, node: ts.Node, chain: readonly string[]): void {
+  const statement = node as ts.DoStatement;
+  const opened = openLoop(trace, statement, chain, true);
+  withStatementTarget(trace, statement, statement.statement, opened.inside);
+  trace.walk(statement.expression, opened.inside);
+}
+
+const LOOP_WALKERS: ReadonlyMap<ts.SyntaxKind, LoopWalker> = new Map([
+  [ts.SyntaxKind.ForStatement, walkFor],
+  [ts.SyntaxKind.ForOfStatement, walkForOfIn],
+  [ts.SyntaxKind.ForInStatement, walkForOfIn],
+  [ts.SyntaxKind.WhileStatement, walkWhile],
+  [ts.SyntaxKind.DoStatement, walkDo],
+]);
+
+/** Loop cases of the visitor. False when `node` is not a loop. */
+export function walkLoop(trace: TraceState, node: ts.Node, chain: readonly string[]): boolean {
+  const walker = LOOP_WALKERS.get(node.kind);
+  if (walker === undefined) return false;
+  walker(trace, node, chain);
+  return true;
 }

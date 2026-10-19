@@ -1,64 +1,124 @@
+// SPDX-License-Identifier: Apache-2.0
+
 import type { OrderEvent, OrderRegion, OrderTrace } from "./causality-order.js";
 
-/**
- * The trace's leaf stream re-read as the STRUCTURED CONTROL TREE that the control-flow
- * projection (flow-graph.ts) recurses over: regions are the inner nodes, events the
- * leaves, and every leaf sits in the innermost region of its own `regions` chain.
- *
- * Children are ordered by first leaf, which is the evaluation order the walk recorded. A
- * region holding no leaf sorts last among its siblings: it cannot affect the flow (an
- * empty region passes control straight through), only its EXISTENCE can (an empty `catch`
- * still catches).
- *
- * Its own file because flow-graph.ts sits at the 400-line cap and the tree is the one part
- * of it that owes nothing to the flow recursion. Like its siblings it must not import
- * `typescript`, and nothing here reaches the package barrels — flow-graph.ts is the only
- * consumer.
- */
-
-export interface RegionNode {
-  type: "region";
-  region: OrderRegion;
-  children: TreeNode[];
-  /** Index of the first leaf in this subtree; Infinity when it holds none. */
-  first: number;
-}
-
 export interface LeafNode {
-  type: "leaf";
   event: OrderEvent;
   index: number;
+  type: "leaf";
+}
+
+export interface RegionNode {
+  children: TreeNode[];
+  first: number;
+  region: OrderRegion;
+  type: "region";
 }
 
 export type TreeNode = RegionNode | LeafNode;
 
-/** Rebuild the tree from the leaf stream, and index every region by id. */
+// Cache `first` on the way up. Sorting a parent before its children have a cached
+// leaf index re-walks every subtree and is exponential on deep inlined traces.
 export function buildTree(trace: OrderTrace): { root: RegionNode; byId: Map<string, RegionNode> } {
   const byId = new Map<string, RegionNode>();
-  for (const region of trace.regions) {
-    byId.set(region.id, { children: [], first: Number.POSITIVE_INFINITY, region, type: "region" });
-  }
-  for (const region of trace.regions) {
-    if (region.parent === undefined) continue;
-    byId.get(region.parent)?.children.push(byId.get(region.id) as RegionNode);
-  }
-  trace.events.forEach((event, index) => {
-    const home = event.regions[event.regions.length - 1] ?? trace.root;
-    byId.get(home)?.children.push({ event, index, type: "leaf" });
-  });
-  // Bottom-up: each child is ordered (and its `first` cached) BEFORE the parent sorts, so
-  // the comparator reads a number instead of re-walking the subtree. A comparator that
-  // called `order(child)` itself would re-sort and re-walk the whole subtree on every
-  // comparison — exponential in nesting depth (a 2,500-region trace of inlined helpers
-  // took 45 s before the projection had produced a single edge).
-  const firstOf = (node: TreeNode): number => (node.type === "leaf" ? node.index : node.first);
-  const order = (node: TreeNode): number => {
-    if (node.type === "leaf") return node.index;
-    for (const child of node.children) node.first = Math.min(node.first, order(child));
-    node.children.sort((a, b) => firstOf(a) - firstOf(b));
-    return node.first;
-  };
-  const root = byId.get(trace.root) as RegionNode;
-  order(root);
+  mountRegions(trace.regions, byId);
+  attachChildren(trace.regions, byId);
+  attachEvents(trace, byId);
+  const root = byId.get(trace.root);
+  if (root === undefined) throw new Error("trace root is not a region");
+  assignFirstLeaf(root);
   return { byId, root };
+}
+
+function mountRegions(regions: readonly OrderRegion[], byId: Map<string, RegionNode>): void {
+  for (let index = 0; index < regions.length; index += 1) {
+    const region = regions[index];
+    if (region === undefined) continue;
+    const node: RegionNode = {
+      children: [],
+      first: Infinity,
+      region,
+      type: "region",
+    };
+    byId.set(region.id, node);
+  }
+}
+
+function attachChildren(regions: readonly OrderRegion[], byId: Map<string, RegionNode>): void {
+  for (let index = 0; index < regions.length; index += 1) {
+    const region = regions[index];
+    const parentId = region?.parent;
+    if (region === undefined || parentId === undefined) continue;
+    const parent = byId.get(parentId);
+    const child = byId.get(region.id);
+    if (parent === undefined || child === undefined) continue;
+    parent.children.push(child);
+  }
+}
+
+function attachEvents(trace: OrderTrace, byId: Map<string, RegionNode>): void {
+  const events = trace.events;
+  for (let index = 0; index < events.length; index += 1) {
+    const event = events[index];
+    if (event === undefined) continue;
+    const host = byId.get(innermostRegion(event, trace.root));
+    if (host === undefined) continue;
+    const leaf: LeafNode = { event, index, type: "leaf" };
+    host.children.push(leaf);
+  }
+}
+
+function innermostRegion(event: OrderEvent, root: string): string {
+  const chain = event.regions;
+  const home = chain[chain.length - 1];
+  return home === undefined ? root : home;
+}
+
+function assignFirstLeaf(root: RegionNode): void {
+  const pending: RegionNode[] = [root];
+  const started = new Set<string>();
+  const post: RegionNode[] = [];
+  while (pending.length > 0) {
+    const node = pending.pop();
+    if (node === undefined) continue;
+    const id = node.region.id;
+    if (started.has(id)) {
+      post.push(node);
+      continue;
+    }
+    started.add(id);
+    pending.push(node);
+    for (let index = node.children.length - 1; index >= 0; index -= 1) {
+      const child = node.children[index];
+      if (child !== undefined && child.type === "region") pending.push(child);
+    }
+  }
+  for (let index = 0; index < post.length; index += 1) {
+    const node = post[index];
+    if (node === undefined) continue;
+    node.first = earliestMark(node);
+    node.children.sort(byEarliestMark);
+  }
+}
+
+function earliestMark(node: RegionNode): number {
+  let earliest = Infinity;
+  for (let index = 0; index < node.children.length; index += 1) {
+    const child = node.children[index];
+    if (child === undefined) continue;
+    const mark = markOf(child);
+    if (mark < earliest) earliest = mark;
+  }
+  return earliest;
+}
+
+function markOf(node: TreeNode): number {
+  return node.type === "leaf" ? node.index : node.first;
+}
+
+function byEarliestMark(left: TreeNode, right: TreeNode): number {
+  const leftMark = markOf(left);
+  const rightMark = markOf(right);
+  if (leftMark === rightMark) return 0;
+  return leftMark < rightMark ? -1 : 1;
 }

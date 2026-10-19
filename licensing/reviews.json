@@ -77646,7 +77646,7 @@
     },
     {
       "path": "apps/cli/packages/core/test/causality-lane-documentation-baseline.json",
-      "normalizedSha256": "a5981e705af1cf27d4c1f6ed65ba9b6a7033a18706d0dcbf63b6cdbb2cefbb30",
+      "normalizedSha256": "7ed42949cca08452e857993a1ba80e6d7eefa82964bcce2b13874a62da727f40",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Created by Knorvia commit 42a480c6 (2026-10-02) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.00 (none) on 8 normalized lines, where fewer than 10 lines require zero containment, and longest identical run is 0 lines. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
@@ -77657,7 +77657,7 @@
     },
     {
       "path": "apps/cli/packages/core/test/causality-lane-documentation-proof.ts",
-      "normalizedSha256": "3e1d9c74c3317d732c98659e75d051de5dcac1b00c2826ec0eb4e080394e3399",
+      "normalizedSha256": "4bb8857846898093f2a2483968f20d89ef88a8ab1c481386aaf7077aa6f3578a",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Created by Knorvia commit 42a480c6 (2026-10-02) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.00 (none), longest identical run 0 lines, below the 0.2 / 8-line thresholds. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
@@ -77679,7 +77679,7 @@
     },
     {
       "path": "apps/cli/packages/core/test/causality-order-settlement-documentation-proof.ts",
-      "normalizedSha256": "f334a17891e89d273e5349f33cd3bad8a5d4bc3532e11af5f362ece066a2530d",
+      "normalizedSha256": "e1dfb0bdc87412e1604ec5c48f8c0da649437c6220bc5d22fdf197b05d56fac7",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Created by Knorvia commit 3bd6e11b (2026-10-02) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.04 (scripts/builtin-provider-config.mjs), longest identical run 1 lines, below the 0.2 / 8-line thresholds. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
@@ -87307,7 +87307,7 @@
         "docs/knorvia-m02-registration-2026-10-11.md",
         "scripts/provenance/similarity.mjs"
       ],
-      "normalizedSha256": "62a3e3eb5de6eb5ee0e56e2867494ac13cbd51aef773c978cf37ff7dd61d16ac"
+      "normalizedSha256": "1069ab83cff3a5af60247db90c749d2a6b2d09989ab12c8f2299e2dab890ce2c"
     },
     {
       "path": "apps/cli/packages/core/test/causality-order-settlement-cases.ts",
@@ -87343,7 +87343,7 @@
         "docs/knorvia-m02-registration-2026-10-11.md",
         "scripts/provenance/similarity.mjs"
       ],
-      "normalizedSha256": "d4df15b7a47dabf1c9bd747c450de9d54e010022ede452c8f0a39af543153f51"
+      "normalizedSha256": "56747a8ddb3776ddfe974d47e5f684c36aa133af9b38d0ccd3132c1c9b920e30"
     },
     {
       "path": "apps/cli/packages/core/test/causality-order-settlement-fixture.ts",
@@ -87355,7 +87355,7 @@
         "docs/knorvia-m02-registration-2026-10-11.md",
         "scripts/provenance/similarity.mjs"
       ],
-      "normalizedSha256": "57c79a39154f9d5f9da3df618fe86bb780b963d379d44b6aed2016a20ee30fa1"
+      "normalizedSha256": "b81ae80096e4b6f2757462034239ed4a7946c3c98c49d3de1f4462a359eaf2eb"
     },
     {
       "path": "apps/cli/packages/core/test/causality-order-settlement.test.ts",
@@ -88355,7 +88355,7 @@
         "docs/knorvia-m02-registration-2026-10-11.md",
         "scripts/provenance/similarity.mjs"
       ],
-      "normalizedSha256": "c1f55bc621e6a5b5f71937592c272024f86d3c366c45a0da76b76faf342742d8"
+      "normalizedSha256": "3d6b83bade7eee1207d698b5f8af3f33f46dd6b1bb7c9655052b8cb272bf3b81"
     },
     {
       "path": "apps/cli/packages/core/test/causality-order-strands-contract.json",
@@ -88379,7 +88379,7 @@
         "docs/knorvia-m02-registration-2026-10-11.md",
         "scripts/provenance/similarity.mjs"
       ],
-      "normalizedSha256": "8a9abee12922e74dcfcbfaa93ba3e3e18cd56730dfe56a973777d62b2eb52e1d"
+      "normalizedSha256": "994774df431642b66bcfad785055b2ab61a16236b8f36cbb7cfeba33ac2c2840"
     },
     {
       "path": "apps/cli/packages/core/test/causality-order-strands-fixture.ts",
@@ -88391,7 +88391,7 @@
         "docs/knorvia-m02-registration-2026-10-11.md",
         "scripts/provenance/similarity.mjs"
       ],
-      "normalizedSha256": "3d21f0e19839fcb140ee31a7e46937357895147462c43db1af14778f459a1d12"
+      "normalizedSha256": "0c8f93f2377221592e677821b2e7a581159d9b7d6df9eb4a0c27ed1f64d782cc"
     },
     {
       "path": "apps/cli/packages/core/test/causality-order-strands.test.ts",
@@ -88415,7 +88415,7 @@
         "docs/knorvia-m02-registration-2026-10-11.md",
         "scripts/provenance/similarity.mjs"
       ],
-      "normalizedSha256": "815f57ebb52a8e1c56544f254ccc0e26564832aad6a5f1b05433712612684aea"
+      "normalizedSha256": "be187ed74221eae63b961cbcf332644394fe64743c714695b91bb6fed5641e50"
     },
     {
       "path": "apps/cli/packages/core/test/causality-reduction-contract.json",
@@ -88439,7 +88439,7 @@
         "docs/knorvia-m02-registration-2026-10-11.md",
         "scripts/provenance/similarity.mjs"
       ],
-      "normalizedSha256": "34377c11cc94304ad0f195a66c37ea6ee14a8c1e2d817af017b591d65b27893f"
+      "normalizedSha256": "d02b99fa9b596c30c84c71d1d6533a89c0087e988eebe2af4380596ed42d3aab"
     },
     {
       "path": "apps/cli/packages/core/test/causality-reduction-fixture.ts",
@@ -88535,7 +88535,7 @@
         "docs/knorvia-m02-registration-2026-10-11.md",
         "scripts/provenance/similarity.mjs"
       ],
-      "normalizedSha256": "9e9d325801c1a6ca2f7d83123a53fc50a40342427abd6ea3a4955bc27d71090d"
+      "normalizedSha256": "6c360d014c1c9452dcd6ac84baebe18db69684f3e50ed9c249a84962c7685816"
     },
     {
       "path": "apps/cli/packages/core/test/fanout-cardinality-contract.json",
@@ -88559,7 +88559,7 @@
         "docs/knorvia-m02-registration-2026-10-11.md",
         "scripts/provenance/similarity.mjs"
       ],
-      "normalizedSha256": "07f725a1466f9d2f8e0581fa7d2283f6f3eabd3490b4e25670a5b442caf1def8"
+      "normalizedSha256": "98d6b873c49f197a0cb18807e570ae175b148b8356d54b2df12a0b3cc53b25c1"
     },
     {
       "path": "apps/cli/packages/core/test/fanout-cardinality-fixture.ts",
@@ -88715,7 +88715,7 @@
         "docs/knorvia-m02-registration-2026-10-11.md",
         "scripts/provenance/similarity.mjs"
       ],
-      "normalizedSha256": "211a58a6d6737900ca4f6331992e8e8ce2e27e8739880a076d8e360c5d6a704b"
+      "normalizedSha256": "d410a01e92e7ed22f51bf9e82048c71800c83f3e24d72142ca886fedc41610b0"
     },
     {
       "path": "apps/cli/packages/core/test/may-set-lane-expansion-contract.json",
@@ -88739,7 +88739,7 @@
         "docs/knorvia-m02-registration-2026-10-11.md",
         "scripts/provenance/similarity.mjs"
       ],
-      "normalizedSha256": "580fd1934cfd61d2fdfbeb408f6267e75dafb312a642be92d25f345c32ba0ea7"
+      "normalizedSha256": "fdb20f1672d5f0be5ef9165918900ba3d275fc9d0ce73df7f7495b7afc3fdcc6"
     },
     {
       "path": "apps/cli/packages/core/test/may-set-lane-expansion-fixture.ts",
@@ -88751,7 +88751,7 @@
         "docs/knorvia-m02-registration-2026-10-11.md",
         "scripts/provenance/similarity.mjs"
       ],
-      "normalizedSha256": "7e5d5235758f035fae870f145b30883066164ebf980af67c8b8dc2bab0dd7897"
+      "normalizedSha256": "1676a65195520ee9a5048a8178908e57fe59fb97bdd6341b40ecc9d3773e31b3"
     },
     {
       "path": "apps/cli/packages/core/test/may-set-lane-expansion.test.ts",
@@ -90521,13 +90521,13 @@
       "path": "apps/cli/packages/core/test/causality-reduction-documentation.test.ts",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Created by Knorvia after the first snapshot 7619e41; the commit wording (\"replace\"/\"rewrite\" family) describes the documented work, not this file's origin. Measured against the pinned upstream 872ad960 with the M0-8 similarity tool (line and structural gates): max normalized-line containment 0.07 (packages/services/test/nonCliAcpRetirement.test.ts), longest identical run 1 lines, structural similarity 0.0000 (null). Both applicable gates pass, so this file registers as original without claiming independent replacement of any upstream implementation. The author was allowed to read the inherited implementation; no code was copied, renamed or rewritten line by line.",
+      "basis": "Created by Knorvia after the first snapshot 7619e41; the commit wording (\"replace\"/\"rewrite\" family) describes the documented work, not this file's origin. Measured against the pinned upstream 872ad960 with the M0-8 similarity tool (line and structural gates): max normalized-line containment 0.08 (packages/services/test/nonCliAcpRetirement.test.ts), longest identical run 1 lines, structural similarity 0.0000 (null). Both applicable gates pass, so this file registers as original without claiming independent replacement of any upstream implementation. The author was allowed to read the inherited implementation; no code was copied, renamed or rewritten line by line.",
       "evidence": [
         "licensing/current-files.json",
         "docs/knorvia-m02-registration-2026-10-11.md",
         "scripts/provenance/similarity.mjs"
       ],
-      "normalizedSha256": "237bd088a937095944cf7313ea3d488fee2ec2555b55a5b582b1f945d445fcad"
+      "normalizedSha256": "cf3d9ababd8040cd08ed9c57e090db0913369b247655bb9366ecec33a5757aae"
     },
     {
       "path": "apps/cli/packages/core/test/create-workflow-graph-bounds-implementation-baseline.json",
@@ -90647,7 +90647,7 @@
         "docs/knorvia-m02-registration-2026-10-11.md",
         "scripts/provenance/similarity.mjs"
       ],
-      "normalizedSha256": "dc7491fd26226bb90ea3841be0ca7313f61764d6d431c177d0d762ccab9864e6"
+      "normalizedSha256": "ec1e868b55e1b99c10757961e81d1a6e58127d0caf3a31b6843cb3a5a813920a"
     },
     {
       "path": "apps/cli/packages/core/test/fanout-cardinality-documentation-proof.ts",
@@ -90659,7 +90659,7 @@
         "docs/knorvia-m02-registration-2026-10-11.md",
         "scripts/provenance/similarity.mjs"
       ],
-      "normalizedSha256": "777e4b00f66f942a628cce92fd780a945bfaa365fbaf8179d4029edddd95d200"
+      "normalizedSha256": "f6290e0624fa5e0a6814bc29e9085ced1df5bcbb87db609ff8a701d988f3588f"
     },
     {
       "path": "apps/cli/packages/core/test/fanout-cardinality-documentation.test.ts",
@@ -94511,7 +94511,7 @@
         "docs/knorvia-m02-registration-2026-10-11.md",
         "scripts/provenance/similarity.mjs"
       ],
-      "normalizedSha256": "b3f86f07a8d7b3cc1fc1d38bed4bb26d11daf88cd6b50b4dbe2a6ac6131a0f36"
+      "normalizedSha256": "498d44db24381001bcb179b543259cd1bc73c717d25a9a9f556918ca83d69079"
     },
     {
       "path": "apps/cli/packages/core/test/cron-differential.mts",
@@ -95883,7 +95883,7 @@
     },
     {
       "path": "docs/knorvia-independent-replacement-plan.md",
-      "normalizedSha256": "7c2177b64b0ca8c945065dad109e897e50a0d51193ac7e25ed23fd0e9d66a720",
+      "normalizedSha256": "5a2696a721a0cf65a2ac7c30304a5794501f95c523384e64f0a0ef9a37ab15d8",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored planning document: the synchronized copy of the independent-replacement plan that this work executes. Written by the Knorvia team; it lists scope, decisions, milestones and acceptance criteria and reproduces no upstream source text. Registered as original so the plan copy itself carries its own provenance record.",
@@ -96039,7 +96039,7 @@
     },
     {
       "path": "scripts/provenance/similarity.mjs",
-      "normalizedSha256": "88194f2efc54c0366d10abc856a7d8a102b68455a25e24f08019b4ed08adf5d9",
+      "normalizedSha256": "db60685005359f2aa0001f9d913d43cbc5a8c6c5e84c5f4b02b5a5485d4eafd4",
       "decision": "original",
       "license": "MIT",
       "basis": "Knorvia-authored provenance tooling for M0-8 (line and structural similarity checker). The author read docs/knorvia-provenance-bookkeeping-20261010.md section 4 for the bookkeeping line algorithm and the task plan's tool requirements; no upstream or replaced implementation code was copied, renamed or rewritten line by line. Calibration on the 439 registered independent-replacement files: observed structural maximum 1.000, threshold 0.4 (23 files over the cap are queued for replacement); four renamed copies of real upstream-modified files were all blocked. License follows licensing/README.md for new scripts/provenance tools. Entry point: candidate/old/upstream resolution, gate evaluation, JSON report and exit code.",
@@ -96051,10 +96051,22 @@
     },
     {
       "path": "scripts/provenance/similarity-lines.mjs",
-      "normalizedSha256": "59d777952362c0d9b5eca1cc2041a73162eb725870e2f5de161d36ac8de8ee92",
+      "normalizedSha256": "6256fd5350ad958efad060ae566d6c8ad2b58b5203837252d2ec6a24aea6fc81",
       "decision": "original",
       "license": "MIT",
       "basis": "Knorvia-authored provenance tooling for M0-8 (line and structural similarity checker). The author read docs/knorvia-provenance-bookkeeping-20261010.md section 4 for the bookkeeping line algorithm and the task plan's tool requirements; no upstream or replaced implementation code was copied, renamed or rewritten line by line. Calibration on the 439 registered independent-replacement files: observed structural maximum 1.000, threshold 0.4 (23 files over the cap are queued for replacement); four renamed copies of real upstream-modified files were all blocked. License follows licensing/README.md for new scripts/provenance tools. Line normalization, containment and longest-run metrics.",
+      "evidence": [
+        "licensing/README.md",
+        "docs/knorvia-similarity-calibration-20261011.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "scripts/provenance/similarity-normalize.mjs",
+      "normalizedSha256": "2b5d60be9b8420dd4eb8d1691b93a6ef038eb6e978ae4fbfe7c20659e6d0267d",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored provenance tooling for M0-8 (line and structural similarity checker). The author read docs/knorvia-provenance-bookkeeping-20261010.md section 4 for the bookkeeping line algorithm and the task plan's tool requirements; no upstream or replaced implementation code was copied, renamed or rewritten line by line. License follows licensing/README.md for new scripts/provenance tools. Gate-only normalization for the 2026-10-19 anti-gaming rule: oxfmt with the repository configuration plus the collapse override, TypeScript-AST comment stripping, and bounded-concurrency preparation shared by candidates, old files and the upstream tree.",
       "evidence": [
         "licensing/README.md",
         "docs/knorvia-similarity-calibration-20261011.md",
@@ -96075,7 +96087,7 @@
     },
     {
       "path": "scripts/provenance/similarity.test.mjs",
-      "normalizedSha256": "bc40728eab2f319bb4321f8613c91be1b72345ed6225c042b6bace9bd338fcfa",
+      "normalizedSha256": "0ea86e321d272b6e8666ea07d68440f97265f9af415de7bac4b529e8dc1399fb",
       "decision": "original",
       "license": "MIT",
       "basis": "Knorvia-authored provenance tooling for M0-8 (line and structural similarity checker). The author read docs/knorvia-provenance-bookkeeping-20261010.md section 4 for the bookkeeping line algorithm and the task plan's tool requirements; no upstream or replaced implementation code was copied, renamed or rewritten line by line. Calibration on the 439 registered independent-replacement files: observed structural maximum 1.000, threshold 0.4 (23 files over the cap are queued for replacement); four renamed copies of real upstream-modified files were all blocked. License follows licensing/README.md for new scripts/provenance tools. Contract tests: line boundaries (exactly ten lines, run 7 vs 8, containment 0.19 vs 0.2), renamed copy blocked, independently structured implementation passing, declaration line stripping, binary skip, Windows newlines, JSON fields and exit codes.",
@@ -96087,7 +96099,7 @@
     },
     {
       "path": "docs/knorvia-similarity-calibration-20261011.md",
-      "normalizedSha256": "45bce9c2a802821a3ead24d2be22c8ebc0a2c0cf11aee53641b2bd1d97359807",
+      "normalizedSha256": "b09da52bc2439e64eaf65eb9bb847334111928a0f171789df07a0c89e80675f7",
       "decision": "original",
       "license": "MIT",
       "basis": "New Knorvia calibration report for the M0-8 similarity tool: upstream tree provenance and full verification, threshold derivation, the 439-file rerun and the renamed-copy validation. Prior sources were read for the algorithm and the pinned upstream tree; no upstream text was copied into the report.",
@@ -96098,7 +96110,7 @@
     },
     {
       "path": "scripts/provenance/similarity-inputs.mjs",
-      "normalizedSha256": "1bfbc9319e6bdab98d7c88e6cbcf8ba135731aa4a18ee2e18dea2f9782a077fb",
+      "normalizedSha256": "1a691ef2aae6bad333b4f7ad881c14d1cd85519bdde5a65817f139e524bd8f79",
       "decision": "original",
       "license": "MIT",
       "basis": "Knorvia-authored provenance tooling for M0-8 (line and structural similarity checker). The author read docs/knorvia-provenance-bookkeeping-20261010.md section 4 for the bookkeeping line algorithm and the task plan's tool requirements; no upstream or replaced implementation code was copied, renamed or rewritten line by line. Calibration on the 439 registered independent-replacement files: observed structural maximum 1.000, threshold 0.4 (23 files over the cap are queued for replacement); four renamed copies of real upstream-modified files were all blocked. License follows licensing/README.md for new scripts/provenance tools. Input loading for the upstream tree, candidates and replaced old files.",
@@ -137957,10 +137969,10 @@
     },
     {
       "path": "specs/contracts/dynamic-workflow-01/README.md",
-      "normalizedSha256": "253ba296baccfd2bb1f498a2b66d05c6e2dcf7909ea1c5940e38ac9ef64e548c",
+      "normalizedSha256": "2222dedf95ff0f372f2204005a30055d574110ace0a043fd28d221584f651cf5",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
+      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail). Contract state at registration time: v3 (2026-10-18); the stubs recorded by v1 were removed in v2 (K9) and the strands declaration archive was re-pinned to the built public declaration in v3 (K10); the gate re-ran source 39/39 and dist 39/39.",
       "evidence": [
         "specs/contracts/dynamic-workflow-01/acceptance.md",
         "specs/contracts/dynamic-workflow-01/gate-old.json",
@@ -137969,10 +137981,10 @@
     },
     {
       "path": "specs/contracts/dynamic-workflow-01/acceptance.md",
-      "normalizedSha256": "0b8147d15fdea180085deb0ccb7afed9b5fb57a48adccf9b272430e1aae8e0dd",
+      "normalizedSha256": "47d421c31b1e160d35654d0a4c155e6e004c69acbdf303c88befc311748df556",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
+      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail). Contract state at registration time: v3 (2026-10-18); the stubs recorded by v1 were removed in v2 (K9) and the strands declaration archive was re-pinned to the built public declaration in v3 (K10); the gate re-ran source 39/39 and dist 39/39.",
       "evidence": [
         "specs/contracts/dynamic-workflow-01/acceptance.md",
         "specs/contracts/dynamic-workflow-01/gate-old.json",
@@ -137981,10 +137993,10 @@
     },
     {
       "path": "specs/contracts/dynamic-workflow-01/behavior.md",
-      "normalizedSha256": "fd0283e435f7f039cf978cac53fd95d5c2916faafddabd90f26ac35509c5d682",
+      "normalizedSha256": "e70c3718a9dda8a4dd34c529ee1766ecc277b9242844e8a5a4dfb67a57d5ad14",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
+      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail). Contract state at registration time: v3 (2026-10-18); the stubs recorded by v1 were removed in v2 (K9) and the strands declaration archive was re-pinned to the built public declaration in v3 (K10); the gate re-ran source 39/39 and dist 39/39.",
       "evidence": [
         "specs/contracts/dynamic-workflow-01/acceptance.md",
         "specs/contracts/dynamic-workflow-01/gate-old.json",
@@ -138257,670 +138269,10 @@
     },
     {
       "path": "specs/contracts/dynamic-workflow-01/known-differences.md",
-      "normalizedSha256": "635ae6a4d4cc8946cecc2ce7574bba57fc45d62bce28561ca32b69a437f35dc5",
+      "normalizedSha256": "35d555af179bcb1e736c291ebef73488b9002a9d2a11311ca79ef44f33b5fe0f",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
-      "evidence": [
-        "specs/contracts/dynamic-workflow-01/acceptance.md",
-        "specs/contracts/dynamic-workflow-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/dynamic-workflow-01/stubs/apps/cli/packages/dynamic-workflow/src/analysis/actor-graph.ts",
-      "normalizedSha256": "8ac94f7aad9409982e78152a19fad01c7946495692c63b23bf7854fd2e52a266",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
-      "evidence": [
-        "specs/contracts/dynamic-workflow-01/acceptance.md",
-        "specs/contracts/dynamic-workflow-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/dynamic-workflow-01/stubs/apps/cli/packages/dynamic-workflow/src/analysis/actor-names.ts",
-      "normalizedSha256": "efa3c6c14984fdf7e806212efa8836e14b9274dff2ee98083ab9c49a63e75a61",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
-      "evidence": [
-        "specs/contracts/dynamic-workflow-01/acceptance.md",
-        "specs/contracts/dynamic-workflow-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/dynamic-workflow-01/stubs/apps/cli/packages/dynamic-workflow/src/analysis/analyze.ts",
-      "normalizedSha256": "a13f895066df233525b3a54bb151b69f64834eefbfd4fa78e9829945c09254fa",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
-      "evidence": [
-        "specs/contracts/dynamic-workflow-01/acceptance.md",
-        "specs/contracts/dynamic-workflow-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/dynamic-workflow-01/stubs/apps/cli/packages/dynamic-workflow/src/analysis/array-methods.ts",
-      "normalizedSha256": "c08f36a3e78a05bf699e4df17ac85695f6197eabd467c5abe0ae38587abe6d74",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
-      "evidence": [
-        "specs/contracts/dynamic-workflow-01/acceptance.md",
-        "specs/contracts/dynamic-workflow-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/dynamic-workflow-01/stubs/apps/cli/packages/dynamic-workflow/src/analysis/artifact-types.ts",
-      "normalizedSha256": "42a4bda827f018c0fe58689462bf6dd880e6851b4a6d420078277d920c452991",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
-      "evidence": [
-        "specs/contracts/dynamic-workflow-01/acceptance.md",
-        "specs/contracts/dynamic-workflow-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/dynamic-workflow-01/stubs/apps/cli/packages/dynamic-workflow/src/analysis/artifacts.ts",
-      "normalizedSha256": "9079371b9e0225f39c629c276f230be133cd7fe247719f330856a95af2ae94a5",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
-      "evidence": [
-        "specs/contracts/dynamic-workflow-01/acceptance.md",
-        "specs/contracts/dynamic-workflow-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/dynamic-workflow-01/stubs/apps/cli/packages/dynamic-workflow/src/analysis/assign.ts",
-      "normalizedSha256": "f21c19d67f7eafc12cf79eb1f15cdea199b37ad25a7441c8658aa7b1e4949b26",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
-      "evidence": [
-        "specs/contracts/dynamic-workflow-01/acceptance.md",
-        "specs/contracts/dynamic-workflow-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/dynamic-workflow-01/stubs/apps/cli/packages/dynamic-workflow/src/analysis/callbacks.ts",
-      "normalizedSha256": "627e69a1332e05f93fce751fcabd82b0cc03982322860f05b9c9265a357d8273",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
-      "evidence": [
-        "specs/contracts/dynamic-workflow-01/acceptance.md",
-        "specs/contracts/dynamic-workflow-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/dynamic-workflow-01/stubs/apps/cli/packages/dynamic-workflow/src/analysis/calls.ts",
-      "normalizedSha256": "09a27c3c3c59dc3699099dfc3f076c124670659282a2222dd56269a121740c2c",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
-      "evidence": [
-        "specs/contracts/dynamic-workflow-01/acceptance.md",
-        "specs/contracts/dynamic-workflow-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/dynamic-workflow-01/stubs/apps/cli/packages/dynamic-workflow/src/analysis/causality-graph-lanes.ts",
-      "normalizedSha256": "66de6e6cb009655a05dd1c5d31a9b8832b6cdb620f61d9b85f8e956999012f00",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
-      "evidence": [
-        "specs/contracts/dynamic-workflow-01/acceptance.md",
-        "specs/contracts/dynamic-workflow-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/dynamic-workflow-01/stubs/apps/cli/packages/dynamic-workflow/src/analysis/causality-graph-types.ts",
-      "normalizedSha256": "edbe55d2705fbf7fb6fd63401e590f692fa4dc8129339e20735b460094a2dd79",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
-      "evidence": [
-        "specs/contracts/dynamic-workflow-01/acceptance.md",
-        "specs/contracts/dynamic-workflow-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/dynamic-workflow-01/stubs/apps/cli/packages/dynamic-workflow/src/analysis/causality-graph.ts",
-      "normalizedSha256": "7045b4f0827bbbe24645a8bccc2bbf23984ed45dfbb372dab76aa2cf48dc4011",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
-      "evidence": [
-        "specs/contracts/dynamic-workflow-01/acceptance.md",
-        "specs/contracts/dynamic-workflow-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/dynamic-workflow-01/stubs/apps/cli/packages/dynamic-workflow/src/analysis/causality-order-calls.ts",
-      "normalizedSha256": "ff7fad1696ed699c3c0c0712760da9922015bf763384697192afbe6355240d14",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
-      "evidence": [
-        "specs/contracts/dynamic-workflow-01/acceptance.md",
-        "specs/contracts/dynamic-workflow-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/dynamic-workflow-01/stubs/apps/cli/packages/dynamic-workflow/src/analysis/causality-order-functions.ts",
-      "normalizedSha256": "a8a404558c751d4e5bba9733320227e4a6defe830077d8924f8362b464c9e66f",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
-      "evidence": [
-        "specs/contracts/dynamic-workflow-01/acceptance.md",
-        "specs/contracts/dynamic-workflow-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/dynamic-workflow-01/stubs/apps/cli/packages/dynamic-workflow/src/analysis/causality-order-loops.ts",
-      "normalizedSha256": "ec2d05e67fd604521103d8295e1927ac9a11b9137a8bfcbba03e4e556f95b77e",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
-      "evidence": [
-        "specs/contracts/dynamic-workflow-01/acceptance.md",
-        "specs/contracts/dynamic-workflow-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/dynamic-workflow-01/stubs/apps/cli/packages/dynamic-workflow/src/analysis/causality-order-settle.ts",
-      "normalizedSha256": "955f6e6d27fe2bfb24ad1e6a45483c991601c3d74a3ae950cd63cbd1b3d57910",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
-      "evidence": [
-        "specs/contracts/dynamic-workflow-01/acceptance.md",
-        "specs/contracts/dynamic-workflow-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/dynamic-workflow-01/stubs/apps/cli/packages/dynamic-workflow/src/analysis/causality-order-state.ts",
-      "normalizedSha256": "326e04879e95023a54d9b22d5e1f53a26c1d1c55a38a399bb1c569aed1073565",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
-      "evidence": [
-        "specs/contracts/dynamic-workflow-01/acceptance.md",
-        "specs/contracts/dynamic-workflow-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/dynamic-workflow-01/stubs/apps/cli/packages/dynamic-workflow/src/analysis/causality-order-strands.ts",
-      "normalizedSha256": "1562710d5a6aee4eb0e70d7a2de332213d1dc2850325a1467d6e084102ee8205",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
-      "evidence": [
-        "specs/contracts/dynamic-workflow-01/acceptance.md",
-        "specs/contracts/dynamic-workflow-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/dynamic-workflow-01/stubs/apps/cli/packages/dynamic-workflow/src/analysis/causality-order-types.ts",
-      "normalizedSha256": "4fb7193d0d8a3bcac38f1a40b1591675f14ce27a708334ca0767368486a94e9d",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
-      "evidence": [
-        "specs/contracts/dynamic-workflow-01/acceptance.md",
-        "specs/contracts/dynamic-workflow-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/dynamic-workflow-01/stubs/apps/cli/packages/dynamic-workflow/src/analysis/causality-order-walk.ts",
-      "normalizedSha256": "a8082f77685bfc33014dab5cb89c729b4b783dcca47df2b045ae12477dd11443",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
-      "evidence": [
-        "specs/contracts/dynamic-workflow-01/acceptance.md",
-        "specs/contracts/dynamic-workflow-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/dynamic-workflow-01/stubs/apps/cli/packages/dynamic-workflow/src/analysis/causality-order.ts",
-      "normalizedSha256": "e14e1fdf2f415e60e8489d73fad3786fc4ff449e6fa1088f22191719ed1855a0",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
-      "evidence": [
-        "specs/contracts/dynamic-workflow-01/acceptance.md",
-        "specs/contracts/dynamic-workflow-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/dynamic-workflow-01/stubs/apps/cli/packages/dynamic-workflow/src/analysis/causality-reduce.ts",
-      "normalizedSha256": "a63583f229bf4f73e442ed382521262fe13d9943fb964ed1eb1befb7a852109f",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
-      "evidence": [
-        "specs/contracts/dynamic-workflow-01/acceptance.md",
-        "specs/contracts/dynamic-workflow-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/dynamic-workflow-01/stubs/apps/cli/packages/dynamic-workflow/src/analysis/classes.ts",
-      "normalizedSha256": "1bc36447df82cc2fab8474f64ba3853f9c95ba9bb743cbd4275ed3f9bd58554a",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
-      "evidence": [
-        "specs/contracts/dynamic-workflow-01/acceptance.md",
-        "specs/contracts/dynamic-workflow-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/dynamic-workflow-01/stubs/apps/cli/packages/dynamic-workflow/src/analysis/constants.ts",
-      "normalizedSha256": "52b21193a557421fe7163110c496170d85033f3354823fbb265d5aa67a9eb745",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
-      "evidence": [
-        "specs/contracts/dynamic-workflow-01/acceptance.md",
-        "specs/contracts/dynamic-workflow-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/dynamic-workflow-01/stubs/apps/cli/packages/dynamic-workflow/src/analysis/control-flow.ts",
-      "normalizedSha256": "bb220cc49869e90e17ec21eb1c4442006aa207def3a991d29cff427b453bb896",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
-      "evidence": [
-        "specs/contracts/dynamic-workflow-01/acceptance.md",
-        "specs/contracts/dynamic-workflow-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/dynamic-workflow-01/stubs/apps/cli/packages/dynamic-workflow/src/analysis/core-json.ts",
-      "normalizedSha256": "a6a553ebc25d064f1628326c85824c1ccf8b3dfc514c00ba899966f8dc1d5257",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
-      "evidence": [
-        "specs/contracts/dynamic-workflow-01/acceptance.md",
-        "specs/contracts/dynamic-workflow-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/dynamic-workflow-01/stubs/apps/cli/packages/dynamic-workflow/src/analysis/core.ts",
-      "normalizedSha256": "3efcc3c1d53f90e46a1f9195c0561583aaae31df4bcaecc3034f84776a4942cd",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
-      "evidence": [
-        "specs/contracts/dynamic-workflow-01/acceptance.md",
-        "specs/contracts/dynamic-workflow-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/dynamic-workflow-01/stubs/apps/cli/packages/dynamic-workflow/src/analysis/domain.ts",
-      "normalizedSha256": "28a15c514e676e2e4f012a20b274834120d8b9f84f75f2c4efde733af14c03e9",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
-      "evidence": [
-        "specs/contracts/dynamic-workflow-01/acceptance.md",
-        "specs/contracts/dynamic-workflow-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/dynamic-workflow-01/stubs/apps/cli/packages/dynamic-workflow/src/analysis/facade-misuse.ts",
-      "normalizedSha256": "b1feeeca3f2643ddfe987a0e04124332d771545cd181024bd11b096660eb6513",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
-      "evidence": [
-        "specs/contracts/dynamic-workflow-01/acceptance.md",
-        "specs/contracts/dynamic-workflow-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/dynamic-workflow-01/stubs/apps/cli/packages/dynamic-workflow/src/analysis/fanout-cardinality.ts",
-      "normalizedSha256": "b92a5526ebc77d7d739f1eb2e8f5e598736b8485ad2cce0202345fa7c14c4abc",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
-      "evidence": [
-        "specs/contracts/dynamic-workflow-01/acceptance.md",
-        "specs/contracts/dynamic-workflow-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/dynamic-workflow-01/stubs/apps/cli/packages/dynamic-workflow/src/analysis/flow-graph.ts",
-      "normalizedSha256": "7cadb1205523ae3193e818d3089cc60591b2256aa6c072fead787453e715eb9f",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
-      "evidence": [
-        "specs/contracts/dynamic-workflow-01/acceptance.md",
-        "specs/contracts/dynamic-workflow-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/dynamic-workflow-01/stubs/apps/cli/packages/dynamic-workflow/src/analysis/flow-phase.ts",
-      "normalizedSha256": "75abcd7dd83005c7b2293559227482034da8a7a91b463ec593d57311b76e2ad5",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
-      "evidence": [
-        "specs/contracts/dynamic-workflow-01/acceptance.md",
-        "specs/contracts/dynamic-workflow-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/dynamic-workflow-01/stubs/apps/cli/packages/dynamic-workflow/src/analysis/flow-strands.ts",
-      "normalizedSha256": "bbcdefe2e2bf80b20447b667feb3b74e95273dc6525612748f78d23a62f58faa",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
-      "evidence": [
-        "specs/contracts/dynamic-workflow-01/acceptance.md",
-        "specs/contracts/dynamic-workflow-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/dynamic-workflow-01/stubs/apps/cli/packages/dynamic-workflow/src/analysis/flow-tree.ts",
-      "normalizedSha256": "5d29be3a1281be0fc9914535c4b56ab16c556e78c0d5a1a7b13f05884da20633",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
-      "evidence": [
-        "specs/contracts/dynamic-workflow-01/acceptance.md",
-        "specs/contracts/dynamic-workflow-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/dynamic-workflow-01/stubs/apps/cli/packages/dynamic-workflow/src/analysis/graph.ts",
-      "normalizedSha256": "60504c191eaffdd56d47ab4fc9d526599694eefe79c2c624568f6be7424dfcba",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
-      "evidence": [
-        "specs/contracts/dynamic-workflow-01/acceptance.md",
-        "specs/contracts/dynamic-workflow-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/dynamic-workflow-01/stubs/apps/cli/packages/dynamic-workflow/src/analysis/handoff-graph.ts",
-      "normalizedSha256": "d7e3c7686ab33c3f86b748ea56c63a59de4b34ce07cf916a6d656fd100e53451",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
-      "evidence": [
-        "specs/contracts/dynamic-workflow-01/acceptance.md",
-        "specs/contracts/dynamic-workflow-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/dynamic-workflow-01/stubs/apps/cli/packages/dynamic-workflow/src/analysis/heap-ops.ts",
-      "normalizedSha256": "9861db1f4febd5c1e810d693c91b42fb15dbbf40b832cde1c251e1edff9955ae",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
-      "evidence": [
-        "specs/contracts/dynamic-workflow-01/acceptance.md",
-        "specs/contracts/dynamic-workflow-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/dynamic-workflow-01/stubs/apps/cli/packages/dynamic-workflow/src/analysis/interpret.ts",
-      "normalizedSha256": "696a502da183ab6c90d224dc10dc449389f48e985a03ec4e0abbbe3b285851a9",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
-      "evidence": [
-        "specs/contracts/dynamic-workflow-01/acceptance.md",
-        "specs/contracts/dynamic-workflow-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/dynamic-workflow-01/stubs/apps/cli/packages/dynamic-workflow/src/analysis/literals.ts",
-      "normalizedSha256": "2c200ab22d100e9e914bdc913c21fd544f3b93e99b118565a48eebff860f24fd",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
-      "evidence": [
-        "specs/contracts/dynamic-workflow-01/acceptance.md",
-        "specs/contracts/dynamic-workflow-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/dynamic-workflow-01/stubs/apps/cli/packages/dynamic-workflow/src/analysis/mermaid.ts",
-      "normalizedSha256": "eb228c77a67a33d0b2e9ecf6798ed95979cff6900a88201bf9e51a94b1cde9a8",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
-      "evidence": [
-        "specs/contracts/dynamic-workflow-01/acceptance.md",
-        "specs/contracts/dynamic-workflow-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/dynamic-workflow-01/stubs/apps/cli/packages/dynamic-workflow/src/analysis/patterns.ts",
-      "normalizedSha256": "fe010888a776b54caa5e614b10b53ed1db6b7126c15763d2f46fe9019441b8d6",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
-      "evidence": [
-        "specs/contracts/dynamic-workflow-01/acceptance.md",
-        "specs/contracts/dynamic-workflow-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/dynamic-workflow-01/stubs/apps/cli/packages/dynamic-workflow/src/analysis/phase-graph.ts",
-      "normalizedSha256": "36228e22f48a7479e2f88d0136f7ee685d22ebb621a0ea14af7fd9982c5fc017",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
-      "evidence": [
-        "specs/contracts/dynamic-workflow-01/acceptance.md",
-        "specs/contracts/dynamic-workflow-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/dynamic-workflow-01/stubs/apps/cli/packages/dynamic-workflow/src/analysis/phases.ts",
-      "normalizedSha256": "53188d16d4f0a13d2180c7e317109805d5d547b3237aaca3b4fee455f4d6fc98",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
-      "evidence": [
-        "specs/contracts/dynamic-workflow-01/acceptance.md",
-        "specs/contracts/dynamic-workflow-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/dynamic-workflow-01/stubs/apps/cli/packages/dynamic-workflow/src/analysis/promise-ops.ts",
-      "normalizedSha256": "219f77f4ab1ffa76acd945aa77249d9c78b50ceffd4aebcd074d3c60e23bfad1",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
-      "evidence": [
-        "specs/contracts/dynamic-workflow-01/acceptance.md",
-        "specs/contracts/dynamic-workflow-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/dynamic-workflow-01/stubs/apps/cli/packages/dynamic-workflow/src/analysis/relays.ts",
-      "normalizedSha256": "ed787d5a2345ddeaa3c2dfd245cd14da28004d3150c50d457862d483e73d7fe7",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
-      "evidence": [
-        "specs/contracts/dynamic-workflow-01/acceptance.md",
-        "specs/contracts/dynamic-workflow-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/dynamic-workflow-01/stubs/apps/cli/packages/dynamic-workflow/src/analysis/serialize.ts",
-      "normalizedSha256": "423f8ce8f48be96be85d522b93aa095354197e7eadec33e52a6392fb280b7729",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
-      "evidence": [
-        "specs/contracts/dynamic-workflow-01/acceptance.md",
-        "specs/contracts/dynamic-workflow-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/dynamic-workflow-01/stubs/apps/cli/packages/dynamic-workflow/src/analysis/sites-labels.ts",
-      "normalizedSha256": "763ac31e5ad96c7c7a664b7bd5c0c625f9a9ff05c3e515dda861ad38faa07985",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
-      "evidence": [
-        "specs/contracts/dynamic-workflow-01/acceptance.md",
-        "specs/contracts/dynamic-workflow-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/dynamic-workflow-01/stubs/apps/cli/packages/dynamic-workflow/src/analysis/sites.ts",
-      "normalizedSha256": "b1ffe0bd646772c400b5c47e42902cbdb54be90df786219f9192c6eb9dbc8e8a",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
-      "evidence": [
-        "specs/contracts/dynamic-workflow-01/acceptance.md",
-        "specs/contracts/dynamic-workflow-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/dynamic-workflow-01/stubs/apps/cli/packages/dynamic-workflow/src/analysis/state.ts",
-      "normalizedSha256": "191260275ba7f0d4b9e71d9db8da0b3f1d5ab0d732eee18a79f9ec5ecd25a549",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
-      "evidence": [
-        "specs/contracts/dynamic-workflow-01/acceptance.md",
-        "specs/contracts/dynamic-workflow-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/dynamic-workflow-01/stubs/apps/cli/packages/dynamic-workflow/src/analysis/taint.ts",
-      "normalizedSha256": "0b53c21ea55973b47e0f294da1ee3728d437e32988b00d1138eb2e21d2a5b47d",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
-      "evidence": [
-        "specs/contracts/dynamic-workflow-01/acceptance.md",
-        "specs/contracts/dynamic-workflow-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/dynamic-workflow-01/stubs/apps/cli/packages/dynamic-workflow/src/analysis/types.ts",
-      "normalizedSha256": "c5d96fcead02e8543fdf07b887c44a045709c7982f8e0cfedefd4f3feab5cf8b",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
-      "evidence": [
-        "specs/contracts/dynamic-workflow-01/acceptance.md",
-        "specs/contracts/dynamic-workflow-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/dynamic-workflow-01/stubs/apps/cli/packages/dynamic-workflow/src/analysis/world-run.ts",
-      "normalizedSha256": "1fa6c42acb134947f714f4d0909d9ab20dfa0a1009ade43e6ffe362ed2a1e871",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
-      "evidence": [
-        "specs/contracts/dynamic-workflow-01/acceptance.md",
-        "specs/contracts/dynamic-workflow-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/dynamic-workflow-01/stubs/apps/cli/packages/dynamic-workflow/src/compiler/compile.ts",
-      "normalizedSha256": "6d98ed7f3eff919697c402c1fffe12d5361b02415d0bf462450db8c5939d2d02",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
-      "evidence": [
-        "specs/contracts/dynamic-workflow-01/acceptance.md",
-        "specs/contracts/dynamic-workflow-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/dynamic-workflow-01/stubs/build-stubs.mjs",
-      "normalizedSha256": "2e0ae635b2a10759983ffa4144f54a381170a0c8b696b33bdbe0152c34a28592",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
-      "evidence": [
-        "specs/contracts/dynamic-workflow-01/acceptance.md",
-        "specs/contracts/dynamic-workflow-01/gate-old.json",
-        "docs/knorvia-independent-replacement-plan.md"
-      ]
-    },
-    {
-      "path": "specs/contracts/dynamic-workflow-01/stubs/targets.txt",
-      "normalizedSha256": "408ee40ed87a44b3b7d218853a60e2f499d7c574eb6b995a8253415fd6b69cba",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
+      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail). Contract state at registration time: v3 (2026-10-18); the stubs recorded by v1 were removed in v2 (K9) and the strands declaration archive was re-pinned to the built public declaration in v3 (K10); the gate re-ran source 39/39 and dist 39/39.",
       "evidence": [
         "specs/contracts/dynamic-workflow-01/acceptance.md",
         "specs/contracts/dynamic-workflow-01/gate-old.json",
@@ -139001,10 +138353,10 @@
     },
     {
       "path": "specs/contracts/dynamic-workflow-01/tests/surface.test.mjs",
-      "normalizedSha256": "6aeb453a60eb913ace5a4da1c4d67f5726fea8358ba23789f65db497cd5cd475",
+      "normalizedSha256": "fa571b4ccd4571bbc1d716371532292b0e1c63ec45455edb8c625a5e30f8eee6",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail).",
+      "basis": "Knorvia-authored dynamic-workflow-01 contract artifact for @knorvia/dynamic-workflow (M2: workflow-script static analyzer, 55 inherited files in src/analysis + src/compiler/compile.ts; 53 rewrite targets, 2 unreviewed untouched). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract. Golden-first contract (task choice 10): 324 input scripts recorded on the old implementation into fixtures/golden/*.json (ok, diagnostics, declaredArtifacts and six canonical text projections); the tests replay every sample through the two public entries in both source and dist modes and compare byte-for-byte. Old gate: source 39/39, dist 39/39, stub replacement 53 targets 3/3 failed (allFail). Contract state at registration time: v3 (2026-10-18); the stubs recorded by v1 were removed in v2 (K9) and the strands declaration archive was re-pinned to the built public declaration in v3 (K10); the gate re-ran source 39/39 and dist 39/39.",
       "evidence": [
         "specs/contracts/dynamic-workflow-01/acceptance.md",
         "specs/contracts/dynamic-workflow-01/gate-old.json",
@@ -143054,7 +142406,7 @@
     },
     {
       "path": "specs/knorvia-builtin-kernel-dsh.md",
-      "normalizedSha256": "848c88d67aa61ec2c58c6635943180686e99c855bc643b7c6ac612886cded644",
+      "normalizedSha256": "b172fd65af743cb68303cc49c60786ae380d40f2c7b870fb0468ce31c59e0e05",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored product specification written on 2026-10-17 for the decision to build the built-in kernel on DeepSeek Harness as a pinned dependency and to restructure the project into internal plugins. It describes Knorvia rules, ownership and acceptance in its own words and reproduces no upstream source text.",
@@ -143073,6 +142425,693 @@
         "specs/knorvia-independent-implementation.md",
         "docs/knorvia-independent-replacement-plan.md"
       ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/actor-graph.ts",
+      "normalizedSha256": "337656a1168c8ead60a2dec26513840faee439e5df5bfa4d2e670f4b552a28af",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.078 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/actor-graph.ts), longest identical run 2, structural similarity 0.0099 (apps/zcode-cli/packages/bootstrap/src/zcode-protocol-v4/commands/attachment-refs.ts) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/actor-names.ts",
+      "normalizedSha256": "b099501f48d2e1465c34448cf277b0804379c4b6781150dd8e042bf493b5d9df",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.162 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/actor-names.ts), longest identical run 2, structural similarity 0.1304 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/actor-names.ts) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/analyze.ts",
+      "normalizedSha256": "da620222db213c947c970abfffe459a565b7cedcd6eb46f6116046fc708dcf1f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.043 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/analyze.ts), longest identical run 1, structural similarity 0.0625 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/analyze.ts) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/array-methods.ts",
+      "normalizedSha256": "80a1b600d67f66681e9d14bc8754305aea67c4b7f14d8c23064ec6f64dd9d591",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.155 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/array-methods.ts), longest identical run 6, structural similarity 0.0190 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/array-methods.ts) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/artifact-types.ts",
+      "normalizedSha256": "fc90e069b377f8b61c170ab5ce6f96eac66828a4b80971102e3ac39914850b3c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.134 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/artifact-types.ts), longest identical run 2, structural similarity 0.1500 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/artifact-types.ts) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/artifacts.ts",
+      "normalizedSha256": "7b73e0175d8289eac4f9aee739811be8dfc84a6a8c0bf1ab850bb637b91034b4",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.051 (apps/zcode-cli/packages/core/src/runtime/methods/session-fork.ts), longest identical run 1, structural similarity 0.0112 (apps/zcode-cli/packages/core/src/tool/handlers/eval-workflow-snippet-description.ts) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/assign.ts",
+      "normalizedSha256": "8167f89841e15bb46f85416dbc71f3f7f6bdec41d5383bba2f22ae0a8c6a3d44",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.120 (apps/cli/packages/dynamic-workflow/src/analysis/assign.ts), longest identical run 6, structural similarity 0.0041 (apps/zcode-cli/packages/core/src/runtime/methods/turn-model-step-usage.ts) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/callbacks.ts",
+      "normalizedSha256": "f9cb4fc8dd5c5f322f871f7ecd78adaa16023014e530f1ce5f815ab68102a982",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.137 (apps/cli/packages/dynamic-workflow/src/analysis/callbacks.ts), longest identical run 6, structural similarity 0.0556 (apps/cli/packages/dynamic-workflow/src/analysis/callbacks.ts) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/calls.ts",
+      "normalizedSha256": "47ff72db0912629ac59072750523a181ea52534a86ec0438cff0995b3bbb7737",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.164 (apps/cli/packages/dynamic-workflow/src/analysis/calls.ts), longest identical run 6, structural similarity 0.0802 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/calls.ts) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/calls/known-apply.ts",
+      "normalizedSha256": "f3c9327f7a02100c9582199f79fc5fd1fbce9c218e16a363708431a34ace704f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.083 (apps/cli/packages/dynamic-workflow/src/analysis/calls.ts), longest identical run 1, structural similarity 0.0168 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/calls.ts) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/calls/summary.ts",
+      "normalizedSha256": "8340f9be09a0f44183401ad71bb72c27e7436362cd131dcd4159517762c02d8f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.136 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/calls.ts), longest identical run 6, structural similarity 0.0722 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/calls.ts) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/causality-graph-lanes.ts",
+      "normalizedSha256": "3743874794bec0eca6ce17a10c15d9657359f01dd6145bd2530ae01ec457f250",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.160 (apps/cli/packages/dynamic-workflow/src/analysis/causality-graph-lanes.ts), longest identical run 6, structural similarity 0.0000 (null) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/causality-graph-types.ts",
+      "normalizedSha256": "6c42556da2b1baf7d823f0e6dd530cbe0ce622be5e880c4925b9a8e0ac53328a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.179 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/causality-graph-types.ts), longest identical run 1, structural similarity 0.0345 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/causality-graph-types.ts) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/causality-graph.ts",
+      "normalizedSha256": "9f2b22fc9dd4e1ea0811cdc18df9504c79b46e1b2448f5e0db2e8128f09f4b4f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.119 (apps/cli/packages/dynamic-workflow/src/analysis/causality-graph.ts), longest identical run 5, structural similarity 0.0127 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/causality-graph.ts) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/causality-graph/assemble.ts",
+      "normalizedSha256": "6ca2abc3138744af3ecf8b58179e12fe6a4465965a35c88caf948c844b4c0f39",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.053 (apps/zcode-cli/packages/adapters/src/model/model-execution.ts), longest identical run 2, structural similarity 0.0230 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/causality-graph.ts) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/causality-graph/regions.ts",
+      "normalizedSha256": "59ddd7e0b5be80328455e6651d7d6495cf1ec850120abb6eec53fabf4941aaec",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.046 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/causality-graph.ts), longest identical run 1, structural similarity 0.0000 (null) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/causality-order-calls.ts",
+      "normalizedSha256": "6346381bd5d7de168df27f545fd60ca7c5086c26a5b22aedaa0eafa6a205d6b0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.126 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/causality-order-calls.ts), longest identical run 5, structural similarity 0.0462 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/causality-order-calls.ts) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/causality-order-functions.ts",
+      "normalizedSha256": "74b47a697928616de681da9bde86f2190616fd2aa730e153cd4a64f1a94c61aa",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.172 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/causality-order-functions.ts), longest identical run 5, structural similarity 0.0650 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/causality-order-functions.ts) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/causality-order-loops.ts",
+      "normalizedSha256": "4356c58e48f175eb86d4081afa26c35e73a42f1fe6d70c76461a93920731ed6d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.142 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/causality-order-loops.ts), longest identical run 4, structural similarity 0.0519 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/causality-order-loops.ts) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/causality-order-settle.ts",
+      "normalizedSha256": "71cb69688d0395c88d8bba62bc14219ca757d0be81bb7936a2ee9288fb7152ea",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.198 (apps/cli/packages/dynamic-workflow/src/analysis/causality-order-settle.ts), longest identical run 7, structural similarity 0.0236 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/causality-order-settle.ts) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/causality-order-state.ts",
+      "normalizedSha256": "6d1b167697853a1a5f5f3c218d03d8391f53241b246fad60c7ebbf9c845778e3",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.185 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/causality-order-state.ts), longest identical run 7, structural similarity 0.2885 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/causality-order-state.ts) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/causality-order-strands.ts",
+      "normalizedSha256": "de8c62fcd35e81941e6ca604049e599e385c9bc4efde9a20c21a73306967b773",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.180 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/causality-order-strands.ts), longest identical run 7, structural similarity 0.1067 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/causality-order-strands.ts) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/causality-order-types.ts",
+      "normalizedSha256": "dc6dd49f5766b5b4558f7b255fb647f1cc18ca43562b72297d164f7f4cbe86e3",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.172 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/causality-order-types.ts), longest identical run 1, structural similarity 0.0000 (null) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/causality-order-walk.ts",
+      "normalizedSha256": "9fbe8498dd217d203b0fb0fc04ed76ab9a12d28dfc02afd74b2fbf8f05823d56",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.102 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/causality-order-walk.ts), longest identical run 3, structural similarity 0.0467 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/causality-order-walk.ts) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/causality-order.ts",
+      "normalizedSha256": "15cfe668a171a996aadd3b9213aac3c9a9557dd4d994265e3dea8a7922d1e03f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.117 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/causality-order.ts), longest identical run 6, structural similarity 0.0196 (apps/zcode-cli/packages/adapters/src/model/model-execution.ts) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/causality-reduce.ts",
+      "normalizedSha256": "d77fefda366f3825b191070c12d53a4850142689a93b6ec3a7a677fd2684cc3c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.160 (apps/cli/packages/dynamic-workflow/src/analysis/causality-reduce.ts), longest identical run 6, structural similarity 0.0155 (apps/cli/packages/dynamic-workflow/src/analysis/causality-reduce.ts) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/classes.ts",
+      "normalizedSha256": "230e7bc218df1f1506e8ce063cf46a91bc09972f9c5d998cf1e2d0b3c1c7672c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.129 (apps/cli/packages/dynamic-workflow/src/analysis/classes.ts), longest identical run 3, structural similarity 0.0745 (apps/cli/packages/dynamic-workflow/src/analysis/classes.ts) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/constants.ts",
+      "normalizedSha256": "75a23af8d0051f85c4e9b6e4575c64e77b1c875cfc2b7eb8d644fdb3b53f5011",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.079 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/constants.ts), longest identical run 2, structural similarity 0.0000 (null) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/control-flow.ts",
+      "normalizedSha256": "679873cc3a6f15043c2b2f9b57ed8a2ced51b01f9d982040c63318e5846e208c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.066 (apps/zcode-cli/packages/bootstrap/src/app/bundled-plugins.ts), longest identical run 2, structural similarity 0.0455 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/control-flow.ts) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/core-json.ts",
+      "normalizedSha256": "7d55eb0ad2c3a750ca2e617498bbdc9f1c79b0d858b0a054f870452f9ef42285",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.154 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/core-json.ts), longest identical run 3, structural similarity 0.0299 (apps/zcode-cli/packages/adapters/src/model/runner-diagnostics.ts) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/core.ts",
+      "normalizedSha256": "e85f5ecc825c329ec6ceb9712a062f2f1b1c42966c925fc917881cf295a0c065",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.070 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/core.ts), longest identical run 1, structural similarity 0.0090 (apps/zcode-cli/packages/core/src/tool/edit-matchers.ts) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/domain.ts",
+      "normalizedSha256": "67ee60f93aefdc54bb0ae915ee212804eda67f01fa3042e99c964d10996597b7",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.188 (apps/cli/packages/dynamic-workflow/src/analysis/domain.ts), longest identical run 5, structural similarity 0.0190 (apps/zcode-cli/packages/bootstrap/src/zcode-protocol-v4/cold-event-merge.ts) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/domain/lattice.ts",
+      "normalizedSha256": "00a465d1e682a641191814c4a12c73dd981e184d36df967367b167319880c2a8",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.041 (apps/zcode-cli/packages/bootstrap/src/zcode-protocol-v4/product-projection.ts), longest identical run 1, structural similarity 0.0105 (apps/zcode-cli/packages/adapters/src/exec/bash-shell-provider.ts) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/facade-misuse.ts",
+      "normalizedSha256": "a9cbacac98a2817433788a19e5801da0e8b37978543de6a5f19df66632f521f8",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.158 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/facade-misuse.ts), longest identical run 5, structural similarity 0.2500 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/facade-misuse.ts) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/fanout-cardinality.ts",
+      "normalizedSha256": "c510491eb8c44159bdd5a5afe13fa4f93d90074217be6bd12c68a64c1b6c9fdc",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.081 (apps/cli/packages/dynamic-workflow/src/analysis/fanout-cardinality.ts), longest identical run 6, structural similarity 0.0541 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/fanout-cardinality.ts) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/flow-graph.ts",
+      "normalizedSha256": "bc367c32e301e68ef73f5d9aef49a84458d9146e02e303f3b3e5701fde05361e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.031 (apps/cli/packages/dynamic-workflow/src/analysis/flow-graph.ts), longest identical run 1, structural similarity 0.0063 (apps/zcode-cli/packages/core/src/tool/provider-visible-order.ts) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/flow-graph/edge-stamp.ts",
+      "normalizedSha256": "440bee5c7b6d5088277e025608b55dee703f2e13979586dd3421a877b31a076a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.021 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/state.ts), longest identical run 1, structural similarity 0.0182 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/flow-graph.ts) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/flow-phase.ts",
+      "normalizedSha256": "79a852a00ff4a4f6aeabc31015a0233a1ab4bd900cd728606757cb368b33019d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.020 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/flow-phase.ts), longest identical run 1, structural similarity 0.0280 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/flow-phase.ts) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/flow-strands.ts",
+      "normalizedSha256": "97d65fecd6117c65fd4e8f4581bc2217e8d165f971aee3f855ce3e663fe4fc87",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.149 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/flow-strands.ts), longest identical run 1, structural similarity 0.0741 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/flow-strands.ts) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/flow-tree.ts",
+      "normalizedSha256": "adad961a6db52b66e371022603c2fe9422d1450eb6b7a9e032679ea32c97621d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.146 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/flow-tree.ts), longest identical run 2, structural similarity 0.0244 (apps/zcode-cli/packages/bootstrap/src/app/dynamic-workflow-run-roster.ts) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/graph.ts",
+      "normalizedSha256": "c0a87716b3b41acfa92e6f1de5cf1f0042c93c5546ae615f5498a180dbee3610",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.044 (apps/zcode-cli/packages/bootstrap/src/zcode-protocol-v4/transcript-hydration.ts), longest identical run 2, structural similarity 0.0391 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/graph.ts) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/handoff-graph.ts",
+      "normalizedSha256": "fe527d4335f06cb35f8fb31d5af8b7278efc90be6cdee9ee88bbf6dde27097c3",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.032 (apps/cli/packages/dynamic-workflow/src/analysis/phase-graph.ts), longest identical run 2, structural similarity 0.0067 (apps/zcode-cli/packages/adapters/src/plugins/plugin-components.ts) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/heap-ops.ts",
+      "normalizedSha256": "5aa07ce286d1f72062004f20e0da9a786684008be679f57b4e4bc082ef835c32",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.118 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/calls.ts), longest identical run 1, structural similarity 0.2105 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/heap-ops.ts) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/interpret.ts",
+      "normalizedSha256": "d1ce3ec813b1ef5e1828be1a55ee9090aa656dcbe5f815fe3caa907b77941499",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.080 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/state.ts), longest identical run 2, structural similarity 0.0000 (null) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/literals.ts",
+      "normalizedSha256": "5bc41da9d828311d6d836fe25b548dba6293a61b2688db5969ee4cfaaa60b353",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.139 (apps/cli/packages/dynamic-workflow/src/analysis/literals.ts), longest identical run 5, structural similarity 0.0614 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/literals.ts) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/mermaid.ts",
+      "normalizedSha256": "b9c153aa361c79864b5eaf730b9b17628bd37ef89eac2584d4aea6d439dc69fe",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.032 (apps/zcode-cli/packages/tui/src/app-tool-transcript.ts), longest identical run 1, structural similarity 0.0025 (apps/zcode-cli/packages/bootstrap/src/zcode-protocol-v4/cold-event-merge.ts) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/patterns.ts",
+      "normalizedSha256": "b78d449e493387b8078d6f847398fd48f478bce5f62f2afb316b3624ebb68c03",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.126 (apps/cli/packages/dynamic-workflow/src/analysis/taint.ts), longest identical run 7, structural similarity 0.0291 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/patterns.ts) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/phase-graph.ts",
+      "normalizedSha256": "89b4dcb24ae788df4cdef2a99d2a7bd074439c1b057e5f3d4c272f5f329a280f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.121 (apps/cli/packages/dynamic-workflow/src/analysis/phase-graph.ts), longest identical run 7, structural similarity 0.0064 (apps/zcode-cli/packages/adapters/src/model/model.ts) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/phases.ts",
+      "normalizedSha256": "31e8eec4b70c52d7afcf1c1c769564e178904611804156628f4d10457bb7b6ea",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.122 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/phases.ts), longest identical run 1, structural similarity 0.1905 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/phases.ts) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/promise-ops.ts",
+      "normalizedSha256": "f51b57143e125d5ab6636d43df46754e8e34412a4bf965e76494d6c8d9bae7e5",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.182 (apps/cli/packages/dynamic-workflow/src/analysis/promise-ops.ts), longest identical run 6, structural similarity 0.0263 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/promise-ops.ts) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/relays.ts",
+      "normalizedSha256": "69618287d98776ef13000a42a6508d4119c26a61df24cf837f8c2f29c262c642",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.171 (apps/cli/packages/dynamic-workflow/src/analysis/relays.ts), longest identical run 7, structural similarity 0.0103 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/relays.ts) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/serialize.ts",
+      "normalizedSha256": "8106b6b10f615d045e8e79f8ad82616b3bc4d905ff1fb921eed27228998fe550",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.083 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/serialize.ts), longest identical run 2, structural similarity 0.0121 (apps/zcode-cli/packages/core/src/runtime/helpers/conversation.ts) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/sites-labels.ts",
+      "normalizedSha256": "9bbba7b9e2dcf848cd74e385ffe982bd31a871e85747907c10aa8fe9700ba9e6",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.103 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/sites-labels.ts), longest identical run 1, structural similarity 0.0455 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/sites-labels.ts) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/sites.ts",
+      "normalizedSha256": "beb2c99c5dd5e54a23fe09d2a948babbdbb89555208484d3995bfecb88f2fbbb",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.155 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/sites.ts), longest identical run 2, structural similarity 0.0179 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/sites.ts) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/state.ts",
+      "normalizedSha256": "10a5d5b3dcebbce001512cc117581a7818ad6acdc13cad6c817debb1341a3091",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.181 (apps/cli/packages/dynamic-workflow/src/analysis/state.ts), longest identical run 5, structural similarity 0.0271 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/state.ts) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/taint.ts",
+      "normalizedSha256": "170c39dc6bb68350de3894ce727bab6686a299e0c461e0c03143efdca0afc80e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.118 (apps/cli/packages/dynamic-workflow/src/analysis/taint.ts), longest identical run 3, structural similarity 0.3889 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/taint.ts) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/taint/expressions.ts",
+      "normalizedSha256": "1bc5580aecc06223dec5e2f55e22326064598c31344a3a4ea90d7036b071d8c0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.084 (apps/cli/packages/dynamic-workflow/src/analysis/calls.ts), longest identical run 1, structural similarity 0.0099 (apps/zcode-cli/packages/core/src/tool/handlers/bash-read-file-sources.ts) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/types.ts",
+      "normalizedSha256": "780566d587c51d1d05fd9371efb70c3b71331fa751b710fb11484a87ed9c2034",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.068 (packages/formal-proof/src/model.ts), longest identical run 1, structural similarity 0.0000 (null) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/world-run.ts",
+      "normalizedSha256": "0c57d71a6b063d8c76f14497afe32c2938dd83056c22fda0c8997161b61d1f7e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.135 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/world-run.ts), longest identical run 1, structural similarity 0.1500 (apps/zcode-cli/packages/dynamic-workflow/src/analysis/world-run.ts) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/compiler/compile-types.ts",
+      "normalizedSha256": "2380244929db5bc45c99442defa97cee908306a9c67c6ce069428704ae85aa31",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests): five public compatibility declarations were moved out of the replaced compiler entry into this internal module and reproduced without interface change. The author was allowed to read the replaced implementation; no logic was rewritten. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). Ordinary line scoring of the 61 rewritten sources gives max line containment 1.000 (apps/zcode-cli/packages/dynamic-workflow/src/compiler/compile.ts), longest identical run 8, structural similarity 0.1429 (apps/zcode-cli/packages/contracts/src/interfaces/dynamic-workflow-snippet.port.ts) against the replaced files at 575acf91 and the pinned upstream 872ad960. This file is a pure declaration file, so the documented declaration mode (--declaration --interface specs/contracts/dynamic-workflow-01/interface.md) is reported next to it: stripping the five contract-listed declaration blocks leaves 0 residual normalized lines, containment 0.000, run 0 and structural 0.0000, so both gates pass in that mode while the ordinary mode fails (containment 1.000, run 8). Fixed structural declarations are constrained compatibility material and file splitting is not provenance proof, so no novel algorithm or independent re-derivation of these declarations is claimed.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/compiler/compile.ts",
+      "normalizedSha256": "fb0b991a35e3f053971c527fe51aa8218b635200971d9f851992ba89eb208290",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of dynamic-workflow-01 against contract v3 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 39/39 (source and dist); new implementation 39/39 (source and dist). max line containment 0.125 (apps/zcode-cli/packages/dynamic-workflow/src/compiler/compile.ts), longest identical run 4, structural similarity 0.0000 (null) against the replaced files at 575acf91 and the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-01/README.md",
+        "docs/knorvia-dynamic-workflow-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/dynamic-workflow-01/design.md",
+      "normalizedSha256": "2bc09414657c863c6947141f4b21b0f01ec42cf9a5df5a4d4699541a963adca4",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored dynamic-workflow-01 replacement record (design or acceptance document), written for this package; the v3 revision adds the strands archive re-pin design and the removed-stub consequence.",
+      "evidence": ["specs/contracts/dynamic-workflow-01/README.md"]
+    },
+    {
+      "path": "docs/knorvia-dynamic-workflow-01-acceptance.md",
+      "normalizedSha256": "1411950882013f4db6c6f6ad3cdeeca46252c025969b30125c9d6cbc94362c33",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored dynamic-workflow-01 replacement record (design or acceptance document), written for this package; it records the 61 rewritten sources, the 39/39 old and new gates in both modes and the v3 archive re-pin.",
+      "evidence": ["specs/contracts/dynamic-workflow-01/README.md"]
     },
     {
       "path": "specs/contracts/kernel-dsh-00/README.md",

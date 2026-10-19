@@ -6,14 +6,10 @@
 
 export type OrderKind = "data" | "control" | "fifo" | "seq" | "carry";
 
+const RANK_LADDER: readonly OrderKind[] = ["carry", "seq", "fifo", "data", "control"];
+
 /** Ordered-pair deduplication ranks; witness eligibility uses separate rules. */
-export const KIND_RANK: Record<OrderKind, number> = {
-  carry: 0,
-  control: 4,
-  data: 3,
-  fifo: 2,
-  seq: 1,
-};
+export const KIND_RANK: Record<OrderKind, number> = ladderRanks(RANK_LADDER);
 
 export interface ReducibleEdge {
   from: string;
@@ -23,13 +19,141 @@ export interface ReducibleEdge {
   carryOf?: Exclude<OrderKind, "carry">;
 }
 
+const DEFAULT_CARRY_KIND: Exclude<OrderKind, "carry"> = "data";
+
+type Witnesses = ReadonlySet<OrderKind>;
+
+interface Trail<E> {
+  bridges: Map<string, E[]>;
+  dropped: Set<E>;
+  hops: Map<string, E[]>;
+}
+
 // Witness strength is separate from the public dedup rank.
-const JUSTIFIED_BY: Partial<Record<OrderKind, ReadonlySet<OrderKind>>> = {
-  control: new Set<OrderKind>(["data", "control"]),
-  data: new Set<OrderKind>(["data", "control"]),
-  fifo: new Set<OrderKind>(["data", "control", "fifo"]),
-  seq: new Set<OrderKind>(["data", "control", "fifo", "seq"]),
-};
+const WITNESS_TIERS: readonly (readonly OrderKind[])[] = [["data", "control"], ["fifo"], ["seq"]];
+
+const ELIGIBLE_WITNESSES: Map<OrderKind, Witnesses> = cumulativeTiers(WITNESS_TIERS);
+
+function ladderRanks(kinds: readonly OrderKind[]): Record<OrderKind, number> {
+  const collected: Partial<Record<OrderKind, number>> = {};
+  kinds.forEach((kind, position) => {
+    collected[kind] = position;
+  });
+  return collected as Record<OrderKind, number>;
+}
+
+function cumulativeTiers(tiers: readonly (readonly OrderKind[])[]): Map<OrderKind, Witnesses> {
+  const table = new Map<OrderKind, Witnesses>();
+  const stronger: OrderKind[] = [];
+  for (const tier of tiers) {
+    for (const kind of tier) stronger.push(kind);
+    const pooled: Witnesses = new Set<OrderKind>(stronger);
+    for (const kind of tier) table.set(kind, pooled);
+  }
+  return table;
+}
+
+function eligibilityFor(kind: OrderKind): Witnesses | undefined {
+  return ELIGIBLE_WITNESSES.get(kind);
+}
+
+function isCarry(edge: ReducibleEdge): boolean {
+  return edge.kind === "carry";
+}
+
+function carryBasis(edge: ReducibleEdge): OrderKind {
+  return edge.carryOf ?? DEFAULT_CARRY_KIND;
+}
+
+function bucketBySource<E extends ReducibleEdge>(
+  edges: readonly E[],
+  carried: boolean,
+): Map<string, E[]> {
+  const buckets = new Map<string, E[]>();
+  for (const edge of edges) {
+    if (carried !== isCarry(edge)) continue;
+    const listed = buckets.get(edge.from) ?? [];
+    listed.push(edge);
+    buckets.set(edge.from, listed);
+  }
+  return buckets;
+}
+
+function trailOf<E extends ReducibleEdge>(edges: readonly E[]): Trail<E> {
+  const trail: Trail<E> = {
+    bridges: bucketBySource(edges, true),
+    dropped: new Set<E>(),
+    hops: bucketBySource(edges, false),
+  };
+  return trail;
+}
+
+function onwardFrom<E extends ReducibleEdge>(trail: Trail<E>, node: string): readonly E[] {
+  return trail.hops.get(node) ?? [];
+}
+
+function bridgingFrom<E extends ReducibleEdge>(trail: Trail<E>, node: string): readonly E[] {
+  return trail.bridges.get(node) ?? [];
+}
+
+function discard<E extends ReducibleEdge>(trail: Trail<E>, edge: E): void {
+  trail.dropped.add(edge);
+}
+
+function isDropped<E extends ReducibleEdge>(trail: Trail<E>, hop: E): boolean {
+  return trail.dropped.has(hop);
+}
+
+function survivors<E extends ReducibleEdge>(edges: readonly E[], trail: Trail<E>): E[] {
+  return edges.filter((edge) => !isDropped(trail, edge));
+}
+
+function traversable<E extends ReducibleEdge>(
+  trail: Trail<E>,
+  witnesses: Witnesses,
+  hop: E,
+  direct?: E,
+): boolean {
+  if (isDropped(trail, hop) || !witnesses.has(hop.kind)) return false;
+  return direct === undefined || hop.from !== direct.from || hop.to !== direct.to;
+}
+
+function landsOn<E extends ReducibleEdge>(
+  trail: Trail<E>,
+  origins: Iterable<string>,
+  witnesses: Witnesses,
+  goal: string,
+  direct?: E,
+): boolean {
+  return closureFrom(trail, origins, witnesses, direct).has(goal);
+}
+
+function forwardImplied<E extends ReducibleEdge>(trail: Trail<E>, candidate: E): boolean {
+  const witnesses = eligibilityFor(candidate.kind);
+  if (witnesses === undefined || candidate.from === candidate.to) return false;
+  return landsOn(trail, [candidate.from], witnesses, candidate.to, candidate);
+}
+
+function carryImplied<E extends ReducibleEdge>(trail: Trail<E>, candidate: E): boolean {
+  const witnesses = eligibilityFor(carryBasis(candidate));
+  if (witnesses === undefined) return false;
+  const landing = bridgeHeads(trail, candidate, witnesses);
+  return landsOn(trail, landing, witnesses, candidate.to);
+}
+
+function dropImpliedForward<E extends ReducibleEdge>(edges: readonly E[], trail: Trail<E>): void {
+  for (const edge of edges) {
+    if (isCarry(edge)) continue;
+    if (forwardImplied(trail, edge)) discard(trail, edge);
+  }
+}
+
+function dropImpliedCarries<E extends ReducibleEdge>(edges: readonly E[], trail: Trail<E>): void {
+  for (const edge of edges) {
+    if (!isCarry(edge)) continue;
+    if (carryImplied(trail, edge)) discard(trail, edge);
+  }
+}
 
 /**
  * Visit forward edges in input order, then carry edges, removing candidates with
@@ -37,85 +161,47 @@ const JUSTIFIED_BY: Partial<Record<OrderKind, ReadonlySet<OrderKind>>> = {
  * shared input references share deletion decisions. Inputs are not modified.
  */
 export function reduceOrdering<E extends ReducibleEdge>(edges: readonly E[]): E[] {
-  type EdgeState = { edge: E; live: boolean };
-  type Outgoing = { forward: EdgeState[]; carry: EdgeState[] };
-  const identity = new Map<E, EdgeState>();
-  const occurrences: EdgeState[] = [];
-  const forward: EdgeState[] = [];
-  const carry: EdgeState[] = [];
-  const adjacency = new Map<string, Outgoing>();
-
   // Input occurrences retain their order; aliases share only the liveness decision.
-  edges.forEach((edge) => {
-    let state = identity.get(edge);
-    if (state === undefined) {
-      state = { edge, live: true };
-      identity.set(edge, state);
-    }
-    occurrences.push(state);
-    let outgoing = adjacency.get(edge.from);
-    if (outgoing === undefined) {
-      outgoing = { forward: [], carry: [] };
-      adjacency.set(edge.from, outgoing);
-    }
-    if (edge.kind === "carry") {
-      carry.push(state);
-      outgoing.carry.push(state);
-    } else {
-      forward.push(state);
-      outgoing.forward.push(state);
-    }
-  });
+  const trail = trailOf(edges);
+  dropImpliedForward(edges, trail);
+  dropImpliedCarries(edges, trail);
+  return survivors(edges, trail);
+}
 
-  // Multi-source forward closure, optionally excluding the candidate's direct pair.
-  const reachable = (
-    seeds: Iterable<string>,
-    allowed: ReadonlySet<OrderKind>,
-    omit?: { from: string; to: string },
-    target?: string,
-  ): Set<string> => {
-    const visited = new Set(seeds);
-    if (target !== undefined && visited.has(target)) return visited;
-    const queue = [...visited];
-    for (let cursor = 0; cursor < queue.length; cursor++) {
-      const node = queue[cursor] as string;
-      for (const state of adjacency.get(node)?.forward ?? []) {
-        const edge = state.edge;
-        if (!state.live || !allowed.has(edge.kind)) continue;
-        if (omit !== undefined && node === omit.from && edge.to === omit.to) continue;
-        if (visited.has(edge.to)) continue;
-        visited.add(edge.to);
-        if (target !== undefined && edge.to === target) return visited;
-        queue.push(edge.to);
-      }
+// Multi-source forward closure, optionally excluding the candidate's direct pair.
+function closureFrom<E extends ReducibleEdge>(
+  trail: Trail<E>,
+  origins: Iterable<string>,
+  witnesses: Witnesses,
+  direct?: E,
+): Set<string> {
+  const reached = new Set<string>(origins);
+  const pending: string[] = [...reached];
+  for (let cursor = 0; cursor < pending.length; cursor += 1) {
+    const node = pending[cursor] as string;
+    for (const hop of onwardFrom(trail, node)) {
+      if (!traversable(trail, witnesses, hop, direct)) continue;
+      if (reached.has(hop.to)) continue;
+      reached.add(hop.to);
+      pending.push(hop.to);
     }
-    return visited;
-  };
-
-  for (const state of forward) {
-    const edge = state.edge;
-    const allowed = JUSTIFIED_BY[edge.kind];
-    if (allowed === undefined || edge.from === edge.to) continue;
-    if (reachable([edge.from], allowed, edge, edge.to).has(edge.to)) state.live = false;
   }
+  return reached;
+}
 
-  // A bridge joins two forward closures; no second carry can enter either closure.
-  for (const candidate of carry) {
-    const edge = candidate.edge;
-    const allowed = JUSTIFIED_BY[edge.carryOf ?? "data"];
-    if (allowed === undefined) continue;
-    const prefix = reachable([edge.from], allowed);
-    const heads = new Set<string>();
-    for (const node of prefix) {
-      for (const bridge of adjacency.get(node)?.carry ?? []) {
-        if (!bridge.live || bridge === candidate) continue;
-        if (allowed.has(bridge.edge.carryOf ?? "data")) heads.add(bridge.edge.to);
-      }
+// A bridge joins two forward closures; no second carry can enter either closure.
+function bridgeHeads<E extends ReducibleEdge>(
+  trail: Trail<E>,
+  candidate: E,
+  witnesses: Witnesses,
+): Set<string> {
+  const prefix = closureFrom(trail, [candidate.from], witnesses);
+  const landing = new Set<string>();
+  for (const landed of prefix) {
+    for (const bridge of bridgingFrom(trail, landed)) {
+      if (bridge === candidate || isDropped(trail, bridge)) continue;
+      if (witnesses.has(carryBasis(bridge))) landing.add(bridge.to);
     }
-    if (reachable(heads, allowed, undefined, edge.to).has(edge.to)) candidate.live = false;
   }
-
-  const result: E[] = [];
-  for (const state of occurrences) if (state.live) result.push(state.edge);
-  return result;
+  return landing;
 }

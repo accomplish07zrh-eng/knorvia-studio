@@ -1,6 +1,6 @@
 # dynamic-workflow-01 既存差异（known-differences.md）
 
-v1。本文件记录**不在本包范围的相邻事实**与**旧行为里看起来奇怪但必须原样保留**的特征。重写时不得"顺手修掉"这里列出的任何一条。
+v3。本文件记录**不在本包范围的相邻事实**与**旧行为里看起来奇怪但必须原样保留**的特征。重写时不得"顺手修掉" K1–K8。K9（v2 删桩）与 K10（v3 归档注释替换）是合同修订记录，不要求实现侧动作。
 
 ## 1. 不在本包范围的相邻文件
 
@@ -51,6 +51,24 @@ fan-out 静态 actor 名（9006）是唯一不清空图的诊断（B6）；其�
 ### K8 `collectDuplicateActorNames`（9005）不从包入口导出
 
 9005 的正门在引擎运行期（`createActor` 的 `DuplicateActorName`）；编译期这条只是"字面量能看穿的那部分提前到便宜的一侧"，其函数**不**经 `src/index.ts` 导出（`analysis.test.mjs`「B15」断言入口上不存在）。重写不得顺手导出它。
+
+## K9 v2 删桩：B20 的 oracle 从桩目录改指 `interface.md` 的 ts 导出声明块
+
+K9 是 v2 合同修订记录，不要求实现侧动作。K1–K8 仍是必须原样保留的旧行为。
+
+- 原因：替换验收要求旧文件与桩全部删除，且全仓搜本包定型未实现标记为零、不留回退路径（计划书「每包流程」五.1 与验收清单第 466 行）。v1 的 B20 把桩目录当 oracle 读取，留桩与删桩互锁。M1 复盘第 4 条走 C 通道，先例是 core-tool-01 B88（`c7e58013`）：删桩，oracle 改指合同自身的 `interface.md` 导出声明块。
+- 变更内容：`tests/surface.test.mjs` 的 B20 只换 oracle 的读取对象（桩文件 → `interface.md` 对应 `###` 节内全部 ts 围栏里的导出声明）。**断言方向与强度逐字不变**——`rewriteTargets.length === 53` 的说明文字、`assert.deepEqual(relative, rewriteTargets, "桩文件集与重写目标集必须一致")` 原样；导出名仍是源码 ⊆ 合同声明，`missing` 用 `file:name`，两侧同一条解析正则（与 B88 相同），缺任何一个由 `assert.deepEqual(missing, [])` 拦下。B18、B19 与其余用例不动、不删、不跳过。
+- 强度对照：被拿掉的只是「桩 = 接口派生快照」这半边脚手架（桩文本里的定型抛错、SPDX 头、目标清单行数）。v1 桩替换证据留在 `gate-old.json` 的 `stubReplacement`（53 个目标、tests 3、pass 0、fail 3、`allFail=true`），该文件 v2 不覆盖。v2 在新实现上重跑合同门：源码 39/39、dist 39/39、fail 0、skipped 0，未带桩替换。
+- 对应测试：`tests/surface.test.mjs`「B20 interface.md 导出声明块覆盖 53 个重写目标的源码导出」。
+
+## K10 v3 归档注释替换：strands 归档 `declaration` 的注释改为 Knorvia 自写文字，签名逐字节不变
+
+K10 是 v3 记录，不要求实现侧动作，也不改变 K1–K8 的"原样保留"要求。它登记的是一项**已完成**的 re-pin 作业的证据口径，防止后来者把归档文本与产物文本的字节差异误读成行为差异。
+
+- 原因：strands 族与其余族不同——`apps/cli/packages/core/test/causality-order-strands-baseline.json` **顶层的 `declaration` 字段**（夹具里读作 `archive.declaration`）被 `causality-order-strands-fixture.ts` 断言**等于当前构建产物** `dist/analysis/causality-order-strands.d.ts` 的全文（历史快照里保留的是上游注释）。实现重写后产物注释换成 Knorvia 自写文字，归档必须整体刷新，否则该断言必然失败。
+- 变更内容：只替换注释文字，导出声明与类型签名逐字节不变。`declarationSha256` 刷新为 `5edfa5fac5025be49f658eebfb445c1a6d37da52f3b05af9ecf6cc89cc791e18`（即上面那份 built `.d.ts` 全文的 sha256）。同一文件里的 `compiled`（历史行为 oracle）未改，`sourceSha256`/`emittedSha256`/`baselineCommit`/`publisherCommit`/`publisherBlob`/`publisherPath`/`formatVersion` 未改；同次提交里另外刷新的只有 `dependencies` 下 `causality-order-settle` 的两条当前产物 sha（属 re-pin 的常规部分）。测试代码与断言未动。
+- 比对结果：`/workspace/ktools/strip-compare.mjs`（TypeScript scanner 逐 token 去注释后按字节比对，typescript 6.0.2）比对的是**替换前的归档**与重写后的 built `.d.ts`——归档 raw=4639B、built raw=3962B，去注释后两侧同为 1364B，sha256 同为 `269c70659d120c96e17b3a2e0b3b709bd8c57a8bb9f67a22968ec544663e56dd`，`RESULT: IDENTICAL (byte-for-byte after comment removal)`。原始字节差 677B 全部来自注释文字；签名（去注释后的声明文本）逐字节不变。re-pin 之后归档 `declaration` 与 built `.d.ts` 全文等字节（3962B）。
+- 对应测试：`apps/cli/packages/core/test/causality-order-strands-fixture.ts`——第 26 行 `assert.equal(sha(archive.declaration), archive.declarationSha256)`，第 41–45 行 `assert.equal(<built causality-order-strands.d.ts 全文>, archive.declaration, "unchanged public declaration bytes")`。两条断言本轮一字未改。本包合同门两入口 39/39 不受影响（合同测试不读 strands 归档，只读 `interface.md`）。
 
 ## 3. core 测试夹具的 sha256 pin（替换阶段的已知作业）
 

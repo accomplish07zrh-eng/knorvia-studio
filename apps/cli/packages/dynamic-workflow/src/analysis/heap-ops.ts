@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: Apache-2.0
 import ts from "typescript";
 import {
   adoptFields,
@@ -10,79 +11,88 @@ import {
 import { mergeIntoRootIdentifier } from "./assign.js";
 import type { EvalContext, Evaluator } from "./taint.js";
 
-/**
- * In-place heap-mutation transfers: `Object.assign` and the receiver-mutating array /
- * collection methods (`push`, `Map.set`, …). Extracted from calls.ts (pure move, no
- * behavior change) to keep that file under the line cap.
- */
-
-/** `Object.assign` — a free function (not a method) that mutates its target in place. */
+/** `Object.assign` is a free function: the callee expression is the identifier `Object`. */
 export function isObjectAssign(access: ts.PropertyAccessExpression): boolean {
-  return (
-    ts.isIdentifier(access.expression) &&
-    access.expression.text === "Object" &&
-    access.name.text === "assign"
-  );
+  const owner = access.expression;
+  const method = access.name.text;
+  return ts.isIdentifier(owner) && owner.text === "Object" && method === "assign";
 }
 
-export function handleHeapMutator(
-  ev: Evaluator,
-  node: ts.CallExpression,
-  access: ts.PropertyAccessExpression,
-  ctx: EvalContext,
-): AbstractValue {
-  // Resolve the receiver to its LIVE value so a mutator on a nested place
-  // (`wrap.items.push(x)`, `state.map.set(k, v)`) writes the shared container, visible
-  // through every alias. `Map.set`/`Set.add` fold their args in the same way as the
-  // array mutators (key taint included — a sound over-approximation).
-  const container = ev.resolvePlace(access.expression, true);
-  // An unresolvable receiver (computed element access `state.buffers[i].push(x)`,
-  // a call result `log().push(x)`) used to skip BOTH halves of the transfer — the argument
-  // taint merged nowhere (a silent total drop of the flow) and the receiver expression was
-  // never evaluated, so a facade sink sitting in receiver position was never visited at
-  // all. Mirror writeTarget's unresolvable-receiver path (assign.ts): evaluate the receiver
-  // for effect and smear each argument into the chain's root identifier.
-  if (container === undefined) ev.evalExpr(access.expression, ctx);
-  for (const arg of node.arguments) {
-    const argVal = collapse(ev.evalExpr(arg, ctx));
-    if (container !== undefined) {
-      if (mergeInto(container, argVal)) ev.s.changed = true;
-      // A conditional-binding / join-element receiver mutated in place reaches every
-      // candidate place it may BE (weak, inexact).
-      if (replayMayAliasMerge(container, argVal)) ev.s.changed = true;
-    } else {
-      mergeIntoRootIdentifier(ev, access.expression, argVal);
-    }
-  }
+function blank(): AbstractValue {
   return emptyValue();
 }
 
-/** `Object.assign(target, ...sources)`: merge each source into the target's live value. */
-export function handleObjectAssign(
-  ev: Evaluator,
-  node: ts.CallExpression,
-  ctx: EvalContext,
+function noteGrowth(machine: Evaluator, grew: boolean): void {
+  if (grew) machine.s.changed = true;
+}
+
+export function handleHeapMutator(
+  machine: Evaluator,
+  call: ts.CallExpression,
+  access: ts.PropertyAccessExpression,
+  frame: EvalContext,
 ): AbstractValue {
-  const [targetArg, ...sources] = node.arguments;
-  if (targetArg === undefined) return emptyValue();
-  const targetLive = ev.resolvePlace(targetArg, true);
-  const result = ev.evalExpr(targetArg, ctx); // Object.assign returns the target
-  for (const src of sources) {
-    const srcPlace = ev.resolvePlace(src);
-    const srcVal = srcPlace ?? ev.evalExpr(src, ctx);
-    if (targetLive !== undefined) {
-      // Object.assign shallow-copies: an object-valued source field is copied by
-      // REFERENCE, so after the call `target.f` and `src.f` are one shared object and a
-      // write through either is visible through the other. When the source is a place,
-      // adopt its field objects by reference; container-level occs (and any non-place
-      // source, e.g. `{ f: secret }`) still weak-merge in as before, so
-      // `Object.assign(target, { f: secret })` makes `target.f` observe secret.
-      // The old deep `mergeInto` materialized independent target
-      // fields, so a mutation through target's shared sub-object was invisible via src.
-      if (srcPlace !== undefined && adoptFields(targetLive, srcPlace)) ev.s.changed = true;
-      if (mergeInto(targetLive, srcVal)) ev.s.changed = true;
-    }
-    mergeInto(result, srcVal);
+  // `resolvePlace(..., true)` follows the receiver to the shared container, including
+  // a nested place (`wrap.items.push`). Map/Set mutators fold arguments the same way.
+  const receiver = machine.resolvePlace(access.expression, true);
+  // No place: still evaluate the receiver (a facade sink must be visited) and smear
+  // each argument into the root identifier instead of dropping it.
+  if (receiver === undefined) machine.evalExpr(access.expression, frame);
+  for (const argument of call.arguments) {
+    const folded = collapse(machine.evalExpr(argument, frame));
+    pourArgument(machine, access, receiver, folded);
   }
-  return result;
+  return blank();
+}
+
+function pourArgument(
+  machine: Evaluator,
+  access: ts.PropertyAccessExpression,
+  receiver: AbstractValue | undefined,
+  folded: AbstractValue,
+): void {
+  if (receiver === undefined) {
+    mergeIntoRootIdentifier(machine, access.expression, folded);
+    return;
+  }
+  const direct = mergeInto(receiver, folded);
+  const alias = replayMayAliasMerge(receiver, folded);
+  noteGrowth(machine, direct || alias);
+}
+
+/** `Object.assign(target, ...sources)` merges each source into the target's live value. */
+export function handleObjectAssign(
+  machine: Evaluator,
+  call: ts.CallExpression,
+  frame: EvalContext,
+): AbstractValue {
+  const targetExpr = call.arguments[0];
+  if (targetExpr === undefined) return blank();
+  const liveTarget = machine.resolvePlace(targetExpr, true);
+  const returned = machine.evalExpr(targetExpr, frame);
+  for (const sourceExpr of call.arguments.slice(1)) {
+    absorbSource(machine, frame, liveTarget, returned, sourceExpr);
+  }
+  return returned;
+}
+
+function absorbSource(
+  machine: Evaluator,
+  frame: EvalContext,
+  liveTarget: AbstractValue | undefined,
+  returned: AbstractValue,
+  sourceExpr: ts.Expression,
+): void {
+  // A place source is not re-evaluated. Object fields are adopted by reference so a
+  // later write through either side sees the same object; container labels still merge.
+  // Growth of the returned value is not a `changed` signal — only the live target is.
+  const sourcePlace = machine.resolvePlace(sourceExpr);
+  const sourceValue = sourcePlace === undefined ? machine.evalExpr(sourceExpr, frame) : sourcePlace;
+  if (liveTarget === undefined) {
+    mergeInto(returned, sourceValue);
+    return;
+  }
+  if (sourcePlace !== undefined) noteGrowth(machine, adoptFields(liveTarget, sourcePlace));
+  noteGrowth(machine, mergeInto(liveTarget, sourceValue));
+  mergeInto(returned, sourceValue);
 }

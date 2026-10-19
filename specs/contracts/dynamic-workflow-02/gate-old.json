@@ -1,0 +1,59 @@
+{
+  "contract": "dynamic-workflow-02",
+  "commit": "7107a48b86d1705f9ef499c528ca8ffdb1d97ae6",
+  "node": "v24.14.0",
+  "generatedAt": "2026-10-18T18:37:08.667Z",
+  "runner": "scripts/contract-gate.mjs",
+  "testFiles": [
+    "specs/contracts/dynamic-workflow-02/tests/concurrency.test.mjs",
+    "specs/contracts/dynamic-workflow-02/tests/engine-artifact.test.mjs",
+    "specs/contracts/dynamic-workflow-02/tests/engine-ask.test.mjs",
+    "specs/contracts/dynamic-workflow-02/tests/engine-observation.test.mjs",
+    "specs/contracts/dynamic-workflow-02/tests/engine-report.test.mjs",
+    "specs/contracts/dynamic-workflow-02/tests/engine-resume.test.mjs",
+    "specs/contracts/dynamic-workflow-02/tests/engine-settlement.test.mjs",
+    "specs/contracts/dynamic-workflow-02/tests/engine-world.test.mjs",
+    "specs/contracts/dynamic-workflow-02/tests/facade.test.mjs",
+    "specs/contracts/dynamic-workflow-02/tests/golden.test.mjs",
+    "specs/contracts/dynamic-workflow-02/tests/journal.test.mjs",
+    "specs/contracts/dynamic-workflow-02/tests/lowering.test.mjs",
+    "specs/contracts/dynamic-workflow-02/tests/pure.test.mjs",
+    "specs/contracts/dynamic-workflow-02/tests/schema.test.mjs",
+    "specs/contracts/dynamic-workflow-02/tests/surface.test.mjs"
+  ],
+  "sourceFrom": "src",
+  "entries": {
+    "source": {
+      "exitCode": 0,
+      "tests": 420,
+      "pass": 420,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0,
+      "outputTail": "✔ B20 根桶的归属面 (35.247696ms)\n▶ B30 projections 桶：浏览器安全子集（source）\n  ✔ projections 的传递图里没有任何裸包说明符 (0.843338ms)\n  ✔ 对照组：根桶的传递图确实拖入 typescript（否则上一条是空断言） (6.943773ms)\n  ✔ 两个入口桶的运行时集合与 dw01 的录制逐字一致 (6.721604ms)\n✔ B30 projections 桶：浏览器安全子集（source） (14.66555ms)\nℹ tests 420\nℹ suites 62\nℹ pass 420\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 35780.082636"
+    },
+    "dist": {
+      "exitCode": 0,
+      "tests": 420,
+      "pass": 420,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0,
+      "outputTail": "✔ B20 根桶的归属面 (31.316607ms)\n▶ B30 projections 桶：浏览器安全子集（dist）\n  ✔ projections 的传递图里没有任何裸包说明符 (2.276233ms)\n  ✔ 对照组：根桶的传递图确实拖入 typescript（否则上一条是空断言） (8.577917ms)\n  ✔ 两个入口桶的运行时集合与 dw01 的录制逐字一致 (5.688785ms)\n✔ B30 projections 桶：浏览器安全子集（dist） (16.734728ms)\nℹ tests 420\nℹ suites 62\nℹ pass 420\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 34071.828047",
+      "environment": {
+        "KNORVIA_DW02_ENTRY": "dist"
+      },
+      "loader": null
+    }
+  },
+  "stubReplacement": {
+    "replacedFiles": 37,
+    "tests": 15,
+    "pass": 0,
+    "fail": 15,
+    "allFail": true,
+    "exitCode": 1,
+    "outputTail": "✖ /workspace/wt-dw02/specs/contracts/dynamic-workflow-02/tests/lowering.test.mjs (403.411854ms)\n  'test failed'\n\ntest at specs/contracts/dynamic-workflow-02/tests/pure.test.mjs:1:1\n✖ /workspace/wt-dw02/specs/contracts/dynamic-workflow-02/tests/pure.test.mjs (428.044184ms)\n  'test failed'\n\ntest at specs/contracts/dynamic-workflow-02/tests/schema.test.mjs:1:1\n✖ /workspace/wt-dw02/specs/contracts/dynamic-workflow-02/tests/schema.test.mjs (433.831076ms)\n  'test failed'\n\ntest at specs/contracts/dynamic-workflow-02/tests/surface.test.mjs:1:1\n✖ /workspace/wt-dw02/specs/contracts/dynamic-workflow-02/tests/surface.test.mjs (994.743118ms)\n  'test failed'"
+  },
+  "pass": true
+}
