@@ -25,7 +25,14 @@
         "specs/contracts/core-hooks/tests/run-old-gate.mjs",
         "specs/contracts/dynamic-workflow-01/tests/record-golden.mjs",
         "specs/contracts/dynamic-workflow-01/tests/gen-interface.mjs",
-        "specs/contracts/dynamic-workflow-01/tests/scan-callers.mjs"
+        "specs/contracts/dynamic-workflow-01/tests/scan-callers.mjs",
+        "specs/contracts/dynamic-workflow-02/tests/record-golden.mjs",
+        "specs/contracts/dynamic-workflow-02/tests/gen-interface.mjs",
+        "specs/contracts/dynamic-workflow-02/tests/record-facade.mjs",
+        "specs/contracts/dynamic-workflow-02/tests/scan-callers.mjs",
+        "specs/contracts/dynamic-workflow-02/tests/harness.mjs",
+        "specs/contracts/dynamic-workflow-02/tests/scope.mjs",
+        "specs/contracts/dynamic-workflow-02/tests/exports-ast.mjs"
       ]
     },
     "packages/desktop": {

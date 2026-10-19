@@ -1,6 +1,10 @@
 # dynamic-workflow-02 合同（README）
 
-**v1 · 2026-10-19 · 分支 `contract/dynamic-workflow-02`（基线 `origin/main@3e9505cd`）**
+**v3 · 2026-10-19 · 分支 `replace/dynamic-workflow-02`（合同分支基线 `origin/main@3e9505cd`）**
+
+v3（2026-10-19）：替换收尾，按计划书「每包流程」第五步删除 `stubs/`（37 个桩 + `build-stubs.mjs` + `targets.txt`），新增 `design.md`，登记合同文件与替换实现的来源。测试断言一字未改；`tests/scope.mjs` 只增加「登记后按合同基线冻结的 unchanged 名单归位、新拆模块不进兼容面」的读数口径，使范围断言在 `licensing/current-files.json` 重生成后仍指向原 40 个继承文件。新实现上重跑合同门：源码与 dist 各 420/420。桩替换的 allFail 证据留在 `gate-old.json` / `gate-old-v2.json`，不再可复跑，也不作为回退路径。
+
+v2（2026-10-19）：按用户裁决，把声明模式计分的纯数据常量表在 `interface.md` 中逐条列出键与值，替换原来的 `…`；测试断言未改，旧门对旧实现 `8c9a9e86` 重跑并记录在 `acceptance.md` 第九节与 `gate-old-v2.json`（v1 的 `gate-old.json` 保持原样）。
 
 本目录是 `@knorvia/dynamic-workflow` 运行时侧的替换合同：重写这个包时必须保住的行为、兼容面、调用方、夹具与证据。合同阶段只做计划书「每包流程」的前三步（选包与边界 → 合同八件套 → 在旧实现上跑旧门），**不含**重写实现、不含 `licensing/reviews.json` / `knip.json` 登记（第五步）。
 
@@ -30,18 +34,19 @@
 
 ## 完成度
 
-| 件                              | 文件                                                 | 状态 | 备注                                                                                                                   |
-| ------------------------------- | ---------------------------------------------------- | ---- | ---------------------------------------------------------------------------------------------------------------------- |
-| 说明                            | `README.md`（本文件）                                | v1   |                                                                                                                        |
-| 行为                            | `behavior.md`                                        | v1   | B1–B30，每条九项                                                                                                       |
-| 接口                            | `interface.md`                                       | v1   | 机器生成，勿手改；B20 的 oracle                                                                                        |
-| 调用方                          | `callers.md`（+ `callers-raw.txt`）                  | v1   | 扫描脚本 `tests/scan-callers.mjs`                                                                                      |
-| 测试                            | `tests/`（15 个 `.test.mjs` + 9 个辅助）             | v1   | 420 例 / 62 suite，源码与 dist 双入口各全过                                                                            |
-| 夹具                            | `fixtures/`（语料 + 2 份 golden + 2 份 facade 录制） | v1   | 350 例 lowering + 26 例整轮运行                                                                                        |
-| 预登记差异                      | `known-differences.md`                               | v1   | K1–K13                                                                                                                 |
-| 验收                            | `acceptance.md`（+ `gate-old.json`）                 | v1   | 旧门 `pass: true`                                                                                                      |
-| 桩（仅服务旧门的 allFail 证明） | `stubs/`（37 个桩 + `targets.txt`）                  | v1   | 不当 oracle                                                                                                            |
-| 无用代码删除                    | ——                                                   | 空   | `npx knip -W @knorvia/dynamic-workflow --include=exports,types,files` 退出码 0 且空输出；4 个零消费者再导出按 K11 保留 |
+| 件                              | 文件                                                     | 状态 | 备注                                                                                                                   |
+| ------------------------------- | -------------------------------------------------------- | ---- | ---------------------------------------------------------------------------------------------------------------------- |
+| 说明                            | `README.md`（本文件）                                    | v3   | v3 删桩、加 `design.md`、登记来源                                                                                      |
+| 行为                            | `behavior.md`                                            | v1   | B1–B30，每条九项                                                                                                       |
+| 设计与状态所有者                | `design.md`                                              | v3   | 模块簇、状态所有者、关键数据结构、B1–B30 落点                                                                          |
+| 接口                            | `interface.md`                                           | v1   | 机器生成，勿手改；B20 的 oracle                                                                                        |
+| 调用方                          | `callers.md`（+ `callers-raw.txt`）                      | v1   | 扫描脚本 `tests/scan-callers.mjs`                                                                                      |
+| 测试                            | `tests/`（15 个 `.test.mjs` + 9 个辅助）                 | v1   | 420 例 / 62 suite，源码与 dist 双入口各全过                                                                            |
+| 夹具                            | `fixtures/`（语料 + 2 份 golden + 2 份 facade 录制）     | v1   | 350 例 lowering + 26 例整轮运行                                                                                        |
+| 预登记差异                      | `known-differences.md`                                   | v1   | K1–K13；K12 的读数口径按 v3 登记状态更新                                                                               |
+| 验收                            | `acceptance.md`（+ `gate-old.json`、`gate-old-v2.json`） | v3   | 旧门 `pass: true`；新实现源码与 dist 各 420/420                                                                        |
+| 桩（仅服务旧门的 allFail 证明） | `stubs/`（37 个桩 + `targets.txt`）                      | v1   | **v3 已删除**；证据留 `gate-old-v2.json` 的 `stubReplacement`，不再可复跑                                              |
+| 无用代码删除                    | ——                                                       | 空   | `npx knip -W @knorvia/dynamic-workflow --include=exports,types,files` 退出码 0 且空输出；4 个零消费者再导出按 K11 保留 |
 
 ## 运行契约测试
 
@@ -69,7 +74,7 @@ npx oxfmt specs/contracts/dynamic-workflow-02/fixtures specs/contracts/dynamic-w
 DWF02_CORPUS_CHECK=1 node --import tsx specs/contracts/dynamic-workflow-02/fixtures/corpus.mjs  # 语料规模自检
 ```
 
-跑旧门（生成/刷新 `gate-old.json`；`--build` 那步是 Windows PowerShell 路径，Linux 侧先单独 build）：
+跑旧门（**v1/v2 历史命令**，当时用于生成 `gate-old.json` / `gate-old-v2.json`；v3 起 `stubs/` 已删除，桩替换这一段不再可复跑，两份已提交的旧门记录也不改写。`--build` 那步是 Windows PowerShell 路径，Linux 侧先单独 build）：
 
 ```bash
 node scripts/contract-gate.mjs \
@@ -80,7 +85,16 @@ node scripts/contract-gate.mjs \
   --json specs/contracts/dynamic-workflow-02/gate-old.json
 ```
 
-桩替换会把桩覆盖到工作树的真实文件（tmpdir 备份 + `finally` 还原），**只在 `git status` 干净的树上跑**。
+当前实现 / 替换后的回归门（不带桩替换，报告写到合同目录以外）：
+
+```bash
+node scripts/contract-gate.mjs \
+  --contract specs/contracts/dynamic-workflow-02 --tests "*.test.mjs" \
+  --dist-env KNORVIA_DW02_ENTRY=dist \
+  --json ../ktools/dw02-gate-current.json
+```
+
+桩替换会把桩覆盖到工作树的真实文件（tmpdir 备份 + `finally` 还原），**只在 `git status` 干净的树上跑**（历史命令；v3 起桩已删除）。
 
 ## 旧门尾部输出（v1，提交 `7107a48b`，Node v24.14.0）
 
@@ -95,6 +109,17 @@ contract-gate: 报告写入 specs/contracts/dynamic-workflow-02/gate-old.json
 ```
 
 `gate-old.json`：`pass: true`，`generatedAt` `2026-10-18T18:37:08.667Z`，源码 `ℹ duration_ms 35780.082636`、dist `ℹ duration_ms 34071.828047`。其余门禁结果（fmt / lint / typecheck / architecture / knip）见 `acceptance.md` 第六节。
+
+## 替换实现回归（v3，提交 `a2af8231`，Node v24.14.0）
+
+```
+contract-gate: 源码入口（15 个测试文件）…
+  tests=420 pass=420 fail=0 skipped=0 exit=0
+contract-gate: dist 入口…
+  tests=420 pass=420 fail=0 skipped=0 exit=0
+```
+
+不带桩替换（v3 已删桩）；源码与 dist 各 420/420、62 suite。详细验收见 `docs/knorvia-dynamic-workflow-02-acceptance.md`。
 
 ## 条目 → 测试对照表（B1–B30）
 
@@ -136,7 +161,7 @@ contract-gate: 报告写入 specs/contracts/dynamic-workflow-02/gate-old.json
 ## 待决事项（不在合同阶段擅自执行）
 
 1. **K10 的 message 文本**：`fixtures/golden/engine-run.json` 把 21 处引擎错误 `message` 录进了回放载荷，而合同另一处口径是「流程判断一律用码，绝不匹配错误文本」。需 Lead 裁定：（a）把 `message` 从比对载荷里摘掉（要升版本并说明强度变化），还是（b）要求重写实现复用旧文案。红线是不放宽断言，本阶段两者都不做。
-2. **`facade/dts.ts` 的相似度计分**：K9 已把锁定面收窄到去注释声明面，替换阶段对该文件按声明面测相似、注释散文不计分——需 Lead 确认后写进计分脚本用法（`acceptance.md` 第八节）。
-3. **第五步登记**：`licensing/reviews.json` 的合同文件来源登记（`decision: "original"` + `normalizedSha256`）与 `knip.json` 的 entry 追加（本包 4 个录制/生成器脚本 + harness 内部导出目前被全仓 knip 基线报为 unused，根因是 entry glob 只收 `*.test.ts`）。
+2. ~~**`facade/dts.ts` 的相似度计分**~~（v3 已定）：替换实现的注释全部自写，普通模式实测 containment 0.1225 / longest run 2 / structural 0.0909，三项门槛全过；无需另开声明模式口径。逐文件数值见 `docs/knorvia-dynamic-workflow-02-acceptance.md`。
+3. ~~**第五步登记**~~（v3 已完成）：41 个重写源文件（37 个继承目标 + 4 个新拆模块）、合同文件与验收文档已登记为 `original`；`knip.json` 根 entry 已补本包 4 个录制/生成器脚本。
 4. **Windows 腿**：本地只在 Linux 实测；本阶段不 push、不开 PR，`studio-offline.yml` 的 Windows 结果尚未取得。
 5. **符号级引用回溯**：`pnpm dep:refs` 在 537 项导出规模下 V8 OOM，替换阶段按需对单文件跑；当前的兼容面判断建立在语法级扫描 + 字符串路径人工核对（本包命中为零）之上。
