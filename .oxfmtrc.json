@@ -20,6 +20,8 @@
     "apps/cli/packages/plugin-creator-plugin/**",
     "apps/cli/packages/skill-creator-plugin/**",
     "apps/cli/packages/core/src/tool/handlers/generated/**",
-    "**/*.generated.ts"
+    "**/*.generated.ts",
+    "specs/contracts/packages-02/fixtures/provider-config/old-write.json",
+    "specs/contracts/packages-02/fixtures/provider-config/legacy-manual-expected.json"
   ]
 }
