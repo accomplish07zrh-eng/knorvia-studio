@@ -1,0 +1,19 @@
+{
+  "src/a.ts": "a\nb\n",
+  "src/b.tsx": "x\r\ny",
+  "src/empty.ts": "",
+  "src/nested/g.tsx": "é\n",
+  "src/c.spec.ts": "export const c = 1;\n",
+  "src/d.test.tsx": "export const d = 1;\n",
+  "src/__tests__/e.ts": "export const e = 1;\n",
+  "tests/f.ts": "export const f = 1;\n",
+  "src/ignored.js": "export const ignored = 1;\n",
+  "node_modules/h.ts": "export const h = 1;\n",
+  "dist/i.ts": "export const i = 1;\n",
+  "build/j.ts": "export const j = 1;\n",
+  ".next/k.ts": "export const k = 1;\n",
+  ".turbo/l.ts": "export const l = 1;\n",
+  "coverage/m.ts": "export const m = 1;\n",
+  "out/n.ts": "export const n = 1;\n",
+  ".git/o.ts": "export const o = 1;\n"
+}
