@@ -66238,10 +66238,10 @@
     },
     {
       "path": "docs/knorvia-similarity-calibration-20261011.md",
-      "normalizedSha256": "b09da52bc2439e64eaf65eb9bb847334111928a0f171789df07a0c89e80675f7",
+      "normalizedSha256": "b0fbcccdb24a9fd3483d9005e691c0e7d7128685a7e28e2668e611647064c0cf",
       "decision": "original",
       "license": "MIT",
-      "basis": "New Knorvia calibration report for the M0-8 similarity tool: upstream tree provenance and full verification, threshold derivation, the 439-file rerun and the renamed-copy validation. Prior sources were read for the algorithm and the pinned upstream tree; no upstream text was copied into the report.",
+      "basis": "New Knorvia calibration report for the M0-8 similarity tool: upstream tree provenance and full verification, threshold derivation, the 439-file rerun and the renamed-copy validation. Prior sources were read for the algorithm and the pinned upstream tree; no upstream text was copied into the report. Section 12 records the 2026-10-19 packed-literal-split gate: whitespace-delimited literals split at runtime are an independent FAIL reason, runtime data is not flagged, and thresholds are unchanged; it also records that the four new cases pass while the pre-existing declaration case fails under the concurrent pure-data tightening, without claiming a fully green suite.",
       "evidence": [
         "docs/knorvia-similarity-calibration-20261011.md",
         "docs/knorvia-independent-replacement-plan.md"
@@ -130828,11 +130828,23 @@
       "normalizedSha256": "4922c8135670e4462fa36a8f315d1c67af20f5e30d33179e77a25ac448c50694"
     },
     {
-      "path": "scripts/provenance/similarity-declarations.mjs",
-      "normalizedSha256": "995cbe9d3f69c2d71e820cf868923d231e67334cd28d04a04eba3f955e6dc9ab",
+      "path": "scripts/provenance/similarity-declarations-purity.test.mjs",
+      "normalizedSha256": "fad10003a2ed9daaf33faceac975639fc917e4e9779fa40e66217430258f2323",
       "decision": "original",
       "license": "MIT",
-      "basis": "Knorvia-authored provenance tooling for M0-8 (line and structural similarity checker). The author read docs/knorvia-provenance-bookkeeping-20261010.md section 4 for the bookkeeping line algorithm and the task plan's tool requirements; no upstream or replaced implementation code was copied, renamed or rewritten line by line. Calibration on the 439 registered independent-replacement files: observed structural maximum 1.000, threshold 0.4 (23 files over the cap are queued for replacement); four renamed copies of real upstream-modified files were all blocked. License follows licensing/README.md for new scripts/provenance tools. Declaration compatibility-line stripping driven by interface.md names.",
+      "basis": "New Knorvia regression tests for the declaration-mode purity guard: a named const block is only exempt from scoring when it is pure data (literal arrays/objects, z.enum, Object.freeze), while functions, conditions, arithmetic, spreads, interpolated templates and computed calls keep their lines scored. Node built-ins only; no upstream test was copied or adapted. License follows licensing/README.md for new scripts/provenance tools.",
+      "evidence": [
+        "licensing/README.md",
+        "docs/knorvia-similarity-calibration-20261011.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "scripts/provenance/similarity-declarations.mjs",
+      "normalizedSha256": "fbeaabff67515116947a4e9fbb553d4ea1602d97f1e833ce8fc76e678ec987ce",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored provenance tooling for M0-8 (line and structural similarity checker). The author read docs/knorvia-provenance-bookkeeping-20261010.md section 4 for the bookkeeping line algorithm and the task plan's tool requirements; no upstream or replaced implementation code was copied, renamed or rewritten line by line. Calibration on the 439 registered independent-replacement files: observed structural maximum 1.000, threshold 0.4 (23 files over the cap are queued for replacement); four renamed copies of real upstream-modified files were all blocked. License follows licensing/README.md for new scripts/provenance tools. Declaration compatibility-line stripping driven by interface.md names; named const blocks are only stripped when they are pure data, so functions, conditions and computed values inside a listed const keep scoring.",
       "evidence": [
         "licensing/README.md",
         "docs/knorvia-similarity-calibration-20261011.md",
@@ -130876,6 +130888,18 @@
       ]
     },
     {
+      "path": "scripts/provenance/similarity-packed-literal.mjs",
+      "normalizedSha256": "4dffece869c166f981da49f8d054ce5afe4ca9c865833075c692759932e94325",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored anti-gaming extension for the M0-8 similarity checker: flag candidates that pack wording into whitespace-delimited string/template literals and split them into a list at runtime (direct split, const-bound literal/array/join result, flatMap over a literal array, or a literal argument to a wrapper that splits its parameter). Runtime data such as parameters, file/process output and parsed git/ps rows is deliberately not flagged. Lightweight AST literal propagation only, no constant evaluator. No upstream or replaced implementation was copied. License follows licensing/README.md for new scripts/provenance tools.",
+      "evidence": [
+        "licensing/README.md",
+        "docs/knorvia-similarity-calibration-20261011.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
       "path": "scripts/provenance/similarity-reexport.mjs",
       "normalizedSha256": "816660a9eb0ccd5fe5bf97a16800b3bed6249278286641ba11b29854958447f7",
       "decision": "original",
@@ -130901,10 +130925,10 @@
     },
     {
       "path": "scripts/provenance/similarity.mjs",
-      "normalizedSha256": "626ffc05ce58812edc6d75f0f3abc633906e123b972f71ba943a42cc26dd836c",
+      "normalizedSha256": "186693bb5c0b48431df63ce2d52077ab712c64234c3d9516a0eaf01a1cf953cc",
       "decision": "original",
       "license": "MIT",
-      "basis": "Knorvia-authored provenance tooling for M0-8 (line and structural similarity checker). The author read docs/knorvia-provenance-bookkeeping-20261010.md section 4 for the bookkeeping line algorithm and the task plan's tool requirements; no upstream or replaced implementation code was copied, renamed or rewritten line by line. Calibration on the 439 registered independent-replacement files: observed structural maximum 1.000, threshold 0.4 (23 files over the cap are queued for replacement); four renamed copies of real upstream-modified files were all blocked. License follows licensing/README.md for new scripts/provenance tools. Entry point: candidate/old/upstream resolution, gate evaluation, JSON report and exit code.",
+      "basis": "Knorvia-authored provenance tooling for M0-8 (line and structural similarity checker). The author read docs/knorvia-provenance-bookkeeping-20261010.md section 4 for the bookkeeping line algorithm and the task plan's tool requirements; no upstream or replaced implementation code was copied, renamed or rewritten line by line. Calibration on the 439 registered independent-replacement files: observed structural maximum 1.000, threshold 0.4 (23 files over the cap are queued for replacement); four renamed copies of real upstream-modified files were all blocked. License follows licensing/README.md for new scripts/provenance tools. Entry point: candidate/old/upstream resolution, gate evaluation, JSON report and exit code. Packed-literal gate: flag whitespace-delimited string/template literals split at runtime (direct, const/array/join-bound, or via a literal-argument helper), while leaving runtime data (parameters, file/process output, git/ps row parsing) alone.",
       "evidence": [
         "licensing/README.md",
         "docs/knorvia-similarity-calibration-20261011.md",
@@ -130913,10 +130937,10 @@
     },
     {
       "path": "scripts/provenance/similarity.test.mjs",
-      "normalizedSha256": "8f25673e7f16e09e2815d0c036b6b070843170cdc68841017e6af4fdb74c8a94",
+      "normalizedSha256": "f3a7439a6c08e3027068ab4aed974c6b04fe0922e9d20a80d1d4458ea75f3867",
       "decision": "original",
       "license": "MIT",
-      "basis": "Knorvia-authored provenance tooling for M0-8 (line and structural similarity checker). The author read docs/knorvia-provenance-bookkeeping-20261010.md section 4 for the bookkeeping line algorithm and the task plan's tool requirements; no upstream or replaced implementation code was copied, renamed or rewritten line by line. Calibration on the 439 registered independent-replacement files: observed structural maximum 1.000, threshold 0.4 (23 files over the cap are queued for replacement); four renamed copies of real upstream-modified files were all blocked. License follows licensing/README.md for new scripts/provenance tools. Contract tests: line boundaries (exactly ten lines, run 7 vs 8, containment 0.19 vs 0.2), renamed copy blocked, independently structured implementation passing, declaration line stripping, binary skip, Windows newlines, JSON fields and exit codes.",
+      "basis": "Knorvia-authored provenance tooling for M0-8 (line and structural similarity checker). The author read docs/knorvia-provenance-bookkeeping-20261010.md section 4 for the bookkeeping line algorithm and the task plan's tool requirements; no upstream or replaced implementation code was copied, renamed or rewritten line by line. Calibration on the 439 registered independent-replacement files: observed structural maximum 1.000, threshold 0.4 (23 files over the cap are queued for replacement); four renamed copies of real upstream-modified files were all blocked. License follows licensing/README.md for new scripts/provenance tools. Contract tests: line boundaries (exactly ten lines, run 7 vs 8, containment 0.19 vs 0.2), renamed copy blocked, independently structured implementation passing, declaration line stripping, binary skip, Windows newlines, JSON fields and exit codes. Packed-literal split positives (literal, const/array/join, helper call) and runtime-data negatives.",
       "evidence": [
         "licensing/README.md",
         "docs/knorvia-similarity-calibration-20261011.md",

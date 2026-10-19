@@ -1313,3 +1313,138 @@ test("反刷分：桶文件多目标分别展开后取最大相似度", () => {
     },
   );
 });
+
+test("packed-literal-split：字面量与模板字面量直接 split 空白必须 FAIL（独立 gate）", () => {
+  withTree({ "upstream/keep.ts": "export const keep = 1;\n" }, (root) => {
+    const candidate = writeCandidate(
+      root,
+      "literal-split.ts",
+      [
+        "export function words(): readonly string[] {",
+        '  return "alpha beta gamma".split(" ");',
+        "}",
+        "export function tags(): readonly string[] {",
+        "  return `delta epsilon zeta`.split(/\\s+/u);",
+        "}",
+      ].join("\n"),
+    );
+    const json = join(root, "report.json");
+    const result = runTool([
+      "--upstream-dir",
+      join(root, "upstream"),
+      "--gates",
+      "line",
+      "--candidate",
+      candidate,
+      "--json",
+      json,
+    ]);
+    assert.equal(result.status, 1, result.stdout);
+    assert.match(result.stdout, /FAIL/);
+    assert.match(result.stdout, /-> packed-literal-split/);
+    const report = JSON.parse(readFileSync(json, "utf8"));
+    assert.ok(report.candidates[0].packedLiteralSplits.length >= 2);
+  });
+});
+
+test("packed-literal-split：const 字面量、字面量数组与 join 结果再 split 必须 FAIL", () => {
+  withTree({ "upstream/keep.ts": "export const keep = 1;\n" }, (root) => {
+    const candidate = writeCandidate(
+      root,
+      "bound-split.ts",
+      [
+        'const WORD_PACK = "alpha beta gamma";',
+        'const GROUP_PACK = ["delta epsilon", "zeta eta"];',
+        'const JOINED_PACK = ["theta", "iota"].join(" ");',
+        'export function words(): readonly string[] { return WORD_PACK.split(" "); }',
+        "export function groups(): readonly string[] {",
+        "  return GROUP_PACK.flatMap((item) => item.split(/\\s+/u));",
+        "}",
+        'export function joined(): readonly string[] { return JOINED_PACK.split(" "); }',
+      ].join("\n"),
+    );
+    const json = join(root, "report.json");
+    const result = runTool([
+      "--upstream-dir",
+      join(root, "upstream"),
+      "--gates",
+      "line",
+      "--candidate",
+      candidate,
+      "--json",
+      json,
+    ]);
+    assert.equal(result.status, 1, result.stdout);
+    assert.match(result.stdout, /packed-literal-split/);
+    const report = JSON.parse(readFileSync(json, "utf8"));
+    assert.ok(report.candidates[0].packedLiteralSplits.length >= 3);
+  });
+});
+
+test("packed-literal-split：包装助手以字符串字面量实参调用必须 FAIL", () => {
+  withTree({ "upstream/keep.ts": "export const keep = 1;\n" }, (root) => {
+    const candidate = writeCandidate(
+      root,
+      "helper-split.ts",
+      [
+        "function enumWords(source: string): readonly string[] {",
+        "  return source.split(/\\s+/u);",
+        "}",
+        "export function labels(): readonly string[] {",
+        '  return enumWords("alpha beta gamma");',
+        "}",
+      ].join("\n"),
+    );
+    const result = runTool([
+      "--upstream-dir",
+      join(root, "upstream"),
+      "--gates",
+      "structural",
+      "--candidate",
+      candidate,
+    ]);
+    assert.equal(result.status, 1, result.stdout);
+    assert.match(result.stdout, /FAIL/);
+    assert.match(result.stdout, /packed-literal-split/);
+  });
+});
+
+test("packed-literal-split：运行时数据（git/ps 行、文件输出、用户输入）不得误报", () => {
+  withTree({ "upstream/keep.ts": "export const keep = 1;\n" }, (root) => {
+    const candidate = writeCandidate(
+      root,
+      "runtime-split.ts",
+      [
+        'import { readFileSync } from "node:fs";',
+        'const STATUS = readFileSync("/proc/self/status", "utf8");',
+        "function splitWords(source: string): string[] {",
+        '  return source.split(" ");',
+        "}",
+        "export function statusFields(): string[] {",
+        "  return STATUS.split(/\\s+/u);",
+        "}",
+        "export function gitRows(output: string): string[][] {",
+        "  return output",
+        "    .split(/\\r?\\n/u)",
+        "    .map((row) => row.trim().split(/\\s+/u));",
+        "}",
+        "export function userWords(query: string): string[] {",
+        "  return splitWords(query);",
+        "}",
+        'const CSV = "alpha,beta,gamma";',
+        'export function csv(): string[] { return CSV.split(","); }',
+      ].join("\n"),
+    );
+    const result = runTool([
+      "--upstream-dir",
+      join(root, "upstream"),
+      "--gates",
+      "line",
+      "--candidate",
+      candidate,
+    ]);
+    assert.equal(result.status, 0, result.stdout);
+    assert.match(result.stdout, /PASS/);
+    assert.doesNotMatch(result.stdout, /packed-literal-split/);
+  });
+});
