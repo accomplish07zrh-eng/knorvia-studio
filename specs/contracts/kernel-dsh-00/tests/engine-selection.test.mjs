@@ -5,6 +5,7 @@ import { spawn } from "node:child_process";
 import { readFile, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import test from "node:test";
+import { pathToFileURL } from "node:url";
 import { cliEntry, loadKernelEngine, repoRoot } from "./entry.mjs";
 import {
   KERNEL_READY,
@@ -104,12 +105,16 @@ test("B2/B20 默认路径不解析任何 @deepseek-ai/*，开关路径才加载 
     if (engine === undefined) delete env.KNORVIA_KERNEL_ENGINE;
     else env.KNORVIA_KERNEL_ENGINE = engine;
 
-    const child = spawn(process.execPath, ["--import", registerFile, cliEntry, ...args], {
-      cwd: repoRoot,
-      env,
-      stdio: ["ignore", "pipe", "pipe"],
-      windowsHide: true,
-    });
+    const child = spawn(
+      process.execPath,
+      ["--import", pathToFileURL(registerFile).href, cliEntry, ...args],
+      {
+        cwd: repoRoot,
+        env,
+        stdio: ["ignore", "pipe", "pipe"],
+        windowsHide: true,
+      },
+    );
     let stderr = "";
     child.stderr.setEncoding("utf8");
     child.stderr.on("data", (chunk) => {
