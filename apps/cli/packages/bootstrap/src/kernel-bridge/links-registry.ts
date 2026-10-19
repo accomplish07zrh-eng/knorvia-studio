@@ -21,18 +21,23 @@ import type {
 } from "@knorvia/shared/protocol-v4";
 import type { BridgeClientMode, BridgeFlowState } from "./interface.js";
 
+/** JSON-RPC 标准错误码：参数非法。 */
+const JSONRPC_INVALID_PARAMS = -32602;
+/** JSON-RPC 标准错误码：服务端内部错误（既有业务 fault 也走这个外层码）。 */
+const JSONRPC_INTERNAL_ERROR = -32603;
+
 /**
  * 桥内协议错误。
  *
- * `code` 是桥自己的稳定字符串码（不是 wire 上的 JSON-RPC 数字码）：段 A 在 NDJSON
- * 出口把它映射成既有协议错误的数字码与 data，wire 上不出现新 code。用字符串是为了
- * 让桥的两个分段都不依赖 protocol 目录的枚举，也不会把数字码当业务分支。
+ * `code` 是 JSON-RPC 数字码，段 A 在 NDJSON 出口可以直接透传成错误响应的 `code`；
+ * 既有协议约定「外层数字码 + data.code 稳定业务码」，所以业务码放在 `data.code`，
+ * wire 上不出现新错误码。桥的两个分段都不依赖 protocol 目录的错误类。
  */
 export class BridgeProtocolError extends Error {
-  readonly code: string;
+  readonly code: number;
   readonly data?: unknown;
 
-  constructor(code: string, message: string, data?: unknown) {
+  constructor(code: number, message: string, data?: unknown) {
     super(message);
     this.name = "BridgeProtocolError";
     this.code = code;
@@ -40,17 +45,31 @@ export class BridgeProtocolError extends Error {
   }
 }
 
-/** 参数边界错误（topic/clientMode/flow state 非法）：映射为既有 invalid params。 */
-export const BRIDGE_INVALID_PARAMS = "proto.invalidParams";
-/** 会话不在投影层注册：映射为既有 sessionNotFound。 */
-export const BRIDGE_SESSION_NOT_FOUND = "proto.sessionNotFound";
-/** 订阅不属于该 topic/connection：映射为既有 subscription notOwned。 */
-export const BRIDGE_SUBSCRIPTION_NOT_OWNED = "fault.subscription.notOwned";
+/** 参数边界错误（topic/clientMode/flow state 非法）。 */
+export function bridgeInvalidParams(message: string): BridgeProtocolError {
+  return new BridgeProtocolError(JSONRPC_INVALID_PARAMS, message);
+}
+
+/** 会话不在投影层注册；业务码沿用旧运行时的 proto.sessionNotFound。 */
+export function bridgeSessionNotFound(sessionId: string): BridgeProtocolError {
+  return new BridgeProtocolError(JSONRPC_INTERNAL_ERROR, `Session not found: ${sessionId}`, {
+    code: "proto.sessionNotFound",
+  });
+}
+
+/** 订阅不属于该 topic/connection；业务码沿用旧运行时的 fault.subscription.notOwned。 */
+export function bridgeSubscriptionNotOwned(subscriptionId: string): BridgeProtocolError {
+  return new BridgeProtocolError(
+    JSONRPC_INTERNAL_ERROR,
+    `Subscription not owned by topic/connection: ${subscriptionId}`,
+    { code: "fault.subscription.notOwned" },
+  );
+}
 
 /** clientMode 是订阅期唯一的链路选择；非法值必须在建立任何订阅状态之前拒绝。 */
 export function assertValidClientMode(mode: unknown): asserts mode is BridgeClientMode {
   if (mode !== "desktop-continuous" && mode !== "web-remote-replayable") {
-    throw new BridgeProtocolError(BRIDGE_INVALID_PARAMS, `Invalid clientMode: ${String(mode)}`);
+    throw bridgeInvalidParams(`Invalid clientMode: ${String(mode)}`);
   }
 }
 
@@ -102,9 +121,7 @@ export class LinksRegistry {
     const subscriptionId = `sub-${params.logEpoch}-${this.nextSerial++}`;
     const base = params.base;
     const isResume =
-      base !== undefined &&
-      base.logEpoch === params.logEpoch &&
-      params.isResumable(base.seq);
+      base !== undefined && base.logEpoch === params.logEpoch && params.isResumable(base.seq);
 
     const subscription: BridgeSubscription = {
       subscriptionId,

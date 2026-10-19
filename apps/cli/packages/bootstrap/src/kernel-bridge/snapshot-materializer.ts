@@ -1,3 +1,4 @@
+/* eslint-disable max-lines -- 快照构造、配置归约与 DSH 事件翻译共用同一套 control/availability/inputRouting 派生函数；拆开后三处会各自复制一份派生规则，反而更容易漂移。 */
 // SPDX-License-Identifier: Apache-2.0
 // Copyright (c) 2026 Knorvia Studio contributors
 // kernel-bridge-01: 会话快照物化与 revision 推进（合同 B8–B11）
@@ -13,7 +14,6 @@ import { resolveExecutionState, type ExecutionState } from "@knorvia/shared";
 import type {
   AssistantTextRow,
   ConversationDelta,
-  ConversationRow,
   ConversationSnapshot,
   ReasoningRow,
   SessionConfigState,
@@ -96,7 +96,9 @@ export function deriveInputRouting(
   return followupMode === "guide" ? { mode: "guide" } : { mode: "enqueue" };
 }
 
-function textOfContent(content: readonly { readonly type: string; readonly text?: string }[]): string {
+function textOfContent(
+  content: readonly { readonly type: string; readonly text?: string }[],
+): string {
   let text = "";
   for (const block of content) {
     if (block.type === "text" && typeof block.text === "string") text += block.text;
@@ -105,7 +107,9 @@ function textOfContent(content: readonly { readonly type: string; readonly text?
 }
 
 /** turn/end 的 reason 决定收尾语义：成功、被打断、失败各对应一个 phase。 */
-function phaseAfterTurnEnd(reason: { readonly kind: string }): ConversationSnapshot["control"]["phase"] {
+function phaseAfterTurnEnd(reason: {
+  readonly kind: string;
+}): ConversationSnapshot["control"]["phase"] {
   switch (reason.kind) {
     case "completed":
       return "completedSuccess";
@@ -206,7 +210,10 @@ export class SnapshotMaterializer {
 
     let followupMode = currentConfig.followupMode;
     let followupChanged = false;
-    if (mutation.followupMode !== undefined && mutation.followupMode !== currentConfig.followupMode) {
+    if (
+      mutation.followupMode !== undefined &&
+      mutation.followupMode !== currentConfig.followupMode
+    ) {
       followupMode = mutation.followupMode;
       followupChanged = true;
     }
@@ -290,7 +297,7 @@ export class DshEventProjector {
       case "turn/start":
         return DshEventProjector.projectTurnStart(cursor, event.time, event.data.turn, toSeq);
       case "user/message":
-        return DshEventProjector.projectUserMessage(snapshot, cursor, event, toSeq);
+        return DshEventProjector.projectUserMessage(cursor, event, toSeq);
       case "assistant/message":
         return DshEventProjector.projectAssistantMessage(snapshot, cursor, event, toSeq);
       case "tool/call":
@@ -340,7 +347,6 @@ export class DshEventProjector {
   }
 
   private static projectUserMessage(
-    snapshot: ConversationSnapshot,
     cursor: ProjectionCursor,
     event: SessionEvent<"user/message">,
     toSeq: number,
@@ -355,7 +361,6 @@ export class DshEventProjector {
       createdAt: event.time,
       createdAtSeq: toSeq,
     };
-    void snapshot;
     return { rowDeltas: [{ op: "row.appended", row }], patch: {} };
   }
 
@@ -512,12 +517,4 @@ function allocateRowId(cursor: ProjectionCursor): number {
   const rowId = cursor.nextRowId;
   cursor.nextRowId += 1;
   return rowId;
-}
-
-/** 供投影层按 rowId 定位（工具结果回填时用）。 */
-export function findRow(
-  snapshot: ConversationSnapshot,
-  rowId: number,
-): ConversationRow | undefined {
-  return snapshot.rows.window.find((row) => row.rowId === rowId);
 }

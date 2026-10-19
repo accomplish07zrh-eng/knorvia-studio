@@ -1,3 +1,4 @@
+/* eslint-disable max-lines -- 序号分配、revision 推进、订阅首帧与闸门投递必须在同一处原子演进：拆开后 (fromSeq,toSeq] 的连续性与 revision 单点推进就无法在类型层面互相约束。 */
 // SPDX-License-Identifier: Apache-2.0
 // Copyright (c) 2026 Knorvia Studio contributors
 // kernel-bridge-01: 事件投影层编排（合同 B8–B15）
@@ -38,10 +39,9 @@ import type {
 } from "./interface.js";
 import {
   assertValidClientMode,
-  BRIDGE_INVALID_PARAMS,
-  BRIDGE_SESSION_NOT_FOUND,
-  BRIDGE_SUBSCRIPTION_NOT_OWNED,
-  BridgeProtocolError,
+  bridgeInvalidParams,
+  bridgeSessionNotFound,
+  bridgeSubscriptionNotOwned,
   LinksRegistry,
   type BridgeSubscription,
 } from "./links-registry.js";
@@ -61,7 +61,12 @@ const ROW_WINDOW_LIMIT = PROTOCOL_V4_LIMITS.snapshotTailWindowRows;
 
 interface ManagedSession extends ProjectionCursor {
   readonly sessionId: string;
-  readonly logEpoch: string;
+  /**
+   * 日志纪元只生成一次。provisional 表示它来自「事件/订阅先到」的隐式建会话，
+   * 段 A 随后用 initSession 给出的显式纪元可以覆盖它（此时还没有任何续传依赖它）。
+   */
+  logEpoch: string;
+  provisionalEpoch: boolean;
   readonly watermark: SequenceWatermark;
   snapshot: ConversationSnapshot;
   revision: number;
@@ -99,8 +104,19 @@ export class BridgeProjectionLayer implements BridgeEventProjectionLayer {
 
   initSession(params: BridgeInitSessionParams): BridgeSessionState {
     const existing = this.sessions.get(params.sessionId);
-    // 幂等：重复初始化不得重置日志纪元或清空已投影的行（重连/重放会重复调它）。
-    if (existing) return this.toSessionState(existing);
+    if (existing) {
+      // 隐式建会话（事件/订阅先到）只能拿到临时纪元；initSession 带来的才是跨重启
+      // 稳定的权威纪元，必须采纳，否则 A 持久化的纪元与 B 的永远对不上。
+      // 若某客户端已经用临时纪元完成过订阅，它下次续传会 base 失配而回落 snapshot——
+      // 合同 B10 允许这种降级，比纪元永久错接安全。
+      if (existing.provisionalEpoch && params.logEpoch !== undefined) {
+        existing.logEpoch = params.logEpoch;
+        existing.provisionalEpoch = false;
+        existing.snapshot = { ...existing.snapshot, logEpoch: params.logEpoch };
+      }
+      // 幂等：重复初始化不得重置日志纪元或清空已投影的行（重连/重放会重复调它）。
+      return this.toSessionState(existing);
+    }
     const session = this.createSession(params.sessionId, params.logEpoch, params.initialConfig);
     this.sessions.set(params.sessionId, session);
     return this.toSessionState(session);
@@ -121,13 +137,14 @@ export class BridgeProjectionLayer implements BridgeEventProjectionLayer {
   }
 
   ingestDshEvent(input: BridgeIngestDshEventInput): BridgeProjectionResult {
-    const session = this.requireSession(input.sessionId);
+    const session = this.getOrCreateSession(input.sessionId);
     const { fromSeq, toSeq } = session.watermark.allocateNextRange();
     const projection = DshEventProjector.project(session.snapshot, session, input.event, toSeq);
     return this.publish(session, projection, fromSeq, toSeq);
   }
 
   applyConfigMutation(input: BridgeConfigMutationInput): BridgeProjectionResult {
+    // 配置命令按定义作用于既有会话：为未知 id 造一个空会话会让后续事件挂到错误身份上。
     const session = this.requireSession(input.sessionId);
     const { fromSeq, toSeq } = session.watermark.allocateNextRange();
     const outcome = SnapshotMaterializer.applyConfigMutation(
@@ -151,7 +168,9 @@ export class BridgeProjectionLayer implements BridgeEventProjectionLayer {
   subscribe(request: BridgeSubscribeRequest): Promise<BridgeSubscribeResult> {
     // 校验必须先于任何订阅状态：非法 clientMode 不能挤掉同连接上的旧链路。
     assertValidClientMode(request.clientMode);
-    const session = this.requireSession(this.parseSessionIdFromTopic(request.topic));
+    // 订阅允许先于 initSession（段 A 的冷恢复可能先建链路再重放事件）：
+    // 建一个草稿投影，A 随后 initSession 会复用同一份状态而不是覆盖它。
+    const session = this.getOrCreateSession(this.parseSessionIdFromTopic(request.topic));
     const { subscription, ack, isResume } = this.links.registerSubscription({
       topic: request.topic,
       connectionId: request.connectionId,
@@ -174,14 +193,8 @@ export class BridgeProjectionLayer implements BridgeEventProjectionLayer {
   }
 
   resync(request: BridgeResyncRequest): Promise<BridgeResyncResult> {
-    const sessionKey = this.parseSessionIdFromTopic(request.topic);
-    const session = this.sessions.get(sessionKey);
-    if (!session) {
-      throw new BridgeProtocolError(
-        BRIDGE_SESSION_NOT_FOUND,
-        `Session not found for resync: ${sessionKey}`,
-      );
-    }
+    // resync 只对已建立的链路有意义：没有订阅就没有可重建的投递起点。
+    const session = this.requireSession(this.parseSessionIdFromTopic(request.topic));
     const subscription = this.links.getSubscription(request.subscriptionId);
     if (
       !subscription ||
@@ -189,38 +202,20 @@ export class BridgeProjectionLayer implements BridgeEventProjectionLayer {
       subscription.connectionId !== request.connectionId
     ) {
       // 裸 subscriptionId 会跨 topic/connection 碰撞：三元组必须同时命中。
-      throw new BridgeProtocolError(
-        BRIDGE_SUBSCRIPTION_NOT_OWNED,
-        `Subscription not owned by topic/connection: ${request.subscriptionId}`,
-      );
+      throw bridgeSubscriptionNotOwned(request.subscriptionId);
     }
 
-    const base = request.base;
     const toSeq = session.watermark.currentSeq;
-    const canResume =
-      !request.forceSnapshot &&
-      base !== undefined &&
-      base.logEpoch === session.logEpoch &&
-      session.watermark.isResumable(base.seq);
-
-    // 同一订阅上重建：闸门与背压队列里可能还压着旧帧，先丢掉再按新的水位对齐。
+    // B11 把 resync 定义为「同一订阅上重建快照」，ack.mode 也只有 snapshot：
+    // 这里不做 base 续传的捷径，否则客户端按 ack 替换状态却只收到增量。
+    // 闸门与背压队列里可能还压着旧帧，先丢掉再按新水位对齐。
     this.gates.set(subscription.subscriptionId, []);
     this.links.discardBufferedFrames(subscription.subscriptionId);
     subscription.sentSeq = toSeq;
-    if (canResume && base !== undefined) {
-      // 可续传只补 (base.seq, current]，不重发整份快照；base === current 时无帧可补。
-      if (base.seq < toSeq) {
-        this.emitWireFrame(subscription, "recovery", base.seq, toSeq, {
-          kind: "deltas",
-          deltas: session.watermark.getReplayDeltas(base.seq),
-        });
-      }
-    } else {
-      this.emitWireFrame(subscription, "recovery", 0, toSeq, {
-        kind: "snapshot",
-        snapshot: this.wireSnapshot(session, toSeq),
-      });
-    }
+    this.emitWireFrame(subscription, "recovery", 0, toSeq, {
+      kind: "snapshot",
+      snapshot: this.wireSnapshot(session, toSeq),
+    });
     this.releaseGateAfterResponse(subscription);
 
     return Promise.resolve({
@@ -234,16 +229,10 @@ export class BridgeProjectionLayer implements BridgeEventProjectionLayer {
     const subscription = this.links.getSubscription(request.subscriptionId);
     if (subscription) {
       if (subscription.topic !== request.topic) {
-        throw new BridgeProtocolError(
-          BRIDGE_SUBSCRIPTION_NOT_OWNED,
-          `Subscription topic mismatch: ${request.subscriptionId}`,
-        );
+        throw bridgeSubscriptionNotOwned(request.subscriptionId);
       }
       if (subscription.connectionId !== request.connectionId) {
-        throw new BridgeProtocolError(
-          BRIDGE_SUBSCRIPTION_NOT_OWNED,
-          `Subscription connection mismatch: ${request.subscriptionId}`,
-        );
+        throw bridgeSubscriptionNotOwned(request.subscriptionId);
       }
     }
     this.gates.delete(request.subscriptionId);
@@ -253,10 +242,7 @@ export class BridgeProjectionLayer implements BridgeEventProjectionLayer {
   setFlowControl(request: BridgeFlowControlRequest): void {
     const state = request.state;
     if (state !== "saturated" && state !== "drained" && state !== "closed") {
-      throw new BridgeProtocolError(
-        BRIDGE_INVALID_PARAMS,
-        `Invalid flow state: ${String(state)}`,
-      );
+      throw bridgeInvalidParams(`Invalid flow state: ${String(state)}`);
     }
     const replayed = this.links.setFlowState(request.connectionId, state);
     if (!replayed) return;
@@ -291,6 +277,7 @@ export class BridgeProjectionLayer implements BridgeEventProjectionLayer {
     return {
       sessionId,
       logEpoch: epoch,
+      provisionalEpoch: logEpoch === undefined,
       watermark: new SequenceWatermark(sessionId),
       snapshot: SnapshotMaterializer.createDraftSnapshot(sessionId, epoch, initialConfig),
       revision: 0,
@@ -302,26 +289,32 @@ export class BridgeProjectionLayer implements BridgeEventProjectionLayer {
   }
 
   /**
-   * 会话身份由段 A 拥有：投影层只按 initSession 注册过的 id 工作。
-   * 隐式建会话会让未知事件拿到一个新 logEpoch，已订阅的客户端随后必然读到错误代际。
+   * 事件是会话存在的证据：先到事件、后到 initSession 的顺序（冷恢复重放）不能丢事件，
+   * 因此这里允许隐式建会话。logEpoch 只生成一次，之后 initSession 复用同一个值。
+   */
+  private getOrCreateSession(sessionId: string): ManagedSession {
+    const existing = this.sessions.get(sessionId);
+    if (existing) return existing;
+    const created = this.createSession(sessionId, undefined, undefined);
+    this.sessions.set(sessionId, created);
+    return created;
+  }
+
+  /**
+   * resync 与配置命令必须命中已注册会话：resync 的语义是「在既有订阅上重建」，
+   * 凭空造会话只会给客户端一份与真实状态无关的 logEpoch 和空行窗口。
    */
   private requireSession(sessionId: string): ManagedSession {
     const session = this.sessions.get(sessionId);
     if (!session) {
-      throw new BridgeProtocolError(
-        BRIDGE_SESSION_NOT_FOUND,
-        `Session not registered in projection: ${sessionId}`,
-      );
+      throw bridgeSessionNotFound(sessionId);
     }
     return session;
   }
 
   private parseSessionIdFromTopic(topic: string): string {
     if (!topic.startsWith(SESSION_TOPIC_PREFIX) || topic.length === SESSION_TOPIC_PREFIX.length) {
-      throw new BridgeProtocolError(
-        BRIDGE_INVALID_PARAMS,
-        `Invalid conversation topic: ${topic}`,
-      );
+      throw bridgeInvalidParams(`Invalid conversation topic: ${topic}`);
     }
     return topic.slice(SESSION_TOPIC_PREFIX.length);
   }
@@ -519,13 +512,16 @@ export class BridgeProjectionLayer implements BridgeEventProjectionLayer {
    * 用 setImmediate 而不是微任务，避免与同一 tick 里的响应写竞争。
    */
   private releaseGateAfterResponse(subscription: BridgeSubscription): void {
+    const gate = this.gates.get(subscription.subscriptionId);
     setImmediate(() => {
-      const frames = this.gates.get(subscription.subscriptionId);
+      // 期间又发生一次 subscribe/resync：闸门已被新的一次替换，本次不再负责投递，
+      // 否则会把新链路的帧提前放出去，抢在它自己的响应行之前。
+      if (this.gates.get(subscription.subscriptionId) !== gate) return;
       this.gates.delete(subscription.subscriptionId);
-      if (!frames || frames.length === 0) return;
+      if (!gate || gate.length === 0) return;
       // 帧在闸门期间被 unsubscribe/dispose：直接丢弃，不能复活已删除的订阅。
       if (!this.links.getSubscription(subscription.subscriptionId)) return;
-      for (const wireFrame of frames) this.deliver(subscription, wireFrame);
+      for (const wireFrame of gate) this.deliver(subscription, wireFrame);
     });
   }
 }
