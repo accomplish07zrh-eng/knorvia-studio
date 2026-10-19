@@ -26,17 +26,18 @@ const canonicalShareUrl = (value: string): boolean => {
 const importLifecycle = z.enum(["pending", "reserved", "attached", "discarded"]);
 
 // v2：完整形态，shareUrl 必须是 http(s) 且 pathname 严格匹配 `/cn/share/<code>`。
-// strict 由 z.strictObject 承担：多键即校验失败。
-const currentImportState = z.strictObject({
-  contextId: trimmedRequiredText,
-  title: trimmedRequiredText,
-  shareUrl: z.string().url().refine(canonicalShareUrl, SHARE_URL_RULE),
-  status: importLifecycle,
-});
+const currentImportState = z
+  .object({
+    contextId: trimmedRequiredText,
+    title: trimmedRequiredText,
+    shareUrl: z.string().url().refine(canonicalShareUrl, SHARE_URL_RULE),
+    status: importLifecycle,
+  })
+  .strict();
 
 // legacy：早期快照只存一个非空标题；两种形态都不接受第三种形状。
-const earlierImportState = z.strictObject({ title: trimmedRequiredText });
+const earlierImportState = z.object({ title: trimmedRequiredText }).strict();
 
 export const sharedContextImportStateSchema = z.union([currentImportState, earlierImportState]);
 
-export type SharedContextImportState = z.output<typeof sharedContextImportStateSchema>;
+export type SharedContextImportState = z.infer<typeof sharedContextImportStateSchema>;

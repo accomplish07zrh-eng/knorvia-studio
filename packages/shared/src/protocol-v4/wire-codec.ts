@@ -39,10 +39,10 @@ const CHANNEL_EVENT_HEADER_BYTES = 2 + 3 + framedJsonBytes(String(Number.MAX_SAF
 const worstTransportId = "x".repeat(PROTOCOL_V4_LIMITS.transportEnvelopeIdMaxChars);
 
 // 任意值的 JSON 序列化结果的 UTF-8 字节数（跨平台一致）。
-export const utf8JsonByteLength = (value: unknown): number => {
+export function utf8JsonByteLength(value: unknown): number {
   const encoder = new TextEncoder();
   return encoder.encode(JSON.stringify(value)).byteLength;
-};
+}
 
 // mobile relay 外层信封的固定开销：同一份信封骨架用最大可能的 id/序号/时间戳算出字节数，作为
 // 所有帧共享的常量基底。键序即线上字节序，务必与录制口径一致，因此这里逐键赋值而不写字面量。
@@ -65,12 +65,11 @@ const RELAY_ENVELOPE_BASE_BYTES = ((): number => {
 })();
 
 // 三层承载计量的结果：CLI NDJSON 行、通道 socket 帧、mobile relay 外层各自的字节数与最大值。
-// 由计量函数一次算好后只读交回。
 type EnvelopeBudget = {
-  readonly cliNdjsonBytes: /* CLI 侧 NDJSON 那一行，含行尾换行 */ number;
-  readonly channelSocketBytes: /* 通道 socket 上这一帧的总字节数 */ number;
-  readonly mobileRelayBytes: /* mobile relay 外层信封的总字节数 */ number;
-  readonly maxBytes: /* 三者取最大，作为统一预算交回调用方 */ number;
+  cliNdjsonBytes: /* CLI 侧 NDJSON 那一行，含行尾换行 */ number;
+  channelSocketBytes: /* 通道 socket 上这一帧的总字节数 */ number;
+  mobileRelayBytes: /* mobile relay 外层信封的总字节数 */ number;
+  maxBytes: /* 三者取最大，作为统一预算交回调用方 */ number;
 };
 
 // 按当前生产三层真实承载计量 topic notification。mobile relay 会把 Channel binary 再 base64，
@@ -97,9 +96,9 @@ export function measureTopicNotificationEnvelopeBytes(
 export class TopicWireFrameEncodingError extends Error {
   readonly reasonCode: string;
 
-  constructor(reason: string) {
-    super(reason);
-    this.reasonCode = reason;
+  constructor(reasonCode: string) {
+    super(reasonCode);
+    this.reasonCode = reasonCode;
     this.name = ENCODING_ERROR_NAME;
   }
 }
@@ -112,20 +111,24 @@ const refuseFrame = (reasonCode: string): never => {
   throw new TopicWireFrameEncodingError(reasonCode);
 };
 
+// 两个可选限额独立成型：编码主路径只读必需坐标，限额缺席时统一落到实现自带的上限。
+interface EncodeTopicFrameLimits {
+  maxPhysicalFrameBytes?: /* 单帧物理预算，缺席用实现自带上限 */ number;
+  maxAssemblyBytes?: /* 整条逻辑消息的装配预算，缺席同样用自带上限 */ number;
+}
+
 // 编码选项：交付种类/主题/订阅与逻辑帧坐标由调用方给出；两个限额缺席时用实现自带上限；
 // measurePhysicalFrameBytes 由调用方注入，用于按真实承载判定单帧是否超物理预算。
-// 选项一次成型后只读，编码过程不再改写。
-export type EncodeTopicWireFramesOptions<F> = {
-  readonly deliveryKind: /* 这一批物理帧的交付语义 */ TopicFrameDeliveryKind;
-  readonly topic: /* 发布目标；完整帧的 inner topic 必须与它一致 */ string;
-  readonly subscriptionId: /* 订阅标识；完整帧的 inner 订阅必须与它一致 */ string;
-  readonly logicalFrameId: /* 同一条逻辑消息的 id，所有物理帧共享 */ string;
-  readonly logicalFrameOrdinal: /* 逻辑消息内的帧序号 */ number;
-  readonly maxPhysicalFrameBytes?: /* 单帧物理预算，缺席用实现自带上限 */ number;
-  readonly maxAssemblyBytes?: /* 整条逻辑消息的装配预算，缺席同样用自带上限 */ number;
-  /* 每一帧的物理计量，由调用方注入，可能带状态或非单调 */
-  readonly measurePhysicalFrameBytes: (wire: TopicWireFrame<F>) => number;
-};
+export interface EncodeTopicWireFramesOptions<F> extends EncodeTopicFrameLimits {
+  deliveryKind: /* 这一批物理帧的交付语义 */ TopicFrameDeliveryKind;
+  topic: /* 发布目标；完整帧的 inner topic 必须与它一致 */ string;
+  subscriptionId: /* 订阅标识；完整帧的 inner 订阅必须与它一致 */ string;
+  logicalFrameId: /* 同一条逻辑消息的 id，所有物理帧共享 */ string;
+  logicalFrameOrdinal: /* 逻辑消息内的帧序号 */ number;
+  /* 每一帧的物理计量，由调用方注入，可能带状态或非单调 */ measurePhysicalFrameBytes(
+    wire: TopicWireFrame<F>,
+  ): number;
+}
 
 // 帧外壳：complete 与 fragment 共享的七个字段，键序即线上字节序。
 interface WireEnvelope {
