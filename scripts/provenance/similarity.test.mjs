@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2026 Knorvia Studio contributors
 // 相似度工具（scripts/provenance/similarity.mjs）的契约测试：
-// 行门槛边界、结构门槛（改名副本被拦、独立写法通过）、声明剔除、二进制跳过、Windows 换行、JSON 字段与退出码。
+// 行门槛边界、结构门槛（改名副本被拦、独立写法通过）、声明剔除、二进制跳过、Windows 换行、JSON 字段与退出码；
+// 以及 2026-10-19 防刷口径：压行、拆行、增删注释前后两道指标不变，压行与凑注释不再能稀释包含率。
 // 行门槛用例用 --gates line、结构用例用 --gates all，两道门槛各自独立验证（验收用默认 all）。
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
@@ -18,7 +19,12 @@ import {
   longestRunDetail,
   normalizeLines,
 } from "./similarity-lines.mjs";
-import { structuralFingerprints, structuralOverlap } from "./similarity-structural.mjs";
+import { gateLines, loadOxfmtOptions } from "./similarity-normalize.mjs";
+import {
+  structuralFingerprints,
+  structuralOverlap,
+  structuralTokens,
+} from "./similarity-structural.mjs";
 
 const tool = fileURLToPath(new URL("./similarity.mjs", import.meta.url));
 
@@ -31,6 +37,20 @@ function withTree(files, run) {
       writeFileSync(target, contents);
     }
     return run(root);
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+}
+
+async function withTreeAsync(files, run) {
+  const root = mkdtempSync(join(tmpdir(), "knorvia-similarity-"));
+  try {
+    for (const [path, contents] of Object.entries(files)) {
+      const target = join(root, path);
+      mkdirSync(join(target, ".."), { recursive: true });
+      writeFileSync(target, contents);
+    }
+    return await run(root);
   } finally {
     rmSync(root, { recursive: true, force: true });
   }
@@ -713,7 +733,7 @@ test("--explain 辅助：命中行下标与最长连续段位置", () => {
     comparedStart: -1,
   });
 });
-test("声明模式：interface.md 列出的 const 声明块整块剔除，普通模式不变", () => {
+test("声明模式：interface.md 列出的 const 声明块整块剔除，普通模式照常计分", () => {
   const schemaFile = [
     "export const SamplePayloadSchema = z",
     "  .object({",
@@ -733,7 +753,8 @@ test("声明模式：interface.md 列出的 const 声明块整块剔除，普通
       const normal = runTool(["--upstream-dir", join(root, "upstream"), "--candidate", candidate]);
       assert.equal(normal.status, 1, normal.stdout);
       assert.match(normal.stdout, /declaration=false/);
-      assert.match(normal.stdout, /lines=6/);
+      // 2026-10-19 起普通模式先按 oxfmt 规范化（objectWrap=collapse）：zod 链收成 4 个代码行。
+      assert.match(normal.stdout, /lines=4/);
       assert.match(normal.stdout, /containment=1\.000/);
       const stripped = runTool([
         "--upstream-dir",
@@ -804,6 +825,284 @@ test("声明模式：as const 常量表整块剔除且不吞掉后面的实现�
       assert.match(result.stdout, /stripped-blocks=1/);
       assert.match(result.stdout, /residual-lines=2/);
       assert.match(result.stdout, /lines=2/);
+    },
+  );
+});
+
+// ---------------------------------------------------------------------------------------------
+// 2026-10-19 防刷：oxfmt 统一格式化 + 行包含率去注释。
+// 变换只改空白/换行/注释，token 流保持不变，因此结构相似度也必须逐项不变。
+// ---------------------------------------------------------------------------------------------
+
+const TRANSFORM_FIXTURE = [
+  "export function computeTotal(values: number[]): number {",
+  "  let total = 0;",
+  "  for (const value of values) {",
+  "    if (value > 0) {",
+  "      total += value;",
+  "    }",
+  "  }",
+  "  return total;",
+  "}",
+  "",
+  "const settings = {",
+  "  alpha: 1,",
+  "  beta: 2,",
+  "  gamma: 3,",
+  "};",
+  "",
+  'export const label = String(settings.alpha).trim() + "!";',
+  "export const first = settings.alpha;",
+  "export const sum = settings.alpha + settings.beta;",
+  'export const result = run(first, sum, "done");',
+  "",
+].join("\n");
+
+const TRANSFORM_COMPRESSED = TRANSFORM_FIXTURE.split("\n")
+  .map((line) => line.trim())
+  .filter((line) => line.length > 0)
+  .join(" ");
+
+const TRANSFORM_SPLIT = [
+  "export function computeTotal(values: number[]): number {",
+  "  let total = 0;",
+  "  for (const value of values) {",
+  "    if (value > 0) {",
+  "      total +=",
+  "        value;",
+  "    }",
+  "  }",
+  "  return total;",
+  "}",
+  "",
+  "const settings = {",
+  "  alpha: 1,",
+  "  beta: 2,",
+  "  gamma: 3,",
+  "};",
+  "",
+  "export const label =",
+  "  String(settings.alpha).trim() +",
+  '  "!";',
+  "export const first = settings.alpha;",
+  "export const sum =",
+  "  settings.alpha +",
+  "  settings.beta;",
+  "export const result = run(",
+  "  first,",
+  "  sum,",
+  '  "done",',
+  ");",
+  "",
+].join("\n");
+
+const TRANSFORM_COMMENTED = [
+  "/**",
+  " * 计算正数总和。",
+  " */",
+  "export function computeTotal(values: number[]): number {",
+  "  let total = 0; // 累计值",
+  "  for (const value of values) {",
+  "    if (value > 0) { /* 只累加正数 */",
+  "      total += value;",
+  "    }",
+  "  }",
+  "  return total;",
+  "}",
+  "",
+  "const settings = {",
+  "  alpha: 1, // 第一项",
+  "  beta: 2,",
+  "  gamma: 3,",
+  "};",
+  "",
+  'export const label = String(settings.alpha).trim() + "!"; // 标签',
+  "export const first = settings.alpha;",
+  "export const sum = settings.alpha + settings.beta;",
+  'export const result = run(first, sum, "done");',
+  "// 文件结束",
+  "",
+].join("\n");
+
+test("压行、拆行、增删注释前后，包含率与最长段逐项不变", async () => {
+  const base = await gateLines({ fileName: "transform.ts", text: TRANSFORM_FIXTURE });
+  assert.equal(base.formatted, true);
+  assert.ok(base.lines.length >= 10);
+  const baseRun = longestRun(base.lines, base.lines);
+  assert.equal(containment(base.lines, base.lines), 1);
+  assert.equal(baseRun, base.lines.length);
+  for (const [name, text] of [
+    ["压行", TRANSFORM_COMPRESSED],
+    ["拆行", TRANSFORM_SPLIT],
+    ["增删注释", TRANSFORM_COMMENTED],
+  ]) {
+    const variant = await gateLines({ fileName: "transform.ts", text });
+    assert.equal(variant.formatted, true, name);
+    assert.deepEqual(variant.lines, base.lines, `${name}：代码行必须逐行一致`);
+    assert.equal(containment(variant.lines, base.lines), 1, `${name}：包含率`);
+    assert.equal(longestRun(variant.lines, base.lines), baseRun, `${name}：最长段`);
+  }
+});
+
+test("压行、拆行、增删注释前后，结构相似度逐项不变", async () => {
+  const base = structuralFingerprints(structuralTokens("transform.ts", TRANSFORM_FIXTURE));
+  for (const [name, text] of [
+    ["压行", TRANSFORM_COMPRESSED],
+    ["拆行", TRANSFORM_SPLIT],
+    ["增删注释", TRANSFORM_COMMENTED],
+  ]) {
+    const variant = structuralFingerprints(structuralTokens("transform.ts", text));
+    assert.equal(structuralOverlap(variant, base), 1, `${name}：结构相似度`);
+    assert.deepEqual([...variant].sort(), [...base].sort(), `${name}：结构指纹`);
+  }
+});
+
+test("注释文字改动不影响门禁行结果", async () => {
+  const rewritten = TRANSFORM_COMMENTED.replaceAll("累计值", "换成另一段完全不同的说明")
+    .replaceAll("只累加正数", "另一条注释正文")
+    .replaceAll("计算正数总和", "另一个 JSDoc 标题");
+  const left = await gateLines({ fileName: "transform.ts", text: TRANSFORM_COMMENTED });
+  const right = await gateLines({ fileName: "transform.ts", text: rewritten });
+  assert.deepEqual(right.lines, left.lines);
+  assert.equal(containment(right.lines, left.lines), 1);
+  assert.equal(longestRun(right.lines, left.lines), left.lines.length);
+});
+
+test("字符串、模板与正则里的 // 不算注释", async () => {
+  const result = await gateLines({
+    fileName: "slash.ts",
+    text: [
+      'const url = "https://example.com//path"; // 行尾注释',
+      "const template = `https://example.com/${id}//tail`;",
+      "const pattern = /[/][/]/;",
+      "const ratio = first / second / third;",
+    ].join("\n"),
+  });
+  assert.deepEqual(result.lines, [
+    'const url = "https://example.com//path";',
+    "const template = `https://example.com/${id}//tail`;",
+    "const pattern = /[/][/]/;",
+    "const ratio = first / second / third;",
+  ]);
+});
+
+test("压行样例相对逐行相同的旧文件判不过（旧工具可被稀释到门槛以下）", () => {
+  const copied = Array.from(
+    { length: 16 },
+    (_, index) => `export const sample${index} = compute(${index}) + ${index * 2};`,
+  );
+  withTree(
+    { "repo/legacy/copied.ts": copied.join("\n"), "upstream/unrelated.ts": upstreamLines(30) },
+    (root) => {
+      const compressed = runTool([
+        "--repo",
+        join(root, "repo"),
+        "--upstream-dir",
+        join(root, "upstream"),
+        "--gates",
+        "line",
+        "--old",
+        "legacy/copied.ts",
+        "--candidate",
+        writeCandidate(
+          root,
+          "compressed.ts",
+          `${copied.join(" ")}\n${fillerLines("compressed", 9)}`,
+        ),
+      ]);
+      // 16 行被压成 1 行后格式化会还原：16/25 = 0.640，最长段 16。
+      assert.equal(compressed.status, 1, compressed.stdout);
+      assert.match(compressed.stdout, /lines=25/);
+      assert.match(compressed.stdout, /containment=0\.640/);
+      assert.match(compressed.stdout, /run=16/);
+    },
+  );
+});
+
+test("凑注释稀释分母判不过（注释不计入分子分母，连续段也不被打断）", () => {
+  const copied = Array.from(
+    { length: 16 },
+    (_, index) => `export const sample${index} = compute(${index}) + ${index * 2};`,
+  );
+  const padded = copied
+    .flatMap((line, index) =>
+      Array.from({ length: 5 }, (_, offset) => `// padding ${index}.${offset}`).concat(line),
+    )
+    .join("\n");
+  withTree(
+    { "repo/legacy/copied.ts": copied.join("\n"), "upstream/unrelated.ts": upstreamLines(30) },
+    (root) => {
+      const result = runTool([
+        "--repo",
+        join(root, "repo"),
+        "--upstream-dir",
+        join(root, "upstream"),
+        "--gates",
+        "line",
+        "--old",
+        "legacy/copied.ts",
+        "--candidate",
+        writeCandidate(root, "padded.ts", padded),
+      ]);
+      assert.equal(result.status, 1, result.stdout);
+      assert.match(result.stdout, /lines=16/);
+      assert.match(result.stdout, /containment=1\.000/);
+      assert.match(result.stdout, /run=16/);
+    },
+  );
+});
+
+test("格式化失败时回退原文并在报告里标注", () => {
+  withTree({ "upstream/a.ts": upstreamLines(30) }, (root) => {
+    const json = join(root, "report.json");
+    const broken = writeCandidate(root, "broken.ts", "const broken = ;;; {{{\n");
+    const result = runTool([
+      "--upstream-dir",
+      join(root, "upstream"),
+      "--candidate",
+      broken,
+      "--json",
+      json,
+    ]);
+    assert.match(result.stdout, /format=fallback/);
+    const report = JSON.parse(readFileSync(json, "utf8"));
+    assert.equal(report.candidates[0].formatted, false);
+    assert.match(report.candidates[0].formatError, /Unexpected token/);
+    // 不支持的扩展名同样回退原文，但不算语法错误。
+    const text = writeCandidate(root, "notes.txt", "plain    text\n");
+    const unsupportedJson = join(root, "unsupported.json");
+    runTool([
+      "--upstream-dir",
+      join(root, "upstream"),
+      "--candidate",
+      text,
+      "--json",
+      unsupportedJson,
+    ]);
+    const unsupported = JSON.parse(readFileSync(unsupportedJson, "utf8"));
+    assert.equal(unsupported.candidates[0].formatted, false);
+    assert.match(unsupported.candidates[0].formatError, /Unsupported file type/);
+  });
+});
+
+test("门禁使用仓库 .oxfmtrc.json 的格式化选项（忽略 $schema 与 ignorePatterns）", async () => {
+  await withTreeAsync(
+    {
+      ".oxfmtrc.json": JSON.stringify({
+        $schema: "./node_modules/oxfmt/configuration_schema.json",
+        ignorePatterns: ["**/*.ts"],
+        semi: false,
+      }),
+    },
+    async (root) => {
+      const options = loadOxfmtOptions(root);
+      assert.deepEqual(options, { semi: false });
+      const result = await gateLines({
+        fileName: join(root, "sample.ts"),
+        text: "const value = 1;\n",
+        oxfmtOptions: options,
+      });
+      assert.deepEqual(result.lines, ["const value = 1"]);
     },
   );
 });
