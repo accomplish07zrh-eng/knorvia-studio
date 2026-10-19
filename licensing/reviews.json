@@ -139206,7 +139206,7 @@
     },
     {
       "path": "specs/contracts/shared-04/interface.md",
-      "normalizedSha256": "1269fdfc8e8d0833ec9e9658044d8b85ac52faadc1c5215d420387ea77324877",
+      "normalizedSha256": "ee297e5f2a58aa6e160a6f76b8bc67b72527cafc130d670fb68c9651f73ebc55",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored shared-04 contract artifact for @knorvia/shared (M3: remote/network, plugins/mcp, config/UI, feedback/onboarding, diagnostics/telemetry, auth/model/provider; 44 inherited files in packages/shared/src excluding node/, protocol-v4/ and the deferred index.ts root barrel). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries and module paths in both source and dist modes, the fixtures are synthetic goldens (remote identity, plugins, config, feedback, diagnostics, auth/model) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-04. Old gate: source 51/51, dist 51/51, stub replacement of 44 module paths made all 8 test files fail (allFail=true).",

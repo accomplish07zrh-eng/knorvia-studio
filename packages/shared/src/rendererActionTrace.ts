@@ -1,37 +1,41 @@
 // SPDX-License-Identifier: Apache-2.0
+// 渲染器动作追踪的线格式：OTLP/HTTP 导出、配置、span 与批次的严格 schema。
+// 服务名、批量上限、目录分组与各字段枚举取值在 ./rendererActionTrace-data.js。
+
 import { z } from "zod";
+import {
+  DISABLED_RENDERER_ACTION_TRACE_CONFIG as DISABLED_CONFIG_DATA,
+  RENDERER_ACTION_TRACE_ADMISSION_RESULTS,
+  RENDERER_ACTION_TRACE_AUTOMATION_KINDS,
+  RENDERER_ACTION_TRACE_DEPLOYMENT_ENVIRONMENTS,
+  RENDERER_ACTION_TRACE_GROUPS,
+  RENDERER_ACTION_TRACE_MAX_BATCH_BYTES,
+  RENDERER_ACTION_TRACE_MAX_BATCH_SPANS,
+  RENDERER_ACTION_TRACE_MAX_SAMPLE_RATIO,
+  RENDERER_ACTION_TRACE_OPERATION_KINDS,
+  RENDERER_ACTION_TRACE_OUTCOMES,
+  RENDERER_ACTION_TRACE_REMOTE_KINDS,
+  RENDERER_ACTION_TRACE_RESULT_SOURCES,
+  RENDERER_ACTION_TRACE_SERVICE_NAME,
+  RENDERER_ACTION_TRACE_SPAN_STATUSES,
+  RENDERER_ACTION_TRACE_STATE_AFTER,
+  RENDERER_ACTION_TRACE_TRIGGERS,
+  RENDERER_ACTION_TRACE_WORKSPACE_KINDS,
+} from "./rendererActionTrace-data.js";
 
-/** OTLP/HTTP 导出的固定身份与批量上限；采样上限决定最坏情况下的开销。 */
-const TRACE_CONSTANTS = {
-  serviceName: "knorvia-desktop-renderer",
-  maxSampleRatio: 0.2,
-  maxBatchSpans: 32,
-  maxBatchBytes: 256 * 1024,
-} as const;
-
-export const RENDERER_ACTION_TRACE_SERVICE_NAME = TRACE_CONSTANTS.serviceName;
-export const RENDERER_ACTION_TRACE_MAX_SAMPLE_RATIO = TRACE_CONSTANTS.maxSampleRatio;
-export const RENDERER_ACTION_TRACE_MAX_BATCH_SPANS = TRACE_CONSTANTS.maxBatchSpans;
-export const RENDERER_ACTION_TRACE_MAX_BATCH_BYTES = TRACE_CONSTANTS.maxBatchBytes;
-
-/** 空白分词；词在类型层保持字面量，枚举键才不会被抹成 string。 */
-type Words<Source extends string> = Source extends `${infer Head} ${infer Rest}`
-  ? [Head, ...Words<Rest>]
-  : [Source];
-
-const words = <const Source extends string>(source: Source): Words<Source> =>
-  source.trim().split(/\s+/u) as Words<Source>;
-
-const wordEnum = <const Source extends string>(source: Source) => z.enum(words(source));
+export {
+  RENDERER_ACTION_TRACE_MAX_BATCH_BYTES,
+  RENDERER_ACTION_TRACE_MAX_BATCH_SPANS,
+  RENDERER_ACTION_TRACE_MAX_SAMPLE_RATIO,
+  RENDERER_ACTION_TRACE_SERVICE_NAME,
+};
 
 /** 目录组是 UI 侧的稳定分区；新增分组要同时改采样配置的默认值。 */
-export const rendererActionTraceGroupSchema = wordEnum(
-  "core settings workbench extensions automation account",
-);
+export const rendererActionTraceGroupSchema = z.enum(RENDERER_ACTION_TRACE_GROUPS);
 
 export type RendererActionTraceGroup = z.output<typeof rendererActionTraceGroupSchema>;
 
-const groupCount = words("core settings workbench extensions automation account").length;
+const groupCount = RENDERER_ACTION_TRACE_GROUPS.length;
 
 const IDENTIFIER_CHARS = new RegExp("^[A-Za-z0-9._:-]{1,128}$", "u");
 const VALUE_CHARS = new RegExp("^[A-Za-z0-9._:-]{1,64}$", "u");
@@ -59,41 +63,32 @@ export const rendererActionTraceConfigSchema = z.object(configShape()).strict();
 
 export type RendererActionTraceConfigV1 = z.output<typeof rendererActionTraceConfigSchema>;
 
-const DISABLED_CONFIG_FIELDS: RendererActionTraceConfigV1 = {
-  enabled: false,
-  sampleRatio: 0,
-  enabledGroups: [],
-  configVersion: "disabled",
-};
-
 export const DISABLED_RENDERER_ACTION_TRACE_CONFIG: RendererActionTraceConfigV1 =
-  DISABLED_CONFIG_FIELDS;
+  DISABLED_CONFIG_DATA;
 
 /** 可选项统一在此登记；必需项单独列出，避免两者混排后看不出必填边界。 */
 const optionalAttributes = () => ({
-  result_source: wordEnum(
-    "local_commit shared_settings setting_service platform_result authority_ack optimistic_projection",
-  ).optional(),
+  result_source: z.enum(RENDERER_ACTION_TRACE_RESULT_SOURCES).optional(),
   failure_stage: identifierSchema().optional(),
-  state_after: wordEnum("enabled disabled").optional(),
+  state_after: z.enum(RENDERER_ACTION_TRACE_STATE_AFTER).optional(),
   configured: optionalFlag(),
   requires_restart: optionalFlag(),
   section_id: identifierSchema().optional(),
   value_after: valueSchema().optional(),
-  workspace_kind: wordEnum("local remote").optional(),
-  remote_kind: wordEnum("ssh wsl docker server").optional(),
-  admission_result: wordEnum("accepted rejected stale duplicate noop not_applicable").optional(),
-  automation_kind: wordEnum("scheduled off_peak").optional(),
+  workspace_kind: z.enum(RENDERER_ACTION_TRACE_WORKSPACE_KINDS).optional(),
+  remote_kind: z.enum(RENDERER_ACTION_TRACE_REMOTE_KINDS).optional(),
+  admission_result: z.enum(RENDERER_ACTION_TRACE_ADMISSION_RESULTS).optional(),
+  automation_kind: z.enum(RENDERER_ACTION_TRACE_AUTOMATION_KINDS).optional(),
 });
 
 const attributeShape = () => ({
   feature_id: identifierSchema(),
   action: identifierSchema(),
   catalog_group: rendererActionTraceGroupSchema,
-  operation_kind: wordEnum("navigation preference command management destructive"),
+  operation_kind: z.enum(RENDERER_ACTION_TRACE_OPERATION_KINDS),
   surface: identifierSchema(),
-  trigger: wordEnum("button keyboard shortcut menu switch select drag"),
-  outcome: wordEnum("completed failed rejected cancelled noop abandoned"),
+  trigger: z.enum(RENDERER_ACTION_TRACE_TRIGGERS),
+  outcome: z.enum(RENDERER_ACTION_TRACE_OUTCOMES),
   ...optionalAttributes(),
   action_id: uuid(),
 });
@@ -113,7 +108,7 @@ const spanFields = () => ({
   name: z.literal("ui_action"),
   startTimeUnixMs: timestamp(),
   endTimeUnixMs: timestamp(),
-  status: wordEnum("unset ok error"),
+  status: z.enum(RENDERER_ACTION_TRACE_SPAN_STATUSES),
   attributes: rendererActionTraceAttributesSchema,
 });
 
@@ -133,7 +128,7 @@ export type RendererActionTraceSpanV1 = z.output<typeof rendererActionTraceSpanS
 const resourceShape = () => ({
   serviceName: z.literal(RENDERER_ACTION_TRACE_SERVICE_NAME),
   serviceVersion: identifierSchema(),
-  deploymentEnvironment: wordEnum("development test production"),
+  deploymentEnvironment: z.enum(RENDERER_ACTION_TRACE_DEPLOYMENT_ENVIRONMENTS),
   rendererInstanceId: identifierSchema(),
 });
 

@@ -1,6 +1,21 @@
 // SPDX-License-Identifier: Apache-2.0
 // 官方 MCP 的认证约定：哪些头归网关所有、如何描述身份、来源是否可信。
 // Host 与 CLI 必须得出同一个结论，因此判定只写这一份，两侧都从这里取。
+// 头名表、失败原因与回环白名单在 ./official-mcp-auth-data.js。
+
+import {
+  OFFICIAL_MCP_AUTH_FAILURE_REASONS,
+  OFFICIAL_MCP_AUTH_HEADER_NAMES,
+  OFFICIAL_MCP_AUTH_PORT_FAILURE_REASONS,
+  OFFICIAL_MCP_LOOPBACK_HOSTS,
+  OFFICIAL_MCP_SESSION_HEADER_NAMES,
+} from "./official-mcp-auth-data.js";
+
+export {
+  OFFICIAL_MCP_AUTH_FAILURE_REASONS,
+  OFFICIAL_MCP_AUTH_HEADER_NAMES,
+  OFFICIAL_MCP_AUTH_PORT_FAILURE_REASONS,
+};
 
 /** 协议常量：认证方式与令牌种类会写进响应元数据，任何调用方都不得改写。 */
 const AUTH_KIND = "knorvia_official";
@@ -12,34 +27,12 @@ export const KNORVIA_OFFICIAL_MCP_AUTH_PROVIDER_JWT_TOKEN = AUTH_TOKEN;
 
 export const OFFICIAL_MCP_AUTH_META_KEY = "com.knorvia-studio/official-mcp-auth";
 
-/**
- * 逻辑名 → 真实头名。登记成「一行一对」的文本表而不是对象字面量：
- * 保留名单、大小写归一与注入检测都从这一张表推导，新增头只需改一行。
- */
-const HEADER_TABLE = [
-  "authorization Authorization",
-  "codingPlanAuthorization X-Bigmodel-Authorization",
-  "targetType Bigmodel-Target-Type",
-  "organization Bigmodel-Organization",
-  "project Bigmodel-Project",
-];
-
-const splitWords = (source: string): string[] => source.trim().split(/\s+/u);
-
-const headerPairs = (): Array<[string, string]> =>
-  HEADER_TABLE.map((row) => splitWords(row) as [string, string]);
-
-export const OFFICIAL_MCP_AUTH_HEADER_NAMES = Object.fromEntries(headerPairs());
-
 /** 头名比较统一走这里：比较与返回值都是 trim + 小写后的规范形。 */
 const canonical = (name: string) => name.trim().toLowerCase();
 
-/** 除身份头外，会话与协议版本头也只能由框架写入。 */
-const SESSION_HEADERS = ["x-coding-plan-api-key", "mcp-session-id", "mcp-protocol-version"];
-
 export const OFFICIAL_MCP_RESERVED_HEADER_NAMES: readonly string[] = [
   ...Object.values(OFFICIAL_MCP_AUTH_HEADER_NAMES).map(canonical),
-  ...SESSION_HEADERS,
+  ...OFFICIAL_MCP_SESSION_HEADER_NAMES,
 ].sort();
 
 const RESERVED = new Set(OFFICIAL_MCP_RESERVED_HEADER_NAMES);
@@ -58,23 +51,10 @@ export const findOfficialMcpReservedHeaders = (
 export type OfficialMcpTargetType = Uppercase<"personal" | "team">;
 
 /** 失败原因分两级：通用原因，以及端口层才有的来源不信任。 */
-type AuthFailure = `official_auth_${"unavailable" | "plan_required"}`;
-type PortOnlyFailure = "official_mcp_origin_untrusted";
+type AuthFailure = (typeof OFFICIAL_MCP_AUTH_FAILURE_REASONS)[number];
 type RejectionKind = `official_auth_${"rejected" | "forbidden" | "redirect_blocked"}`;
 
-const FAILURE_WORDS = "official_auth_unavailable official_auth_plan_required";
-const PORT_FAILURE_WORDS = `${FAILURE_WORDS} official_mcp_origin_untrusted`;
-
-export const OFFICIAL_MCP_AUTH_FAILURE_REASONS = splitWords(
-  FAILURE_WORDS,
-) as readonly AuthFailure[];
-
 export type OfficialMcpAuthFailureReason = AuthFailure;
-
-export const OFFICIAL_MCP_AUTH_PORT_FAILURE_REASONS = splitWords(PORT_FAILURE_WORDS) as readonly (
-  | AuthFailure
-  | PortOnlyFailure
-)[];
 
 export type OfficialMcpAuthPortFailureReason =
   (typeof OFFICIAL_MCP_AUTH_PORT_FAILURE_REASONS)[number];
@@ -110,9 +90,6 @@ export type CreateOfficialMcpTrustedOriginRegistryOptions = DevAllowList & {
   resolveKnorviaApiOrigin: () => MaybePromise<string | undefined>;
 };
 
-/** 本机回环白名单：三个主机名之外一律不算回环，端口必须一致。 */
-const LOOPBACK_HOSTS = ["127.0.0.1", "localhost", "[::1]"];
-
 const verdict = (detail: TrustDetail, trusted: boolean): OfficialMcpTrustResult => ({
   detail,
   trusted,
@@ -139,7 +116,7 @@ const httpsOrigin = (candidate: string) =>
 const loopbackOrigin = (candidate: string) =>
   originUnder(
     candidate,
-    (url) => url.protocol === "http:" && LOOPBACK_HOSTS.includes(url.hostname),
+    (url) => url.protocol === "http:" && OFFICIAL_MCP_LOOPBACK_HOSTS.includes(url.hostname),
   );
 
 /** 开发白名单是逗号（或空白）分隔的原始串；空段直接丢弃。 */
@@ -157,7 +134,7 @@ export const summarizeOfficialMcpIdentityHeaders = (headers: Record<string, stri
   const hasOrg = lookup.has(IDENTITY_ORG);
   const hasProject = lookup.has(IDENTITY_PROJECT);
   const summary: Record<string, unknown> = {
-    identityHeaderNames: entries.map(([name]) => name).sort(),
+    identityHeaderNames: [...lookup.keys()].sort(),
     identityOrganizationPresent: hasOrg,
     identityProjectPresent: hasProject,
     identityTeamPaired: hasOrg === hasProject,

@@ -1,19 +1,17 @@
 // SPDX-License-Identifier: Apache-2.0
 // Provider 供给信封：把「个人配置 + 账号设置 + 凭据」打包成一次可传输、可回执的
 // 同步单元。这里只有数据合同与严格解码器；落盘、回滚与网络投递都在服务层。
+// 枚举取值表在 ./provider-provisioning-data.js。
 
 import { z } from "zod";
 import { modelSelectionSchema as selectionSchema } from "./model-selection.js";
 import { providerFamilyConnectionSelectionSettingsSchema as familySelectionsSchema } from "./provider-family-connection-selection.js";
-
-/** 空白分词；词在类型层保持字面量，枚举键才不会被抹成 string。 */
-type Words<Source extends string> = Source extends `${infer Head} ${infer Rest}`
-  ? [Head, ...Words<Rest>]
-  : [Source];
-
-/** 空白分隔的词表登记一次，同时投影成 zod 枚举元组与展示顺序。 */
-const tuple = <const Source extends string>(source: Source): Words<Source> =>
-  source.trim().split(/\s+/u) as Words<Source>;
+import {
+  PROVIDER_PROVISIONING_CREDENTIAL_SCOPES,
+  PROVIDER_PROVISIONING_FAMILY_DOMAINS,
+  PROVIDER_PROVISIONING_RESULT_STATUSES,
+  PROVIDER_PROVISIONING_TRIGGERS,
+} from "./provider-provisioning-data.js";
 
 const strict = <S extends z.ZodRawShape>(shape: S) => z.object(shape).strict();
 
@@ -25,16 +23,10 @@ const count = () => z.number().int().nonnegative();
 const many = <T extends z.ZodTypeAny>(item: T) => z.array(item);
 const opaqueMany = () => z.array(z.unknown());
 
-const TRIGGER_WORDS =
-  "environment-online personal-config configured-default account-settings credential";
-const CREDENTIAL_SCOPE_WORDS = "oauth-session account-provider";
-const RESULT_STATUS_WORDS = "applied already-applied unsupported failed rollback_failed";
-const FAMILY_DOMAIN_WORDS = "zai bigmodel";
-
-export const providerProvisioningTriggerSchema = z.enum(tuple(TRIGGER_WORDS));
+export const providerProvisioningTriggerSchema = z.enum(PROVIDER_PROVISIONING_TRIGGERS);
 export type ProviderProvisioningTrigger = z.output<typeof providerProvisioningTriggerSchema>;
 
-const credentialScopeSchema = z.enum(tuple(CREDENTIAL_SCOPE_WORDS));
+const credentialScopeSchema = z.enum(PROVIDER_PROVISIONING_CREDENTIAL_SCOPES);
 
 /** Provisioning 中允许跨 Environment 传输的凭据类别。 */
 export const providerProvisioningCredentialScopeSchema = credentialScopeSchema;
@@ -69,7 +61,7 @@ export type ProviderProvisioningPersonalConfig = z.output<
 >;
 
 const accountSettingsShape = () => ({
-  providerFamilyDomain: z.enum(tuple(FAMILY_DOMAIN_WORDS)).nullable(),
+  providerFamilyDomain: z.enum(PROVIDER_PROVISIONING_FAMILY_DOMAINS).nullable(),
   providerFamilyConnectionSelections: familySelectionsSchema,
 });
 
@@ -109,7 +101,7 @@ export type ProviderProvisioningEnvelope = z.output<typeof providerProvisioningE
  */
 const resultShape = () => ({
   syncId: identifier,
-  status: z.enum(tuple(RESULT_STATUS_WORDS)),
+  status: z.enum(PROVIDER_PROVISIONING_RESULT_STATUSES),
   personalProviderCount: count(),
   credentialCount: count(),
   configRevision: identifier.optional(),
