@@ -11,25 +11,25 @@ import type { ConversationRow } from "./rows.js";
 
 // 行级过滤：当前没有 profile 专属的完整行，因此总是返回等长的新数组（逐元素拷贝）。
 // 保留这个纯函数边界，是为了将来受控地引入 profile 专属行时不必改动调用方。
-export function filterConversationRowsForProfile(
+export const filterConversationRowsForProfile = (
   sourceRows: readonly ConversationRow[],
   _delivery: DeliveryProfile,
-): ConversationRow[] {
+): ConversationRow[] => {
   const replica: ConversationRow[] = [];
   for (const row of sourceRows) replica.push(row);
   return replica;
-}
+};
 
 // 增量级过滤：row.delta 按 profile 的 streamPaths 开关放行，其余结构性事件一律保留。
 // 输出保持权威日志顺序；恢复回放与实时 flush 共用这一条路径，重投递因此是确定的。
-export function filterConversationDeltasForProfile(
+export const filterConversationDeltasForProfile = (
   streamDeltas: readonly ConversationDelta[],
   delivery: DeliveryProfile,
-): ConversationDelta[] {
+): ConversationDelta[] => {
   const forwarded: ConversationDelta[] = [];
   for (const delta of streamDeltas) {
     const permitted = delta.op === "row.delta" ? delivery.streamPaths[delta.path] : true;
     if (permitted) forwarded.push(delta);
   }
   return forwarded;
-}
+};
