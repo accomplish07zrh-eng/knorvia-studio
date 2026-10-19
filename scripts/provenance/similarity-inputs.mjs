@@ -5,6 +5,7 @@
 // 见 similarity-normalize.mjs；记账路径不经过这里。
 import { execFileSync } from "node:child_process";
 import { readdirSync, readFileSync } from "node:fs";
+import { isPureReExport, traceAllImplementations } from "./similarity-reexport.mjs";
 import { join, relative, resolve } from "node:path";
 import { stripDeclarationBlocks, stripDeclarationLines } from "./similarity-declarations.mjs";
 import { fileKind, isBinary, normalizeLines } from "./similarity-lines.mjs";
@@ -119,19 +120,71 @@ export async function loadCandidate({ repo, givenPath, declarationNames, oxfmtOp
     ? stripDeclarations(original, declarationNames).text
     : original;
   const lineText = declaration ? stripDeclarations(prepared.text, declarationNames) : null;
-  const lines = normalizeLines(lineText?.text ?? prepared.text);
+  let lines = normalizeLines(lineText?.text ?? prepared.text);
+  let text = structuralText;
+  let tracedFrom = null;
+  let reexportUnresolved = null;
+  // 纯再导出桩：丢弃 re-export 后 lines 常为 0 会误过门禁；顺着追到实现再计分。
+  let tracedLeaves = null;
+  if (!declaration && isPureReExport(original)) {
+    const traced = traceAllImplementations(repo, givenPath, original);
+    if (traced.leaves.length === 0) {
+      reexportUnresolved = traced.unresolved[0]?.reason ?? "纯再导出无法展开";
+    } else if (
+      traced.leaves.length === 1 &&
+      traced.leaves[0].path === givenPath.replaceAll("\\", "/")
+    ) {
+      // 自身即叶子
+    } else if (traced.leaves.length === 1) {
+      const leaf = traced.leaves[0];
+      tracedFrom = leaf.path;
+      const implPrepared = await prepareGateText({
+        fileName: resolve(repo, leaf.path),
+        text: leaf.text,
+        oxfmtOptions,
+      });
+      text = leaf.text;
+      lines = normalizeLines(implPrepared.text);
+    } else {
+      tracedFrom = traced.leaves.map((leaf) => leaf.path).join(",");
+      tracedLeaves = [];
+      for (const leaf of traced.leaves) {
+        const implPrepared = await prepareGateText({
+          fileName: resolve(repo, leaf.path),
+          text: leaf.text,
+          oxfmtOptions,
+        });
+        tracedLeaves.push({
+          givenPath: leaf.path,
+          path: resolve(repo, leaf.path),
+          kind,
+          binary: false,
+          text: leaf.text,
+          lines: normalizeLines(implPrepared.text),
+          declaration: false,
+          linesBeforeStrip: normalizeLines(implPrepared.text).length,
+          strippedBlocks: 0,
+          formatted: implPrepared.formatted,
+          formatError: implPrepared.formatError,
+        });
+      }
+    }
+  }
   return {
     path,
     givenPath,
     kind,
     binary: false,
-    text: structuralText,
+    text,
     lines,
     declaration,
     linesBeforeStrip: declaration ? normalizeLines(prepared.text).length : lines.length,
     strippedBlocks: lineText?.strippedBlocks ?? 0,
     formatted: prepared.formatted,
     formatError: prepared.formatError,
+    tracedFrom,
+    reexportUnresolved,
+    tracedLeaves,
   };
 }
 

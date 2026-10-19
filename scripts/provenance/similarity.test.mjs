@@ -1106,3 +1106,210 @@ test("门禁使用仓库 .oxfmtrc.json 的格式化选项（忽略 $schema 与 i
     },
   );
 });
+
+test("反刷分：搬家+再导出桩必须 FAIL（追到搬迁实现后对旧文件计分）", () => {
+  const oldBody = [
+    "// SPDX-License-Identifier: Apache-2.0",
+    ...Array.from(
+      { length: 20 },
+      (_, i) => `export function movedSymbol${i}(x: number): number { return x + ${i}; }`,
+    ),
+  ].join("\n");
+  withTree(
+    {
+      "upstream/keep.ts": "export const keep = 1;\n",
+      "repo/packages/shared/src/mcp.ts": 'export { movedSymbol0 } from "./internal/mcp-impl.js";\n',
+      "repo/packages/shared/src/internal/mcp-impl.ts": oldBody,
+      "repo/old/mcp.ts": oldBody,
+    },
+    (root) => {
+      const result = runTool([
+        "--repo",
+        join(root, "repo"),
+        "--upstream-dir",
+        join(root, "upstream"),
+        "--gates",
+        "line",
+        "--candidate",
+        "packages/shared/src/mcp.ts",
+        "--old",
+        "old/mcp.ts",
+      ]);
+      assert.notEqual(result.status, 0, result.stdout);
+      assert.match(result.stdout, /FAIL/);
+      assert.match(result.stdout, /traced-from=packages\/shared\/src\/internal\/mcp-impl\.ts/);
+      assert.match(result.stdout, /containment=1\.000|containment=0\.[89]/);
+    },
+  );
+});
+
+test("反刷分：多级再导出追踪到叶子实现", () => {
+  const impl = [
+    "// SPDX-License-Identifier: Apache-2.0",
+    ...Array.from({ length: 15 }, (_, i) => `export const leafValue${i} = ${i};`),
+  ].join("\n");
+  withTree(
+    {
+      "upstream/keep.ts": "export const keep = 1;\n",
+      "repo/a.ts": 'export * from "./b.js";\n',
+      "repo/b.ts": 'export * from "./c.js";\n',
+      "repo/c.ts": impl,
+      "repo/old.ts": impl,
+    },
+    (root) => {
+      const result = runTool([
+        "--repo",
+        join(root, "repo"),
+        "--upstream-dir",
+        join(root, "upstream"),
+        "--gates",
+        "line",
+        "--candidate",
+        "a.ts",
+        "--old",
+        "old.ts",
+      ]);
+      assert.notEqual(result.status, 0, result.stdout);
+      assert.match(result.stdout, /traced-from=c\.ts/);
+    },
+  );
+});
+
+test("反刷分：外部包再导出无法展开则 FAIL", () => {
+  withTree(
+    {
+      "upstream/keep.ts": "export const keep = 1;\n",
+      "repo/shim.ts": 'export { something } from "external-package";\n',
+    },
+    (root) => {
+      const result = runTool([
+        "--repo",
+        join(root, "repo"),
+        "--upstream-dir",
+        join(root, "upstream"),
+        "--gates",
+        "line",
+        "--candidate",
+        "shim.ts",
+      ]);
+      assert.notEqual(result.status, 0, result.stdout);
+      assert.match(result.stdout, /FAIL/);
+      assert.match(result.stdout, /pure-reexport-unresolved|外部包/);
+    },
+  );
+});
+
+test("反刷分：正常就地重写仍 PASS", () => {
+  const oldBody = Array.from(
+    { length: 16 },
+    (_, i) => `export function oldFn${i}(n: number): number {\n  return n + ${i};\n}`,
+  ).join("\n");
+  const newBody = Array.from(
+    { length: 16 },
+    (_, i) =>
+      `export function rewritten${i}(value: number): number {\n  const base = value;\n  return base * ${i + 1};\n}`,
+  ).join("\n");
+  withTree(
+    {
+      "upstream/keep.ts": "export const keep = 1;\n",
+      "repo/target.ts": newBody,
+      "repo/old.ts": oldBody,
+    },
+    (root) => {
+      const result = runTool([
+        "--repo",
+        join(root, "repo"),
+        "--upstream-dir",
+        join(root, "upstream"),
+        "--gates",
+        "line",
+        "--candidate",
+        "target.ts",
+        "--old",
+        "old.ts",
+      ]);
+      assert.equal(result.status, 0, result.stdout);
+      assert.match(result.stdout, /PASS/);
+      assert.doesNotMatch(result.stdout, /traced-from=/);
+    },
+  );
+});
+
+test("反刷分：新增文件照抄同目录旧文件必须 FAIL（--old-rev 兜底）", () => {
+  const body = [
+    "// SPDX-License-Identifier: Apache-2.0",
+    ...Array.from(
+      { length: 18 },
+      (_, i) => `export function copied${i}(): number { return ${i}; }`,
+    ),
+  ].join("\n");
+  withTree(
+    {
+      "upstream/keep.ts": "export const keep = 1;\n",
+      "repo/packages/x/original.ts": body,
+      "repo/packages/x/moved.ts": body,
+    },
+    (root) => {
+      const repo = join(root, "repo");
+      execFileSync("git", ["-C", repo, "init", "-q"]);
+      execFileSync("git", ["-C", repo, "config", "user.email", "t@t"]);
+      execFileSync("git", ["-C", repo, "config", "user.name", "t"]);
+      execFileSync("git", ["-C", repo, "add", "packages/x/original.ts"]);
+      execFileSync("git", ["-C", repo, "commit", "-qm", "base"]);
+      // moved.ts 仅在工作区，不在 base 提交
+      const result = runTool([
+        "--repo",
+        repo,
+        "--upstream-dir",
+        join(root, "upstream"),
+        "--gates",
+        "line",
+        "--candidate",
+        "packages/x/moved.ts",
+        "--old",
+        "packages/x/moved.ts",
+        "--old-rev",
+        "HEAD",
+      ]);
+      // --old 指向新路径在 HEAD 不存在；兜底与同目录 original.ts 比对后必须 FAIL
+      assert.notEqual(result.status, 0, result.stdout);
+      assert.match(result.stdout, /FAIL/);
+    },
+  );
+});
+
+test("反刷分：桶文件多目标分别展开后取最大相似度", () => {
+  const leafA = [
+    "// SPDX-License-Identifier: Apache-2.0",
+    ...Array.from({ length: 14 }, (_, i) => `export const a${i} = ${i};`),
+  ].join("\n");
+  const leafB = Array.from({ length: 14 }, (_, i) => `export const uniqueB${i} = ${i * 3};`).join(
+    "\n",
+  );
+  withTree(
+    {
+      "upstream/keep.ts": "export const keep = 1;\n",
+      "repo/index.ts": 'export * from "./a.js";\nexport * from "./b.js";\n',
+      "repo/a.ts": leafA,
+      "repo/b.ts": leafB,
+      "repo/old.ts": leafA,
+    },
+    (root) => {
+      const result = runTool([
+        "--repo",
+        join(root, "repo"),
+        "--upstream-dir",
+        join(root, "upstream"),
+        "--gates",
+        "line",
+        "--candidate",
+        "index.ts",
+        "--old",
+        "old.ts",
+      ]);
+      assert.notEqual(result.status, 0, result.stdout);
+      assert.match(result.stdout, /traced-from=/);
+      assert.match(result.stdout, /a\.ts/);
+    },
+  );
+});
