@@ -25,6 +25,8 @@ export function createProtocolProcessLifecycle(
   const exit = options.exitProcess ?? ((code: number) => process.exit(code));
   let deadlineAt: number | undefined;
   let exitCode = 0;
+  // stdin 正常结束会先以 0 占住 deadline；之后 run() 若报告失败，终态必须以失败码为准。
+  let stoppedWithoutError = false;
   let deadlineTimer: NodeJS.Timeout | undefined;
   let drainTimer: NodeJS.Timeout | undefined;
   let completion: Promise<void> | undefined;
@@ -32,6 +34,7 @@ export function createProtocolProcessLifecycle(
   const stop = (error?: Error, code = error ? 1 : 0) => {
     if (deadlineAt !== undefined) return;
     exitCode = code;
+    stoppedWithoutError = error === undefined;
     const timeoutMs =
       options.timeoutMs ??
       PROTOCOL_SHUTDOWN_TIMEOUT_MS +
@@ -78,7 +81,10 @@ export function createProtocolProcessLifecycle(
     requestShutdown: stop,
     complete(code: number): Promise<void> {
       completion ??= (async () => {
-        stop(code === 0 ? undefined : new Error("Protocol command failed"), code);
+        if (deadlineAt === undefined)
+          stop(code === 0 ? undefined : new Error("Protocol command failed"), code);
+        // 首个关闭信号若只是 stdin 正常结束，命令自身的非零结果仍必须决定退出码。
+        else if (stoppedWithoutError && code !== 0) exitCode = code;
         if (drainTimer) clearTimeout(drainTimer);
         controller.abort(new Error("Protocol command completed"));
         await Promise.all([flush(output), flush(stderr), flushE2ECoverage()]);

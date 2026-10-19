@@ -17,6 +17,14 @@
     "./v4-replay": {
       "types": "./dist/protocol-v4/replay.d.ts",
       "import": "./dist/protocol-v4/replay.js"
+    },
+    "./kernel-engine": {
+      "types": "./dist/kernel/engine.d.ts",
+      "import": "./dist/kernel/engine.js"
+    },
+    "./kernel": {
+      "types": "./dist/kernel/index.d.ts",
+      "import": "./dist/kernel/index.js"
     }
   },
   "scripts": {
