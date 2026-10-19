@@ -1,11 +1,14 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2026 Knorvia Studio contributors
 // 相似度工具的输入装载：上游树、候选文件与被替换的旧文件。
+// 门禁口径（2026-10-19 防刷）：所有参与行比较的文件先按仓库配置格式化并去注释，
+// 见 similarity-normalize.mjs；记账路径不经过这里。
 import { execFileSync } from "node:child_process";
 import { readdirSync, readFileSync } from "node:fs";
 import { join, relative, resolve } from "node:path";
 import { stripDeclarationBlocks, stripDeclarationLines } from "./similarity-declarations.mjs";
 import { fileKind, isBinary, normalizeLines } from "./similarity-lines.mjs";
+import { FORMAT_CONCURRENCY, mapConcurrent, prepareGateText } from "./similarity-normalize.mjs";
 
 export function readPathList(file) {
   return readFileSync(resolve(file), "utf8")
@@ -18,42 +21,53 @@ export function readPathList(file) {
  * 读取上游固定提交的完整树（仓库外缓存目录）。二进制文件按计划书跳过两道门槛。
  * byKind 为同类文件的倒排索引：规范化行 → 组内文件序号（每个文件只记一次）。
  */
-export function loadUpstream(root) {
-  const files = [];
-  let binary = 0;
+export async function loadUpstream(root, { oxfmtOptions = {} } = {}) {
+  const entries = [];
   const visit = (directory) => {
     for (const entry of readdirSync(directory, { withFileTypes: true })) {
       if (entry.name === ".git") continue;
       const full = join(directory, entry.name);
       if (entry.isDirectory()) visit(full);
-      else if (entry.isFile()) {
-        const bytes = readFileSync(full);
-        const path = relative(root, full).split("\\").join("/");
-        if (isBinary(bytes)) {
-          files.push({
-            path,
-            absolutePath: full,
-            kind: fileKind(path),
-            binary: true,
-            text: null,
-            lines: [],
-          });
-          binary += 1;
-          continue;
-        }
-        const text = bytes.toString("utf8");
-        files.push({
-          path,
-          absolutePath: full,
-          kind: fileKind(path),
-          binary: false,
-          text,
-          lines: normalizeLines(text),
-        });
-      }
+      else if (entry.isFile())
+        entries.push({ path: relative(root, full).split("\\").join("/"), absolutePath: full });
     }
   };
   visit(root);
+  let binary = 0;
+  let formatFallbacks = 0;
+  const files = await mapConcurrent(entries, FORMAT_CONCURRENCY, async (entry) => {
+    const bytes = readFileSync(entry.absolutePath);
+    const kind = fileKind(entry.path);
+    if (isBinary(bytes)) {
+      binary += 1;
+      return {
+        ...entry,
+        kind,
+        binary: true,
+        text: null,
+        lines: [],
+        formatted: false,
+        formatError: null,
+      };
+    }
+    const source = bytes.toString("utf8");
+    const prepared = await prepareGateText({
+      fileName: entry.absolutePath,
+      text: source,
+      oxfmtOptions,
+    });
+    if (!prepared.formatted) formatFallbacks += 1;
+    return {
+      ...entry,
+      kind,
+      binary: false,
+      // 结构相似度继续使用原文 token（忽略空白/注释）；lines 使用格式化、去注释后的代码行。
+      text: source,
+      lines: normalizeLines(prepared.text),
+      formatted: prepared.formatted,
+      formatError: prepared.formatError,
+    };
+  });
   const byKind = new Map();
   const kindCounts = {};
   files.forEach((file, index) => {
@@ -68,15 +82,19 @@ export function loadUpstream(root) {
     }
     byKind.set(file.kind, group);
   });
-  return { files, binary, kindCounts, byKind };
+  return { files, binary, kindCounts, byKind, formatFallbacks };
 }
 
 /**
  * 候选文件：`--declaration --interface` 模式下先按 interface.md 剔除整块声明
- * （interface/type/class/enum，含成员与嵌套），再剔除剩余含兼容名字的行；
- * 普通模式不做任何剔除，行为与输出保持不变。
+ * （interface/type/class/enum/const，含成员与嵌套），再剔除剩余含兼容名字的行；
+ * 普通模式不做任何剔除。
+ * 注意 text 与 lines 的来源不同：text 保留原文（或原文的声明剔除结果），供结构相似度
+ * 使用——结构口径本来就忽略空白和注释，不能因为 oxfmt 补箭头参数括号等语法细节而漂移；
+ * lines 用格式化、去注释后的文本，供防刷行门槛使用。声明剔除分别对两份文本执行，
+ * 避免注释里的兼容名字误删代码行。
  */
-export function loadCandidate({ repo, givenPath, declarationNames }) {
+export async function loadCandidate({ repo, givenPath, declarationNames, oxfmtOptions = {} }) {
   const path = resolve(repo, givenPath);
   const bytes = readFileSync(path);
   const kind = fileKind(path);
@@ -91,40 +109,72 @@ export function loadCandidate({ repo, givenPath, declarationNames }) {
       declaration: false,
       linesBeforeStrip: 0,
       strippedBlocks: 0,
+      formatted: false,
+      formatError: null,
     };
   const original = bytes.toString("utf8");
+  const prepared = await prepareGateText({ fileName: path, text: original, oxfmtOptions });
   const declaration = declarationNames.length > 0;
-  let text = original;
-  let strippedBlocks = 0;
-  if (declaration) {
-    const blocks = stripDeclarationBlocks(original, declarationNames);
-    text = blocks.text;
-    strippedBlocks = blocks.strippedBlocks;
-    text = stripDeclarationLines(text, declarationNames).text;
-  }
-  const lines = normalizeLines(text);
+  const structuralText = declaration
+    ? stripDeclarations(original, declarationNames).text
+    : original;
+  const lineText = declaration ? stripDeclarations(prepared.text, declarationNames) : null;
+  const lines = normalizeLines(lineText?.text ?? prepared.text);
   return {
     path,
     givenPath,
     kind,
     binary: false,
-    text,
+    text: structuralText,
     lines,
     declaration,
-    linesBeforeStrip: declaration ? normalizeLines(original).length : lines.length,
-    strippedBlocks,
+    linesBeforeStrip: declaration ? normalizeLines(prepared.text).length : lines.length,
+    strippedBlocks: lineText?.strippedBlocks ?? 0,
+    formatted: prepared.formatted,
+    formatError: prepared.formatError,
+  };
+}
+
+function stripDeclarations(text, names) {
+  const blocks = stripDeclarationBlocks(text, names);
+  return {
+    text: stripDeclarationLines(blocks.text, names).text,
+    strippedBlocks: blocks.strippedBlocks,
   };
 }
 
 /** 被替换的旧文件：默认取工作区，给了 --old-rev 就取该提交。 */
-export function readOldFile({ repo, givenPath, revision }) {
+export async function readOldFile({ repo, givenPath, revision, oxfmtOptions = {} }) {
   const bytes = revision
     ? execFileSync("git", ["-C", repo, "show", `${revision}:${givenPath}`], {
         maxBuffer: 64 * 1024 * 1024,
       })
     : readFileSync(resolve(repo, givenPath));
   const kind = fileKind(givenPath);
-  if (isBinary(bytes)) return { path: givenPath, kind, binary: true, text: null, lines: [] };
-  const text = bytes.toString("utf8");
-  return { path: givenPath, kind, binary: false, text, lines: normalizeLines(text) };
+  if (isBinary(bytes))
+    return {
+      path: givenPath,
+      kind,
+      binary: true,
+      text: null,
+      lines: [],
+      formatted: false,
+      formatError: null,
+    };
+  const source = bytes.toString("utf8");
+  const prepared = await prepareGateText({
+    fileName: givenPath,
+    text: source,
+    oxfmtOptions,
+  });
+  return {
+    path: givenPath,
+    kind,
+    binary: false,
+    // 与上游树一致：结构相似度看原文，行门槛看格式化、去注释后的代码行。
+    text: source,
+    lines: normalizeLines(prepared.text),
+    formatted: prepared.formatted,
+    formatError: prepared.formatError,
+  };
 }
