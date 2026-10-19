@@ -1,39 +1,54 @@
-import { z } from "zod";
-
+// SPDX-License-Identifier: Apache-2.0
 /**
- * Onboarding 完成记录（三步向导：职业 / 模式 / 偏好）。
- *
- * 设计约束：
- * - 独立本地 JSON（~/.knorvia-studio/v2/onboarding-record.json），不混入 AppSettings；
- * - 以 deviceMid 为设备锚点，entries 支持多个 userId（多人登录）与 null（apikey/未登录）；
- * - uploadState 预留后续上传服务器：pending → uploaded；
- * - 跳过是显式答案：某页被跳过时该字段记 null，与"明确选择了值"区分。
+ * Onboarding 用户引导完成记录模型与校验规范。
+ * 管理首次启动向导（职业选择、操作模式与偏好设置）在本地的持久化记录格式。
  */
 
-/** occupation 用非空字符串而非枚举：职业列表会演进，旧记录不能因枚举收窄而校验失败。 */
-export const onboardingOccupationSchema = z.string().min(1).nullable();
+import { z } from "zod";
 
-export const onboardingInterfaceModeSchema = z.enum(["coding", "office"]).nullable();
+const stringField = (minLength: number) => z.string().min(minLength);
+const nullableString = (minLength: number) => stringField(minLength).nullable();
+const nullableBool = () => z.boolean().nullable();
 
-export const onboardingRecordEntrySchema = z.object({
-  userId: z.string().min(1).nullable(),
+const PENDING_UPLOAD_STATE = "pending" as const;
+const ONBOARDING_RECORD_VERSION = 1 as const;
+
+/** 职业属性：非空字符串或显式跳过（null） */
+export const onboardingOccupationSchema = nullableString(1);
+
+/** 界面模式：编程 (coding) 或办公 (office)，或跳过 (null) */
+const INTERFACE_MODES = ["coding", "office"] as const;
+export const onboardingInterfaceModeSchema = z.enum(INTERFACE_MODES).nullable();
+
+// --- 引导完成条目校验模式 ---
+
+const entryFields = {
+  userId: nullableString(1),
   occupation: onboardingOccupationSchema,
   interfaceMode: onboardingInterfaceModeSchema,
-  memoryEnabled: z.boolean().nullable(),
-  proactiveSuggestionsEnabled: z.boolean().nullable(),
-  completedAt: z.string().min(1),
-  uploadState: z.literal("pending"),
-});
+  memoryEnabled: nullableBool(),
+  proactiveSuggestionsEnabled: nullableBool(),
+  completedAt: stringField(1),
+  uploadState: z.literal(PENDING_UPLOAD_STATE),
+};
 
-export const onboardingRecordFileSchema = z.object({
-  version: z.literal(1),
-  deviceMid: z.string().min(1),
-  entries: z.array(onboardingRecordEntrySchema),
-});
+export const onboardingRecordEntrySchema = z.object(entryFields);
 
 export type OnboardingRecordEntry = z.infer<typeof onboardingRecordEntrySchema>;
 
-/** appendRecord 的入参：userId 由服务端（host）补全，调用方不传。 */
+/** 写入新记录条目的上行参数（由宿主补齐 userId 与状态） */
 export type OnboardingRecordEntryInput = Omit<OnboardingRecordEntry, "userId" | "uploadState">;
+
+// --- 持久化文件结构模式 ---
+
+const makeRecordList = (itemSchema: typeof onboardingRecordEntrySchema) => z.array(itemSchema);
+
+const fileEnvelopeFields = {
+  version: z.literal(ONBOARDING_RECORD_VERSION),
+  deviceMid: stringField(1),
+  entries: makeRecordList(onboardingRecordEntrySchema),
+};
+
+export const onboardingRecordFileSchema = z.object(fileEnvelopeFields);
 
 export type OnboardingRecordFile = z.infer<typeof onboardingRecordFileSchema>;
