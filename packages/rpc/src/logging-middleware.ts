@@ -1,19 +1,99 @@
-import type { IChannelServer, IChannelClient, IChannel, IServerChannel } from "./channels.js";
+// SPDX-License-Identifier: Apache-2.0
+// Copyright (c) 2026 Knorvia Studio contributors
+
+import type { IChannel, IChannelClient, IChannelServer, IServerChannel } from "./channels.js";
 import type { CancellationToken, Event } from "./foundation.js";
 
 export type RPCLogger = (message: string, ...args: unknown[]) => void;
 
+function elapsedSince(origin: number): string {
+  return (performance.now() - origin).toFixed(1);
+}
+
+/**
+ * Times one awaited RPC invocation and writes the outcome through the caller's
+ * logger. Success and failure share the same measurement window; the failure
+ * path forwards the original error as the logger's second argument and then
+ * rethrows it without any wrapping.
+ */
+async function traceCall<T>(
+  logger: RPCLogger,
+  headline: string,
+  invoke: () => Promise<T>,
+): Promise<T> {
+  const origin = performance.now();
+  try {
+    const value = await invoke();
+    logger(`${headline} OK (${elapsedSince(origin)}ms)`);
+    return value;
+  } catch (failure) {
+    logger(`${headline} FAIL (${elapsedSince(origin)}ms)`, failure);
+    throw failure;
+  }
+}
+
+class AuditedServerChannel<TContext> implements IServerChannel<TContext> {
+  constructor(
+    private readonly delegate: IServerChannel<TContext>,
+    private readonly label: string,
+    private readonly write: RPCLogger,
+  ) {}
+
+  call<T>(
+    ctx: TContext,
+    command: string,
+    arg?: any,
+    cancellationToken?: CancellationToken,
+  ): Promise<T> {
+    return traceCall(this.write, `[rpc:call] ${this.label}.${command}`, () =>
+      this.delegate.call<T>(ctx, command, arg, cancellationToken),
+    );
+  }
+
+  listen<T>(ctx: TContext, event: string, arg?: any): Event<T> {
+    try {
+      const subscription = this.delegate.listen<T>(ctx, event, arg);
+      this.write(`[rpc:listen] ${this.label}.${event} subscribed`);
+      return subscription;
+    } catch (failure) {
+      this.write(`[rpc:listen] ${this.label}.${event} FAIL`, failure);
+      throw failure;
+    }
+  }
+}
+
+class AuditedClientChannel implements IChannel {
+  constructor(
+    private readonly delegate: IChannel,
+    private readonly label: string,
+    private readonly write: RPCLogger,
+  ) {}
+
+  call<T>(command: string, arg?: any, cancellationToken?: CancellationToken): Promise<T> {
+    return traceCall(this.write, `[rpc:call] ${this.label}.${command} →`, () =>
+      this.delegate.call<T>(command, arg, cancellationToken),
+    );
+  }
+
+  listen<T>(event: string, arg?: any): Event<T> {
+    this.write(`[rpc:listen] ${this.label}.${event} → subscribed`);
+    return this.delegate.listen<T>(event, arg);
+  }
+}
+
 export class LoggingChannelServer<TContext = string> implements IChannelServer<TContext> {
   constructor(
-    private inner: IChannelServer<TContext>,
-    private logger: RPCLogger,
+    private readonly inner: IChannelServer<TContext>,
+    private readonly logger: RPCLogger,
   ) {}
 
   registerChannel(channelName: string, channel: IServerChannel<TContext>): void {
     this.logger(`[rpc:register] channel "${channelName}"`);
     this.inner.registerChannel(
       channelName,
-      new LoggingServerChannel(channel, channelName, this.logger),
+      new AuditedServerChannel(channel, channelName, (message, ...rest) =>
+        this.logger(message, ...rest),
+      ),
     );
   }
 
@@ -22,79 +102,16 @@ export class LoggingChannelServer<TContext = string> implements IChannelServer<T
   }
 }
 
-class LoggingServerChannel<TContext> implements IServerChannel<TContext> {
-  constructor(
-    private inner: IServerChannel<TContext>,
-    private channelName: string,
-    private logger: RPCLogger,
-  ) {}
-
-  async call<T>(
-    ctx: TContext,
-    command: string,
-    arg?: any,
-    cancellationToken?: CancellationToken,
-  ): Promise<T> {
-    const start = performance.now();
-    try {
-      const result = await this.inner.call<T>(ctx, command, arg, cancellationToken);
-      const elapsed = (performance.now() - start).toFixed(1);
-      this.logger(`[rpc:call] ${this.channelName}.${command} OK (${elapsed}ms)`);
-      return result;
-    } catch (err) {
-      const elapsed = (performance.now() - start).toFixed(1);
-      this.logger(`[rpc:call] ${this.channelName}.${command} FAIL (${elapsed}ms)`, err);
-      throw err;
-    }
-  }
-
-  listen<T>(ctx: TContext, event: string, arg?: any): Event<T> {
-    try {
-      const result = this.inner.listen<T>(ctx, event, arg);
-      this.logger(`[rpc:listen] ${this.channelName}.${event} subscribed`);
-      return result;
-    } catch (err) {
-      this.logger(`[rpc:listen] ${this.channelName}.${event} FAIL`, err);
-      throw err;
-    }
-  }
-}
-
-class LoggingChannel implements IChannel {
-  constructor(
-    private inner: IChannel,
-    private channelName: string,
-    private logger: RPCLogger,
-  ) {}
-
-  async call<T>(command: string, arg?: any, cancellationToken?: CancellationToken): Promise<T> {
-    const start = performance.now();
-    try {
-      const result = await this.inner.call<T>(command, arg, cancellationToken);
-      const elapsed = (performance.now() - start).toFixed(1);
-      this.logger(`[rpc:call] ${this.channelName}.${command} → OK (${elapsed}ms)`);
-      return result;
-    } catch (err) {
-      const elapsed = (performance.now() - start).toFixed(1);
-      this.logger(`[rpc:call] ${this.channelName}.${command} → FAIL (${elapsed}ms)`, err);
-      throw err;
-    }
-  }
-
-  listen<T>(event: string, arg?: any): Event<T> {
-    this.logger(`[rpc:listen] ${this.channelName}.${event} → subscribed`);
-    return this.inner.listen<T>(event, arg);
-  }
-}
-
 export class LoggingChannelClient implements IChannelClient {
   constructor(
-    private inner: IChannelClient,
-    private logger: RPCLogger,
+    private readonly inner: IChannelClient,
+    private readonly logger: RPCLogger,
   ) {}
 
   getChannel<T extends IChannel>(channelName: string): T {
     const channel = this.inner.getChannel<T>(channelName);
-    return new LoggingChannel(channel as IChannel, channelName, this.logger) as unknown as T;
+    return new AuditedClientChannel(channel as IChannel, channelName, (message, ...rest) =>
+      this.logger(message, ...rest),
+    ) as unknown as T;
   }
 }

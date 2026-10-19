@@ -1,201 +1,194 @@
-export interface IDisposable {
-  dispose(): void;
-}
+// SPDX-License-Identifier: Apache-2.0
+// Copyright (c) 2026 Knorvia Studio contributors
+/** 释放钩子。接口只约定一个无参方法，具体释放逻辑由各自实现给出。 */
+export type IDisposable = { dispose(): void };
 
-export function toDisposable(fn: () => void): IDisposable {
-  let disposed = false;
+/** 把「一次性回调」包成幂等的 disposable：第二次调用不再是副作用。 */
+export function toDisposable(callback: () => void): IDisposable {
+  let armed = true;
   return {
     dispose: () => {
-      if (disposed) {
-        return;
-      }
-      disposed = true;
-      fn();
+      if (!armed) return;
+      armed = false;
+      callback();
     },
   };
 }
 
+/** 一组 disposable 的集合，按加入顺序在 dispose 时统一释放。 */
 export class DisposableStore implements IDisposable {
-  private readonly items = new Set<IDisposable>();
-  private disposed = false;
+  readonly #entries = new Set<IDisposable>();
+  #closed = false;
 
-  add<T extends IDisposable>(item: T): T {
-    if (this.disposed) {
+  add<T extends IDisposable>(entry: T): T {
+    if (this.#closed) {
       console.warn("Adding to a disposed DisposableStore");
-      item.dispose();
-      return item;
+      entry.dispose();
+    } else {
+      this.#entries.add(entry);
     }
-    this.items.add(item);
-    return item;
+    return entry;
   }
 
   dispose(): void {
-    if (this.disposed) {
-      return;
-    }
-    this.disposed = true;
-    for (const item of this.items) {
-      item.dispose();
-    }
-    this.items.clear();
+    if (this.#closed) return;
+    this.#closed = true;
+    const drained = Array.from(this.#entries);
+    this.#entries.clear();
+    for (const entry of drained) entry.dispose();
   }
 }
 
-export type Event<T> = (listener: (e: T) => void) => IDisposable;
+/** 监听器函数类型：收到值后由订阅方决定是否继续转发。 */
+export type Event<T> = (listener: (payload: T) => void) => IDisposable;
 
-export namespace Event {
-  export const None: Event<any> = () => ({ dispose() {} });
-
-  export function once<T>(event: Event<T>): Event<T> {
-    return (listener) => {
-      let fired = false;
-      const disposable = event((value) => {
-        if (!fired) {
-          fired = true;
-          disposable.dispose();
-          listener(value);
-        }
-      });
-      return disposable;
-    };
-  }
-
-  export function toPromise<T>(event: Event<T>): Promise<T> {
-    return new Promise((resolve) => once(event)(resolve));
-  }
-
-  export function filter<T>(event: Event<T>, fn: (value: T) => boolean): Event<T> {
-    return (listener) =>
-      event((value) => {
-        if (fn(value)) {
-          listener(value);
-        }
-      });
-  }
-
-  export function map<T, R>(event: Event<T>, fn: (value: T) => R): Event<R> {
-    return (listener) => event((value) => listener(fn(value)));
-  }
-}
-
-interface EmitterOptions {
-  onWillAddFirstListener?: () => void;
-  onDidRemoveLastListener?: () => void;
-}
+type EmitterHooks = { onWillAddFirstListener?(): void; onDidRemoveLastListener?(): void };
 
 export class Emitter<T> implements IDisposable {
-  private readonly listeners = new Set<(e: T) => void>();
-  private disposed = false;
+  readonly #next = new Set<(payload: T) => void>();
+  readonly #hooks: EmitterHooks | undefined;
+  #retired = false;
 
-  constructor(private readonly options?: EmitterOptions) {}
+  constructor(hooks?: EmitterHooks) {
+    this.#hooks = hooks;
+  }
 
-  get event(): Event<T> {
+  readonly event: Event<T> = (listener) => {
+    if (this.#retired) return toDisposable(() => {});
+    const opening = this.#next.size === 0;
+    this.#next.add(listener);
+    if (opening) this.#hooks?.onWillAddFirstListener?.();
+    return toDisposable(() => {
+      this.#next.delete(listener);
+      if (this.#next.size === 0) this.#hooks?.onDidRemoveLastListener?.();
+    });
+  };
+
+  /** 对监听器快照迭代：本轮新增的监听器不会收到本次值。 */
+  fire(payload: T): void {
+    if (this.#retired) return;
+    for (const listener of [...this.#next]) listener(payload);
+  }
+
+  dispose(): void {
+    this.#retired = true;
+    this.#next.clear();
+  }
+}
+
+/** 单输入单输出的转发器：换输入时先断开旧订阅。 */
+export class Relay<T> implements IDisposable {
+  readonly #hub = new Emitter<T>();
+  readonly event: Event<T> = this.#hub.event;
+  #upstream: IDisposable | undefined;
+
+  set input(source: Event<T>) {
+    this.#detach();
+    this.#upstream = source((payload) => this.#hub.fire(payload));
+  }
+
+  #detach(): void {
+    const link = this.#upstream;
+    this.#upstream = undefined;
+    link?.dispose();
+  }
+
+  dispose(): void {
+    this.#detach();
+    this.#hub.dispose();
+  }
+}
+
+/** 多路合并：每个 add 返回的 disposable 同时负责断开与记账。 */
+export class EventMultiplexer<T> implements IDisposable {
+  readonly #hub = new Emitter<T>();
+  readonly #feeds = new DisposableStore();
+  readonly event: Event<T> = this.#hub.event;
+
+  add(source: Event<T>): IDisposable {
+    return this.#feeds.add(source((payload) => this.#hub.fire(payload)));
+  }
+
+  dispose(): void {
+    this.#feeds.dispose();
+    this.#hub.dispose();
+  }
+}
+
+export namespace Event {
+  const never: Event<any> = () => toDisposable(() => {});
+
+  export const None: Event<any> = never;
+
+  /** 只转发第一个值，随后自己断开源头。 */
+  export function once<E>(source: Event<E>): Event<E> {
     return (listener) => {
-      if (this.disposed) {
-        return { dispose() {} };
-      }
-
-      const isFirst = this.listeners.size === 0;
-      this.listeners.add(listener);
-      if (isFirst) {
-        this.options?.onWillAddFirstListener?.();
-      }
-
-      return toDisposable(() => {
-        this.listeners.delete(listener);
-        if (this.listeners.size === 0) {
-          this.options?.onDidRemoveLastListener?.();
-        }
+      let spent = false;
+      let link: IDisposable | undefined;
+      link = source((payload) => {
+        if (spent) return;
+        spent = true;
+        link?.dispose();
+        link = undefined;
+        listener(payload);
       });
+      return link;
     };
   }
 
-  fire(event: T): void {
-    if (this.disposed) {
-      return;
-    }
-    const snapshot = Array.from(this.listeners);
-    for (const listener of snapshot) {
-      listener(event);
-    }
+  export function toPromise<E>(source: Event<E>): Promise<E> {
+    return new Promise<E>((resolve) => once(source)(resolve));
   }
 
-  dispose(): void {
-    this.disposed = true;
-    this.listeners.clear();
+  export function filter<E>(source: Event<E>, predicate: (payload: E) => boolean): Event<E> {
+    return (listener) => source((payload) => (predicate(payload) ? listener(payload) : undefined));
+  }
+
+  export function map<E, R>(source: Event<E>, transform: (payload: E) => R): Event<R> {
+    return (listener) => source((payload) => listener(transform(payload)));
   }
 }
 
-export class Relay<T> implements IDisposable {
-  private readonly emitter = new Emitter<T>();
-  private inputDisposable: IDisposable = { dispose() {} };
-  readonly event: Event<T> = this.emitter.event;
+export type CancellationToken = Readonly<{
+  isCancellationRequested: boolean;
+  onCancellationRequested: Event<void>;
+}>;
 
-  set input(event: Event<T>) {
-    this.inputDisposable.dispose();
-    this.inputDisposable = event((value) => this.emitter.fire(value));
-  }
-
-  dispose(): void {
-    this.inputDisposable.dispose();
-    this.emitter.dispose();
-  }
-}
-
-export class EventMultiplexer<T> implements IDisposable {
-  private readonly emitter = new Emitter<T>();
-  private readonly disposables: IDisposable[] = [];
-  readonly event: Event<T> = this.emitter.event;
-
-  add(event: Event<T>): IDisposable {
-    const disposable = event((value) => this.emitter.fire(value));
-    this.disposables.push(disposable);
-    return disposable;
-  }
-
-  dispose(): void {
-    for (const disposable of this.disposables) {
-      disposable.dispose();
-    }
-    this.emitter.dispose();
-  }
-}
-
-export interface CancellationToken {
-  readonly isCancellationRequested: boolean;
-  readonly onCancellationRequested: Event<void>;
-}
+const NEVER_CANCELLED: CancellationToken = {
+  isCancellationRequested: false,
+  onCancellationRequested: Event.None,
+};
 
 export namespace CancellationToken {
-  export const None: CancellationToken = {
-    isCancellationRequested: false,
-    onCancellationRequested: Event.None,
-  };
+  export const None: CancellationToken = NEVER_CANCELLED;
 }
 
+/**
+ * 取消源。token 的 `isCancellationRequested` 按合同恒为 false（旧行为，见
+ * known-differences）；真正可观察的是 `onCancellationRequested` 事件。
+ */
 export class CancellationTokenSource implements IDisposable {
-  private cachedToken?: CancellationToken;
-  private readonly emitter = new Emitter<void>();
-  private cancelled = false;
+  readonly #signal = new Emitter<void>();
+  #cancelled = false;
+  #token: CancellationToken | undefined;
 
   get token(): CancellationToken {
-    if (!this.cachedToken) {
-      this.cachedToken = {
+    if (this.#token === undefined) {
+      this.#token = {
         isCancellationRequested: false,
-        onCancellationRequested: this.emitter.event,
+        onCancellationRequested: this.#signal.event,
       };
     }
-    return this.cachedToken;
+    return this.#token;
   }
 
   cancel(): void {
-    if (!this.cancelled) {
-      this.cancelled = true;
-      this.emitter.fire(undefined);
-    }
+    if (this.#cancelled) return;
+    this.#cancelled = true;
+    this.#signal.fire(undefined);
   }
 
   dispose(): void {
-    this.emitter.dispose();
+    this.#signal.dispose();
   }
 }

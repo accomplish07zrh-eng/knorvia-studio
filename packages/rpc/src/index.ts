@@ -1,34 +1,9 @@
-/**
- * IPC Framework —— 统一导出
- *
- * 架构总览（从底到顶）：
- *
- * ┌──────────────────────────────────────────────────────────────┐
- * │  Layer 6: Remote 远程连接                                     │
- * │  RemoteAuthorityResolver → SocketFactory → PersistentProtocol │
- * │  → IPCClient → channel.call()                                │
- * ├──────────────────────────────────────────────────────────────┤
- * │  Layer 5: ProxyChannel 服务自动代理                            │
- * │  fromService(service) ↔ toService(channel)                   │
- * ├──────────────────────────────────────────────────────────────┤
- * │  Layer 4: IPCServer(1:N) / IPCClient(1:1 双向)               │
- * │  连接管理、路由、多播                                          │
- * ├──────────────────────────────────────────────────────────────┤
- * │  Layer 3: ChannelServer / ChannelClient                      │
- * │  基于 Channel 的 RPC (call/listen)                            │
- * ├──────────────────────────────────────────────────────────────┤
- * │  Layer 2: IMessagePassingProtocol                            │
- * │  send(buffer) / onMessage: Event<buffer>                     │
- * ├──────────────────────────────────────────────────────────────┤
- * │  Layer 1: 序列化 (VQL + 类型标签)                             │
- * │  serialize() / deserialize()                                  │
- * ├──────────────────────────────────────────────────────────────┤
- * │  Layer 0: 基础设施                                            │
- * │  Event / Emitter / Disposable / VSBuffer / CancellationToken │
- * └──────────────────────────────────────────────────────────────┘
- */
+// SPDX-License-Identifier: Apache-2.0
+// Copyright (c) 2026 Knorvia Studio contributors
+// @knorvia/rpc 的冻结入口：按「基础设施 → 序列化 → 传输 → channel → 连接 → 远程」分层再导出。
+// 一级导出面只包含 interface.md §1.1/§1.2 的名字；RequestType/ResponseType/HEADER_SIZE/
+// ClientState 是内部实现细节，不得从这里出现。
 
-// Layer 0: 基础设施
 export {
   type IDisposable,
   toDisposable,
@@ -43,7 +18,6 @@ export {
 
 export { VSBuffer } from "./buffer.js";
 
-// Layer 1: 序列化
 export {
   type IReader,
   type IWriter,
@@ -53,7 +27,6 @@ export {
   deserialize,
 } from "./serialization.js";
 
-// Layer 2: 传输协议
 export {
   type IMessagePassingProtocol,
   type ConnectionFlowControl,
@@ -69,9 +42,9 @@ export {
   type MessagePortLike,
   createQueuePair,
 } from "./protocol.js";
+
 export { PersistentProtocol, type PersistentProtocolOptions } from "./persistent-protocol.js";
 
-// Layer 3: Channel RPC
 export {
   type IChannel,
   type IServerChannel,
@@ -82,7 +55,6 @@ export {
   getDelayedChannel,
 } from "./channels.js";
 
-// Layer 4: 连接管理
 export {
   type ClientConnectionEvent,
   type Client,
@@ -93,15 +65,9 @@ export {
   StaticRouter,
 } from "./ipc.js";
 
-// Layer 5: 服务代理
 export { ProxyChannel } from "./proxy-channel.js";
 
-// 日志中间件 —— 装饰 ChannelServer/ChannelClient，统一记录 RPC 调用
-export {
-  type RPCLogger,
-  LoggingChannelServer,
-  LoggingChannelClient,
-} from "./logging-middleware.js";
+export { type RPCLogger, LoggingChannelServer, LoggingChannelClient } from "./logging-middleware.js";
 
 export {
   type NetworkTransportKind,
@@ -113,7 +79,6 @@ export {
   NetworkTelemetryChannelClient,
 } from "./network-telemetry-middleware.js";
 
-// Layer 6: Remote
 export {
   RemoteConnectionType,
   WebSocketRemoteConnection,
