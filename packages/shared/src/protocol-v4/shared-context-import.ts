@@ -12,34 +12,31 @@ const trimmedRequiredText = z.string().trim().min(1);
 const SHARE_URL_RULE = "shareUrl must use the canonical /cn/share/<code> path";
 
 // 分享链接必须是 http(s) 且 pathname 严格等于 /cn/share/<code>：query 与 hash 一律不收，
-// 否则同一个会话会因为带了追踪参数被当成两条不同的 provenance。URL 构造失败即判否。
+// 否则同一个会话会因为带了追踪参数被当成两条不同的 provenance。先过 URL.canParse，
+// 构造这一步只在解析器确认可解析之后发生，因此校验路径自己不需要异常兜底。
 const canonicalShareUrl = (value: string): boolean => {
-  try {
-    const parsed = new URL(value);
-    const httpFamily = parsed.protocol === "https:" || parsed.protocol === "http:";
-    const scopedPath = /^\/cn\/share\/[^/]+$/u.test(parsed.pathname);
-    return httpFamily && parsed.search === "" && parsed.hash === "" && scopedPath;
-  } catch {
-    return false;
-  }
+  if (!URL.canParse(value)) return false;
+  const { protocol, pathname, search, hash } = new URL(value);
+  const httpFamily = protocol === "https:" || protocol === "http:";
+  const scopedPath = /^\/cn\/share\/[^/]+$/u.test(pathname);
+  return httpFamily && search === "" && hash === "" && scopedPath;
 };
 
 // 生命周期四态按引擎推进顺序排列，顺序本身不是协议，取值才是。
 const importLifecycle = z.enum(["pending", "reserved", "attached", "discarded"]);
 
 // v2：完整形态，shareUrl 必须是 http(s) 且 pathname 严格匹配 `/cn/share/<code>`。
-const currentImportState = z
-  .object({
-    contextId: trimmedRequiredText,
-    title: trimmedRequiredText,
-    shareUrl: z.string().url().refine(canonicalShareUrl, SHARE_URL_RULE),
-    status: importLifecycle,
-  })
-  .strict();
+// strict 由 z.strictObject 承担：多键即校验失败。
+const currentImportState = z.strictObject({
+  contextId: trimmedRequiredText,
+  title: trimmedRequiredText,
+  shareUrl: z.string().url().refine(canonicalShareUrl, SHARE_URL_RULE),
+  status: importLifecycle,
+});
 
 // legacy：早期快照只存一个非空标题；两种形态都不接受第三种形状。
-const earlierImportState = z.object({ title: trimmedRequiredText }).strict();
+const earlierImportState = z.strictObject({ title: trimmedRequiredText });
 
 export const sharedContextImportStateSchema = z.union([currentImportState, earlierImportState]);
 
-export type SharedContextImportState = z.infer<typeof sharedContextImportStateSchema>;
+export type SharedContextImportState = z.output<typeof sharedContextImportStateSchema>;
