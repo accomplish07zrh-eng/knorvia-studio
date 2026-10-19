@@ -1654,11 +1654,20 @@ export function boundWorldReadInput(op: string, args: readonly unknown[]): World
 
 ### `apps/cli/packages/dynamic-workflow/src/facade/artifact-caps.ts`
 
-导出 2 项（运行时 2 / 纯类型 0），分类 `upstream-unchanged`。签名逐字取自源码。
+导出 2 项（运行时 2 / 纯类型 0），分类 `upstream-unchanged`。合同冻结的数据表按键值逐条列出（取自 B22/B29 断言），其余签名逐字取自源码。
 
 ```ts
-export const ARTIFACT_CAPS = …
-export const ARTIFACT_ID_PATTERN = /^[A-Za-z0-9_.-]+$/
+export const ARTIFACT_CAPS = {
+  maxArtifactsPerRun: 32,
+  maxDescriptionLength: 500,
+  maxFileBytes: 20971520,
+  maxIdLength: 64,
+  maxMarkdownBytes: 262144,
+  maxSpecSerializedBytes: 8192,
+  maxTitleLength: 120,
+  maxVersionsPerArtifact: 16,
+} as const;
+export const ARTIFACT_ID_PATTERN = /^[A-Za-z0-9_.-]+$/;
 ```
 
 ### `apps/cli/packages/dynamic-workflow/src/facade/dts.ts`
@@ -1673,10 +1682,19 @@ export const SNIPPET_FACADE_DTS = FACADE_ARGS_SEGMENT + FACADE_LOG_SEGMENT + FAC
 
 ### `apps/cli/packages/dynamic-workflow/src/facade/registry.ts`
 
-导出 16 项（运行时 11 / 纯类型 5），分类 `upstream-unchanged`。签名逐字取自源码。
+导出 16 项（运行时 11 / 纯类型 5），分类 `upstream-unchanged`。合同冻结的数据表按键值逐条列出（取自 B22/B29 断言），其余签名逐字取自源码。
 
 ```ts
-export const WORLD_READ_REGISTRY = …
+export const WORLD_READ_REGISTRY = [
+  { container: "files", member: "glob", op: "glob" },
+  { container: "files", member: "read", op: "read" },
+  { container: "files", member: "grep", op: "grep" },
+  { container: "git", member: "changedFiles", op: "git-changed-files" },
+  { container: "git", member: "diff", op: "git-diff" },
+  { container: "git", member: "status", op: "git-status" },
+  { container: "git", member: "log", op: "git-log" },
+  { container: "world", member: "run", op: "run" },
+] as const
 export type WorldReadOp = (typeof WORLD_READ_REGISTRY)[number]["op"];
 export interface ArtifactRow {
   /** 声明该成员的 facade 容器名（恒为 `artifact`）。 */
@@ -1692,7 +1710,14 @@ export interface ArtifactRow {
    */
   readonly family: "content" | "preset";
 }
-export const ARTIFACT_REGISTRY = …
+export const ARTIFACT_REGISTRY = [
+  { container: "artifact", member: "file", op: "file", family: "content" },
+  { container: "artifact", member: "markdown", op: "markdown", family: "content" },
+  { container: "artifact", member: "chart", op: "chart", family: "preset" },
+  { container: "artifact", member: "table", op: "table", family: "preset" },
+  { container: "artifact", member: "metrics", op: "metrics", family: "preset" },
+  { container: "artifact", member: "board", op: "board", family: "preset" },
+] as const
 export type ArtifactOp = (typeof ARTIFACT_REGISTRY)[number]["op"];
 export type ArtifactContentOp = Extract<
   (typeof ARTIFACT_REGISTRY)[number],
@@ -1727,10 +1752,20 @@ export const REPORT_CAPS = …
 
 ### `apps/cli/packages/dynamic-workflow/src/facade/world-read-caps.ts`
 
-导出 1 项（运行时 1 / 纯类型 0），分类 `upstream-unchanged`。签名逐字取自源码。
+导出 1 项（运行时 1 / 纯类型 0），分类 `upstream-unchanged`。合同冻结的数据表按键值逐条列出（取自 B22/B29 断言），其余签名逐字取自源码。
 
 ```ts
-export const WORLD_READ_CAPS = …
+export const WORLD_READ_CAPS = {
+  gitDiffMaxBytes: 524288,
+  gitLogDefaultCount: 20,
+  gitLogMaxCount: 100,
+  globMaxFiles: 2000,
+  grepMaxMatches: 2000,
+  grepMaxSerializedBytes: 262144,
+  runDefaultTimeoutMs: 300000,
+  runStderrMaxBytes: 262144,
+  runStdoutMaxBytes: 262144,
+} as const;
 ```
 
 ## lowering（作者面 → host 调用）（2 个文件）

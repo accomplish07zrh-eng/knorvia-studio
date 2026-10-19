@@ -1,336 +1,407 @@
+// SPDX-License-Identifier: Apache-2.0
 import ts from "typescript";
 import { harvestConstraints, mergeConstraints } from "./jsdoc.js";
 import type { JsonSchema, JsonValue } from "./types.js";
 import { MAX_UNION_MEMBERS } from "./types.js";
+import { DefinitionScope } from "./definition-scope.js";
 
-/**
- * 类型 → JSON Schema 的发射器（emitter），由 checker 的结构化视图驱动（泛型/别名/
- * mapped/conditional 都已被 checker 展平）。
- *
- * 递归类型通过 `$defs`/`$ref` 表达：只有真正被自身（在合成栈上）再次引用到的类型才会
- * 被提升为 def，非递归的具名类型仍就地内联，保证快照可读。识别办法是给每个复合类型
- * 压一个栈帧，若发射其子树时再次进入同一 `ts.Type`，就把它标记为 requested 并返回
- * `$ref`；栈帧结束时若被 requested 过，则登记进 defs。
- *
- * 不可 JSON 序列化的类型以 {@link SchemaRejection} 抛出，由合成侧转成定位到 ask 站点的
- * 诊断（复用分析管线的诊断形状/UX）。
- */
-
-/** 发射失败：携带原因与出错的 JSON 路径，供合成侧组装成定位诊断。 */
+// Error raised when encountering types that cannot be mapped into valid JSON Schema.
 export class SchemaRejection extends Error {
-  constructor(
-    readonly reason: string,
-    readonly path: string,
-  ) {
+  public readonly reason: string;
+  public readonly path: string;
+
+  constructor(reason: string, path: string) {
     super(reason);
     this.name = "SchemaRejection";
+    this.reason = reason;
+    this.path = path;
   }
 }
 
-/**
- * 明确按名字拒绝的内建对象：它们是宿主对象/类实例，不是纯数据。Promise 也在此列，
- * 给出比“函数类型”更清晰的诊断。用户自定义 class 由 SymbolFlags.Class 兜底。
- */
-const REJECTED_BUILTINS = new Set<string>([
-  "Date",
-  "RegExp",
-  "Map",
-  "WeakMap",
-  "ReadonlyMap",
-  "Set",
-  "WeakSet",
-  "ReadonlySet",
-  "Promise",
-  "Error",
-  "EvalError",
-  "RangeError",
-  "ReferenceError",
-  "SyntaxError",
-  "TypeError",
-  "URIError",
-  "ArrayBuffer",
-  "SharedArrayBuffer",
-  "DataView",
-  "Int8Array",
-  "Uint8Array",
-  "Uint8ClampedArray",
-  "Int16Array",
-  "Uint16Array",
-  "Int32Array",
-  "Uint32Array",
-  "Float32Array",
-  "Float64Array",
-  "BigInt64Array",
-  "BigUint64Array",
-]);
-
-interface Frame {
-  requested: boolean;
+// Built-in JavaScript objects and runtime constructors banned from workflow payloads.
+function isDisallowedBuiltinType(typeName: string): boolean {
+  switch (typeName) {
+    case "Date":
+    case "RegExp":
+    case "Promise":
+    case "Map":
+    case "WeakMap":
+    case "ReadonlyMap":
+    case "Set":
+    case "WeakSet":
+    case "ReadonlySet":
+    case "Error":
+    case "EvalError":
+    case "RangeError":
+    case "ReferenceError":
+    case "SyntaxError":
+    case "TypeError":
+    case "URIError":
+    case "ArrayBuffer":
+    case "SharedArrayBuffer":
+    case "DataView":
+    case "Int8Array":
+    case "Uint8Array":
+    case "Uint8ClampedArray":
+    case "Int16Array":
+    case "Uint16Array":
+    case "Int32Array":
+    case "Uint32Array":
+    case "Float32Array":
+    case "Float64Array":
+    case "BigInt64Array":
+    case "BigUint64Array":
+      return true;
+    default:
+      return false;
+  }
 }
 
-/** 读取对象类型的 objectFlags（`ts.getObjectFlags` 未在公有 typings 暴露，这里直接取）。 */
-function objectFlagsOf(type: ts.Type): ts.ObjectFlags {
-  return (type.flags & ts.TypeFlags.Object) !== 0 ? (type as ts.ObjectType).objectFlags : 0;
+function extractIntrinsicBoolean(nodeType: ts.Type): boolean {
+  return (nodeType as unknown as { intrinsicName?: string }).intrinsicName === "true";
 }
 
+function resolveObjectTypeFlags(entity: ts.Type): number {
+  return (entity.flags & ts.TypeFlags.Object) !== 0
+    ? ((entity as ts.ObjectType).objectFlags ?? 0)
+    : 0;
+}
+
+function extractEnumValues(typesList: readonly ts.Type[]): JsonValue[] | undefined {
+  const collectedLiterals: JsonValue[] = [];
+  for (const candidate of typesList) {
+    const bitMask = candidate.flags;
+    if ((bitMask & ts.TypeFlags.StringLiteral) !== 0) {
+      collectedLiterals.push((candidate as ts.StringLiteralType).value);
+    } else if ((bitMask & ts.TypeFlags.NumberLiteral) !== 0) {
+      collectedLiterals.push((candidate as ts.NumberLiteralType).value);
+    } else if ((bitMask & ts.TypeFlags.BooleanLiteral) !== 0) {
+      collectedLiterals.push(extractIntrinsicBoolean(candidate));
+    } else if ((bitMask & ts.TypeFlags.Null) !== 0) {
+      collectedLiterals.push(null);
+    } else {
+      return undefined;
+    }
+  }
+  return collectedLiterals;
+}
+
+// Orchestrates translation of TypeScript type definitions into compliant JSON Schema models.
 export class SchemaEmitter {
-  private readonly defs = new Map<ts.Type, { name: string; schema: JsonSchema }>();
-  private readonly inProgress = new Map<ts.Type, Frame>();
-  private readonly defName = new Map<ts.Type, string>();
-  private readonly usedNames = new Set<string>();
+  private readonly recursionScope = new DefinitionScope();
 
   constructor(
     private readonly checker: ts.TypeChecker,
     private readonly location: ts.Node,
   ) {}
 
-  /** 发射顶层类型；若过程中产生了 def，则把 `$defs` 挂到根 schema 上。 */
-  emitTop(type: ts.Type): JsonSchema {
-    const schema = this.emit(type, "$");
-    if (this.defs.size === 0) return schema;
-    const $defs: Record<string, JsonSchema> = {};
-    for (const { name, schema: defSchema } of this.defs.values()) $defs[name] = defSchema;
-    return { ...schema, $defs };
+  public emitTop(targetType: ts.Type): JsonSchema {
+    const rootSchema = this.dispatchInspection(targetType, "$");
+    const extractedDefs = this.recursionScope.extractDefinitions();
+    if (extractedDefs === undefined) {
+      return rootSchema;
+    }
+    return {
+      ...rootSchema,
+      $defs: extractedDefs,
+    };
   }
 
-  private emit(type: ts.Type, path: string): JsonSchema {
-    const settled = this.defs.get(type);
-    if (settled !== undefined) return { $ref: `#/$defs/${settled.name}` };
-    const frame = this.inProgress.get(type);
-    if (frame !== undefined) {
-      frame.requested = true;
-      return { $ref: `#/$defs/${this.nameFor(type)}` };
+  public emitMembers(memberTypes: readonly ts.Type[], jsonPath: string): JsonSchema {
+    const literalEnum = extractEnumValues(memberTypes);
+    if (literalEnum !== undefined) {
+      return { enum: literalEnum };
+    }
+    return {
+      anyOf: memberTypes.map((child, order) =>
+        this.dispatchInspection(child, `${jsonPath}|${order}`),
+      ),
+    };
+  }
+
+  private dispatchInspection(typeNode: ts.Type, locationPath: string): JsonSchema {
+    const cycleRef = this.recursionScope.testCycle(typeNode);
+    if (cycleRef) {
+      return { $ref: cycleRef };
     }
 
-    const flags = type.flags;
-    if (flags & ts.TypeFlags.Any) {
+    const flags = typeNode.flags;
+
+    // 1. Guard against non-serializable primitive forms
+    if ((flags & ts.TypeFlags.Any) !== 0) {
       throw new SchemaRejection(
         "type 'any' is not allowed; use 'unknown' or a concrete type",
-        path,
+        locationPath,
       );
     }
-    if (flags & ts.TypeFlags.Unknown) return {};
-    if (flags & ts.TypeFlags.Never)
-      throw new SchemaRejection("type 'never' cannot be represented", path);
-    if (flags & (ts.TypeFlags.Undefined | ts.TypeFlags.Void)) {
-      throw new SchemaRejection("'undefined' is only allowed on optional properties", path);
+    if ((flags & ts.TypeFlags.Never) !== 0) {
+      throw new SchemaRejection("type 'never' cannot be represented", locationPath);
     }
-    if (flags & ts.TypeFlags.Null) return { type: "null" };
-    if (flags & ts.TypeFlags.BooleanLiteral) return { const: this.booleanValue(type) };
-    if (flags & ts.TypeFlags.Boolean) return { type: "boolean" };
-    if (flags & ts.TypeFlags.StringLiteral) return { const: (type as ts.StringLiteralType).value };
-    if (flags & ts.TypeFlags.NumberLiteral) return { const: (type as ts.NumberLiteralType).value };
-    if (flags & ts.TypeFlags.String) return { type: "string" };
-    if (flags & ts.TypeFlags.Number) return { type: "number" };
-    if (flags & (ts.TypeFlags.BigInt | ts.TypeFlags.BigIntLiteral)) {
-      throw new SchemaRejection("'bigint' is not JSON-serializable", path);
+    if ((flags & (ts.TypeFlags.Undefined | ts.TypeFlags.Void)) !== 0) {
+      throw new SchemaRejection("'undefined' is only allowed on optional properties", locationPath);
     }
-    if (flags & (ts.TypeFlags.ESSymbol | ts.TypeFlags.UniqueESSymbol)) {
-      throw new SchemaRejection("'symbol' is not JSON-serializable", path);
+    if ((flags & (ts.TypeFlags.BigInt | ts.TypeFlags.BigIntLiteral)) !== 0) {
+      throw new SchemaRejection("'bigint' is not JSON-serializable", locationPath);
     }
-    if (type.isUnion()) return this.composite(type, () => this.emitUnion(type, path));
-    if (type.isIntersection()) return this.composite(type, () => this.emitIntersection(type, path));
-    if (flags & ts.TypeFlags.Object)
-      return this.composite(type, () => this.emitObjectLike(type, path));
+    if ((flags & (ts.TypeFlags.ESSymbol | ts.TypeFlags.UniqueESSymbol)) !== 0) {
+      throw new SchemaRejection("'symbol' is not JSON-serializable", locationPath);
+    }
 
-    throw new SchemaRejection("type is not JSON-serializable", path);
+    // 2. Map primitive scalars and literal constants
+    if ((flags & ts.TypeFlags.Unknown) !== 0) {
+      return {};
+    }
+    if ((flags & ts.TypeFlags.Null) !== 0) {
+      return { type: "null" };
+    }
+    if ((flags & ts.TypeFlags.StringLiteral) !== 0) {
+      return { const: (typeNode as ts.StringLiteralType).value };
+    }
+    if ((flags & ts.TypeFlags.NumberLiteral) !== 0) {
+      return { const: (typeNode as ts.NumberLiteralType).value };
+    }
+    if ((flags & ts.TypeFlags.BooleanLiteral) !== 0) {
+      return { const: extractIntrinsicBoolean(typeNode) };
+    }
+    if ((flags & ts.TypeFlags.String) !== 0) {
+      return { type: "string" };
+    }
+    if ((flags & ts.TypeFlags.Number) !== 0) {
+      return { type: "number" };
+    }
+    if ((flags & ts.TypeFlags.Boolean) !== 0) {
+      return { type: "boolean" };
+    }
+
+    // 3. Delegate structured and composite definitions
+    if (typeNode.isUnion()) {
+      return this.wrapCompositeEvaluation(typeNode, () =>
+        this.processUnion(typeNode, locationPath),
+      );
+    }
+    if (typeNode.isIntersection()) {
+      return this.wrapCompositeEvaluation(typeNode, () =>
+        this.processIntersection(typeNode, locationPath),
+      );
+    }
+    if ((flags & ts.TypeFlags.Object) !== 0) {
+      return this.wrapCompositeEvaluation(typeNode, () =>
+        this.processObjectStructure(typeNode, locationPath),
+      );
+    }
+
+    throw new SchemaRejection("type is not JSON-serializable", locationPath);
   }
 
-  /** 复合类型的栈帧包装：发射期间若被自身再次引用则提升为 def 并返回 `$ref`。 */
-  private composite(type: ts.Type, build: () => JsonSchema): JsonSchema {
-    this.inProgress.set(type, { requested: false });
-    const schema = build();
-    const frame = this.inProgress.get(type)!;
-    this.inProgress.delete(type);
-    if (!frame.requested) return schema;
-    const name = this.nameFor(type);
-    this.defs.set(type, { name, schema });
-    return { $ref: `#/$defs/${name}` };
+  private wrapCompositeEvaluation(typeNode: ts.Type, evaluator: () => JsonSchema): JsonSchema {
+    this.recursionScope.openFrame(typeNode);
+    const generated = evaluator();
+    return this.recursionScope.closeFrame(typeNode, generated);
   }
 
-  /** 为一个类型分配稳定且唯一的 def 名（源自别名/符号名），惰性且去重。 */
-  private nameFor(type: ts.Type): string {
-    const cached = this.defName.get(type);
-    if (cached !== undefined) return cached;
-    const base = type.aliasSymbol?.name ?? type.getSymbol()?.name ?? "Schema";
-    let name = base;
-    let suffix = 1;
-    while (this.usedNames.has(name)) {
-      suffix += 1;
-      name = `${base}${suffix}`;
-    }
-    this.usedNames.add(name);
-    this.defName.set(type, name);
-    return name;
-  }
-
-  private booleanValue(type: ts.Type): boolean {
-    return (type as unknown as { intrinsicName?: string }).intrinsicName === "true";
-  }
-
-  private emitUnion(type: ts.UnionType, path: string): JsonSchema {
-    const members = type.types;
-    if (members.length > MAX_UNION_MEMBERS) {
+  private processUnion(unionNode: ts.UnionType, atLocation: string): JsonSchema {
+    const branches = unionNode.types;
+    if (branches.length > MAX_UNION_MEMBERS) {
       throw new SchemaRejection(
-        `union has too many members (${members.length} > ${MAX_UNION_MEMBERS})`,
-        path,
+        `union has too many members (${branches.length} > ${MAX_UNION_MEMBERS})`,
+        atLocation,
       );
     }
-    for (const member of members) {
-      if (member.flags & (ts.TypeFlags.Undefined | ts.TypeFlags.Void)) {
-        throw new SchemaRejection("'undefined' is only allowed on optional properties", path);
+
+    for (const option of branches) {
+      if ((option.flags & (ts.TypeFlags.Undefined | ts.TypeFlags.Void)) !== 0) {
+        throw new SchemaRejection("'undefined' is only allowed on optional properties", atLocation);
       }
     }
-    return this.emitMembers(members, path);
+
+    return this.emitMembers(branches, atLocation);
   }
 
-  /** 一组成员类型 → enum（全为字面量时）或 anyOf。也被可选属性的去 undefined 路径复用。 */
-  emitMembers(members: readonly ts.Type[], path: string): JsonSchema {
-    const literals = this.asLiterals(members);
-    if (literals !== undefined) return { enum: literals };
-    return { anyOf: members.map((member, index) => this.emit(member, `${path}|${index}`)) };
+  private processIntersection(intersectNode: ts.IntersectionType, atLocation: string): JsonSchema {
+    for (const segment of intersectNode.types) {
+      const segFlags = segment.flags;
+      if ((segFlags & ts.TypeFlags.String) !== 0) return { type: "string" };
+      if ((segFlags & ts.TypeFlags.Number) !== 0) return { type: "number" };
+      if ((segFlags & ts.TypeFlags.Boolean) !== 0) return { type: "boolean" };
+    }
+
+    if (intersectNode.getCallSignatures().length > 0) {
+      throw new SchemaRejection("function types are not JSON-serializable", atLocation);
+    }
+
+    return this.synthesizeObjectProperties(intersectNode, atLocation);
   }
 
-  /** 若所有成员都是字面量（string/number/boolean 字面量或 null），返回其取值数组。 */
-  private asLiterals(members: readonly ts.Type[]): JsonValue[] | undefined {
-    const values: JsonValue[] = [];
-    for (const member of members) {
-      const flags = member.flags;
-      if (flags & ts.TypeFlags.StringLiteral) values.push((member as ts.StringLiteralType).value);
-      else if (flags & ts.TypeFlags.NumberLiteral)
-        values.push((member as ts.NumberLiteralType).value);
-      else if (flags & ts.TypeFlags.BooleanLiteral) values.push(this.booleanValue(member));
-      else if (flags & ts.TypeFlags.Null) values.push(null);
-      else return undefined;
+  private processObjectStructure(objectNode: ts.Type, atLocation: string): JsonSchema {
+    if (this.verifyArrayReference(objectNode)) {
+      return this.synthesizeArraySchema(objectNode as ts.TypeReference, atLocation);
     }
-    return values;
+    if (this.verifyTupleReference(objectNode)) {
+      return this.synthesizeTupleSchema(objectNode as ts.TupleTypeReference, atLocation);
+    }
+
+    if (
+      objectNode.getCallSignatures().length > 0 ||
+      objectNode.getConstructSignatures().length > 0
+    ) {
+      throw new SchemaRejection("function types are not JSON-serializable", atLocation);
+    }
+
+    const namedSymbol = objectNode.getSymbol();
+    const symbolIdentifier = namedSymbol?.getName();
+    if (symbolIdentifier && isDisallowedBuiltinType(symbolIdentifier)) {
+      throw new SchemaRejection(`'${symbolIdentifier}' is not JSON-serializable`, atLocation);
+    }
+
+    if (((namedSymbol?.flags ?? 0) & ts.SymbolFlags.Class) !== 0) {
+      throw new SchemaRejection("class instances are not JSON-serializable", atLocation);
+    }
+
+    if (this.inspectThenableContract(objectNode)) {
+      throw new SchemaRejection("Promise/thenable values are not JSON-serializable", atLocation);
+    }
+
+    return this.synthesizeObjectProperties(objectNode, atLocation);
   }
 
-  /** 交叉类型：合并为一个 object（checker 已把成员属性合并到交叉类型上）。含原始类型成员
-   *  的品牌类型（如 `string & {__brand}`）按其原始类型发射。 */
-  private emitIntersection(type: ts.IntersectionType, path: string): JsonSchema {
-    for (const member of type.types) {
-      if (member.flags & ts.TypeFlags.String) return { type: "string" };
-      if (member.flags & ts.TypeFlags.Number) return { type: "number" };
-      if (member.flags & ts.TypeFlags.Boolean) return { type: "boolean" };
-    }
-    if (type.getCallSignatures().length > 0) {
-      throw new SchemaRejection("function types are not JSON-serializable", path);
-    }
-    return this.emitObject(type, path);
-  }
+  private synthesizeObjectProperties(typeContainer: ts.Type, atLocation: string): JsonSchema {
+    const fieldDefinitions: Record<string, JsonSchema> = {};
+    const mandatoryAttributes: string[] = [];
+    const entityProperties = this.checker.getPropertiesOfType(typeContainer);
 
-  private emitObjectLike(type: ts.Type, path: string): JsonSchema {
-    if (this.isArrayType(type)) return this.emitArray(type as ts.TypeReference, path);
-    if (this.isTupleType(type)) return this.emitTuple(type as ts.TupleTypeReference, path);
-    if (type.getCallSignatures().length > 0 || type.getConstructSignatures().length > 0) {
-      throw new SchemaRejection("function types are not JSON-serializable", path);
-    }
-    const name = type.getSymbol()?.getName();
-    if (name !== undefined && REJECTED_BUILTINS.has(name)) {
-      throw new SchemaRejection(`'${name}' is not JSON-serializable`, path);
-    }
-    if (((type.getSymbol()?.flags ?? 0) & ts.SymbolFlags.Class) !== 0) {
-      throw new SchemaRejection("class instances are not JSON-serializable", path);
-    }
-    if (this.isThenable(type)) {
-      throw new SchemaRejection("Promise/thenable values are not JSON-serializable", path);
-    }
-    return this.emitObject(type, path);
-  }
+    for (const propSymbol of entityProperties) {
+      const isFieldOptional = (propSymbol.flags & ts.SymbolFlags.Optional) !== 0;
+      const declAnchor = propSymbol.valueDeclaration ?? this.location;
+      const rawPropertyType = this.checker.getTypeOfSymbolAtLocation(propSymbol, declAnchor);
+      const propertyPath = `${atLocation}.${propSymbol.name}`;
 
-  private emitObject(type: ts.Type, path: string): JsonSchema {
-    const properties: Record<string, JsonSchema> = {};
-    const required: string[] = [];
-    for (const prop of this.checker.getPropertiesOfType(type)) {
-      const optional = (prop.flags & ts.SymbolFlags.Optional) !== 0;
-      const propPath = `${path}.${prop.name}`;
-      const propType = this.checker.getTypeOfSymbolAtLocation(
-        prop,
-        prop.valueDeclaration ?? this.location,
+      const rawSchema = isFieldOptional
+        ? this.stripUndefinedFromUnion(rawPropertyType, propertyPath)
+        : this.dispatchInspection(rawPropertyType, propertyPath);
+
+      const enrichedSchema = mergeConstraints(
+        rawSchema,
+        harvestConstraints(propSymbol, this.checker),
       );
-      const base = optional ? this.emitOptional(propType, propPath) : this.emit(propType, propPath);
-      properties[prop.name] = mergeConstraints(base, harvestConstraints(prop, this.checker));
-      if (!optional) required.push(prop.name);
+
+      fieldDefinitions[propSymbol.name] = enrichedSchema;
+      if (!isFieldOptional) {
+        mandatoryAttributes.push(propSymbol.name);
+      }
     }
 
-    const schema: JsonSchema = { type: "object" };
-    if (Object.keys(properties).length > 0) schema.properties = properties;
-    if (required.length > 0) schema.required = required;
+    const objectResult: JsonSchema = { type: "object" };
+    if (Object.keys(fieldDefinitions).length > 0) {
+      objectResult.properties = fieldDefinitions;
+    }
+    if (mandatoryAttributes.length > 0) {
+      objectResult.required = mandatoryAttributes;
+    }
 
-    // 闭合对象（无字符串索引签名）发射 additionalProperties: false。
-    // 注意这不是「忠于 TS」：TS 的对象类型在结构上是开放的（多余属性检查只对对象字面量
-    // 触发），`{a: string}` 本身接受多余键。这里选 false 的真正理由是校验 UX 与结构化
-    // 输出惯例：模型给出多余键几乎总是误解的信号，false 能把它变成一条清晰的修复提示，
-    // 也符合严格结构化输出的通行做法。带字符串索引签名（Record<string,T>）则用其值 schema。
-    const indexInfo = this.checker.getIndexInfoOfType(type, ts.IndexKind.String);
-    schema.additionalProperties =
-      indexInfo !== undefined ? this.emit(indexInfo.type, `${path}[*]`) : false;
-    return schema;
+    const indexSignature = this.checker.getIndexInfoOfType(typeContainer, ts.IndexKind.String);
+    objectResult.additionalProperties = indexSignature
+      ? this.dispatchInspection(indexSignature.type, `${atLocation}[*]`)
+      : false;
+
+    return objectResult;
   }
 
-  /** 可选属性：从属性类型里剥掉 undefined 后再发射（可选性由 required 表达，不进类型）。 */
-  private emitOptional(propType: ts.Type, path: string): JsonSchema {
-    if (!propType.isUnion()) return this.emit(propType, path);
-    const rest = propType.types.filter(
-      (member) => (member.flags & (ts.TypeFlags.Undefined | ts.TypeFlags.Void)) === 0,
+  private stripUndefinedFromUnion(candidate: ts.Type, atLocation: string): JsonSchema {
+    if (!candidate.isUnion()) {
+      return this.dispatchInspection(candidate, atLocation);
+    }
+
+    const definedBranches = candidate.types.filter(
+      (element) => (element.flags & (ts.TypeFlags.Undefined | ts.TypeFlags.Void)) === 0,
     );
-    if (rest.length === propType.types.length) return this.emit(propType, path);
-    if (rest.length === 1) return this.emit(rest[0]!, path);
-    return this.emitMembers(rest, path);
+
+    if (definedBranches.length === candidate.types.length) {
+      return this.dispatchInspection(candidate, atLocation);
+    }
+    if (definedBranches.length === 1 && definedBranches[0]) {
+      return this.dispatchInspection(definedBranches[0], atLocation);
+    }
+
+    return this.emitMembers(definedBranches, atLocation);
   }
 
-  private emitArray(type: ts.TypeReference, path: string): JsonSchema {
-    const element = this.checker.getTypeArguments(type)[0];
-    const items = element !== undefined ? this.emit(element, `${path}[]`) : {};
-    return { type: "array", items };
+  private synthesizeArraySchema(arrayTypeRef: ts.TypeReference, atLocation: string): JsonSchema {
+    const typeArguments = this.checker.getTypeArguments(arrayTypeRef);
+    const element = typeArguments[0];
+    const itemsSchema = element ? this.dispatchInspection(element, `${atLocation}[]`) : {};
+    return { type: "array", items: itemsSchema };
   }
 
-  private emitTuple(type: ts.TupleTypeReference, path: string): JsonSchema {
-    const elementFlags = type.target.elementFlags;
-    const args = this.checker.getTypeArguments(type);
-    const prefixItems: JsonSchema[] = [];
-    let minItems = 0;
-    let restItems: JsonSchema | undefined;
-    for (let index = 0; index < args.length; index += 1) {
+  private synthesizeTupleSchema(
+    tupleTypeRef: ts.TupleTypeReference,
+    atLocation: string,
+  ): JsonSchema {
+    const elementFlags = tupleTypeRef.target.elementFlags;
+    const typeParams = this.checker.getTypeArguments(tupleTypeRef);
+    const itemPrefixes: JsonSchema[] = [];
+    let requiredCount = 0;
+    let restSpreadSchema: JsonSchema | undefined;
+
+    for (let index = 0; index < typeParams.length; index += 1) {
       const flag = elementFlags[index] ?? ts.ElementFlags.Required;
-      const arg = args[index]!;
-      if (flag & ts.ElementFlags.Rest) {
-        restItems = this.emit(arg, `${path}[${index}]`);
+      const paramType = typeParams[index]!;
+      const currentLoc = `${atLocation}[${index}]`;
+
+      if ((flag & ts.ElementFlags.Rest) !== 0) {
+        restSpreadSchema = this.dispatchInspection(paramType, currentLoc);
         continue;
       }
-      const optional = (flag & ts.ElementFlags.Optional) !== 0;
-      prefixItems.push(
-        optional
-          ? this.emitOptional(arg, `${path}[${index}]`)
-          : this.emit(arg, `${path}[${index}]`),
+
+      const isOptional = (flag & ts.ElementFlags.Optional) !== 0;
+      itemPrefixes.push(
+        isOptional
+          ? this.stripUndefinedFromUnion(paramType, currentLoc)
+          : this.dispatchInspection(paramType, currentLoc),
       );
-      if (flag & ts.ElementFlags.Required) minItems += 1;
+
+      if ((flag & ts.ElementFlags.Required) !== 0) {
+        requiredCount += 1;
+      }
     }
-    const schema: JsonSchema = { type: "array", prefixItems, minItems };
-    if (restItems !== undefined) schema.items = restItems;
-    else schema.maxItems = prefixItems.length;
-    return schema;
+
+    const tupleResult: JsonSchema = {
+      type: "array",
+      prefixItems: itemPrefixes,
+      minItems: requiredCount,
+    };
+
+    if (restSpreadSchema !== undefined) {
+      tupleResult.items = restSpreadSchema;
+    } else {
+      tupleResult.maxItems = itemPrefixes.length;
+    }
+
+    return tupleResult;
   }
 
-  private isArrayType(type: ts.Type): boolean {
-    if ((objectFlagsOf(type) & ts.ObjectFlags.Reference) === 0) return false;
-    const name = (type as ts.TypeReference).target.getSymbol()?.getName();
-    return name === "Array" || name === "ReadonlyArray";
+  private verifyArrayReference(entity: ts.Type): boolean {
+    if ((resolveObjectTypeFlags(entity) & ts.ObjectFlags.Reference) === 0) {
+      return false;
+    }
+    const targetSymbolName = (entity as ts.TypeReference).target.getSymbol()?.getName();
+    return targetSymbolName === "Array" || targetSymbolName === "ReadonlyArray";
   }
 
-  private isTupleType(type: ts.Type): boolean {
-    if ((objectFlagsOf(type) & ts.ObjectFlags.Reference) === 0) return false;
-    return (((type as ts.TypeReference).target.objectFlags ?? 0) & ts.ObjectFlags.Tuple) !== 0;
+  private verifyTupleReference(entity: ts.Type): boolean {
+    if ((resolveObjectTypeFlags(entity) & ts.ObjectFlags.Reference) === 0) {
+      return false;
+    }
+    const targetFlags = (entity as ts.TypeReference).target.objectFlags ?? 0;
+    return (targetFlags & ts.ObjectFlags.Tuple) !== 0;
   }
 
-  private isThenable(type: ts.Type): boolean {
-    const then = this.checker.getPropertyOfType(type, "then");
-    if (then === undefined) return false;
-    const thenType = this.checker.getTypeOfSymbolAtLocation(
-      then,
-      then.valueDeclaration ?? this.location,
-    );
-    return thenType.getCallSignatures().length > 0;
+  private inspectThenableContract(entity: ts.Type): boolean {
+    const thenProperty = this.checker.getPropertyOfType(entity, "then");
+    if (!thenProperty) {
+      return false;
+    }
+    const declarationNode = thenProperty.valueDeclaration ?? this.location;
+    const resolvedType = this.checker.getTypeOfSymbolAtLocation(thenProperty, declarationNode);
+    return resolvedType.getCallSignatures().length > 0;
   }
 }
