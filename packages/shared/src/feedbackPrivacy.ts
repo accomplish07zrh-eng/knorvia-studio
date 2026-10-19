@@ -125,7 +125,9 @@ function performRegexScrubbing(content: string, isDiagnostic: boolean): string {
 }
 
 /** 扫描单行文本中的键名及位置 */
-function inspectLineKeyBindings(lineText: string): Array<{ key: string; quoted: boolean; end: number }> {
+function inspectLineKeyBindings(
+  lineText: string,
+): Array<{ key: string; quoted: boolean; end: number }> {
   const result: Array<{ key: string; quoted: boolean; end: number }> = [];
   const pattern = /(?:"((?:\\.|[^"\\])*)"|'([^']*)'|([\w.-]+))\s*[:=]\s*/g;
   for (const m of lineText.matchAll(pattern)) {
@@ -297,9 +299,6 @@ function transformTextPayload(textInput: string, isDiagnostic: boolean, depth: n
  * @param text 待处理文本或 JSON 字符串
  * @param options 脱敏配置项，可选 diagnostic 模式
  */
-export function redactFeedbackText(
-  text: string,
-  options: { diagnostic?: boolean } = {},
-): string {
+export function redactFeedbackText(text: string, options: { diagnostic?: boolean } = {}): string {
   return transformTextPayload(text, options.diagnostic === true, 0);
 }

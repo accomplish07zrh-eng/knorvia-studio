@@ -126,10 +126,7 @@ interface HostIdentityContext {
 }
 
 export interface FeedbackDeviceInfo
-  extends ApplicationReleaseInfo,
-    RuntimePlatformInfo,
-    SessionModelContext,
-    HostIdentityContext {}
+  extends ApplicationReleaseInfo, RuntimePlatformInfo, SessionModelContext, HostIdentityContext {}
 
 export interface CreateFeedbackTicketInput {
   title: string;
@@ -168,9 +165,7 @@ interface TicketStakeholderInfo {
 }
 
 export interface FeedbackTicketSummary
-  extends TicketBaseProperties,
-    TicketStakeholderInfo,
-    TicketAuditTimestamps {}
+  extends TicketBaseProperties, TicketStakeholderInfo, TicketAuditTimestamps {}
 
 export type FeedbackTicketEventType =
   | "created"

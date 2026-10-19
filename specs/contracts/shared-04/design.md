@@ -15,14 +15,14 @@
 
 本包 44 个模块主要为无状态纯函数、短时解析器、Zod Schema 校验器与语义常量表：
 
-| 模块 / 领域 | 状态所有者 | 读写路径与生命周期 |
-|---|---|---|
-| R: remote/network (B1–B11, B28) | 外部调用方（services / remote host） | 纯解析与信封构造；无持久句柄与连接状态，调用即销毁 |
-| P: plugins/mcp (B12–B18) | 外部调用方（plugin service / UI store） | 纯转换函数、排序对比与常量表；由调用方持有插件列表与市场状态 |
-| C: config/UI (B19–B27) | 外部调用方（UI store / app runtime / desktop main） | 纯 schema 解析与文案查表；无内部单例 |
-| F: feedback/onboarding (B29–B31) | 外部调用方（feedback service / onboarding storage） | 纯文本脱敏解析器与记录 schema；脱敏函数栈深度上限 32，无副作用 |
-| D: diagnostics/telemetry (B32–B40) | 外部调用方（diagnostic service / metrics collector） | 内存诊断 registry（B35）由工厂函数实例化并交调用方持有；TTFT（B36）纯校准计算 |
-| A: auth/model/provider (B41–B49) | 外部调用方（auth service / model provider registry） | 官方 MCP 来源信任 registry（B43）由工厂创建交调用方持有；套餐身份（B49）纯快照推导 |
+| 模块 / 领域                        | 状态所有者                                           | 读写路径与生命周期                                                                 |
+| ---------------------------------- | ---------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| R: remote/network (B1–B11, B28)    | 外部调用方（services / remote host）                 | 纯解析与信封构造；无持久句柄与连接状态，调用即销毁                                 |
+| P: plugins/mcp (B12–B18)           | 外部调用方（plugin service / UI store）              | 纯转换函数、排序对比与常量表；由调用方持有插件列表与市场状态                       |
+| C: config/UI (B19–B27)             | 外部调用方（UI store / app runtime / desktop main）  | 纯 schema 解析与文案查表；无内部单例                                               |
+| F: feedback/onboarding (B29–B31)   | 外部调用方（feedback service / onboarding storage）  | 纯文本脱敏解析器与记录 schema；脱敏函数栈深度上限 32，无副作用                     |
+| D: diagnostics/telemetry (B32–B40) | 外部调用方（diagnostic service / metrics collector） | 内存诊断 registry（B35）由工厂函数实例化并交调用方持有；TTFT（B36）纯校准计算      |
+| A: auth/model/provider (B41–B49)   | 外部调用方（auth service / model provider registry） | 官方 MCP 来源信任 registry（B43）由工厂创建交调用方持有；套餐身份（B49）纯快照推导 |
 
 ## 2. 模块划分（换骨重组设计理念）
 
@@ -44,17 +44,17 @@
 
 ## 3. 关键数据结构与不可变量
 
-| 结构 / 概念 | 契约约束与不可变边界 |
-|---|---|
+| 结构 / 概念                        | 契约约束与不可变边界                                                                                                                                                                                    |
+| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `RemoteWorkspaceIdentity` (B4, B5) | SSH `remote:ssh:<host>:<port>:<user>:<path>`；WSL `remote:wsl:<distro>[:<user>]:<path>`；Docker `remote:docker:<container>:<path>`。路径前导 `/` 且 `\` 归一为 `/`；解析从首个 `/` 提取完整路径保留冒号 |
-| `IntranetDefaults` (B2) | 资产端口 `12345`、探测端口 `3850`、探测路径 `/api/intranet/probe`；缺参文案逐字精确 |
-| `PluginMarketplaces` (B13) | 官方市场 id `knorvia-plugins-bundled`，默认 10 个官方插件 id Set（不含 computer-use） |
-| `DatabaseStartupState` (B34) | schemaVersion=1，phase 六值；详情保留最后一次合法 sqliteCode / systemCode / migrationId；六大不可重试错误分类 |
-| `MemoryDiagnosticsWriteGate` (B35) | 常量 60000ms / 0.05 / 0.1 / 300000ms；首样本 `first`、变化 `changed`、心跳 `heartbeat`、否则 `null` |
-| `LocalTtftCalibration` (B36) | 6 阶段、15 桶；偏移量 `round((start + end - receivedAt - sentAt) / 2)`，误差 `round(network / 2)`，误差上限 10ms |
-| `RendererActionTrace` (B38) | 服务名 `knorvia-desktop-renderer`，采样上限 0.2，批次最大 32 spans / 262144 字节 |
-| `OfficialMcpAuth` (B41–B43) | 5 个认证头映射、8 个保留头（小写）；回环 dev 严格匹配，https origin 忽略 path |
-| `PlanIdentitySnapshot` (B49) | coding_plan 活跃优先；no_plan 返回 no_plan；未知字段/过期短路直接返回 unknown（不回退 start_plan）；start_plan 从 `subscription.details[0].productId` 获取产品 ID |
+| `IntranetDefaults` (B2)            | 资产端口 `12345`、探测端口 `3850`、探测路径 `/api/intranet/probe`；缺参文案逐字精确                                                                                                                     |
+| `PluginMarketplaces` (B13)         | 官方市场 id `knorvia-plugins-bundled`，默认 10 个官方插件 id Set（不含 computer-use）                                                                                                                   |
+| `DatabaseStartupState` (B34)       | schemaVersion=1，phase 六值；详情保留最后一次合法 sqliteCode / systemCode / migrationId；六大不可重试错误分类                                                                                           |
+| `MemoryDiagnosticsWriteGate` (B35) | 常量 60000ms / 0.05 / 0.1 / 300000ms；首样本 `first`、变化 `changed`、心跳 `heartbeat`、否则 `null`                                                                                                     |
+| `LocalTtftCalibration` (B36)       | 6 阶段、15 桶；偏移量 `round((start + end - receivedAt - sentAt) / 2)`，误差 `round(network / 2)`，误差上限 10ms                                                                                        |
+| `RendererActionTrace` (B38)        | 服务名 `knorvia-desktop-renderer`，采样上限 0.2，批次最大 32 spans / 262144 字节                                                                                                                        |
+| `OfficialMcpAuth` (B41–B43)        | 5 个认证头映射、8 个保留头（小写）；回环 dev 严格匹配，https origin 忽略 path                                                                                                                           |
+| `PlanIdentitySnapshot` (B49)       | coding_plan 活跃优先；no_plan 返回 no_plan；未知字段/过期短路直接返回 unknown（不回退 start_plan）；start_plan 从 `subscription.details[0].productId` 获取产品 ID                                       |
 
 ## 4. 关键流程时序图
 
@@ -162,47 +162,47 @@ sequenceDiagram
 
 ## 5. 每条 B 的实现落点对照
 
-| 条目 | 对应模块文件 | 核心导出 | 独立设计思路 |
-|---|---|---|---|
-| B1 | `endpointHostname.ts` | `resolveSafeEndpointHostname` | 使用原生 `URL` 构造，严格过滤非 http/https 协议并提取小写主机名 |
-| B2 | `intranetDefaults.ts` | `resolveIntranetMachineHost`, `resolveIntranetDepsBaseUrl` 等 | 环境变量清洗、去尾斜杠、默认端口组与精确缺参报错 |
-| B3 | `intranetProbe.ts` | 9 个纯类型 | 纯类型定义，零运行时值导出 |
-| B4, B5 | `remote-workspace-identity.ts` | `buildRemoteWorkspaceIdentity`, `parseRemoteWorkspaceIdentity`, `isRemoteWorkspaceIdentity` | 规范化正反向正则表达式，多平台路径统一正斜杠与前导斜杠 |
-| B6, B7 | `remoteUsageTelemetry.ts` | `resolveWorkspaceTelemetryDetail`, `classifyRemoteUsageError` 等 | 规则优先级表驱动分类，标准遥测信封封装 |
-| B8 | `remoteAppConfig.ts`, `helpAppConfig.ts` | `resolveHelpAppConfig` 及各 getter | 远端非空优先合并，显式 false 保护与本地回退 |
-| B9 | `server-remote.ts` | `serverRemoteInfoSchema`, `serverRemoteHostCapabilitySchema` 等 | strict 模式的 Zod Schema，严格校验版本 1 与双重能力 |
-| B10 | `openrouter-attribution.ts` | `isOpenRouterBaseUrl`, `withOpenRouterAttributionHeaders` | URL 域前缀判定，不可覆盖已有头部的属性合并 |
-| B11 | `wslUserValidation.ts` | `isValidWslUser`, `wslUserSchema` | 长度与控制符正则过滤，允许空串在 schema 中先放行再深检 |
-| B12 | `plugin-display-name.ts` | `formatCanonicalPluginName`, `resolvePluginDisplayName` | 连字符下划线分词与首字母大写转换，专有缩写专表映射 |
-| B13 | `plugin-marketplaces.ts` | `DEFAULT_ENABLED_OFFICIAL_PLUGIN_IDS`, `PUBLIC_STORE_MARKETPLACE_IDS` | 常量 Set 与 Array 定义，市场 id 精确比对 |
-| B14 | `pluginStoreOrder.ts` | `parsePluginStoreOrder` | 独立子树解析与模式级容错清洗，非法结构返回 null |
-| B15 | `pluginStoreOrdering.ts` | `sortPluginStoreEntries`, `compareDocumentPluginPriority` | 组合优先级排序器，文档插件独立级别判定 |
-| B16 | `skill-scan-policy.ts` | `shouldWalkSkillDirectoryEntry`, `SKILL_FILE_NAME` | 12 个排除目录静态 Set 检索，点前缀仅 `.system` 白名单放行 |
-| B17, B18 | `mcp.ts` | `getMcpServerRequestHeaders`, `convertToKnorviaAgentMcpServer`, CUA 判定 | 请求头 fallback 选择，Windows cmd /c 解包，OAuth 严格过滤 |
-| B19 | `clientConfig.ts` | `parseClientConfigSnapshot` | 信封结构检验与未知键忽略，非法格式抛出标准 Error |
-| B20 | `dynamic-workflow-feature.ts` | `normalizeDynamicWorkflowMode`, `resolveDynamicWorkflowClientConfig` | 优先级 override > remote > default，三态模式判定 |
-| B21 | `app-runtime-preferences.ts` | `appRuntimePreferencesChannel`, `appRuntimePreferencesPayloadSchema` | 广播频道常量与带默认值的严格 Zod schema |
-| B22 | `e2e-test-bridge.ts` | `shouldEnableE2ETestBridge` | 环境变量双重门禁校验（必须恰为 "1" 且 runId 非空） |
-| B23 | `launchMarks.ts` | `serializeLaunchMarks`, `parseLaunchMarks` | 四项有序 JSON 序列化，严格有限数值反序列化 |
-| B24 | `desktopMenu.ts` | `desktopMenuMessageIds`, `desktopMenuMessages`, `getDesktopMenuMessage` | 双语言完整字典，locale 回退与全局插值替换 |
-| B25 | `serviceAuthority.ts` | `parseServiceAuthorityMode`, `shouldUseProviderRegistrySourceForAuthorityMode` | 权威模式枚举解析，非法值记录回显与注册表启用判定 |
-| B26 | `update.ts` | 3 个纯类型 | 纯类型定义，零运行时值导出 |
-| B27 | 全部 44 文件 | 导出面全集 | 保证所有模块路径与导出符号与合同附录逐项一致 |
-| B28 | `remote-sync.ts` | 1 个纯类型 | 纯类型定义，零运行时值导出 |
-| B29 | `feedback.ts` | `FEEDBACK_TICKET_MODULES`, `FEEDBACK_TICKET_TYPES` 等 | 12 模块、4 类型、3 严重度与框架选项常量集 |
-| B30 | `feedbackPrivacy.ts` | `redactFeedbackText` | 多阶段文本/JSON 脱敏引擎，保护私钥、凭据与本地路径 |
-| B31 | `onboardingRecord.ts` | `onboardingRecordFileSchema`, `onboardingRecordEntrySchema` | 版本 1、设备 ID 必填、跳过记 null 的严格 schema |
-| B32–B34 | `database-startup.ts` | `classifyDatabaseStartupError`, `canRetryDatabaseStartup`, schemas | 深度 cause 链分析，SQLite/OS 码映射，生命周期与重试边界 |
-| B35 | `memoryDiagnostics.ts` | `createMemorySampleWriteGate`, `createMemoryDiagnosticsRegistry` | 首样本/增量/心跳门控，带命名空间的隔离注册表 |
-| B36 | `localTtft.ts` | `calibrateLocalTtftClock`, TTFT schemas | 网络延迟、时钟偏移与误差推导计算，严格数值边界 |
-| B37 | `session-debug.ts` | `SESSION_DEBUG_LIMITS`, `calculateOutputTps` | 会话限额常量与非负正时长的吞吐速率计算 |
-| B38 | `rendererActionTrace.ts` | `rendererActionTraceConfigSchema`, `rendererActionSpanBatchSchema` 等 | 渲染器追踪配置、属性与批量上报严格校验 |
-| B39 | `lineChangeStat.ts`, `markdown-artifact-images.ts` | `computeLineChangeStat`, `extractMarkdownArtifactImageRefs` 等 | 行级 LCS 差异统计、大文件兜底、Markdown 围栏外图片改写 |
-| B40 | `sessionCreateTelemetry.ts` | `sessionCreateTelemetrySchema`, `automationSessionCreateTelemetrySchema` | 移动端与自动化会话创建的遥测模式校验 |
-| B41–B43 | `official-mcp-auth.ts` | 常量、`summarizeOfficialMcpIdentityHeaders`, `isOfficialMcpOriginTrusted` | 认证保留头识别、身份信息提取与本地回环/远程 HTTPS 鉴权 |
-| B44 | `official-mcp-tool-error.ts` | `parseOfficialMcpToolError` | 官方配额超限与套餐要求错误的严格反序列化 |
-| B45 | `oauth.ts` | `isCredentialDecryptError`, 常量 | 凭据解密失败的特征错误码与错误信息识别 |
-| B46 | `model-config.ts` | `modelConfigDataSchema` 及 complete 系列 | 顶层宽松、完整配置严格的多层模型参数校验 |
-| B47 | `model-execution.ts` | `modelExecutionSchema` | 执行作用域二元枚举与空 API Key 兼容 |
-| B48 | `provider-provisioning.ts` | `isProviderProvisioningAccountCredentialKey`, schemas | 凭据键正则不 trim、触发源与供给信封严格校验 |
-| B49 | `plan-identity.ts` | `resolvePlanIdentitySnapshot` | 多套餐身份仲裁、TTL 判定与 unknown 短路逻辑 |
+| 条目     | 对应模块文件                                       | 核心导出                                                                                    | 独立设计思路                                                    |
+| -------- | -------------------------------------------------- | ------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| B1       | `endpointHostname.ts`                              | `resolveSafeEndpointHostname`                                                               | 使用原生 `URL` 构造，严格过滤非 http/https 协议并提取小写主机名 |
+| B2       | `intranetDefaults.ts`                              | `resolveIntranetMachineHost`, `resolveIntranetDepsBaseUrl` 等                               | 环境变量清洗、去尾斜杠、默认端口组与精确缺参报错                |
+| B3       | `intranetProbe.ts`                                 | 9 个纯类型                                                                                  | 纯类型定义，零运行时值导出                                      |
+| B4, B5   | `remote-workspace-identity.ts`                     | `buildRemoteWorkspaceIdentity`, `parseRemoteWorkspaceIdentity`, `isRemoteWorkspaceIdentity` | 规范化正反向正则表达式，多平台路径统一正斜杠与前导斜杠          |
+| B6, B7   | `remoteUsageTelemetry.ts`                          | `resolveWorkspaceTelemetryDetail`, `classifyRemoteUsageError` 等                            | 规则优先级表驱动分类，标准遥测信封封装                          |
+| B8       | `remoteAppConfig.ts`, `helpAppConfig.ts`           | `resolveHelpAppConfig` 及各 getter                                                          | 远端非空优先合并，显式 false 保护与本地回退                     |
+| B9       | `server-remote.ts`                                 | `serverRemoteInfoSchema`, `serverRemoteHostCapabilitySchema` 等                             | strict 模式的 Zod Schema，严格校验版本 1 与双重能力             |
+| B10      | `openrouter-attribution.ts`                        | `isOpenRouterBaseUrl`, `withOpenRouterAttributionHeaders`                                   | URL 域前缀判定，不可覆盖已有头部的属性合并                      |
+| B11      | `wslUserValidation.ts`                             | `isValidWslUser`, `wslUserSchema`                                                           | 长度与控制符正则过滤，允许空串在 schema 中先放行再深检          |
+| B12      | `plugin-display-name.ts`                           | `formatCanonicalPluginName`, `resolvePluginDisplayName`                                     | 连字符下划线分词与首字母大写转换，专有缩写专表映射              |
+| B13      | `plugin-marketplaces.ts`                           | `DEFAULT_ENABLED_OFFICIAL_PLUGIN_IDS`, `PUBLIC_STORE_MARKETPLACE_IDS`                       | 常量 Set 与 Array 定义，市场 id 精确比对                        |
+| B14      | `pluginStoreOrder.ts`                              | `parsePluginStoreOrder`                                                                     | 独立子树解析与模式级容错清洗，非法结构返回 null                 |
+| B15      | `pluginStoreOrdering.ts`                           | `sortPluginStoreEntries`, `compareDocumentPluginPriority`                                   | 组合优先级排序器，文档插件独立级别判定                          |
+| B16      | `skill-scan-policy.ts`                             | `shouldWalkSkillDirectoryEntry`, `SKILL_FILE_NAME`                                          | 12 个排除目录静态 Set 检索，点前缀仅 `.system` 白名单放行       |
+| B17, B18 | `mcp.ts`                                           | `getMcpServerRequestHeaders`, `convertToKnorviaAgentMcpServer`, CUA 判定                    | 请求头 fallback 选择，Windows cmd /c 解包，OAuth 严格过滤       |
+| B19      | `clientConfig.ts`                                  | `parseClientConfigSnapshot`                                                                 | 信封结构检验与未知键忽略，非法格式抛出标准 Error                |
+| B20      | `dynamic-workflow-feature.ts`                      | `normalizeDynamicWorkflowMode`, `resolveDynamicWorkflowClientConfig`                        | 优先级 override > remote > default，三态模式判定                |
+| B21      | `app-runtime-preferences.ts`                       | `appRuntimePreferencesChannel`, `appRuntimePreferencesPayloadSchema`                        | 广播频道常量与带默认值的严格 Zod schema                         |
+| B22      | `e2e-test-bridge.ts`                               | `shouldEnableE2ETestBridge`                                                                 | 环境变量双重门禁校验（必须恰为 "1" 且 runId 非空）              |
+| B23      | `launchMarks.ts`                                   | `serializeLaunchMarks`, `parseLaunchMarks`                                                  | 四项有序 JSON 序列化，严格有限数值反序列化                      |
+| B24      | `desktopMenu.ts`                                   | `desktopMenuMessageIds`, `desktopMenuMessages`, `getDesktopMenuMessage`                     | 双语言完整字典，locale 回退与全局插值替换                       |
+| B25      | `serviceAuthority.ts`                              | `parseServiceAuthorityMode`, `shouldUseProviderRegistrySourceForAuthorityMode`              | 权威模式枚举解析，非法值记录回显与注册表启用判定                |
+| B26      | `update.ts`                                        | 3 个纯类型                                                                                  | 纯类型定义，零运行时值导出                                      |
+| B27      | 全部 44 文件                                       | 导出面全集                                                                                  | 保证所有模块路径与导出符号与合同附录逐项一致                    |
+| B28      | `remote-sync.ts`                                   | 1 个纯类型                                                                                  | 纯类型定义，零运行时值导出                                      |
+| B29      | `feedback.ts`                                      | `FEEDBACK_TICKET_MODULES`, `FEEDBACK_TICKET_TYPES` 等                                       | 12 模块、4 类型、3 严重度与框架选项常量集                       |
+| B30      | `feedbackPrivacy.ts`                               | `redactFeedbackText`                                                                        | 多阶段文本/JSON 脱敏引擎，保护私钥、凭据与本地路径              |
+| B31      | `onboardingRecord.ts`                              | `onboardingRecordFileSchema`, `onboardingRecordEntrySchema`                                 | 版本 1、设备 ID 必填、跳过记 null 的严格 schema                 |
+| B32–B34  | `database-startup.ts`                              | `classifyDatabaseStartupError`, `canRetryDatabaseStartup`, schemas                          | 深度 cause 链分析，SQLite/OS 码映射，生命周期与重试边界         |
+| B35      | `memoryDiagnostics.ts`                             | `createMemorySampleWriteGate`, `createMemoryDiagnosticsRegistry`                            | 首样本/增量/心跳门控，带命名空间的隔离注册表                    |
+| B36      | `localTtft.ts`                                     | `calibrateLocalTtftClock`, TTFT schemas                                                     | 网络延迟、时钟偏移与误差推导计算，严格数值边界                  |
+| B37      | `session-debug.ts`                                 | `SESSION_DEBUG_LIMITS`, `calculateOutputTps`                                                | 会话限额常量与非负正时长的吞吐速率计算                          |
+| B38      | `rendererActionTrace.ts`                           | `rendererActionTraceConfigSchema`, `rendererActionSpanBatchSchema` 等                       | 渲染器追踪配置、属性与批量上报严格校验                          |
+| B39      | `lineChangeStat.ts`, `markdown-artifact-images.ts` | `computeLineChangeStat`, `extractMarkdownArtifactImageRefs` 等                              | 行级 LCS 差异统计、大文件兜底、Markdown 围栏外图片改写          |
+| B40      | `sessionCreateTelemetry.ts`                        | `sessionCreateTelemetrySchema`, `automationSessionCreateTelemetrySchema`                    | 移动端与自动化会话创建的遥测模式校验                            |
+| B41–B43  | `official-mcp-auth.ts`                             | 常量、`summarizeOfficialMcpIdentityHeaders`, `isOfficialMcpOriginTrusted`                   | 认证保留头识别、身份信息提取与本地回环/远程 HTTPS 鉴权          |
+| B44      | `official-mcp-tool-error.ts`                       | `parseOfficialMcpToolError`                                                                 | 官方配额超限与套餐要求错误的严格反序列化                        |
+| B45      | `oauth.ts`                                         | `isCredentialDecryptError`, 常量                                                            | 凭据解密失败的特征错误码与错误信息识别                          |
+| B46      | `model-config.ts`                                  | `modelConfigDataSchema` 及 complete 系列                                                    | 顶层宽松、完整配置严格的多层模型参数校验                        |
+| B47      | `model-execution.ts`                               | `modelExecutionSchema`                                                                      | 执行作用域二元枚举与空 API Key 兼容                             |
+| B48      | `provider-provisioning.ts`                         | `isProviderProvisioningAccountCredentialKey`, schemas                                       | 凭据键正则不 trim、触发源与供给信封严格校验                     |
+| B49      | `plan-identity.ts`                                 | `resolvePlanIdentitySnapshot`                                                               | 多套餐身份仲裁、TTL 判定与 unknown 短路逻辑                     |
