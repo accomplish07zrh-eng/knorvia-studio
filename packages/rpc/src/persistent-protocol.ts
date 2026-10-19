@@ -30,6 +30,7 @@ const DEFAULT_REPLAY_LIMIT = 8 * 1024 * 1024;
 const DEFAULT_REPLAY_GRACE_MS = 45_000;
 const KEEPALIVE_PERIOD_MS = 5_000;
 const ACK_WATCH_PERIOD_MS = 20_000;
+const EMPTY = VSBuffer.alloc(0);
 
 export class PersistentProtocol implements IMessagePassingProtocol, ConnectionFlowControl {
   readonly #incoming = new Emitter<VSBuffer>();
@@ -170,46 +171,39 @@ export class PersistentProtocol implements IMessagePassingProtocol, ConnectionFl
   }
 
   #pumpFrames(): void {
-    while (this.#framing.byteLength >= HEADER_SIZE) {
+    for (;;) {
       const header = this.#framing.peek(HEADER_SIZE);
       if (header === null) {
-        return;
+        break;
       }
-      const type = header.readUInt8(0);
+      const payloadLength = header.readUInt32BE(9);
+      const frameSize = HEADER_SIZE + payloadLength;
+      if (this.#framing.byteLength < frameSize) {
+        break;
+      }
+      const read = header.readUInt8(0);
       const id = header.readUInt32BE(1);
       const ack = header.readUInt32BE(5);
-      const payloadLength = header.readUInt32BE(9);
-      if (this.#framing.byteLength < HEADER_SIZE + payloadLength) {
-        return;
-      }
-
       this.#framing.skip(HEADER_SIZE);
-      let payload = VSBuffer.alloc(0);
-      if (payloadLength > 0) {
-        const consumed = this.#framing.read(payloadLength);
-        if (consumed === null) {
-          throw new Error("PersistentProtocol 读取到完整帧长度后 body 不应为空");
-        }
-        payload = consumed;
-      }
-
+      const payload = payloadLength === 0 ? EMPTY : this.#takePayload(payloadLength);
       this.#acknowledge(ack);
-
-      switch (type) {
-        case ProtocolMessageType.Regular:
-          this.#seenId = id;
-          this.#incoming.fire(payload);
-          break;
-        case ProtocolMessageType.Ack:
-        case ProtocolMessageType.KeepAlive:
-          break;
-        case ProtocolMessageType.Disconnect:
-          this.#closed.fire();
-          break;
-      }
-
       this.#lastInboundAt = Date.now();
+      if (read === ProtocolMessageType.Regular) {
+        this.#seenId = id;
+        this.#incoming.fire(payload);
+      } else if (read === ProtocolMessageType.Disconnect) {
+        this.#closed.fire();
+        break;
+      }
     }
+  }
+
+  #takePayload(payloadLength: number): VSBuffer {
+    const consumed = this.#framing.read(payloadLength);
+    if (consumed === null) {
+      throw new Error("PersistentProtocol 读取到完整帧长度后 body 不应为空");
+    }
+    return consumed;
   }
 
   #startKeepAlive(): void {
