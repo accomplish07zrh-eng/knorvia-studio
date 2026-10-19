@@ -1,14 +1,4 @@
-/**
- * amend-resume 导入缓存的**消费态**。
- *
- * 注入的 {@link ImportedRunCache} 是调用方构建的只读数据——run service 读前驱 journal 得到它，
- * 崩溃后 resume 用同一个纯函数重建同一张表。所以「消费到哪了」不能就地写回那张表，必须是引擎
- * 自己的状态：本模块就是这份状态，以及围绕它的全部判定（命中 / 分歧 / 种子）。
- *
- * 从 scheduler.ts 与 engine.ts 拆出来，理由同当初 scheduler 从 engine 拆出来：三个文件各自
- * 聚焦、可读，且满足单文件行数上限。
- */
-
+// SPDX-License-Identifier: Apache-2.0
 import { canonicalJson } from "./hash.js";
 import type {
   ActorRef,
@@ -22,176 +12,106 @@ import type {
   PersonaSpec,
 } from "./types.js";
 
-/**
- * 一个已附着候选的 actor 的导入消费态：消费游标 + 分歧标志。
- *
- * **分歧单调**：`diverged` 一旦为真永不回头查缓存，导入后缀弃置不可复活。
- */
+// 命名 actor 的消费态。闸门只有开/关两态，已消费位置独立保存：
+// 关闸之后仍要把新会话种在已消费前缀的末尾。
 export class ImportedActorState {
-  /** 已消费的导入条目数 = 下一个可命中的 actorSeq（也是转录截断边界的下标 + 1）。 */
-  private consumed = 0;
-  private diverged = false;
+  readonly #candidate: ImportedActorCandidate;
+  #closed = false;
+  #taken = 0;
 
-  constructor(private readonly candidate: ImportedActorCandidate) {}
-
-  /**
-   * fresh ask 在 seq 上问缓存：命中返回条目（并推进游标），否则置分歧并返回 undefined。
-   *
-   * 两种不命中同等处理：哈希不符（指令变了）与 `seq >= entries.length`（新脚本在此 actor 上
-   * 扩了新 ask）。分歧的**级联**是免费且动态的——上游 ask 转 live 拿到新结果，下游用它插值出的
-   * 指令哈希必变，于是下游自动分歧，不需要任何显式传播。
-   */
-  take(seq: number, hash: string): ImportedAskEntry | undefined {
-    if (this.diverged) return undefined;
-    const entry = this.candidate.entries[seq];
-    if (entry === undefined || entry.inputHash !== hash) {
-      this.diverged = true;
-      return undefined;
-    }
-    this.consumed = seq + 1;
-    return entry;
+  constructor(candidate: ImportedActorCandidate) {
+    this.#candidate = candidate;
   }
 
-  /**
-   * 缓存关闭后的问法：只有**纯**条目（前驱记下 `worldToolCalls === 0`）还能命中。纯 ask 只依赖指令与
-   * 转录前缀——两者都在哈希链里——与工作区无关，所以关门不影响它的答案。碰过外部世界的条目即便同哈希
-   * 也不给：它读过的工作区可能已被改写；这个 ask 转 live，actor 从此分歧（转录不再与前驱一致，
-   * 后缀条目不可复活）。没有 stats、或 stats 里没有这个键的老条目按「碰过」处理（保守）。
-   */
-  takeIfPure(seq: number, hash: string): ImportedAskEntry | undefined {
-    if (this.diverged) return undefined;
-    const entry = this.candidate.entries[seq];
-    if (entry === undefined || entry.inputHash !== hash || entry.stats?.worldToolCalls !== 0) {
-      this.diverged = true;
-      return undefined;
-    }
-    this.consumed = seq + 1;
-    return entry;
+  // 纯度策略由调用点决定：普通命中接受任意条目，缓存关闭后只接受没碰过世界的。
+  #consume(position: number, digest: string, purity: "any" | "pure"): ImportedAskEntry | undefined {
+    const entry = this.#candidate.entries[position];
+    const hit =
+      !this.#closed &&
+      entry !== undefined &&
+      entry.inputHash === digest &&
+      (purity === "any" || entry.stats?.worldToolCalls === 0);
+    if (hit) this.#taken = position + 1;
+    else this.#closed = true;
+    return hit ? entry : undefined;
   }
 
-  /**
-   * 据一行**已记录**的 ask 重推分歧状态（修订 run 崩溃后 resume 时用）。
-   *
-   * 分歧状态不落库，而修订 run 的 resume 会把导入缓存整表重建。若不据 journal 行重推分歧点，
-   * 一个在原次执行中已于 seq k 分歧的 actor，其 seq k+n 的 fresh ask 可能恰好撞上导入条目的
-   * 哈希而被**错误导入**——那等于把一段与本 run 实际转录无关的历史塞回来。逐 seq 拿记录行的
-   * inputHash 与导入条目比对，恰好重建了原次执行当时的判定（准入按 seq 升序，hold 规则保证
-   * 这一点），因此这个重推是精确的，不是保守近似。`wasLive` 补上哈希看不见的那一种 live
-   * （缓存关闭后带工具的 ask，见 scheduler 的 tryImportedSettle）。
-   */
-  reconcileRecorded(seq: number, recordedHash: string, wasLive: boolean): void {
-    if (this.diverged) return;
-    // 缓存关闭之后，一个带工具 actor 的 ask 即便与导入
-    // 条目同哈希也是 live 跑的——按哈希算成「已消费」会让种子边界取自前驱条目，而本会话的
-    // 真实转录在那个位置根本不是那些消息。live 与否是事件里的事实（node-queued），不是哈希
-    // 能推出来的。
-    if (wasLive) {
-      this.diverged = true;
-      return;
-    }
-    const entry = this.candidate.entries[seq];
-    if (entry === undefined || entry.inputHash !== recordedHash) {
-      this.diverged = true;
-      return;
-    }
-    this.consumed = Math.max(this.consumed, seq + 1);
+  take(position: number, digest: string): ImportedAskEntry | undefined {
+    return this.#consume(position, digest, "any");
   }
 
-  /**
-   * 分歧 actor 的会话种子：源会话 + 复制多少条消息 + 承袭的模型 pin。
-   *
-   * 边界取**最后一条被消费**的导入条目的记账值：在 seq k 分歧意味着 0..k-1 的问答都已按缓存
-   * 结算，新会话要接着的正是那 k 次完整交换之后的位置（含它们的 repair / nudge 轮）。
-   * 一条也没消费就没有种子——全新会话、全新模型解析、不带 pin：pin 是为「转录接续下不静默
-   * 换模型」存在的，没有接续就没有它的用武之地。
-   */
+  takeIfPure(position: number, digest: string): ImportedAskEntry | undefined {
+    return this.#consume(position, digest, "pure");
+  }
+
+  // resume 时用已记录的 ask 重建原次判定。wasLive 补的是哈希看不出的分歧：
+  // 关闸后带工具的一次 ask 即便与前驱条目同哈希，也是本世 live 跑的。
+  reconcileRecorded(position: number, recordedHash: string, wasLive: boolean): void {
+    const entry = this.#candidate.entries[position];
+    const replayable =
+      !this.#closed && !wasLive && entry !== undefined && entry.inputHash === recordedHash;
+    if (replayable) this.#taken = Math.max(this.#taken, position + 1);
+    else this.#closed = true;
+  }
+
+  // 分歧后的会话种子：源转录 + 最后一条已消费条目的消息边界 + 承袭的模型 pin。
+  // 一条也没消费时没有可接续的历史，也就没有种子。
   seed(): ActorSessionSeed | undefined {
-    if (this.consumed === 0) return undefined;
-    const last = this.candidate.entries[this.consumed - 1];
-    if (last === undefined) return undefined;
-    const seed: ActorSessionSeed = {
-      sourceSessionId: this.candidate.transcriptSourceSessionId,
-      messageCount: last.messageBoundary,
-    };
-    if (this.candidate.resolvedModel !== undefined)
-      seed.resolvedModel = this.candidate.resolvedModel;
-    return seed;
+    const tail = this.#taken === 0 ? undefined : this.#candidate.entries[this.#taken - 1];
+    if (tail === undefined) return undefined;
+    const { transcriptSourceSessionId: sourceSessionId, resolvedModel: model } = this.#candidate;
+    const base = { sourceSessionId, messageCount: tail.messageBoundary };
+    return model === undefined ? base : { ...base, resolvedModel: model };
   }
 }
 
-/**
- * world 节点的导入队列消费态：每个内容哈希一个游标（第 n 次出现对第 n 条记录）。
- * 与 {@link ImportedActorState} 同理，游标是引擎的状态，注入的队列保持只读。
- */
+// 前驱 world 结果的按哈希队列。构造时把注入的只读表拷成自己的队列；
+// 同一内容的第 n 次读取取第 n 条，耗尽后由调用方转 live。
 export class ImportedWorldQueue {
-  private readonly cursors = new Map<string, number>();
+  readonly #pending = new Map<string, ImportedWorldEntry[]>();
 
-  constructor(private readonly world: ReadonlyMap<string, ImportedWorldEntry[]>) {}
+  constructor(source: ReadonlyMap<string, ImportedWorldEntry[]>) {
+    for (const [hash, queue] of source) this.#pending.set(hash, queue.slice());
+  }
 
-  /** 取该内容哈希的下一条记录，耗尽或从未记录即 undefined（调用方转 live）。 */
-  take(hash: string): ImportedWorldEntry | undefined {
-    const queue = this.world.get(hash);
-    if (queue === undefined) return undefined;
-    const cursor = this.cursors.get(hash) ?? 0;
-    const entry = queue[cursor];
-    if (entry === undefined) return undefined;
-    this.cursors.set(hash, cursor + 1);
-    return entry;
+  take(contentHash: string): ImportedWorldEntry | undefined {
+    return this.#pending.get(contentHash)?.shift();
   }
 }
 
-/**
- * 为一个刚建出的 actor 找导入候选：按**有效名**查表，规范化 persona 一致才收。
- *
- * persona 比对用 `canonicalJson`——它跳过 undefined 成员、对象键排序，恰好就是要的规范化
- * （`{name:"a"}` 与 `{name:"a", system: undefined}` 同值）。不一致即**弃整个候选**，该 actor
- * 全新重跑：全保真转录下这是双重正确的——旧 system prompt 产的转录接新 persona 是身份错乱，
- * 而「我把 persona 修好了」这个意图本来就是要重跑。
- *
- * 匿名 actor 永不附着：名字是缓存身份键，没有名字就没有可比对的坐标（代价已裁决）。
- * 比对之所以在**运行期**而不是提交时静态比对两份脚本：名字与 persona 都是运行期值
- * （`agent()` 的实参可以是动态表达式），静态比对是第二份真相，恰是本包处处要防的。
- */
-export function matchImportedActor(
+type ActorResolver = (
   cache: ImportedRunCache | undefined,
   spec: PersonaSpec,
-): ImportedActorState | undefined {
-  if (cache === undefined) return undefined;
-  const name = spec.name;
-  if (name === undefined || name === "") return undefined;
-  const candidate = cache.actors.get(name);
-  if (candidate === undefined) return undefined;
-  if (canonicalJson(spec) !== canonicalJson(candidate.persona)) return undefined;
-  return new ImportedActorState(candidate);
-}
+) => ImportedActorState | undefined;
 
-/**
- * 一次 ask 缓存命中要落的**真** dwf_node 行（新 siteId、拷贝 result / stats / 边界）。
- *
- * 边界值必须一起拷过去，否则**这个** run 自己就不能再被修订——链式修订靠的正是 count offset
- * 跨前缀复制不变。
- */
-export function importedAskRecord(
+// 按有效名查前驱；persona 经 canonicalJson 规范化后必须相等（键序与 undefined 成员不影响身份）。
+// 匿名 actor 没有身份键，永不附着。
+export const matchImportedActor: ActorResolver = (cache, spec) => {
+  const wanted = spec.name;
+  if (cache === undefined || wanted === undefined || wanted === "") return undefined;
+  const source = cache.actors.get(wanted);
+  return source !== undefined && canonicalJson(source.persona) === canonicalJson(spec)
+    ? new ImportedActorState(source)
+    : undefined;
+};
+
+type AskRowBuilder = (
   runId: string,
   instance: InstanceRef,
   actor: ActorRef,
   seq: number,
   hash: string,
   entry: ImportedAskEntry,
-): NodeRecord {
-  const record: NodeRecord = {
-    runId,
-    siteId: instance.siteId,
-    ordinal: instance.ordinal,
-    kind: "ask",
-    actorSiteId: actor.siteId,
-    actorOrdinal: actor.ordinal,
-    actorSeq: seq,
-    inputHash: hash,
-    status: "completed",
-    result: entry.result,
-    messageBoundary: entry.messageBoundary,
-  };
-  if (entry.stats !== undefined) record.stats = entry.stats;
-  return record;
-}
+) => NodeRecord;
+
+// 导入命中要落的真节点行：结果、用量与转录边界原样拷入，供本 run 再被修订。
+export const importedAskRecord: AskRowBuilder = (runId, instance, actor, seq, hash, entry) => {
+  const { result, stats, messageBoundary } = entry;
+  const place = { runId, siteId: instance.siteId, ordinal: instance.ordinal };
+  const speaker = { actorSiteId: actor.siteId, actorOrdinal: actor.ordinal };
+  const position = { actorSeq: seq, inputHash: hash };
+  const settled = { status: "completed" as const, result, messageBoundary };
+  const row: NodeRecord = { ...place, kind: "ask", ...speaker, ...position, ...settled };
+  if (stats !== undefined) row.stats = stats;
+  return row;
+};

@@ -36,7 +36,7 @@
     "model-begin": "81f21c74c32169d8ba40b87387455b737f7797145daee54baa71754580c22b35",
     "model-end": "81f21c74c32169d8ba40b87387455b737f7797145daee54baa71754580c22b35"
   },
-  "modelContractSha256": "e7e35d3b84fdffd44904d03ab62e36def8db29c4cf3411141170fab8639b23cb",
+  "modelContractSha256": "c9361a3cf1d5a977801aee1031c6e856a89b3e28b9b9c5d53ca34efdc7c955e9",
   "sourceError": "Provide exactly one snippet source: `code` for the snippet inline, or `path` for a file holding it. Passing both, or neither, is ambiguous.",
   "disclosure": "Hashes bind historical observations; output strings and the archived owner retain source-exposed expression. Synthetic fixture structure is new; no whole-file rights grant."
 }
