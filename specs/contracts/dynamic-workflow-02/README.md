@@ -1,6 +1,8 @@
 # dynamic-workflow-02 合同（README）
 
-**v1 · 2026-10-19 · 分支 `contract/dynamic-workflow-02`（基线 `origin/main@3e9505cd`）**
+**v2 · 2026-10-19 · 分支 `contract/dynamic-workflow-02`（基线 `origin/main@3e9505cd`）**
+
+v2（2026-10-19）：按用户裁决，把声明模式计分的纯数据常量表在 `interface.md` 中逐条列出键与值，替换原来的 `…`；测试断言未改，旧门对旧实现 `8c9a9e86` 重跑并记录在 `acceptance.md` 第九节与 `gate-old-v2.json`（v1 的 `gate-old.json` 保持原样）。
 
 本目录是 `@knorvia/dynamic-workflow` 运行时侧的替换合同：重写这个包时必须保住的行为、兼容面、调用方、夹具与证据。合同阶段只做计划书「每包流程」的前三步（选包与边界 → 合同八件套 → 在旧实现上跑旧门），**不含**重写实现、不含 `licensing/reviews.json` / `knip.json` 登记（第五步）。
 

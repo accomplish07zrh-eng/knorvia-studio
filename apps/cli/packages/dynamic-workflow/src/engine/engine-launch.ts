@@ -1,44 +1,52 @@
-// ============================================================
-// run-launched：发起 run 那一轮的宿主元数据 → 事件
-// ============================================================
-// 引擎不读这些元数据（锚点、阶段表、并行表、子代理选型），只在建 run 那一世紧跟首条
-// `run-started` 逐字转录一次（engine.ts）。构造独立成模块，engine.ts 与 types.ts 才都留在
-// 400 行的 lint 上限之内——它们是两侧同时增长的文件。
+// SPDX-License-Identifier: Apache-2.0
 
 import type { RunEvent } from "./types.js";
 
-/**
- * 发起 run 那一轮随 `run-launched` 同车的宿主元数据（EngineConfig.launch）：锚点 `inputId`、
- * 脚本声明的阶段表 `phaseNames`、与之按位置对齐的 `phaseAlongside`、本 run 子代理的选型
- * `subagentModel`、脚本来自哪个文件 `scriptPath`。五者引擎都不读——字段语义见 types.ts 里
- * `run-launched` 的注释。
- */
-export interface RunLaunchConfig {
-  inputId: string;
-  phaseNames?: string[];
-  subagentModel?: string;
-  /** 本 run 脚本文件的绝对路径。 */
-  scriptPath?: string;
-  phaseAlongside?: number[][];
+/** 发起 run 的锚点：输入标识与脚本文件位置。 */
+interface LaunchAnchor {
+  readonly inputId: string;
+  readonly scriptPath?: string;
 }
 
-/**
- * 把 launch 元数据转录成 `run-launched`。未设的键**缺席**而不是落成 undefined 值：读侧
- * （AmendWorkflow 的三态、投影）把「没设」与「设了个空」当两件事。
- */
-export function runLaunchedEvent(
-  launch: RunLaunchConfig,
-  origin: { toolCallId?: string | undefined; parentSessionId?: string | undefined },
-): RunEvent {
-  const { inputId, phaseNames, subagentModel, scriptPath, phaseAlongside } = launch;
-  return {
-    type: "run-launched",
-    inputId,
-    ...(origin.toolCallId === undefined ? {} : { toolCallId: origin.toolCallId }),
-    ...(origin.parentSessionId === undefined ? {} : { parentSessionId: origin.parentSessionId }),
-    ...(phaseNames === undefined ? {} : { phaseNames }),
-    ...(subagentModel === undefined ? {} : { subagentModel }),
-    ...(scriptPath === undefined ? {} : { scriptPath }),
-    ...(phaseAlongside === undefined ? {} : { phaseAlongside }),
+/** 脚本声明的阶段表，以及与之按位置对齐的并行宽度表。 */
+interface LaunchPhasePlan {
+  readonly phaseNames?: readonly string[];
+  readonly phaseAlongside?: readonly (readonly number[])[];
+}
+
+/** 发起 run 那一轮的上游会话锚点。 */
+interface LaunchOrigin {
+  readonly toolCallId?: string;
+  readonly parentSessionId?: string;
+}
+
+/** 构造时注入的 launch 元数据；一经捕获即只读，引擎只负责转录。 */
+export type RunLaunchConfig = LaunchAnchor &
+  LaunchPhasePlan & {
+    readonly subagentModel?: string;
   };
+
+const ORIGIN_FIELDS = ["toolCallId", "parentSessionId"] as const;
+const LAUNCH_FIELDS = ["phaseNames", "subagentModel", "scriptPath", "phaseAlongside"] as const;
+
+/**
+ * 把 launch 元数据转录成 `run-launched` 事件。未设的键保持缺席（而不是落成 undefined），
+ * 读侧把「没设」与「设了个空」当两件事。
+ */
+export function runLaunchedEvent(config: RunLaunchConfig, origin: LaunchOrigin): RunEvent {
+  const event: Record<string, unknown> = { inputId: config.inputId, type: "run-launched" };
+  copyDefined(event, origin, ORIGIN_FIELDS);
+  copyDefined(event, config, LAUNCH_FIELDS);
+  return event as RunEvent;
+}
+
+function copyDefined<T extends object, K extends keyof T & string>(
+  target: Record<string, unknown>,
+  source: T,
+  fields: readonly K[],
+): void {
+  for (const field of fields) {
+    const value = source[field];
+    if (value !== undefined) target[field] = value;
+  }
 }

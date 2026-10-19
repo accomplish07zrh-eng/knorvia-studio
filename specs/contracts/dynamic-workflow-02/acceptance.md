@@ -1,8 +1,10 @@
 # dynamic-workflow-02 验收记录（acceptance.md）
 
-v1 · 2026-10-19 · 分支 `contract/dynamic-workflow-02`（基线 `origin/main@3e9505cd`，即 dynamic-workflow-01 合并后的树）。
+v2 · 2026-10-19 · 分支 `contract/dynamic-workflow-02`（基线 `origin/main@3e9505cd`，即 dynamic-workflow-01 合并后的树）。
 
 本文记录本包合同阶段（`docs/knorvia-independent-replacement-plan.md`「每包流程」第一~三步）的**实测**证据：范围、旧门、golden、桩替换、预登记差异、门禁、未覆盖项、替换阶段的计分口径。合同在 v1 之内做过三次就地更正——K13（engine-run 驱动表语义与 `args` 归属）、K9（facade 资产改按去注释声明面锁定）、桩替换计数固定为 37——三次都在改完之后重跑了旧门，下面各节的数字对应提交 `7107a48b` 的树。
+
+v2（2026-10-19）只做一件事：按用户裁决把声明模式计分的纯数据常量表在 `interface.md` 中逐条列出键与值（K14）。测试断言未改；旧门在旧实现 `8c9a9e86` 上重跑，结果见第九节与 `gate-old-v2.json`。v1 的旧门记录（第二节、第六节与 `gate-old.json`）保持原样。
 
 ## 一、范围
 
@@ -114,3 +116,43 @@ K1–K8 是旧实现行为特征（每条都有对应测试或语料）；K9–K
 - **`facade/dts.ts` 需要单独定调**：它的「内容」就是那两份 `.d.ts` 文本，而 K9 已把锁定面收窄成去注释声明面。重写后注释是 Knorvia 自写的自由面，若仍按整文件逐字节相似度计分，会把「允许自写」与「必须相似」混在一起。建议替换阶段对该文件按声明面（2,777 / 1,063 字符）测相似、按注释散文不计分——此判断需 Lead 确认，本阶段只登记不执行。
 - 三个 `unreviewed` 文件（K12）不参与重写计分，仍留在树里。
 - 本节只记录计分模式，不改行为、不改 `gate-old.json`。
+
+## 九、v2 契约升版：常量表逐条列名（2026-10-19）
+
+### 改了什么
+
+- `interface.md` 里三处声明模式计分文件、五张声明由 `…` 改为逐条键值：`facade/artifact-caps.ts` 的 `ARTIFACT_CAPS`（8 键）、`facade/world-read-caps.ts` 的 `WORLD_READ_CAPS`（9 键）、`facade/registry.ts` 的 `WORLD_READ_REGISTRY`（8 行）与 `ARTIFACT_REGISTRY`（6 行）；`ARTIFACT_ID_PATTERN` 在 v1 已是完整源串，本次格式不变。口径见 `known-differences.md` K14。
+- 数值与条目取自**合同断言**：`pure.test.mjs` 的 B22 用例（三张 caps 表的逐字数值与 id 字符集）与 `facade.test.mjs` 的 B29 用例（两张注册表的逐行 deepEqual），不取旧实现。
+- `tests/gen-interface.mjs` 增加合同表映射；在契约基线树 `8c9a9e86` 上重新生成 `interface.md`（除本表与三处说明句外，仅 oxfmt 统一了代码块的行尾分号），再 `npx oxfmt`。**没有改任何测试断言**，也没有改兼容面、语料或录制。
+- 核查范围：本包按声明模式计分的常量表只有上述三文件五张声明。`facade/report-caps.ts` 的 `REPORT_CAPS` 普通模式 containment 0.000、走正常计分，不在本次范围，其 `interface.md` 条目仍为 `…`。
+- README 顶部版本 v1 → v2；`known-differences.md` 新增 K14；v1 的 `gate-old.json` 未改写。本次生成 `gate-old-v2.json`。
+
+### 旧门重跑（旧实现 `8c9a9e86`，Node v24.14.0）
+
+把 v2 合同目录原样拷入 `8c9a9e86` 的临时 worktree，先构建旧包，再跑通用旧门：
+
+```bash
+node scripts/contract-gate.mjs --contract specs/contracts/dynamic-workflow-02 \
+  --tests "*.test.mjs" --dist-env KNORVIA_DW02_ENTRY=dist \
+  --stub-root specs/contracts/dynamic-workflow-02/stubs \
+  --stub-targets specs/contracts/dynamic-workflow-02/stubs/targets.txt \
+  --json gate-old-v2.json
+```
+
+| 入口      | tests | pass | fail | 说明                                                               |
+| --------- | ----: | ---: | ---: | ------------------------------------------------------------------ |
+| 源码入口  |   420 |  420 |    0 | 15 个测试文件 / 62 suite，`duration_ms 45030.190742`               |
+| dist 入口 |   420 |  420 |    0 | 同一组测试走 `KNORVIA_DW02_ENTRY=dist`，`duration_ms 41321.854464` |
+| 桩替换    |    15 |    0 |   15 | 37 个重写目标替换后 15 个测试文件全失败，`allFail: true`           |
+
+- `gate-old-v2.json`：`pass: true`，`commit 8c9a9e8686ae6c2a427e0a2b2e920917292ccba1`，`generatedAt 2026-10-19T02:51:44.429Z`，`node v24.14.0`。
+- 与 v1 旧门（第二节）的用例数、通过数、桩替换计数逐项一致：v2 只增加合同文档中的常量表列名，不改断言强度与兼容面，因此旧实现的表现必须、也确实不变。
+
+### 当前实现回归（同一 v2 合同）
+
+| 入口      | tests | pass | fail | 说明                                       |
+| --------- | ----: | ---: | ---: | ------------------------------------------ |
+| 源码入口  |   420 |  420 |    0 | rewrite 树，`duration_ms 24705.512571`     |
+| dist 入口 |   420 |  420 |    0 | 先前的构建产物，`duration_ms 25347.485001` |
+
+声明模式计分复测（v2 `interface.md`）：`registry-tables.ts`、`artifact-caps.ts`、`world-read-caps.ts` 均 `residual-lines 0 / containment 0.000 / run 0 / structural 0.000`，`stripped-blocks` 分别为 7 / 2 / 1。

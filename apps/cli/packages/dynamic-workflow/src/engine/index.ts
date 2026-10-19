@@ -1,7 +1,6 @@
-/**
- * @knorvia/dynamic-workflow 执行引擎核心的模块导出。
- */
+// SPDX-License-Identifier: Apache-2.0
 
+// Knorvia Dynamic Workflow 引擎核心导出汇集
 export { WorkflowEngine, type EngineConfig, type RunSettlement } from "./engine.js";
 export { InMemoryJournalStore } from "./journal-memory.js";
 export {
