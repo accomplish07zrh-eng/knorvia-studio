@@ -138130,7 +138130,7 @@
     },
     {
       "path": "specs/contracts/packages-02/tests/rpc-channels.test.mjs",
-      "normalizedSha256": "bb7d7360455032cb54821a838aab9753dab8fa6bfc5d8b4f56768926d39c2134",
+      "normalizedSha256": "ab9b7cdaaddf8f6f9e4f4e8003e68ecbd194927b33d8b4144db64782a527f7a8",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored packages-02 contract v1 black-box test: exercises the frozen public behavior of the inherited rpc and provider-node modules through public entries on both source and dist entries, recorded against the unmodified implementation. No implementation code copied into the contract.",
