@@ -1,6 +1,6 @@
 # dynamic-workflow-02 验收记录（acceptance.md）
 
-v2 · 2026-10-19 · 分支 `contract/dynamic-workflow-02`（基线 `origin/main@3e9505cd`，即 dynamic-workflow-01 合并后的树）。
+v3 · 2026-10-19 · 分支 `replace/dynamic-workflow-02`（合同基线 `origin/main@3e9505cd`，即 dynamic-workflow-01 合并后的树；重写树提交 `a2af8231`）。
 
 本文记录本包合同阶段（`docs/knorvia-independent-replacement-plan.md`「每包流程」第一~三步）的**实测**证据：范围、旧门、golden、桩替换、预登记差异、门禁、未覆盖项、替换阶段的计分口径。合同在 v1 之内做过三次就地更正——K13（engine-run 驱动表语义与 `args` 归属）、K9（facade 资产改按去注释声明面锁定）、桩替换计数固定为 37——三次都在改完之后重跑了旧门，下面各节的数字对应提交 `7107a48b` 的树。
 
@@ -158,3 +158,27 @@ node scripts/contract-gate.mjs --contract specs/contracts/dynamic-workflow-02 \
 | dist 入口 |   420 |  420 |    0 | 先前的构建产物，`duration_ms 25347.485001` |
 
 声明模式计分复测（v2 `interface.md`）：`registry-tables.ts`、`artifact-caps.ts`、`world-read-caps.ts` 均 `residual-lines 0 / containment 0.000 / run 0 / structural 0.000`，`stripped-blocks` 分别为 7 / 2 / 1。
+
+## 十、v3 契约升版：删桩、设计与来源登记（2026-10-19）
+
+### 改了什么
+
+- **删桩**：按计划书「每包流程」第五步与 dw01 #193 先例，删除 `stubs/`（37 个桩 + `build-stubs.mjs` + `targets.txt`）。桩替换的 allFail 证据保留在 `gate-old-v2.json` 的 `stubReplacement`（15 个测试文件全失败），断言未改；v3 起桩路径不再可复跑，两份已提交的旧门记录也不改写。
+- **新增 `design.md`**：模块簇 C1–C7（41 个自有/重写文件）、状态所有者表、三条运行时管线（ask/queue/dispatch、world read/replay、run terminal）、关键数据结构（Boundary A/B/C、journal 行、事件轨）、B1–B30 落点与逐文件计分模式。
+- **文档读数**：`README.md` 升 v3；`known-differences.md` K12 登记「登记后按合同基线冻结名单归位」的读数口径；`behavior.md` B20 的范围清单真源说明同步。测试断言一字未改。
+- **范围读数**：`licensing/current-files.json` 里 41 个源文件登记为 `original` 后，上游关系按重写字节重算。为保持合同断言（40 文件 / 24+13+3 / 37 目标）逐字不变，`tests/scope.mjs` 把已登记目标按合同基线冻结的 24 个 `upstream-unchanged` 模块路径归位、其余算 `upstream-modified`，并跳过 4 个新拆模块（`facade/registry-tables.ts`、`lowering/ast-rewriter.ts`、`schema/definition-scope.ts`、`schema/value-describer.ts`）。
+- **程序化登记**：`licensing/reviews.json` 由脚本追加 82 条（41 个源文件 + 39 个合同文件 + 本合同验收记录与替换验收文档），每条带 `normalizedSha256`、实测相似度或旧门证据；`current-files.json` 重新生成。条数 12,262 → 12,344。
+- **下游 core 哈希 re-pin（#193 先例）**：`facade/dts.ts` 的模型可见正文重写后，core 的两个工具描述摘要随动——`create-workflow-graph-fold-contract.json` 的 `public`、`eval-workflow-snippet-execution-contract.json` 的 `modelContractSha256` 各更新为新值。只改哈希值，断言一字未动；可逆实验（临时换回旧 `dts.ts` 重建 → 13/13 通过 → 还原重写版并 re-pin → 13/13 通过）确认差异只来自这次有意的 facade 文本重写。
+- **knip 入口**：根 workspace entry 补 4 个录制/生成器脚本（`record-golden.mjs`、`gen-interface.mjs`、`record-facade.mjs`、`scan-callers.mjs`）与 3 个测试辅助模块（`harness.mjs`、`scope.mjs`、`exports-ast.mjs`）；全仓输出不再有 `dynamic-workflow-02` 行。仓库既有 knip 基线仍不干净（见 §六）。
+
+### 新实现最终回归（提交 `d98c7737`，Node v24.14.0）
+
+| 入口      | tests | pass | fail | 说明                                                  |
+| --------- | ----: | ---: | ---: | ----------------------------------------------------- |
+| 源码入口  |   420 |  420 |    0 | 15 个测试文件 / 62 suite，`sourceFrom: "src"`         |
+| dist 入口 |   420 |  420 |    0 | 同一组测试走 `KNORVIA_DW02_ENTRY=dist`；先 build 再跑 |
+
+- `gate-final.json`（仓库外 `/workspace/ktools/dw02-gate-final.json`）：`pass: true`，`commit d98c77372a4088bcf51cd38a95d6b913c593143e`，`generatedAt 2026-10-19T03:32:34.019Z`，`stubReplacement: null`（v3 已删桩）。
+- 相似度：普通模式 41 个候选 29 通过，声明模式 12 个候选 12 通过（`residual-lines` 全 0，三项指标全 0.000），合计 **41/41**；逐文件数值与理由见 `docs/knorvia-dynamic-workflow-02-acceptance.md`。
+- 全仓搜 `not implemented: dynamic-workflow-02` 结果为零。
+- **`pnpm test:studio`**：`tests 10103` / `suites 68` / `pass 10091` / `fail 3` / `cancelled 1` / `skipped 8`。4 个未通过项与 dw01 #193 / #198 相同，均为本机环境：3 个 file-watcher 用例撞容器 inotify 限额（`ENOSPC`，其中一个超时），1 个 CLI catalog 用例命中本机 `~/.grok/bin/grok`。隔离复跑分别 3/3（临时提高 inotify 限额后）与 4/4（干净 `HOME`），测试未改；CI 环境以自身结果为准。
