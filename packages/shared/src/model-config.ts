@@ -102,7 +102,10 @@ export const modelInputFormatDataSchema = forkComplete(completeModelInputFormatD
 
 export const modelOutputFormatDataSchema = forkComplete(completeModelOutputFormatDataSchema);
 
-const propertyShape = <I extends z.ZodTypeAny, O extends z.ZodTypeAny>(inputFormat: I, outputFormat: O) => ({
+const propertyShape = <I extends z.ZodTypeAny, O extends z.ZodTypeAny>(
+  inputFormat: I,
+  outputFormat: O,
+) => ({
   requiresMfjsToolSchema: bool(),
   contextWindow: positiveInt(),
   inputFormat,
@@ -139,7 +142,10 @@ export const modelOptionSpecsDataSchema = forkComplete(completeModelOptionSpecsD
   maxOutputTokens: loose(limitOptionSpecDataSchema),
 });
 
-const modelConfigShape = <P extends z.ZodTypeAny, S extends z.ZodTypeAny>(properties: P, optionSpecs: S) => ({
+const modelConfigShape = <P extends z.ZodTypeAny, S extends z.ZodTypeAny>(
+  properties: P,
+  optionSpecs: S,
+) => ({
   enabled: bool(),
   properties,
   optionSpecs,
