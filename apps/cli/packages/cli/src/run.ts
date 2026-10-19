@@ -4,6 +4,7 @@ import { getRuntimeInfo, type PresentationSurface } from "@knorvia/core";
 import { color, formatJson, supportsColor } from "@knorvia/core";
 import { getKnorviaCopy, isUiLocale, type UiLocale } from "@knorvia/i18n";
 import type { RunContext, GlobalOptions, GlobalOutputFormat } from "@knorvia/shared-types";
+import type { KernelLogger } from "@knorvia/bootstrap/kernel";
 import {
   applyCliRuntimeEnvSanitization,
   loadCliDotenv,
@@ -14,6 +15,7 @@ import { formatCliHelp } from "./help.js";
 import { runHooksCommand } from "./hooks-trust-command.js";
 import { detectCliLocale } from "./locale.js";
 import { loadBootstrapModule } from "./bootstrap-loader.js";
+import { resolveKernelEngine } from "./kernel-engine.js";
 import { runEmbeddedSearchCli } from "./internal-search/embedded-search-cli.js";
 import { runCommandsCommand } from "./commands-command.js";
 import { resolveCliCwd } from "./cwd.js";
@@ -229,6 +231,16 @@ const runDoctor = (ctx: RunContext, options: GlobalOptions, workingDirectory: st
   return 0;
 };
 
+const toKernelLogger = (logger: RunDependencies["logger"]): KernelLogger | undefined =>
+  logger === undefined
+    ? undefined
+    : {
+        debug: (message, fields) => logger.debug(message, fields),
+        info: (message, fields) => logger.info(message, fields),
+        warn: (message, fields) => logger.warn(message, fields),
+        error: (message, fields) => logger.error(message, undefined, fields),
+      };
+
 const runKnorviaProtocolCommand = async (
   ctx: RunContext,
   options: GlobalOptions,
@@ -238,6 +250,21 @@ const runKnorviaProtocolCommand = async (
 ): Promise<number> => {
   try {
     const workingDirectory = (deps.cwd ?? process.cwd)();
+    const inheritedEnv = deps.env ?? process.env;
+    // 引擎选择必须先于 @knorvia/bootstrap 的加载；legacy 路径不触碰任何 DSH 模块。
+    if (resolveKernelEngine(inheritedEnv) === "dsh" && !prepareStorageOnly) {
+      deps.logger?.info("kernel.engine=dsh");
+      const { runKernelProcess } = await import("@knorvia/bootstrap/kernel");
+      return await runKernelProcess({
+        cwd: workingDirectory,
+        env: inheritedEnv,
+        input: deps.protocolInput ?? ctx.stdin,
+        output: ctx.stdout,
+        stderr: ctx.stderr,
+        logger: toKernelLogger(deps.logger),
+      });
+    }
+
     // 打包态 app-server 是 desktop host 的内部协议子进程。
     // 如果这里继续从 workspace 向上读取用户 .env，读文件失败或环境污染会在协议建立前
     // 直接退出，外层只能看到 Knorvia agent transport closed。
