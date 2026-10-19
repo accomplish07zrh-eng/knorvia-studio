@@ -34,7 +34,7 @@ const PROVIDER_KEY_NAMES: ReadonlySet<string> = new Set([
 const DSH_PREFIX = "DSH_";
 const API_KEY_SUFFIX = "_API_KEY";
 
-export interface KernelEnvironment {
+interface KernelEnvironment {
   readonly dataRoot: string;
   readonly dshHome: string;
 }

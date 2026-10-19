@@ -1,14 +1,14 @@
 // SPDX-License-Identifier: Apache-2.0
 // kernel-dsh-00 的错误码；message 不得携带凭据与环境变量值。
 
-export type KernelErrorCode =
+type KernelErrorCode =
   | "KERNEL_ALREADY_BOOTED"
   | "KERNEL_INVALID_CWD"
   | "KERNEL_CONFIG_FAILED"
   | "KERNEL_BOOT_FAILED"
   | "KERNEL_DISPOSE_FAILED";
 
-export class KernelError extends Error {
+class KernelError extends Error {
   readonly code: KernelErrorCode;
 
   constructor(code: KernelErrorCode, message: string, options?: ErrorOptions) {

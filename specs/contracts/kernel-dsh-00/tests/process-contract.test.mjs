@@ -23,7 +23,7 @@ function captureStream() {
   const stream = new Writable({
     write(chunk, _encoding, callback) {
       text += chunk.toString("utf8");
-      for (const check of [...waiters]) check();
+      for (const check of waiters) check();
       callback();
     },
   });
@@ -89,7 +89,7 @@ function processHarness(kernel, layout, options = {}) {
     stderr: stderr.stream,
     signals,
     ...(logger === undefined ? {} : { logger }),
-    ...(options.boot ?? {}),
+    ...options.boot,
   });
   return { input, output, stderr, signals, run };
 }

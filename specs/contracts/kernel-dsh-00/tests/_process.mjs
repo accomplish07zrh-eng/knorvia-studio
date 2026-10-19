@@ -135,13 +135,3 @@ export function withTimeout(promise, timeoutMs, label) {
     );
   });
 }
-
-export function stopChild(child) {
-  if (!child.killed) {
-    try {
-      child.kill("SIGKILL");
-    } catch {
-      // 已退出或平台不支持时忽略。
-    }
-  }
-}

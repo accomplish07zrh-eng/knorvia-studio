@@ -8,7 +8,7 @@ export interface KernelLogger {
   error(msg: string, fields?: Readonly<Record<string, unknown>>): void;
 }
 
-export type KernelLogLevel = keyof KernelLogger;
+type KernelLogLevel = keyof KernelLogger;
 
 function ignoreFailure(action: () => void): void {
   try {

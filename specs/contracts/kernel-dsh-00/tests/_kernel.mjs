@@ -44,7 +44,7 @@ export async function withBoot(kernel, options, callback) {
     KNORVIA_DATA_BASE_DIR: dataBase,
     HOME: home,
     USERPROFILE: home,
-    ...(options.env ?? {}),
+    ...options.env,
   };
 
   let host;
@@ -53,7 +53,7 @@ export async function withBoot(kernel, options, callback) {
       cwd: workspace,
       env,
       logger: options.logger ?? silentLogger(),
-      ...(options.boot ?? {}),
+      ...options.boot,
     });
     return await callback({
       host,

@@ -16,7 +16,7 @@ const kernelRoot = join(
   entryMode === "dist" ? "dist/kernel" : "src/kernel",
 );
 
-export { entryMode, repoRoot };
+export { repoRoot };
 export const cliEntry = join(repoRoot, "apps/cli/packages/cli/dist/knorvia.cjs");
 
 export async function loadKernel() {
