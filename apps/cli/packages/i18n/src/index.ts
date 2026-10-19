@@ -21,6 +21,9 @@ const CATALOG_BY_LOCALE: Readonly<Record<SupportedLocale, KnorviaCopy>> = Object
  * 取某个语言的目录。
  * 缺省或无法识别时回落 `DEFAULT_LOCALE`；`detected` 只在 `locale === "auto"` 时参与。
  */
-export function getKnorviaCopy(locale?: UiLocale | string, detected?: string | null): KnorviaCopy {
-  return CATALOG_BY_LOCALE[resolveLocale(locale, detected)];
+export function getKnorviaCopy(
+  requested?: UiLocale | string,
+  detected?: string | null,
+): KnorviaCopy {
+  return CATALOG_BY_LOCALE[resolveLocale(requested, detected)];
 }
