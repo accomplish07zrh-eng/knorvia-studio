@@ -7,18 +7,7 @@ export {
   KERNEL_PERSONA_PREFIX,
   KERNEL_READY_MARKER,
 } from "./constants.js";
-export {
-  KERNEL_PLUGIN_ROWS,
-  createKernelPluginRows,
-  type KernelPluginRow,
-} from "./composition.js";
-export {
-  type BootKernelOptions,
-  type KernelHost,
-  bootKernel,
-} from "./host.js";
+export { KERNEL_PLUGIN_ROWS, createKernelPluginRows, type KernelPluginRow } from "./composition.js";
+export { type BootKernelOptions, type KernelHost, bootKernel } from "./host.js";
 export { type KernelLogger } from "./logger.js";
-export {
-  type RunKernelProcessOptions,
-  runKernelProcess,
-} from "./process.js";
+export { type RunKernelProcessOptions, runKernelProcess } from "./process.js";

@@ -34,10 +34,7 @@ export async function runKernelProcess(options: RunKernelProcessOptions): Promis
 
   stderr.write(`${KERNEL_READY_MARKER} engine=dsh dsh=${KERNEL_DSH_VERSION}\n`);
 
-  const watcher = watchShutdown(
-    options.input ?? process.stdin,
-    options.signals ?? process,
-  );
+  const watcher = watchShutdown(options.input ?? process.stdin, options.signals ?? process);
   try {
     await watcher.wait();
   } finally {

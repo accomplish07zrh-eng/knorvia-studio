@@ -113,9 +113,7 @@ async function disposeContext(context: Context, logger: KernelLogger): Promise<v
         timer = setTimeout(
           () =>
             reject(
-              new KernelDisposeError(
-                `Kernel dispose timed out after ${DISPOSE_TIMEOUT_MS}ms`,
-              ),
+              new KernelDisposeError(`Kernel dispose timed out after ${DISPOSE_TIMEOUT_MS}ms`),
             ),
           DISPOSE_TIMEOUT_MS,
         );
