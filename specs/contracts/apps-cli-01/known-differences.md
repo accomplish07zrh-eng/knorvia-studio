@@ -48,8 +48,9 @@ Windows 会从“永远 stale”变为与 POSIX 一致的 `1b0d34b4…`。这是
 3. **嵌套锁文件过期**：`apps/cli/pnpm-lock.yaml` 仍含 `tools/prompt-trajectory`、`packages/debug`
    等已删除 importer。离线运行 `pnpm --dir apps/cli install --lockfile-only --offline` 会因缺少
    工作区包 `@knorvia/cua` 失败；该锁文件在 `main` 上就已过期，本包不修复、也不新增引用。
-4. **`pnpm knip` 的全仓退出码**：`main` 上就因无关的未使用导出/配置提示而为 1；删除
-   `shadow-replay.mjs` 后，输出中不再有 `apps/cli/scripts/**` 的未使用条目，也没有本合同的条目。
+4. **`pnpm knip` 的全仓退出码**：`main` 上就因无关的未使用导出/配置提示而为 1。本合同保留
+   `shadow-replay.mjs`（`06ed43f4` 已由 `5cba59a1` 还原），故 knip 仍把它列为 `apps/cli/scripts/**` 的未使用
+   文件；此外没有本合同新增的 knip 条目。是否在替换 PR 删除留待替换阶段评估并写明依据。
 5. **`test:studio` 会收集合同测试**（M0-10）：`specs/contracts/apps-cli-01/tests/*.test.mjs` 随
    `pnpm test:studio` 运行，测试运行器并发为 2。`B19` 会以确定性内容重写仓库内的生成文件
    （与已提交字节相同）；只有生成器测试文件触碰该文件，文件内用例串行执行。

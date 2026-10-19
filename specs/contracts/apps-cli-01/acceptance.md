@@ -2,23 +2,25 @@
 
 合同版本 **v1**（2026-10-19）。本文件按计划书「每包流程 · 二、合同」与「验收清单 · 合同审查」逐项给出证据。
 
-## 一、范围与删除项
+## 一、范围与保留项（合同阶段不删文件）
 
 - 包 ID：`apps-cli-01`（M2），目标为 `apps/cli` 开发脚本与 `apps/cli/tools/prompt-trajectory`。
 - 合同范围 **3 个脚本**（全部继承文件）：`clean-dist.mjs`（`upstream-unchanged`）、
   `count-ts-lines.mjs`（`upstream-modified`）、`generate-bash-command-registry.mjs`（`upstream-modified`）。
-- `apps/cli/tools/prompt-trajectory` 的 **14 个文件**已在 M0-5（`f47d5717`）删除；本分支
-  `66bf2194` 清掉 `apps/cli/package.json` 中两个失效入口。`apps/cli/scripts/shadow-replay.mjs`
-  （266 行）因 `knip` 无引用、仓库无运行期调用，在 `06ed43f4` 删除。
+- `apps/cli/tools/prompt-trajectory` 的 **14 个文件**已在 M0-5（`f47d5717`，早于本合同）随基线删除。
+  本分支 `66bf2194` 曾清掉 `apps/cli/package.json` 中两个失效入口、`06ed43f4` 曾删除
+  `apps/cli/scripts/shadow-replay.mjs`（266 行，`knip` 无引用、仓库无运行期调用），二者现分别由正向提交
+  `0d656a91`、`5cba59a1` 还原保留。**合同阶段不删文件**，是否清理 `shadow-replay.mjs` 与这两个 `--filter`
+  已失效的入口，留待替换 PR 评估。
 - 不在范围：`apps/cli/tools/typescript`（无关工具包）、`packages/core` 中的生成物（属
   `core-tool-handlers-01`）、其他 `apps/cli/packages/**`。
-- 清单与依据：`README.md` §一/§二；删除证据：`callers.md` §四、`known-differences.md` §四。
+- 清单与依据：`README.md` §一/§二；保留与还原依据：`callers.md` §四、`known-differences.md` §四。
 
 ## 二、合同产物
 
 | 文件                   | 内容                                                                                        |
 | ---------------------- | ------------------------------------------------------------------------------------------- |
-| `README.md`            | 范围、删除项、入口语义、B1–B19 → 测试对照表（无空行）、旧门命令与结果、风险                 |
+| `README.md`            | 范围、保留项（合同不删文件）、入口语义、B1–B19 → 测试对照表（无空行）、旧门命令与结果、风险 |
 | `behavior.md`          | B1–B19，每条含输入/输出/错误语义/时序与并发/幂等/资源释放/平台差异/状态所有者/日志级别/断言 |
 | `interface.md`         | 3 个模块路径、6 个导出签名、CLI 参数、摘要 JSON、生成文件模板                               |
 | `callers.md`           | 12 个 `clean` 调用方、1 个 `lint:count`、2 个 registry 入口、`check` 链与生成物消费方       |
@@ -96,3 +98,6 @@ node scripts/contract-gate.mjs \
 3. 替换实现必须保持 `interface.md` 的 6 个导出与 CLI 契约；生成文件必须在 POSIX 上逐字节不变。
 4. 新实现每个文件第一行加 SPDX；相似度按两道门槛对旧文件与上游固定提交跑，不得超过。
 5. `apps/cli/pnpm-lock.yaml` 的过期 importer 不在本包修复；来源登记在替换阶段收尾最后一步完成。
+6. `shadow-replay.mjs` 与 `apps/cli/package.json` 中两个 `--filter` 已指向不存在包的
+   `prompt-trajectory:model-io`、`prompt-trajectory:prompt` 入口，合同阶段保留；是否在替换 PR 删除，由
+   替换阶段按计划书/规格评估并在替换 PR 里写明依据（见 §一）。

@@ -53,14 +53,15 @@
 生成物的消费方是 `apps/cli/packages/core`（`bash-command-registry.ts`），属于
 `core-tool-handlers-01`；本包只保证生成器重新生成后的**字节与已提交文件一致**。
 
-## 四、删除项的历史引用
+## 四、保留项的历史引用（合同不删，清理留待替换 PR 评估）
 
-- `apps/cli/tools/prompt-trajectory`：`06ed43f4` 之前 `apps/cli/package.json` 有两个入口，
-  已在 `66bf2194` 删除；嵌套的 `apps/cli/pnpm-lock.yaml` 仍留有 importer 行（过期锁文件，
-  见 `known-differences.md`）。
-- `apps/cli/scripts/shadow-replay.mjs`：`06ed43f4` 删除；删除后 `pnpm knip` 不再有
-  `apps/cli/scripts/**` 的未使用文件条目。全仓运行期引用为 0，只剩冻结的
-  `licensing/evidence/**` 与 `licensing/current-files.json` 历史快照。
+- `apps/cli/tools/prompt-trajectory`：目录已在 M0-5 的 `f47d5717` 随基线删除（早于本合同）。本分支
+  `66bf2194` 曾删除 `apps/cli/package.json` 指向它的两个入口，现由 `0d656a91` 还原保留；这两个入口的
+  `--filter @knorvia/prompt-trajectory` 已指向不存在的包，是否清理留待替换 PR 评估。嵌套的
+  `apps/cli/pnpm-lock.yaml` 仍留有 importer 行（过期锁文件，见 `known-differences.md`）。
+- `apps/cli/scripts/shadow-replay.mjs`：`06ed43f4` 曾删除，现由 `5cba59a1` 还原保留。全仓运行期引用为 0，
+  `pnpm knip` 因此仍把它列为 `apps/cli/scripts/**` 的未使用文件；除冻结的 `licensing/evidence/**` 与
+  `licensing/current-files.json` 历史快照外没有其它命中。是否在替换 PR 删除，留待替换阶段评估并写明依据。
 
 ## 结论
 

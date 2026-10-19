@@ -1,23 +1,23 @@
 # apps-cli-01 合同（v1：范围与边界）
 
-`apps/cli` 开发脚本与 `tools/prompt-trajectory` 的替换合同。计划书「每包流程」第一步的产物。
+`apps/cli` 开发脚本的替换合同。`tools/prompt-trajectory` 已在 M0-5（`f47d5717`，早于本合同）随基线移除；**本合同阶段不删除任何文件**——`shadow-replay.mjs` 与 `apps/cli/package.json` 里两个 `prompt-trajectory:*` 入口都保留，是否清理留待替换 PR 评估。计划书「每包流程」第一步的产物。
 
 - 分支：`contract/apps-cli-01`（从 `origin/main` @ `1f05d362` 检出；替换分支 `replace/apps-cli-01`）
 - 工作树：`/workspace/wt-ac01`
-- 状态：**范围已定**。删除项已在合同前完成；旧门在旧实现上双入口全过，桩替换全失败。
+- 状态：**范围已定**。合同阶段不删文件（`shadow-replay.mjs`、`package.json` 入口保留，删除留待替换 PR 评估）；旧门在旧实现上双入口全过，桩替换全失败。
 
 ## 一、候选范围与实测
 
 数据来源：`licensing/current-files.json`（2026-10-19 实测）与仓库内引用扫描。
 
-| 范围                                                  | 文件数 | 继承文件 | 处理                                                                   |
-| ----------------------------------------------------- | ------ | -------- | ---------------------------------------------------------------------- |
-| `apps/cli/scripts/clean-dist.mjs`                     | 1      | 1        | **写合同**（`upstream-unchanged`）                                     |
-| `apps/cli/scripts/count-ts-lines.mjs`                 | 1      | 1        | **写合同**（`upstream-modified`）                                      |
-| `apps/cli/scripts/generate-bash-command-registry.mjs` | 1      | 1        | **写合同**（`upstream-modified`）                                      |
-| `apps/cli/scripts/shadow-replay.mjs`                  | 1      | 0        | 已删（`06ed43f4`，knip 无引用）                                        |
-| `apps/cli/tools/prompt-trajectory/**`                 | 14     | 0        | M0-5 已删（`f47d5717`）；本分支清理 `apps/cli/package.json` 的失效入口 |
-| **合同范围合计**                                      | **3**  | **3**    | **≤ 60，不需要重切**                                                   |
+| 范围                                                  | 文件数 | 继承文件 | 处理                                                                                                                                  |
+| ----------------------------------------------------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `apps/cli/scripts/clean-dist.mjs`                     | 1      | 1        | **写合同**（`upstream-unchanged`）                                                                                                    |
+| `apps/cli/scripts/count-ts-lines.mjs`                 | 1      | 1        | **写合同**（`upstream-modified`）                                                                                                     |
+| `apps/cli/scripts/generate-bash-command-registry.mjs` | 1      | 1        | **写合同**（`upstream-modified`）                                                                                                     |
+| `apps/cli/scripts/shadow-replay.mjs`                  | 1      | 0        | **保留**（合同不删；`06ed43f4` 已由 `5cba59a1` 还原；knip 仍报未使用，删除留待替换 PR 评估）                                          |
+| `apps/cli/tools/prompt-trajectory/**`                 | 14     | 0        | 目录 M0-5 已删（`f47d5717`，早于本合同）；`package.json` 两个失效入口经 `66bf2194` 删除后由 `0d656a91` 还原保留，清理留待替换 PR 评估 |
+| **合同范围合计**                                      | **3**  | **3**    | **≤ 60，不需要重切**                                                                                                                  |
 
 三个脚本的实测规模：
 
@@ -27,9 +27,9 @@
 | `apps/cli/scripts/count-ts-lines.mjs`                 | 173 | 5117 | `upstream-modified`  | `apps/zcode-cli/scripts/count-ts-lines.mjs`     |
 | `apps/cli/scripts/generate-bash-command-registry.mjs` | 230 | 7971 | `upstream-modified`  | 同名脚本                                        |
 
-`apps/cli/tools/prompt-trajectory` 的 14 个文件为 11 个 `src/*.ts` 加 `README.md`、`package.json`、`tsconfig.json`，全部在 `f47d5717` 删除；本分支 `66bf2194` 只删除 `apps/cli/package.json` 中指向它的 `prompt-trajectory:model-io` 与 `prompt-trajectory:prompt` 两个已失效脚本入口。
+`apps/cli/tools/prompt-trajectory` 的 14 个文件（11 个 `src/*.ts` 加 `README.md`、`package.json`、`tsconfig.json`）已在 M0-5 的 `f47d5717` 随基线删除，早于本合同。本分支 `66bf2194` 曾删除 `apps/cli/package.json` 中指向已移除包的 `prompt-trajectory:model-io` 与 `prompt-trajectory:prompt` 两个入口，现由正向提交 `0d656a91` 还原保留；这两个入口当前 `--filter` 的 `@knorvia/prompt-trajectory` 已不存在，是否清理留待替换 PR 评估。
 
-**删除 `shadow-replay.mjs` 的依据：** `pnpm knip` 报其为未使用文件；仓库内没有代码、`package.json` 或工作流引用它；命中的只有冻结的 `licensing/evidence/**` 与 `licensing/current-files.json` 历史快照。它从旧运行时 `dist` 导入内部实现，不在任何构建或测试入口上。
+**`shadow-replay.mjs` 保留、删除留待替换 PR 评估：** `pnpm knip` 报其为未使用文件；仓库内没有代码、`package.json` 或工作流的运行期引用；命中的只有冻结的 `licensing/evidence/**` 与 `licensing/current-files.json` 历史快照。它从旧运行时 `dist` 导入内部实现，不在任何构建或测试入口上。合同阶段不删（`06ed43f4` 已由 `5cba59a1` 还原）；若确需删除，在替换 PR 里做并写明依据。
 
 ## 二、不在范围
 
@@ -56,7 +56,7 @@
 | ---- | --------------------------------------------------- | ------------------------------------------------ |
 | B1   | 删除 cwd 下的 `dist`，兄弟文件保留                  | `clean-dist.test.mjs` 的 B1                      |
 | B2   | `dist` 不存在时成功且无输出                         | `clean-dist.test.mjs` 的 B2                      |
-| B3   | 只处理 cwd，不碰父目录或脚本目录的 `dist`           | `clean-dist.test.mjs` 的 B3                      |
+| B3   | 只删 `<cwd>/dist`，父目录的 `dist` 保留             | `clean-dist.test.mjs` 的 B3                      |
 | B4   | `countLines` 的空文件、尾换行与 CRLF 归一           | `count-ts-lines.test.mjs` 的 B4                  |
 | B5   | `isTestSourceFile` 的测试目录段与测试后缀           | `count-ts-lines.test.mjs` 的 B5                  |
 | B6   | `isCountedSourceFile` 只计 `.ts`/`.tsx` 且排除测试  | `count-ts-lines.test.mjs` 的 B6                  |
