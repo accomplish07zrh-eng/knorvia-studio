@@ -9749,7 +9749,7 @@
     },
     {
       "path": "apps/cli/packages/bootstrap/src/kernel/process.ts",
-      "normalizedSha256": "9ff1c9e1739ae70ef2ee60292311c169486d82a3bc8ffddd3218f8ed4c38a2b2",
+      "normalizedSha256": "d4658750b2d606a4ee281b80f2f4148a1ded716449697dc2eeb70499d9635dd3",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored kernel-dsh-00 runtime for the DSH-backed built-in kernel. runKernelProcess：就绪/失败标记、stdin EOF 与信号关闭、退出码映射。 Written from specs/knorvia-builtin-kernel-dsh.md, the kernel-dsh-00 contract and the public @deepseek-ai/dsh 0.2.0-rc.2 package surface. The author read the replaced apps/cli/packages/bootstrap/src/app/create-app.ts, apps/cli/packages/bootstrap/src/protocol-entrypoint.ts and apps/cli/packages/core/src/runtime/** to understand existing behavior only; no DSH source and no inherited implementation was copied, renamed or line-rewritten. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.173, longest identical run 2, structural similarity 0.000.",

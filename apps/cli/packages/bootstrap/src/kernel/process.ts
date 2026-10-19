@@ -32,11 +32,13 @@ export async function runKernelProcess(options: RunKernelProcessOptions): Promis
     return 1;
   }
 
+  // 协议桥只在 dsh 引擎下动态加载；默认引擎不会走到 runKernelProcess。
+  // 加载放在就绪行之前：就绪行之后到挂上关停监听之间不能有 await，否则调用方见到就绪立刻发的信号会落空。
+  const { runBridge } = await import("../kernel-bridge/entry.js");
+
   stderr.write(`${KERNEL_READY_MARKER} engine=dsh dsh=${KERNEL_DSH_VERSION}\n`);
 
   const input = options.input ?? process.stdin;
-  // 协议桥只在 dsh 引擎下动态加载；默认引擎不会走到 runKernelProcess。
-  const { runBridge } = await import("../kernel-bridge/entry.js");
   const bridge = runBridge({
     context: host.context,
     input,
