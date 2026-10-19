@@ -145318,6 +145318,197 @@
       ]
     },
     {
+      "path": "specs/contracts/kernel-bridge-01/README.md",
+      "normalizedSha256": "dab5401e92499076be2f1b04eef142019a7a1ec78263824c1b52b4ccae28465c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-bridge-01 contract artifact for the v4 protocol bridge to the DSH-backed built-in kernel (M2). Written from specs/knorvia-builtin-kernel-dsh.md, specs/knorvia-internal-plugins.md, specs/contracts/kernel-dsh-00/, the existing v4 public protocol and black-box observation of the default runtime; no DSH source was copied and no old-runtime implementation was rewritten. The suite drives the public v4 protocol entry only and does not relax existing assertions. This contract document freezes the bridge interface, behavior, acceptance, known differences and callers.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-01/README.md",
+        "specs/knorvia-builtin-kernel-dsh.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-01/acceptance.md",
+      "normalizedSha256": "78074d7d85f46b9b38af7c37946475399072a2e98d738b96beb229298c1de69d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-bridge-01 contract artifact for the v4 protocol bridge to the DSH-backed built-in kernel (M2). Written from specs/knorvia-builtin-kernel-dsh.md, specs/knorvia-internal-plugins.md, specs/contracts/kernel-dsh-00/, the existing v4 public protocol and black-box observation of the default runtime; no DSH source was copied and no old-runtime implementation was rewritten. The suite drives the public v4 protocol entry only and does not relax existing assertions. This contract document freezes the bridge interface, behavior, acceptance, known differences and callers.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-01/acceptance.md",
+        "specs/contracts/kernel-bridge-01/README.md",
+        "specs/knorvia-builtin-kernel-dsh.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-01/behavior.md",
+      "normalizedSha256": "c1fc589a0b6455ddccd04b914ae4ae610927ea96754beccc5c0ac1119f5a7119",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-bridge-01 contract artifact for the v4 protocol bridge to the DSH-backed built-in kernel (M2). Written from specs/knorvia-builtin-kernel-dsh.md, specs/knorvia-internal-plugins.md, specs/contracts/kernel-dsh-00/, the existing v4 public protocol and black-box observation of the default runtime; no DSH source was copied and no old-runtime implementation was rewritten. The suite drives the public v4 protocol entry only and does not relax existing assertions. This contract document freezes the bridge interface, behavior, acceptance, known differences and callers.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-01/behavior.md",
+        "specs/contracts/kernel-bridge-01/README.md",
+        "specs/knorvia-builtin-kernel-dsh.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-01/callers.md",
+      "normalizedSha256": "ce5a72ee1c574a7ac44fa0d858972de1320d67716e67b5bc9076607b99f6df58",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-bridge-01 contract artifact for the v4 protocol bridge to the DSH-backed built-in kernel (M2). Written from specs/knorvia-builtin-kernel-dsh.md, specs/knorvia-internal-plugins.md, specs/contracts/kernel-dsh-00/, the existing v4 public protocol and black-box observation of the default runtime; no DSH source was copied and no old-runtime implementation was rewritten. The suite drives the public v4 protocol entry only and does not relax existing assertions. This contract document freezes the bridge interface, behavior, acceptance, known differences and callers.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-01/callers.md",
+        "specs/contracts/kernel-bridge-01/README.md",
+        "specs/knorvia-builtin-kernel-dsh.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-01/gate-old.json",
+      "normalizedSha256": "c4853bd27a34adb646615f4d9a9479c0a4c07a65f1767056bbe29b68e30546cb",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-bridge-01 contract artifact for the v4 protocol bridge to the DSH-backed built-in kernel (M2). Written from specs/knorvia-builtin-kernel-dsh.md, specs/knorvia-internal-plugins.md, specs/contracts/kernel-dsh-00/, the existing v4 public protocol and black-box observation of the default runtime; no DSH source was copied and no old-runtime implementation was rewritten. The suite drives the public v4 protocol entry only and does not relax existing assertions. This generated artifact records the contract gate run against the existing default runtime (all tests pass) with assertionsRelaxed set to false.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-01/gate-old.json",
+        "specs/contracts/kernel-bridge-01/README.md",
+        "specs/knorvia-builtin-kernel-dsh.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-01/interface.md",
+      "normalizedSha256": "1e08a99ffccd6f7352a5bc22344bdd2f2056067c4fac0b3cf48e7b80aa915f6d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-bridge-01 contract artifact for the v4 protocol bridge to the DSH-backed built-in kernel (M2). Written from specs/knorvia-builtin-kernel-dsh.md, specs/knorvia-internal-plugins.md, specs/contracts/kernel-dsh-00/, the existing v4 public protocol and black-box observation of the default runtime; no DSH source was copied and no old-runtime implementation was rewritten. The suite drives the public v4 protocol entry only and does not relax existing assertions. This contract document freezes the bridge interface, behavior, acceptance, known differences and callers.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-01/interface.md",
+        "specs/contracts/kernel-bridge-01/README.md",
+        "specs/knorvia-builtin-kernel-dsh.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-01/known-differences.md",
+      "normalizedSha256": "e59574f0a1131207dd993c4ddd5682306279dc0d7d28404cf46535e15f126208",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-bridge-01 contract artifact for the v4 protocol bridge to the DSH-backed built-in kernel (M2). Written from specs/knorvia-builtin-kernel-dsh.md, specs/knorvia-internal-plugins.md, specs/contracts/kernel-dsh-00/, the existing v4 public protocol and black-box observation of the default runtime; no DSH source was copied and no old-runtime implementation was rewritten. The suite drives the public v4 protocol entry only and does not relax existing assertions. This contract document freezes the bridge interface, behavior, acceptance, known differences and callers.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-01/known-differences.md",
+        "specs/contracts/kernel-bridge-01/README.md",
+        "specs/knorvia-builtin-kernel-dsh.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-01/stub-gate.json",
+      "normalizedSha256": "f62d7d6e2b25e7d856bb047d9537ea6b07ffa529824b21156c7e6fa65f712326",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-bridge-01 contract artifact for the v4 protocol bridge to the DSH-backed built-in kernel (M2). Written from specs/knorvia-builtin-kernel-dsh.md, specs/knorvia-internal-plugins.md, specs/contracts/kernel-dsh-00/, the existing v4 public protocol and black-box observation of the default runtime; no DSH source was copied and no old-runtime implementation was rewritten. The suite drives the public v4 protocol entry only and does not relax existing assertions. This generated artifact records the transport-only stub run (all tests fail), proving the suite does not pass without a real v4 implementation.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-01/stub-gate.json",
+        "specs/contracts/kernel-bridge-01/README.md",
+        "specs/knorvia-builtin-kernel-dsh.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-01/stubs/app-server-stub.mjs",
+      "normalizedSha256": "0ed5187eac7fc670cb7896605210fca4d8c737e924aa5bc8482795330b5a7981",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-bridge-01 contract artifact for the v4 protocol bridge to the DSH-backed built-in kernel (M2). Written from specs/knorvia-builtin-kernel-dsh.md, specs/knorvia-internal-plugins.md, specs/contracts/kernel-dsh-00/, the existing v4 public protocol and black-box observation of the default runtime; no DSH source was copied and no old-runtime implementation was rewritten. The suite drives the public v4 protocol entry only and does not relax existing assertions. This transport-only stub answers every request with Method not found and implements no v4 semantics.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-01/stubs/app-server-stub.mjs",
+        "specs/contracts/kernel-bridge-01/README.md",
+        "specs/knorvia-builtin-kernel-dsh.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-01/tests/_protocol.mjs",
+      "normalizedSha256": "ff15007d79351b77bb1e4407799c40a9c634fbcfc5c4faa84ff4cbd9f68b0093",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-bridge-01 contract artifact for the v4 protocol bridge to the DSH-backed built-in kernel (M2). Written from specs/knorvia-builtin-kernel-dsh.md, specs/knorvia-internal-plugins.md, specs/contracts/kernel-dsh-00/, the existing v4 public protocol and black-box observation of the default runtime; no DSH source was copied and no old-runtime implementation was rewritten. The suite drives the public v4 protocol entry only and does not relax existing assertions. This contract test file asserts frozen v4 public-protocol behavior of command inbox, sequence, snapshot and two-link semantics.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-01/tests/_protocol.mjs",
+        "specs/contracts/kernel-bridge-01/README.md",
+        "specs/knorvia-builtin-kernel-dsh.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-01/tests/command-inbox-contract.test.mjs",
+      "normalizedSha256": "669ff63e1dc75305febc3f54cbcc21f7f4fa8a1d9810a8a59e0ba68051db2829",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-bridge-01 contract artifact for the v4 protocol bridge to the DSH-backed built-in kernel (M2). Written from specs/knorvia-builtin-kernel-dsh.md, specs/knorvia-internal-plugins.md, specs/contracts/kernel-dsh-00/, the existing v4 public protocol and black-box observation of the default runtime; no DSH source was copied and no old-runtime implementation was rewritten. The suite drives the public v4 protocol entry only and does not relax existing assertions. This contract test file asserts frozen v4 public-protocol behavior of command inbox, sequence, snapshot and two-link semantics.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-01/tests/command-inbox-contract.test.mjs",
+        "specs/contracts/kernel-bridge-01/README.md",
+        "specs/knorvia-builtin-kernel-dsh.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-01/tests/entry.mjs",
+      "normalizedSha256": "b63c930c86366e4e1c9941d447607b82b7658b419142b65d14b97392a24a12f3",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-bridge-01 contract artifact for the v4 protocol bridge to the DSH-backed built-in kernel (M2). Written from specs/knorvia-builtin-kernel-dsh.md, specs/knorvia-internal-plugins.md, specs/contracts/kernel-dsh-00/, the existing v4 public protocol and black-box observation of the default runtime; no DSH source was copied and no old-runtime implementation was rewritten. The suite drives the public v4 protocol entry only and does not relax existing assertions. This contract test file asserts frozen v4 public-protocol behavior of command inbox, sequence, snapshot and two-link semantics.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-01/tests/entry.mjs",
+        "specs/contracts/kernel-bridge-01/README.md",
+        "specs/knorvia-builtin-kernel-dsh.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-01/tests/lifecycle-contract.test.mjs",
+      "normalizedSha256": "63672ec1a6d2c0df1957989d9932c6996164a85fb51a36633395376bc75200e9",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-bridge-01 contract artifact for the v4 protocol bridge to the DSH-backed built-in kernel (M2). Written from specs/knorvia-builtin-kernel-dsh.md, specs/knorvia-internal-plugins.md, specs/contracts/kernel-dsh-00/, the existing v4 public protocol and black-box observation of the default runtime; no DSH source was copied and no old-runtime implementation was rewritten. The suite drives the public v4 protocol entry only and does not relax existing assertions. This contract test file asserts frozen v4 public-protocol behavior of command inbox, sequence, snapshot and two-link semantics.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-01/tests/lifecycle-contract.test.mjs",
+        "specs/contracts/kernel-bridge-01/README.md",
+        "specs/knorvia-builtin-kernel-dsh.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-01/tests/run-old-gate.mjs",
+      "normalizedSha256": "1498d390b27235555aabf26d2b544af8276031d2abd78e749fd211ae9a4f938e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-bridge-01 contract artifact for the v4 protocol bridge to the DSH-backed built-in kernel (M2). Written from specs/knorvia-builtin-kernel-dsh.md, specs/knorvia-internal-plugins.md, specs/contracts/kernel-dsh-00/, the existing v4 public protocol and black-box observation of the default runtime; no DSH source was copied and no old-runtime implementation was rewritten. The suite drives the public v4 protocol entry only and does not relax existing assertions. This contract test file asserts frozen v4 public-protocol behavior of command inbox, sequence, snapshot and two-link semantics.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-01/tests/run-old-gate.mjs",
+        "specs/contracts/kernel-bridge-01/README.md",
+        "specs/knorvia-builtin-kernel-dsh.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-01/tests/sequence-snapshot-contract.test.mjs",
+      "normalizedSha256": "d0a5ce08a94a0bb58fb7150c7f82af34bd6f479f6e1d28b65b7ad8938050283f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-bridge-01 contract artifact for the v4 protocol bridge to the DSH-backed built-in kernel (M2). Written from specs/knorvia-builtin-kernel-dsh.md, specs/knorvia-internal-plugins.md, specs/contracts/kernel-dsh-00/, the existing v4 public protocol and black-box observation of the default runtime; no DSH source was copied and no old-runtime implementation was rewritten. The suite drives the public v4 protocol entry only and does not relax existing assertions. This contract test file asserts frozen v4 public-protocol behavior of command inbox, sequence, snapshot and two-link semantics.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-01/tests/sequence-snapshot-contract.test.mjs",
+        "specs/contracts/kernel-bridge-01/README.md",
+        "specs/knorvia-builtin-kernel-dsh.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-01/tests/two-links-contract.test.mjs",
+      "normalizedSha256": "bcebb6caad4c3817c68973dd011c36f3939acabb867f10d21318fba999efbdd4",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-bridge-01 contract artifact for the v4 protocol bridge to the DSH-backed built-in kernel (M2). Written from specs/knorvia-builtin-kernel-dsh.md, specs/knorvia-internal-plugins.md, specs/contracts/kernel-dsh-00/, the existing v4 public protocol and black-box observation of the default runtime; no DSH source was copied and no old-runtime implementation was rewritten. The suite drives the public v4 protocol entry only and does not relax existing assertions. This contract test file asserts frozen v4 public-protocol behavior of command inbox, sequence, snapshot and two-link semantics.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-01/tests/two-links-contract.test.mjs",
+        "specs/contracts/kernel-bridge-01/README.md",
+        "specs/knorvia-builtin-kernel-dsh.md"
+      ]
+    },
+    {
       "path": "specs/contracts/node-repl-host-broker/README.md",
       "normalizedSha256": "ae2c9ae642e007e3507d348da9d7c77643330f832c40cc20c02a8474e350ba7e",
       "decision": "original",
