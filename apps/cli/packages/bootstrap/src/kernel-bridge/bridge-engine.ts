@@ -13,9 +13,11 @@ import type {
 } from "@knorvia/shared/protocol-v4";
 import type { KernelLogger } from "../kernel/logger.js";
 import { callKernelLogger } from "../kernel/logger.js";
+import { BRIDGE_REASON_CODES } from "./command-envelope.js";
 import type { BridgeCommandExecutor, CommandExecutionOutcome } from "./command-inbox.js";
 import { BridgeCommandInbox } from "./command-inbox.js";
 import type {
+  BridgeConfigMutationInput,
   BridgeEventProjectionLayer,
   BridgeFlowControlRequest,
   BridgeResyncRequest,
@@ -28,6 +30,9 @@ import { createBridgeEventProjectionLayer } from "./projection-layer.js";
 
 /** 段 A 尚未接入的命令类型统一回 failed + 该 reasonCode；不伪造 accepted/noop。 */
 const UNSUPPORTED_REASON_CODE = "unsupported";
+
+/** 同值切换的 noop reasonCode：与旧运行时 V4CommandNoopError 的 config.unchanged 同词表。 */
+const CONFIG_UNCHANGED_REASON_CODE = "config.unchanged";
 
 export interface BridgeEngineOptions {
   readonly context: Context;
@@ -75,13 +80,73 @@ export class BridgeEngine implements BridgeCommandExecutor {
 
   /** BridgeCommandExecutor：按命令类型执行，映射到 ctx.sessions / ctx.agents / projection.applyConfigMutation。 */
   async execute(envelope: CommandEnvelope): Promise<CommandExecutionOutcome> {
-    // 段 A 只落 createSession；其余命令类型在实现前一律回 unsupported，不伪造成功。
+    // 段 A 已接入 createSession 与配置类命令；其余命令类型在实现前一律回 unsupported，不伪造成功。
+    // 需要真实模型轮的命令（sendText 等）按 known-differences D17 保持 unsupported。
     switch (envelope.type) {
       case "createSession":
         return await this.createSession(envelope);
+      case "setFollowupMode": {
+        const payload = envelope.payload as CommandPayloadMap["setFollowupMode"];
+        // 旧运行时 setFollowupMode 没有同值守卫（无条件追加一条事件），所以同值也必须
+        // accepted，只是投影层产出 0 个 delta、revision 不动（B9「同值配置命令 accepted
+        // 但快照不变、revision 不递增」）。这里若改成 noop 会与冻结的合同用例冲突。
+        return this.applyConfigCommand(envelope, { followupMode: payload.mode }, false);
+      }
+      case "switchCollaborationMode": {
+        const payload = envelope.payload as CommandPayloadMap["switchCollaborationMode"];
+        // plan 是正交开关：resolveExecutionState 不会把 "plan" 写进 config.mode，
+        // 只翻 planEnabled，因此这里与旧运行时一样把 plan 传成 planEnabled 而非 mode。
+        // 旧运行时同值切换抛 V4CommandNoopError(config.unchanged) → ACK noop，
+        // 客户端据此区分「已生效」与「本来就是这个值」。
+        return this.applyConfigCommand(
+          envelope,
+          payload.mode === "plan"
+            ? { planEnabled: true }
+            : { mode: payload.mode, planEnabled: false },
+          true,
+        );
+      }
       default:
         return { status: "failed", reasonCode: UNSUPPORTED_REASON_CODE };
     }
+  }
+
+  /**
+   * 配置类命令的唯一执行路径：有效变更 accepted；投影层判定无可见变更时，
+   * 按该命令在旧运行时的同值语义决定回 accepted 还是 noop（见 `noopOnSameValue`）。
+   *
+   * 无论哪种终态，投影层都已占用一个事件序号并按原序广播帧；ACK 的 revisionAtDecision
+   * 由 CommandInbox 填执行前 revision（interface.md §四），这里不回传 revision，
+   * 避免出现第二份 CAS 事实。
+   */
+  private applyConfigCommand(
+    envelope: CommandEnvelope,
+    mutation: BridgeConfigMutationInput["mutation"],
+    noopOnSameValue: boolean,
+  ): CommandExecutionOutcome {
+    const sessionId = envelope.sessionId;
+    // 会话存在性已由 CommandInbox 裁决；这里的空值只可能是 createSession 之外的协议违例。
+    if (sessionId === null) {
+      return {
+        status: "failed",
+        reasonCode: BRIDGE_REASON_CODES.sessionNotFound,
+        message: `${envelope.type} requires a session`,
+      };
+    }
+    const result = this.projection.applyConfigMutation({
+      sessionId,
+      commandId: envelope.commandId,
+      type: envelope.type,
+      mutation,
+      // 两个命令都在 COMMANDS_REQUIRING_BASE_REVISION 内，CommandInbox 已把缺字段的信封
+      // 拒在准入阶段；这里的兜底只满足类型，不会覆盖任何真实 CAS 值。
+      baseRevision: envelope.baseRevision ?? 0,
+    });
+    // 0 delta 表示同值：revision 不推进，但这次命令仍占了一个事件序号。
+    if (result.deltas.length === 0 && noopOnSameValue) {
+      return { status: "noop", reasonCode: CONFIG_UNCHANGED_REASON_CODE };
+    }
+    return { status: "accepted" };
   }
 
   /** createSession：SessionId() 包装 id，logEpoch = `epoch_` + randomUUID，projection.initSession。 */
