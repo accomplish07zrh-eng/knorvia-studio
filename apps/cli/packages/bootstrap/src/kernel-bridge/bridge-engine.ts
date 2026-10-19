@@ -2,9 +2,17 @@
 // 桥引擎（段 A）：会话注册表 + 命令执行端口 + 方法路由；投影只经 interface.ts 调用。
 // 骨架由工程小弟给定，段 A 只往函数体里填实现，不改签名。
 
+import { randomUUID } from "node:crypto";
 import type { Context } from "@deepseek-ai/cordis";
-import type { CommandAck, CommandEnvelope, RoutedTopicWireFrame } from "@knorvia/shared/protocol-v4";
+import { SessionId } from "@deepseek-ai/dsh-session";
+import type {
+  CommandAck,
+  CommandEnvelope,
+  CommandPayloadMap,
+  RoutedTopicWireFrame,
+} from "@knorvia/shared/protocol-v4";
 import type { KernelLogger } from "../kernel/logger.js";
+import { callKernelLogger } from "../kernel/logger.js";
 import type { BridgeCommandExecutor, CommandExecutionOutcome } from "./command-inbox.js";
 import { BridgeCommandInbox } from "./command-inbox.js";
 import type {
@@ -17,6 +25,9 @@ import type {
   BridgeUnsubscribeRequest,
 } from "./interface.js";
 import { createBridgeEventProjectionLayer } from "./projection-layer.js";
+
+/** 段 A 尚未接入的命令类型统一回 failed + 该 reasonCode；不伪造 accepted/noop。 */
+const UNSUPPORTED_REASON_CODE = "unsupported";
 
 export interface BridgeEngineOptions {
   readonly context: Context;
@@ -44,9 +55,7 @@ export class BridgeEngine implements BridgeCommandExecutor {
       wireFrameSink: options.writeFrame,
       now: options.now,
     });
-    // TODO(A): 按 command-inbox.ts 的构造参数接入 projection（revision/logEpoch 现读）。
-    this.inbox = undefined as unknown as BridgeCommandInbox;
-    void BridgeCommandInbox;
+    this.inbox = new BridgeCommandInbox(this.projection, this);
   }
 
   /** 订阅 ctx 的 session/event 等事件并转给 projection.ingestDshEvent。 */
@@ -55,28 +64,54 @@ export class BridgeEngine implements BridgeCommandExecutor {
   }
 
   /** v4/command：准入（inbox）→ execute → ACK。 */
-  async handleCommand(envelope: unknown): Promise<CommandAck> {
-    void envelope;
-    throw new Error("TODO(A): inbox admission + ack");
+  handleCommand(envelope: unknown): Promise<CommandAck> {
+    return this.inbox.handle(envelope);
   }
 
   /** v4/commands/query。 */
-  queryCommands(params: unknown): unknown {
-    void params;
-    throw new Error("TODO(A): commands query");
+  queryCommands(params: unknown): ReturnType<BridgeCommandInbox["query"]> {
+    return this.inbox.query(params);
   }
 
   /** BridgeCommandExecutor：按命令类型执行，映射到 ctx.sessions / ctx.agents / projection.applyConfigMutation。 */
   async execute(envelope: CommandEnvelope): Promise<CommandExecutionOutcome> {
-    void envelope;
-    throw new Error("TODO(A): createSession / sendText / config mutations");
+    // 段 A 只落 createSession；其余命令类型在实现前一律回 unsupported，不伪造成功。
+    switch (envelope.type) {
+      case "createSession":
+        return await this.createSession(envelope);
+      default:
+        return { status: "failed", reasonCode: UNSUPPORTED_REASON_CODE };
+    }
   }
 
   /** createSession：SessionId() 包装 id，logEpoch = `epoch_` + randomUUID，projection.initSession。 */
   private async createSession(envelope: CommandEnvelope): Promise<CommandExecutionOutcome> {
-    void envelope;
-    void this.sessions;
-    throw new Error("TODO(A): createSession");
+    const payload = envelope.payload as CommandPayloadMap["createSession"];
+    // firstInput 需要 sendText 同一条 turn 写路径；输入投递未实现前不能建出“吞掉用户输入”的会话。
+    if (payload.firstInput !== undefined) {
+      return { status: "failed", reasonCode: UNSUPPORTED_REASON_CODE };
+    }
+    const sessionId = envelope.sessionId ?? `sess_${randomUUID()}`;
+    const workspacePath = payload.workspaceId;
+    const logEpoch = `epoch_${randomUUID()}`;
+
+    this.options.context.sessions.create(SessionId(sessionId), {
+      meta: { cwd: workspacePath },
+    });
+    this.projection.initSession({
+      sessionId,
+      logEpoch,
+      workspacePath,
+      initialConfig: payload.config,
+    });
+    this.sessions.set(sessionId, { sessionId, workspacePath, logEpoch });
+    if (this.options.logger) {
+      callKernelLogger(this.options.logger, "info", "kernel.bridge.session.created", {
+        sessionId,
+        workspacePath,
+      });
+    }
+    return { status: "accepted", result: { type: "createSession", sessionId } };
   }
 
   subscribe(request: BridgeSubscribeRequest): Promise<BridgeSubscribeResult> {
@@ -93,6 +128,11 @@ export class BridgeEngine implements BridgeCommandExecutor {
 
   setFlowControl(request: BridgeFlowControlRequest): void {
     this.projection.setFlowControl(request);
+  }
+
+  /** SIGTERM/SIGINT：停止接收事件并释放投影层（process.ts 调用后退出）。 */
+  stop(): Promise<void> {
+    return this.dispose();
   }
 
   async dispose(): Promise<void> {

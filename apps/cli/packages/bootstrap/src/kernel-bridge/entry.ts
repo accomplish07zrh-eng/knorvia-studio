@@ -12,8 +12,15 @@ export interface RunBridgeOptions {
   readonly logger?: KernelLogger;
 }
 
-/** 读到 input 结束为止；返回时所有在途命令已收口。 */
-export async function runBridge(options: RunBridgeOptions): Promise<void> {
+/** 运行中的桥：stop() 由 process.ts 在 SIGTERM/SIGINT 时调用。 */
+export interface RunningBridge {
+  /** input 结束或 stop() 后 resolve；所有在途命令已收口。 */
+  readonly done: Promise<void>;
+  stop(): Promise<void>;
+}
+
+/** 启动 NDJSON 读写循环并立即返回句柄。 */
+export function runBridge(options: RunBridgeOptions): RunningBridge {
   void options;
   throw new Error("TODO(A): NDJSON loop + method routing (interface.md §二–§五)");
 }

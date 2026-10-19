@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
-// 进程入口：boot → 就绪行 → 等待 stdin 结束或信号 → dispose；stdout 始终不写。
+// 进程入口：boot → 就绪行 → 启动协议桥（stdout 只写 NDJSON 协议帧）→ 等待 stdin 结束或信号 → 停桥 → dispose。
 
 import { KERNEL_DSH_VERSION, KERNEL_FAILED_MARKER, KERNEL_READY_MARKER } from "./constants.js";
 import { errorMessage } from "./errors.js";
@@ -34,11 +34,23 @@ export async function runKernelProcess(options: RunKernelProcessOptions): Promis
 
   stderr.write(`${KERNEL_READY_MARKER} engine=dsh dsh=${KERNEL_DSH_VERSION}\n`);
 
-  const watcher = watchShutdown(options.input ?? process.stdin, options.signals ?? process);
+  const input = options.input ?? process.stdin;
+  // 协议桥只在 dsh 引擎下动态加载；默认引擎不会走到 runKernelProcess。
+  const { runBridge } = await import("../kernel-bridge/entry.js");
+  const bridge = runBridge({
+    context: host.context,
+    input,
+    output: options.output ?? process.stdout,
+    logger,
+  });
+
+  // SIGTERM/SIGINT 或 stdin 结束：停桥（engine.stop()），然后照常 dispose 退出。
+  const watcher = watchShutdown(input, options.signals ?? process);
   try {
-    await watcher.wait();
+    await Promise.race([watcher.wait(), bridge.done]);
   } finally {
     watcher.dispose();
+    await bridge.stop();
   }
 
   callKernelLogger(logger, "info", "kernel.dsh.stopping");
