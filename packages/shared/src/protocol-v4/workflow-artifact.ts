@@ -4,6 +4,9 @@
 // 缩进的 JSON。JSON.stringify 对函数/symbol/undefined 会回 undefined、对循环引用会抛错——这两种
 // 退化路径一律退回 String(value)，绝不把值整段丢掉。产物形状不受约束（record/数组/字符串/数字/
 // null 都合法），因此这里不设长度上限：截断属于各自的边界（完成通知、TaskOutput、投影各自限长）。
+// 两空格缩进是渲染契约的一部分：产物文本进模型上下文，缩进宽度与完成通知的预览口径一致。
+const ARTIFACT_JSON_INDENT = 2;
+
 export function serializeWorkflowArtifact(payload: unknown): string | undefined {
   const sort = typeof payload;
   if (sort === "undefined") return undefined;
@@ -11,12 +14,11 @@ export function serializeWorkflowArtifact(payload: unknown): string | undefined 
 
   let rendered: string | undefined;
   try {
-    rendered = JSON.stringify(payload, null, 2);
+    // stringify 回 undefined（function / symbol）时当场退回可读文本表示。
+    rendered = JSON.stringify(payload, null, ARTIFACT_JSON_INDENT) ?? String(payload);
   } catch {
-    // 循环引用等：退回可读的字符串表示，不向上抛。
-    return String(payload);
+    // 循环引用等抛错形态：同样收敛到 String，绝不把值整段丢掉。
+    rendered = String(payload);
   }
-
-  // stringify 回 undefined（function / symbol）时同样退回 String(payload)。
-  return rendered === undefined ? String(payload) : rendered;
+  return rendered;
 }
