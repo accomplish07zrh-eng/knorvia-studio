@@ -1,311 +1,317 @@
+// SPDX-License-Identifier: Apache-2.0
 import type { KnorviaCopy } from "../types.js";
 
+/** en-US 目录。所有人类可读文案都是自写表述，参数位置与语义见 behavior.md B8。 */
 export const enUS: KnorviaCopy = {
   locale: "en-US",
   cli: {
     errors: {
       localeUnsupported: (value) =>
-        `Unsupported --locale value: ${value}. Supported locales: en-US, zh-CN, auto.`,
+        `The value "${value}" is not a locale this build knows. Pick one of: en-US, zh-CN, auto.`,
     },
-    help: (version) => `Knorvia Studio Agent ${version}
-
-Usage:
-  knorvia [command] [options]
-
-With no command, knorvia opens the full-screen TUI.
-
-Commands:
-  app-server Run the Knorvia Studio Protocol stdio app server
-  commands   List custom slash commands (\`commands list\`)
-  doctor     Inspect runtime and packaging assumptions
-  plugins    Manage plugins and marketplaces (\`plugins list|install|uninstall|enable|disable|update|validate|marketplace ...\`; alias: plugin)
-  skills     List local skills (\`skills list\`)
-  tui        Open the terminal UI
-  version    Print the CLI version
-
-Options:
-  -h, --help       Show help
-  -v, --version    Show version
-  -p, --prompt <text>  Run a single prompt without opening the TUI
-  --memory-bench   With --prompt, enable automatic Memory extraction and wait before exiting (requires Memory enabled)
-  --browser-use <mode> Enable Browser Use backend (supported: headless)
-  --surface <surface>  Presentation surface for headless prompts/app-server: terminal or desktop
-  --browser-executable <path> Chrome/Chromium executable for headless Browser Use
-  --attach <path>  Attach a local file to --prompt; repeat for multiple files
-  --cwd <path>     Run this command from the given directory
-  --disallowed-tools, --disallowedTools <tools...>
-    Remove whole tools for this prompt/TUI run only; saved settings are unchanged.
-    Comma or space-separated tool names, e.g. "Bash Edit".
-    "Bash(git *)" removes all of Bash; command patterns are not matched.
-  --force-mcs      Force mid-conversation system projection for Anthropic providers
-  --locale <locale>  UI locale: en-US, zh-CN, or auto
-  --mode <mode>    Permission mode for prompts: build, edit, plan, or yolo (default: yolo for --prompt)
-  --resume <sessionId>  Resume a persisted session by sessionId (sess_...)
-  --target <text>  Run or set the session goal in headless mode
-  --target-replace Replace any existing session goal set by --target
-  -c, --continue        Resume the latest session for the current directory
-  --json           Print machine-readable JSON where supported
-  --no-color       Disable ANSI colors
-  --verbose        Print extra diagnostic detail
-
-Slash Commands:
-  /help [command]       Show slash command help
-  /compact [instructions]  Compact the current conversation
-  /expert [status|resume|stop|<task>]  Run or manage the expert workflow
-  /dwf [list|cancel|resume]  List, cancel, or resume dynamic workflow runs
-  /fork [latest|checkpointId]  Fork a new session from a workspace checkpoint
-  /mcp [list|status|connect|disconnect]  Show or manage MCP servers
-  /mode [mode]          Show or switch permission mode: build, edit, plan, or yolo
-  /model [id]           Show or switch the current session model
-  /new                  Start a fresh session in the TUI
-  /resume [sessionId]   Resume a session by sessionId; omit it for latest in cwd
-  /rewind [latest|checkpointId]  Show latest checkpoint or restore workspace files
-  /skill [name] [task]  List skills, or force the next prompt to load one
-  /goal [action]        Show or set the current session goal
-`,
+    help: (version) => buildHelp(version),
   },
   tui: {
     copy: {
-      copied: "Copied selected text to clipboard.",
-      failed: "Could not copy selected text.",
-      unavailable: "Text clipboard copy is not available in this terminal.",
+      copied: "The highlighted text is now on the clipboard.",
+      failed: "The highlighted text could not be copied.",
+      unavailable: "This terminal has no text clipboard integration.",
     },
     effort: {
-      disabled: "disabled",
-      enabled: "enabled",
+      disabled: "off",
+      enabled: "on",
     },
     input: {
-      activeStatusHint: "esc to interrupt",
-      busyPlaceholder: "Type to queue input",
-      placeholder: "Type a prompt",
-      queuedMore: (count) => `+ ${count} more queued`,
-      queuedSubmitHint: "Submitted after the next tool call.",
-      queuedTitle: (count) => ` Queue (${count}) `,
-      title: "Input",
-      noHistorySource: "No input history source is configured.",
-      noPreviousInput: "No previous input for this project.",
-      restoredPreviousInput: "Restored previous input.",
+      activeStatusHint: "press esc to stop",
+      busyPlaceholder: "Write here to line up another message",
+      placeholder: "Write a prompt",
+      queuedMore: (count) => `and ${count} besides that`,
+      queuedSubmitHint: "Goes out once the running tool returns.",
+      queuedTitle: (count) => ` Waiting: ${count} `,
+      title: "Prompt",
+      noHistorySource: "No history provider is wired up.",
+      noPreviousInput: "Nothing earlier was recorded for this workspace.",
+      restoredPreviousInput: "Your previous prompt is back.",
       restoredPreviousInputWithAttachments: (count) =>
-        `Restored previous input with ${count} attachment(s).`,
-      restorePreviousInputFailed: "Could not restore previous input.",
-      typePrompt: "Type a question and press Enter.",
+        `Your previous prompt is back, together with ${count} attachment(s).`,
+      restorePreviousInputFailed: "The previous prompt could not be brought back.",
+      typePrompt: "Write your question, then hit Enter.",
     },
     modelConfigurationRequired: {
-      help: "Configure an API key in Knorvia Studio model settings. Use /model to view available models.",
+      help: "An API key is still missing. Add one under the Knorvia Studio model settings, or run /model to see what is on offer.",
       message:
-        "Configure an API key in Knorvia Studio model settings. Use /model to view available models.",
+        "An API key is still missing. Add one under the Knorvia Studio model settings, or run /model to see what is on offer.",
       status:
-        "Configure an API key in Knorvia Studio model settings. Use /model to view available models.",
-      title: "model setup required",
+        "An API key is still missing. Add one under the Knorvia Studio model settings, or run /model to see what is on offer.",
+      title: "model credentials are missing",
     },
     model: {
-      requestFailed: (message) => `Model request failed: ${message}`,
-      responseReceived: "Model response received.",
-      responseReceivedWithTokens: (tokens) => `Model response received. ${tokens} tokens.`,
+      requestFailed: (message) => `The model call did not go through: ${message}`,
+      responseReceived: "The model has answered.",
+      responseReceivedWithTokens: (tokens) => `The model has answered, using ${tokens} tokens.`,
       retryScheduled: ({ attempt, delay, maxAttempts, reason }) =>
-        `Retrying model request ${attempt}/${Math.max(1, maxAttempts - 1)} in ${delay}: ${reason}`,
-      streamStalled: "Model stream stalled.",
+        `Attempt ${attempt}/${Math.max(1, maxAttempts - 1)} of the model call starts in ${delay}; reported cause: ${reason}`,
+      streamStalled: "The model stream has gone quiet.",
     },
     sidebar: {
       subagents: {
-        title: "Subagents",
-        empty: "No subagents yet.",
-        emptyOutput: "No output yet.",
-        back: "← Main conversation",
-        readonly: "Read-only · Esc to return",
-        loading: "Loading subagent output...",
-        unavailable: "Subagent output unavailable.",
-        retry: "Retry",
-        more: "Load more",
-        pendingMain: "Main conversation needs your input — return to respond",
-        ended: (count) => `Ended (${count})`,
+        title: "Delegated agents",
+        empty: "Nothing has been delegated yet.",
+        emptyOutput: "This subagent has written nothing yet.",
+        back: "← back to the main thread",
+        readonly: "View only · press Esc to leave",
+        loading: "Fetching the subagent's output…",
+        unavailable: "The subagent's output cannot be read right now.",
+        retry: "Try again",
+        more: "fetch the rest",
+        pendingMain: "The main thread is waiting on you — switch back to answer",
+        ended: (count) => `Finished: ${count}`,
         status: {
-          running: "running",
-          waiting: "waiting",
-          blocked: "blocked",
-          success: "completed",
-          failed: "failed",
-          cancelled: "cancelled",
-          lost: "lost",
+          running: "working",
+          waiting: "awaiting input",
+          blocked: "held up",
+          success: "finished",
+          failed: "broke",
+          cancelled: "called off",
+          lost: "out of touch",
         },
       },
       api: {
-        empty: "No API calls yet.",
-        model: "Model",
-        more: (count) => `+${count} more`,
-        requests: "Requests",
-        server: "Server",
+        empty: "No provider calls have been made.",
+        model: "Model id",
+        more: (count) => `and ${count} besides`,
+        requests: "Calls",
+        server: "Endpoint",
       },
       cache: {
-        hit: "hit",
-        lastHit: "last hit",
-        lastMiss: "last miss",
-        readWrite: ({ read, write }) => `${read} read / ${write} write`,
-        total: "total",
+        hit: "served from cache",
+        lastHit: "newest cache hit",
+        lastMiss: "newest cache miss",
+        readWrite: ({ read, write }) => `${read} taken from cache / ${write} put into it`,
+        total: "in total",
       },
       context: {
-        cache: "Cache",
-        cacheReadWrite: "Cache R/W",
-        inputOutput: "I/O",
-        reason: "Reason",
-        tokens: "Tokens",
-        used: "Used",
-        window: "Window",
+        cache: "Cached",
+        cacheReadWrite: "cache in/out",
+        inputOutput: "in/out",
+        reason: "Thinking",
+        tokens: "Token count",
+        used: "Occupied",
+        window: "Capacity",
       },
       modifiedFiles: {
-        empty: "No file changes yet.",
-        more: (count) => `+${count} more`,
+        empty: "The workspace has not changed yet.",
+        more: (count) => `and ${count} besides`,
       },
       mcp: {
-        empty: "No MCP servers configured.",
-        loadFailed: "MCP status unavailable.",
-        loading: "Loading MCP status...",
-        more: (count) => `+${count} more`,
-        servers: "Servers",
+        empty: "No MCP servers are set up.",
+        loadFailed: "The MCP status could not be read.",
+        loading: "Reading MCP status…",
+        more: (count) => `and ${count} besides`,
+        servers: "MCP servers",
         status: {
-          connected: "connected",
-          connecting: "connecting",
-          disabled: "disabled",
-          disconnected: "disconnected",
-          failed: "failed",
-          untrusted: "untrusted",
+          connected: "live",
+          connecting: "dialling",
+          disabled: "switched off",
+          disconnected: "not live",
+          failed: "broke",
+          untrusted: "not trusted",
         },
-        summary: ({ connected, total }) => `${connected}/${total} connected`,
-        tools: (count) => `${count} ${count === 1 ? "tool" : "tools"}`,
+        summary: ({ connected, total }) => `${connected}/${total} MCP servers live`,
+        tools: (count) => (count === 1 ? `${count} available tool` : `${count} available tools`),
       },
       request: {
-        complete: "complete",
-        error: "error",
-        errorWithStatus: (statusCode) => `error ${statusCode}`,
-        pending: "pending",
+        complete: "done",
+        error: "failed",
+        errorWithStatus: (statusCode) => `failed with HTTP ${statusCode}`,
+        pending: "in flight",
       },
       status: {
-        last: "Last",
+        last: "Newest",
       },
       run: {
-        draft: "Draft",
-        draftChars: (count) => `${count} chars`,
-        draftEmpty: "empty",
-        messages: "Messages",
-        mode: "Mode",
-        model: "Model",
-        provider: "Provider",
-        thought: "Thought",
-        trace: "Trace",
-        turn: "Turn",
-        workspace: "Workspace",
+        draft: "Unsent",
+        draftChars: (count) => `${count} characters`,
+        draftEmpty: "nothing written",
+        messages: "Turns",
+        mode: "Permissions",
+        model: "Model name",
+        provider: "Vendor",
+        thought: "Reasoning",
+        trace: "Trace id",
+        turn: "Round",
+        workspace: "Work folder",
       },
       sections: {
-        apis: "APIs",
-        context: "Context",
-        mcp: "MCP",
-        modifiedFiles: "Modified Files",
-        run: "Run",
-        status: "Status",
-        todos: "Todos",
+        apis: "Provider calls",
+        context: "Window",
+        mcp: "MCP servers",
+        modifiedFiles: "Touched files",
+        run: "This run",
+        status: "State",
+        todos: "Checklist",
       },
-      shellSubtitle: "OpenTUI shell",
-      title: "Sidebar",
+      shellSubtitle: "shell built on OpenTUI",
+      title: "Side panel",
       todos: {
-        empty: "No todos yet.",
-        more: (count) => `+${count} more`,
-        progress: "Progress",
+        empty: "The checklist is empty.",
+        more: (count) => `and ${count} besides`,
+        progress: "Done so far",
       },
     },
     status: {
-      compactFailed: "Context compression failed.",
-      compacted: "Conversation compacted.",
-      compacting: "Compressing context...",
-      interruptedStreamDiscarded: "Interrupted model stream discarded.",
-      modelCalling: "Calling model...",
-      permissionRequested: (toolName) => `Permission requested for ${toolName}.`,
-      permissionResolved: (toolName) => `Permission resolved for ${toolName}.`,
-      ready: "Ready.",
-      recoveringStream: "Recovering interrupted model stream...",
-      retryingStream: "Retrying model stream...",
-      sessionResumed: "Session resumed.",
-      targetChanged: (action) => `Target ${action}.`,
-      thinking: "Thinking...",
-      toolCompleted: (toolName) => `Tool ${toolName} completed.`,
-      toolFailed: (toolName) => `Tool ${toolName} failed.`,
-      toolPending: (toolName) => `Tool ${toolName} pending.`,
-      toolRunning: (toolName) => `Tool ${toolName} running.`,
-      turnFailed: "Turn failed.",
+      compactFailed: "The conversation could not be compressed.",
+      compacted: "The conversation has been compressed.",
+      compacting: "Compressing the conversation…",
+      interruptedStreamDiscarded: "The half-arrived model stream was thrown away.",
+      modelCalling: "Waiting on the model…",
+      permissionRequested: (toolName) => `Approval is needed before ${toolName} can run.`,
+      permissionResolved: (toolName) => `Approval for ${toolName} has been settled.`,
+      ready: "Standing by.",
+      recoveringStream: "Reconnecting to the interrupted model stream…",
+      retryingStream: "Starting the model stream again…",
+      sessionResumed: "The session continues where it left off.",
+      targetChanged: (action) => `The goal was ${action}.`,
+      thinking: "Reasoning…",
+      toolCompleted: (toolName) => `${toolName} finished.`,
+      toolFailed: (toolName) => `${toolName} failed.`,
+      toolPending: (toolName) => `${toolName} is queued.`,
+      toolRunning: (toolName) => `${toolName} is running.`,
+      turnFailed: "This round did not finish.",
     },
     terminal: {
-      requiresInteractive: "TUI requires an interactive terminal.",
-      starting: "Starting Knorvia Studio... Ctrl+C to exit",
+      requiresInteractive: "The TUI only runs inside an interactive terminal.",
+      starting: "Bringing up Knorvia Studio… press Ctrl+C to leave",
     },
     transcript: {
       compact: {
-        completed: "Context compressed",
-        failed: "Context compression failed",
-        interrupted: "Context compression interrupted",
-        retry: (command) => `Ctrl-R to retry ${command}`,
+        completed: "The conversation was compressed",
+        failed: "Compression did not succeed",
+        interrupted: "Compression was cut short",
+        retry: (command) => `Press Ctrl-R to run ${command} again`,
         retrying: ({ attempt, maxAttempts }) =>
-          maxAttempts > 0
-            ? `Retrying context compression (${attempt}/${maxAttempts})`
-            : "Retrying context compression",
-        skipped: "Context is up to date; no compression needed",
-        started: "Compressing context",
+          maxAttempts > 0 ? `Compressing again (${attempt}/${maxAttempts})` : "Compressing again",
+        skipped: "Nothing to compress: the conversation is already current",
+        started: "Compression has started",
       },
       roles: {
-        agent: "Agent",
+        agent: "Assistant",
         system: "System",
-        user: "User",
+        user: "You",
       },
       thought: {
-        complete: "Thought",
-        thinking: "Thinking...",
+        complete: "Reasoning",
+        thinking: "Reasoning…",
       },
-      title: "Transcript",
+      title: "Conversation",
       workflow: {
-        actors: "actors:",
-        actorRow: ({ name, status }) => `${name} - ${status}`,
-        usage: ({ spentTokens }) => `usage: ${spentTokens} tokens`,
+        actors: "participants:",
+        actorRow: ({ name, status }) => `${name} (${status})`,
+        usage: ({ spentTokens }) => `${spentTokens} tokens spent`,
         collapsed: ({ label, status, nodesSettled, nodesTotal }) =>
-          `Workflow ${label} - ${status} (${nodesSettled}/${nodesTotal} steps)`,
-        error: (message) => `error: ${message}`,
-        expandHint: "+ to expand",
-        collapseHint: "- to collapse",
-        log: "log:",
-        nodes: ({ nodesSettled, nodesTotal }) => `${nodesSettled}/${nodesTotal} steps settled`,
-        result: (preview) => `result: ${preview}`,
+          `Run "${label}" is ${status} (${nodesSettled}/${nodesTotal} steps settled)`,
+        error: (message) => `failed with: ${message}`,
+        expandHint: "press + to unfold",
+        collapseHint: "press - to fold",
+        log: "events:",
+        nodes: ({ nodesSettled, nodesTotal }) =>
+          `${nodesSettled}/${nodesTotal} steps settled so far`,
+        result: (preview) => `output: ${preview}`,
         status: {
-          completed: "completed",
-          errored: "errored",
-          pending: "pending",
-          running: "running",
-          stopped: "stopped",
+          completed: "finished",
+          errored: "failed",
+          pending: "not started",
+          running: "in progress",
+          stopped: "halted",
         },
         stopReason: {
-          user: "by you",
-          model: "by the agent",
-          provider: "model error",
-          interrupted: "process exited",
-          superseded: "superseded by an amended run",
+          user: "halted by you",
+          model: "halted by the assistant",
+          provider: "vendor-side error",
+          interrupted: "the process went away",
+          superseded: "replaced by a newer run",
         },
-        truncated: "(truncated - full history in the run journal)",
+        truncated: "(cut short — the run journal keeps the whole story)",
         interruptedNotice: ({ label, runId }) =>
-          `Workflow ${label} was interrupted and can be resumed: /dwf resume ${runId}`,
+          `Run "${label}" was cut short. To pick it up again: /dwf resume ${runId}`,
       },
     },
     selection: {
-      defaultHelp: "Enter selects, Esc cancels",
-      disabled: (reason) => ` [disabled: ${reason}]`,
+      defaultHelp: "Enter takes it, Esc backs out",
+      disabled: (reason) => ` [not available: ${reason}]`,
       filterLine: ({ filter, help }) =>
-        `filter: ${filter || "-"} | ${help ?? "Enter selects, Esc cancels"}`,
+        `narrowed by "${filter || "-"}" | ${help ?? "Enter takes it, Esc backs out"}`,
       noFilter: "-",
     },
     fileMention: {
-      empty: "No matching workspace paths.",
-      loading: "Loading workspace paths...",
-      row: ({ path, selected }) => `${selected ? ">" : " "} ${path}`,
-      title: "Files",
+      empty: "No workspace path fits that.",
+      loading: "Reading workspace paths…",
+      row: ({ path, selected }) => `${selected ? ">" : "·"} ${path}`,
+      title: "Paths",
     },
     slash: {
-      title: "Commands",
-      row: ({ name, selected, summary }) => `${selected ? ">" : " "} /${name}  ${summary}`,
+      title: "Slash commands",
+      row: ({ name, selected, summary }) => `${selected ? ">" : "·"} /${name} — ${summary}`,
     },
   },
 };
+
+/** 帮助正文按段落拼装，命令与选项清单与 CLI 实际注册表一致。 */
+function buildHelp(version: string): string {
+  return `Knorvia Studio Agent ${version}
+
+How to call it:
+  knorvia <command> [options]
+
+Called without a command, knorvia takes over the screen with its TUI.
+
+Commands you can run:
+  app-server  Serve the Knorvia Studio Protocol over stdio
+  commands    Show the custom slash commands you defined (\`commands list\`)
+  doctor      Report on the runtime and how the build was packaged
+  plugins     Handle plugins and marketplaces (\`plugins list|install|uninstall|enable|disable|update|validate|marketplace ...\`; also spelled plugin)
+  skills      Show the skills installed here (\`skills list\`)
+  tui         Take over the screen with the terminal UI
+  version     Report the CLI version
+
+Flags:
+  -h, --help       Print this text
+  -v, --version    Report the version
+  -p, --prompt <text>  Send one prompt and exit instead of opening the TUI
+  --memory-bench   Together with --prompt, run automatic Memory extraction and wait for it before exiting (Memory must be on)
+  --browser-use <mode>  Choose the Browser Use backend (the supported value is headless)
+  --surface <surface>  Where headless prompts and app-server render: terminal or desktop
+  --browser-executable <path>  Chrome/Chromium binary used by headless Browser Use
+  --attach <path>  Add a local file to --prompt; pass it again for more files
+  --cwd <path>     Run the command as if started in this directory
+  --disallowed-tools, --disallowedTools <tools...>
+    Drop whole tools for this prompt/TUI run; nothing is written to saved settings.
+    Separate names with commas or spaces, for example "Bash Edit".
+    "Bash(git *)" still drops all of Bash; command patterns are never matched.
+  --force-mcs      Force mid-conversation system projection for Anthropic vendors
+  --locale <locale>  Language of the UI: en-US, zh-CN, or auto
+  --mode <mode>    Permission mode for prompts: build, edit, plan, or yolo (yolo is the default for --prompt)
+  --resume <sessionId>  Continue a stored session by its sessionId (sess_...)
+  --target <text>  Run, or set, the session goal while headless
+  --target-replace  Overwrite a goal that --target set earlier
+  -c, --continue        Continue the newest session of this directory
+  --json           Emit machine-readable JSON where a command supports it
+  --no-color       Strip ANSI colours
+  --verbose        Narrate what the CLI is doing
+
+Slash commands:
+  /help [command]       Print help for a slash command
+  /compact [instructions]  Compress the conversation so far
+  /expert [status|resume|stop|<task>]  Run, or steer, the expert workflow
+  /dwf [list|cancel|resume]  List, cancel, or resume dynamic workflow runs
+  /fork [latest|checkpointId]  Branch a new session off a workspace checkpoint
+  /mcp [list|status|connect|disconnect]  Inspect or operate MCP servers
+  /mode [mode]          Read or change the permission mode: build, edit, plan, or yolo
+  /model [id]           Read or change the model of this session
+  /new                  Begin a new session inside the TUI
+  /resume [sessionId]   Continue a session by sessionId; leave it out for the newest one here
+  /rewind [latest|checkpointId]  Show the newest checkpoint, or restore workspace files
+  /skill [name] [task]  List skills, or make the next prompt load a particular one
+  /goal [action]        Read or set the goal of this session
+`;
+}
