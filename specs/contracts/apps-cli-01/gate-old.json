@@ -1,0 +1,47 @@
+{
+  "contract": "apps-cli-01",
+  "commit": "1710e553d26ba63165afc83e80de9289aa3ac3f2",
+  "node": "v24.14.0",
+  "generatedAt": "2026-10-19T05:49:17.736Z",
+  "runner": "scripts/contract-gate.mjs",
+  "testFiles": [
+    "specs/contracts/apps-cli-01/tests/clean-dist.test.mjs",
+    "specs/contracts/apps-cli-01/tests/count-ts-lines.test.mjs",
+    "specs/contracts/apps-cli-01/tests/generate-bash-command-registry.test.mjs"
+  ],
+  "sourceFrom": "src",
+  "entries": {
+    "source": {
+      "exitCode": 0,
+      "tests": 17,
+      "pass": 17,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0,
+      "outputTail": "✔ B14 导入模块不触发扫描，导出函数可直接调用 (26.794251ms)\n✔ B15 --check 与已提交注册表逐字节比较并输出摘要 (1874.480281ms)\n✔ B16 --output 写出与仓库文件逐字节相同的注册表、相对 cwd 解析并创建父目录 (2328.132233ms)\n✔ B17 生成幂等：两次 --output 字节一致 (2080.892247ms)\n✔ B18 输出模板与跨平台内容哈希 (950.822876ms)\n✔ B19 默认输出路径固定相对脚本位置而不是 cwd (2710.372445ms)\nℹ tests 17\nℹ suites 0\nℹ pass 17\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 10904.787827"
+    },
+    "dist": {
+      "exitCode": 0,
+      "tests": 17,
+      "pass": 17,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0,
+      "outputTail": "✔ B14 导入模块不触发扫描，导出函数可直接调用 (27.30969ms)\n✔ B15 --check 与已提交注册表逐字节比较并输出摘要 (1002.149041ms)\n✔ B16 --output 写出与仓库文件逐字节相同的注册表、相对 cwd 解析并创建父目录 (1987.456908ms)\n✔ B17 生成幂等：两次 --output 字节一致 (2184.886275ms)\n✔ B18 输出模板与跨平台内容哈希 (1083.970615ms)\n✔ B19 默认输出路径固定相对脚本位置而不是 cwd (2903.913884ms)\nℹ tests 17\nℹ suites 0\nℹ pass 17\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 11048.374542",
+      "environment": {
+        "KNORVIA_CLI01_ENTRY": "process"
+      },
+      "loader": null
+    }
+  },
+  "stubReplacement": {
+    "replacedFiles": 3,
+    "tests": 17,
+    "pass": 0,
+    "fail": 17,
+    "allFail": true,
+    "exitCode": 1,
+    "outputTail": "  \n  1 !== 0\n  \n      at TestContext.<anonymous> (file:///workspace/wt-ac01/specs/contracts/apps-cli-01/tests/generate-bash-command-registry.test.mjs:113:10)\n      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n      at async Test.run (node:internal/test_runner/test:1125:7)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:787:7) {\n    generatedMessage: false,\n    code: 'ERR_ASSERTION',\n    actual: 1,\n    expected: 0,\n    operator: 'strictEqual',\n    diff: 'simple'\n  }"
+  },
+  "pass": true
+}

@@ -12,16 +12,14 @@ const trimmedRequiredText = z.string().trim().min(1);
 const SHARE_URL_RULE = "shareUrl must use the canonical /cn/share/<code> path";
 
 // 分享链接必须是 http(s) 且 pathname 严格等于 /cn/share/<code>：query 与 hash 一律不收，
-// 否则同一个会话会因为带了追踪参数被当成两条不同的 provenance。URL 构造失败即判否。
+// 否则同一个会话会因为带了追踪参数被当成两条不同的 provenance。先过 URL.canParse，
+// 构造这一步只在解析器确认可解析之后发生，因此校验路径自己不需要异常兜底。
 const canonicalShareUrl = (value: string): boolean => {
-  try {
-    const parsed = new URL(value);
-    const httpFamily = parsed.protocol === "https:" || parsed.protocol === "http:";
-    const scopedPath = /^\/cn\/share\/[^/]+$/u.test(parsed.pathname);
-    return httpFamily && parsed.search === "" && parsed.hash === "" && scopedPath;
-  } catch {
-    return false;
-  }
+  if (!URL.canParse(value)) return false;
+  const { protocol, pathname, search, hash } = new URL(value);
+  const httpFamily = protocol === "https:" || protocol === "http:";
+  const scopedPath = /^\/cn\/share\/[^/]+$/u.test(pathname);
+  return httpFamily && search === "" && hash === "" && scopedPath;
 };
 
 // 生命周期四态按引擎推进顺序排列，顺序本身不是协议，取值才是。

@@ -1,0 +1,25 @@
+{
+  "contract": "node-repl-host-broker",
+  "version": "v1",
+  "commit": "1091e45ede9bdd46007baed81e0bbcda0573b000",
+  "node": "v24.14.0",
+  "generatedAt": "2026-10-19T04:06:54.548Z",
+  "testFiles": ["specs/contracts/node-repl-host-broker/tests/broker-transaction.test.ts"],
+  "caseCount": 19,
+  "pass": 19,
+  "fail": 0,
+  "preRegisteredDifferences": [],
+  "entries": {
+    "source": {
+      "entry": "source",
+      "exitCode": 0,
+      "tests": 19,
+      "pass": 19,
+      "fail": 0,
+      "skipped": 0,
+      "outputTail": "✔ B4 对端断连与拒绝连接明确失败 (1.508728ms)\n✔ B4 序列化异常不会结束宿主进程 (192.006491ms)\n✔ B5 超过 32 MiB 的响应有界失败且不回显正文 (83.409265ms)\n✔ B6 并发事务隔离 UUID、载荷与取消状态 (3.942021ms)\nℹ tests 19\nℹ suites 0\nℹ pass 19\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 535.561351"
+    },
+    "dist": null
+  },
+  "distNote": "No standalone dist module: the package emits declarations to dist-types and bundles src/server.ts to dist/mcp/server.js; broker-transaction is not a package export."
+}
