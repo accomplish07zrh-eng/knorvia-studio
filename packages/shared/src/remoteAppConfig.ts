@@ -5,10 +5,10 @@ type LocaleUrlMap = Partial<Record<Locale, string>>;
 type ConfigBag = Record<string, unknown>;
 type UrlReader = (config: unknown) => string | undefined;
 
-/** 远程配置是外部 JSON：只把「非数组对象」当作可读字段袋，其余形态一律按缺失处理。 */
+/** 远程配置是外部 JSON：对象（含数组实例上挂的字段）都可作为可读字段袋，其余形态按缺失处理。 */
 const asBag = (value: unknown): ConfigBag | undefined => {
-  const isPlainObject = typeof value === "object" && value !== null && !Array.isArray(value);
-  return isPlainObject ? (value as ConfigBag) : undefined;
+  const isObjectValue = typeof value === "object" && value !== null;
+  return isObjectValue ? (value as ConfigBag) : undefined;
 };
 
 /** URL 只按「trim 后非空」准入；返回值保留原样，由展示层决定是否规整。 */

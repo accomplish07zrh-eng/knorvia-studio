@@ -154,10 +154,12 @@ export const isOfficialMcpOriginTrusted = (
   const candidate = input.origin.trim();
   if (candidate.length === 0) return BAD_INPUT;
 
+  // 回环地址未命中开发白名单时不能直接判 mismatch：仍要落到 API origin 检查，
+  // 缺失/非法 API origin 的既有结论是 unresolved。
   const local = loopbackOrigin(candidate);
   if (local !== undefined) {
     const allowed = devAllowList(input.devTrustedOriginsRaw);
-    return allowed.some((entry) => loopbackOrigin(entry) === local) ? OK : MISMATCH;
+    if (allowed.some((entry) => loopbackOrigin(entry) === local)) return OK;
   }
 
   const apiOrigin = input.knorviaApiOrigin ? httpsOrigin(input.knorviaApiOrigin) : undefined;

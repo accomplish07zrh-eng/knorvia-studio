@@ -55,8 +55,8 @@ const present = (value: string | null | undefined): string => (value ?? "").trim
 
 export const resolveWorkspaceTelemetryDetail = (scope: UsageScope): WorkspaceDetail => {
   const identity = present(scope.workspaceIdentity);
-  const sessionId = present(scope.remoteSessionId);
-  const isRemote = identity.length > 0 || sessionId.length > 0;
+  // identity 已足够判定远端时短路，remoteSessionId getter 必须保持惰性。
+  const isRemote = identity.length > 0 || present(scope.remoteSessionId).length > 0;
   const parsed = identity.length > 0 ? parseRemoteWorkspaceIdentity(identity) : null;
   return { workspace_kind: isRemote ? "remote" : "local", remote_kind: parsed?.kind ?? "" };
 };

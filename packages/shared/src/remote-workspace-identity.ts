@@ -22,7 +22,8 @@ const IDENTITY_GRAMMARS: Record<RemoteWorkspaceIdentityKind, RegExp> = {
 
 /** 反斜杠先当分隔符处理，空段丢弃，保证同一工作区只有一种身份写法。 */
 const normalizeRemotePath = (workspacePath: string): string => {
-  const segments = workspacePath.replaceAll("\\", "/").split("/").filter(Boolean);
+  // 保持 .replace 调用形态：非字符串入参的抛错文本是既有观测行为。
+  const segments = workspacePath.replace(/\\/g, "/").split("/").filter(Boolean);
   return `/${segments.join("/")}`;
 };
 
