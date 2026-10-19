@@ -1,7 +1,7 @@
 import { createHash } from "node:crypto";
 import { mkdtemp, mkdir, readFile, readdir, rm, stat, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { basename, dirname, join, resolve } from "node:path";
+import { basename, dirname, join, resolve, sep } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
 const FIG_VERSION = "2.692.3";
@@ -192,7 +192,12 @@ async function hashBuildFiles(directory) {
   const files = await listFiles(directory);
   const hash = createHash("sha256");
   for (const filePath of files) {
-    const relativePath = filePath.slice(directory.length + 1);
+    // 修复 #211：Windows 的 join() 产出反斜杠相对路径，哈希与仓库里 posix 分隔符算出的值不同，
+    // 导致 --check 在 Windows 上必然报 stale；哈希前统一为 "/" 使两平台得到同一哈希。
+    const relativePath = filePath
+      .slice(directory.length + 1)
+      .split(sep)
+      .join("/");
     hash.update(relativePath);
     hash.update("\0");
     hash.update(await readFile(filePath));
