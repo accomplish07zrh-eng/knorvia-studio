@@ -144110,7 +144110,7 @@
     },
     {
       "path": "docs/knorvia-dynamic-workflow-02-acceptance.md",
-      "normalizedSha256": "4f09b8e66cfbcbfcc564f2802f460edea1b9ca8b9a1d25cb5da9f3e34f6d0ee7",
+      "normalizedSha256": "7149fffbdb9a0086aca4d090513d8e338e1751de10174ff58ac63d461c677ddf",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored dynamic-workflow-02 replacement record (design or acceptance document), written for this package; it records the 41 rewritten sources, the 41/41 similarity results (29 ordinary + 12 declaration mode), the 420/420 contract gates in both modes, the v3 provenance registration and the downstream core hash re-pin.",
