@@ -146724,6 +146724,32 @@
       "license": "Apache-2.0",
       "basis": "Acceptance record for the node-repl-host-broker rework (#197): per-file similarity values, old-gate and new-contract results, gate summary, first failures and fixes, provenance plan and uncovered risks; produced by this agent from contract v1 and measured tool output.",
       "evidence": ["specs/contracts/node-repl-host-broker/gate-old.json"]
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/scripts/generate-libs.mjs",
+      "normalizedSha256": "a593a04fbe439c0a9121501235c7a2aca0e0133d7e9a4f33f339f64408e6800e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia independent rewrite of dynamic-workflow-03 stdlib generator (scripts/generate-libs.mjs) per coordinator ruling on issue #208. The script embeds the TypeScript stdlib closure for SEA/bundler execution and is required by build and typecheck. The author read the inherited script to understand generation requirements and rewrote independently: an async pipeline using import.meta.resolve and node:fs/promises with deterministic sorting and idempotency short-circuit. It was measured against the pinned upstream tree 872ad960 with the M0-8 similarity tool: max line containment 0.114 (packages/desktop/scripts/bundle.mjs), longest identical run 2 (.vscode/vite-dev.mjs), structural similarity 0.000 (none), below the 0.2 / 8 / 0.4 thresholds. Both line and structural gates pass. No code was copied, renamed or rewritten line by line.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "apps/cli/packages/dynamic-workflow/package.json",
+        "scripts/build-desktop-agent-cli.mjs",
+        "docs/knorvia-dynamic-workflow-03-acceptance.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-dynamic-workflow-03-acceptance.md",
+      "normalizedSha256": "cad9fc39b870fc4a2c318f033bcd265e835b78e84691f35bc5b10f8f34ba62e3",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored dynamic-workflow-03 acceptance record (M0/M2 batch for issue #208). It records that scratch/run.mjs and scripts/generate-mermaid.mjs were confirmed deleted with no live build/test references, that scripts/generate-libs.mjs is kept and independently rewritten to pass the similarity gate per coordinator ruling, the measured similarity gate readings, and the full gate verification.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "apps/cli/packages/dynamic-workflow/package.json",
+        "apps/cli/packages/dynamic-workflow/scripts/generate-libs.mjs",
+        "scripts/build-desktop-agent-cli.mjs"
+      ]
     }
   ]
 }
