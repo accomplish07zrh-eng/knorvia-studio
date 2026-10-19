@@ -143400,10 +143400,10 @@
     },
     {
       "path": "specs/contracts/kernel-dsh-00/tests/engine-selection.test.mjs",
-      "normalizedSha256": "02676547d4a91b6bf7dbd030492b0ca87a434d10b6a285fa74dc6ef55fb0706e",
+      "normalizedSha256": "e66f9499df6f1d9fe3efd4da504cd12d4126f8de2011e95b901e514813bb7aad",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored kernel-dsh-00 contract test/support artifact for the DSH-backed built-in kernel (M2). Assertions are written from the kernel-dsh-00 contract and exercise black-box CLI or public host behavior; no DSH source and no inherited runtime implementation was copied. Similarity against create-app.ts, protocol-entrypoint.ts, core/src/runtime/** and zai-org/ZCode@872ad960: max line containment 0.094, longest identical run 3, structural similarity 0.036.",
+      "basis": "Knorvia-authored kernel-dsh-00 contract test/support artifact for the DSH-backed built-in kernel (M2). Assertions are written from the kernel-dsh-00 contract and exercise black-box CLI or public host behavior; no DSH source and no inherited runtime implementation was copied. Similarity against create-app.ts, protocol-entrypoint.ts, core/src/runtime/** and zai-org/ZCode@872ad960: max line containment 0.096, longest identical run 2, structural similarity 0.036.",
       "evidence": [
         "specs/contracts/kernel-dsh-00/README.md",
         "specs/contracts/kernel-dsh-00/behavior.md",
@@ -143510,7 +143510,7 @@
     },
     {
       "path": "docs/knorvia-kernel-dsh-00-acceptance.md",
-      "normalizedSha256": "314c7167dc036ede9608c500b35974b62615a05cd995c3a45ca958cd873721bc",
+      "normalizedSha256": "c0ef98379b6f3006d829f9893126b2e43a5678a1df5bc2bc73c7597d193ef0b7",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored implementation acceptance record for kernel-dsh-00. Records scope, contract test counts, first failures and fixes, measured similarity values for 22 new files, third-party registration and deferred items. Written from the kernel-dsh-00 contract and actual local runs; no DSH source or inherited implementation was copied.",
