@@ -1,91 +1,99 @@
+// SPDX-License-Identifier: Apache-2.0
 import ts from "typescript";
 import type { JsonSchema, JsonValue } from "./types.js";
 
-/**
- * JSDoc 采集：把符号（interface 成员、类型别名、ask 结果类型）上的文档注释与受支持的
- * 约束标签抽成 JSON Schema 片段。
- *
- * - 文档正文 → `description`。
- * - 标签子集 → 约束关键字：`@minimum @maximum @exclusiveMinimum @exclusiveMaximum
- *   @minLength @maxLength @pattern @format @minItems @maxItems @default`。
- *
- * 子集之外的标签被静默忽略（不是错误）。
- */
+// Knorvia dynamic-workflow schema constraint harvesting from TypeScript JSDoc comments and tags.
 
-/** 取数值的标签 → 对应的数值型关键字名。 */
-const NUMERIC_TAGS: Record<string, keyof JsonSchema> = {
-  exclusiveMaximum: "exclusiveMaximum",
-  exclusiveMinimum: "exclusiveMinimum",
-  maximum: "maximum",
-  maxItems: "maxItems",
-  maxLength: "maxLength",
-  minimum: "minimum",
-  minItems: "minItems",
-  minLength: "minLength",
-};
+class TagConstraintCollector {
+  private readonly attributes: Partial<JsonSchema> = {};
 
-/** 取字符串的标签 → 对应的字符串型关键字名。 */
-const STRING_TAGS: Record<string, keyof JsonSchema> = {
-  format: "format",
-  pattern: "pattern",
-};
+  extractDoc(sym: ts.Symbol, typeChecker: ts.TypeChecker): void {
+    const parts = sym.getDocumentationComment(typeChecker);
+    const docString = ts.displayPartsToString(parts).trim();
+    if (docString.length > 0) {
+      this.attributes.description = docString;
+    }
+  }
 
-/**
- * 采集一个符号上的 description 与约束标签，返回一个只含相关关键字的 schema 片段，
- * 供合成侧合并进该符号对应的 schema。
- */
+  processTag(tagInfo: ts.JSDocTagInfo): void {
+    const pieces = tagInfo.text;
+    const textContent = pieces ? ts.displayPartsToString(pieces).trim() : "";
+    const key = tagInfo.name;
+
+    switch (key) {
+      case "minimum":
+      case "maximum":
+      case "exclusiveMinimum":
+      case "exclusiveMaximum":
+      case "minLength":
+      case "maxLength":
+      case "minItems":
+      case "maxItems": {
+        const parsedNum = Number(textContent);
+        if (Number.isFinite(parsedNum)) {
+          (this.attributes as Record<string, unknown>)[key] = parsedNum;
+        }
+        break;
+      }
+      case "pattern":
+      case "format": {
+        if (textContent.length > 0) {
+          (this.attributes as Record<string, unknown>)[key] = textContent;
+        }
+        break;
+      }
+      case "default": {
+        this.attributes.default = this.decodeDefaultValue(textContent);
+        break;
+      }
+      default:
+        break;
+    }
+  }
+
+  private decodeDefaultValue(rawText: string): JsonValue {
+    if (rawText.length === 0) {
+      return "";
+    }
+    try {
+      const parsed: unknown = JSON.parse(rawText);
+      return parsed as JsonValue;
+    } catch {
+      return rawText;
+    }
+  }
+
+  build(): Partial<JsonSchema> {
+    return this.attributes;
+  }
+}
+
+// Harvest description and schema constraint tags attached to a TypeScript symbol.
 export function harvestConstraints(
   symbol: ts.Symbol,
   checker: ts.TypeChecker,
 ): Partial<JsonSchema> {
-  const out: Partial<JsonSchema> = {};
-
-  const doc = ts.displayPartsToString(symbol.getDocumentationComment(checker)).trim();
-  if (doc.length > 0) out.description = doc;
-
-  for (const tag of symbol.getJsDocTags(checker)) applyTag(out, tag);
-  return out;
+  const collector = new TagConstraintCollector();
+  collector.extractDoc(symbol, checker);
+  const tagList = symbol.getJsDocTags(checker);
+  for (const tag of tagList) {
+    collector.processTag(tag);
+  }
+  return collector.build();
 }
 
-function applyTag(out: Partial<JsonSchema>, tag: ts.JSDocTagInfo): void {
-  const raw = ts.displayPartsToString(tag.text).trim();
-
-  const numericKey = NUMERIC_TAGS[tag.name];
-  if (numericKey !== undefined) {
-    const value = Number(raw);
-    if (Number.isFinite(value)) (out as Record<string, unknown>)[numericKey] = value;
-    return;
-  }
-
-  const stringKey = STRING_TAGS[tag.name];
-  if (stringKey !== undefined) {
-    if (raw.length > 0) (out as Record<string, unknown>)[stringKey] = raw;
-    return;
-  }
-
-  if (tag.name === "default") {
-    out.default = parseDefault(raw);
-  }
-  // 子集之外的标签：忽略。
-}
-
-/** `@default` 的值先按 JSON 解析（数字/布尔/对象/数组/带引号字符串），失败则当作裸字符串。 */
-function parseDefault(raw: string): JsonValue {
-  if (raw.length === 0) return "";
-  try {
-    return JSON.parse(raw) as JsonValue;
-  } catch {
-    return raw;
-  }
-}
-
-/** 把采集到的片段合并进已有 schema：约束关键字补充上去，description 不覆盖已有值。 */
+// Combine harvested JSDoc constraints with an existing JsonSchema.
+// Keeps any existing description on the target schema.
 export function mergeConstraints(schema: JsonSchema, extra: Partial<JsonSchema>): JsonSchema {
-  const merged: JsonSchema = { ...schema };
-  for (const [key, value] of Object.entries(extra)) {
-    if (value === undefined) continue;
-    if (key === "description" && merged.description !== undefined) continue;
-    (merged as Record<string, unknown>)[key] = value;
+  const combined: JsonSchema = { ...schema };
+  for (const [attrName, attrValue] of Object.entries(extra)) {
+    if (attrValue === undefined) {
+      continue;
+    }
+    if (attrName === "description" && combined.description !== undefined) {
+      continue;
+    }
+    (combined as Record<string, unknown>)[attrName] = attrValue;
   }
-  return merged;
+  return combined;
 }

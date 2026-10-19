@@ -1,173 +1,185 @@
-/**
- * 预置产物 spec 的形状校验。
- *
- * ⚠ 术语：artifact = **用户面产物**（脚本发布给用户看的看板），不是 `RunSettlement.artifact`
- * 那个顶层返回值。
- *
- * 为什么校验在**引擎核心**而不是 driver：预置声明根本不过 driver（它没有可执行的效应），
- * 而一个形状不合法的 spec 必须在落 journal 之前被拦下——journal 里的记录是投影与冷恢复的
- * 唯一真相，一条画不出来的 spec 落了库就会在每个读面上重新炸一次。
- *
- * 为什么是手写而不是 zod：本包零运行时依赖（facade / 编译 / 引擎全部只靠 typescript），
- * 而 spec 的形状小到一屏。加一个 schema 库来校验四个对象，代价是把整条纯包的依赖前提改掉。
- *
- * 返回**人可读的一句话**而不是 boolean：这条消息会经 `ArtifactSpecInvalid` 落进 run 的
- * failure_json，读者（模型或作者）要据它改脚本，"invalid spec" 帮不上任何忙。
- */
-
+// SPDX-License-Identifier: Apache-2.0
 import { ARTIFACT_CAPS } from "../facade/artifact-caps.js";
 import type { ArtifactPresetOp } from "../facade/registry.js";
 import { canonicalJson } from "./hash.js";
 
-/** 一条不合法的理由；`undefined` 即通过。 */
 type ArtifactSpecProblem = string | undefined;
 
-/**
- * 校验一个预置 spec。`op` 决定必填字段，公共部分（title / description 的长度）四种都查。
- * 通过的 spec 保证：是普通对象、必填字段在场且形状正确、规范化后不超 8KB。
- */
-export function validateArtifactSpec(op: ArtifactPresetOp, spec: unknown): ArtifactSpecProblem {
-  if (!isPlainObject(spec)) return `${op} spec must be an object literal, got ${describe(spec)}`;
-
-  const common = checkOptions(spec);
-  if (common !== undefined) return common;
-
-  const shape = checkShape(op, spec);
-  if (shape !== undefined) return shape;
-
-  // 体积上限最后查：先给出形状上的具体错误，再谈大小——一个既畸形又过大的 spec，作者要先
-  // 知道它畸形在哪。
-  const bytes = utf8ByteLength(canonicalJson(spec));
-  if (bytes > ARTIFACT_CAPS.maxSpecSerializedBytes) {
-    return `${op} spec is ${bytes} bytes serialized, over the ${ARTIFACT_CAPS.maxSpecSerializedBytes}-byte limit`;
+class SpecValidationContext {
+  // 格式化错误回显中的值类型
+  formatType(val: unknown): string {
+    if (val === null) return "null";
+    if (Array.isArray(val)) return `array (${val.length} items)`;
+    if (typeof val === "string") return JSON.stringify(val.slice(0, 40));
+    return typeof val === "object" ? "object" : String(val);
   }
-  return undefined;
-}
 
-function checkShape(op: ArtifactPresetOp, spec: Record<string, unknown>): ArtifactSpecProblem {
-  if (op === "chart") {
-    const x = checkField(spec.x, "x");
-    if (x !== undefined) return x;
-    const y = spec.y;
+  isNonBlank(candidate: unknown): candidate is string {
+    return typeof candidate === "string" && candidate.trim() !== "";
+  }
+
+  // 验证通用属性：title, description, primary
+  validateMeta(dict: Record<string, unknown>): ArtifactSpecProblem {
+    const { title, description, primary } = dict;
+
+    if (title !== undefined) {
+      if (typeof title !== "string") {
+        return `spec title must be a string, got ${this.formatType(title)}`;
+      }
+      if (title.length > ARTIFACT_CAPS.maxTitleLength) {
+        return `spec title is ${title.length} characters, over the ${ARTIFACT_CAPS.maxTitleLength} limit`;
+      }
+    }
+
+    if (description !== undefined) {
+      if (typeof description !== "string") {
+        return `spec description must be a string, got ${this.formatType(description)}`;
+      }
+      if (description.length > ARTIFACT_CAPS.maxDescriptionLength) {
+        return `spec description is ${description.length} characters, over the ${ARTIFACT_CAPS.maxDescriptionLength} limit`;
+      }
+    }
+
+    if (primary !== undefined && typeof primary !== "boolean") {
+      return `spec primary must be a boolean, got ${this.formatType(primary)}`;
+    }
+  }
+
+  // 验证单个字段描述节点
+  validateFieldNode(target: unknown, locator: string): ArtifactSpecProblem {
+    if (typeof target !== "object" || target === null || Array.isArray(target)) {
+      return `spec ${locator} must be { field: "…" }, got ${this.formatType(target)}`;
+    }
+    const item = target as Record<string, unknown>;
+    if (!this.isNonBlank(item.field)) {
+      return `spec ${locator}.field must be a non-empty string (a dot path into the item, e.g. "timing.after")`;
+    }
+    for (const key of ["label", "unit"] as const) {
+      const v = item[key];
+      if (v !== undefined && typeof v !== "string") {
+        return `spec ${locator}.${key} must be a string, got ${this.formatType(v)}`;
+      }
+    }
+  }
+
+  // 验证字段列表
+  validateFieldList(collection: unknown, locator: string): ArtifactSpecProblem {
+    if (!Array.isArray(collection) || collection.length === 0) {
+      return `spec ${locator} must be a non-empty array of fields ({ field: "…" })`;
+    }
+    for (let i = 0; i < collection.length; i++) {
+      const issue = this.validateFieldNode(collection[i], `${locator}[${i}]`);
+      if (issue) return issue;
+    }
+  }
+
+  // 针对 chart 的专属约束
+  validateChart(record: Record<string, unknown>): ArtifactSpecProblem {
+    const errX = this.validateFieldNode(record.x, "x");
+    if (errX) return errX;
+
+    const y = record.y;
     if (Array.isArray(y)) {
-      if (y.length === 0) return "chart spec y is an empty array; give it at least one series";
-      for (const [index, entry] of y.entries()) {
-        const problem = checkField(entry, `y[${index}]`);
-        if (problem !== undefined) return problem;
+      if (y.length === 0) {
+        return "chart spec y is an empty array; give it at least one series";
+      }
+      for (let idx = 0; idx < y.length; idx++) {
+        const errY = this.validateFieldNode(y[idx], `y[${idx}]`);
+        if (errY) return errY;
       }
     } else {
-      const problem = checkField(y, "y");
-      if (problem !== undefined) return problem;
+      const errY = this.validateFieldNode(y, "y");
+      if (errY) return errY;
     }
-    if (spec.type !== undefined && !["line", "bar", "scatter"].includes(String(spec.type))) {
-      return `chart spec type must be "line", "bar" or "scatter", got ${describe(spec.type)}`;
+
+    if (record.type !== undefined) {
+      const chartType = String(record.type);
+      if (chartType !== "line" && chartType !== "bar" && chartType !== "scatter") {
+        return `chart spec type must be "line", "bar" or "scatter", got ${this.formatType(record.type)}`;
+      }
     }
-    if (spec.scale !== undefined && !["linear", "log"].includes(String(spec.scale))) {
-      return `chart spec scale must be "linear" or "log", got ${describe(spec.scale)}`;
+
+    if (record.scale !== undefined) {
+      const scaleType = String(record.scale);
+      if (scaleType !== "linear" && scaleType !== "log") {
+        return `chart spec scale must be "linear" or "log", got ${this.formatType(record.scale)}`;
+      }
     }
-    if (spec.baseline !== undefined) return checkField(spec.baseline, "baseline");
-    return undefined;
+
+    if (record.baseline !== undefined) {
+      return this.validateFieldNode(record.baseline, "baseline");
+    }
   }
-  if (op === "table") {
-    const columns = checkFieldList(spec.columns, "columns");
-    if (columns !== undefined) return columns;
-    if (spec.key !== undefined && !isNonEmptyString(spec.key)) {
+
+  // 针对 table 的专属约束
+  validateTable(record: Record<string, unknown>): ArtifactSpecProblem {
+    const colErr = this.validateFieldList(record.columns, "columns");
+    if (colErr) return colErr;
+
+    if (record.key !== undefined && !this.isNonBlank(record.key)) {
       return "table spec key must be a non-empty string (the field that identifies a row)";
     }
-    return undefined;
   }
-  if (op === "metrics") return checkFieldList(spec.metrics, "metrics");
-  // board
-  if (!isNonEmptyString(spec.key))
-    return "board spec key must be a non-empty string (the field that identifies a card)";
-  if (!isNonEmptyString(spec.status)) {
-    return "board spec status must be a non-empty string (the field that picks a card's column)";
-  }
-  if (!Array.isArray(spec.columns) || spec.columns.length === 0) {
-    return "board spec columns must be a non-empty array of strings (the column order)";
-  }
-  for (const [index, column] of spec.columns.entries()) {
-    if (!isNonEmptyString(column)) return `board spec columns[${index}] must be a non-empty string`;
-  }
-  // cardTitle 是**字段名**（哪个字段当卡片标题），与 ArtifactOptions.title（看板自己的标题）
-  // 是两回事——它们之前撞在同一个键上，改名正是为了让一块板能同时说出两者。
-  if (spec.cardTitle !== undefined && !isNonEmptyString(spec.cardTitle)) {
-    return "board spec cardTitle must be a non-empty string (the field used as the card title)";
-  }
-  if (spec.detail !== undefined) return checkFieldList(spec.detail, "detail");
-  return undefined;
-}
 
-/** 公共的展示元数据（`ArtifactOptions`）：类型与长度。 */
-function checkOptions(spec: Record<string, unknown>): ArtifactSpecProblem {
-  if (spec.title !== undefined) {
-    if (typeof spec.title !== "string")
-      return `spec title must be a string, got ${describe(spec.title)}`;
-    if (spec.title.length > ARTIFACT_CAPS.maxTitleLength) {
-      return `spec title is ${spec.title.length} characters, over the ${ARTIFACT_CAPS.maxTitleLength} limit`;
+  // 针对 board 的专属约束
+  validateBoard(record: Record<string, unknown>): ArtifactSpecProblem {
+    if (!this.isNonBlank(record.key)) {
+      return "board spec key must be a non-empty string (the field that identifies a card)";
+    }
+    if (!this.isNonBlank(record.status)) {
+      return "board spec status must be a non-empty string (the field that picks a card's column)";
+    }
+
+    const cols = record.columns;
+    if (!Array.isArray(cols) || cols.length === 0) {
+      return "board spec columns must be a non-empty array of strings (the column order)";
+    }
+    for (let i = 0; i < cols.length; i++) {
+      if (!this.isNonBlank(cols[i])) {
+        return `board spec columns[${i}] must be a non-empty string`;
+      }
+    }
+
+    if (record.cardTitle !== undefined && !this.isNonBlank(record.cardTitle)) {
+      return "board spec cardTitle must be a non-empty string (the field used as the card title)";
+    }
+
+    if (record.detail !== undefined) {
+      return this.validateFieldList(record.detail, "detail");
     }
   }
-  if (spec.description !== undefined) {
-    if (typeof spec.description !== "string") {
-      return `spec description must be a string, got ${describe(spec.description)}`;
-    }
-    if (spec.description.length > ARTIFACT_CAPS.maxDescriptionLength) {
-      return (
-        `spec description is ${spec.description.length} characters, over the ` +
-        `${ARTIFACT_CAPS.maxDescriptionLength} limit`
-      );
-    }
-  }
-  if (spec.primary !== undefined && typeof spec.primary !== "boolean") {
-    return `spec primary must be a boolean, got ${describe(spec.primary)}`;
-  }
-  return undefined;
-}
 
-/** 一个非空的 `ArtifactField` 列表。 */
-function checkFieldList(value: unknown, where: string): ArtifactSpecProblem {
-  if (!Array.isArray(value) || value.length === 0) {
-    return `spec ${where} must be a non-empty array of fields ({ field: "…" })`;
-  }
-  for (const [index, entry] of value.entries()) {
-    const problem = checkField(entry, `${where}[${index}]`);
-    if (problem !== undefined) return problem;
-  }
-  return undefined;
-}
+  // 主校验分发方法
+  check(op: ArtifactPresetOp, spec: unknown): ArtifactSpecProblem {
+    if (typeof spec !== "object" || spec === null || Array.isArray(spec)) {
+      return `${op} spec must be an object literal, got ${this.formatType(spec)}`;
+    }
 
-/** 一个 `ArtifactField`：`field` 必须是非空字符串（点路径），label / unit 可选。 */
-function checkField(value: unknown, where: string): ArtifactSpecProblem {
-  if (!isPlainObject(value)) return `spec ${where} must be { field: "…" }, got ${describe(value)}`;
-  if (!isNonEmptyString(value.field)) {
-    return `spec ${where}.field must be a non-empty string (a dot path into the item, e.g. "timing.after")`;
-  }
-  for (const key of ["label", "unit"] as const) {
-    if (value[key] !== undefined && typeof value[key] !== "string") {
-      return `spec ${where}.${key} must be a string, got ${describe(value[key])}`;
+    const mapping = spec as Record<string, unknown>;
+    const metaProblem = this.validateMeta(mapping);
+    if (metaProblem) return metaProblem;
+
+    let shapeProblem: ArtifactSpecProblem;
+    if (op === "chart") {
+      shapeProblem = this.validateChart(mapping);
+    } else if (op === "table") {
+      shapeProblem = this.validateTable(mapping);
+    } else if (op === "metrics") {
+      shapeProblem = this.validateFieldList(mapping.metrics, "metrics");
+    } else if (op === "board") {
+      shapeProblem = this.validateBoard(mapping);
+    }
+
+    if (shapeProblem) return shapeProblem;
+
+    const encodedBytes = new TextEncoder().encode(canonicalJson(spec)).length;
+    if (encodedBytes > ARTIFACT_CAPS.maxSpecSerializedBytes) {
+      return `${op} spec is ${encodedBytes} bytes serialized, over the ${ARTIFACT_CAPS.maxSpecSerializedBytes}-byte limit`;
     }
   }
-  return undefined;
 }
 
-function isPlainObject(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
-}
-
-function isNonEmptyString(value: unknown): value is string {
-  return typeof value === "string" && value.trim() !== "";
-}
-
-/** 出错文案里的实得值描述（不打印整个对象——一个 8KB 的 spec 会把 failure_json 塞满）。 */
-function describe(value: unknown): string {
-  if (value === null) return "null";
-  if (Array.isArray(value)) return `array (${value.length} items)`;
-  if (typeof value === "object") return "object";
-  if (typeof value === "string") return JSON.stringify(value.slice(0, 40));
-  return String(value);
-}
-
-/** UTF-8 字节数（与 report 上限同一把尺）。 */
-function utf8ByteLength(value: string): number {
-  return new TextEncoder().encode(value).length;
+// 供外部直接调用的顶层校验函数
+export function validateArtifactSpec(op: ArtifactPresetOp, spec: unknown): ArtifactSpecProblem {
+  return new SpecValidationContext().check(op, spec);
 }
