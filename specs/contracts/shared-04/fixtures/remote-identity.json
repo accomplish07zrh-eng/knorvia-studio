@@ -1,0 +1,610 @@
+{
+  "endpointHostname": [
+    ["HTTPS://User:Pass@Example.COM:8443/x", "example.com"],
+    ["http://example.com", "example.com"],
+    ["ftp://Example.COM", ""],
+    ["example.com", ""],
+    [" nope ", ""],
+    ["", ""],
+    [null, ""],
+    [null, ""]
+  ],
+  "intranet": {
+    "constants": {
+      "machineHost": "",
+      "assetBaseUrl": "",
+      "depsBaseUrl": "",
+      "probeServiceUrl": "",
+      "assetPort": 12345,
+      "probePort": 3850,
+      "probePath": "/api/intranet/probe"
+    },
+    "resolve": [
+      {
+        "env": {},
+        "host": "",
+        "deps": "Configure KNORVIA_DEPS_BASE_URL or INTRANET_MACHINE_HOST in .env before downloading internal dependencies"
+      },
+      {
+        "env": {
+          "INTRANET_MACHINE_HOST": " host "
+        },
+        "host": "host",
+        "deps": "http://host:12345/knorvia/deps"
+      },
+      {
+        "env": {
+          "KNORVIA_DEPS_BASE_URL": " https://deps/// "
+        },
+        "host": "",
+        "deps": "https://deps"
+      },
+      {
+        "env": {
+          "INTRANET_MACHINE_HOST": " ",
+          "KNORVIA_DEPS_BASE_URL": "  "
+        },
+        "host": "",
+        "deps": "Configure KNORVIA_DEPS_BASE_URL or INTRANET_MACHINE_HOST in .env before downloading internal dependencies"
+      }
+    ]
+  },
+  "identities": {
+    "build": [
+      {
+        "path": "C:\\Users\\me\\proj",
+        "target": {
+          "kind": "ssh",
+          "host": "HOST",
+          "port": 2222,
+          "username": "u"
+        },
+        "output": "remote:ssh:host:2222:u:/C:/Users/me/proj"
+      },
+      {
+        "path": "/a//b/",
+        "target": {
+          "kind": "wsl",
+          "distro": "Ubuntu"
+        },
+        "output": "remote:wsl:Ubuntu:/a/b"
+      },
+      {
+        "path": "/a//b/",
+        "target": {
+          "kind": "wsl",
+          "distro": "Ubuntu",
+          "user": "u"
+        },
+        "output": "remote:wsl:Ubuntu:u:/a/b"
+      },
+      {
+        "path": "",
+        "target": {
+          "kind": "docker",
+          "container": "box"
+        },
+        "output": "remote:docker:box:/"
+      },
+      {
+        "path": "/a",
+        "target": {
+          "kind": "local"
+        }
+      }
+    ],
+    "parse": [
+      {
+        "input": "remote:ssh:HOST:2222:u:/a/b c",
+        "output": {
+          "kind": "ssh",
+          "workspacePath": "/a/b c"
+        }
+      },
+      {
+        "input": "remote:ssh:h:22:u:/",
+        "output": {
+          "kind": "ssh",
+          "workspacePath": "/"
+        }
+      },
+      {
+        "input": "remote:wsl:Ubuntu:user:/a",
+        "output": {
+          "kind": "wsl",
+          "workspacePath": "/a"
+        }
+      },
+      {
+        "input": "remote:wsl:Ubuntu:/a",
+        "output": {
+          "kind": "wsl",
+          "workspacePath": "/a"
+        }
+      },
+      {
+        "input": "remote:wsl::/a",
+        "output": null
+      },
+      {
+        "input": "remote:docker:box:/a:b",
+        "output": {
+          "kind": "docker",
+          "workspacePath": "/a:b"
+        }
+      },
+      {
+        "input": "remote:docker:box:c:\\a\\b",
+        "output": null
+      },
+      {
+        "input": "local",
+        "output": null
+      },
+      {
+        "input": "remote:ssh:::/a",
+        "output": null
+      },
+      {
+        "input": "remote:unknown:x",
+        "output": null
+      },
+      {
+        "input": "",
+        "output": null
+      }
+    ],
+    "isRemote": [
+      {
+        "input": "remote:ssh:h:22:u:/",
+        "output": true
+      },
+      {
+        "input": "remote:wsl:d:/",
+        "output": true
+      },
+      {
+        "input": "remote:docker:c:/",
+        "output": true
+      },
+      {
+        "input": "local",
+        "output": false
+      },
+      {
+        "input": "",
+        "output": false
+      },
+      {
+        "input": " remote:ssh:h:22:u:/ ",
+        "output": false
+      }
+    ]
+  },
+  "usage": {
+    "detail": [
+      {
+        "input": {},
+        "output": {
+          "workspace_kind": "local",
+          "remote_kind": ""
+        }
+      },
+      {
+        "input": {
+          "workspaceIdentity": " remote:ssh:h:22:u:/a "
+        },
+        "output": {
+          "workspace_kind": "remote",
+          "remote_kind": "ssh"
+        }
+      },
+      {
+        "input": {
+          "workspaceIdentity": " local ",
+          "remoteSessionId": "r"
+        },
+        "output": {
+          "workspace_kind": "remote",
+          "remote_kind": ""
+        }
+      },
+      {
+        "input": {
+          "workspaceIdentity": "",
+          "remoteSessionId": " "
+        },
+        "output": {
+          "workspace_kind": "local",
+          "remote_kind": ""
+        }
+      },
+      {
+        "input": {
+          "workspaceIdentity": "remote:wsl:Ubuntu:u:/a"
+        },
+        "output": {
+          "workspace_kind": "remote",
+          "remote_kind": "wsl"
+        }
+      }
+    ],
+    "classify": [
+      {
+        "input": {
+          "type": "text",
+          "value": "authentication failed"
+        },
+        "output": "auth"
+      },
+      {
+        "input": {
+          "type": "error",
+          "message": "download checksum"
+        },
+        "output": "deploy"
+      },
+      {
+        "input": {
+          "type": "object",
+          "value": {
+            "code": "DESKTOP_HOST_MISSING"
+          }
+        },
+        "output": "attach"
+      },
+      {
+        "input": {
+          "type": "text",
+          "value": "host start failed"
+        },
+        "output": "host_start"
+      },
+      {
+        "input": {
+          "type": "text",
+          "value": "attach rejected"
+        },
+        "output": "attach"
+      },
+      {
+        "input": {
+          "type": "text",
+          "value": "relay websocket pair"
+        },
+        "output": "relay"
+      },
+      {
+        "input": {
+          "type": "text",
+          "value": "connect timeout"
+        },
+        "output": "connect"
+      },
+      {
+        "input": {
+          "type": "text",
+          "value": "other"
+        },
+        "output": "unknown"
+      },
+      {
+        "input": null,
+        "output": "unknown"
+      },
+      {
+        "input": {
+          "type": "text",
+          "value": "AUTH then connect"
+        },
+        "output": "auth"
+      }
+    ],
+    "telemetry": [
+      {
+        "input": {
+          "result": "success",
+          "remoteKind": "ssh",
+          "connectTrigger": "new"
+        },
+        "output": {
+          "elementName": "remote_workspace_connect_result",
+          "eventRegion": "remote_workspace",
+          "eventType": "result",
+          "eventExtraDetail": {
+            "result": "success",
+            "remote_kind": "ssh",
+            "connect_trigger": "new",
+            "error_category": ""
+          }
+        }
+      },
+      {
+        "input": {
+          "result": "failure",
+          "remoteKind": "wsl",
+          "connectTrigger": "restore"
+        },
+        "output": {
+          "elementName": "remote_workspace_connect_result",
+          "eventRegion": "remote_workspace",
+          "eventType": "result",
+          "eventExtraDetail": {
+            "result": "failure",
+            "remote_kind": "wsl",
+            "connect_trigger": "restore",
+            "error_category": "unknown"
+          }
+        }
+      }
+    ]
+  },
+  "appConfig": {
+    "remote": {
+      "feedbackUrl": " https://rf ",
+      "feedbackApiBase": "https://ra",
+      "externalFormTrue": true,
+      "externalFormString": true,
+      "externalFormFalse": false,
+      "externalFormMissing": false,
+      "externalFormNonObject": false,
+      "community": {
+        "zh-CN": " https://zh "
+      },
+      "communityNonObject": {},
+      "communityByLocale": "https://zh",
+      "communityFromConfigs": "https://remote",
+      "forceUpdate": "1.2.3"
+    },
+    "help": [
+      {
+        "community_urls": {
+          "zh-CN": "https://zh",
+          "en-US": "https://len"
+        },
+        "feedback_url": "https://rf",
+        "feedback_use_external_form": false
+      },
+      {
+        "community_urls": {},
+        "feedback_use_external_form": false
+      },
+      {
+        "community_urls": {},
+        "feedback_use_external_form": false
+      }
+    ]
+  },
+  "serverRemote": {
+    "protocolVersion": 1,
+    "info": [
+      {
+        "input": {
+          "serverId": "s",
+          "version": "1",
+          "protocolVersion": 1,
+          "authRequired": false,
+          "workspaces": [
+            {
+              "path": "p"
+            }
+          ],
+          "capabilities": {
+            "desktopContinuous": true,
+            "websocketRpc": true
+          }
+        },
+        "success": true
+      },
+      {
+        "input": {
+          "serverId": "s",
+          "version": "1",
+          "protocolVersion": 2,
+          "authRequired": false,
+          "workspaces": [],
+          "capabilities": {
+            "desktopContinuous": true,
+            "websocketRpc": true
+          }
+        },
+        "success": false
+      },
+      {
+        "input": {
+          "serverId": "s",
+          "version": "1",
+          "protocolVersion": 1,
+          "authRequired": false,
+          "workspaces": [],
+          "capabilities": {
+            "desktopContinuous": true
+          }
+        },
+        "success": false
+      },
+      {
+        "input": {
+          "serverId": "s",
+          "version": "1",
+          "protocolVersion": 1,
+          "authRequired": false,
+          "workspaces": [
+            {
+              "path": "p",
+              "extra": 1
+            }
+          ],
+          "capabilities": {
+            "desktopContinuous": true,
+            "websocketRpc": true
+          }
+        },
+        "success": true
+      }
+    ],
+    "hostCapability": [
+      {
+        "input": {
+          "capability": "c",
+          "expiresAt": 1
+        },
+        "success": true
+      },
+      {
+        "input": {
+          "capability": "c",
+          "expiresAt": 1,
+          "extra": true
+        },
+        "success": false
+      },
+      {
+        "input": {
+          "capability": "c",
+          "expiresAt": -1
+        },
+        "success": false
+      }
+    ],
+    "workspace": [
+      {
+        "input": {
+          "path": "p"
+        },
+        "success": true
+      },
+      {
+        "input": {
+          "path": "p",
+          "displayName": "d"
+        },
+        "success": true
+      },
+      {
+        "input": {
+          "path": 1
+        },
+        "success": false
+      }
+    ]
+  },
+  "openrouter": {
+    "detection": [
+      {
+        "input": "https://openrouter.ai/api/v1",
+        "output": true
+      },
+      {
+        "input": "http://openrouter.ai/api/v1",
+        "output": false
+      },
+      {
+        "input": "https://api.openrouter.ai/x",
+        "output": true
+      },
+      {
+        "input": "https://openrouter.ai.evil.com",
+        "output": false
+      },
+      {
+        "input": "https://not-openrouter.ai",
+        "output": false
+      },
+      {
+        "input": "",
+        "output": false
+      },
+      {
+        "input": " openrouter.ai ",
+        "output": false
+      }
+    ],
+    "headers": [
+      {
+        "A": "1",
+        "X-OpenRouter-Title": "Knorvia Studio",
+        "X-OpenRouter-Categories": "programming-app"
+      },
+      {
+        "A": "1",
+        "X-OpenRouter-Title": "Knorvia Studio",
+        "X-OpenRouter-Categories": "programming-app"
+      },
+      {
+        "A": "1"
+      }
+    ]
+  },
+  "wsl": {
+    "maxLength": 64,
+    "valid": [
+      {
+        "input": " me ",
+        "output": true
+      },
+      {
+        "input": "",
+        "output": false
+      },
+      {
+        "input": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "output": true
+      },
+      {
+        "input": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "output": false
+      },
+      {
+        "input": "a b",
+        "output": true
+      },
+      {
+        "input": "a:b",
+        "output": false
+      },
+      {
+        "input": "a/b",
+        "output": false
+      },
+      {
+        "input": "a\\b",
+        "output": false
+      },
+      {
+        "input": "a\u0001b",
+        "output": false
+      },
+      {
+        "input": "ümlaut",
+        "output": true
+      },
+      {
+        "input": "a.b-c_d",
+        "output": true
+      }
+    ],
+    "schema": [
+      {
+        "input": "",
+        "success": true
+      },
+      {
+        "input": " me ",
+        "success": true
+      },
+      {
+        "input": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "success": false
+      },
+      {
+        "input": "a b",
+        "success": true
+      },
+      {
+        "input": "a:b",
+        "success": false
+      }
+    ]
+  }
+}
