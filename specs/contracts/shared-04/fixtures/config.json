@@ -1,0 +1,547 @@
+{
+  "clientConfig": [
+    {
+      "input": {
+        "code": 0,
+        "data": {
+          "configs": {
+            "pluginStoreOrder": {
+              "code": {
+                "pluginOrder": {
+                  "a": ["x", "x"]
+                }
+              }
+            }
+          }
+        }
+      },
+      "output": {
+        "ok": true,
+        "value": {
+          "pluginStoreOrder": {
+            "code": {
+              "pluginOrder": {
+                "a": ["x"]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "input": {
+        "code": 0,
+        "data": {
+          "configs": {}
+        }
+      },
+      "output": {
+        "ok": true,
+        "value": {
+          "pluginStoreOrder": null
+        }
+      }
+    },
+    {
+      "input": {
+        "code": 0,
+        "data": {}
+      },
+      "output": {
+        "ok": true,
+        "value": {
+          "pluginStoreOrder": null
+        }
+      }
+    },
+    {
+      "input": {
+        "code": 0
+      },
+      "output": {
+        "ok": true,
+        "value": {
+          "pluginStoreOrder": null
+        }
+      }
+    },
+    {
+      "input": {
+        "code": 0,
+        "data": {
+          "configs": {
+            "pluginStoreOrder": {
+              "code": 123
+            }
+          }
+        }
+      },
+      "output": {
+        "ok": true,
+        "value": {
+          "pluginStoreOrder": {}
+        }
+      }
+    },
+    {
+      "input": {
+        "code": 1
+      },
+      "output": {
+        "ok": false,
+        "error": "Invalid public client config response"
+      }
+    },
+    {
+      "input": null,
+      "output": {
+        "ok": false,
+        "error": "Invalid public client config response"
+      }
+    }
+  ],
+  "dynamicWorkflow": {
+    "modes": ["disabled", "onDemand", "alwaysOn"],
+    "defaultMode": "disabled",
+    "envKey": "KNORVIA_DYNAMIC_WORKFLOW_MODE",
+    "resolve": [
+      {
+        "input": {
+          "remote": {
+            "mode": "onDemand"
+          },
+          "env": {}
+        },
+        "output": {
+          "mode": "onDemand",
+          "enabled": true,
+          "source": "remote"
+        }
+      },
+      {
+        "input": {
+          "remote": {
+            "mode": "bogus"
+          },
+          "env": {
+            "KNORVIA_DYNAMIC_WORKFLOW_MODE": " alwaysOn "
+          }
+        },
+        "output": {
+          "mode": "alwaysOn",
+          "enabled": true,
+          "source": "override"
+        }
+      },
+      {
+        "input": {
+          "remote": null,
+          "env": {
+            "KNORVIA_DYNAMIC_WORKFLOW_MODE": "bogus"
+          }
+        },
+        "output": {
+          "mode": "disabled",
+          "enabled": false,
+          "source": "default"
+        }
+      },
+      {
+        "input": {
+          "remote": {},
+          "env": {}
+        },
+        "output": {
+          "mode": "disabled",
+          "enabled": false,
+          "source": "default"
+        }
+      },
+      {
+        "input": {
+          "remote": {
+            "mode": "alwaysOn"
+          },
+          "env": {
+            "KNORVIA_DYNAMIC_WORKFLOW_MODE": "disabled"
+          }
+        },
+        "output": {
+          "mode": "disabled",
+          "enabled": false,
+          "source": "override"
+        }
+      },
+      {
+        "input": {
+          "remote": {
+            "mode": "disabled"
+          },
+          "env": {}
+        },
+        "output": {
+          "mode": "disabled",
+          "enabled": false,
+          "source": "remote"
+        }
+      }
+    ],
+    "normalize": [
+      {
+        "input": " disabled ",
+        "output": "disabled"
+      },
+      {
+        "input": "onDemand",
+        "output": "onDemand"
+      },
+      {
+        "input": "alwaysOn",
+        "output": "alwaysOn"
+      },
+      {
+        "input": "bogus"
+      },
+      {
+        "input": 1
+      },
+      {
+        "input": null
+      }
+    ],
+    "enabled": [
+      {
+        "input": "disabled",
+        "output": false
+      },
+      {
+        "input": "onDemand",
+        "output": true
+      },
+      {
+        "input": "alwaysOn",
+        "output": true
+      },
+      {
+        "input": "bogus",
+        "output": true
+      }
+    ],
+    "client": {
+      "mode": "alwaysOn",
+      "enabled": true
+    }
+  },
+  "runtimePreferences": {
+    "channel": "settings:app-runtime-preferences",
+    "envKey": "KNORVIA_E2E_ASK_USER_QUESTION_CLOCK_SCALE",
+    "parse": [
+      {
+        "input": {
+          "askUserQuestionAutoResolutionEnabled": true
+        },
+        "success": true,
+        "data": {
+          "askUserQuestionAutoResolutionEnabled": true,
+          "modelIoFullRetentionEnabled": false
+        }
+      },
+      {
+        "input": {
+          "askUserQuestionAutoResolutionEnabled": false,
+          "modelIoFullRetentionEnabled": true
+        },
+        "success": true,
+        "data": {
+          "askUserQuestionAutoResolutionEnabled": false,
+          "modelIoFullRetentionEnabled": true
+        }
+      },
+      {
+        "input": {},
+        "success": false,
+        "data": null
+      },
+      {
+        "input": {
+          "askUserQuestionAutoResolutionEnabled": "true"
+        },
+        "success": false,
+        "data": null
+      },
+      {
+        "input": {
+          "extra": 1
+        },
+        "success": false,
+        "data": null
+      }
+    ]
+  },
+  "e2e": [
+    {
+      "input": {
+        "VITE_KNORVIA_E2E_STORE_BRIDGE": "1",
+        "KNORVIA_E2E_RUN_ID": " r "
+      },
+      "output": true
+    },
+    {
+      "input": {
+        "VITE_KNORVIA_E2E_STORE_BRIDGE": "1"
+      },
+      "output": false
+    },
+    {
+      "input": {
+        "KNORVIA_E2E_RUN_ID": "r"
+      },
+      "output": false
+    },
+    {
+      "input": {
+        "VITE_KNORVIA_E2E_STORE_BRIDGE": "true",
+        "KNORVIA_E2E_RUN_ID": "r"
+      },
+      "output": false
+    },
+    {
+      "input": {
+        "VITE_KNORVIA_E2E_STORE_BRIDGE": "1",
+        "KNORVIA_E2E_RUN_ID": "  "
+      },
+      "output": false
+    },
+    {
+      "input": {},
+      "output": false
+    }
+  ],
+  "launchMarks": {
+    "queryKey": "knorviaLaunchMarks",
+    "serialize": [
+      {
+        "input": {
+          "createdAt": 1,
+          "mainStart": 2,
+          "appReady": 3,
+          "loadUrl": 4
+        },
+        "output": "{\"createdAt\":1,\"mainStart\":2,\"appReady\":3,\"loadUrl\":4}"
+      },
+      {
+        "input": {
+          "createdAt": 0,
+          "mainStart": 0,
+          "appReady": 0,
+          "loadUrl": 0
+        },
+        "output": "{\"createdAt\":0,\"mainStart\":0,\"appReady\":0,\"loadUrl\":0}"
+      }
+    ],
+    "parse": [
+      {
+        "input": "{\"createdAt\":1,\"mainStart\":2,\"appReady\":3,\"loadUrl\":4}",
+        "output": {
+          "createdAt": 1,
+          "mainStart": 2,
+          "appReady": 3,
+          "loadUrl": 4
+        }
+      },
+      {
+        "input": "{\"createdAt\":1,\"mainStart\":2,\"appReady\":3}",
+        "output": null
+      },
+      {
+        "input": "{\"createdAt\":1,\"mainStart\":2,\"appReady\":3,\"loadUrl\":\"4\"}",
+        "output": null
+      },
+      {
+        "input": "",
+        "output": null
+      },
+      {
+        "input": null,
+        "output": null
+      },
+      {
+        "input": "[1,2,3,4]",
+        "output": null
+      },
+      {
+        "input": "{\"createdAt\":0,\"mainStart\":0,\"appReady\":0,\"loadUrl\":0}",
+        "output": {
+          "createdAt": 0,
+          "mainStart": 0,
+          "appReady": 0,
+          "loadUrl": 0
+        }
+      }
+    ]
+  },
+  "desktopMenu": {
+    "ids": {
+      "file": "titleBar.menu.file",
+      "edit": "titleBar.menu.edit",
+      "view": "titleBar.menu.view",
+      "window": "titleBar.menu.window",
+      "help": "titleBar.menu.help",
+      "fileNewTask": "titleBar.menu.file.newTask",
+      "fileOpenWorkspace": "titleBar.menu.file.openWorkspace",
+      "fileCloseWindow": "titleBar.menu.file.closeWindow",
+      "editUndo": "titleBar.menu.edit.undo",
+      "editRedo": "titleBar.menu.edit.redo",
+      "editCut": "titleBar.menu.edit.cut",
+      "editCopy": "titleBar.menu.edit.copy",
+      "editPaste": "titleBar.menu.edit.paste",
+      "editDelete": "titleBar.menu.edit.delete",
+      "editSelectAll": "titleBar.menu.edit.selectAll",
+      "viewToggleFullScreen": "titleBar.menu.view.toggleFullScreen",
+      "viewActualSize": "titleBar.menu.view.actualSize",
+      "viewZoomIn": "titleBar.menu.view.zoomIn",
+      "viewZoomOut": "titleBar.menu.view.zoomOut",
+      "windowMinimize": "titleBar.menu.window.minimize",
+      "windowZoom": "titleBar.menu.window.zoom",
+      "windowBringAllToFront": "titleBar.menu.window.bringAllToFront",
+      "appServices": "titleBar.menu.app.services",
+      "appHide": "titleBar.menu.app.hide",
+      "appHideOthers": "titleBar.menu.app.hideOthers",
+      "appShowAll": "titleBar.menu.app.showAll",
+      "appQuit": "titleBar.menu.app.quit",
+      "helpAbout": "titleBar.menu.help.about",
+      "helpWhatsNew": "titleBar.menu.help.whatsNew",
+      "helpCheckForUpdates": "titleBar.menu.help.checkForUpdates",
+      "helpToggleDevTools": "titleBar.menu.help.toggleDevTools",
+      "helpResourceManager": "titleBar.menu.help.resourceManager",
+      "helpToggleKnorviaStdioTap": "titleBar.menu.help.toggleKnorviaStdioTap",
+      "helpKnorviaEndpoint": "titleBar.menu.help.endpoint",
+      "helpKnorviaEndpointProduction": "titleBar.menu.help.endpoint.production",
+      "helpKnorviaEndpointTest": "titleBar.menu.help.endpoint.test",
+      "helpKnorviaEndpointCustom": "titleBar.menu.help.endpoint.custom",
+      "helpKnorviaEndpointReset": "titleBar.menu.help.endpoint.reset",
+      "helpFeedback": "titleBar.menu.help.feedback",
+      "helpExportLogs": "titleBar.menu.help.exportLogs",
+      "helpClearAllData": "titleBar.menu.help.clearAllData",
+      "helpCheckingForUpdates": "desktopMenu.help.checkingForUpdates",
+      "helpUpdateAvailableVersion": "desktopMenu.help.updateAvailableVersion",
+      "helpDownloadingUpdateVersion": "desktopMenu.help.downloadingUpdateVersion",
+      "helpDownloadingUpdateProgress": "desktopMenu.help.downloadingUpdateProgress",
+      "helpRestartToUpdate": "desktopMenu.help.restartToUpdate",
+      "dockShowCurrentWindow": "dock.menu.showCurrentWindow",
+      "trayTooltip": "tray.tooltip",
+      "trayOpenKnorvia": "tray.menu.openKnorvia",
+      "trayQuit": "tray.menu.quit"
+    },
+    "localeCounts": {
+      "zh-CN": 50,
+      "en-US": 50
+    },
+    "cases": [
+      {
+        "locale": "en-US",
+        "id": "titleBar.menu.file",
+        "output": "File"
+      },
+      {
+        "locale": "zh-CN",
+        "id": "titleBar.menu.file",
+        "output": "文件"
+      },
+      {
+        "locale": "fr-FR",
+        "id": "titleBar.menu.file",
+        "output": "文件"
+      },
+      {
+        "locale": "en-US",
+        "id": "titleBar.menu.edit",
+        "output": "Edit"
+      }
+    ],
+    "format": ["隐藏 Knorvia Studio", "Hide Knorvia Studio", "File"]
+  },
+  "serviceAuthority": {
+    "modes": ["desktop-local", "desktop-attached-remote", "standalone-server"],
+    "envKey": "KNORVIA_SERVICE_AUTHORITY_MODE",
+    "isMode": [
+      {
+        "input": "desktop-local",
+        "output": true
+      },
+      {
+        "input": "desktop-attached-remote",
+        "output": true
+      },
+      {
+        "input": "standalone-server",
+        "output": true
+      },
+      {
+        "input": "x",
+        "output": false
+      },
+      {
+        "input": "",
+        "output": false
+      }
+    ],
+    "parse": [
+      {
+        "input": {
+          "KNORVIA_SERVICE_AUTHORITY_MODE": " standalone-server "
+        },
+        "output": {
+          "mode": "standalone-server"
+        }
+      },
+      {
+        "input": {
+          "KNORVIA_SERVICE_AUTHORITY_MODE": " bad "
+        },
+        "output": {
+          "invalidRawValue": "bad"
+        }
+      },
+      {
+        "input": {},
+        "output": {}
+      }
+    ],
+    "providerSource": [
+      {
+        "input": null,
+        "output": true
+      },
+      {
+        "input": "desktop-local",
+        "output": true
+      },
+      {
+        "input": "desktop-attached-remote",
+        "output": false
+      },
+      {
+        "input": "standalone-server",
+        "output": true
+      }
+    ]
+  },
+  "typeOnlyModules": {
+    "update": [],
+    "remoteSync": [],
+    "intranetProbe": []
+  },
+  "nodeBarrel": [
+    "NODE_SELF_RESOURCE_SAMPLE_INTERVAL_MS",
+    "acquireFileLock",
+    "atomicWritePrivateTextFile",
+    "backupCorruptFile",
+    "createNodeSelfResourceSampler",
+    "migrateSubagentStateFile",
+    "migrateUserSubagentMarkdown",
+    "resolveKnorviaDataRoot",
+    "scanOfficialPluginCacheRoots",
+    "withFileLock"
+  ]
+}
