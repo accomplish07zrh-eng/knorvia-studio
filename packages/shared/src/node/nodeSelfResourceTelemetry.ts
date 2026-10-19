@@ -9,15 +9,11 @@ import { availableParallelism } from "node:os";
 import { bytesToKb } from "../memoryDiagnostics.js";
 import type { NodeSelfResourceSample } from "../validation.js";
 
-// CPU 累计读数：字段面与 process.cpuUsage() 的返回值一致，注入方可以直接把这个方法交进来。
-interface CpuReading {
-  user: /* 用户态累计微秒 */ number;
-  system: /* 内核态累计微秒 */ number;
-}
-
 // 一次抓取的两样东西必须成对出现：只有同一刻的 CPU 微秒与单调时钟纳秒才谈得上「差了多少」。
+// CPU 读数直接用平台自带的 NodeJS.CpuUsage——它就是 process.cpuUsage() 的返回形状，
+// 注入别的来源也必须交回同一形状，不再手写镜像类型。
 interface ReadingSnapshot {
-  cpu: CpuReading;
+  cpu: NodeJS.CpuUsage;
   clockNs: bigint;
 }
 
@@ -26,7 +22,7 @@ export const NODE_SELF_RESOURCE_SAMPLE_INTERVAL_MS = 60_000;
 
 // 采样器的可注入面：三个读数来源都能换，缺省分别走 process.cpuUsage、process.hrtime 与 os。
 export interface NodeSelfResourceSamplerOptions {
-  readCpuUsage?: () => CpuReading;
+  readCpuUsage?: () => NodeJS.CpuUsage;
   readMonotonicTimeNs?: /* 单调时钟，纳秒精度 */ () => bigint;
   logicalCpuCount?: /* 本机逻辑核数，缺省现取 */ number;
 }
@@ -58,6 +54,15 @@ function busyCoresBetween(newer: ReadingSnapshot, older: ReadingSnapshot): numbe
   return usedUs / (Number(elapsedNs) / 1_000);
 }
 
+// 单路读数抛错就按缺席处理：两个来源都可能是注入的，任何一路出问题都不能连累采样器本身。
+function attemptReading<T>(read: () => T): T | undefined {
+  try {
+    return read();
+  } catch {
+    return undefined;
+  }
+}
+
 export const createNodeSelfResourceSampler = (
   settings: NodeSelfResourceSamplerOptions = {},
 ): NodeSelfResourceSampler => {
@@ -67,12 +72,10 @@ export const createNodeSelfResourceSampler = (
 
   // 构造时就取一次读数做基线，省得第一个 tick 空转一轮只为了建立基线。
   const takeReading = (): ReadingSnapshot | null => {
-    try {
-      const reading: ReadingSnapshot = { cpu: pollCpu(), clockNs: pollClock() };
-      return reading;
-    } catch {
-      return null;
-    }
+    const cpu = attemptReading(pollCpu);
+    const clockNs = attemptReading(pollClock);
+    if (cpu === undefined || clockNs === undefined) return null;
+    return { cpu, clockNs };
   };
 
   let baseline = takeReading();
