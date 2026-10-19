@@ -88487,7 +88487,7 @@
         "docs/knorvia-m02-registration-2026-10-11.md",
         "scripts/provenance/similarity.mjs"
       ],
-      "normalizedSha256": "b85de657454cd9caa9ae961634d40121a6f70c2962a39b7ee4789fcd85e9ee65"
+      "normalizedSha256": "aec67b943f24c19e57d8682c623f60f4161a2554c2a332d8efe5c69da62de22c"
     },
     {
       "path": "apps/cli/packages/core/test/eval-workflow-snippet-execution-current.json",
@@ -89235,7 +89235,7 @@
         "docs/knorvia-m02-registration-2026-10-11.md",
         "scripts/provenance/similarity.mjs"
       ],
-      "normalizedSha256": "5a561f5e70c3b88fb43556da587e129f17f175482f5fde4adfcf788fc44cb956"
+      "normalizedSha256": "24bd53e3b0d308f2d93937fcbd69f5a75b6a13ff1a1945c50e6b2e6d2a2b2ec5"
     },
     {
       "path": "apps/cli/packages/core/test/create-workflow-graph-fold-fixture.ts",
@@ -144094,6 +144094,29 @@
         "specs/contracts/dynamic-workflow-02/acceptance.md",
         "specs/contracts/dynamic-workflow-02/gate-old.json",
         "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/dynamic-workflow-02/acceptance.md",
+      "normalizedSha256": "eca42603f6f389c227b313ddfcafd6f47ba6062b3a25d150608ba1ee6ba20ff8",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored dynamic-workflow-02 contract artifact for the @knorvia/dynamic-workflow runtime side (40 inherited files under src excluding analysis/ and compiler, 37 rewrite targets, 3 unreviewed untouched, 4 new split modules). Records the v1-v3 contract history: old gates on 8c9a9e86 (source and dist 420/420, stub replacement 15/15 allFail), golden corpus, declaration-mode scoring, v3 stub removal, similarity 41/41 and the final source/dist 420/420 regression. Written from the package public behavior and interface surface; no upstream or replaced implementation code was copied into the contract.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-02/README.md",
+        "specs/contracts/dynamic-workflow-02/gate-old-v2.json",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-dynamic-workflow-02-acceptance.md",
+      "normalizedSha256": "4f09b8e66cfbcbfcc564f2802f460edea1b9ca8b9a1d25cb5da9f3e34f6d0ee7",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored dynamic-workflow-02 replacement record (design or acceptance document), written for this package; it records the 41 rewritten sources, the 41/41 similarity results (29 ordinary + 12 declaration mode), the 420/420 contract gates in both modes, the v3 provenance registration and the downstream core hash re-pin.",
+      "evidence": [
+        "specs/contracts/dynamic-workflow-02/README.md",
+        "specs/contracts/dynamic-workflow-02/acceptance.md"
       ]
     }
   ]
