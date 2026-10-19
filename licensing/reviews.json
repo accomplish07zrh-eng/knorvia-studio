@@ -83695,7 +83695,7 @@
         "docs/knorvia-m02-registration-2026-10-11.md",
         "scripts/provenance/similarity.mjs"
       ],
-      "normalizedSha256": "cedaa8c4f06ef98d643ed942b3ded8ddae4ff2e2ac8a4e06a50c11a131242717"
+      "normalizedSha256": "6fd1962c12bfb3a703261795cb1f435a415be91fd4e578bd8e8a28e48ad1c2e9"
     },
     {
       "path": "scripts/generate-installer-branding.ps1",
