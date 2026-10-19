@@ -1,32 +1,27 @@
 // SPDX-License-Identifier: Apache-2.0
 // Copyright (c) 2026 Knorvia Studio contributors
-// kernel-bridge-01: 事件投影层实现（合同 B8–B15）
+// kernel-bridge-01: 事件投影层编排（合同 B8–B15）
 //
-// 职责：
-// - 实现 BridgeEventProjectionLayer 接口，向段 A 提供会话生命周期与配置变更操作。
-// - 统一协调 SequenceWatermark（序号水位）、SnapshotMaterializer（快照与 revision）与 LinksRegistry（双链路订阅与背压）。
-// - 把 DSH 会话事件翻译成 v4 delta 词表，生成标准 v4 物理 wire 帧（wireVersion=3, complete），经 BridgeWireFrameSink 下发。
-//
-// 序号与 revision 是两套独立账本（L4/L5）：
-// - seq 每个被投影的源事件 +1，即使投影结果是 0 个 delta（同值配置命令、log-only 事件）。
-// - revision 只在用户可见状态真的变了才 +1，作为命令 CAS 的基准。
+// 本文件只持有会话身份与序号水位，不描述状态形状：
+// - seq：每个被投影的源事件占一个（0 delta 也占位），帧区间恒为 (fromSeq, toSeq]；
+// - revision：只在用户可见状态真的变了才 +1，作为命令 CAS 的基准；
+// - 双链路：两个 clientMode 共用同一份快照与同一批帧，差异只在投递与背压。
+// 快照/配置/DSH 事件到 v4 行的翻译在 snapshot-materializer，订阅与缓冲在 links-registry。
 
 import type {
   ConversationDelta,
   ConversationSnapshot,
-  RoutedTopicWireFrame,
-  SessionConfigState,
+  ConversationTopicWireFrame,
   StatePatch,
-  TopicFrameDeliveryKind,
 } from "@knorvia/shared/protocol-v4";
 import {
   applyConversationDeltas,
   coalesceConversationDeltas,
   PROTOCOL_V4_LIMITS,
 } from "@knorvia/shared/protocol-v4";
-import type { SessionEvent } from "@deepseek-ai/dsh-session";
 import type {
   BridgeConfigMutationInput,
+  BridgeDeliveryKind,
   BridgeEventProjectionLayer,
   BridgeFlowControlRequest,
   BridgeIngestDshEventInput,
@@ -42,78 +37,59 @@ import type {
   BridgeWireFrameSink,
 } from "./interface.js";
 import {
-  BRIDGE_INTERNAL_ERROR_CODE,
+  assertValidClientMode,
+  BRIDGE_INVALID_PARAMS,
+  BRIDGE_SESSION_NOT_FOUND,
+  BRIDGE_SUBSCRIPTION_NOT_OWNED,
   BridgeProtocolError,
   LinksRegistry,
-  assertValidClientMode,
   type BridgeSubscription,
 } from "./links-registry.js";
 import { SequenceWatermark } from "./sequence-watermark.js";
-import { SnapshotMaterializer } from "./snapshot-materializer.js";
+import {
+  deriveAvailability,
+  deriveInputRouting,
+  DshEventProjector,
+  SnapshotMaterializer,
+  type EventProjection,
+  type ProjectionCursor,
+} from "./snapshot-materializer.js";
 
 const SESSION_TOPIC_PREFIX = "conversation/";
-const TURN_ROW_ORIGIN = "userInput";
-const STREAM_WINDOW_LIMIT = PROTOCOL_V4_LIMITS.snapshotTailWindowRows;
+/** 行窗口只保留尾部：客户端靠冷快照 + 增量重建，服务端不留全量历史。 */
+const ROW_WINDOW_LIMIT = PROTOCOL_V4_LIMITS.snapshotTailWindowRows;
 
-interface UsageTotals {
-  inputTokens: number;
-  outputTokens: number;
-  cacheReadTokens: number;
-  cacheWriteTokens: number;
-}
-
-interface ManagedSession {
+interface ManagedSession extends ProjectionCursor {
   readonly sessionId: string;
   readonly logEpoch: string;
   readonly watermark: SequenceWatermark;
   snapshot: ConversationSnapshot;
   revision: number;
-  nextRowId: number;
-  currentTurnRowId: number | null;
-  currentTurnId: string | null;
-  currentTurnStartedAt: number | null;
-  toolRowIdByCallId: Map<string, number>;
-  usage: UsageTotals;
+  readonly usage: {
+    inputTokens: number;
+    outputTokens: number;
+    cacheReadTokens: number;
+    cacheWriteTokens: number;
+  };
 }
 
-/** 单个事件投影出的可见变更：行增量 + 需要整体替换的 A 区字段。 */
-interface EventProjection {
-  readonly rowDeltas: ConversationDelta[];
-  readonly patch: StatePatch;
-}
-
-function emptyProjection(): EventProjection {
-  return { rowDeltas: [], patch: {} };
-}
-
-function hasVisibleChange(projection: EventProjection): boolean {
-  return projection.rowDeltas.length > 0 || Object.keys(projection.patch).length > 0;
-}
-
-function textOfContent(content: readonly { type: string; text?: string }[]): string {
-  return content
-    .filter((block): block is { type: string; text: string } => block.type === "text")
-    .map((block) => block.text)
-    .join("");
-}
+/**
+ * 响应行必须先于 initial/resume 帧（合同 L7）：订阅/重连期间产生的帧先挂在闸门里，
+ * 等段 A 写完响应、事件循环进入下一轮后再按原序下沉。
+ */
+type DeliveryGates = Map<string, ConversationTopicWireFrame[]>;
 
 export class BridgeProjectionLayer implements BridgeEventProjectionLayer {
   private wireFrameSink: BridgeWireFrameSink | null = null;
   private readonly sessions = new Map<string, ManagedSession>();
   private readonly links = new LinksRegistry();
+  private readonly gates: DeliveryGates = new Map();
   private readonly createLogEpochFn: (sessionId: string) => string;
   private readonly nowFn: () => number;
-  /** 响应行必须先于 initial/resume 帧：订阅期间产生的帧先进闸门，响应写完后按序放行。 */
-  private readonly deliveryGates = new Map<string, RoutedTopicWireFrame[]>();
 
   constructor(options?: BridgeProjectionLayerOptions) {
-    if (options?.wireFrameSink) {
-      this.wireFrameSink = options.wireFrameSink;
-    }
-    this.createLogEpochFn =
-      options?.createLogEpoch ??
-      ((sessionId: string) =>
-        `epoch_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`);
+    this.wireFrameSink = options?.wireFrameSink ?? null;
+    this.createLogEpochFn = options?.createLogEpoch ?? defaultLogEpoch;
     this.nowFn = options?.now ?? Date.now;
   }
 
@@ -123,9 +99,8 @@ export class BridgeProjectionLayer implements BridgeEventProjectionLayer {
 
   initSession(params: BridgeInitSessionParams): BridgeSessionState {
     const existing = this.sessions.get(params.sessionId);
-    if (existing) {
-      return this.toSessionState(existing);
-    }
+    // 幂等：重复初始化不得重置日志纪元或清空已投影的行（重连/重放会重复调它）。
+    if (existing) return this.toSessionState(existing);
     const session = this.createSession(params.sessionId, params.logEpoch, params.initialConfig);
     this.sessions.set(params.sessionId, session);
     return this.toSessionState(session);
@@ -142,54 +117,41 @@ export class BridgeProjectionLayer implements BridgeEventProjectionLayer {
 
   getSnapshot(sessionId: string): ConversationSnapshot | undefined {
     const session = this.sessions.get(sessionId);
-    if (!session) return undefined;
-    return {
-      ...session.snapshot,
-      seq: session.watermark.currentSeq,
-      revision: session.revision,
-    };
+    return session ? this.currentSnapshot(session) : undefined;
   }
 
   ingestDshEvent(input: BridgeIngestDshEventInput): BridgeProjectionResult {
-    const session = this.getOrCreateSession(input.sessionId);
+    const session = this.requireSession(input.sessionId);
     const { fromSeq, toSeq } = session.watermark.allocateNextRange();
-
-    const projection = this.projectDshEvent(session, input.event, toSeq);
-    const deltas = this.commitProjection(session, projection, toSeq);
-
-    session.watermark.recordDeltas(toSeq, deltas);
-    this.broadcastDeltas(session, fromSeq, toSeq, deltas);
-    return { sessionId: input.sessionId, fromSeq, toSeq, revision: session.revision, deltas };
+    const projection = DshEventProjector.project(session.snapshot, session, input.event, toSeq);
+    return this.publish(session, projection, fromSeq, toSeq);
   }
 
   applyConfigMutation(input: BridgeConfigMutationInput): BridgeProjectionResult {
-    const session = this.getOrCreateSession(input.sessionId);
+    const session = this.requireSession(input.sessionId);
     const { fromSeq, toSeq } = session.watermark.allocateNextRange();
-
     const outcome = SnapshotMaterializer.applyConfigMutation(
       session.snapshot,
       input.mutation,
       session.revision,
     );
-    session.revision = outcome.revision;
+    // revision 只由 publishDeltas 推进：这里先落 config，避免两处各加一次。
     session.snapshot = {
       ...session.snapshot,
       config: outcome.nextConfig,
+      inputRouting: deriveInputRouting(
+        session.snapshot.control.phase,
+        outcome.nextConfig.followupMode,
+      ),
       seq: toSeq,
-      revision: session.revision,
     };
-
-    const deltas = [...outcome.deltas];
-    session.watermark.recordDeltas(toSeq, deltas);
-    this.broadcastDeltas(session, fromSeq, toSeq, deltas);
-    return { sessionId: input.sessionId, fromSeq, toSeq, revision: session.revision, deltas };
+    return this.publishDeltas(session, [...outcome.deltas], fromSeq, toSeq);
   }
 
   subscribe(request: BridgeSubscribeRequest): Promise<BridgeSubscribeResult> {
+    // 校验必须先于任何订阅状态：非法 clientMode 不能挤掉同连接上的旧链路。
     assertValidClientMode(request.clientMode);
-    const sessionId = this.parseSessionIdFromTopic(request.topic);
-    const session = this.getOrCreateSession(sessionId);
-
+    const session = this.requireSession(this.parseSessionIdFromTopic(request.topic));
     const { subscription, ack, isResume } = this.links.registerSubscription({
       topic: request.topic,
       connectionId: request.connectionId,
@@ -200,57 +162,60 @@ export class BridgeProjectionLayer implements BridgeEventProjectionLayer {
       base: request.base,
     });
 
-    // 闸门必须在建帧前打开：订阅调用期间产生的任何帧都要等响应行落盘后再发。
-    this.deliveryGates.set(subscription.subscriptionId, []);
+    // 同连接重订阅会替换旧订阅：旧闸门里的帧属于已作废的 subscriptionId，先丢掉。
+    for (const gateId of this.gates.keys()) {
+      if (!this.links.getSubscription(gateId)) this.gates.delete(gateId);
+    }
+    // 闸门要在建帧之前打开，否则首帧会抢在响应行前面写 stdout。
+    this.gates.set(subscription.subscriptionId, []);
     this.sendSubscriptionFrames(session, subscription, isResume, request.base?.seq);
     this.releaseGateAfterResponse(subscription);
     return Promise.resolve({ ack });
   }
 
   resync(request: BridgeResyncRequest): Promise<BridgeResyncResult> {
-    const session = this.sessions.get(this.parseSessionIdFromTopic(request.topic));
+    const sessionKey = this.parseSessionIdFromTopic(request.topic);
+    const session = this.sessions.get(sessionKey);
     if (!session) {
       throw new BridgeProtocolError(
-        BRIDGE_INTERNAL_ERROR_CODE,
-        `Session not found for resync: ${request.topic}`,
+        BRIDGE_SESSION_NOT_FOUND,
+        `Session not found for resync: ${sessionKey}`,
       );
     }
-
     const subscription = this.links.getSubscription(request.subscriptionId);
     if (
       !subscription ||
       subscription.topic !== request.topic ||
       subscription.connectionId !== request.connectionId
     ) {
-      // 裸 subscriptionId 会跨 topic/connection 碰撞：必须三元组同时命中，否则会改到别人的链路。
+      // 裸 subscriptionId 会跨 topic/connection 碰撞：三元组必须同时命中。
       throw new BridgeProtocolError(
-        BRIDGE_INTERNAL_ERROR_CODE,
+        BRIDGE_SUBSCRIPTION_NOT_OWNED,
         `Subscription not owned by topic/connection: ${request.subscriptionId}`,
       );
     }
 
     const base = request.base;
+    const toSeq = session.watermark.currentSeq;
     const canResume =
       !request.forceSnapshot &&
       base !== undefined &&
       base.logEpoch === session.logEpoch &&
       session.watermark.isResumable(base.seq);
 
-    this.deliveryGates.set(subscription.subscriptionId, []);
-    if (canResume && base) {
-      const toSeq = session.watermark.currentSeq;
-      const replayDeltas =
-        base.seq === toSeq ? [] : session.watermark.getReplayDeltas(base.seq);
-      subscription.sentSeq = toSeq;
-      if (base.seq !== toSeq) {
+    // 同一订阅上重建：闸门与背压队列里可能还压着旧帧，先丢掉再按新的水位对齐。
+    this.gates.set(subscription.subscriptionId, []);
+    this.links.discardBufferedFrames(subscription.subscriptionId);
+    subscription.sentSeq = toSeq;
+    if (canResume && base !== undefined) {
+      // 可续传只补 (base.seq, current]，不重发整份快照；base === current 时无帧可补。
+      if (base.seq < toSeq) {
         this.emitWireFrame(subscription, "recovery", base.seq, toSeq, {
           kind: "deltas",
-          deltas: replayDeltas,
+          deltas: session.watermark.getReplayDeltas(base.seq),
         });
       }
     } else {
-      const toSeq = session.watermark.currentSeq;
-      subscription.sentSeq = toSeq;
       this.emitWireFrame(subscription, "recovery", 0, toSeq, {
         kind: "snapshot",
         snapshot: this.wireSnapshot(session, toSeq),
@@ -259,16 +224,29 @@ export class BridgeProjectionLayer implements BridgeEventProjectionLayer {
     this.releaseGateAfterResponse(subscription);
 
     return Promise.resolve({
-      ack: {
-        subscriptionId: request.subscriptionId,
-        mode: "snapshot",
-        logEpoch: session.logEpoch,
-      },
+      ack: { subscriptionId: request.subscriptionId, mode: "snapshot", logEpoch: session.logEpoch },
     });
   }
 
   unsubscribe(request: BridgeUnsubscribeRequest): void {
-    this.deliveryGates.delete(request.subscriptionId);
+    // 退订是幂等清理：订阅已不存在（重复退订、断线后清理）不报错，
+    // 但三元组不匹配时必须拒绝，否则会误删同 id 的其他会话链路。
+    const subscription = this.links.getSubscription(request.subscriptionId);
+    if (subscription) {
+      if (subscription.topic !== request.topic) {
+        throw new BridgeProtocolError(
+          BRIDGE_SUBSCRIPTION_NOT_OWNED,
+          `Subscription topic mismatch: ${request.subscriptionId}`,
+        );
+      }
+      if (subscription.connectionId !== request.connectionId) {
+        throw new BridgeProtocolError(
+          BRIDGE_SUBSCRIPTION_NOT_OWNED,
+          `Subscription connection mismatch: ${request.subscriptionId}`,
+        );
+      }
+    }
+    this.gates.delete(request.subscriptionId);
     this.links.removeSubscription(request.subscriptionId, request.connectionId);
   }
 
@@ -276,38 +254,38 @@ export class BridgeProjectionLayer implements BridgeEventProjectionLayer {
     const state = request.state;
     if (state !== "saturated" && state !== "drained" && state !== "closed") {
       throw new BridgeProtocolError(
-        BRIDGE_INTERNAL_ERROR_CODE,
+        BRIDGE_INVALID_PARAMS,
         `Invalid flow state: ${String(state)}`,
       );
     }
-    const drainedFrames = this.links.setFlowState(request.connectionId, state);
-    if (!drainedFrames || drainedFrames.length === 0) return;
-    for (const wireFrame of drainedFrames) {
-      // 补发走同一出口：连接可能已 closed，这里不再依赖 gate 状态。
+    const replayed = this.links.setFlowState(request.connectionId, state);
+    if (!replayed) return;
+    for (const wireFrame of replayed) {
+      // 补发绕过闸门：这些帧本来就已产生，只是当时连接被暂停。
       this.wireFrameSink?.(wireFrame);
     }
   }
 
   disposeSession(sessionId: string): void {
-    const session = this.sessions.get(sessionId);
-    this.sessions.delete(sessionId);
-    if (!session) return;
-    const topic = `${SESSION_TOPIC_PREFIX}${sessionId}`;
-    for (const subscription of this.links.getSubscriptionsForTopic(topic)) {
-      this.deliveryGates.delete(subscription.subscriptionId);
+    if (!this.sessions.delete(sessionId)) return;
+    for (const subscription of this.links.getSubscriptionsForTopic(
+      `${SESSION_TOPIC_PREFIX}${sessionId}`,
+    )) {
+      this.gates.delete(subscription.subscriptionId);
       this.links.removeSubscription(subscription.subscriptionId, subscription.connectionId);
     }
   }
 
   dispose(): void {
     this.sessions.clear();
-    this.deliveryGates.clear();
+    this.gates.clear();
+    this.links.clear();
   }
 
   private createSession(
     sessionId: string,
     logEpoch: string | undefined,
-    initialConfig?: Partial<SessionConfigState>,
+    initialConfig: BridgeInitSessionParams["initialConfig"],
   ): ManagedSession {
     const epoch = logEpoch ?? this.createLogEpochFn(sessionId);
     return {
@@ -317,27 +295,31 @@ export class BridgeProjectionLayer implements BridgeEventProjectionLayer {
       snapshot: SnapshotMaterializer.createDraftSnapshot(sessionId, epoch, initialConfig),
       revision: 0,
       nextRowId: 1,
-      currentTurnRowId: null,
-      currentTurnId: null,
-      currentTurnStartedAt: null,
+      turn: null,
       toolRowIdByCallId: new Map(),
       usage: { inputTokens: 0, outputTokens: 0, cacheReadTokens: 0, cacheWriteTokens: 0 },
     };
   }
 
-  private getOrCreateSession(sessionId: string): ManagedSession {
-    let session = this.sessions.get(sessionId);
+  /**
+   * 会话身份由段 A 拥有：投影层只按 initSession 注册过的 id 工作。
+   * 隐式建会话会让未知事件拿到一个新 logEpoch，已订阅的客户端随后必然读到错误代际。
+   */
+  private requireSession(sessionId: string): ManagedSession {
+    const session = this.sessions.get(sessionId);
     if (!session) {
-      session = this.createSession(sessionId, undefined);
-      this.sessions.set(sessionId, session);
+      throw new BridgeProtocolError(
+        BRIDGE_SESSION_NOT_FOUND,
+        `Session not registered in projection: ${sessionId}`,
+      );
     }
     return session;
   }
 
   private parseSessionIdFromTopic(topic: string): string {
-    if (!topic.startsWith(SESSION_TOPIC_PREFIX) || topic.length <= SESSION_TOPIC_PREFIX.length) {
+    if (!topic.startsWith(SESSION_TOPIC_PREFIX) || topic.length === SESSION_TOPIC_PREFIX.length) {
       throw new BridgeProtocolError(
-        BRIDGE_INTERNAL_ERROR_CODE,
+        BRIDGE_INVALID_PARAMS,
         `Invalid conversation topic: ${topic}`,
       );
     }
@@ -355,6 +337,14 @@ export class BridgeProjectionLayer implements BridgeEventProjectionLayer {
     };
   }
 
+  private currentSnapshot(session: ManagedSession): ConversationSnapshot {
+    return {
+      ...session.snapshot,
+      seq: session.watermark.currentSeq,
+      revision: session.revision,
+    };
+  }
+
   private wireSnapshot(session: ManagedSession, toSeq: number): ConversationSnapshot {
     return SnapshotMaterializer.getWireSnapshot({
       ...session.snapshot,
@@ -363,6 +353,7 @@ export class BridgeProjectionLayer implements BridgeEventProjectionLayer {
     });
   }
 
+  /** 订阅首帧：resume 补增量，其余一律发整份快照；两者都从调用方给的起点算区间。 */
   private sendSubscriptionFrames(
     session: ManagedSession,
     subscription: BridgeSubscription,
@@ -370,24 +361,100 @@ export class BridgeProjectionLayer implements BridgeEventProjectionLayer {
     baseSeq: number | undefined,
   ): void {
     const currentSeq = session.watermark.currentSeq;
+    subscription.sentSeq = currentSeq;
     if (isResume && baseSeq !== undefined) {
-      if (baseSeq >= currentSeq) {
-        subscription.sentSeq = currentSeq;
-        return;
-      }
-      subscription.sentSeq = currentSeq;
+      // base 正好等于水位时没有任何可补的增量：只回 resume ack，不发空帧。
+      if (baseSeq >= currentSeq) return;
+      // 续传帧是该订阅收到的第一帧，交付类别按首帧记 initial（与旧运行时一致）；
+      // 它补的是 (base.seq, current] 的历史增量，不是「刚刚发生」的在线事件。
       this.emitWireFrame(subscription, "initial", baseSeq, currentSeq, {
         kind: "deltas",
         deltas: session.watermark.getReplayDeltas(baseSeq),
       });
       return;
     }
-
-    subscription.sentSeq = currentSeq;
     this.emitWireFrame(subscription, "initial", 0, currentSeq, {
       kind: "snapshot",
       snapshot: this.wireSnapshot(session, currentSeq),
     });
+  }
+
+  /** 事件投影 → 完整 delta 列表（行增量 + state.updated），再交给统一的落账点。 */
+  private publish(
+    session: ManagedSession,
+    projection: EventProjection,
+    fromSeq: number,
+    toSeq: number,
+  ): BridgeProjectionResult {
+    const deltas: ConversationDelta[] = [...projection.rowDeltas];
+    const patch: StatePatch = { ...projection.patch };
+
+    if (projection.control) {
+      patch.control = projection.control;
+      // 能力与输入路由都由控制面派生，随同一个 patch 下发，客户端不会读到半更新状态。
+      patch.availability = deriveAvailability(
+        projection.control.phase,
+        // 同一批里刚追加的行也算进能力判定：turn/start 让会话第一次拥有行，
+        // fork 必须立刻从「不可用」变为「可用」，不能等下一次事件。
+        session.snapshot.rows.totalCount + countAppendedRows(projection.rowDeltas),
+      );
+      patch.inputRouting = deriveInputRouting(
+        projection.control.phase,
+        session.snapshot.config.followupMode,
+      );
+    }
+    if (projection.usage) {
+      session.usage.inputTokens += projection.usage.inputTokens;
+      session.usage.outputTokens += projection.usage.outputTokens;
+      session.usage.cacheReadTokens += projection.usage.cacheRead;
+      session.usage.cacheWriteTokens += projection.usage.cacheWrite;
+      patch.usage = {
+        contextWindow: session.snapshot.usage.contextWindow,
+        cumulative: { ...session.usage },
+      };
+    }
+    if (Object.keys(patch).length > 0) deltas.push({ op: "state.updated", patch });
+    return this.publishDeltas(session, deltas, fromSeq, toSeq);
+  }
+
+  /**
+   * revision 的唯一推进点：只有真的产生 delta 才 +1；no-op 保持原值但仍占一个 seq。
+   * 快照通过共享的 apply 函数归约，避免本文件再手写一份行窗口/总数逻辑。
+   */
+  private publishDeltas(
+    session: ManagedSession,
+    deltas: ConversationDelta[],
+    fromSeq: number,
+    toSeq: number,
+  ): BridgeProjectionResult {
+    if (deltas.length > 0) {
+      session.revision += 1;
+      // revision 是 CAS 基准，只挂在 state.updated 上；纯行增量补一个只带 revision 的 patch。
+      const last = deltas[deltas.length - 1];
+      if (last?.op === "state.updated") {
+        deltas[deltas.length - 1] = {
+          op: "state.updated",
+          patch: { ...last.patch, revision: session.revision },
+        };
+      } else {
+        deltas.push({ op: "state.updated", patch: { revision: session.revision } });
+      }
+    }
+
+    const applied = applyConversationDeltas({ ...session.snapshot, seq: toSeq }, deltas);
+    const window = applied.rows.window;
+    session.snapshot = {
+      ...applied,
+      rows:
+        window.length > ROW_WINDOW_LIMIT
+          ? { ...applied.rows, window: window.slice(window.length - ROW_WINDOW_LIMIT) }
+          : applied.rows,
+      seq: toSeq,
+      revision: session.revision,
+    };
+    session.watermark.recordDeltas(toSeq, deltas);
+    this.broadcastDeltas(session, fromSeq, toSeq, deltas);
+    return { sessionId: session.sessionId, fromSeq, toSeq, revision: session.revision, deltas };
   }
 
   private broadcastDeltas(
@@ -397,50 +464,45 @@ export class BridgeProjectionLayer implements BridgeEventProjectionLayer {
     deltas: readonly ConversationDelta[],
   ): void {
     const topic = `${SESSION_TOPIC_PREFIX}${session.sessionId}`;
-    for (const subscription of this.links.getSubscriptionsForTopic(topic)) {
+    const subscriptions = this.links.getSubscriptionsForTopic(topic);
+    if (subscriptions.length === 0) return;
+    // 合并只在相邻 state.updated 之间发生；两个 profile 拿到的字节完全一致。
+    const payload = deltas.length > 1 ? coalesceConversationDeltas([...deltas]) : [...deltas];
+    for (const subscription of subscriptions) {
       const subFromSeq = subscription.sentSeq;
       subscription.sentSeq = toSeq;
-      // 空 delta 事件也要发帧：客户端靠 (fromSeq,toSeq] 判断「这一段没有可见变化」，
+      // 0 delta 事件也要发帧：客户端靠 (fromSeq,toSeq] 判断「这段没有可见变化」，
       // 少发一帧会让后续帧的起点对不上水位。
       this.emitWireFrame(subscription, "online", subFromSeq, toSeq, {
         kind: "deltas",
-        deltas: coalesceConversationDeltas([...deltas]),
+        deltas: payload,
       });
     }
   }
 
   private emitWireFrame(
     subscription: BridgeSubscription,
-    deliveryKind: TopicFrameDeliveryKind,
+    deliveryKind: BridgeDeliveryKind,
     fromSeq: number,
     toSeq: number,
     payload:
-      | { readonly kind: "snapshot"; readonly snapshot: ConversationSnapshot }
-      | { readonly kind: "deltas"; readonly deltas: ConversationDelta[] },
+      | { kind: "snapshot"; snapshot: ConversationSnapshot }
+      | { kind: "deltas"; deltas: ConversationDelta[] },
   ): void {
-    const { logicalFrameId, ordinal } = this.links.nextLogicalFrame(subscription);
-    const wireFrame: RoutedTopicWireFrame = {
-      wireVersion: 3,
-      kind: "complete",
-      deliveryKind,
-      logicalFrameId,
-      logicalFrameOrdinal: ordinal,
-      topic: subscription.topic,
-      subscriptionId: subscription.subscriptionId,
-      frame: {
-        topic: subscription.topic,
-        subscriptionId: subscription.subscriptionId,
-        fromSeq,
-        toSeq,
-        sentAt: this.nowFn(),
-        payload,
-      },
-    };
-    this.deliver(subscription, wireFrame);
+    this.deliver(
+      subscription,
+      this.links.createWireFrame(
+        subscription,
+        deliveryKind,
+        { fromSeq, toSeq, payload },
+        this.nowFn(),
+      ),
+    );
   }
 
-  private deliver(subscription: BridgeSubscription, wireFrame: RoutedTopicWireFrame): void {
-    const gate = this.deliveryGates.get(subscription.subscriptionId);
+  /** 投递唯一出口：闸门 → 背压缓冲 → sink。顺序不能换，否则首帧会早于响应行。 */
+  private deliver(subscription: BridgeSubscription, wireFrame: ConversationTopicWireFrame): void {
+    const gate = this.gates.get(subscription.subscriptionId);
     if (gate) {
       gate.push(wireFrame);
       return;
@@ -453,70 +515,31 @@ export class BridgeProjectionLayer implements BridgeEventProjectionLayer {
   }
 
   /**
-   * 响应行先于首帧是合同 L7 的硬约束。subscribe/resync 的 Promise 在返回后段 A 才写响应，
-   * 因此帧必须晚于该微任务队列放行：用 setImmediate 保证响应已落 stdout。
+   * 响应行先于首帧：段 A 在 Promise 落定后写响应，因此帧要排到下一轮事件循环。
+   * 用 setImmediate 而不是微任务，避免与同一 tick 里的响应写竞争。
    */
   private releaseGateAfterResponse(subscription: BridgeSubscription): void {
     setImmediate(() => {
-      const frames = this.deliveryGates.get(subscription.subscriptionId);
-      this.deliveryGates.delete(subscription.subscriptionId);
+      const frames = this.gates.get(subscription.subscriptionId);
+      this.gates.delete(subscription.subscriptionId);
       if (!frames || frames.length === 0) return;
+      // 帧在闸门期间被 unsubscribe/dispose：直接丢弃，不能复活已删除的订阅。
       if (!this.links.getSubscription(subscription.subscriptionId)) return;
-      for (const wireFrame of frames) {
-        this.deliver(subscription, wireFrame);
-      }
+      for (const wireFrame of frames) this.deliver(subscription, wireFrame);
     });
   }
+}
 
-  private commitProjection(
-    session: ManagedSession,
-    projection: EventProjection,
-    toSeq: number,
-  ): ConversationDelta[] {
-    const deltas = [...projection.rowDeltas];
-    if (hasVisibleChange(projection)) {
-      session.revision += 1;
-      deltas.push({
-        op: "state.updated",
-        patch: { ...projection.patch, revision: session.revision },
-      });
-    }
-    session.snapshot = this.applyToSnapshot(session, deltas, toSeq);
-    session.snapshot = {
-      ...session.snapshot,
-      seq: toSeq,
-      revision: session.revision,
-      usage: { ...session.snapshot.usage, cumulative: { ...session.usage } },
-    };
-    return deltas;
+function countAppendedRows(deltas: readonly ConversationDelta[]): number {
+  let count = 0;
+  for (const delta of deltas) {
+    if (delta.op === "row.appended") count += 1;
   }
+  return count;
+}
 
-  private applyToSnapshot(
-    session: ManagedSession,
-    deltas: readonly ConversationDelta[],
-    toSeq: number,
-  ): ConversationSnapshot {
-    const applied = applyConversationDeltas({ ...session.snapshot, seq: toSeq }, deltas);
-    const window = applied.rows.window;
-    if (window.length <= STREAM_WINDOW_LIMIT) return applied;
-    return {
-      ...applied,
-      rows: { ...applied.rows, window: window.slice(window.length - STREAM_WINDOW_LIMIT) },
-    };
-  }
-
-  private appendRow(
-    session: ManagedSession,
-    toSeq: number,
-    row: ConversationSnapshot["rows"]["window"][number],
-  ): ConversationDelta {
-    session.nextRowId += 1;
-    return { op: "row.appended", row };
-  }
-
-  private nextRowId(session: ManagedSession): number {
-    return session.nextRowId;
-  }
+function defaultLogEpoch(sessionId: string): string {
+  return `epoch_${sessionId}_${Date.now().toString(36)}`;
 }
 
 export function createBridgeEventProjectionLayer(

@@ -12,15 +12,27 @@
 // 由段 A 在出口把它编码成 NDJSON 的 {code,message,data}。桥自带的错误类型让
 // 两个方向的代码都不再依赖 protocol 目录的实现细节。
 
-import type { RoutedTopicWireFrame, SubscribeAck } from "@knorvia/shared/protocol-v4";
+import type {
+  ConversationDelta,
+  ConversationSnapshot,
+  ConversationTopicWireFrame,
+  SubscribeAck,
+  TopicFrameDeliveryKind,
+} from "@knorvia/shared/protocol-v4";
 import type { BridgeClientMode, BridgeFlowState } from "./interface.js";
 
-/** JSON-RPC 风格的桥内错误：code 走协议错误码词表，data 只放可序列化的结构化细节。 */
+/**
+ * 桥内协议错误。
+ *
+ * `code` 是桥自己的稳定字符串码（不是 wire 上的 JSON-RPC 数字码）：段 A 在 NDJSON
+ * 出口把它映射成既有协议错误的数字码与 data，wire 上不出现新 code。用字符串是为了
+ * 让桥的两个分段都不依赖 protocol 目录的枚举，也不会把数字码当业务分支。
+ */
 export class BridgeProtocolError extends Error {
-  readonly code: number;
+  readonly code: string;
   readonly data?: unknown;
 
-  constructor(code: number, message: string, data?: unknown) {
+  constructor(code: string, message: string, data?: unknown) {
     super(message);
     this.name = "BridgeProtocolError";
     this.code = code;
@@ -28,8 +40,19 @@ export class BridgeProtocolError extends Error {
   }
 }
 
-/** 桥在参数边界统一使用的内部错误码；与旧 v4 入口逐字一致，客户端无需新分支。 */
-export const BRIDGE_INTERNAL_ERROR_CODE = -32603;
+/** 参数边界错误（topic/clientMode/flow state 非法）：映射为既有 invalid params。 */
+export const BRIDGE_INVALID_PARAMS = "proto.invalidParams";
+/** 会话不在投影层注册：映射为既有 sessionNotFound。 */
+export const BRIDGE_SESSION_NOT_FOUND = "proto.sessionNotFound";
+/** 订阅不属于该 topic/connection：映射为既有 subscription notOwned。 */
+export const BRIDGE_SUBSCRIPTION_NOT_OWNED = "fault.subscription.notOwned";
+
+/** clientMode 是订阅期唯一的链路选择；非法值必须在建立任何订阅状态之前拒绝。 */
+export function assertValidClientMode(mode: unknown): asserts mode is BridgeClientMode {
+  if (mode !== "desktop-continuous" && mode !== "web-remote-replayable") {
+    throw new BridgeProtocolError(BRIDGE_INVALID_PARAMS, `Invalid clientMode: ${String(mode)}`);
+  }
+}
 
 export interface BridgeSubscription {
   readonly subscriptionId: string;
@@ -44,7 +67,7 @@ export class LinksRegistry {
   private readonly subscriptions = new Map<string, BridgeSubscription>();
   private readonly subscriptionIdByConnection = new Map<string, string>();
   private readonly pausedConnections = new Set<string>();
-  private readonly bufferedFrames = new Map<string, RoutedTopicWireFrame[]>();
+  private readonly bufferedFrames = new Map<string, ConversationTopicWireFrame[]>();
   private nextSerial = 1;
 
   /**
@@ -66,19 +89,14 @@ export class LinksRegistry {
     readonly ack: SubscribeAck;
     readonly isResume: boolean;
   } {
-    if (
-      params.clientMode !== "desktop-continuous" &&
-      params.clientMode !== "web-remote-replayable"
-    ) {
-      throw new BridgeProtocolError(
-        BRIDGE_INTERNAL_ERROR_CODE,
-        `Invalid clientMode: ${String(params.clientMode)}`,
-      );
-    }
+    assertValidClientMode(params.clientMode);
 
     const previousId = this.subscriptionIdByConnection.get(params.connectionId);
     if (previousId !== undefined) {
       this.subscriptions.delete(previousId);
+      // 旧订阅已被替换，它压在背压队列里的帧不能再补发：那属于一个已经不存在的
+      // subscriptionId，客户端收到只会当成未知订阅丢弃，还会打乱新订阅的区间。
+      this.dropBufferedFrames(previousId);
     }
 
     const subscriptionId = `sub-${params.logEpoch}-${this.nextSerial++}`;
@@ -142,18 +160,38 @@ export class LinksRegistry {
     if (this.subscriptionIdByConnection.get(sub.connectionId) === subscriptionId) {
       this.subscriptionIdByConnection.delete(sub.connectionId);
     }
-    const queue = this.bufferedFrames.get(sub.connectionId);
-    if (queue !== undefined) {
-      const remaining = queue.filter(
-        (wireFrame) => wireFrame.subscriptionId !== subscriptionId,
-      );
+    this.dropBufferedFrames(subscriptionId);
+    return true;
+  }
+
+  /**
+   * 丢弃某订阅尚未投递的缓冲帧。
+   *
+   * resync 会按客户端 base 重建该订阅的交付起点，缓冲里那些旧帧属于被作废的
+   * 区间；补发它们会让客户端看到重复或回退的序号。
+   */
+  discardBufferedFrames(subscriptionId: string): void {
+    this.dropBufferedFrames(subscriptionId);
+  }
+
+  /** 释放全部订阅与背压缓冲；只在投影层 dispose 时调用。 */
+  clear(): void {
+    this.subscriptions.clear();
+    this.subscriptionIdByConnection.clear();
+    this.pausedConnections.clear();
+    this.bufferedFrames.clear();
+  }
+
+  /** 从背压队列中剔除指定订阅的帧；队列空了就连 key 一起删。 */
+  private dropBufferedFrames(subscriptionId: string): void {
+    for (const [connectionId, queue] of this.bufferedFrames) {
+      const remaining = queue.filter((wireFrame) => wireFrame.subscriptionId !== subscriptionId);
       if (remaining.length === 0) {
-        this.bufferedFrames.delete(sub.connectionId);
-      } else {
-        this.bufferedFrames.set(sub.connectionId, remaining);
+        this.bufferedFrames.delete(connectionId);
+      } else if (remaining.length !== queue.length) {
+        this.bufferedFrames.set(connectionId, remaining);
       }
     }
-    return true;
   }
 
   /**
@@ -166,7 +204,7 @@ export class LinksRegistry {
   /**
    * 将暂缓投递的 wire 帧排入该连接的 FIFO 缓冲区。
    */
-  bufferFrame(connectionId: string, frame: RoutedTopicWireFrame): void {
+  bufferFrame(connectionId: string, frame: ConversationTopicWireFrame): void {
     let queue = this.bufferedFrames.get(connectionId);
     if (!queue) {
       queue = [];
@@ -184,7 +222,7 @@ export class LinksRegistry {
   setFlowState(
     connectionId: string,
     state: BridgeFlowState,
-  ): RoutedTopicWireFrame[] | undefined {
+  ): ConversationTopicWireFrame[] | undefined {
     if (state === "saturated") {
       this.pausedConnections.add(connectionId);
       return undefined;
@@ -213,5 +251,43 @@ export class LinksRegistry {
     const ordinal = subscription.nextOrdinal++;
     const logicalFrameId = `lframe-${subscription.subscriptionId}-${ordinal}`;
     return { logicalFrameId, ordinal };
+  }
+
+  /**
+   * 构造物理 wire 帧（wireVersion=3, kind=complete）。
+   *
+   * 帧身份（logicalFrameId / ordinal）由本注册表分配，所以装配也放这里：
+   * 两个 clientMode 必须产出逐字段相同的帧，装配只此一处，避免调用方各自拼装。
+   */
+  createWireFrame(
+    subscription: BridgeSubscription,
+    deliveryKind: TopicFrameDeliveryKind,
+    frame: {
+      readonly fromSeq: number;
+      readonly toSeq: number;
+      readonly payload:
+        | { readonly kind: "snapshot"; readonly snapshot: ConversationSnapshot }
+        | { readonly kind: "deltas"; readonly deltas: ConversationDelta[] };
+    },
+    sentAt: number,
+  ): ConversationTopicWireFrame {
+    const { logicalFrameId, ordinal } = this.nextLogicalFrame(subscription);
+    return {
+      wireVersion: 3,
+      kind: "complete",
+      deliveryKind,
+      logicalFrameId,
+      logicalFrameOrdinal: ordinal,
+      topic: subscription.topic,
+      subscriptionId: subscription.subscriptionId,
+      frame: {
+        topic: subscription.topic,
+        subscriptionId: subscription.subscriptionId,
+        fromSeq: frame.fromSeq,
+        toSeq: frame.toSeq,
+        sentAt,
+        payload: frame.payload,
+      },
+    };
   }
 }
