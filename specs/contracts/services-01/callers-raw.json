@@ -1,1378 +1,1159 @@
 {
- "totals": {
-  "scopeFiles": 60,
-  "scopeTs": 58,
-  "documents": 2,
-  "deep": {
-   "scannedFiles": 6589,
-   "sites": 107,
-   "consumerFiles": 43,
-   "internalEdges": 89
+  "totals": {
+    "scopeFiles": 60,
+    "scopeTs": 58,
+    "documents": 2,
+    "deep": {
+      "scannedFiles": 6589,
+      "sites": 107,
+      "consumerFiles": 43,
+      "internalEdges": 89
+    },
+    "barrel": {
+      "scannedFiles": 6589,
+      "sites": 46,
+      "consumerFiles": 21,
+      "symbolsMapped": 298
+    },
+    "unionConsumerFiles": 64,
+    "reach": {
+      "entries": [
+        "storage-startup.ts",
+        "index.ts",
+        "cua-permission-broker/index.ts",
+        "process/processTreeTerminator.ts",
+        "window-controller/node.ts",
+        "node.ts"
+      ],
+      "visited": 460,
+      "scopeReachable": 58,
+      "unreachable": []
+    }
   },
-  "barrel": {
-   "scannedFiles": 6589,
-   "sites": 46,
-   "consumerFiles": 21,
-   "symbolsMapped": 298
-  },
-  "unionConsumerFiles": 64,
-  "reach": {
-   "entries": [
-    "storage-startup.ts",
-    "index.ts",
-    "cua-permission-broker/index.ts",
-    "process/processTreeTerminator.ts",
-    "window-controller/node.ts",
-    "node.ts"
-   ],
-   "visited": 460,
-   "scopeReachable": 58,
-   "unreachable": []
-  }
- },
- "rows": [
-  {
-   "modulePath": "agent/agent.ts",
-   "dir": "agent",
-   "classification": "unreviewed",
-   "deepSites": 14,
-   "deepConsumers": [
-    "packages/services/src/accessor.ts",
-    "packages/services/src/agent-session/importedClaudeSessionRepair.ts",
-    "packages/services/src/agent-session/sessionService.ts",
-    "packages/services/src/agent/task-index-ingestion/topicIngest.ts",
-    "packages/services/src/index.ts",
-    "packages/services/src/node.ts",
-    "packages/services/src/plugins/pluginManagementService.ts",
-    "packages/services/src/usage-stats/usageStatsService.ts",
-    "packages/services/src/window-controller/windowHostControllerService.ts",
-    "packages/services/src/window-controller/windowHostSessionsIndexObserver.ts",
-    "packages/services/test/agent-session-coalescer-fake-authority-20261003.test.ts",
-    "packages/services/test/mobileHostProtocol.test.ts",
-    "packages/services/test/task-index-workspace-contract-20261003.test.ts"
-   ],
-   "barrelSites": 9,
-   "barrelConsumers": [
-    "packages/desktop/src/host/hostResourceUsage.ts",
-    "packages/server-cli/src/server-core/core.ts",
-    "packages/ui/src/hooks/useAgentService.ts",
-    "packages/ui/src/lib/remotePluginSyncRefresh.ts",
-    "packages/ui/src/v4/agentConversationTransportWorkflowRuns.ts",
-    "packages/ui/src/v4/agentSessionsIndexTransport.ts",
-    "packages/ui/src/v4/agentV4ConnectionHandshake.ts",
-    "packages/ui/src/v4/sessionsIndexRegistry.ts",
-    "packages/ui/src/v4/workspaceConnectionRegistry.ts"
-   ],
-   "consumerFiles": [
-    "packages/desktop/src/host/hostResourceUsage.ts",
-    "packages/server-cli/src/server-core/core.ts",
-    "packages/services/src/accessor.ts",
-    "packages/services/src/agent-session/importedClaudeSessionRepair.ts",
-    "packages/services/src/agent-session/sessionService.ts",
-    "packages/services/src/agent/task-index-ingestion/topicIngest.ts",
-    "packages/services/src/index.ts",
-    "packages/services/src/node.ts",
-    "packages/services/src/plugins/pluginManagementService.ts",
-    "packages/services/src/usage-stats/usageStatsService.ts",
-    "packages/services/src/window-controller/windowHostControllerService.ts",
-    "packages/services/src/window-controller/windowHostSessionsIndexObserver.ts",
-    "packages/services/test/agent-session-coalescer-fake-authority-20261003.test.ts",
-    "packages/services/test/mobileHostProtocol.test.ts",
-    "packages/services/test/task-index-workspace-contract-20261003.test.ts",
-    "packages/ui/src/hooks/useAgentService.ts",
-    "packages/ui/src/lib/remotePluginSyncRefresh.ts",
-    "packages/ui/src/v4/agentConversationTransportWorkflowRuns.ts",
-    "packages/ui/src/v4/agentSessionsIndexTransport.ts",
-    "packages/ui/src/v4/agentV4ConnectionHandshake.ts",
-    "packages/ui/src/v4/sessionsIndexRegistry.ts",
-    "packages/ui/src/v4/workspaceConnectionRegistry.ts"
-   ],
-   "reachable": true,
-   "internalOut": [
-    "agent/agentPluginParams.ts",
-    "agent/agentWorkflowParams.ts",
-    "agent/agentPluginParams.ts",
-    "agent/agentWorkflowParams.ts"
-   ],
-   "internalIn": [
-    "agent/agentConnectionScope.ts",
-    "agent/agentProcessManager.ts",
-    "agent/agentService.ts",
-    "agent/agentService.ts",
-    "agent/repairSubagentTaskIndex.ts",
-    "agent/sessionEventCoalescer.ts",
-    "agent/task-index-ingestion/sessionIndexProjection.ts",
-    "agent/task-index-ingestion/snapshotProjection.ts",
-    "agent/task-index-ingestion/topicTypes.ts",
-    "agent/taskIndexSyncer.ts",
-    "agent/taskServiceAdapter.ts",
-    "conversation-telemetry/conversationTelemetry.ts"
-   ]
-  },
-  {
-   "modulePath": "agent/agentBrowserAmbientContext.ts",
-   "dir": "agent",
-   "classification": "unreviewed",
-   "deepSites": 0,
-   "deepConsumers": [],
-   "barrelSites": 0,
-   "barrelConsumers": [],
-   "consumerFiles": [],
-   "reachable": true,
-   "internalOut": [],
-   "internalIn": [
-    "agent/agentService.ts"
-   ]
-  },
-  {
-   "modulePath": "agent/agentConnectionScope.ts",
-   "dir": "agent",
-   "classification": "unreviewed",
-   "deepSites": 3,
-   "deepConsumers": [
-    "packages/services/src/index.ts",
-    "packages/services/test/mobileHostProtocol.test.ts"
-   ],
-   "barrelSites": 0,
-   "barrelConsumers": [],
-   "consumerFiles": [
-    "packages/services/src/index.ts",
-    "packages/services/test/mobileHostProtocol.test.ts"
-   ],
-   "reachable": true,
-   "internalOut": [
-    "agent/agent.ts"
-   ],
-   "internalIn": [
-    "agent/agentService.ts"
-   ]
-  },
-  {
-   "modulePath": "agent/agentErrors.ts",
-   "dir": "agent",
-   "classification": "unreviewed",
-   "deepSites": 1,
-   "deepConsumers": [
-    "packages/services/src/index.ts"
-   ],
-   "barrelSites": 0,
-   "barrelConsumers": [],
-   "consumerFiles": [
-    "packages/services/src/index.ts"
-   ],
-   "reachable": true,
-   "internalOut": [],
-   "internalIn": [
-    "agent/agentService.ts"
-   ]
-  },
-  {
-   "modulePath": "agent/agentPluginParams.ts",
-   "dir": "agent",
-   "classification": "unreviewed",
-   "deepSites": 1,
-   "deepConsumers": [
-    "packages/services/src/plugins/pluginManagement.ts"
-   ],
-   "barrelSites": 0,
-   "barrelConsumers": [],
-   "consumerFiles": [
-    "packages/services/src/plugins/pluginManagement.ts"
-   ],
-   "reachable": true,
-   "internalOut": [],
-   "internalIn": [
-    "agent/agent.ts",
-    "agent/agent.ts",
-    "agent/agentWorkflowParams.ts"
-   ]
-  },
-  {
-   "modulePath": "agent/agentPresentationSurface.ts",
-   "dir": "agent",
-   "classification": "unreviewed",
-   "deepSites": 1,
-   "deepConsumers": [
-    "packages/services/src/node.ts"
-   ],
-   "barrelSites": 0,
-   "barrelConsumers": [],
-   "consumerFiles": [
-    "packages/services/src/node.ts"
-   ],
-   "reachable": true,
-   "internalOut": [],
-   "internalIn": [
-    "agent/agentProcessManager.ts"
-   ]
-  },
-  {
-   "modulePath": "agent/agentProcessManager.ts",
-   "dir": "agent",
-   "classification": "unreviewed",
-   "deepSites": 4,
-   "deepConsumers": [
-    "packages/services/src/node.ts",
-    "packages/services/src/storage-startup.ts"
-   ],
-   "barrelSites": 1,
-   "barrelConsumers": [
-    "packages/server/src/stdioServices.ts"
-   ],
-   "consumerFiles": [
-    "packages/server/src/stdioServices.ts",
-    "packages/services/src/node.ts",
-    "packages/services/src/storage-startup.ts"
-   ],
-   "reachable": true,
-   "internalOut": [
-    "agent/agentSpawnCwd.ts",
-    "agent/agent.ts",
-    "agent/protocolClient.ts",
-    "agent/stdioTransport.ts",
-    "agent/stdioTapDevConfig.ts",
-    "agent/agentPresentationSurface.ts"
-   ],
-   "internalIn": [
-    "agent/agentService.ts",
-    "agent/agentService.ts"
-   ]
-  },
-  {
-   "modulePath": "agent/agentService.ts",
-   "dir": "agent",
-   "classification": "unreviewed",
-   "deepSites": 2,
-   "deepConsumers": [
-    "packages/services/src/node.ts"
-   ],
-   "barrelSites": 0,
-   "barrelConsumers": [],
-   "consumerFiles": [
-    "packages/services/src/node.ts"
-   ],
-   "reachable": true,
-   "internalOut": [
-    "agent/pluginReferenceCatalogRequest.ts",
-    "agent/automationToolPolicy.ts",
-    "agent/agentErrors.ts",
-    "agent/sessionEventCoalescer.ts",
-    "agent/cuaOperationTurnTracker.ts",
-    "agent/independentPlanSupport.ts",
-    "agent/agent.ts",
-    "agent/agent.ts",
-    "agent/agentBrowserAmbientContext.ts",
-    "agent/agentConnectionScope.ts",
-    "agent/agentProcessManager.ts",
-    "agent/agentProcessManager.ts",
-    "agent/protocolClient.ts"
-   ],
-   "internalIn": []
-  },
-  {
-   "modulePath": "agent/agentSpawnCwd.ts",
-   "dir": "agent",
-   "classification": "unreviewed",
-   "deepSites": 1,
-   "deepConsumers": [
-    "packages/services/src/storage-startup.ts"
-   ],
-   "barrelSites": 1,
-   "barrelConsumers": [
-    "packages/desktop/src/host/hostDatabaseStartup.ts"
-   ],
-   "consumerFiles": [
-    "packages/desktop/src/host/hostDatabaseStartup.ts",
-    "packages/services/src/storage-startup.ts"
-   ],
-   "reachable": true,
-   "internalOut": [],
-   "internalIn": [
-    "agent/agentProcessManager.ts"
-   ]
-  },
-  {
-   "modulePath": "agent/agentStderrCollector.ts",
-   "dir": "agent",
-   "classification": "unreviewed",
-   "deepSites": 1,
-   "deepConsumers": [
-    "packages/services/test/agent-stderr-fake-authority-20261003.test.ts"
-   ],
-   "barrelSites": 0,
-   "barrelConsumers": [],
-   "consumerFiles": [
-    "packages/services/test/agent-stderr-fake-authority-20261003.test.ts"
-   ],
-   "reachable": true,
-   "internalOut": [],
-   "internalIn": [
-    "agent/stdioTransport.ts"
-   ]
-  },
-  {
-   "modulePath": "agent/agentWorkflowParams.ts",
-   "dir": "agent",
-   "classification": "unreviewed",
-   "deepSites": 0,
-   "deepConsumers": [],
-   "barrelSites": 0,
-   "barrelConsumers": [],
-   "consumerFiles": [],
-   "reachable": true,
-   "internalOut": [
-    "agent/agentPluginParams.ts"
-   ],
-   "internalIn": [
-    "agent/agent.ts",
-    "agent/agent.ts"
-   ]
-  },
-  {
-   "modulePath": "agent/automationToolPolicy.ts",
-   "dir": "agent",
-   "classification": "upstream-unchanged",
-   "deepSites": 2,
-   "deepConsumers": [
-    "apps/cli/packages/core/test/cron-fixture.ts",
-    "apps/cli/packages/core/test/off-peak-fixture.ts"
-   ],
-   "barrelSites": 0,
-   "barrelConsumers": [],
-   "consumerFiles": [
-    "apps/cli/packages/core/test/cron-fixture.ts",
-    "apps/cli/packages/core/test/off-peak-fixture.ts"
-   ],
-   "reachable": true,
-   "internalOut": [],
-   "internalIn": [
-    "agent/agentService.ts",
-    "agent/taskServiceAdapter.ts"
-   ]
-  },
-  {
-   "modulePath": "agent/configOptions.ts",
-   "dir": "agent",
-   "classification": "unreviewed",
-   "deepSites": 1,
-   "deepConsumers": [
-    "packages/services/src/agent-session/sessionService.ts"
-   ],
-   "barrelSites": 0,
-   "barrelConsumers": [],
-   "consumerFiles": [
-    "packages/services/src/agent-session/sessionService.ts"
-   ],
-   "reachable": true,
-   "internalOut": [],
-   "internalIn": [
-    "agent/task-index-ingestion/snapshotProjection.ts",
-    "agent/taskServiceAdapter.ts"
-   ]
-  },
-  {
-   "modulePath": "agent/cuaOperationTurnTracker.ts",
-   "dir": "agent",
-   "classification": "unreviewed",
-   "deepSites": 1,
-   "deepConsumers": [
-    "packages/services/src/node.ts"
-   ],
-   "barrelSites": 0,
-   "barrelConsumers": [],
-   "consumerFiles": [
-    "packages/services/src/node.ts"
-   ],
-   "reachable": true,
-   "internalOut": [],
-   "internalIn": [
-    "agent/agentService.ts"
-   ]
-  },
-  {
-   "modulePath": "agent/independentPlanSupport.ts",
-   "dir": "agent",
-   "classification": "unreviewed",
-   "deepSites": 0,
-   "deepConsumers": [],
-   "barrelSites": 0,
-   "barrelConsumers": [],
-   "consumerFiles": [],
-   "reachable": true,
-   "internalOut": [
-    "agent/protocolClient.ts"
-   ],
-   "internalIn": [
-    "agent/agentService.ts"
-   ]
-  },
-  {
-   "modulePath": "agent/modelTrajectory.ts",
-   "dir": "agent",
-   "classification": "unreviewed",
-   "deepSites": 1,
-   "deepConsumers": [
-    "packages/services/test/model-trajectory-fake-io-20261003.test.ts"
-   ],
-   "barrelSites": 0,
-   "barrelConsumers": [],
-   "consumerFiles": [
-    "packages/services/test/model-trajectory-fake-io-20261003.test.ts"
-   ],
-   "reachable": true,
-   "internalOut": [
-    "agent/modelTrajectoryFileTail.ts",
-    "agent/modelTrajectoryFileTail.ts"
-   ],
-   "internalIn": [
-    "agent/taskServiceAdapter.ts"
-   ]
-  },
-  {
-   "modulePath": "agent/modelTrajectoryFileTail.ts",
-   "dir": "agent",
-   "classification": "unreviewed",
-   "deepSites": 0,
-   "deepConsumers": [],
-   "barrelSites": 0,
-   "barrelConsumers": [],
-   "consumerFiles": [],
-   "reachable": true,
-   "internalOut": [],
-   "internalIn": [
-    "agent/modelTrajectory.ts",
-    "agent/modelTrajectory.ts"
-   ]
-  },
-  {
-   "modulePath": "agent/pluginReferenceCatalogRequest.ts",
-   "dir": "agent",
-   "classification": "unreviewed",
-   "deepSites": 0,
-   "deepConsumers": [],
-   "barrelSites": 0,
-   "barrelConsumers": [],
-   "consumerFiles": [],
-   "reachable": true,
-   "internalOut": [
-    "agent/protocolClient.ts"
-   ],
-   "internalIn": [
-    "agent/agentService.ts"
-   ]
-  },
-  {
-   "modulePath": "agent/protocolClient.ts",
-   "dir": "agent",
-   "classification": "unreviewed",
-   "deepSites": 1,
-   "deepConsumers": [
-    "packages/services/src/node.ts"
-   ],
-   "barrelSites": 0,
-   "barrelConsumers": [],
-   "consumerFiles": [
-    "packages/services/src/node.ts"
-   ],
-   "reachable": true,
-   "internalOut": [
-    "agent/storageStartupGate.ts",
-    "agent/protocolTransport.ts"
-   ],
-   "internalIn": [
-    "agent/agentProcessManager.ts",
-    "agent/agentService.ts",
-    "agent/independentPlanSupport.ts",
-    "agent/pluginReferenceCatalogRequest.ts"
-   ]
-  },
-  {
-   "modulePath": "agent/protocolTransport.ts",
-   "dir": "agent",
-   "classification": "unreviewed",
-   "deepSites": 1,
-   "deepConsumers": [
-    "packages/services/src/node.ts"
-   ],
-   "barrelSites": 0,
-   "barrelConsumers": [],
-   "consumerFiles": [
-    "packages/services/src/node.ts"
-   ],
-   "reachable": true,
-   "internalOut": [],
-   "internalIn": [
-    "agent/protocolClient.ts",
-    "agent/stdioTransport.ts"
-   ]
-  },
-  {
-   "modulePath": "agent/repairSubagentTaskIndex.ts",
-   "dir": "agent",
-   "classification": "unreviewed",
-   "deepSites": 0,
-   "deepConsumers": [],
-   "barrelSites": 0,
-   "barrelConsumers": [],
-   "consumerFiles": [],
-   "reachable": true,
-   "internalOut": [
-    "agent/agent.ts"
-   ],
-   "internalIn": [
-    "agent/task-index-ingestion/sessionIndexProjection.ts"
-   ]
-  },
-  {
-   "modulePath": "agent/sessionEventCoalescer.ts",
-   "dir": "agent",
-   "classification": "unreviewed",
-   "deepSites": 1,
-   "deepConsumers": [
-    "packages/services/test/agent-session-coalescer-fake-authority-20261003.test.ts"
-   ],
-   "barrelSites": 0,
-   "barrelConsumers": [],
-   "consumerFiles": [
-    "packages/services/test/agent-session-coalescer-fake-authority-20261003.test.ts"
-   ],
-   "reachable": true,
-   "internalOut": [
-    "agent/agent.ts"
-   ],
-   "internalIn": [
-    "agent/agentService.ts"
-   ]
-  },
-  {
-   "modulePath": "agent/stdioTapDevConfig.ts",
-   "dir": "agent",
-   "classification": "unreviewed",
-   "deepSites": 1,
-   "deepConsumers": [
-    "packages/services/src/node.ts"
-   ],
-   "barrelSites": 0,
-   "barrelConsumers": [],
-   "consumerFiles": [
-    "packages/services/src/node.ts"
-   ],
-   "reachable": true,
-   "internalOut": [],
-   "internalIn": [
-    "agent/agentProcessManager.ts"
-   ]
-  },
-  {
-   "modulePath": "agent/stdioTransport.ts",
-   "dir": "agent",
-   "classification": "unreviewed",
-   "deepSites": 2,
-   "deepConsumers": [
-    "packages/services/src/node.ts",
-    "packages/services/test/agent-stdio-fake-authority-20261003.test.ts"
-   ],
-   "barrelSites": 0,
-   "barrelConsumers": [],
-   "consumerFiles": [
-    "packages/services/src/node.ts",
-    "packages/services/test/agent-stdio-fake-authority-20261003.test.ts"
-   ],
-   "reachable": true,
-   "internalOut": [
-    "agent/agentStderrCollector.ts",
-    "agent/protocolTransport.ts"
-   ],
-   "internalIn": [
-    "agent/agentProcessManager.ts"
-   ]
-  },
-  {
-   "modulePath": "agent/storageStartupGate.ts",
-   "dir": "agent",
-   "classification": "unreviewed",
-   "deepSites": 0,
-   "deepConsumers": [],
-   "barrelSites": 0,
-   "barrelConsumers": [],
-   "consumerFiles": [],
-   "reachable": true,
-   "internalOut": [],
-   "internalIn": [
-    "agent/protocolClient.ts"
-   ]
-  },
-  {
-   "modulePath": "agent/task-index-ingestion/sessionIndexProjection.ts",
-   "dir": "agent",
-   "classification": "unreviewed",
-   "deepSites": 1,
-   "deepConsumers": [
-    "packages/services/test/services-projection-effects-contract-20261003.test.ts"
-   ],
-   "barrelSites": 0,
-   "barrelConsumers": [],
-   "consumerFiles": [
-    "packages/services/test/services-projection-effects-contract-20261003.test.ts"
-   ],
-   "reachable": true,
-   "internalOut": [
-    "agent/agent.ts",
-    "agent/repairSubagentTaskIndex.ts",
-    "agent/task-index-ingestion/snapshotProjection.ts",
-    "agent/task-index-ingestion/topicTypes.ts"
-   ],
-   "internalIn": [
-    "agent/taskIndexSyncer.ts"
-   ]
-  },
-  {
-   "modulePath": "agent/task-index-ingestion/snapshotProjection.ts",
-   "dir": "agent",
-   "classification": "unreviewed",
-   "deepSites": 3,
-   "deepConsumers": [
-    "packages/services/test/services-projection-effects-contract-20261003.test.ts",
-    "packages/services/test/task-index-snapshot-contract-20261003.test.ts"
-   ],
-   "barrelSites": 0,
-   "barrelConsumers": [],
-   "consumerFiles": [
-    "packages/services/test/services-projection-effects-contract-20261003.test.ts",
-    "packages/services/test/task-index-snapshot-contract-20261003.test.ts"
-   ],
-   "reachable": true,
-   "internalOut": [
-    "agent/agent.ts",
-    "agent/configOptions.ts",
-    "agent/task-index-ingestion/topicTypes.ts"
-   ],
-   "internalIn": [
-    "agent/task-index-ingestion/sessionIndexProjection.ts",
-    "agent/taskIndexSyncer.ts"
-   ]
-  },
-  {
-   "modulePath": "agent/task-index-ingestion/topicTypes.ts",
-   "dir": "agent",
-   "classification": "unreviewed",
-   "deepSites": 3,
-   "deepConsumers": [
-    "packages/services/src/agent/task-index-ingestion/topicIngest.ts",
-    "packages/services/src/agent/task-index-ingestion/topicRecovery.ts",
-    "packages/services/test/task-index-topic-contract-20261003.test.ts"
-   ],
-   "barrelSites": 0,
-   "barrelConsumers": [],
-   "consumerFiles": [
-    "packages/services/src/agent/task-index-ingestion/topicIngest.ts",
-    "packages/services/src/agent/task-index-ingestion/topicRecovery.ts",
-    "packages/services/test/task-index-topic-contract-20261003.test.ts"
-   ],
-   "reachable": true,
-   "internalOut": [
-    "agent/agent.ts"
-   ],
-   "internalIn": [
-    "agent/task-index-ingestion/sessionIndexProjection.ts",
-    "agent/task-index-ingestion/snapshotProjection.ts",
-    "agent/taskIndexSyncer.ts"
-   ]
-  },
-  {
-   "modulePath": "agent/taskIndexSyncer.ts",
-   "dir": "agent",
-   "classification": "unreviewed",
-   "deepSites": 3,
-   "deepConsumers": [
-    "packages/services/src/agent-session/sessionService.ts",
-    "packages/services/src/node.ts",
-    "packages/services/test/task-index-workspace-contract-20261003.test.ts"
-   ],
-   "barrelSites": 0,
-   "barrelConsumers": [],
-   "consumerFiles": [
-    "packages/services/src/agent-session/sessionService.ts",
-    "packages/services/src/node.ts",
-    "packages/services/test/task-index-workspace-contract-20261003.test.ts"
-   ],
-   "reachable": true,
-   "internalOut": [
-    "agent/agent.ts",
-    "agent/task-index-ingestion/topicTypes.ts",
-    "agent/task-index-ingestion/sessionIndexProjection.ts",
-    "agent/task-index-ingestion/snapshotProjection.ts"
-   ],
-   "internalIn": [
-    "agent/taskServiceAdapter.ts"
-   ]
-  },
-  {
-   "modulePath": "agent/taskServiceAdapter.ts",
-   "dir": "agent",
-   "classification": "unreviewed",
-   "deepSites": 4,
-   "deepConsumers": [
-    "packages/services/src/node.ts",
-    "packages/services/test/importedClaudeRecovery.test.ts",
-    "packages/services/test/nonCliAcpRetirement.test.ts"
-   ],
-   "barrelSites": 0,
-   "barrelConsumers": [],
-   "consumerFiles": [
-    "packages/services/src/node.ts",
-    "packages/services/test/importedClaudeRecovery.test.ts",
-    "packages/services/test/nonCliAcpRetirement.test.ts"
-   ],
-   "reachable": true,
-   "internalOut": [
-    "cua-permission-broker/index.ts",
-    "agent/automationToolPolicy.ts",
-    "agent/modelTrajectory.ts",
-    "agent/agent.ts",
-    "agent/configOptions.ts",
-    "agent/taskIndexSyncer.ts",
-    "agent/v4HostCommand.ts"
-   ],
-   "internalIn": []
-  },
-  {
-   "modulePath": "agent/v4HostCommand.ts",
-   "dir": "agent",
-   "classification": "unreviewed",
-   "deepSites": 0,
-   "deepConsumers": [],
-   "barrelSites": 0,
-   "barrelConsumers": [],
-   "consumerFiles": [],
-   "reachable": true,
-   "internalOut": [],
-   "internalIn": [
-    "agent/taskServiceAdapter.ts"
-   ]
-  },
-  {
-   "modulePath": "broadcast/broadcast.ts",
-   "dir": "broadcast",
-   "classification": "upstream-modified",
-   "deepSites": 4,
-   "deepConsumers": [
-    "packages/services/src/accessor.ts",
-    "packages/services/src/index.ts",
-    "packages/services/src/node.ts"
-   ],
-   "barrelSites": 1,
-   "barrelConsumers": [
-    "packages/ui/src/store/StoreProvider.tsx"
-   ],
-   "consumerFiles": [
-    "packages/services/src/accessor.ts",
-    "packages/services/src/index.ts",
-    "packages/services/src/node.ts",
-    "packages/ui/src/store/StoreProvider.tsx"
-   ],
-   "reachable": true,
-   "internalOut": [],
-   "internalIn": [
-    "broadcast/broadcastService.ts"
-   ]
-  },
-  {
-   "modulePath": "broadcast/broadcastService.ts",
-   "dir": "broadcast",
-   "classification": "upstream-modified",
-   "deepSites": 3,
-   "deepConsumers": [
-    "packages/services/src/node.ts",
-    "packages/services/test/broadcast-fake-claim-safety-20261002.test.ts"
-   ],
-   "barrelSites": 1,
-   "barrelConsumers": [
-    "packages/desktop/src/host/remoteWorkspaceServiceCollection.ts"
-   ],
-   "consumerFiles": [
-    "packages/desktop/src/host/remoteWorkspaceServiceCollection.ts",
-    "packages/services/src/node.ts",
-    "packages/services/test/broadcast-fake-claim-safety-20261002.test.ts"
-   ],
-   "reachable": true,
-   "internalOut": [
-    "broadcast/broadcast.ts"
-   ],
-   "internalIn": []
-  },
-  {
-   "modulePath": "commands/commandConfig.ts",
-   "dir": "commands",
-   "classification": "unreviewed",
-   "deepSites": 0,
-   "deepConsumers": [],
-   "barrelSites": 0,
-   "barrelConsumers": [],
-   "consumerFiles": [],
-   "reachable": true,
-   "internalOut": [],
-   "internalIn": [
-    "commands/commandDiscovery.ts",
-    "commands/commandDiscovery.ts",
-    "commands/commandsService.ts"
-   ]
-  },
-  {
-   "modulePath": "commands/commandDiscovery.ts",
-   "dir": "commands",
-   "classification": "unreviewed",
-   "deepSites": 0,
-   "deepConsumers": [],
-   "barrelSites": 0,
-   "barrelConsumers": [],
-   "consumerFiles": [],
-   "reachable": true,
-   "internalOut": [
-    "commands/commandFileParser.ts",
-    "commands/commandConfig.ts",
-    "commands/commandConfig.ts"
-   ],
-   "internalIn": [
-    "commands/commandsService.ts"
-   ]
-  },
-  {
-   "modulePath": "commands/commandFileParser.ts",
-   "dir": "commands",
-   "classification": "upstream-modified",
-   "deepSites": 3,
-   "deepConsumers": [
-    "packages/services/src/commands/commandLocations.ts",
-    "packages/services/src/settings-sync/settingsSyncSources.ts",
-    "packages/services/test/services-parsing-boundaries-final-20261003.test.ts"
-   ],
-   "barrelSites": 0,
-   "barrelConsumers": [],
-   "consumerFiles": [
-    "packages/services/src/commands/commandLocations.ts",
-    "packages/services/src/settings-sync/settingsSyncSources.ts",
-    "packages/services/test/services-parsing-boundaries-final-20261003.test.ts"
-   ],
-   "reachable": true,
-   "internalOut": [],
-   "internalIn": [
-    "commands/commandDiscovery.ts",
-    "commands/commandsService.ts"
-   ]
-  },
-  {
-   "modulePath": "commands/commands.ts",
-   "dir": "commands",
-   "classification": "upstream-modified",
-   "deepSites": 3,
-   "deepConsumers": [
-    "packages/services/src/accessor.ts",
-    "packages/services/src/index.ts",
-    "packages/services/src/node.ts"
-   ],
-   "barrelSites": 1,
-   "barrelConsumers": [
-    "packages/ui/src/lib/remotePluginSyncRefresh.ts"
-   ],
-   "consumerFiles": [
-    "packages/services/src/accessor.ts",
-    "packages/services/src/index.ts",
-    "packages/services/src/node.ts",
-    "packages/ui/src/lib/remotePluginSyncRefresh.ts"
-   ],
-   "reachable": true,
-   "internalOut": [],
-   "internalIn": [
-    "commands/commandsService.ts"
-   ]
-  },
-  {
-   "modulePath": "commands/commandsService.ts",
-   "dir": "commands",
-   "classification": "upstream-modified",
-   "deepSites": 3,
-   "deepConsumers": [
-    "packages/services/src/node.ts",
-    "packages/services/test/commands-fake-write-safety-20261002.test.ts"
-   ],
-   "barrelSites": 0,
-   "barrelConsumers": [],
-   "consumerFiles": [
-    "packages/services/src/node.ts",
-    "packages/services/test/commands-fake-write-safety-20261002.test.ts"
-   ],
-   "reachable": true,
-   "internalOut": [
-    "commands/commands.ts",
-    "commands/commandFileParser.ts",
-    "commands/commandConfig.ts",
-    "commands/commandDiscovery.ts"
-   ],
-   "internalIn": []
-  },
-  {
-   "modulePath": "conversation-telemetry/conversationTelemetry.ts",
-   "dir": "conversation-telemetry",
-   "classification": "upstream-modified",
-   "deepSites": 1,
-   "deepConsumers": [
-    "packages/services/src/index.ts"
-   ],
-   "barrelSites": 0,
-   "barrelConsumers": [],
-   "consumerFiles": [
-    "packages/services/src/index.ts"
-   ],
-   "reachable": true,
-   "internalOut": [
-    "agent/agent.ts"
-   ],
-   "internalIn": []
-  },
-  {
-   "modulePath": "credential/credential.ts",
-   "dir": "credential",
-   "classification": "upstream-modified",
-   "deepSites": 4,
-   "deepConsumers": [
-    "packages/services/src/accessor.ts",
-    "packages/services/src/creation/creationService.ts",
-    "packages/services/src/index.ts",
-    "packages/services/src/node.ts"
-   ],
-   "barrelSites": 0,
-   "barrelConsumers": [],
-   "consumerFiles": [
-    "packages/services/src/accessor.ts",
-    "packages/services/src/creation/creationService.ts",
-    "packages/services/src/index.ts",
-    "packages/services/src/node.ts"
-   ],
-   "reachable": true,
-   "internalOut": [],
-   "internalIn": [
-    "credential/credentialService.ts"
-   ]
-  },
-  {
-   "modulePath": "credential/credentialService.ts",
-   "dir": "credential",
-   "classification": "upstream-modified",
-   "deepSites": 2,
-   "deepConsumers": [
-    "packages/services/src/node.ts"
-   ],
-   "barrelSites": 1,
-   "barrelConsumers": [
-    "packages/desktop/src/host/remoteWorkspaceServiceCollection.ts"
-   ],
-   "consumerFiles": [
-    "packages/desktop/src/host/remoteWorkspaceServiceCollection.ts",
-    "packages/services/src/node.ts"
-   ],
-   "reachable": true,
-   "internalOut": [
-    "credential/credential.ts",
-    "credential/providers/credentialCipherProvider.ts"
-   ],
-   "internalIn": []
-  },
-  {
-   "modulePath": "credential/providers/credentialCipherProvider.ts",
-   "dir": "credential",
-   "classification": "upstream-modified",
-   "deepSites": 1,
-   "deepConsumers": [
-    "packages/services/test/knorviaAccountRemoval.test.ts"
-   ],
-   "barrelSites": 0,
-   "barrelConsumers": [],
-   "consumerFiles": [
-    "packages/services/test/knorviaAccountRemoval.test.ts"
-   ],
-   "reachable": true,
-   "internalOut": [],
-   "internalIn": [
-    "credential/credentialService.ts"
-   ]
-  },
-  {
-   "modulePath": "cua-permission-broker/cuaAgentAdmissionGate.ts",
-   "dir": "cua-permission-broker",
-   "classification": "upstream-modified",
-   "deepSites": 1,
-   "deepConsumers": [
-    "packages/services/test/cua-admission-fake-authority-20261003.test.ts"
-   ],
-   "barrelSites": 0,
-   "barrelConsumers": [],
-   "consumerFiles": [
-    "packages/services/test/cua-admission-fake-authority-20261003.test.ts"
-   ],
-   "reachable": true,
-   "internalOut": [],
-   "internalIn": [
-    "cua-permission-broker/index.ts"
-   ]
-  },
-  {
-   "modulePath": "cua-permission-broker/cuaHelperInstaller.ts",
-   "dir": "cua-permission-broker",
-   "classification": "upstream-modified",
-   "deepSites": 2,
-   "deepConsumers": [
-    "packages/services/src/node.ts"
-   ],
-   "barrelSites": 2,
-   "barrelConsumers": [
-    "packages/desktop/src/main/desktopCuaHelperInstaller.ts"
-   ],
-   "consumerFiles": [
-    "packages/desktop/src/main/desktopCuaHelperInstaller.ts",
-    "packages/services/src/node.ts"
-   ],
-   "reachable": true,
-   "internalOut": [],
-   "internalIn": []
-  },
-  {
-   "modulePath": "cua-permission-broker/cuaPermissionService.ts",
-   "dir": "cua-permission-broker",
-   "classification": "upstream-modified",
-   "deepSites": 3,
-   "deepConsumers": [
-    "packages/services/src/accessor.ts",
-    "packages/services/src/index.ts",
-    "packages/services/test/cua-permission-facade-fake-authority-20261003.test.ts"
-   ],
-   "barrelSites": 13,
-   "barrelConsumers": [
-    "packages/ui/src/lib/cuaComposerEntryState.ts",
-    "packages/ui/src/lib/cuaPermissionStatusCache.ts",
-    "packages/ui/src/lib/cuaPermissionStatusStore.ts",
-    "packages/ui/src/settings/cuaPermissionRestartVerify.ts"
-   ],
-   "consumerFiles": [
-    "packages/services/src/accessor.ts",
-    "packages/services/src/index.ts",
-    "packages/services/test/cua-permission-facade-fake-authority-20261003.test.ts",
-    "packages/ui/src/lib/cuaComposerEntryState.ts",
-    "packages/ui/src/lib/cuaPermissionStatusCache.ts",
-    "packages/ui/src/lib/cuaPermissionStatusStore.ts",
-    "packages/ui/src/settings/cuaPermissionRestartVerify.ts"
-   ],
-   "reachable": true,
-   "internalOut": [],
-   "internalIn": [
-    "cua-permission-broker/index.ts",
-    "cua-permission-broker/index.ts"
-   ]
-  },
-  {
-   "modulePath": "cua-permission-broker/cuaPipSession.ts",
-   "dir": "cua-permission-broker",
-   "classification": "upstream-modified",
-   "deepSites": 2,
-   "deepConsumers": [
-    "packages/services/src/index.ts",
-    "packages/services/test/cua-pip-fake-authority-20261003.test.ts"
-   ],
-   "barrelSites": 0,
-   "barrelConsumers": [],
-   "consumerFiles": [
-    "packages/services/src/index.ts",
-    "packages/services/test/cua-pip-fake-authority-20261003.test.ts"
-   ],
-   "reachable": true,
-   "internalOut": [],
-   "internalIn": [
-    "cua-permission-broker/cuaPipSessionService.ts",
-    "cua-permission-broker/index.ts",
-    "cua-permission-broker/index.ts"
-   ]
-  },
-  {
-   "modulePath": "cua-permission-broker/cuaPipSessionService.ts",
-   "dir": "cua-permission-broker",
-   "classification": "upstream-modified",
-   "deepSites": 1,
-   "deepConsumers": [
-    "packages/services/test/cua-pip-fake-authority-20261003.test.ts"
-   ],
-   "barrelSites": 0,
-   "barrelConsumers": [],
-   "consumerFiles": [
-    "packages/services/test/cua-pip-fake-authority-20261003.test.ts"
-   ],
-   "reachable": true,
-   "internalOut": [
-    "cua-permission-broker/cuaPipSession.ts"
-   ],
-   "internalIn": [
-    "cua-permission-broker/index.ts",
-    "cua-permission-broker/index.ts"
-   ]
-  },
-  {
-   "modulePath": "cua-permission-broker/index.ts",
-   "dir": "cua-permission-broker",
-   "classification": "upstream-modified",
-   "deepSites": 6,
-   "deepConsumers": [
-    "packages/desktop/src/main/cuaAccessibilitySettings.ts",
-    "packages/services/src/agent-session/sessionPreparation.ts",
-    "packages/services/src/agent-session/sessionService.ts",
-    "packages/services/src/node.ts"
-   ],
-   "barrelSites": 13,
-   "barrelConsumers": [
-    "packages/ui/src/lib/cuaComposerEntryState.ts",
-    "packages/ui/src/lib/cuaPermissionStatusCache.ts",
-    "packages/ui/src/lib/cuaPermissionStatusStore.ts",
-    "packages/ui/src/settings/cuaPermissionRestartVerify.ts"
-   ],
-   "consumerFiles": [
-    "packages/desktop/src/main/cuaAccessibilitySettings.ts",
-    "packages/services/src/agent-session/sessionPreparation.ts",
-    "packages/services/src/agent-session/sessionService.ts",
-    "packages/services/src/node.ts",
-    "packages/ui/src/lib/cuaComposerEntryState.ts",
-    "packages/ui/src/lib/cuaPermissionStatusCache.ts",
-    "packages/ui/src/lib/cuaPermissionStatusStore.ts",
-    "packages/ui/src/settings/cuaPermissionRestartVerify.ts"
-   ],
-   "reachable": true,
-   "internalOut": [
-    "cua-permission-broker/cuaAgentAdmissionGate.ts",
-    "cua-permission-broker/cuaPermissionService.ts",
-    "cua-permission-broker/cuaPermissionService.ts",
-    "cua-permission-broker/windowsCuaDevHelperHost.ts",
-    "cua-permission-broker/windowsCuaDevHelperHost.ts",
-    "cua-permission-broker/cuaPipSessionService.ts",
-    "cua-permission-broker/cuaPipSession.ts",
-    "cua-permission-broker/cuaPipSessionService.ts",
-    "cua-permission-broker/cuaPipSession.ts"
-   ],
-   "internalIn": [
-    "agent/taskServiceAdapter.ts"
-   ]
-  },
-  {
-   "modulePath": "cua-permission-broker/windowsCuaDevHelperHost.ts",
-   "dir": "cua-permission-broker",
-   "classification": "upstream-modified",
-   "deepSites": 1,
-   "deepConsumers": [
-    "packages/services/src/node.ts"
-   ],
-   "barrelSites": 0,
-   "barrelConsumers": [],
-   "consumerFiles": [
-    "packages/services/src/node.ts"
-   ],
-   "reachable": true,
-   "internalOut": [
-    "cua-permission-broker/windowsCuaHelperHostSupport.ts",
-    "cua-permission-broker/windowsCuaHelperHostSupport.ts"
-   ],
-   "internalIn": [
-    "cua-permission-broker/index.ts",
-    "cua-permission-broker/index.ts"
-   ]
-  },
-  {
-   "modulePath": "cua-permission-broker/windowsCuaDevRuntime.ts",
-   "dir": "cua-permission-broker",
-   "classification": "upstream-modified",
-   "deepSites": 1,
-   "deepConsumers": [
-    "packages/services/src/node.ts"
-   ],
-   "barrelSites": 0,
-   "barrelConsumers": [],
-   "consumerFiles": [
-    "packages/services/src/node.ts"
-   ],
-   "reachable": true,
-   "internalOut": [],
-   "internalIn": [
-    "cua-permission-broker/windowsCuaHelperHostSupport.ts"
-   ]
-  },
-  {
-   "modulePath": "cua-permission-broker/windowsCuaHelperHostSupport.ts",
-   "dir": "cua-permission-broker",
-   "classification": "upstream-modified",
-   "deepSites": 0,
-   "deepConsumers": [],
-   "barrelSites": 0,
-   "barrelConsumers": [],
-   "consumerFiles": [],
-   "reachable": true,
-   "internalOut": [
-    "cua-permission-broker/windowsCuaDevRuntime.ts"
-   ],
-   "internalIn": [
-    "cua-permission-broker/windowsCuaDevHelperHost.ts",
-    "cua-permission-broker/windowsCuaDevHelperHost.ts"
-   ]
-  },
-  {
-   "modulePath": "file/file.ts",
-   "dir": "file",
-   "classification": "upstream-modified",
-   "deepSites": 5,
-   "deepConsumers": [
-    "packages/services/src/accessor.ts",
-    "packages/services/src/index.ts",
-    "packages/services/src/media-preview/mediaPreview.ts",
-    "packages/services/src/node.ts",
-    "packages/services/test/media-preview-fake-authority-20261002.test.ts"
-   ],
-   "barrelSites": 3,
-   "barrelConsumers": [
-    "packages/ui/src/studio/agents/taskHandoff.ts",
-    "packages/ui/src/workspace-file-search/fetchWorkspaceFileEntries.ts",
-    "packages/ui/src/workspace-file-tree/fileTreeDataOwner.ts"
-   ],
-   "consumerFiles": [
-    "packages/services/src/accessor.ts",
-    "packages/services/src/index.ts",
-    "packages/services/src/media-preview/mediaPreview.ts",
-    "packages/services/src/node.ts",
-    "packages/services/test/media-preview-fake-authority-20261002.test.ts",
-    "packages/ui/src/studio/agents/taskHandoff.ts",
-    "packages/ui/src/workspace-file-search/fetchWorkspaceFileEntries.ts",
-    "packages/ui/src/workspace-file-tree/fileTreeDataOwner.ts"
-   ],
-   "reachable": true,
-   "internalOut": [],
-   "internalIn": [
-    "file/fileService.ts"
-   ]
-  },
-  {
-   "modulePath": "file/fileService.ts",
-   "dir": "file",
-   "classification": "upstream-modified",
-   "deepSites": 4,
-   "deepConsumers": [
-    "packages/services/src/node.ts",
-    "packages/services/test/file-service-fake-write-safety-20261002.test.ts"
-   ],
-   "barrelSites": 0,
-   "barrelConsumers": [],
-   "consumerFiles": [
-    "packages/services/src/node.ts",
-    "packages/services/test/file-service-fake-write-safety-20261002.test.ts"
-   ],
-   "reachable": true,
-   "internalOut": [
-    "file/file.ts",
-    "file/fileServiceIndex.ts",
-    "file/fileServiceIO.ts",
-    "file/workspaceFileMentionFilter.ts",
-    "file/workspaceFileMentionFilter.ts",
-    "file/workspaceFileSearch.ts",
-    "file/workspaceFileIgnore.ts"
-   ],
-   "internalIn": []
-  },
-  {
-   "modulePath": "file/fileServiceIndex.ts",
-   "dir": "file",
-   "classification": "unreviewed",
-   "deepSites": 0,
-   "deepConsumers": [],
-   "barrelSites": 0,
-   "barrelConsumers": [],
-   "consumerFiles": [],
-   "reachable": true,
-   "internalOut": [
-    "file/fileServiceIO.ts",
-    "file/workspaceFileMentionFilter.ts",
-    "file/workspaceFileSearch.ts",
-    "file/workspaceFileIgnore.ts"
-   ],
-   "internalIn": [
-    "file/fileService.ts"
-   ]
-  },
-  {
-   "modulePath": "file/fileServiceIO.ts",
-   "dir": "file",
-   "classification": "unreviewed",
-   "deepSites": 0,
-   "deepConsumers": [],
-   "barrelSites": 0,
-   "barrelConsumers": [],
-   "consumerFiles": [],
-   "reachable": true,
-   "internalOut": [],
-   "internalIn": [
-    "file/fileService.ts",
-    "file/fileServiceIndex.ts"
-   ]
-  },
-  {
-   "modulePath": "file/workspaceFileIgnore.ts",
-   "dir": "file",
-   "classification": "upstream-modified",
-   "deepSites": 1,
-   "deepConsumers": [
-    "packages/services/test/workspace-ignore-fake-write-safety-20261002.test.ts"
-   ],
-   "barrelSites": 0,
-   "barrelConsumers": [],
-   "consumerFiles": [
-    "packages/services/test/workspace-ignore-fake-write-safety-20261002.test.ts"
-   ],
-   "reachable": true,
-   "internalOut": [],
-   "internalIn": [
-    "file/fileService.ts",
-    "file/fileServiceIndex.ts"
-   ]
-  },
-  {
-   "modulePath": "file/workspaceFileMentionFilter.ts",
-   "dir": "file",
-   "classification": "upstream-modified",
-   "deepSites": 3,
-   "deepConsumers": [
-    "packages/services/src/node.ts",
-    "packages/services/test/workspace-filter-policy-safety-20261002.test.ts"
-   ],
-   "barrelSites": 0,
-   "barrelConsumers": [],
-   "consumerFiles": [
-    "packages/services/src/node.ts",
-    "packages/services/test/workspace-filter-policy-safety-20261002.test.ts"
-   ],
-   "reachable": true,
-   "internalOut": [],
-   "internalIn": [
-    "file/fileService.ts",
-    "file/fileService.ts",
-    "file/fileServiceIndex.ts"
-   ]
-  },
-  {
-   "modulePath": "file/workspaceFileSearch.ts",
-   "dir": "file",
-   "classification": "upstream-modified",
-   "deepSites": 0,
-   "deepConsumers": [],
-   "barrelSites": 0,
-   "barrelConsumers": [],
-   "consumerFiles": [],
-   "reachable": true,
-   "internalOut": [],
-   "internalIn": [
-    "file/fileService.ts",
-    "file/fileServiceIndex.ts"
-   ]
-  }
- ]
+  "rows": [
+    {
+      "modulePath": "agent/agent.ts",
+      "dir": "agent",
+      "classification": "unreviewed",
+      "deepSites": 14,
+      "deepConsumers": [
+        "packages/services/src/accessor.ts",
+        "packages/services/src/agent-session/importedClaudeSessionRepair.ts",
+        "packages/services/src/agent-session/sessionService.ts",
+        "packages/services/src/agent/task-index-ingestion/topicIngest.ts",
+        "packages/services/src/index.ts",
+        "packages/services/src/node.ts",
+        "packages/services/src/plugins/pluginManagementService.ts",
+        "packages/services/src/usage-stats/usageStatsService.ts",
+        "packages/services/src/window-controller/windowHostControllerService.ts",
+        "packages/services/src/window-controller/windowHostSessionsIndexObserver.ts",
+        "packages/services/test/agent-session-coalescer-fake-authority-20261003.test.ts",
+        "packages/services/test/mobileHostProtocol.test.ts",
+        "packages/services/test/task-index-workspace-contract-20261003.test.ts"
+      ],
+      "barrelSites": 9,
+      "barrelConsumers": [
+        "packages/desktop/src/host/hostResourceUsage.ts",
+        "packages/server-cli/src/server-core/core.ts",
+        "packages/ui/src/hooks/useAgentService.ts",
+        "packages/ui/src/lib/remotePluginSyncRefresh.ts",
+        "packages/ui/src/v4/agentConversationTransportWorkflowRuns.ts",
+        "packages/ui/src/v4/agentSessionsIndexTransport.ts",
+        "packages/ui/src/v4/agentV4ConnectionHandshake.ts",
+        "packages/ui/src/v4/sessionsIndexRegistry.ts",
+        "packages/ui/src/v4/workspaceConnectionRegistry.ts"
+      ],
+      "consumerFiles": [
+        "packages/desktop/src/host/hostResourceUsage.ts",
+        "packages/server-cli/src/server-core/core.ts",
+        "packages/services/src/accessor.ts",
+        "packages/services/src/agent-session/importedClaudeSessionRepair.ts",
+        "packages/services/src/agent-session/sessionService.ts",
+        "packages/services/src/agent/task-index-ingestion/topicIngest.ts",
+        "packages/services/src/index.ts",
+        "packages/services/src/node.ts",
+        "packages/services/src/plugins/pluginManagementService.ts",
+        "packages/services/src/usage-stats/usageStatsService.ts",
+        "packages/services/src/window-controller/windowHostControllerService.ts",
+        "packages/services/src/window-controller/windowHostSessionsIndexObserver.ts",
+        "packages/services/test/agent-session-coalescer-fake-authority-20261003.test.ts",
+        "packages/services/test/mobileHostProtocol.test.ts",
+        "packages/services/test/task-index-workspace-contract-20261003.test.ts",
+        "packages/ui/src/hooks/useAgentService.ts",
+        "packages/ui/src/lib/remotePluginSyncRefresh.ts",
+        "packages/ui/src/v4/agentConversationTransportWorkflowRuns.ts",
+        "packages/ui/src/v4/agentSessionsIndexTransport.ts",
+        "packages/ui/src/v4/agentV4ConnectionHandshake.ts",
+        "packages/ui/src/v4/sessionsIndexRegistry.ts",
+        "packages/ui/src/v4/workspaceConnectionRegistry.ts"
+      ],
+      "reachable": true,
+      "internalOut": [
+        "agent/agentPluginParams.ts",
+        "agent/agentWorkflowParams.ts",
+        "agent/agentPluginParams.ts",
+        "agent/agentWorkflowParams.ts"
+      ],
+      "internalIn": [
+        "agent/agentConnectionScope.ts",
+        "agent/agentProcessManager.ts",
+        "agent/agentService.ts",
+        "agent/agentService.ts",
+        "agent/repairSubagentTaskIndex.ts",
+        "agent/sessionEventCoalescer.ts",
+        "agent/task-index-ingestion/sessionIndexProjection.ts",
+        "agent/task-index-ingestion/snapshotProjection.ts",
+        "agent/task-index-ingestion/topicTypes.ts",
+        "agent/taskIndexSyncer.ts",
+        "agent/taskServiceAdapter.ts",
+        "conversation-telemetry/conversationTelemetry.ts"
+      ]
+    },
+    {
+      "modulePath": "agent/agentBrowserAmbientContext.ts",
+      "dir": "agent",
+      "classification": "unreviewed",
+      "deepSites": 0,
+      "deepConsumers": [],
+      "barrelSites": 0,
+      "barrelConsumers": [],
+      "consumerFiles": [],
+      "reachable": true,
+      "internalOut": [],
+      "internalIn": ["agent/agentService.ts"]
+    },
+    {
+      "modulePath": "agent/agentConnectionScope.ts",
+      "dir": "agent",
+      "classification": "unreviewed",
+      "deepSites": 3,
+      "deepConsumers": [
+        "packages/services/src/index.ts",
+        "packages/services/test/mobileHostProtocol.test.ts"
+      ],
+      "barrelSites": 0,
+      "barrelConsumers": [],
+      "consumerFiles": [
+        "packages/services/src/index.ts",
+        "packages/services/test/mobileHostProtocol.test.ts"
+      ],
+      "reachable": true,
+      "internalOut": ["agent/agent.ts"],
+      "internalIn": ["agent/agentService.ts"]
+    },
+    {
+      "modulePath": "agent/agentErrors.ts",
+      "dir": "agent",
+      "classification": "unreviewed",
+      "deepSites": 1,
+      "deepConsumers": ["packages/services/src/index.ts"],
+      "barrelSites": 0,
+      "barrelConsumers": [],
+      "consumerFiles": ["packages/services/src/index.ts"],
+      "reachable": true,
+      "internalOut": [],
+      "internalIn": ["agent/agentService.ts"]
+    },
+    {
+      "modulePath": "agent/agentPluginParams.ts",
+      "dir": "agent",
+      "classification": "unreviewed",
+      "deepSites": 1,
+      "deepConsumers": ["packages/services/src/plugins/pluginManagement.ts"],
+      "barrelSites": 0,
+      "barrelConsumers": [],
+      "consumerFiles": ["packages/services/src/plugins/pluginManagement.ts"],
+      "reachable": true,
+      "internalOut": [],
+      "internalIn": ["agent/agent.ts", "agent/agent.ts", "agent/agentWorkflowParams.ts"]
+    },
+    {
+      "modulePath": "agent/agentPresentationSurface.ts",
+      "dir": "agent",
+      "classification": "unreviewed",
+      "deepSites": 1,
+      "deepConsumers": ["packages/services/src/node.ts"],
+      "barrelSites": 0,
+      "barrelConsumers": [],
+      "consumerFiles": ["packages/services/src/node.ts"],
+      "reachable": true,
+      "internalOut": [],
+      "internalIn": ["agent/agentProcessManager.ts"]
+    },
+    {
+      "modulePath": "agent/agentProcessManager.ts",
+      "dir": "agent",
+      "classification": "unreviewed",
+      "deepSites": 4,
+      "deepConsumers": [
+        "packages/services/src/node.ts",
+        "packages/services/src/storage-startup.ts"
+      ],
+      "barrelSites": 1,
+      "barrelConsumers": ["packages/server/src/stdioServices.ts"],
+      "consumerFiles": [
+        "packages/server/src/stdioServices.ts",
+        "packages/services/src/node.ts",
+        "packages/services/src/storage-startup.ts"
+      ],
+      "reachable": true,
+      "internalOut": [
+        "agent/agentSpawnCwd.ts",
+        "agent/agent.ts",
+        "agent/protocolClient.ts",
+        "agent/stdioTransport.ts",
+        "agent/stdioTapDevConfig.ts",
+        "agent/agentPresentationSurface.ts"
+      ],
+      "internalIn": ["agent/agentService.ts", "agent/agentService.ts"]
+    },
+    {
+      "modulePath": "agent/agentService.ts",
+      "dir": "agent",
+      "classification": "unreviewed",
+      "deepSites": 2,
+      "deepConsumers": ["packages/services/src/node.ts"],
+      "barrelSites": 0,
+      "barrelConsumers": [],
+      "consumerFiles": ["packages/services/src/node.ts"],
+      "reachable": true,
+      "internalOut": [
+        "agent/pluginReferenceCatalogRequest.ts",
+        "agent/automationToolPolicy.ts",
+        "agent/agentErrors.ts",
+        "agent/sessionEventCoalescer.ts",
+        "agent/cuaOperationTurnTracker.ts",
+        "agent/independentPlanSupport.ts",
+        "agent/agent.ts",
+        "agent/agent.ts",
+        "agent/agentBrowserAmbientContext.ts",
+        "agent/agentConnectionScope.ts",
+        "agent/agentProcessManager.ts",
+        "agent/agentProcessManager.ts",
+        "agent/protocolClient.ts"
+      ],
+      "internalIn": []
+    },
+    {
+      "modulePath": "agent/agentSpawnCwd.ts",
+      "dir": "agent",
+      "classification": "unreviewed",
+      "deepSites": 1,
+      "deepConsumers": ["packages/services/src/storage-startup.ts"],
+      "barrelSites": 1,
+      "barrelConsumers": ["packages/desktop/src/host/hostDatabaseStartup.ts"],
+      "consumerFiles": [
+        "packages/desktop/src/host/hostDatabaseStartup.ts",
+        "packages/services/src/storage-startup.ts"
+      ],
+      "reachable": true,
+      "internalOut": [],
+      "internalIn": ["agent/agentProcessManager.ts"]
+    },
+    {
+      "modulePath": "agent/agentStderrCollector.ts",
+      "dir": "agent",
+      "classification": "unreviewed",
+      "deepSites": 1,
+      "deepConsumers": ["packages/services/test/agent-stderr-fake-authority-20261003.test.ts"],
+      "barrelSites": 0,
+      "barrelConsumers": [],
+      "consumerFiles": ["packages/services/test/agent-stderr-fake-authority-20261003.test.ts"],
+      "reachable": true,
+      "internalOut": [],
+      "internalIn": ["agent/stdioTransport.ts"]
+    },
+    {
+      "modulePath": "agent/agentWorkflowParams.ts",
+      "dir": "agent",
+      "classification": "unreviewed",
+      "deepSites": 0,
+      "deepConsumers": [],
+      "barrelSites": 0,
+      "barrelConsumers": [],
+      "consumerFiles": [],
+      "reachable": true,
+      "internalOut": ["agent/agentPluginParams.ts"],
+      "internalIn": ["agent/agent.ts", "agent/agent.ts"]
+    },
+    {
+      "modulePath": "agent/automationToolPolicy.ts",
+      "dir": "agent",
+      "classification": "upstream-unchanged",
+      "deepSites": 2,
+      "deepConsumers": [
+        "apps/cli/packages/core/test/cron-fixture.ts",
+        "apps/cli/packages/core/test/off-peak-fixture.ts"
+      ],
+      "barrelSites": 0,
+      "barrelConsumers": [],
+      "consumerFiles": [
+        "apps/cli/packages/core/test/cron-fixture.ts",
+        "apps/cli/packages/core/test/off-peak-fixture.ts"
+      ],
+      "reachable": true,
+      "internalOut": [],
+      "internalIn": ["agent/agentService.ts", "agent/taskServiceAdapter.ts"]
+    },
+    {
+      "modulePath": "agent/configOptions.ts",
+      "dir": "agent",
+      "classification": "unreviewed",
+      "deepSites": 1,
+      "deepConsumers": ["packages/services/src/agent-session/sessionService.ts"],
+      "barrelSites": 0,
+      "barrelConsumers": [],
+      "consumerFiles": ["packages/services/src/agent-session/sessionService.ts"],
+      "reachable": true,
+      "internalOut": [],
+      "internalIn": [
+        "agent/task-index-ingestion/snapshotProjection.ts",
+        "agent/taskServiceAdapter.ts"
+      ]
+    },
+    {
+      "modulePath": "agent/cuaOperationTurnTracker.ts",
+      "dir": "agent",
+      "classification": "unreviewed",
+      "deepSites": 1,
+      "deepConsumers": ["packages/services/src/node.ts"],
+      "barrelSites": 0,
+      "barrelConsumers": [],
+      "consumerFiles": ["packages/services/src/node.ts"],
+      "reachable": true,
+      "internalOut": [],
+      "internalIn": ["agent/agentService.ts"]
+    },
+    {
+      "modulePath": "agent/independentPlanSupport.ts",
+      "dir": "agent",
+      "classification": "unreviewed",
+      "deepSites": 0,
+      "deepConsumers": [],
+      "barrelSites": 0,
+      "barrelConsumers": [],
+      "consumerFiles": [],
+      "reachable": true,
+      "internalOut": ["agent/protocolClient.ts"],
+      "internalIn": ["agent/agentService.ts"]
+    },
+    {
+      "modulePath": "agent/modelTrajectory.ts",
+      "dir": "agent",
+      "classification": "unreviewed",
+      "deepSites": 1,
+      "deepConsumers": ["packages/services/test/model-trajectory-fake-io-20261003.test.ts"],
+      "barrelSites": 0,
+      "barrelConsumers": [],
+      "consumerFiles": ["packages/services/test/model-trajectory-fake-io-20261003.test.ts"],
+      "reachable": true,
+      "internalOut": ["agent/modelTrajectoryFileTail.ts", "agent/modelTrajectoryFileTail.ts"],
+      "internalIn": ["agent/taskServiceAdapter.ts"]
+    },
+    {
+      "modulePath": "agent/modelTrajectoryFileTail.ts",
+      "dir": "agent",
+      "classification": "unreviewed",
+      "deepSites": 0,
+      "deepConsumers": [],
+      "barrelSites": 0,
+      "barrelConsumers": [],
+      "consumerFiles": [],
+      "reachable": true,
+      "internalOut": [],
+      "internalIn": ["agent/modelTrajectory.ts", "agent/modelTrajectory.ts"]
+    },
+    {
+      "modulePath": "agent/pluginReferenceCatalogRequest.ts",
+      "dir": "agent",
+      "classification": "unreviewed",
+      "deepSites": 0,
+      "deepConsumers": [],
+      "barrelSites": 0,
+      "barrelConsumers": [],
+      "consumerFiles": [],
+      "reachable": true,
+      "internalOut": ["agent/protocolClient.ts"],
+      "internalIn": ["agent/agentService.ts"]
+    },
+    {
+      "modulePath": "agent/protocolClient.ts",
+      "dir": "agent",
+      "classification": "unreviewed",
+      "deepSites": 1,
+      "deepConsumers": ["packages/services/src/node.ts"],
+      "barrelSites": 0,
+      "barrelConsumers": [],
+      "consumerFiles": ["packages/services/src/node.ts"],
+      "reachable": true,
+      "internalOut": ["agent/storageStartupGate.ts", "agent/protocolTransport.ts"],
+      "internalIn": [
+        "agent/agentProcessManager.ts",
+        "agent/agentService.ts",
+        "agent/independentPlanSupport.ts",
+        "agent/pluginReferenceCatalogRequest.ts"
+      ]
+    },
+    {
+      "modulePath": "agent/protocolTransport.ts",
+      "dir": "agent",
+      "classification": "unreviewed",
+      "deepSites": 1,
+      "deepConsumers": ["packages/services/src/node.ts"],
+      "barrelSites": 0,
+      "barrelConsumers": [],
+      "consumerFiles": ["packages/services/src/node.ts"],
+      "reachable": true,
+      "internalOut": [],
+      "internalIn": ["agent/protocolClient.ts", "agent/stdioTransport.ts"]
+    },
+    {
+      "modulePath": "agent/repairSubagentTaskIndex.ts",
+      "dir": "agent",
+      "classification": "unreviewed",
+      "deepSites": 0,
+      "deepConsumers": [],
+      "barrelSites": 0,
+      "barrelConsumers": [],
+      "consumerFiles": [],
+      "reachable": true,
+      "internalOut": ["agent/agent.ts"],
+      "internalIn": ["agent/task-index-ingestion/sessionIndexProjection.ts"]
+    },
+    {
+      "modulePath": "agent/sessionEventCoalescer.ts",
+      "dir": "agent",
+      "classification": "unreviewed",
+      "deepSites": 1,
+      "deepConsumers": [
+        "packages/services/test/agent-session-coalescer-fake-authority-20261003.test.ts"
+      ],
+      "barrelSites": 0,
+      "barrelConsumers": [],
+      "consumerFiles": [
+        "packages/services/test/agent-session-coalescer-fake-authority-20261003.test.ts"
+      ],
+      "reachable": true,
+      "internalOut": ["agent/agent.ts"],
+      "internalIn": ["agent/agentService.ts"]
+    },
+    {
+      "modulePath": "agent/stdioTapDevConfig.ts",
+      "dir": "agent",
+      "classification": "unreviewed",
+      "deepSites": 1,
+      "deepConsumers": ["packages/services/src/node.ts"],
+      "barrelSites": 0,
+      "barrelConsumers": [],
+      "consumerFiles": ["packages/services/src/node.ts"],
+      "reachable": true,
+      "internalOut": [],
+      "internalIn": ["agent/agentProcessManager.ts"]
+    },
+    {
+      "modulePath": "agent/stdioTransport.ts",
+      "dir": "agent",
+      "classification": "unreviewed",
+      "deepSites": 2,
+      "deepConsumers": [
+        "packages/services/src/node.ts",
+        "packages/services/test/agent-stdio-fake-authority-20261003.test.ts"
+      ],
+      "barrelSites": 0,
+      "barrelConsumers": [],
+      "consumerFiles": [
+        "packages/services/src/node.ts",
+        "packages/services/test/agent-stdio-fake-authority-20261003.test.ts"
+      ],
+      "reachable": true,
+      "internalOut": ["agent/agentStderrCollector.ts", "agent/protocolTransport.ts"],
+      "internalIn": ["agent/agentProcessManager.ts"]
+    },
+    {
+      "modulePath": "agent/storageStartupGate.ts",
+      "dir": "agent",
+      "classification": "unreviewed",
+      "deepSites": 0,
+      "deepConsumers": [],
+      "barrelSites": 0,
+      "barrelConsumers": [],
+      "consumerFiles": [],
+      "reachable": true,
+      "internalOut": [],
+      "internalIn": ["agent/protocolClient.ts"]
+    },
+    {
+      "modulePath": "agent/task-index-ingestion/sessionIndexProjection.ts",
+      "dir": "agent",
+      "classification": "unreviewed",
+      "deepSites": 1,
+      "deepConsumers": [
+        "packages/services/test/services-projection-effects-contract-20261003.test.ts"
+      ],
+      "barrelSites": 0,
+      "barrelConsumers": [],
+      "consumerFiles": [
+        "packages/services/test/services-projection-effects-contract-20261003.test.ts"
+      ],
+      "reachable": true,
+      "internalOut": [
+        "agent/agent.ts",
+        "agent/repairSubagentTaskIndex.ts",
+        "agent/task-index-ingestion/snapshotProjection.ts",
+        "agent/task-index-ingestion/topicTypes.ts"
+      ],
+      "internalIn": ["agent/taskIndexSyncer.ts"]
+    },
+    {
+      "modulePath": "agent/task-index-ingestion/snapshotProjection.ts",
+      "dir": "agent",
+      "classification": "unreviewed",
+      "deepSites": 3,
+      "deepConsumers": [
+        "packages/services/test/services-projection-effects-contract-20261003.test.ts",
+        "packages/services/test/task-index-snapshot-contract-20261003.test.ts"
+      ],
+      "barrelSites": 0,
+      "barrelConsumers": [],
+      "consumerFiles": [
+        "packages/services/test/services-projection-effects-contract-20261003.test.ts",
+        "packages/services/test/task-index-snapshot-contract-20261003.test.ts"
+      ],
+      "reachable": true,
+      "internalOut": [
+        "agent/agent.ts",
+        "agent/configOptions.ts",
+        "agent/task-index-ingestion/topicTypes.ts"
+      ],
+      "internalIn": [
+        "agent/task-index-ingestion/sessionIndexProjection.ts",
+        "agent/taskIndexSyncer.ts"
+      ]
+    },
+    {
+      "modulePath": "agent/task-index-ingestion/topicTypes.ts",
+      "dir": "agent",
+      "classification": "unreviewed",
+      "deepSites": 3,
+      "deepConsumers": [
+        "packages/services/src/agent/task-index-ingestion/topicIngest.ts",
+        "packages/services/src/agent/task-index-ingestion/topicRecovery.ts",
+        "packages/services/test/task-index-topic-contract-20261003.test.ts"
+      ],
+      "barrelSites": 0,
+      "barrelConsumers": [],
+      "consumerFiles": [
+        "packages/services/src/agent/task-index-ingestion/topicIngest.ts",
+        "packages/services/src/agent/task-index-ingestion/topicRecovery.ts",
+        "packages/services/test/task-index-topic-contract-20261003.test.ts"
+      ],
+      "reachable": true,
+      "internalOut": ["agent/agent.ts"],
+      "internalIn": [
+        "agent/task-index-ingestion/sessionIndexProjection.ts",
+        "agent/task-index-ingestion/snapshotProjection.ts",
+        "agent/taskIndexSyncer.ts"
+      ]
+    },
+    {
+      "modulePath": "agent/taskIndexSyncer.ts",
+      "dir": "agent",
+      "classification": "unreviewed",
+      "deepSites": 3,
+      "deepConsumers": [
+        "packages/services/src/agent-session/sessionService.ts",
+        "packages/services/src/node.ts",
+        "packages/services/test/task-index-workspace-contract-20261003.test.ts"
+      ],
+      "barrelSites": 0,
+      "barrelConsumers": [],
+      "consumerFiles": [
+        "packages/services/src/agent-session/sessionService.ts",
+        "packages/services/src/node.ts",
+        "packages/services/test/task-index-workspace-contract-20261003.test.ts"
+      ],
+      "reachable": true,
+      "internalOut": [
+        "agent/agent.ts",
+        "agent/task-index-ingestion/topicTypes.ts",
+        "agent/task-index-ingestion/sessionIndexProjection.ts",
+        "agent/task-index-ingestion/snapshotProjection.ts"
+      ],
+      "internalIn": ["agent/taskServiceAdapter.ts"]
+    },
+    {
+      "modulePath": "agent/taskServiceAdapter.ts",
+      "dir": "agent",
+      "classification": "unreviewed",
+      "deepSites": 4,
+      "deepConsumers": [
+        "packages/services/src/node.ts",
+        "packages/services/test/importedClaudeRecovery.test.ts",
+        "packages/services/test/nonCliAcpRetirement.test.ts"
+      ],
+      "barrelSites": 0,
+      "barrelConsumers": [],
+      "consumerFiles": [
+        "packages/services/src/node.ts",
+        "packages/services/test/importedClaudeRecovery.test.ts",
+        "packages/services/test/nonCliAcpRetirement.test.ts"
+      ],
+      "reachable": true,
+      "internalOut": [
+        "cua-permission-broker/index.ts",
+        "agent/automationToolPolicy.ts",
+        "agent/modelTrajectory.ts",
+        "agent/agent.ts",
+        "agent/configOptions.ts",
+        "agent/taskIndexSyncer.ts",
+        "agent/v4HostCommand.ts"
+      ],
+      "internalIn": []
+    },
+    {
+      "modulePath": "agent/v4HostCommand.ts",
+      "dir": "agent",
+      "classification": "unreviewed",
+      "deepSites": 0,
+      "deepConsumers": [],
+      "barrelSites": 0,
+      "barrelConsumers": [],
+      "consumerFiles": [],
+      "reachable": true,
+      "internalOut": [],
+      "internalIn": ["agent/taskServiceAdapter.ts"]
+    },
+    {
+      "modulePath": "broadcast/broadcast.ts",
+      "dir": "broadcast",
+      "classification": "upstream-modified",
+      "deepSites": 4,
+      "deepConsumers": [
+        "packages/services/src/accessor.ts",
+        "packages/services/src/index.ts",
+        "packages/services/src/node.ts"
+      ],
+      "barrelSites": 1,
+      "barrelConsumers": ["packages/ui/src/store/StoreProvider.tsx"],
+      "consumerFiles": [
+        "packages/services/src/accessor.ts",
+        "packages/services/src/index.ts",
+        "packages/services/src/node.ts",
+        "packages/ui/src/store/StoreProvider.tsx"
+      ],
+      "reachable": true,
+      "internalOut": [],
+      "internalIn": ["broadcast/broadcastService.ts"]
+    },
+    {
+      "modulePath": "broadcast/broadcastService.ts",
+      "dir": "broadcast",
+      "classification": "upstream-modified",
+      "deepSites": 3,
+      "deepConsumers": [
+        "packages/services/src/node.ts",
+        "packages/services/test/broadcast-fake-claim-safety-20261002.test.ts"
+      ],
+      "barrelSites": 1,
+      "barrelConsumers": ["packages/desktop/src/host/remoteWorkspaceServiceCollection.ts"],
+      "consumerFiles": [
+        "packages/desktop/src/host/remoteWorkspaceServiceCollection.ts",
+        "packages/services/src/node.ts",
+        "packages/services/test/broadcast-fake-claim-safety-20261002.test.ts"
+      ],
+      "reachable": true,
+      "internalOut": ["broadcast/broadcast.ts"],
+      "internalIn": []
+    },
+    {
+      "modulePath": "commands/commandConfig.ts",
+      "dir": "commands",
+      "classification": "unreviewed",
+      "deepSites": 0,
+      "deepConsumers": [],
+      "barrelSites": 0,
+      "barrelConsumers": [],
+      "consumerFiles": [],
+      "reachable": true,
+      "internalOut": [],
+      "internalIn": [
+        "commands/commandDiscovery.ts",
+        "commands/commandDiscovery.ts",
+        "commands/commandsService.ts"
+      ]
+    },
+    {
+      "modulePath": "commands/commandDiscovery.ts",
+      "dir": "commands",
+      "classification": "unreviewed",
+      "deepSites": 0,
+      "deepConsumers": [],
+      "barrelSites": 0,
+      "barrelConsumers": [],
+      "consumerFiles": [],
+      "reachable": true,
+      "internalOut": [
+        "commands/commandFileParser.ts",
+        "commands/commandConfig.ts",
+        "commands/commandConfig.ts"
+      ],
+      "internalIn": ["commands/commandsService.ts"]
+    },
+    {
+      "modulePath": "commands/commandFileParser.ts",
+      "dir": "commands",
+      "classification": "upstream-modified",
+      "deepSites": 3,
+      "deepConsumers": [
+        "packages/services/src/commands/commandLocations.ts",
+        "packages/services/src/settings-sync/settingsSyncSources.ts",
+        "packages/services/test/services-parsing-boundaries-final-20261003.test.ts"
+      ],
+      "barrelSites": 0,
+      "barrelConsumers": [],
+      "consumerFiles": [
+        "packages/services/src/commands/commandLocations.ts",
+        "packages/services/src/settings-sync/settingsSyncSources.ts",
+        "packages/services/test/services-parsing-boundaries-final-20261003.test.ts"
+      ],
+      "reachable": true,
+      "internalOut": [],
+      "internalIn": ["commands/commandDiscovery.ts", "commands/commandsService.ts"]
+    },
+    {
+      "modulePath": "commands/commands.ts",
+      "dir": "commands",
+      "classification": "upstream-modified",
+      "deepSites": 3,
+      "deepConsumers": [
+        "packages/services/src/accessor.ts",
+        "packages/services/src/index.ts",
+        "packages/services/src/node.ts"
+      ],
+      "barrelSites": 1,
+      "barrelConsumers": ["packages/ui/src/lib/remotePluginSyncRefresh.ts"],
+      "consumerFiles": [
+        "packages/services/src/accessor.ts",
+        "packages/services/src/index.ts",
+        "packages/services/src/node.ts",
+        "packages/ui/src/lib/remotePluginSyncRefresh.ts"
+      ],
+      "reachable": true,
+      "internalOut": [],
+      "internalIn": ["commands/commandsService.ts"]
+    },
+    {
+      "modulePath": "commands/commandsService.ts",
+      "dir": "commands",
+      "classification": "upstream-modified",
+      "deepSites": 3,
+      "deepConsumers": [
+        "packages/services/src/node.ts",
+        "packages/services/test/commands-fake-write-safety-20261002.test.ts"
+      ],
+      "barrelSites": 0,
+      "barrelConsumers": [],
+      "consumerFiles": [
+        "packages/services/src/node.ts",
+        "packages/services/test/commands-fake-write-safety-20261002.test.ts"
+      ],
+      "reachable": true,
+      "internalOut": [
+        "commands/commands.ts",
+        "commands/commandFileParser.ts",
+        "commands/commandConfig.ts",
+        "commands/commandDiscovery.ts"
+      ],
+      "internalIn": []
+    },
+    {
+      "modulePath": "conversation-telemetry/conversationTelemetry.ts",
+      "dir": "conversation-telemetry",
+      "classification": "upstream-modified",
+      "deepSites": 1,
+      "deepConsumers": ["packages/services/src/index.ts"],
+      "barrelSites": 0,
+      "barrelConsumers": [],
+      "consumerFiles": ["packages/services/src/index.ts"],
+      "reachable": true,
+      "internalOut": ["agent/agent.ts"],
+      "internalIn": []
+    },
+    {
+      "modulePath": "credential/credential.ts",
+      "dir": "credential",
+      "classification": "upstream-modified",
+      "deepSites": 4,
+      "deepConsumers": [
+        "packages/services/src/accessor.ts",
+        "packages/services/src/creation/creationService.ts",
+        "packages/services/src/index.ts",
+        "packages/services/src/node.ts"
+      ],
+      "barrelSites": 0,
+      "barrelConsumers": [],
+      "consumerFiles": [
+        "packages/services/src/accessor.ts",
+        "packages/services/src/creation/creationService.ts",
+        "packages/services/src/index.ts",
+        "packages/services/src/node.ts"
+      ],
+      "reachable": true,
+      "internalOut": [],
+      "internalIn": ["credential/credentialService.ts"]
+    },
+    {
+      "modulePath": "credential/credentialService.ts",
+      "dir": "credential",
+      "classification": "upstream-modified",
+      "deepSites": 2,
+      "deepConsumers": ["packages/services/src/node.ts"],
+      "barrelSites": 1,
+      "barrelConsumers": ["packages/desktop/src/host/remoteWorkspaceServiceCollection.ts"],
+      "consumerFiles": [
+        "packages/desktop/src/host/remoteWorkspaceServiceCollection.ts",
+        "packages/services/src/node.ts"
+      ],
+      "reachable": true,
+      "internalOut": [
+        "credential/credential.ts",
+        "credential/providers/credentialCipherProvider.ts"
+      ],
+      "internalIn": []
+    },
+    {
+      "modulePath": "credential/providers/credentialCipherProvider.ts",
+      "dir": "credential",
+      "classification": "upstream-modified",
+      "deepSites": 1,
+      "deepConsumers": ["packages/services/test/knorviaAccountRemoval.test.ts"],
+      "barrelSites": 0,
+      "barrelConsumers": [],
+      "consumerFiles": ["packages/services/test/knorviaAccountRemoval.test.ts"],
+      "reachable": true,
+      "internalOut": [],
+      "internalIn": ["credential/credentialService.ts"]
+    },
+    {
+      "modulePath": "cua-permission-broker/cuaAgentAdmissionGate.ts",
+      "dir": "cua-permission-broker",
+      "classification": "upstream-modified",
+      "deepSites": 1,
+      "deepConsumers": ["packages/services/test/cua-admission-fake-authority-20261003.test.ts"],
+      "barrelSites": 0,
+      "barrelConsumers": [],
+      "consumerFiles": ["packages/services/test/cua-admission-fake-authority-20261003.test.ts"],
+      "reachable": true,
+      "internalOut": [],
+      "internalIn": ["cua-permission-broker/index.ts"]
+    },
+    {
+      "modulePath": "cua-permission-broker/cuaHelperInstaller.ts",
+      "dir": "cua-permission-broker",
+      "classification": "upstream-modified",
+      "deepSites": 2,
+      "deepConsumers": ["packages/services/src/node.ts"],
+      "barrelSites": 2,
+      "barrelConsumers": ["packages/desktop/src/main/desktopCuaHelperInstaller.ts"],
+      "consumerFiles": [
+        "packages/desktop/src/main/desktopCuaHelperInstaller.ts",
+        "packages/services/src/node.ts"
+      ],
+      "reachable": true,
+      "internalOut": [],
+      "internalIn": []
+    },
+    {
+      "modulePath": "cua-permission-broker/cuaPermissionService.ts",
+      "dir": "cua-permission-broker",
+      "classification": "upstream-modified",
+      "deepSites": 3,
+      "deepConsumers": [
+        "packages/services/src/accessor.ts",
+        "packages/services/src/index.ts",
+        "packages/services/test/cua-permission-facade-fake-authority-20261003.test.ts"
+      ],
+      "barrelSites": 13,
+      "barrelConsumers": [
+        "packages/ui/src/lib/cuaComposerEntryState.ts",
+        "packages/ui/src/lib/cuaPermissionStatusCache.ts",
+        "packages/ui/src/lib/cuaPermissionStatusStore.ts",
+        "packages/ui/src/settings/cuaPermissionRestartVerify.ts"
+      ],
+      "consumerFiles": [
+        "packages/services/src/accessor.ts",
+        "packages/services/src/index.ts",
+        "packages/services/test/cua-permission-facade-fake-authority-20261003.test.ts",
+        "packages/ui/src/lib/cuaComposerEntryState.ts",
+        "packages/ui/src/lib/cuaPermissionStatusCache.ts",
+        "packages/ui/src/lib/cuaPermissionStatusStore.ts",
+        "packages/ui/src/settings/cuaPermissionRestartVerify.ts"
+      ],
+      "reachable": true,
+      "internalOut": [],
+      "internalIn": ["cua-permission-broker/index.ts", "cua-permission-broker/index.ts"]
+    },
+    {
+      "modulePath": "cua-permission-broker/cuaPipSession.ts",
+      "dir": "cua-permission-broker",
+      "classification": "upstream-modified",
+      "deepSites": 2,
+      "deepConsumers": [
+        "packages/services/src/index.ts",
+        "packages/services/test/cua-pip-fake-authority-20261003.test.ts"
+      ],
+      "barrelSites": 0,
+      "barrelConsumers": [],
+      "consumerFiles": [
+        "packages/services/src/index.ts",
+        "packages/services/test/cua-pip-fake-authority-20261003.test.ts"
+      ],
+      "reachable": true,
+      "internalOut": [],
+      "internalIn": [
+        "cua-permission-broker/cuaPipSessionService.ts",
+        "cua-permission-broker/index.ts",
+        "cua-permission-broker/index.ts"
+      ]
+    },
+    {
+      "modulePath": "cua-permission-broker/cuaPipSessionService.ts",
+      "dir": "cua-permission-broker",
+      "classification": "upstream-modified",
+      "deepSites": 1,
+      "deepConsumers": ["packages/services/test/cua-pip-fake-authority-20261003.test.ts"],
+      "barrelSites": 0,
+      "barrelConsumers": [],
+      "consumerFiles": ["packages/services/test/cua-pip-fake-authority-20261003.test.ts"],
+      "reachable": true,
+      "internalOut": ["cua-permission-broker/cuaPipSession.ts"],
+      "internalIn": ["cua-permission-broker/index.ts", "cua-permission-broker/index.ts"]
+    },
+    {
+      "modulePath": "cua-permission-broker/index.ts",
+      "dir": "cua-permission-broker",
+      "classification": "upstream-modified",
+      "deepSites": 6,
+      "deepConsumers": [
+        "packages/desktop/src/main/cuaAccessibilitySettings.ts",
+        "packages/services/src/agent-session/sessionPreparation.ts",
+        "packages/services/src/agent-session/sessionService.ts",
+        "packages/services/src/node.ts"
+      ],
+      "barrelSites": 13,
+      "barrelConsumers": [
+        "packages/ui/src/lib/cuaComposerEntryState.ts",
+        "packages/ui/src/lib/cuaPermissionStatusCache.ts",
+        "packages/ui/src/lib/cuaPermissionStatusStore.ts",
+        "packages/ui/src/settings/cuaPermissionRestartVerify.ts"
+      ],
+      "consumerFiles": [
+        "packages/desktop/src/main/cuaAccessibilitySettings.ts",
+        "packages/services/src/agent-session/sessionPreparation.ts",
+        "packages/services/src/agent-session/sessionService.ts",
+        "packages/services/src/node.ts",
+        "packages/ui/src/lib/cuaComposerEntryState.ts",
+        "packages/ui/src/lib/cuaPermissionStatusCache.ts",
+        "packages/ui/src/lib/cuaPermissionStatusStore.ts",
+        "packages/ui/src/settings/cuaPermissionRestartVerify.ts"
+      ],
+      "reachable": true,
+      "internalOut": [
+        "cua-permission-broker/cuaAgentAdmissionGate.ts",
+        "cua-permission-broker/cuaPermissionService.ts",
+        "cua-permission-broker/cuaPermissionService.ts",
+        "cua-permission-broker/windowsCuaDevHelperHost.ts",
+        "cua-permission-broker/windowsCuaDevHelperHost.ts",
+        "cua-permission-broker/cuaPipSessionService.ts",
+        "cua-permission-broker/cuaPipSession.ts",
+        "cua-permission-broker/cuaPipSessionService.ts",
+        "cua-permission-broker/cuaPipSession.ts"
+      ],
+      "internalIn": ["agent/taskServiceAdapter.ts"]
+    },
+    {
+      "modulePath": "cua-permission-broker/windowsCuaDevHelperHost.ts",
+      "dir": "cua-permission-broker",
+      "classification": "upstream-modified",
+      "deepSites": 1,
+      "deepConsumers": ["packages/services/src/node.ts"],
+      "barrelSites": 0,
+      "barrelConsumers": [],
+      "consumerFiles": ["packages/services/src/node.ts"],
+      "reachable": true,
+      "internalOut": [
+        "cua-permission-broker/windowsCuaHelperHostSupport.ts",
+        "cua-permission-broker/windowsCuaHelperHostSupport.ts"
+      ],
+      "internalIn": ["cua-permission-broker/index.ts", "cua-permission-broker/index.ts"]
+    },
+    {
+      "modulePath": "cua-permission-broker/windowsCuaDevRuntime.ts",
+      "dir": "cua-permission-broker",
+      "classification": "upstream-modified",
+      "deepSites": 1,
+      "deepConsumers": ["packages/services/src/node.ts"],
+      "barrelSites": 0,
+      "barrelConsumers": [],
+      "consumerFiles": ["packages/services/src/node.ts"],
+      "reachable": true,
+      "internalOut": [],
+      "internalIn": ["cua-permission-broker/windowsCuaHelperHostSupport.ts"]
+    },
+    {
+      "modulePath": "cua-permission-broker/windowsCuaHelperHostSupport.ts",
+      "dir": "cua-permission-broker",
+      "classification": "upstream-modified",
+      "deepSites": 0,
+      "deepConsumers": [],
+      "barrelSites": 0,
+      "barrelConsumers": [],
+      "consumerFiles": [],
+      "reachable": true,
+      "internalOut": ["cua-permission-broker/windowsCuaDevRuntime.ts"],
+      "internalIn": [
+        "cua-permission-broker/windowsCuaDevHelperHost.ts",
+        "cua-permission-broker/windowsCuaDevHelperHost.ts"
+      ]
+    },
+    {
+      "modulePath": "file/file.ts",
+      "dir": "file",
+      "classification": "upstream-modified",
+      "deepSites": 5,
+      "deepConsumers": [
+        "packages/services/src/accessor.ts",
+        "packages/services/src/index.ts",
+        "packages/services/src/media-preview/mediaPreview.ts",
+        "packages/services/src/node.ts",
+        "packages/services/test/media-preview-fake-authority-20261002.test.ts"
+      ],
+      "barrelSites": 3,
+      "barrelConsumers": [
+        "packages/ui/src/studio/agents/taskHandoff.ts",
+        "packages/ui/src/workspace-file-search/fetchWorkspaceFileEntries.ts",
+        "packages/ui/src/workspace-file-tree/fileTreeDataOwner.ts"
+      ],
+      "consumerFiles": [
+        "packages/services/src/accessor.ts",
+        "packages/services/src/index.ts",
+        "packages/services/src/media-preview/mediaPreview.ts",
+        "packages/services/src/node.ts",
+        "packages/services/test/media-preview-fake-authority-20261002.test.ts",
+        "packages/ui/src/studio/agents/taskHandoff.ts",
+        "packages/ui/src/workspace-file-search/fetchWorkspaceFileEntries.ts",
+        "packages/ui/src/workspace-file-tree/fileTreeDataOwner.ts"
+      ],
+      "reachable": true,
+      "internalOut": [],
+      "internalIn": ["file/fileService.ts"]
+    },
+    {
+      "modulePath": "file/fileService.ts",
+      "dir": "file",
+      "classification": "upstream-modified",
+      "deepSites": 4,
+      "deepConsumers": [
+        "packages/services/src/node.ts",
+        "packages/services/test/file-service-fake-write-safety-20261002.test.ts"
+      ],
+      "barrelSites": 0,
+      "barrelConsumers": [],
+      "consumerFiles": [
+        "packages/services/src/node.ts",
+        "packages/services/test/file-service-fake-write-safety-20261002.test.ts"
+      ],
+      "reachable": true,
+      "internalOut": [
+        "file/file.ts",
+        "file/fileServiceIndex.ts",
+        "file/fileServiceIO.ts",
+        "file/workspaceFileMentionFilter.ts",
+        "file/workspaceFileMentionFilter.ts",
+        "file/workspaceFileSearch.ts",
+        "file/workspaceFileIgnore.ts"
+      ],
+      "internalIn": []
+    },
+    {
+      "modulePath": "file/fileServiceIndex.ts",
+      "dir": "file",
+      "classification": "unreviewed",
+      "deepSites": 0,
+      "deepConsumers": [],
+      "barrelSites": 0,
+      "barrelConsumers": [],
+      "consumerFiles": [],
+      "reachable": true,
+      "internalOut": [
+        "file/fileServiceIO.ts",
+        "file/workspaceFileMentionFilter.ts",
+        "file/workspaceFileSearch.ts",
+        "file/workspaceFileIgnore.ts"
+      ],
+      "internalIn": ["file/fileService.ts"]
+    },
+    {
+      "modulePath": "file/fileServiceIO.ts",
+      "dir": "file",
+      "classification": "unreviewed",
+      "deepSites": 0,
+      "deepConsumers": [],
+      "barrelSites": 0,
+      "barrelConsumers": [],
+      "consumerFiles": [],
+      "reachable": true,
+      "internalOut": [],
+      "internalIn": ["file/fileService.ts", "file/fileServiceIndex.ts"]
+    },
+    {
+      "modulePath": "file/workspaceFileIgnore.ts",
+      "dir": "file",
+      "classification": "upstream-modified",
+      "deepSites": 1,
+      "deepConsumers": [
+        "packages/services/test/workspace-ignore-fake-write-safety-20261002.test.ts"
+      ],
+      "barrelSites": 0,
+      "barrelConsumers": [],
+      "consumerFiles": [
+        "packages/services/test/workspace-ignore-fake-write-safety-20261002.test.ts"
+      ],
+      "reachable": true,
+      "internalOut": [],
+      "internalIn": ["file/fileService.ts", "file/fileServiceIndex.ts"]
+    },
+    {
+      "modulePath": "file/workspaceFileMentionFilter.ts",
+      "dir": "file",
+      "classification": "upstream-modified",
+      "deepSites": 3,
+      "deepConsumers": [
+        "packages/services/src/node.ts",
+        "packages/services/test/workspace-filter-policy-safety-20261002.test.ts"
+      ],
+      "barrelSites": 0,
+      "barrelConsumers": [],
+      "consumerFiles": [
+        "packages/services/src/node.ts",
+        "packages/services/test/workspace-filter-policy-safety-20261002.test.ts"
+      ],
+      "reachable": true,
+      "internalOut": [],
+      "internalIn": ["file/fileService.ts", "file/fileService.ts", "file/fileServiceIndex.ts"]
+    },
+    {
+      "modulePath": "file/workspaceFileSearch.ts",
+      "dir": "file",
+      "classification": "upstream-modified",
+      "deepSites": 0,
+      "deepConsumers": [],
+      "barrelSites": 0,
+      "barrelConsumers": [],
+      "consumerFiles": [],
+      "reachable": true,
+      "internalOut": [],
+      "internalIn": ["file/fileService.ts", "file/fileServiceIndex.ts"]
+    }
+  ]
 }

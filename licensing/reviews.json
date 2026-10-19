@@ -146634,6 +146634,742 @@
         "specs/knorvia-internal-plugins.md",
         "specs/contracts/apps-cli-packages-02/README.md"
       ]
+    },
+    {
+      "path": "specs/contracts/services-01/README.md",
+      "normalizedSha256": "9cc280393b687fee720bf2098e1571cf450dea5371ea859dc29f266662a8ca31",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract artifact for @knorvia/services (M3: agent/broadcast/commands/conversation-telemetry/credential/cua-permission-broker/file, 60 inherited files in packages/services/src).",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/acceptance.md",
+      "normalizedSha256": "2708e8eb6f3c0a3bf0a8049d225d21cd8cfc7b35c8af445dbbb9c9ac0a04ff16",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract artifact for @knorvia/services (M3: agent/broadcast/commands/conversation-telemetry/credential/cua-permission-broker/file, 60 inherited files in packages/services/src).",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/behavior.md",
+      "normalizedSha256": "74b43186678045b4dadfd6fa4c3c587f4c5b612b1bf321e179c11cf49f61422b",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract artifact for @knorvia/services (M3: agent/broadcast/commands/conversation-telemetry/credential/cua-permission-broker/file, 60 inherited files in packages/services/src).",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/callers-raw.json",
+      "normalizedSha256": "78f3679126cbecfb453d0d22fe6949cfeb74a93eb91cb1f053a9ead6e799c6f4",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract artifact for @knorvia/services (M3: agent/broadcast/commands/conversation-telemetry/credential/cua-permission-broker/file, 60 inherited files in packages/services/src).",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/callers.md",
+      "normalizedSha256": "c101c33192a20217be3c51290a7ed1052f51ba3909254a9a86bd8c5b7aa9e065",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract artifact for @knorvia/services (M3: agent/broadcast/commands/conversation-telemetry/credential/cua-permission-broker/file, 60 inherited files in packages/services/src).",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/design.md",
+      "normalizedSha256": "eb297f0921e9459f3d6e69590b6df5a56e2dad9d907bce7e3f96bb83b547f2db",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract artifact for @knorvia/services (M3: agent/broadcast/commands/conversation-telemetry/credential/cua-permission-broker/file, 60 inherited files in packages/services/src).",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/gate-old.json",
+      "normalizedSha256": "8ae360c3000c37146e1cca98ef3f021690c2c871fe90e222a740d4e4d5e620dc",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract artifact for @knorvia/services (M3: agent/broadcast/commands/conversation-telemetry/credential/cua-permission-broker/file, 60 inherited files in packages/services/src).",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/interface.md",
+      "normalizedSha256": "6de72d26b6cb2b37d4fa7f6d5095e67436ea16ec9931c5387cc30f288d31afa8",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract artifact for @knorvia/services (M3: agent/broadcast/commands/conversation-telemetry/credential/cua-permission-broker/file, 60 inherited files in packages/services/src).",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/known-differences.md",
+      "normalizedSha256": "620b5e471c345aab59a9246cd7887dd339cb4fb084ac9180fda4472f586fc396",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract artifact for @knorvia/services (M3: agent/broadcast/commands/conversation-telemetry/credential/cua-permission-broker/file, 60 inherited files in packages/services/src).",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/scope-files.json",
+      "normalizedSha256": "8df4838e5e6dd7aebfa36ddfb71da9abaf1a57acf3ad754de191cea8a8a756c1",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract artifact for @knorvia/services (M3: agent/broadcast/commands/conversation-telemetry/credential/cua-permission-broker/file, 60 inherited files in packages/services/src).",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/build-stubs.mjs",
+      "normalizedSha256": "6344052ae554776076bd6d17db296ce79e02521a87b0504c3759e40fb17a7f01",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/agent.ts",
+      "normalizedSha256": "db83bb22417dbba87869d4063c23cc36268e248784585bdf0e51b193e8faa07d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/agentBrowserAmbientContext.ts",
+      "normalizedSha256": "5ed7e66c8d68ac2e0606078f19d8c2c5ae79fb28bc9d6bd4ff25c464b1216374",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/agentConnectionScope.ts",
+      "normalizedSha256": "f91fc78bc745e214ded7489dafae247364f04e19e21d98855c19f344a59fd710",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/agentErrors.ts",
+      "normalizedSha256": "b8dfc3635c5ad1b3744617d49a0158d307753fc348da7ee392eceed6aaa2f4ff",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/agentPluginParams.ts",
+      "normalizedSha256": "27a7e443308502d78b7ac76ea1c1a9b6f76306e23125d79a7f3834dfe321676d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/agentPresentationSurface.ts",
+      "normalizedSha256": "1b5dfa98b6d02505d079ed4dbc05e349d0caa9b1f2d56f85db517e2f0b02d14f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/agentProcessManager.ts",
+      "normalizedSha256": "a1cd88f6df36acd1c4862c7306f62327b603b40c01f3659ac3f938a5460ec733",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/agentService.ts",
+      "normalizedSha256": "39aa6d55a5ff04c10d0f92d1c627e3d66b019b76a223aed633a6f56d376a3e8c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/agentSpawnCwd.ts",
+      "normalizedSha256": "fb92734b2893582ff0f9bffdcccc8fb52fe5fe243a32a9f9108a99e90cefbccc",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/agentStderrCollector.ts",
+      "normalizedSha256": "720a268eb110e55a7a0beb48ccff73f73d8975666531ac81c10949e13e628b89",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/agentWorkflowParams.ts",
+      "normalizedSha256": "3187e9b1c860ef39d5dcdb84dbc75200c81d64e97aade05a302fe21ad34895b0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/automationToolPolicy.ts",
+      "normalizedSha256": "4df1ec5d9fbb1a974d8de19452738ee5d7adefc0f3f97698ae34fe909890151c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/configOptions.ts",
+      "normalizedSha256": "73099898f8aa1136710d326846f207e110f0f158c2e079cf77ec1287198a41d6",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/cuaOperationTurnTracker.ts",
+      "normalizedSha256": "553097e199ad2afb2645aeba75d4a58dd826b4a3170a4c1b50a1559cedf923e0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/independentPlanSupport.ts",
+      "normalizedSha256": "3b83d95cd6e7027c77743a22378e8e22837894c3c72bd3e2d38ba9683164cede",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/modelTrajectory.ts",
+      "normalizedSha256": "fd019410b3e36a42632614d40bda31189bd3c17a2dd8f064706657f602a96ab4",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/modelTrajectoryFileTail.ts",
+      "normalizedSha256": "15d3f69a8713675f4858f0011236d20657324e2cdad55adc0e982b488dbb98d9",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/pluginReferenceCatalogRequest.ts",
+      "normalizedSha256": "7a9afecdb297aca1f64016f26202547a0d217d3d6d17f2a7ad5a15de980689df",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/protocolClient.ts",
+      "normalizedSha256": "c84a931402f3ab1529adaf41529e50acc166a45976fc30715007c472c98c8b7d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/protocolTransport.ts",
+      "normalizedSha256": "b6eddac41e3d19cd007cf06b84f26070ecaee9cb60cb5ce1e0c0770f6e0fca39",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/repairSubagentTaskIndex.ts",
+      "normalizedSha256": "7bf6f8665a3e943a70f1afce19a018f56f98bc1122be173a25255a06863b09c1",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/sessionEventCoalescer.ts",
+      "normalizedSha256": "adeefeab77028509dfa75de9d887bf41126d5a514ceb4ed164a6051ad7135088",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/stdioTapDevConfig.ts",
+      "normalizedSha256": "309cf10c722f3d7ddc7fb1b9d78475aeb3091d80ce18dff71c10c0f3e2cbeef0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/stdioTransport.ts",
+      "normalizedSha256": "6a9bc5955c9faa4007b599d40998ba3bdb9987df2456c8a2642790a4b4d2106a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/storageStartupGate.ts",
+      "normalizedSha256": "22b05e86ae20b2694d826d59331b8d763f40822d27bdd43ab5de6a2ee70fae96",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/task-index-ingestion/sessionIndexProjection.ts",
+      "normalizedSha256": "fd54dddaa93e507ecb67ed15412599648ea7670a0c015c262e60925806e4c7cc",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/task-index-ingestion/snapshotProjection.ts",
+      "normalizedSha256": "b1dee2d118e75a7424bb030cb29678f11d5f626b82b1a41e75c3956d87203ba1",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/task-index-ingestion/topicTypes.ts",
+      "normalizedSha256": "b91628b0fbee1c6244306d1e933b1bce8fe7b52934b72cb72bb144d99d4fa80a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/taskIndexSyncer.ts",
+      "normalizedSha256": "0172fb6e9bc757217211ea5d69b87cde42969ee1c64aa52243f35ab825628b89",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/taskServiceAdapter.ts",
+      "normalizedSha256": "2b20042f557fb620604b0d3e62f9ba30e3e20e282693b9f008bcb03045060de7",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/v4HostCommand.ts",
+      "normalizedSha256": "c73f68fc25ee8a47980ed72669140d7eb217cac289feb8d187e567c99f11ccd3",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/broadcast/broadcast.ts",
+      "normalizedSha256": "6fb9fd19984902cfc27143d2dbe48c4a94948c4270f7830f3067559203c77f66",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/broadcast/broadcastService.ts",
+      "normalizedSha256": "deef2d1b2f84106977d9f324955e67eef63c637f596d2f4e3d9aae1234bfef19",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/commands/commandConfig.ts",
+      "normalizedSha256": "d5ebbe65944ac09614e7907ed353a10126dcf99bcc02d6d1cb4046c889396bbf",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/commands/commandDiscovery.ts",
+      "normalizedSha256": "3b078101c78059e42e9f30601a4ea1416b2594b1903df9ada59a2341396ae9fb",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/commands/commandFileParser.ts",
+      "normalizedSha256": "b7759d85e79894b7a6b066082f087ada3dbe7dd6829390956600adcfc70575e3",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/commands/commands.ts",
+      "normalizedSha256": "d7bfece93f1ef6effe28564957e488de5e6aaa66a86c208bd1f1e149bca2d013",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/commands/commandsService.ts",
+      "normalizedSha256": "8cd883a159e3e106c374351d98ec0e8fb06027f7dae4a8f7f52d1473cac5260e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/conversation-telemetry/conversationTelemetry.ts",
+      "normalizedSha256": "0cbaf75dce2d2755a2c1f7d3d5b04663a557e5eda42fc4252c11b03835d0d9a3",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/credential/credential.ts",
+      "normalizedSha256": "0f3b2a9567dab16ed0cb7a0f9cb2ffd43a20618313497f45e0445c72f66f28e1",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/credential/credentialService.ts",
+      "normalizedSha256": "683e8ebca54b18927f5eb96fbb388c469b3313641b4bb3e23785e9a722cebd52",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/credential/providers/credentialCipherProvider.ts",
+      "normalizedSha256": "48b371fc7b2016741d8ed8dc7c5ae6422d034f258f1551835a8ca41532264d7b",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/cua-permission-broker/cuaAgentAdmissionGate.ts",
+      "normalizedSha256": "59a523088de1d5470662b7575c8b91e52675c51dba195d213eaff647c0322f43",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/cua-permission-broker/cuaHelperInstaller.ts",
+      "normalizedSha256": "bc8cef614c0db1c1df2cca74a14b0e202edcb84c66662f04dcb4d82d5cffb880",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/cua-permission-broker/cuaPermissionService.ts",
+      "normalizedSha256": "eb519f0beb4755e4dd5651f4d93e1311b2a845399636dadce28ac2ef0f265683",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/cua-permission-broker/cuaPipSession.ts",
+      "normalizedSha256": "669e571f9221751118303bd0050e7bfa6d6a77edf67d64bf96a0c8e7ab7f4b15",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/cua-permission-broker/cuaPipSessionService.ts",
+      "normalizedSha256": "643d689aedcc506b68cbb24091f3a7f2b5f24bdb52a2eb5f427353ea86f29f09",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/cua-permission-broker/index.ts",
+      "normalizedSha256": "c3fc13a23aee659c89ae12953933c081c41454a3ee8957c00fe066f5d140f65d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/cua-permission-broker/windowsCuaDevHelperHost.ts",
+      "normalizedSha256": "9bac8f857643388904c408baf53d1a6211ce6c200e5ed96cffaf2127c091e116",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/cua-permission-broker/windowsCuaDevRuntime.ts",
+      "normalizedSha256": "ef2e28f7abff34f67aa3d2034990614da1103fd8732e7c35b799e6a718957069",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/cua-permission-broker/windowsCuaHelperHostSupport.ts",
+      "normalizedSha256": "90383321ec6bde7bdd36dc54eb239e671a2350685de17e1e635ba6e02051b936",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/file/file.ts",
+      "normalizedSha256": "9891f4762ef23cb697e0590c8bf185da1b82ac4acd6c7088be64983da27098ad",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/file/fileService.ts",
+      "normalizedSha256": "fd347a9940e0585e612f0b40105ba9004467be739cd8775b97e25e6cf8201cb9",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/file/fileServiceIO.ts",
+      "normalizedSha256": "2d1016c01ac24f5183ee912c6958522028b45553aafe7bf2be7981eacec6fb8a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/file/fileServiceIndex.ts",
+      "normalizedSha256": "c2193db6ae10a4cdb977f77e385285556e76933279412d1f7c9b1e5d81f62710",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/file/workspaceFileIgnore.ts",
+      "normalizedSha256": "d7aacdf8374be0bee0ea93e9adfdd6c6dea963188bec62e7a22833645192cecb",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/file/workspaceFileMentionFilter.ts",
+      "normalizedSha256": "e858ae676ed09c1c653c9985e56cef8d9a7446188b7edab52648fbfa696e1729",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/file/workspaceFileSearch.ts",
+      "normalizedSha256": "7f4328fef3111af9d6ce089a60bd5cd5cee65217dd879980d53228451ae5143a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/targets.txt",
+      "normalizedSha256": "f8318a79a74a46b6a803cabf68ae25b22b7789d88954fae9afd5afb71fa668aa",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/tests/agent-process.test.mjs",
+      "normalizedSha256": "eb4349867458d8577939a9cb34a52b146d21fddffef683f07eb180402c425425",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/tests/agent-surface.test.mjs",
+      "normalizedSha256": "791e6e6e4a6c9bd94ab17d4597195a52c3505eb9fc7a13977c7b27174fda72db",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/tests/callers-scan.mjs",
+      "normalizedSha256": "4eabeb8c3c1a1286d2708c19e872369d5827c7afd3ecbb350175a511508254c6",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/tests/commands-2.test.mjs",
+      "normalizedSha256": "6a87edd7f3f0928e253d6ce235bf39d05092a82b96a10c58d64bb3262ec328f8",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/tests/commands.test.mjs",
+      "normalizedSha256": "590d630ab9b967538a5810c1bd952173b8de3e1e391291df29878c00bf55ea86",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/tests/credential-broadcast-2.test.mjs",
+      "normalizedSha256": "953aaaac69054b7f2411661bb115d145c5342e06ec627dbe202e99817597efd6",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/tests/credential-broadcast-lock-holder.mjs",
+      "normalizedSha256": "46316398d4eeff6e6022eaa67cd9e3e3285829bbcdee33024d8fa137c5c516cc",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/tests/credential-broadcast.test.mjs",
+      "normalizedSha256": "ae1a88184d8da3f076f3be566a5337ddf99fb39e515786722070a4a26137882b",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/tests/credential.test.mjs",
+      "normalizedSha256": "764e462c772ce67770d55af27e0038c6a27d12cdaa99d8e557e0408820539b92",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/tests/cua-permission-broker-2.test.mjs",
+      "normalizedSha256": "5e8caf246d159c56a6dbbff6230577736ebbcc64115c334329cf2f00ff716b0e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/tests/cua-permission-broker.test.mjs",
+      "normalizedSha256": "86abd081080a2a059458769334b8959d8f20a2914c15fa589ab55337558004e8",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/tests/dist-loader.mjs",
+      "normalizedSha256": "76f75eb91c9b9f89f6d51916056fbf14ae2fc74b0204b559f1675d8cc447fa85",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/tests/dist-resolve.mjs",
+      "normalizedSha256": "b6d512217baf9716f9816a2f876d1ea42ae7775acbdd43b5d94d55edbb621847",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/tests/entry.mjs",
+      "normalizedSha256": "3450b5238b9c910978b2593d3e04f4cdfc45033c01ac41bb18656dd30b391d88",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/tests/exports-ast.mjs",
+      "normalizedSha256": "5bab94cb4f43f666e20fedad8143e6f3a74c579871fcecc89f3af5ebee2f9625",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/tests/file-service.test.mjs",
+      "normalizedSha256": "5baa846ec141677a5b7ca9411c0ed87a0e4b67de144d918240a97be157aafaf7",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/tests/gen-interface.mjs",
+      "normalizedSha256": "7b94fbb972f891aea6510b1f1148852d019434d0f41d4ea4533850031c5345cf",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/tests/helpers.mjs",
+      "normalizedSha256": "b86b853c088a38db070c5f8f5c689d5209d52d5f082bd781d1595e90054dadc9",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/tests/realuse-scan.mjs",
+      "normalizedSha256": "858d47cd942726e65547d75402281664dd3df68aab7221b23d4913cbe5b5c70e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/tests/scope.mjs",
+      "normalizedSha256": "2d624e23a8568db32c1bb00f9cad27086c454b0bb143c72519ac9e168e1ec678",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/tests/surface.test.mjs",
+      "normalizedSha256": "6de900e1ffd9ae52b75015f0f7d762d918ea03ea5d319912f9f9b31e49ba41d2",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/tests/task-service-adapter.test.mjs",
+      "normalizedSha256": "b4a180e122c984db0dc8b92384e04d3569d7b39546ee0c8e117a6ee333e792be",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
+      "evidence": ["specs/contracts/services-01/README.md"]
     }
   ]
 }

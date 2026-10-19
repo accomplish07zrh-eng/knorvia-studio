@@ -1,0 +1,56 @@
+{
+  "contract": "services-01",
+  "commit": "01304d91d86254fb39f562afd20edc1b2ef5e34d",
+  "node": "v24.14.0",
+  "generatedAt": "2026-10-19T09:00:44.514Z",
+  "runner": "scripts/contract-gate.mjs",
+  "testFiles": [
+    "specs/contracts/services-01/tests/agent-process.test.mjs",
+    "specs/contracts/services-01/tests/agent-surface.test.mjs",
+    "specs/contracts/services-01/tests/commands-2.test.mjs",
+    "specs/contracts/services-01/tests/commands.test.mjs",
+    "specs/contracts/services-01/tests/credential-broadcast-2.test.mjs",
+    "specs/contracts/services-01/tests/credential-broadcast.test.mjs",
+    "specs/contracts/services-01/tests/credential.test.mjs",
+    "specs/contracts/services-01/tests/cua-permission-broker-2.test.mjs",
+    "specs/contracts/services-01/tests/cua-permission-broker.test.mjs",
+    "specs/contracts/services-01/tests/file-service.test.mjs",
+    "specs/contracts/services-01/tests/surface.test.mjs",
+    "specs/contracts/services-01/tests/task-service-adapter.test.mjs"
+  ],
+  "sourceFrom": "src",
+  "entries": {
+    "source": {
+      "exitCode": 0,
+      "tests": 267,
+      "pass": 267,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0,
+      "outputTail": "  ✔ A517 resumeTask 与 getTaskSnapshot 的索引写入次数与广播口径不同 (0.398009ms)\n  ✔ A518 快照投影把 backgroundJobs 解析为后台任务控制项并按 inputId 回写进度 (1.012387ms)\n  ✔ A519 listTaskList 的 workspace 行由调用方作用域决定，适配层不补默认作用域 (0.196917ms)\n  ✔ A520 未加载目标时读写入口统一抛 KNORVIA_SESSION_TARGET_NOT_FOUND (0.570151ms)\n  ✔ A521 目标记忆只由显式写入刷新，cronAutomationId 在快照路径保持不被清掉 (1.217618ms)\n✔ A5C16 已知差异候选的显式行为 (4.31612ms)\nℹ tests 267\nℹ suites 97\nℹ pass 267\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 26903.764054"
+    },
+    "dist": {
+      "exitCode": 0,
+      "tests": 267,
+      "pass": 267,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0,
+      "outputTail": "  ✔ A517 resumeTask 与 getTaskSnapshot 的索引写入次数与广播口径不同 (0.378114ms)\n  ✔ A518 快照投影把 backgroundJobs 解析为后台任务控制项并按 inputId 回写进度 (0.865413ms)\n  ✔ A519 listTaskList 的 workspace 行由调用方作用域决定，适配层不补默认作用域 (0.163529ms)\n  ✔ A520 未加载目标时读写入口统一抛 KNORVIA_SESSION_TARGET_NOT_FOUND (0.530716ms)\n  ✔ A521 目标记忆只由显式写入刷新，cronAutomationId 在快照路径保持不被清掉 (0.557993ms)\n✔ A5C16 已知差异候选的显式行为 (3.167382ms)\nℹ tests 267\nℹ suites 97\nℹ pass 267\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 22379.232172",
+      "environment": {
+        "KNORVIA_SVC01_ENTRY": "dist"
+      },
+      "loader": "specs/contracts/services-01/tests/dist-loader.mjs"
+    }
+  },
+  "stubReplacement": {
+    "replacedFiles": 58,
+    "tests": 12,
+    "pass": 0,
+    "fail": 12,
+    "allFail": true,
+    "exitCode": 1,
+    "outputTail": "✖ /workspace/wt-svc01/specs/contracts/services-01/tests/cua-permission-broker.test.mjs (779.272899ms)\n  'test failed'\n\ntest at specs/contracts/services-01/tests/file-service.test.mjs:1:1\n✖ /workspace/wt-svc01/specs/contracts/services-01/tests/file-service.test.mjs (1192.252544ms)\n  'test failed'\n\ntest at specs/contracts/services-01/tests/surface.test.mjs:1:1\n✖ /workspace/wt-svc01/specs/contracts/services-01/tests/surface.test.mjs (1220.4291ms)\n  'test failed'\n\ntest at specs/contracts/services-01/tests/task-service-adapter.test.mjs:1:1\n✖ /workspace/wt-svc01/specs/contracts/services-01/tests/task-service-adapter.test.mjs (755.248177ms)\n  'test failed'"
+  },
+  "pass": true
+}

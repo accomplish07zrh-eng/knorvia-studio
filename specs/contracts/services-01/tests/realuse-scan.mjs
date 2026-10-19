@@ -29,7 +29,11 @@ for (const row of raw.rows) {
   for (const m of text.matchAll(declRe)) set.add(m[1]);
   for (const m of text.matchAll(namedRe)) {
     for (const part of m[1].split(",")) {
-      const n = part.trim().replace(/^type\s+/u, "").split(/\s+as\s+/u).pop();
+      const n = part
+        .trim()
+        .replace(/^type\s+/u, "")
+        .split(/\s+as\s+/u)
+        .pop();
       if (n && /^[A-Za-z0-9_$]+$/u.test(n)) set.add(n);
     }
   }
@@ -42,10 +46,7 @@ for (const row of raw.rows) {
   for (const importer of row.barrelConsumers) files.set(importer, (files.get(importer) ?? 0) + 1);
 }
 
-const sourceKinds = new Set([
-  ts.SyntaxKind.ImportDeclaration,
-  ts.SyntaxKind.ExportDeclaration,
-]);
+const sourceKinds = new Set([ts.SyntaxKind.ImportDeclaration, ts.SyntaxKind.ExportDeclaration]);
 let realRefs = 0;
 let realFiles = 0;
 const perModule = new Map();
@@ -82,7 +83,9 @@ for (const file of files.keys()) {
     node.forEachChild(visit);
   })(source);
   if (counters.length === 0) continue;
-  const scoped = counters.filter((name) => [...namesByModule.values()].some((set) => set.has(name)));
+  const scoped = counters.filter((name) =>
+    [...namesByModule.values()].some((set) => set.has(name)),
+  );
   if (scoped.length === 0) continue;
   realRefs += scoped.length;
   realFiles += 1;
