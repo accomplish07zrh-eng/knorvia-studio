@@ -1,123 +1,151 @@
+// SPDX-License-Identifier: Apache-2.0
+// 模型配置的数据合同：complete 系列是磁盘上的完整快照，宽松系列是它的「补丁」——
+// 同一形状逐字段放宽为可缺省或显式 null，用于局部覆盖。
+// 这里只放 schema 与推导类型；Provider 行为、IO 与校验时机都不属于公共合同。
 import { z } from "zod";
 import { compileModelOptionMap } from "@knorvia/model-option-map";
-import { sparseShape } from "./config-schema.js";
 
-function optionMapSchema(variableName: "reasoningLevel" | "maxOutputTokens") {
-  return z
-    .string()
-    .min(1)
-    .superRefine((source, context) => {
-      try {
-        compileModelOptionMap(source, variableName);
-      } catch (error) {
-        context.addIssue({
-          code: "custom",
-          message: error instanceof Error ? error.message : "Option map 无法编译",
-        });
-      }
-    });
+type Infer<T extends z.ZodType> = z.infer<T>;
+type OptionMapVariable = "reasoningLevel" | "maxOutputTokens";
+
+const FALLBACK_ISSUE = "Option map 无法编译";
+const MIN_ONE = "reasoningLevel.values 不能为空";
+const NON_BLANK = "reasoningLevel.values 必须是非空字符串";
+const DUPLICATE = "reasoningLevel.values 不能重复";
+
+const strictObject = (shape: z.ZodRawShape) => z.object(shape).strict();
+const bool = () => z.boolean();
+const positiveInt = () => z.number().int().positive();
+
+/** 补丁字段：既能缺省，也能显式写 null 表示「清空」。 */
+const loose = <T extends z.ZodTypeAny>(schema: T) => schema.nullable().optional();
+
+/** 由完整形状派生补丁形状：先整体放宽，再让调用方替换需要特殊处理的嵌套字段。 */
+const forkComplete = (complete: z.ZodObject<z.ZodRawShape>, overrides: z.ZodRawShape = {}) => {
+  const relax = (schema: z.ZodType) => schema.nullable().optional();
+  const relaxed = Object.fromEntries(
+    Object.entries(complete.shape).map(([field, schema]) => [field, relax(schema as z.ZodType)]),
+  );
+  return strictObject({ ...relaxed, ...overrides });
+};
+
+/** 编译失败的原因；null 表示通过。用返回值而不是异常表达正常校验结果。 */
+function optionMapIssue(candidate: string, variableName: OptionMapVariable): string | null {
+  try {
+    compileModelOptionMap(candidate, variableName);
+  } catch (caught) {
+    if (caught instanceof Error) return caught.message;
+    return FALLBACK_ISSUE;
+  }
+  return null;
 }
 
-export const completeEnumOptionSpecDataSchema = z
-  .object({
-    /** 按语义强度从低到高排列；首项是辅助调用可选的最低公开档位。 */
-    values: z
-      .array(
-        z
-          .string()
-          .refine((value) => value.trim().length > 0, "reasoningLevel.values 必须是非空字符串"),
-      )
-      .min(1, "reasoningLevel.values 不能为空")
-      .refine((values) => new Set(values).size === values.length, "reasoningLevel.values 不能重复")
-      .readonly(),
-    map: optionMapSchema("reasoningLevel"),
-  })
-  .strict();
+/** 选项映射串必须能被编译：语法或语义错误都转成 zod issue。 */
+function optionMap(variableName: OptionMapVariable) {
+  const check = (source: string, context: z.RefinementCtx) => {
+    const issue = optionMapIssue(source, variableName);
+    if (issue !== null) context.addIssue({ code: "custom", message: issue });
+  };
+  return z.string().min(1).superRefine(check);
+}
 
-export const completeLimitOptionSpecDataSchema = z
-  .object({
-    max: z.number().int().positive(),
-    map: optionMapSchema("maxOutputTokens"),
-  })
-  .strict();
+const isNonBlank = (value: string) => value.trim().length > 0;
+const isUnique = (values: readonly string[]) => new Set(values).size === values.length;
 
-export const enumOptionSpecDataSchema = z
-  .object(sparseShape(completeEnumOptionSpecDataSchema.shape))
-  .strict();
-export const limitOptionSpecDataSchema = z
-  .object(sparseShape(completeLimitOptionSpecDataSchema.shape))
-  .strict();
+/** 档位表按语义强度从低到高；首项是辅助调用可选的最低公开档位。 */
+const reasoningValues = () =>
+  z
+    .array(z.string().refine(isNonBlank, NON_BLANK))
+    .min(1, MIN_ONE)
+    .refine(isUnique, DUPLICATE)
+    .readonly();
 
-export const completeModelInputFormatDataSchema = z
-  .object({
-    supportsText: z.boolean(),
-    supportsImage: z.boolean(),
-    supportsVideo: z.boolean(),
-    supportsAudio: z.boolean(),
-    supportsPdf: z.boolean(),
-  })
-  .strict();
-export const completeModelOutputFormatDataSchema = z.object({ supportsText: z.boolean() }).strict();
-export const modelInputFormatDataSchema = z
-  .object(sparseShape(completeModelInputFormatDataSchema.shape))
-  .strict();
-export const modelOutputFormatDataSchema = z
-  .object(sparseShape(completeModelOutputFormatDataSchema.shape))
-  .strict();
+export const completeEnumOptionSpecDataSchema = strictObject({
+  values: reasoningValues(),
+  map: optionMap("reasoningLevel"),
+});
 
-export const completeModelPropertiesDataSchema = z
-  .object({
-    requiresMfjsToolSchema: z.boolean(),
-    contextWindow: z.number().int().positive(),
-    inputFormat: completeModelInputFormatDataSchema,
-    outputFormat: completeModelOutputFormatDataSchema,
-    supportsToolCall: z.boolean(),
-    supportsJsonSchemaOutput: z.boolean(),
-    supportsNativeWebSearch: z.boolean(),
-    supportsMidConversationSystem: z.boolean(),
-  })
-  .strict();
-export const modelPropertiesDataSchema = z
-  .object({
-    ...sparseShape(completeModelPropertiesDataSchema.shape),
-    inputFormat: modelInputFormatDataSchema.nullable().optional(),
-    outputFormat: modelOutputFormatDataSchema.nullable().optional(),
-  })
-  .strict();
+export const completeLimitOptionSpecDataSchema = strictObject({
+  max: positiveInt(),
+  map: optionMap("maxOutputTokens"),
+});
 
-export const completeModelOptionSpecsDataSchema = z
-  .object({
-    reasoningLevel: completeEnumOptionSpecDataSchema,
-    maxOutputTokens: completeLimitOptionSpecDataSchema,
-  })
-  .strict();
-export const modelOptionSpecsDataSchema = z
-  .object({
-    ...sparseShape(completeModelOptionSpecsDataSchema.shape),
-    reasoningLevel: enumOptionSpecDataSchema.nullable().optional(),
-    maxOutputTokens: limitOptionSpecDataSchema.nullable().optional(),
-  })
-  .strict();
+export const enumOptionSpecDataSchema = forkComplete(completeEnumOptionSpecDataSchema);
 
-export const completeModelConfigDataSchema = z
-  .object({
-    enabled: z.boolean(),
-    properties: completeModelPropertiesDataSchema,
-    optionSpecs: completeModelOptionSpecsDataSchema,
-  })
-  .strict();
-export const modelConfigDataSchema = z
-  .object({
-    ...sparseShape(completeModelConfigDataSchema.shape),
-    properties: modelPropertiesDataSchema.nullable().optional(),
-    optionSpecs: modelOptionSpecsDataSchema.nullable().optional(),
-  })
-  .strict();
+export const limitOptionSpecDataSchema = forkComplete(completeLimitOptionSpecDataSchema);
 
-// 跨层只共享数据合同；Provider 行为类与 IO 不进入公共 Schema。
-export type ModelInputFormatData = z.infer<typeof completeModelInputFormatDataSchema>;
-export type ModelOutputFormatData = z.infer<typeof completeModelOutputFormatDataSchema>;
-export type ModelPropertiesData = z.infer<typeof completeModelPropertiesDataSchema>;
-export type EnumOptionSpecData = z.infer<typeof completeEnumOptionSpecDataSchema>;
-export type LimitOptionSpecData = z.infer<typeof completeLimitOptionSpecDataSchema>;
-export type ModelOptionSpecsData = z.infer<typeof completeModelOptionSpecsDataSchema>;
+/** 输入模态开关；顺序即界面展示顺序。 */
+const INPUT_MODALITIES = [
+  "supportsText",
+  "supportsImage",
+  "supportsVideo",
+  "supportsAudio",
+  "supportsPdf",
+];
+
+const modalityShape = () =>
+  Object.fromEntries(INPUT_MODALITIES.map((modality) => [modality, bool()]));
+
+export const completeModelInputFormatDataSchema = strictObject(modalityShape());
+
+export const completeModelOutputFormatDataSchema = strictObject({ supportsText: bool() });
+
+export const modelInputFormatDataSchema = forkComplete(completeModelInputFormatDataSchema);
+
+export const modelOutputFormatDataSchema = forkComplete(completeModelOutputFormatDataSchema);
+
+const propertyShape = (inputFormat: z.ZodType, outputFormat: z.ZodType) => ({
+  requiresMfjsToolSchema: bool(),
+  contextWindow: positiveInt(),
+  inputFormat,
+  outputFormat,
+  supportsToolCall: bool(),
+  supportsJsonSchemaOutput: bool(),
+  supportsNativeWebSearch: bool(),
+  supportsMidConversationSystem: bool(),
+});
+
+export const completeModelPropertiesDataSchema = strictObject(
+  propertyShape(completeModelInputFormatDataSchema, completeModelOutputFormatDataSchema),
+);
+
+export const modelPropertiesDataSchema = forkComplete(completeModelPropertiesDataSchema, {
+  inputFormat: loose(modelInputFormatDataSchema),
+  outputFormat: loose(modelOutputFormatDataSchema),
+});
+
+const optionSpecsShape = (reasoningLevel: z.ZodType, maxOutputTokens: z.ZodType) => ({
+  reasoningLevel,
+  maxOutputTokens,
+});
+
+export const completeModelOptionSpecsDataSchema = strictObject(
+  optionSpecsShape(completeEnumOptionSpecDataSchema, completeLimitOptionSpecDataSchema),
+);
+
+export const modelOptionSpecsDataSchema = forkComplete(completeModelOptionSpecsDataSchema, {
+  reasoningLevel: loose(enumOptionSpecDataSchema),
+  maxOutputTokens: loose(limitOptionSpecDataSchema),
+});
+
+const modelConfigShape = (properties: z.ZodType, optionSpecs: z.ZodType) => ({
+  enabled: bool(),
+  properties,
+  optionSpecs,
+});
+
+export const completeModelConfigDataSchema = strictObject(
+  modelConfigShape(completeModelPropertiesDataSchema, completeModelOptionSpecsDataSchema),
+);
+
+export const modelConfigDataSchema = forkComplete(completeModelConfigDataSchema, {
+  properties: loose(modelPropertiesDataSchema),
+  optionSpecs: loose(modelOptionSpecsDataSchema),
+});
+
+export type ModelInputFormatData = Infer<typeof completeModelInputFormatDataSchema>;
+export type ModelOutputFormatData = Infer<typeof completeModelOutputFormatDataSchema>;
+export type ModelPropertiesData = Infer<typeof completeModelPropertiesDataSchema>;
+export type EnumOptionSpecData = Infer<typeof completeEnumOptionSpecDataSchema>;
+export type LimitOptionSpecData = Infer<typeof completeLimitOptionSpecDataSchema>;
+export type ModelOptionSpecsData = Infer<typeof completeModelOptionSpecsDataSchema>;
