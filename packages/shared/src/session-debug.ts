@@ -17,7 +17,7 @@ const headerMap = () => z.record(z.string(), z.string());
 const optionalText = () => text().optional();
 const nullableCount = () => count().nullable();
 
-const usageShape = (): z.ZodRawShape => ({
+const usageShape = () => ({
   inputTokens: optionalCount(),
   outputTokens: optionalCount(),
   totalTokens: optionalCount(),
@@ -28,7 +28,7 @@ const usageShape = (): z.ZodRawShape => ({
 
 const debugUsageSchema = z.object(usageShape()).strict();
 
-const roundShape = (): z.ZodRawShape => ({
+const roundShape = () => ({
   eventKey: text(),
   requestId: text(),
   requestIndex: count(),
@@ -58,7 +58,7 @@ const NETWORK_STATUS_TYPES = Object.values(NETWORK_STATUS) as [
 ];
 
 /** 可选计数/布尔字段一律可选，缺省与 false 语义不同，不能折叠。 */
-const networkShape = (): z.ZodRawShape => ({
+const networkShape = () => ({
   eventKey: text(),
   traceId: text(),
   recordedAt: count(),
@@ -91,14 +91,14 @@ const networkShape = (): z.ZodRawShape => ({
 
 export const sessionDebugNetworkEntrySchema = z.object(networkShape()).strict();
 
-const cacheShape = (): z.ZodRawShape => ({
+const cacheShape = () => ({
   hitRateRequestCount: count(),
   totalInputTokens: count(),
   totalCacheReadTokens: count(),
   hitRate: nullableCount(),
 });
 
-const snapshotShape = (): z.ZodRawShape => ({
+const snapshotShape = () => ({
   sessionId: text(),
   rounds: z.array(sessionDebugRoundSchema).max(ROUND_LIMIT),
   networkEntries: z.array(sessionDebugNetworkEntrySchema).max(NETWORK_LIMIT),

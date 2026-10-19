@@ -6,14 +6,14 @@
  */
 
 /** 内置 BigModel 供应商 id。 */
-const BIGMODEL_ID = "bigmodel";
+const BIGMODEL_ID = "bigmodel" as const;
 /** 内置 ZAI 供应商 id。 */
-const ZAI_ID = "zai";
+const ZAI_ID = "zai" as const;
 
 /** 凭据解密失败的错误前缀（历史错误只带文案时靠它识别）。 */
-const DECRYPT_ERROR_PREFIX = "凭据解密失败：";
+const DECRYPT_ERROR_PREFIX = "凭据解密失败：" as const;
 /** 凭据解密失败的稳定错误码（新错误应优先携带）。 */
-const DECRYPT_ERROR_CODE = "KNORVIA_CREDENTIAL_DECRYPT_FAILED";
+const DECRYPT_ERROR_CODE = "KNORVIA_CREDENTIAL_DECRYPT_FAILED" as const;
 
 export const BIGMODEL_PROVIDER_ID = BIGMODEL_ID;
 export const ZAI_PROVIDER_ID = ZAI_ID;

@@ -30,15 +30,24 @@ const CONTEXT_LIMITS = {
   screenResolution: 64,
 } as const;
 
+/** 投影结果按键映射声明，字面量与字段名都不会在 Object.fromEntries 处塌成索引签名。 */
+type EnvelopeShape = {
+  [Field in keyof typeof ENVELOPE_LITERALS]: z.ZodLiteral<(typeof ENVELOPE_LITERALS)[Field]>;
+};
+
+type ContextShape = { [Field in keyof typeof CONTEXT_LIMITS]: z.ZodString };
+
 /** 把登记表投影成 `{ 字段: ZodLiteral }`。 */
-const envelopeShape = Object.fromEntries(
-  Object.entries(ENVELOPE_LITERALS).map(([key, value]) => [key, z.literal(value)]),
-);
+const envelopeShape = (): EnvelopeShape =>
+  Object.fromEntries(
+    Object.entries(ENVELOPE_LITERALS).map(([key, value]) => [key, z.literal(value)]),
+  ) as EnvelopeShape;
 
 /** 把长度表投影成 `{ 字段: ZodString }`。 */
-const contextShape = Object.fromEntries(
-  Object.entries(CONTEXT_LIMITS).map(([key, maximum]) => [key, z.string().max(maximum)]),
-);
+const contextShape = (): ContextShape =>
+  Object.fromEntries(
+    Object.entries(CONTEXT_LIMITS).map(([key, maximum]) => [key, z.string().max(maximum)]),
+  ) as ContextShape;
 
 const sessionIdField = z.string().min(1).max(512);
 const workspaceKindField = z.enum(["local", "remote"]);
@@ -50,10 +59,10 @@ const strictDetail = <Shape extends z.ZodRawShape>(shape: Shape) => z.object(sha
 const envelopeShapeWith = <Shape extends z.ZodRawShape>(detail: Shape) =>
   z
     .object({
-      ...envelopeShape,
+      ...envelopeShape(),
       talkId: sessionIdField,
       messageId: sessionIdField,
-      context: z.object(contextShape).strict(),
+      context: z.object(contextShape()).strict(),
       eventExtraDetail: strictDetail(detail),
     })
     .strict();

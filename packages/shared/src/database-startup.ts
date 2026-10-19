@@ -174,7 +174,7 @@ export function databaseStartupErrorDetails(error: unknown): ErrorDetails {
   return details as ErrorDetails;
 }
 
-const optionalDetailFields = (): z.ZodRawShape => ({
+const optionalDetailFields = () => ({
   sqliteCode: z.number().int().optional(),
   systemCode: z.string().max(64).optional(),
   migrationId: z.string().max(128).optional(),
@@ -184,16 +184,14 @@ export const databaseStartupErrorDetailsSchema = z.object(optionalDetailFields()
 
 const nullableBytes = () => z.number().finite().nonnegative().nullable();
 
-const DISK_FIELDS: ReadonlyArray<readonly [string, z.ZodType]> = [
-  ["scopeId", z.string().max(128)],
-  ["observedAvailableDropPeakBytes", nullableBytes()],
-  ["minAvailableBytes", nullableBytes()],
-  ["quality", z.enum(["complete", "partial", "unknown"])],
-  ["sampledAt", nullableBytes()],
-];
-
 export const startupDiskSummarySchema = z
-  .object(Object.fromEntries(DISK_FIELDS) as z.ZodRawShape)
+  .object({
+    scopeId: z.string().max(128),
+    observedAvailableDropPeakBytes: nullableBytes(),
+    minAvailableBytes: nullableBytes(),
+    quality: z.enum(["complete", "partial", "unknown"]),
+    sampledAt: nullableBytes(),
+  })
   .strict();
 
 export type StartupDiskSummary = z.output<typeof startupDiskSummarySchema>;
@@ -223,7 +221,7 @@ export const databaseMigrationFactsSchema = z
 
 export type DatabaseMigrationFacts = z.output<typeof databaseMigrationFactsSchema>;
 
-const baselineFields = (): z.ZodRawShape => ({
+const baselineFields = () => ({
   databaseId: z.string().min(1).max(128),
   databaseKind: z.enum(["tasks-index", "session"]),
   lastAppliedMigrationId: databaseMigrationIdSchema.nullable().optional(),
@@ -242,34 +240,29 @@ const DATABASE_PHASES = [
   "ready",
 ] as const;
 
-const stateBaseFields = (): ReadonlyArray<readonly [string, z.ZodType]> => [
-  ["schemaVersion", z.literal(1)],
-  ["startupId", boundedId()],
-  ["attemptId", boundedId()],
-  ["sequence", nonNegativeInt()],
-  ["startedAt", z.number().finite().nonnegative()],
-  ["updatedAt", z.number().finite().nonnegative()],
-  ["phase", databaseStartupPhaseSchema],
-  ["databasePhase", z.enum(DATABASE_PHASES).optional()],
-  ["migration", databaseMigrationFactsSchema.optional()],
-  ["currentMigration", databaseMigrationFactsSchema.optional()],
-  ["migrationBaselines", z.array(migrationBaselineSchema).optional()],
-  ["finalDatabase", z.boolean().optional()],
-  ["failedPhase", databaseStartupPhaseSchema.optional()],
-  ["errorCode", databaseStartupErrorCodeSchema.optional()],
-];
-
-const detailShape = optionalDetailFields();
-
-const stateTailFields = (): ReadonlyArray<readonly [string, z.ZodType]> => [
-  ["sqliteCode", detailShape.sqliteCode as z.ZodType],
-  ["systemCode", detailShape.systemCode as z.ZodType],
-  ["migrationId", detailShape.migrationId as z.ZodType],
-  ["disk", z.array(startupDiskSummarySchema).max(8)],
-];
+const stateBaseFields = () => ({
+  schemaVersion: z.literal(1),
+  startupId: boundedId(),
+  attemptId: boundedId(),
+  sequence: nonNegativeInt(),
+  startedAt: z.number().finite().nonnegative(),
+  updatedAt: z.number().finite().nonnegative(),
+  phase: databaseStartupPhaseSchema,
+  databasePhase: z.enum(DATABASE_PHASES).optional(),
+  migration: databaseMigrationFactsSchema.optional(),
+  currentMigration: databaseMigrationFactsSchema.optional(),
+  migrationBaselines: z.array(migrationBaselineSchema).optional(),
+  finalDatabase: z.boolean().optional(),
+  failedPhase: databaseStartupPhaseSchema.optional(),
+  errorCode: databaseStartupErrorCodeSchema.optional(),
+});
 
 export const databaseStartupStateSchema = z
-  .object(Object.fromEntries([...stateBaseFields(), ...stateTailFields()]) as z.ZodRawShape)
+  .object({
+    ...stateBaseFields(),
+    ...optionalDetailFields(),
+    disk: z.array(startupDiskSummarySchema).max(8),
+  })
   .strict();
 
 export type DatabaseStartupState = z.output<typeof databaseStartupStateSchema>;

@@ -14,10 +14,15 @@ export const RENDERER_ACTION_TRACE_MAX_SAMPLE_RATIO = TRACE_CONSTANTS.maxSampleR
 export const RENDERER_ACTION_TRACE_MAX_BATCH_SPANS = TRACE_CONSTANTS.maxBatchSpans;
 export const RENDERER_ACTION_TRACE_MAX_BATCH_BYTES = TRACE_CONSTANTS.maxBatchBytes;
 
-const words = (source: string): [string, ...string[]] =>
-  source.trim().split(/\s+/u) as [string, ...string[]];
+/** 空白分词；词在类型层保持字面量，枚举键才不会被抹成 string。 */
+type Words<Source extends string> = Source extends `${infer Head} ${infer Rest}`
+  ? [Head, ...Words<Rest>]
+  : [Source];
 
-const wordEnum = (source: string) => z.enum(words(source));
+const words = <const Source extends string>(source: Source): Words<Source> =>
+  source.trim().split(/\s+/u) as Words<Source>;
+
+const wordEnum = <const Source extends string>(source: Source) => z.enum(words(source));
 
 /** 目录组是 UI 侧的稳定分区；新增分组要同时改采样配置的默认值。 */
 export const rendererActionTraceGroupSchema = wordEnum(
@@ -42,7 +47,7 @@ const hex = (length: 16 | 32) => z.string().regex(new RegExp(`^[0-9a-f]{${length
 const flag = () => z.boolean();
 const optionalFlag = () => flag().optional();
 
-const configShape = (): z.ZodRawShape => ({
+const configShape = () => ({
   enabled: flag(),
   localTtftEnabled: optionalFlag(),
   sampleRatio: z.number().finite().min(0).max(RENDERER_ACTION_TRACE_MAX_SAMPLE_RATIO),
@@ -54,40 +59,18 @@ export const rendererActionTraceConfigSchema = z.object(configShape()).strict();
 
 export type RendererActionTraceConfigV1 = z.output<typeof rendererActionTraceConfigSchema>;
 
-const DISABLED_CONFIG_FIELDS = {
+const DISABLED_CONFIG_FIELDS: RendererActionTraceConfigV1 = {
   enabled: false,
   sampleRatio: 0,
   enabledGroups: [],
   configVersion: "disabled",
-} as const;
+};
 
 export const DISABLED_RENDERER_ACTION_TRACE_CONFIG: RendererActionTraceConfigV1 =
   DISABLED_CONFIG_FIELDS;
 
-type AttributeShape = {
-  feature_id: z.ZodType;
-  action: z.ZodType;
-  catalog_group: z.ZodType;
-  operation_kind: z.ZodType;
-  surface: z.ZodType;
-  trigger: z.ZodType;
-  outcome: z.ZodType;
-  result_source: z.ZodType;
-  failure_stage: z.ZodType;
-  state_after: z.ZodType;
-  configured: z.ZodType;
-  requires_restart: z.ZodType;
-  section_id: z.ZodType;
-  value_after: z.ZodType;
-  workspace_kind: z.ZodType;
-  remote_kind: z.ZodType;
-  admission_result: z.ZodType;
-  automation_kind: z.ZodType;
-  action_id: z.ZodType;
-};
-
 /** 可选项统一在此登记；必需项单独列出，避免两者混排后看不出必填边界。 */
-const optionalAttributes = (): Partial<AttributeShape> => ({
+const optionalAttributes = () => ({
   result_source: wordEnum(
     "local_commit shared_settings setting_service platform_result authority_ack optimistic_projection",
   ).optional(),
@@ -103,7 +86,7 @@ const optionalAttributes = (): Partial<AttributeShape> => ({
   automation_kind: wordEnum("scheduled off_peak").optional(),
 });
 
-const attributeShape = (): z.ZodRawShape => ({
+const attributeShape = () => ({
   feature_id: identifierSchema(),
   action: identifierSchema(),
   catalog_group: rendererActionTraceGroupSchema,
@@ -124,7 +107,7 @@ const spanWindowOk = (span: { startTimeUnixMs: number; endTimeUnixMs: number }):
 
 const timestamp = () => z.number().finite().nonnegative();
 
-const spanFields = (): z.ZodRawShape => ({
+const spanFields = () => ({
   traceId: hex(32),
   spanId: hex(16),
   name: z.literal("ui_action"),
@@ -147,7 +130,7 @@ export const rendererActionTraceSpanSchema = spanObjectSchema.superRefine((span,
 
 export type RendererActionTraceSpanV1 = z.output<typeof rendererActionTraceSpanSchema>;
 
-const resourceShape = (): z.ZodRawShape => ({
+const resourceShape = () => ({
   serviceName: z.literal(RENDERER_ACTION_TRACE_SERVICE_NAME),
   serviceVersion: identifierSchema(),
   deploymentEnvironment: wordEnum("development test production"),
@@ -160,7 +143,7 @@ export type RendererActionTraceResourceV1 = z.output<typeof rendererActionTraceR
 
 const counter = () => z.number().int().nonnegative();
 
-const batchFields = (): z.ZodRawShape => ({
+const batchFields = () => ({
   version: z.literal(1),
   rendererInstanceId: identifierSchema(),
   sequence: counter(),
