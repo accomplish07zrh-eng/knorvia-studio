@@ -39,11 +39,19 @@ export function loadScope() {
     const modulePath = path.slice(srcPrefix.length);
     if (OUT_OF_SCOPE_DIRS.includes(bucketOf(modulePath))) continue;
     if (!BUCKETS.includes(bucketOf(modulePath))) continue;
+    // 替换阶段登记后，37 个重写目标的 classification 会变成 original，4 个新拆模块
+    // （upstream 缺席）也会作为新文件进册。本包的继承范围仍是原 40 个文件：
+    // 已登记的目标按 upstream.relation 归位成 upstream-*，新拆模块不进兼容面。
+    if (entry.classification === "original" && !entry.upstream) continue;
+    const classification =
+      entry.classification === "original" && entry.upstream
+        ? `upstream-${entry.upstream.relation}`
+        : entry.classification;
     rows.push({
       path,
       modulePath,
       bucket: bucketOf(modulePath),
-      classification: entry.classification,
+      classification,
       bytes: entry.bytes,
       rewriteTarget: entry.classification !== "unreviewed",
     });

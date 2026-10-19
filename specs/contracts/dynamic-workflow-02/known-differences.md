@@ -124,10 +124,10 @@ facade 注释写着「Two rules the compiler enforces. The name must be a compil
 
 ### K12 三个 `unreviewed` 文件不进重写目标
 
-`engine/ask-journal-projection.ts`、`engine/scheduler-helpers.ts`、`engine/workflow-error.ts` 在 `licensing/current-files.json` 里分类为 `unreviewed`（M0-2/M0-3 复核范围）：本包**不重写、不删**，重写目标 = 40 − 3 = **37**，`stubs/targets.txt` 与桩替换验证都按 37 走。
+`engine/ask-journal-projection.ts`、`engine/scheduler-helpers.ts`、`engine/workflow-error.ts` 在 `licensing/current-files.json` 里分类为 `unreviewed`（M0-2/M0-3 复核范围）：本包**不重写、不删**，重写目标 = 40 − 3 = **37**（v1/v2 的 `stubs/targets.txt` 与桩替换验证都按 37 走；v3 已删桩，证据留在 `gate-old-v2.json`）。
 
 - 注意这三件里包含 `engine/workflow-error.ts`（`WorkflowError` 的定义文件，被 12 个文件引用）——不重写不等于不重要：它的行为由 B1/B4/B10/B18/B19 等条目**从公开面**钉住，重写实现必须继续以同样的构造与 `toJSON()` 形状使用它。
-- 分类与计数唯一真源是 `tests/scope.mjs`（读 `licensing/current-files.json`），`surface.test.mjs` 与 `README.md` 的完成度表都从它取数；复核完成、分类改成 `upstream-*` 时，本包重写目标会自动变 38，届时要同步 `stubs/targets.txt` 与桩替换计数（`surface.test.mjs` 会先红，不会静默漏）。
+- 分类与计数唯一真源是 `tests/scope.mjs`（读 `licensing/current-files.json`），`surface.test.mjs` 与 `README.md` 的完成度表都从它取数。v3 登记后，37 个重写目标的 `classification` 变成 `original`、4 个新拆模块（无 upstream）进册，`scope.mjs` 因此把已登记目标按 `upstream.relation` 归位成 `upstream-*` 并跳过新拆模块——范围断言仍指向原 40 个继承文件、分类计数仍是 24 / 13 / 3，断言本身一字未改。若未来审计把某个 `unreviewed` 复核成继承分类或新增继承文件，先改合同口径与 `interface.md`，`surface.test.mjs` 会先红，不会静默漏。
 
 ### K13 合同自身的一处更正：engine-run 的驱动语义（夹具头部注释，已就地改对）
 

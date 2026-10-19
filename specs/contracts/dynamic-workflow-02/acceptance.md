@@ -6,6 +6,8 @@ v2 · 2026-10-19 · 分支 `contract/dynamic-workflow-02`（基线 `origin/main@
 
 v2（2026-10-19）只做一件事：按用户裁决把声明模式计分的纯数据常量表在 `interface.md` 中逐条列出键与值（K14）。测试断言未改；旧门在旧实现 `8c9a9e86` 上重跑，结果见第九节与 `gate-old-v2.json`。v1 的旧门记录（第二节、第六节与 `gate-old.json`）保持原样。
 
+v3（2026-10-19）：替换收尾。按计划书「每包流程」第五步删除 `stubs/`（37 个桩 + `build-stubs.mjs` + `targets.txt`），新增 `design.md`，把 41 个重写源文件、合同文件与替换验收文档登记为 `original`，并补 `knip.json` 根 entry。测试断言一字未改；`tests/scope.mjs` 只增加登记后的读数口径（已登记目标按 `upstream.relation` 归位、新拆模块不进兼容面），使范围断言仍指向原 40 个继承文件。新实现上重跑合同门：源码与 dist 各 420/420。下面各节保留合同阶段的历史数字与历史命令（含桩替换），不再改写。
+
 ## 一、范围
 
 - 在范围：`apps/cli/packages/dynamic-workflow/src/` 下 **`analysis/` 与 `compiler/` 之外**的全部 .ts（那两目录是 dynamic-workflow-01 的范围）= **40 文件 / 7,341 行 / 329,075 字节**。
