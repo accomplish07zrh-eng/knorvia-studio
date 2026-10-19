@@ -9,6 +9,7 @@ const pure = [
   'export const A = [\n  "a",\n  "b",\n] as const;',
   'const B: readonly string[] = ["x", "y"];',
   'export const C = z.enum(["a", "b"]);',
+  "export const S = z\n  .object({\n    id: z.string().min(1),\n  })\n  .strict();",
   "const D = Object.freeze({ a: 1, b: -2, c: null, d: true });",
   'const E = { "a-b": "x-y", n: 3 };',
 ];
@@ -19,7 +20,9 @@ const impure = [
   "const H = [1 + 2];",
   'const I = foo(["a"]);',
   'const J = "a b".split(" ");',
-  "const K = z.string().min(1);",
+  "const K = z.string().refine((value) => value.length > 0);",
+  "const P = z.object({ a: OTHER.shape });",
+  "const Q = helper.build();",
   'const L = [...OTHER, "c"];',
   "const M = { a: function () { return 1; } };",
   "const N = `${PREFIX}-x`;",

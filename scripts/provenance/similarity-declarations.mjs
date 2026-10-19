@@ -153,12 +153,14 @@ function findDeclarationEnd(lines, start, kind) {
 }
 
 /** 允许出现在纯数据常量表里的调用：只做字面量收口，不做计算。 */
-const PURE_DATA_CALLS = new Set(["z.enum", "Object.freeze"]);
+const PURE_DATA_CALLS = new Set(["Object.freeze"]);
 
 /**
  * 纯数据常量：右侧只由字符串/数字/布尔/null 字面量、数组、对象、`as const`、
- * `satisfies`/类型注解，以及 `z.enum([...])` / `Object.freeze(...)` 包装组成。
- * 出现箭头函数、function、条件、逻辑/算术运算、模板插值、展开或其他调用即不算纯数据。
+ * `satisfies`/类型注解、`Object.freeze(...)`，以及 zod 声明式构造链（`z.xxx(...).yyy(...)`，
+ * 实参同样只能是字面量或 zod 构造）组成。
+ * 出现箭头函数、function、条件、逻辑/算术运算、模板插值、展开或其他调用即不算纯数据；
+ * 所以 `.refine(fn)` / `.transform(fn)` 这类夹带函数的 schema 仍照常计分。
  */
 export function isPureDataConst(block) {
   const eq = block.search(/[^=!<>]=(?![=>])/u);
@@ -173,8 +175,11 @@ export function isPureDataConst(block) {
   body = body.replace(/([[(,:=]\s*)-(?=\s*\d)/gu, "$1");
   const operators = /=>|\bfunction\b|\?|&&|\|\||\.\.\.|\bnew\b|[-+*/%<>]/u;
   if (operators.test(body.replace(/\bas const\b/gu, " "))) return false;
-  for (const call of body.matchAll(/([A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*)*)\s*\(/gu))
+  // zod 构造链：`z.object(`、`.strict(`、`.min(` 等声明式调用整体视作声明。
+  const withoutZod = body.replace(/\bz(?:\s*\.\s*[A-Za-z_$][\w$]*)+\s*\(/gu, "(");
+  const withoutChains = withoutZod.replace(/\)\s*\.\s*[A-Za-z_$][\w$]*\s*\(/gu, ")(");
+  for (const call of withoutChains.matchAll(/([A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*)*)\s*\(/gu))
     if (!PURE_DATA_CALLS.has(call[1])) return false;
-  if (/\.[A-Za-z_$][\w$]*\s*(?!\()/u.test(body.replace(/z\.enum|Object\.freeze/gu, " "))) return false;
+  if (/\.[A-Za-z_$]/u.test(withoutChains.replace(/Object\.freeze/gu, " "))) return false;
   return true;
 }

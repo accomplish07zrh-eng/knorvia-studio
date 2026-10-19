@@ -304,7 +304,7 @@ function lineMetrics(candidate, group, comparedOld) {
 
 /**
  * 压行拆分独立 gate：扫描候选里写死的空白分隔字面量在运行时拆成列表的写法，
- * 命中即 FAIL。只对脚本生效；regardless of --gates 都跑，因为它是单独的 gate。
+ * 命中即 FAIL。只对脚本生效；不随 --gates 关闭，因为它是单独的 gate。
  */
 function applyPackedLiteralGate(results, candidates) {
   results.forEach((result, index) => {
