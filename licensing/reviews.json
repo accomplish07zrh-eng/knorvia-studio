@@ -12277,11 +12277,14 @@
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/documentation.ts",
-      "normalizedSha256": "633102bbd9e8bdf655b3f4f5946191e3ea2d85ed95d3a1fd9db9280a4755f5c6",
+      "normalizedSha256": "d0558820f24a167b8e1ae12f9b5dcc577697b1494e31cd6d102ad8bf88224022",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Independent documentation loading, rendering, guidance and tests from public interfaces and observed lookup/aggregation behavior. File access checks both logical and physical directory containment; document conditions use declared supported APIs. New guidance is organized around verified browser operations. Prior source exposure is disclosed; no clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "basis": "Knorvia independent replacement of core runtime status logging and browser documentation loading against contract core-runtime-methods-01. The author read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Status metadata now comes from a passthrough table plus a rename table instead of a field-by-field literal, and the documentation loader funnels its three failure paths through one best-effort helper while sharing a single condition-field table and keeping the directory-escape rules intact. Measured after rework against upstream zcode-872ad960 at rev 872ad960 with old-rev origin/main: status-log-table containment 0.079 with longest run 2, documentation containment 0.175 with longest run 5. Contract tests core-runtime-methods-01 35/35.",
+      "evidence": [
+        "specs/contracts/core-runtime-methods-01/behavior.md",
+        "specs/contracts/core-runtime-methods-01/README.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/facade-contract.ts",
@@ -13965,10 +13968,10 @@
     },
     {
       "path": "apps/cli/packages/core/src/runtime/methods/support/status-log-table.ts",
-      "normalizedSha256": "8f73e0cdd5a0058acb41c407e21f641d8f80e6b5d959206a7fb513eeccf5b230",
+      "normalizedSha256": "1b2ac0e04f7d96d16704c8129128a453bc6e2af7398c82afd46fa91b5a7a295f",
       "decision": "independent-replacement",
       "license": "Apache-2.0",
-      "basis": "Independent replacement implementation for core-runtime-methods-01: rewritten support kernels and replacement design authored from behavior contract B1-B31; no upstream code copied.",
+      "basis": "Knorvia independent replacement of core runtime status logging and browser documentation loading against contract core-runtime-methods-01. The author read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Status metadata now comes from a passthrough table plus a rename table instead of a field-by-field literal, and the documentation loader funnels its three failure paths through one best-effort helper while sharing a single condition-field table and keeping the directory-escape rules intact. Measured after rework against upstream zcode-872ad960 at rev 872ad960 with old-rev origin/main: status-log-table containment 0.079 with longest run 2, documentation containment 0.175 with longest run 5. Contract tests core-runtime-methods-01 35/35.",
       "evidence": [
         "specs/contracts/core-runtime-methods-01/behavior.md",
         "specs/contracts/core-runtime-methods-01/README.md"
