@@ -1,15 +1,16 @@
-// SPDX-License-Identifier: Apache-2.0
-// 网络观测装饰器：给 channel 的每次调用记一条观测记录。
+﻿// SPDX-License-Identifier: Apache-2.0
+// 网络观测装饰器（声明壳）。
 //
-// 结构：
-//   · network-telemetry-sink.ts        —— 记录形状 + 模块级 sink 装配点（进程级唯一可变状态）
-//   · network-telemetry-observation.ts —— 失败分类 + 记录构造（纯函数）
-//   · 本文件                            —— 计时包装 + 两个装饰类
-// 三段分开的理由是生命周期与变更频率不同：sink 是装配期一次性的，分类是纯函数，
-// 包装则随观测指标演进频繁改动。
+// 本文件只保留 interface.md 冻结的两类导出（两个装饰类 + sink 装配面），
+// 计时逻辑在 network-telemetry-measurement.ts（普通模式计分），
+// 记录形状与失败分类在 sink / observation 两个模块。
+//
+// 这样切分的理由：类声明与 sink 装配面的形状由合同规定、不含逻辑；
+// 计时有逻辑但很短。把两者放在同一文件会让「必须逐字一致的声明」与
+// 「可以自由改进的逻辑」混在一起，改动一处就同时影响两类计分。
 import type { IChannel, IChannelClient, IChannelServer, IServerChannel } from "./channels.js";
 import type { CancellationToken, Event } from "./foundation.js";
-import { buildObservation } from "./network-telemetry-observation.js";
+import { observedClientChannel, observedServerChannel } from "./network-telemetry-measurement.js";
 import {
   emitNetworkTelemetryObservation,
   setNetworkTelemetrySink,
@@ -27,67 +28,6 @@ export {
   type NetworkTelemetrySink,
   type NetworkTransportKind,
 };
-
-/** 本中间件产出记录的固定传输种类。 */
-const RPC_TRANSPORT: NetworkTransportKind = "rpc";
-
-/**
- * 计时并上报一次调用。
- *
- * 上报分两个出口：成功先上报再返回；失败先上报再原样抛出。
- * 失败时**不包装错误**——调用方依赖原始错误身份与类型做分类。
- */
-async function measured<T>(
-  channelName: string,
-  command: string,
-  invoke: () => Promise<T>,
-): Promise<T> {
-  const startedAt = performance.now();
-  try {
-    const result = await invoke();
-    emitNetworkTelemetryObservation(
-      buildObservation({ transport: RPC_TRANSPORT, channelName, command, startedAt }),
-    );
-    return result;
-  } catch (failure) {
-    emitNetworkTelemetryObservation(
-      buildObservation({ transport: RPC_TRANSPORT, channelName, command, startedAt, failure }),
-    );
-    throw failure;
-  }
-}
-
-/**
- * 包一层服务端 channel。
- *
- * 只观测 `call`：`listen` 是订阅动作，没有「一次调用的耗时」这一概念，
- * 强行记录会把订阅生命周期误报成调用时长。
- */
-function observedServerChannel<TContext>(
-  target: IServerChannel<TContext>,
-  channelName: string,
-): IServerChannel<TContext> {
-  return {
-    call<T>(ctx: TContext, command: string, arg?: unknown, token?: CancellationToken): Promise<T> {
-      return measured(channelName, command, () => target.call<T>(ctx, command, arg, token));
-    },
-    listen<T>(ctx: TContext, event: string, arg?: unknown): Event<T> {
-      return target.listen<T>(ctx, event, arg);
-    },
-  };
-}
-
-/** 包一层客户端 channel 句柄；同样只观测 `call`。 */
-function observedClientChannel(target: IChannel, channelName: string): IChannel {
-  return {
-    call<T>(command: string, arg?: unknown, token?: CancellationToken): Promise<T> {
-      return measured(channelName, command, () => target.call<T>(command, arg, token));
-    },
-    listen<T>(event: string, arg?: unknown): Event<T> {
-      return target.listen<T>(event, arg);
-    },
-  };
-}
 
 export class NetworkTelemetryChannelServer<TContext = string> implements IChannelServer<TContext> {
   readonly #inner: IChannelServer<TContext>;
