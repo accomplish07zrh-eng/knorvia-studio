@@ -1,100 +1,123 @@
+// SPDX-License-Identifier: Apache-2.0
+// Metric 出口。Span 承载高基数细节，Metric 只接受低基数标签：
+// 哪张白名单属于哪一种记录，全部来自 span-specs 的规格表，本模块不自建第二份。
 import type { Attributes, Counter, Histogram, Meter } from "@opentelemetry/api";
+import type {
+  AgentMetricSpanName,
+  AgentTelemetryMetricRecorder,
+  ModelAttemptMetricsDetail,
+  ModelTokenType,
+} from "./metrics-contract.js";
+import { SPAN_SPECS } from "./span-specs.js";
 
-export type AgentMetricSpanName =
-  | "agent_turn"
-  | "agent_step"
-  | "tool_execution"
-  | "command_execution"
-  | "context_compaction"
-  | "detached_operation"
-  | "model_call"
-  | "model_attempt";
+export type { AgentMetricSpanName, AgentTelemetryMetricRecorder, ModelTokenType };
+export { NOOP_AGENT_TELEMETRY_METRICS } from "./noop-metrics.js";
 
-export type ModelTokenType = "input" | "output" | "reasoning" | "cache_read" | "cache_write";
+/** 时长类指标统一按秒报；这个单位是看板口径的一部分。 */
+const SECONDS = "s";
 
-export interface AgentTelemetryMetricRecorder {
-  recordCommandFirstOutput(durationMs: number, labels: Attributes): void;
-  recordCreationDrop(spanName: AgentMetricSpanName, reason: "process_capacity" | "unknown"): void;
-  recordModelAttemptDetail(
-    labels: Attributes,
-    detail: {
-      firstContentMs?: number;
-      firstProviderEventMs?: number;
-      firstTextMs?: number;
-      stallCount: number;
-      streamMaxIdleMs: number;
-    },
-  ): void;
-  recordModelCallAttempts(attemptCount: number, labels: Attributes): void;
-  recordModelTokenDelta(tokenType: ModelTokenType, delta: number, labels: Attributes): void;
-  recordSpanTerminal(
-    spanName: AgentMetricSpanName,
-    outcome: string,
-    durationMs: number,
-    labels: Attributes,
-    abandonReason?: string,
-  ): void;
+/** 每个 Span 的时长直方图名：名字里带 span 段，便于按种类查询。 */
+function durationName(spanName: AgentMetricSpanName): string {
+  return `knorvia.${spanName.replaceAll("_", ".")}.duration`;
+}
+
+/** 非时长的指标规格：名字、性质、单位与一句说明。 */
+interface InstrumentSpec {
+  description: string;
+  isCounter: boolean;
+  name: string;
+  unit: string;
+}
+
+const ATTEMPTS = "knorvia.model.call.attempts";
+const TOKENS = "knorvia.model.attempt.tokens";
+const FIRST = {
+  content: "knorvia.model.attempt.time_to_first_content",
+  providerEvent: "knorvia.model.attempt.time_to_first_provider_event",
+  text: "knorvia.model.attempt.time_to_first_text",
+} as const;
+const STALLS = "knorvia.model.attempt.stream_stall.count";
+const MAX_IDLE = "knorvia.model.attempt.stream_max_idle";
+const FIRST_OUTPUT = "knorvia.command.execution.time_to_first_output";
+const CREATION_DROP = "knorvia.telemetry.creation_drop.count";
+const ABANDONED = "knorvia.telemetry.abandoned.count";
+
+const EXTRA_INSTRUMENTS: readonly InstrumentSpec[] = [
+  [
+    "Logical model calls and how many physical attempts each one needed",
+    false,
+    ATTEMPTS,
+    "{attempt}",
+  ],
+  ["Provider-reported token delta, split by token type", true, TOKENS, "{token}"],
+  ["Seconds from attempt start to the first provider event", false, FIRST.providerEvent, SECONDS],
+  ["Seconds from attempt start to the first content chunk", false, FIRST.content, SECONDS],
+  ["Seconds from attempt start to the first text chunk", false, FIRST.text, SECONDS],
+  ["Stream stalls observed on one attempt", true, STALLS, "{stall}"],
+  ["Longest observed stream idle time in seconds", false, MAX_IDLE, SECONDS],
+  ["Seconds from command start to the first output byte", false, FIRST_OUTPUT, SECONDS],
+  [
+    "Spans refused before creation because the writer budget was full",
+    true,
+    CREATION_DROP,
+    "{span}",
+  ],
+  ["Spans that ended without a terminal state", true, ABANDONED, "{span}"],
+].map(([description, isCounter, name, unit]) => ({
+  description: description as string,
+  isCounter: isCounter as boolean,
+  name: name as string,
+  unit: unit as string,
+}));
+
+/** 计数器标签：两组固定两元组，与 Span 规格表分开登记。 */
+const COUNTER_TAGS = {
+  abandoned: ["abandon_reason", "span_name"],
+  creationDrop: ["drop_reason", "span_name"],
+} as const;
+
+/** token 计数的标签：model_attempt 的白名单 + token_type。 */
+const TOKEN_TAGS = [...SPAN_SPECS.model_attempt.labels, "token_type"];
+
+/**
+ * 白名单投影：覆盖值优先于原标签，空串与 undefined 不写。
+ * 这是标签离开进程前的最后一道闸门。
+ */
+function select(
+  labels: Attributes,
+  allowed: readonly string[],
+  overrides: Attributes = {},
+): Attributes {
+  const chosen: Attributes = {};
+  for (const key of allowed) {
+    const value = key in overrides ? overrides[key] : labels[key];
+    if (value === undefined || value === "") continue;
+    chosen[key] = value;
+  }
+  return chosen;
 }
 
 /**
- * Metric 只接收已归一化、低基数的标签。高基数执行 ID 和原始业务内容只属于 Trace，
- * 不能通过这个边界进入 Metric Series。
+ * OTel 指标记录器。
+ * 每个方法都是「一次记录」：不做聚合、不做重试；异常由调用方（运行时）兜住。
  */
 export class OtelAgentTelemetryMetrics implements AgentTelemetryMetricRecorder {
-  private readonly abandoned: Counter;
-  private readonly commandFirstOutput: Histogram;
-  private readonly creationDrop: Counter;
-  private readonly durations: Record<AgentMetricSpanName, Histogram>;
-  private readonly modelAttemptFirstContent: Histogram;
-  private readonly modelAttemptFirstProviderEvent: Histogram;
-  private readonly modelAttemptFirstText: Histogram;
-  private readonly modelAttemptStreamMaxIdle: Histogram;
-  private readonly modelAttemptStreamStalls: Counter;
-  private readonly modelCallAttempts: Histogram;
-  private readonly modelTokens: Counter;
+  readonly #counters = new Map<string, Counter>();
+  readonly #histograms = new Map<string, Histogram>();
 
   constructor(meter: Meter) {
-    this.durations = {
-      agent_turn: duration(meter, "knorvia.agent.turn.duration"),
-      agent_step: duration(meter, "knorvia.agent.step.duration"),
-      tool_execution: duration(meter, "knorvia.tool.execution.duration"),
-      command_execution: duration(meter, "knorvia.command.execution.duration"),
-      context_compaction: duration(meter, "knorvia.context.compaction.duration"),
-      detached_operation: duration(meter, "knorvia.detached.operation.duration"),
-      model_call: duration(meter, "knorvia.model.call.duration"),
-      model_attempt: duration(meter, "knorvia.model.attempt.duration"),
-    };
-    this.modelCallAttempts = meter.createHistogram("knorvia.model.call.attempts", {
-      description: "Physical provider attempts per logical model call",
-      unit: "{attempt}",
-    });
-    this.modelTokens = meter.createCounter("knorvia.model.attempt.tokens", {
-      description: "Observed provider token delta by token type",
-      unit: "{token}",
-    });
-    this.modelAttemptFirstProviderEvent = duration(
-      meter,
-      "knorvia.model.attempt.time_to_first_provider_event",
-    );
-    this.modelAttemptFirstContent = duration(meter, "knorvia.model.attempt.time_to_first_content");
-    this.modelAttemptFirstText = duration(meter, "knorvia.model.attempt.time_to_first_text");
-    this.modelAttemptStreamStalls = meter.createCounter(
-      "knorvia.model.attempt.stream_stall.count",
-      {
-        description: "Observed stream stalls",
-        unit: "{stall}",
-      },
-    );
-    this.modelAttemptStreamMaxIdle = duration(meter, "knorvia.model.attempt.stream_max_idle");
-    this.commandFirstOutput = duration(meter, "knorvia.command.execution.time_to_first_output");
-    this.creationDrop = meter.createCounter("knorvia.telemetry.creation_drop.count", {
-      description: "Spans rejected before creation by runtime capacity protection",
-      unit: "{span}",
-    });
-    this.abandoned = meter.createCounter("knorvia.telemetry.abandoned.count", {
-      description: "Spans closed as abandoned",
-      unit: "{span}",
-    });
+    for (const spanName of Object.keys(SPAN_SPECS) as AgentMetricSpanName[]) {
+      const name = durationName(spanName);
+      this.#histograms.set(
+        name,
+        meter.createHistogram(name, { description: `Elapsed seconds of ${name}`, unit: SECONDS }),
+      );
+    }
+    for (const spec of EXTRA_INSTRUMENTS) {
+      const options = { description: spec.description, unit: spec.unit };
+      if (spec.isCounter) this.#counters.set(spec.name, meter.createCounter(spec.name, options));
+      else this.#histograms.set(spec.name, meter.createHistogram(spec.name, options));
+    }
   }
 
   recordSpanTerminal(
@@ -104,145 +127,54 @@ export class OtelAgentTelemetryMetrics implements AgentTelemetryMetricRecorder {
     labels: Attributes,
     abandonReason?: string,
   ): void {
-    const terminalLabels = allowMetricAttributes({ ...labels, outcome }, TERMINAL_LABELS[spanName]);
-    this.durations[spanName].record(durationMs / 1_000, terminalLabels);
-    if (outcome === "abandoned") {
-      this.abandoned.add(
+    this.#histograms
+      .get(durationName(spanName))
+      ?.record(durationMs / 1_000, select(labels, SPAN_SPECS[spanName].labels, { outcome }));
+    if (outcome !== "abandoned") return;
+    this.#counters
+      .get(ABANDONED)
+      ?.add(
         1,
-        allowMetricAttributes(
-          {
-            abandon_reason: abandonReason,
-            span_name: spanName,
-          },
-          ["abandon_reason", "span_name"],
-        ),
+        select({ abandon_reason: abandonReason, span_name: spanName }, COUNTER_TAGS.abandoned),
       );
-    }
   }
 
   recordCreationDrop(spanName: AgentMetricSpanName, reason: "process_capacity" | "unknown"): void {
-    this.creationDrop.add(1, {
-      drop_reason: reason,
-      span_name: spanName,
-    });
+    this.#counters
+      .get(CREATION_DROP)
+      ?.add(1, select({ drop_reason: reason, span_name: spanName }, COUNTER_TAGS.creationDrop));
   }
 
   recordModelCallAttempts(attemptCount: number, labels: Attributes): void {
-    this.modelCallAttempts.record(attemptCount, allowMetricAttributes(labels, MODEL_CALL_LABELS));
+    this.#histograms
+      .get(ATTEMPTS)
+      ?.record(attemptCount, select(labels, SPAN_SPECS.model_call.labels));
   }
 
   recordModelTokenDelta(tokenType: ModelTokenType, delta: number, labels: Attributes): void {
     if (!Number.isFinite(delta) || delta <= 0) return;
-    this.modelTokens.add(
-      delta,
-      allowMetricAttributes(
-        {
-          ...labels,
-          token_type: tokenType,
-        },
-        MODEL_TOKEN_LABELS,
-      ),
-    );
+    this.#counters.get(TOKENS)?.add(delta, select(labels, TOKEN_TAGS, { token_type: tokenType }));
   }
 
-  recordModelAttemptDetail(
-    labels: Attributes,
-    detail: {
-      firstContentMs?: number;
-      firstProviderEventMs?: number;
-      firstTextMs?: number;
-      stallCount: number;
-      streamMaxIdleMs: number;
-    },
-  ): void {
-    const safeLabels = allowMetricAttributes(labels, MODEL_ATTEMPT_LABELS);
-    if (detail.firstProviderEventMs !== undefined) {
-      this.modelAttemptFirstProviderEvent.record(detail.firstProviderEventMs / 1_000, safeLabels);
+  recordModelAttemptDetail(labels: Attributes, detail: ModelAttemptMetricsDetail): void {
+    const scope = select(labels, SPAN_SPECS.model_attempt.labels);
+    const timings: ReadonlyArray<readonly [string, number | undefined]> = [
+      [FIRST.providerEvent, detail.firstProviderEventMs],
+      [FIRST.content, detail.firstContentMs],
+      [FIRST.text, detail.firstTextMs],
+    ];
+    for (const [name, value] of timings) {
+      if (value === undefined) continue;
+      this.#histograms.get(name)?.record(value / 1_000, scope);
     }
-    if (detail.firstContentMs !== undefined) {
-      this.modelAttemptFirstContent.record(detail.firstContentMs / 1_000, safeLabels);
-    }
-    if (detail.firstTextMs !== undefined) {
-      this.modelAttemptFirstText.record(detail.firstTextMs / 1_000, safeLabels);
-    }
-    if (detail.stallCount > 0) {
-      this.modelAttemptStreamStalls.add(detail.stallCount, safeLabels);
-      this.modelAttemptStreamMaxIdle.record(detail.streamMaxIdleMs / 1_000, safeLabels);
-    }
+    if (detail.stallCount <= 0) return;
+    this.#counters.get(STALLS)?.add(detail.stallCount, scope);
+    this.#histograms.get(MAX_IDLE)?.record(detail.streamMaxIdleMs / 1_000, scope);
   }
 
   recordCommandFirstOutput(durationMs: number, labels: Attributes): void {
-    this.commandFirstOutput.record(
-      durationMs / 1_000,
-      allowMetricAttributes(labels, COMMAND_LABELS),
-    );
+    this.#histograms
+      .get(FIRST_OUTPUT)
+      ?.record(durationMs / 1_000, select(labels, SPAN_SPECS.command_execution.labels));
   }
-}
-
-export const NOOP_AGENT_TELEMETRY_METRICS: AgentTelemetryMetricRecorder = {
-  recordCommandFirstOutput() {},
-  recordCreationDrop() {},
-  recordModelAttemptDetail() {},
-  recordModelCallAttempts() {},
-  recordModelTokenDelta() {},
-  recordSpanTerminal() {},
-};
-
-function duration(meter: Meter, name: string): Histogram {
-  return meter.createHistogram(name, {
-    description: `${name} in seconds`,
-    unit: "s",
-  });
-}
-
-const COMMON_TERMINAL_LABELS = ["error_category", "outcome"] as const;
-const MODEL_CALL_LABELS = [
-  ...COMMON_TERMINAL_LABELS,
-  "call_cause",
-  "model_operation",
-  "model_role",
-  "retry_state",
-] as const;
-const MODEL_ATTEMPT_LABELS = [
-  ...COMMON_TERMINAL_LABELS,
-  "model",
-  "model_operation",
-  "model_role",
-  "provider_kind",
-  "transport",
-] as const;
-const MODEL_TOKEN_LABELS = [
-  "model",
-  "model_operation",
-  "model_role",
-  "provider_kind",
-  "token_type",
-  "transport",
-] as const;
-const COMMAND_LABELS = [
-  ...COMMON_TERMINAL_LABELS,
-  "command_category",
-  "command_safe_name",
-] as const;
-
-const TERMINAL_LABELS: Record<AgentMetricSpanName, readonly string[]> = {
-  agent_turn: [...COMMON_TERMINAL_LABELS, "actor_kind", "input_source", "launch_surface"],
-  agent_step: [...COMMON_TERMINAL_LABELS, "actor_kind", "terminal_reason"],
-  tool_execution: [...COMMON_TERMINAL_LABELS, "tool_name"],
-  command_execution: COMMAND_LABELS,
-  context_compaction: [...COMMON_TERMINAL_LABELS, "model_mode", "trigger"],
-  detached_operation: [...COMMON_TERMINAL_LABELS, "execution_kind", "operation"],
-  model_call: MODEL_CALL_LABELS,
-  model_attempt: MODEL_ATTEMPT_LABELS,
-};
-
-function allowMetricAttributes(attributes: Attributes, allowed: readonly string[]): Attributes {
-  const result: Attributes = {};
-  for (const key of allowed) {
-    const value = attributes[key];
-    if (value !== undefined && (typeof value !== "string" || value.length > 0)) {
-      result[key] = value;
-    }
-  }
-  return result;
 }
