@@ -149602,6 +149602,28 @@
         "docs/knorvia-apps-cli-packages-02-acceptance.md",
         "specs/contracts/apps-cli-packages-02/README.md"
       ]
+    },
+    {
+      "path": "apps/cli/scripts/count-ts-lines.mjs",
+      "normalizedSha256": "e13e4757bb5ebec653970a5052efc8f67b296a3435474f3fbb377d443f738b00",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of the apps/cli development scripts covered by contract apps-cli-01 (behavior B4-B19). The author was allowed to read the replaced scripts to understand behavior; no code was copied, renamed or rewritten line by line. count-ts-lines.mjs was restructured into criteria / traversal / measurement / rendering stages with a side-effect-free import guard; generate-bash-command-registry.mjs was restructured into load / reduce / hash / render stages with table-driven argument bits and a fixed skip-field order. Measured in this package (Node v24.14.0): line-mode similarity count-ts-lines 0.146 containment with longest run 3, generate-bash-command-registry 0.098 containment with longest run 3; contract tests 17/17 on the source entry and 17/17 on the process entry; stub replacement 17/17 allFail. clean-dist.mjs stays upstream-unchanged and is deliberately not rewritten.",
+      "evidence": [
+        "specs/contracts/apps-cli-01/README.md",
+        "specs/contracts/apps-cli-01/behavior.md"
+      ]
+    },
+    {
+      "path": "apps/cli/scripts/generate-bash-command-registry.mjs",
+      "normalizedSha256": "bddad2e0ef22ad98cf029e692aefdd21faa3d63a729a0044b42479be2a5b3a5c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of the apps/cli development scripts covered by contract apps-cli-01 (behavior B4-B19). The author was allowed to read the replaced scripts to understand behavior; no code was copied, renamed or rewritten line by line. count-ts-lines.mjs was restructured into criteria / traversal / measurement / rendering stages with a side-effect-free import guard; generate-bash-command-registry.mjs was restructured into load / reduce / hash / render stages with table-driven argument bits and a fixed skip-field order. Measured in this package (Node v24.14.0): line-mode similarity count-ts-lines 0.146 containment with longest run 3, generate-bash-command-registry 0.098 containment with longest run 3; contract tests 17/17 on the source entry and 17/17 on the process entry; stub replacement 17/17 allFail. clean-dist.mjs stays upstream-unchanged and is deliberately not rewritten.",
+      "evidence": [
+        "specs/contracts/apps-cli-01/README.md",
+        "specs/contracts/apps-cli-01/behavior.md"
+      ]
     }
   ]
 }
