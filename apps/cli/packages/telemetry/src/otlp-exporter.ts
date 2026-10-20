@@ -1,3 +1,10 @@
+// SPDX-License-Identifier: Apache-2.0
+// OTel SDK 的装配层。
+//
+// 只在 prepared-owner 确认启用后动态 import —— 不能进包入口的静态依赖图，
+// 否则 --help、版本查询与 disabled 模式都要付 SDK 初始化成本。
+//
+// 分工：导出端的数据（边界表、资源属性）在 exporter-config；本模块只做装配与开关状态。
 import { context } from "@opentelemetry/api";
 import { AsyncLocalStorageContextManager } from "@opentelemetry/context-async-hooks";
 import { OTLPMetricExporter } from "@opentelemetry/exporter-metrics-otlp-proto";
@@ -6,10 +13,8 @@ import { CompressionAlgorithm } from "@opentelemetry/otlp-exporter-base";
 import { resourceFromAttributes } from "@opentelemetry/resources";
 import {
   AggregationTemporality,
-  AggregationType,
   MeterProvider,
   PeriodicExportingMetricReader,
-  type ViewOptions,
 } from "@opentelemetry/sdk-metrics";
 import {
   BasicTracerProvider,
@@ -21,275 +26,250 @@ import {
 import {
   TELEMETRY_SCHEMA_VERSION,
   type AgentTelemetryRuntimeOwner,
-  type TelemetryIdentitySnapshot,
-  type TelemetryResourceContext,
 } from "@knorvia/contracts/telemetry";
-import { AgentExecutionTelemetryRuntime } from "./agent-trace-runtime.js";
+import type { CreateOwnedAgentTelemetryRuntimeOptions } from "./exporter-contract.js";
+import { metricViews, resourceAttributes } from "./exporter-config.js";
+import {
+  AgentExecutionTelemetryRuntime,
+  type AgentTraceRuntimeOptions,
+} from "./agent-trace-runtime.js";
 import { OtelAgentTelemetryMetrics } from "./agent-metrics.js";
 import { ModelApiTelemetryStatusSink } from "./model-api-recorder.js";
+import type { ModelApiTelemetryStatusSinkOptions } from "./model-contract.js";
 
-const AGENT_METRIC_EXPORT_INTERVAL_MS = 300_000;
-const AGENT_TRACE_SAMPLE_RATIO = 0.1;
+export type { CreateOwnedAgentTelemetryRuntimeOptions };
 
-interface CreateOwnedAgentTelemetryRuntimeOptions {
-  endpoint: string;
-  headers?: Record<string, string>;
-  identity?: TelemetryIdentitySnapshot;
-  maxBatchSize?: number;
-  maxQueueSize?: number;
-  metricEndpoint?: string;
-  metricExportIntervalMs?: number;
-  metricHeaders?: Record<string, string>;
-  onWarning?: (message: string, context: Record<string, unknown>) => void;
-  resource: TelemetryResourceContext;
-  timeoutMs?: number;
-  traceSampleRatio?: number;
+/** 导出节奏、采样与超时的默认值。 */
+const METRIC_INTERVAL_MS = 300_000;
+const SAMPLE_RATIO = 0.1;
+const TIMEOUT_MS = 3_000;
+/** Batch processor 的队列参数。 */
+const BATCH = { delayMs: 5_000, maxQueue: 2_000, maxSize: 100 } as const;
+
+/** 两套 Provider 与它们的 Context Manager。 */
+interface Providers {
+  contextManager: AsyncLocalStorageContextManager;
+  meterProvider: MeterProvider;
+  provider: BasicTracerProvider;
+  registered: boolean;
 }
 
 /**
- * 该模块只由异步 Bootstrap 在 Telemetry 确认启用后动态加载。不要从公共入口静态导入，
- * 否则 `--help`、版本查询和 disabled 模式仍会承担 OTel SDK 初始化成本。
+ * 构造进程级 Owner。
+ * 关闭顺序：先停 statusSink 与活跃 writer，再并行关两个 Provider；
+ * 注册成功的 Context Manager 在最后 disable，注册失败的那份立即 disable。
  */
 export function createOwnedAgentTelemetryRuntime(
   options: CreateOwnedAgentTelemetryRuntimeOptions,
 ): AgentTelemetryRuntimeOwner {
-  const timeoutMs = options.timeoutMs ?? 3_000;
-  const exporter = new OTLPTraceExporter({
-    compression: CompressionAlgorithm.GZIP,
-    headers: options.headers,
-    timeoutMillis: timeoutMs,
-    url: options.endpoint,
-  });
-  const processor = new BatchSpanProcessor(exporter, {
-    exportTimeoutMillis: timeoutMs,
-    maxExportBatchSize: options.maxBatchSize ?? 100,
-    maxQueueSize: options.maxQueueSize ?? 2_000,
-    scheduledDelayMillis: 5_000,
-  });
-  const traceResource = resourceFromAttributes(resourceAttributes(options.resource));
-  const metricResource = resourceFromAttributes(metricResourceAttributes(options.resource));
-  const provider = new BasicTracerProvider({
-    forceFlushTimeoutMillis: timeoutMs,
-    resource: traceResource,
-    sampler: createAgentTraceSampler(options.traceSampleRatio),
-    spanProcessors: [processor],
-  });
-  const metricExporter = new OTLPMetricExporter({
-    compression: CompressionAlgorithm.GZIP,
-    headers: options.metricHeaders ?? options.headers,
-    // CLI Metric 不携带每进程实例 ID，必须用 DELTA 避免多个短生命周期生产者的累计
-    // Counter/Histogram 在后端发生重置冲突。
-    temporalityPreference: AggregationTemporality.DELTA,
-    timeoutMillis: timeoutMs,
-    url: options.metricEndpoint ?? options.endpoint,
-  });
-  const metricReader = new PeriodicExportingMetricReader({
-    exporter: metricExporter,
-    exportIntervalMillis: options.metricExportIntervalMs ?? AGENT_METRIC_EXPORT_INTERVAL_MS,
-    exportTimeoutMillis: timeoutMs,
-  });
-  const meterProvider = new MeterProvider({
-    readers: [metricReader],
-    resource: metricResource,
-    views: metricViews(),
-  });
-  const contextManager = new AsyncLocalStorageContextManager();
-  const registered = context.setGlobalContextManager(contextManager.enable());
-  if (!registered) {
-    // 同进程宿主已注册 Context Manager 时复用宿主实例；未注册成功的本实例必须关闭，
-    // 避免留下第二套 AsyncLocalStorage。
-    contextManager.disable();
-  }
-
-  const tracer = provider.getTracer(
-    "@knorvia/cli-agent-telemetry",
-    String(TELEMETRY_SCHEMA_VERSION),
+  const timeoutMs = options.timeoutMs ?? TIMEOUT_MS;
+  const providers = buildProviders(options, timeoutMs);
+  const scope = {
+    name: "@knorvia/cli-agent-telemetry",
+    version: String(TELEMETRY_SCHEMA_VERSION),
+  };
+  const metrics = new OtelAgentTelemetryMetrics(
+    providers.meterProvider.getMeter(scope.name, scope.version),
   );
-  const meter = meterProvider.getMeter(
-    "@knorvia/cli-agent-telemetry",
-    String(TELEMETRY_SCHEMA_VERSION),
+  const execution = new AgentExecutionTelemetryRuntime(
+    runtimeOptions(options, providers.provider.getTracer(scope.name, scope.version), metrics),
   );
-  const metrics = new OtelAgentTelemetryMetrics(meter);
-  const execution = new AgentExecutionTelemetryRuntime({
-    identity: options.identity,
-    metrics,
-    onWarning: options.onWarning,
-    tracer,
-  });
-  const statusSink = new ModelApiTelemetryStatusSink({
-    modelExecution: execution,
-    onWarning: options.onWarning,
-  });
-  let closed = false;
+  // statusSink 与 execution 共用同一个 Port：模型侧的状态映射直接写进 agent 侧 Span。
+  const statusSink = new ModelApiTelemetryStatusSink(sinkOptions(execution, options.onWarning));
+  return buildOwner({ execution, providers, statusSink, timeoutMs });
+}
 
-  return {
-    abandonSession(sessionId) {
+/** runtime 的构造入参：身份、指标出口与告警口都直接透传。 */
+function runtimeOptions(
+  options: CreateOwnedAgentTelemetryRuntimeOptions,
+  tracer: Parameters<typeof AgentExecutionTelemetryRuntime.prototype.startTurn>[0] extends never
+    ? never
+    : NonNullable<AgentTraceRuntimeOptions["tracer"]>,
+  metrics: OtelAgentTelemetryMetrics,
+): AgentTraceRuntimeOptions {
+  return { identity: options.identity, metrics, onWarning: options.onWarning, tracer };
+}
+
+/** statusSink 的构造入参。 */
+function sinkOptions(
+  execution: AgentExecutionTelemetryRuntime,
+  onWarning: CreateOwnedAgentTelemetryRuntimeOptions["onWarning"],
+): ModelApiTelemetryStatusSinkOptions {
+  return { modelExecution: execution, onWarning };
+}
+
+/** Owner 对象：把 Provider、execution 与 statusSink 接成契约面。 */
+function buildOwner(input: {
+  execution: AgentExecutionTelemetryRuntime;
+  providers: Providers;
+  statusSink: ModelApiTelemetryStatusSink;
+  timeoutMs: number;
+}): AgentTelemetryRuntimeOwner {
+  const { execution, providers, statusSink, timeoutMs } = input;
+  const lifecycle = new OwnerLifecycle(providers, timeoutMs);
+  // 契约面的五个成员逐个赋值：owner 只有这一处构造，读起来即全部对外行为。
+  const owner: AgentTelemetryRuntimeOwner = {
+    enabled: true,
+    abandonSession: (sessionId) => {
+      // 两侧各有在册 writer：先放弃 execution 的，再放弃 statusSink 的。
       execution.abandonSession(sessionId);
       statusSink.abandonSession(sessionId);
     },
-    agentExecution: execution,
-    enabled: true,
-    modelExecution: execution,
-    statusSink,
-    async flush(flushOptions) {
-      if (closed) return;
-      await withTimeout(
-        Promise.all([provider.forceFlush(), meterProvider.forceFlush()]),
-        flushOptions?.timeoutMs ?? timeoutMs,
-      );
-    },
-    async shutdown(shutdownOptions) {
-      if (closed) return;
-      closed = true;
+    flush: (flushOptions) => lifecycle.flush(flushOptions?.timeoutMs),
+    shutdown: async (shutdownOptions) => {
+      // 先停 statusSink 与活跃 writer，再关 Provider：顺序固定，避免把已放弃的 Span 刷出去。
       statusSink.shutdown();
       execution.abandonProcess();
-      try {
-        await withTimeout(
-          Promise.all([provider.shutdown(), meterProvider.shutdown()]),
-          shutdownOptions?.timeoutMs ?? timeoutMs,
-        );
-      } finally {
-        if (registered) contextManager.disable();
-      }
+      await lifecycle.shutdown(shutdownOptions?.timeoutMs);
     },
-    updateIdentity(snapshot) {
-      execution.updateIdentity(snapshot);
-    },
-  };
+    updateIdentity: (snapshot) => execution.updateIdentity(snapshot),
+  } as AgentTelemetryRuntimeOwner;
+  Object.assign(owner, { agentExecution: execution, modelExecution: execution, statusSink });
+  return owner;
 }
 
-function createAgentTraceSampler(ratio = AGENT_TRACE_SAMPLE_RATIO): Sampler {
-  return new ParentBasedSampler({
-    root: new TraceIdRatioBasedSampler(ratio),
-  });
-}
+/**
+ * Owner 的开关状态。
+ * `closed` 是唯一的闩锁：flush 与 shutdown 都以它为界，重复调用无副作用。
+ */
+class OwnerLifecycle {
+  readonly #providers: Providers;
+  readonly #timeoutMs: number;
+  #closed = false;
 
-function metricViews(): ViewOptions[] {
-  return [
-    histogramView("knorvia.agent.turn.duration", [1, 5, 10, 30, 60, 300, 600]),
-    histogramView("knorvia.model.*.duration", [0.25, 1, 2, 5, 10, 30, 60, 120]),
-    histogramView(
-      "knorvia.context.compaction.duration",
-      [0.01, 0.05, 0.1, 0.5, 1, 5, 30, 120, 300, 600],
-    ),
-    histogramView(
-      "knorvia.detached.operation.duration",
-      [0.01, 0.05, 0.1, 0.5, 1, 5, 30, 120, 300, 600],
-    ),
-    histogramView("knorvia.agent.step.duration", [0.01, 0.05, 0.1, 0.5, 1, 5, 30, 120, 300, 600]),
-    histogramView("knorvia.tool.execution.duration", [0.01, 0.1, 0.5, 1, 5, 30, 120, 300]),
-    histogramView(
-      "knorvia.command.execution.duration",
-      [0.01, 0.05, 0.1, 0.5, 1, 5, 30, 120, 300, 600],
-    ),
-    histogramView("knorvia.*.time_to_first_*", [0.25, 0.5, 1, 2, 5, 10, 30, 60]),
-    histogramView("knorvia.model.call.attempts", [1, 2, 3, 5, 8]),
-    cardinalityView("knorvia.model.attempt.tokens"),
-    cardinalityView("knorvia.model.attempt.stream_stall.count"),
-    cardinalityView("knorvia.telemetry.creation_drop.count"),
-    cardinalityView("knorvia.telemetry.abandoned.count"),
-  ];
-}
+  constructor(providers: Providers, timeoutMs: number) {
+    this.#providers = providers;
+    this.#timeoutMs = timeoutMs;
+  }
 
-function histogramView(instrumentName: string, boundaries: number[]): ViewOptions {
-  return {
-    aggregation: {
-      options: { boundaries, recordMinMax: false },
-      type: AggregationType.EXPLICIT_BUCKET_HISTOGRAM,
-    },
-    aggregationCardinalityLimit: 250,
-    instrumentName,
-  };
-}
+  /** 刷写：关闭后是空操作，超时静默。 */
+  async flush(timeoutOverride: number | undefined): Promise<void> {
+    if (this.#closed) return;
+    await settle(
+      Promise.all([
+        this.#providers.provider.forceFlush(),
+        this.#providers.meterProvider.forceFlush(),
+      ]),
+      timeoutOverride ?? this.#timeoutMs,
+    );
+  }
 
-function cardinalityView(instrumentName: string): ViewOptions {
-  return {
-    aggregationCardinalityLimit: 250,
-    instrumentName,
-  };
-}
-
-function resourceAttributes(
-  resource: TelemetryResourceContext,
-): Record<string, string | number | boolean> {
-  return telemetryResourceAttributes(resource, {
-    includeInstallationId: true,
-    includeServiceInstanceId: true,
-  });
-}
-
-function metricResourceAttributes(
-  resource: TelemetryResourceContext,
-): Record<string, string | number | boolean> {
-  return telemetryResourceAttributes(resource, {
-    includeInstallationId: false,
-    includeServiceInstanceId: false,
-  });
-}
-
-function telemetryResourceAttributes(
-  resource: TelemetryResourceContext,
-  options: {
-    includeInstallationId: boolean;
-    includeServiceInstanceId: boolean;
-  },
-): Record<string, string | number | boolean> {
-  return compactResourceAttributes({
-    "deployment.environment.name": resource.deploymentEnvironment,
-    "host.arch": hostArchitecture(),
-    "os.type": process.platform,
-    "process.runtime.name": "nodejs",
-    "process.runtime.version": process.version.replace(/^v/u, ""),
-    // Metric Resource 也参与时序 Series 身份。CLI 每次启动生成的实例 ID 和安装 ID 只能
-    // 属于 Trace；若进入 Metric，会在所有用户进程间制造无界基数。
-    "service.instance.id": options.includeServiceInstanceId
-      ? resource.serviceInstanceId
-      : undefined,
-    "service.name": resource.serviceName,
-    "service.version": resource.cliVersion,
-    "knorvia.build.commit_id": resource.buildCommitId,
-    "knorvia.device.installation_id": options.includeInstallationId
-      ? resource.installationId
-      : undefined,
-    "knorvia.product.version": resource.productVersion,
-    "knorvia.runtime.distribution": resource.runtimeDistribution,
-    "knorvia.runtime.surface": resource.runtimeSurface,
-    "knorvia.telemetry.schema_owner": "cli",
-    "knorvia.telemetry.schema_version": TELEMETRY_SCHEMA_VERSION,
-  });
-}
-
-function hostArchitecture(): string {
-  switch (process.arch) {
-    case "x64":
-      return "amd64";
-    case "ia32":
-      return "x86";
-    default:
-      return process.arch;
+  /** 关闭：两个 Provider 并行关；注册成功的 Context Manager 最后 disable。 */
+  async shutdown(timeoutOverride: number | undefined): Promise<void> {
+    if (this.#closed) return;
+    this.#closed = true;
+    try {
+      await settle(
+        Promise.all([
+          this.#providers.provider.shutdown(),
+          this.#providers.meterProvider.shutdown(),
+        ]),
+        timeoutOverride ?? this.#timeoutMs,
+      );
+    } finally {
+      if (this.#providers.registered) this.#providers.contextManager.disable();
+    }
   }
 }
 
-function compactResourceAttributes(
-  attributes: Record<string, string | number | boolean | undefined>,
-): Record<string, string | number | boolean> {
-  const compacted: Record<string, string | number | boolean> = {};
-  for (const [key, value] of Object.entries(attributes)) {
-    if (value !== undefined && value !== "") compacted[key] = value;
-  }
-  return compacted;
+/** Trace 与 Metric 两套 Provider 的装配；资源属性分别按「是否含每进程 ID」区分。 */
+function buildProviders(
+  options: CreateOwnedAgentTelemetryRuntimeOptions,
+  timeoutMs: number,
+): Providers {
+  const spanProcessor = new BatchSpanProcessor(
+    new OTLPTraceExporter(transportOf(options.endpoint, options.headers, timeoutMs)),
+    {
+      exportTimeoutMillis: timeoutMs,
+      maxExportBatchSize: options.maxBatchSize ?? BATCH.maxSize,
+      maxQueueSize: options.maxQueueSize ?? BATCH.maxQueue,
+      scheduledDelayMillis: BATCH.delayMs,
+    },
+  );
+  const provider = tracerProviderOf(spanProcessor, options, timeoutMs);
+  const meterProvider = meterProviderOf(
+    new OTLPMetricExporter({
+      ...transportOf(
+        options.metricEndpoint ?? options.endpoint,
+        options.metricHeaders ?? options.headers,
+        timeoutMs,
+      ),
+      // CLI 每次启动都是新生产者；DELTA 让后端按增量读数，不受进程重启影响。
+      temporalityPreference: AggregationTemporality.DELTA,
+    }),
+    options,
+    timeoutMs,
+  );
+  const contextManager = new AsyncLocalStorageContextManager();
+  const registered = context.setGlobalContextManager(contextManager.enable());
+  // 宿主已注册过 Context Manager 时复用宿主实例；本实例立即关闭，避免两套 ALS。
+  if (!registered) contextManager.disable();
+  return { contextManager, meterProvider, provider, registered };
 }
 
-async function withTimeout<T>(promise: Promise<T>, timeoutMs: number): Promise<T | undefined> {
-  let timeout: number | undefined;
+/** Trace Provider：采样器、资源属性与批处理器一次装好。 */
+function tracerProviderOf(
+  spanProcessor: BatchSpanProcessor,
+  options: CreateOwnedAgentTelemetryRuntimeOptions,
+  timeoutMs: number,
+): BasicTracerProvider {
+  return new BasicTracerProvider({
+    forceFlushTimeoutMillis: timeoutMs,
+    resource: resourceFromAttributes(resourceAttributes(options.resource, true)),
+    sampler: rootSampler(options.traceSampleRatio),
+    spanProcessors: [spanProcessor],
+  });
+}
+
+/** Metric Provider：一个周期 reader + 视图表；资源属性不含每进程 ID。 */
+function meterProviderOf(
+  metricExporter: OTLPMetricExporter,
+  options: CreateOwnedAgentTelemetryRuntimeOptions,
+  timeoutMs: number,
+): MeterProvider {
+  const reader = new PeriodicExportingMetricReader({
+    exporter: metricExporter,
+    exportIntervalMillis: options.metricExportIntervalMs ?? METRIC_INTERVAL_MS,
+    exportTimeoutMillis: timeoutMs,
+  });
+  return new MeterProvider({
+    readers: [reader],
+    resource: resourceFromAttributes(resourceAttributes(options.resource, false)),
+    views: metricViews(),
+  });
+}
+
+/**
+ * 两种 OTLP Exporter 共用的传输参数：GZIP、header、超时与 URL。
+ * 抽出来是因为 trace 与 metric 两侧的这四项语义完全相同。
+ */
+function transportOf(
+  url: string,
+  headers: Record<string, string> | undefined,
+  timeoutMillis: number,
+): {
+  compression: CompressionAlgorithm;
+  headers?: Record<string, string>;
+  timeoutMillis: number;
+  url: string;
+} {
+  return { compression: CompressionAlgorithm.GZIP, headers, timeoutMillis, url };
+}
+
+/** 根 Span 采样：父级已采样则跟随，根按给定比例。 */
+function rootSampler(ratio = SAMPLE_RATIO): Sampler {
+  return new ParentBasedSampler({ root: new TraceIdRatioBasedSampler(ratio) });
+}
+
+/** 带超时的等待：超时不报错，只是停止等待（关闭/刷写不能因此失败）。 */
+async function settle<T>(work: Promise<T>, timeoutMs: number): Promise<T | undefined> {
+  let timer: number | undefined;
+  const expiry = new Promise<undefined>((resolve) => {
+    timer = setTimeout(resolve, Math.max(1, timeoutMs));
+  });
   try {
-    return await Promise.race([
-      promise,
-      new Promise<undefined>((resolve) => {
-        timeout = setTimeout(resolve, Math.max(1, timeoutMs));
-      }),
-    ]);
+    return await Promise.race([work, expiry]);
   } finally {
-    if (timeout) clearTimeout(timeout);
+    if (timer !== undefined) clearTimeout(timer);
   }
 }
