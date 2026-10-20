@@ -1,0 +1,69 @@
+{
+  "contract": "services-01",
+  "commit": "30181fd8bfee78a22f60c3af26794eacec418dd6",
+  "node": "v24.14.0",
+  "generatedAt": "2026-10-20T06:34:25.001Z",
+  "runner": "scripts/contract-gate.mjs",
+  "testFiles": [
+    "specs/contracts/services-01/tests/agent-connection-scope.test.mjs",
+    "specs/contracts/services-01/tests/agent-process.test.mjs",
+    "specs/contracts/services-01/tests/agent-service-composition.test.mjs",
+    "specs/contracts/services-01/tests/agent-surface.test.mjs",
+    "specs/contracts/services-01/tests/commands-2.test.mjs",
+    "specs/contracts/services-01/tests/commands.test.mjs",
+    "specs/contracts/services-01/tests/credential-broadcast-2.test.mjs",
+    "specs/contracts/services-01/tests/credential-broadcast.test.mjs",
+    "specs/contracts/services-01/tests/credential.test.mjs",
+    "specs/contracts/services-01/tests/cua-permission-broker-2.test.mjs",
+    "specs/contracts/services-01/tests/cua-permission-broker.test.mjs",
+    "specs/contracts/services-01/tests/file-service.test.mjs",
+    "specs/contracts/services-01/tests/model-trajectory.test.mjs",
+    "specs/contracts/services-01/tests/repair-subagent-task-index.test.mjs",
+    "specs/contracts/services-01/tests/session-event-coalescer.test.mjs",
+    "specs/contracts/services-01/tests/surface.test.mjs",
+    "specs/contracts/services-01/tests/task-index-syncer.test.mjs",
+    "specs/contracts/services-01/tests/task-service-adapter.test.mjs",
+    "specs/contracts/services-01/tests/v4-host-command.test.mjs"
+  ],
+  "sourceFrom": "src",
+  "entries": {
+    "source": {
+      "exitCode": 0,
+      "timedOut": false,
+      "signaled": false,
+      "signal": null,
+      "tests": 349,
+      "pass": 349,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0,
+      "outputTail": "  ✔ accepted/duplicate/noop 原样返回；rejected/stale/failed 抛结构化错误并携带 ack (0.333ms)\n  ✔ CAS 首发 baseRevision=0 探测，stale 用 revisionAtDecision 收敛并换新 commandId (0.3205ms)\n  ✔ 非 stale 的拒绝立即抛出，不再重试 (0.2309ms)\n  ✔ 连续 stale 用尽 maxAttempts 后抛出，并带上「放弃重试」与最后一次 ack (0.2288ms)\n  ✔ duplicate 与 noop 视为幂等成功，不触发重试 (0.188ms)\n✔ A66 ACK 六态映射与 CAS 收敛 (1.5251ms)\nℹ tests 349\nℹ suites 116\nℹ pass 349\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 150181.3589"
+    },
+    "dist": {
+      "exitCode": 0,
+      "timedOut": false,
+      "signaled": false,
+      "signal": null,
+      "tests": 349,
+      "pass": 349,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0,
+      "outputTail": "  ✔ accepted/duplicate/noop 原样返回；rejected/stale/failed 抛结构化错误并携带 ack (0.6798ms)\n  ✔ CAS 首发 baseRevision=0 探测，stale 用 revisionAtDecision 收敛并换新 commandId (0.5262ms)\n  ✔ 非 stale 的拒绝立即抛出，不再重试 (0.4984ms)\n  ✔ 连续 stale 用尽 maxAttempts 后抛出，并带上「放弃重试」与最后一次 ack (0.3689ms)\n  ✔ duplicate 与 noop 视为幂等成功，不触发重试 (0.387ms)\n✔ A66 ACK 六态映射与 CAS 收敛 (2.8378ms)\nℹ tests 349\nℹ suites 116\nℹ pass 349\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 137083.3803",
+      "environment": {
+        "KNORVIA_SVC01_ENTRY": "dist"
+      },
+      "loader": "specs/contracts/services-01/tests/dist-loader.mjs"
+    }
+  },
+  "stubReplacement": {
+    "replacedFiles": 58,
+    "tests": 19,
+    "pass": 0,
+    "fail": 19,
+    "allFail": true,
+    "exitCode": 1,
+    "outputTail": "✖ D:\\knorvia studio开发\\wt\\exec-m3\\specs\\contracts\\services-01\\tests\\surface.test.mjs (3202.0505ms)\n  'test failed'\n\ntest at specs\\contracts\\services-01\\tests\\task-index-syncer.test.mjs:1:1\n✖ D:\\knorvia studio开发\\wt\\exec-m3\\specs\\contracts\\services-01\\tests\\task-index-syncer.test.mjs (2678.0935ms)\n  'test failed'\n\ntest at specs\\contracts\\services-01\\tests\\task-service-adapter.test.mjs:1:1\n✖ D:\\knorvia studio开发\\wt\\exec-m3\\specs\\contracts\\services-01\\tests\\task-service-adapter.test.mjs (2499.699ms)\n  'test failed'\n\ntest at specs\\contracts\\services-01\\tests\\v4-host-command.test.mjs:1:1\n✖ D:\\knorvia studio开发\\wt\\exec-m3\\specs\\contracts\\services-01\\tests\\v4-host-command.test.mjs (2099.9706ms)\n  'test failed'"
+  },
+  "pass": true
+}

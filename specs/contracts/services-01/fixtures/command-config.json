@@ -1,0 +1,15 @@
+{
+  "theme": "dark",
+  "command": {
+    "/ws/.knorvia/commands/disabled.md": {
+      "enable": false,
+      "note": "keep-me"
+    },
+    "/ws/.knorvia/commands/enabled.md": {
+      "enable": true
+    },
+    "/ws/.knorvia/commands/flagless.md": {
+      "note": "no enable key"
+    }
+  }
+}

@@ -1,0 +1,482 @@
+[
+  {
+    "path": "packages/services/src/agent/agent.ts",
+    "modulePath": "agent/agent.ts",
+    "dir": "agent",
+    "classification": "unreviewed",
+    "bytes": 37576,
+    "lines": 883
+  },
+  {
+    "path": "packages/services/src/agent/agentBrowserAmbientContext.ts",
+    "modulePath": "agent/agentBrowserAmbientContext.ts",
+    "dir": "agent",
+    "classification": "unreviewed",
+    "bytes": 4402,
+    "lines": 134
+  },
+  {
+    "path": "packages/services/src/agent/agentConnectionScope.ts",
+    "modulePath": "agent/agentConnectionScope.ts",
+    "dir": "agent",
+    "classification": "unreviewed",
+    "bytes": 40598,
+    "lines": 1051
+  },
+  {
+    "path": "packages/services/src/agent/agentErrors.ts",
+    "modulePath": "agent/agentErrors.ts",
+    "dir": "agent",
+    "classification": "unreviewed",
+    "bytes": 918,
+    "lines": 22
+  },
+  {
+    "path": "packages/services/src/agent/agentPluginParams.ts",
+    "modulePath": "agent/agentPluginParams.ts",
+    "dir": "agent",
+    "classification": "unreviewed",
+    "bytes": 4788,
+    "lines": 158
+  },
+  {
+    "path": "packages/services/src/agent/agentPresentationSurface.ts",
+    "modulePath": "agent/agentPresentationSurface.ts",
+    "dir": "agent",
+    "classification": "unreviewed",
+    "bytes": 1085,
+    "lines": 24
+  },
+  {
+    "path": "packages/services/src/agent/agentProcessManager.ts",
+    "modulePath": "agent/agentProcessManager.ts",
+    "dir": "agent",
+    "classification": "unreviewed",
+    "bytes": 58576,
+    "lines": 1476
+  },
+  {
+    "path": "packages/services/src/agent/agentService.ts",
+    "modulePath": "agent/agentService.ts",
+    "dir": "agent",
+    "classification": "unreviewed",
+    "bytes": 203184,
+    "lines": 4916
+  },
+  {
+    "path": "packages/services/src/agent/agentSpawnCwd.ts",
+    "modulePath": "agent/agentSpawnCwd.ts",
+    "dir": "agent",
+    "classification": "unreviewed",
+    "bytes": 1086,
+    "lines": 25
+  },
+  {
+    "path": "packages/services/src/agent/agentStderrCollector.ts",
+    "modulePath": "agent/agentStderrCollector.ts",
+    "dir": "agent",
+    "classification": "unreviewed",
+    "bytes": 1548,
+    "lines": 47
+  },
+  {
+    "path": "packages/services/src/agent/agentWorkflowParams.ts",
+    "modulePath": "agent/agentWorkflowParams.ts",
+    "dir": "agent",
+    "classification": "unreviewed",
+    "bytes": 2184,
+    "lines": 44
+  },
+  {
+    "path": "packages/services/src/agent/automationToolPolicy.ts",
+    "modulePath": "agent/automationToolPolicy.ts",
+    "dir": "agent",
+    "classification": "upstream-unchanged",
+    "bytes": 994,
+    "lines": 24
+  },
+  {
+    "path": "packages/services/src/agent/configOptions.ts",
+    "modulePath": "agent/configOptions.ts",
+    "dir": "agent",
+    "classification": "unreviewed",
+    "bytes": 2479,
+    "lines": 66
+  },
+  {
+    "path": "packages/services/src/agent/cuaOperationTurnTracker.ts",
+    "modulePath": "agent/cuaOperationTurnTracker.ts",
+    "dir": "agent",
+    "classification": "unreviewed",
+    "bytes": 12838,
+    "lines": 338
+  },
+  {
+    "path": "packages/services/src/agent/independentPlanSupport.ts",
+    "modulePath": "agent/independentPlanSupport.ts",
+    "dir": "agent",
+    "classification": "unreviewed",
+    "bytes": 950,
+    "lines": 23
+  },
+  {
+    "path": "packages/services/src/agent/modelTrajectory.ts",
+    "modulePath": "agent/modelTrajectory.ts",
+    "dir": "agent",
+    "classification": "unreviewed",
+    "bytes": 13034,
+    "lines": 384
+  },
+  {
+    "path": "packages/services/src/agent/modelTrajectoryFileTail.ts",
+    "modulePath": "agent/modelTrajectoryFileTail.ts",
+    "dir": "agent",
+    "classification": "unreviewed",
+    "bytes": 1861,
+    "lines": 53
+  },
+  {
+    "path": "packages/services/src/agent/pluginReferenceCatalogRequest.ts",
+    "modulePath": "agent/pluginReferenceCatalogRequest.ts",
+    "dir": "agent",
+    "classification": "unreviewed",
+    "bytes": 974,
+    "lines": 28
+  },
+  {
+    "path": "packages/services/src/agent/protocolClient.ts",
+    "modulePath": "agent/protocolClient.ts",
+    "dir": "agent",
+    "classification": "unreviewed",
+    "bytes": 7163,
+    "lines": 220
+  },
+  {
+    "path": "packages/services/src/agent/protocolTransport.ts",
+    "modulePath": "agent/protocolTransport.ts",
+    "dir": "agent",
+    "classification": "unreviewed",
+    "bytes": 655,
+    "lines": 18
+  },
+  {
+    "path": "packages/services/src/agent/repairSubagentTaskIndex.ts",
+    "modulePath": "agent/repairSubagentTaskIndex.ts",
+    "dir": "agent",
+    "classification": "unreviewed",
+    "bytes": 2003,
+    "lines": 47
+  },
+  {
+    "path": "packages/services/src/agent/sessionEventCoalescer.ts",
+    "modulePath": "agent/sessionEventCoalescer.ts",
+    "dir": "agent",
+    "classification": "unreviewed",
+    "bytes": 4163,
+    "lines": 152
+  },
+  {
+    "path": "packages/services/src/agent/STDERR-OWNER-SPEC-20261003.md",
+    "modulePath": "agent/STDERR-OWNER-SPEC-20261003.md",
+    "dir": "agent",
+    "classification": "unreviewed",
+    "bytes": 2970,
+    "lines": 14
+  },
+  {
+    "path": "packages/services/src/agent/stdioTapDevConfig.ts",
+    "modulePath": "agent/stdioTapDevConfig.ts",
+    "dir": "agent",
+    "classification": "unreviewed",
+    "bytes": 2086,
+    "lines": 69
+  },
+  {
+    "path": "packages/services/src/agent/stdioTransport.ts",
+    "modulePath": "agent/stdioTransport.ts",
+    "dir": "agent",
+    "classification": "unreviewed",
+    "bytes": 10719,
+    "lines": 288
+  },
+  {
+    "path": "packages/services/src/agent/storageStartupGate.ts",
+    "modulePath": "agent/storageStartupGate.ts",
+    "dir": "agent",
+    "classification": "unreviewed",
+    "bytes": 5474,
+    "lines": 172
+  },
+  {
+    "path": "packages/services/src/agent/task-index-ingestion/sessionIndexProjection.ts",
+    "modulePath": "agent/task-index-ingestion/sessionIndexProjection.ts",
+    "dir": "agent",
+    "classification": "unreviewed",
+    "bytes": 11499,
+    "lines": 321
+  },
+  {
+    "path": "packages/services/src/agent/task-index-ingestion/snapshotProjection.ts",
+    "modulePath": "agent/task-index-ingestion/snapshotProjection.ts",
+    "dir": "agent",
+    "classification": "unreviewed",
+    "bytes": 7622,
+    "lines": 207
+  },
+  {
+    "path": "packages/services/src/agent/task-index-ingestion/topicTypes.ts",
+    "modulePath": "agent/task-index-ingestion/topicTypes.ts",
+    "dir": "agent",
+    "classification": "unreviewed",
+    "bytes": 2458,
+    "lines": 83
+  },
+  {
+    "path": "packages/services/src/agent/taskIndexSyncer.ts",
+    "modulePath": "agent/taskIndexSyncer.ts",
+    "dir": "agent",
+    "classification": "unreviewed",
+    "bytes": 14193,
+    "lines": 389
+  },
+  {
+    "path": "packages/services/src/agent/taskServiceAdapter.ts",
+    "modulePath": "agent/taskServiceAdapter.ts",
+    "dir": "agent",
+    "classification": "unreviewed",
+    "bytes": 214424,
+    "lines": 5742
+  },
+  {
+    "path": "packages/services/src/agent/v4HostCommand.ts",
+    "modulePath": "agent/v4HostCommand.ts",
+    "dir": "agent",
+    "classification": "unreviewed",
+    "bytes": 6376,
+    "lines": 158
+  },
+  {
+    "path": "packages/services/src/broadcast/broadcast.ts",
+    "modulePath": "broadcast/broadcast.ts",
+    "dir": "broadcast",
+    "classification": "upstream-modified",
+    "bytes": 2034,
+    "lines": 54
+  },
+  {
+    "path": "packages/services/src/broadcast/broadcastService.ts",
+    "modulePath": "broadcast/broadcastService.ts",
+    "dir": "broadcast",
+    "classification": "upstream-modified",
+    "bytes": 7046,
+    "lines": 238
+  },
+  {
+    "path": "packages/services/src/commands/commandConfig.ts",
+    "modulePath": "commands/commandConfig.ts",
+    "dir": "commands",
+    "classification": "unreviewed",
+    "bytes": 3581,
+    "lines": 104
+  },
+  {
+    "path": "packages/services/src/commands/commandDiscovery.ts",
+    "modulePath": "commands/commandDiscovery.ts",
+    "dir": "commands",
+    "classification": "unreviewed",
+    "bytes": 9993,
+    "lines": 288
+  },
+  {
+    "path": "packages/services/src/commands/commandFileParser.ts",
+    "modulePath": "commands/commandFileParser.ts",
+    "dir": "commands",
+    "classification": "upstream-modified",
+    "bytes": 2832,
+    "lines": 76
+  },
+  {
+    "path": "packages/services/src/commands/commands.ts",
+    "modulePath": "commands/commands.ts",
+    "dir": "commands",
+    "classification": "upstream-modified",
+    "bytes": 1017,
+    "lines": 28
+  },
+  {
+    "path": "packages/services/src/commands/commandsService.ts",
+    "modulePath": "commands/commandsService.ts",
+    "dir": "commands",
+    "classification": "upstream-modified",
+    "bytes": 5438,
+    "lines": 123
+  },
+  {
+    "path": "packages/services/src/conversation-telemetry/conversationTelemetry.ts",
+    "modulePath": "conversation-telemetry/conversationTelemetry.ts",
+    "dir": "conversation-telemetry",
+    "classification": "upstream-modified",
+    "bytes": 1102,
+    "lines": 27
+  },
+  {
+    "path": "packages/services/src/credential/credential.ts",
+    "modulePath": "credential/credential.ts",
+    "dir": "credential",
+    "classification": "upstream-modified",
+    "bytes": 610,
+    "lines": 19
+  },
+  {
+    "path": "packages/services/src/credential/credentialService.ts",
+    "modulePath": "credential/credentialService.ts",
+    "dir": "credential",
+    "classification": "upstream-modified",
+    "bytes": 5081,
+    "lines": 132
+  },
+  {
+    "path": "packages/services/src/credential/providers/credentialCipherProvider.ts",
+    "modulePath": "credential/providers/credentialCipherProvider.ts",
+    "dir": "credential",
+    "classification": "upstream-modified",
+    "bytes": 3644,
+    "lines": 115
+  },
+  {
+    "path": "packages/services/src/cua-permission-broker/cuaAgentAdmissionGate.ts",
+    "modulePath": "cua-permission-broker/cuaAgentAdmissionGate.ts",
+    "dir": "cua-permission-broker",
+    "classification": "upstream-modified",
+    "bytes": 2302,
+    "lines": 85
+  },
+  {
+    "path": "packages/services/src/cua-permission-broker/cuaHelperInstaller.ts",
+    "modulePath": "cua-permission-broker/cuaHelperInstaller.ts",
+    "dir": "cua-permission-broker",
+    "classification": "upstream-modified",
+    "bytes": 1686,
+    "lines": 53
+  },
+  {
+    "path": "packages/services/src/cua-permission-broker/cuaPermissionService.ts",
+    "modulePath": "cua-permission-broker/cuaPermissionService.ts",
+    "dir": "cua-permission-broker",
+    "classification": "upstream-modified",
+    "bytes": 2336,
+    "lines": 55
+  },
+  {
+    "path": "packages/services/src/cua-permission-broker/cuaPipSession.ts",
+    "modulePath": "cua-permission-broker/cuaPipSession.ts",
+    "dir": "cua-permission-broker",
+    "classification": "upstream-modified",
+    "bytes": 601,
+    "lines": 17
+  },
+  {
+    "path": "packages/services/src/cua-permission-broker/cuaPipSessionService.ts",
+    "modulePath": "cua-permission-broker/cuaPipSessionService.ts",
+    "dir": "cua-permission-broker",
+    "classification": "upstream-modified",
+    "bytes": 8911,
+    "lines": 271
+  },
+  {
+    "path": "packages/services/src/cua-permission-broker/index.ts",
+    "modulePath": "cua-permission-broker/index.ts",
+    "dir": "cua-permission-broker",
+    "classification": "upstream-modified",
+    "bytes": 4676,
+    "lines": 118
+  },
+  {
+    "path": "packages/services/src/cua-permission-broker/windowsCuaDevHelperHost.ts",
+    "modulePath": "cua-permission-broker/windowsCuaDevHelperHost.ts",
+    "dir": "cua-permission-broker",
+    "classification": "upstream-modified",
+    "bytes": 21036,
+    "lines": 506
+  },
+  {
+    "path": "packages/services/src/cua-permission-broker/windowsCuaDevRuntime.ts",
+    "modulePath": "cua-permission-broker/windowsCuaDevRuntime.ts",
+    "dir": "cua-permission-broker",
+    "classification": "upstream-modified",
+    "bytes": 19394,
+    "lines": 571
+  },
+  {
+    "path": "packages/services/src/cua-permission-broker/windowsCuaHelperHostSupport.ts",
+    "modulePath": "cua-permission-broker/windowsCuaHelperHostSupport.ts",
+    "dir": "cua-permission-broker",
+    "classification": "upstream-modified",
+    "bytes": 8396,
+    "lines": 235
+  },
+  {
+    "path": "packages/services/src/file/file.ts",
+    "modulePath": "file/file.ts",
+    "dir": "file",
+    "classification": "upstream-modified",
+    "bytes": 3948,
+    "lines": 82
+  },
+  {
+    "path": "packages/services/src/file/fileService.ts",
+    "modulePath": "file/fileService.ts",
+    "dir": "file",
+    "classification": "upstream-modified",
+    "bytes": 7707,
+    "lines": 196
+  },
+  {
+    "path": "packages/services/src/file/fileServiceIndex.ts",
+    "modulePath": "file/fileServiceIndex.ts",
+    "dir": "file",
+    "classification": "unreviewed",
+    "bytes": 4601,
+    "lines": 114
+  },
+  {
+    "path": "packages/services/src/file/fileServiceIO.ts",
+    "modulePath": "file/fileServiceIO.ts",
+    "dir": "file",
+    "classification": "unreviewed",
+    "bytes": 4824,
+    "lines": 148
+  },
+  {
+    "path": "packages/services/src/file/FILTER-SPEC-20261002.md",
+    "modulePath": "file/FILTER-SPEC-20261002.md",
+    "dir": "file",
+    "classification": "unreviewed",
+    "bytes": 2522,
+    "lines": 15
+  },
+  {
+    "path": "packages/services/src/file/workspaceFileIgnore.ts",
+    "modulePath": "file/workspaceFileIgnore.ts",
+    "dir": "file",
+    "classification": "upstream-modified",
+    "bytes": 9171,
+    "lines": 274
+  },
+  {
+    "path": "packages/services/src/file/workspaceFileMentionFilter.ts",
+    "modulePath": "file/workspaceFileMentionFilter.ts",
+    "dir": "file",
+    "classification": "upstream-modified",
+    "bytes": 2729,
+    "lines": 121
+  },
+  {
+    "path": "packages/services/src/file/workspaceFileSearch.ts",
+    "modulePath": "file/workspaceFileSearch.ts",
+    "dir": "file",
+    "classification": "upstream-modified",
+    "bytes": 1727,
+    "lines": 41
+  }
+]
