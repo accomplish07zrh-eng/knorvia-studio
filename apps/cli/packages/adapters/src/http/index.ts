@@ -1,5 +1,24 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2026 Knorvia Studio contributors
+//
+// Node 上的 HTTP 客户端适配器：把一次请求拆成三段落 —— 定预算、备连接、发请求与结算。
+//
+// 关键约束（排障时按这个顺序看）：
+// 一、URL 先解析：不是合法 URL 抛 invalid_url，协议不是 http(s) 抛 unsupported_protocol，
+//     两者都带上调用方给的原始输入，便于直接回显。
+// 二、预算优先级：请求自带的 timeoutMs / maxResponseBytes → 适配器设置 → 内置常量。
+// 三、代理与出口策略互斥：egressPolicy 为 public 时要走 DNS 预检；而代理侧的解析结果
+//     无法验证，所以「代理 + public」直接按 egress_blocked 拒绝，不走网络。
+// 四、请求的正文与头要等出口预检结束再读：预检可能等待，提前读会拿到过期内容。
+// 五、取消与超时：父 signal 已取消则立即取消；否则挂一次性监听透传。超时用带毫秒数的
+//     原因取消，便于和用户主动取消区分（两者错误码不同）。
+// 六、传输方式按需选择：走代理、要预检、或 https 且配了自定义 CA 时用 node 的 http(s)；
+//     其余情况用全局 fetch。两条路径都统一成 Response 形态再往下走。
+// 七、无正文状态码不读体；正文超限抛 too_large 并带上上限；父监听与定时器在两条路径上
+//     都要清理，避免长生命周期调用方泄漏。
+// 八、错误归一化：底层错误统一包成带 code 与 url 的端口错误，保留 cause 链。
+//
+// 响应里的 egress 元信息记录「是否走代理、代理来源与主机、是否命中 no_proxy、是否自定义 CA」。
 
 import {
   createHttpClientError,
@@ -24,84 +43,229 @@ import {
 } from "./public-egress-policy.js";
 import { readResponseBody } from "./response-body.js";
 import { exchangeWithNode } from "./node-exchange.js";
-
-// 请求生命周期（实现侧说明，便于接手排障）：
-// 一、解析 URL：非 URL 文本抛 invalid_url，非 http(s) 抛 unsupported_protocol；两者都带原始输入。
-// 二、确定预算：单次请求的 timeoutMs / maxResponseBytes 优先，其次适配器默认，最后内置常量。
-// 三、选代理解析器：capturedUserProxyEnvFallback 打开时用工具透传环境版本，否则用产品配置版本。
-// 四、出口策略：egressPolicy === "public" 时启用 DNS 预检；代理 + public 组合直接拒绝，
-//     因为代理侧解析结果无法验证，会绕过出口校验。
-// 五、自定义 CA：首次需要时加载并缓存，避免每次请求读盘；未配置时为 undefined。
-// 六、取消联动：父 signal 已取消则立即取消；否则挂一次性监听，调用方取消会透传到子请求。
-// 七、超时：预算大于 0 才设定时器，触发时用带毫秒数的错误取消，便于与用户取消区分。
-// 八、请求字段在出口预检之后才读取：预检可能等待，提前冻结会拿到过期正文与头。
-// 九、trace：请求带 trace.traceId 时补 x-knorvia-trace-id 头，已存在则不覆盖。
-// 十、响应：无正文状态码（204/205/304）不读体；超限抛 too_large；调用方取消抛 cancelled。
-// 十一、错误归一化：底层错误统一转成带 code/url 的 HttpClientPortError，保留 cause 链。
-// 十二、egress 元信息随响应返回：是否走代理、代理来源与主机、是否命中 no_proxy、是否自定义 CA。
-
-// 错误码归属（供调用方分支，不要用错误文本判断）：
-// invalid_url / unsupported_protocol：请求本身不合法，重试无意义。
-// egress_blocked：出口策略拒绝（含 public + 代理组合）。
-// too_large：响应体超过上限，调用方可提高 maxResponseBytes 后重试。
-// cancelled：调用方取消或超时，超时原因保留在 cause 中。
-// 其余网络错误原样上抛，由上层决定重试策略。
-// 响应组装与资源清理：
-// 一、exchangeWithNode 返回原生 Response，随后按状态码与是否读取正文决定后续动作。
-// 二、body 为 null（无正文状态码）时直接给空字节，不创建 reader。
-// 三、读取正文超限即中断并在错误里带上上限值，避免调用方只看到「太大」而不知上限。
-// 四、成功路径最后清理父 signal 监听与超时定时器，防止长生命周期调用方泄漏监听器。
-// 五、失败路径同样清理，再抛出归一化错误；两条路径共用同一段清理逻辑。
-// 平台与运行环境差异：
-// 六、Windows 下 CA 与环境变量大小写不敏感的处理在下层网络模块完成，本层不重复判断。
-// 七、HTTP/2 与 HTTP/1.1 的差异由 node http/https 模块吸收，本层只依赖统一 Response 形态。
-// 八、代理相关错误不做平台特判：不同代理实现的错误文本各异，统一按网络错误上抛。
-// 测试注入点（均为可选字段，生产不设置）：
-// 九、dnsLookup：替换出口预检的解析器，用于固定解析结果。
-// 十、env：注入环境变量快照，避免测试读取真实环境。
-// 十一、timeoutMs 与 maxResponseBytes：把边界压到毫秒/字节级，避免长测试。
-// 十二、capturedUserProxyEnvFallback：切换代理解析器，覆盖工具透传环境回退路径。
-const DEFAULT_TIMEOUT_MS = 180_000;
-const DEFAULT_MAX_RESPONSE_BYTES = 10_485_760;
+import type { NodeHttpClientAdapterOptions } from "./client-options-types.js";
 
 export type { NodeHttpClientAdapterOptions } from "./client-options-types.js";
 
-import type { NodeHttpClientAdapterOptions } from "./client-options-types.js";
+/** 未配置时的兜底：三分钟超时、十兆响应上限。 */
+const FALLBACK_TIMEOUT_MS = 180_000;
+const FALLBACK_RESPONSE_BYTES = 10_485_760;
 
-function proxyHost(proxyTarget: string | undefined): string | undefined {
+/** 允许的协议：只有这两种能发出去。 */
+const ALLOWED_PROTOCOLS = ["http:", "https:"];
+
+/** 追踪头：请求带 traceId 且尚未设置时补上。 */
+const TRACE_HEADER = "x-knorvia-trace-id";
+
+/** 从代理地址里取「主机:端口」；解析失败就不报主机。 */
+function proxyLabel(proxyTarget: string | undefined): string | undefined {
   if (proxyTarget === undefined) return undefined;
+  let parsed: URL;
   try {
-    const url = new URL(proxyTarget);
-    return url.hostname + (url.port ? `:${url.port}` : "");
+    parsed = new URL(proxyTarget);
   } catch {
     return undefined;
   }
+  return parsed.port ? `${parsed.hostname}:${parsed.port}` : parsed.hostname;
 }
 
-function normalizeFailure(
+/** 把底层失败归一化成端口错误：已经是端口错误就原样返回。 */
+function toPortError(
   cause: unknown,
   url: string,
   signal: AbortSignal,
-  expired: boolean,
+  timedOut: boolean,
   viaProxy: boolean,
 ): unknown {
   if (isHttpClientPortError(cause)) return cause;
+
+  const messageOf = (fallback: string): string =>
+    cause instanceof Error ? cause.message : fallback;
   let code: HttpClientErrorCode;
   let message: string;
-  if (expired) {
+  if (timedOut) {
     code = "timeout";
-    message = cause instanceof Error ? cause.message : "HTTP request timed out";
+    message = messageOf("HTTP request timed out");
   } else if (signal.aborted) {
     code = "cancelled";
-    message = cause instanceof Error ? cause.message : "HTTP request was cancelled";
+    message = messageOf("HTTP request was cancelled");
   } else if (cause instanceof DOMException && cause.name === "AbortError") {
     code = "cancelled";
     message = "HTTP request was cancelled";
   } else {
     code = viaProxy ? "proxy_error" : "network_error";
-    message = cause instanceof Error ? cause.message : "HTTP request failed";
+    message = messageOf("HTTP request failed");
   }
   return createHttpClientError({ code, url, message, cause });
+}
+
+/** 本次请求的预算：超时、正文上限、是否走工具透传环境的代理回退。 */
+type Budget = {
+  timeoutMs: number;
+  responseBytes: number;
+  capturedFallback: boolean;
+};
+
+/** 一次请求的准备工作：规范化后的 URL、预算、代理目标、解析器与 CA。 */
+type Prepared = {
+  url: URL;
+  finalUrl: string;
+  budget: Budget;
+  proxyUrl: string | undefined;
+  proxySource: string | undefined;
+  noProxyMatched: boolean;
+  resolver: DnsLookup | undefined;
+  ca: Buffer | undefined;
+};
+
+/** 取消联动：把父 signal 接到内部 abort 闸门上，并记住是否需要摘监听。 */
+type Cancellation = {
+  gate: AbortController;
+  parent: AbortSignal | undefined;
+  linked: boolean;
+  detach(): void;
+};
+
+/** 解析并校验请求 URL；不合法时直接抛出带 code 的端口错误。 */
+function parseRequestUrl(inputUrl: string): URL {
+  let parsed: URL;
+  try {
+    parsed = new URL(inputUrl);
+  } catch (cause) {
+    throw createHttpClientError({
+      code: "invalid_url",
+      url: inputUrl,
+      message: `Invalid URL: ${inputUrl}`,
+      cause,
+    });
+  }
+  if (!ALLOWED_PROTOCOLS.includes(parsed.protocol)) {
+    throw createHttpClientError({
+      code: "unsupported_protocol",
+      url: inputUrl,
+      message: `Unsupported URL protocol for HTTP request: ${parsed.protocol}`,
+    });
+  }
+  return parsed;
+}
+
+/** 定预算：请求侧优先，其次适配器设置，最后兜底常量。 */
+function makeBudget(request: HttpClientRequest, settings: NodeHttpClientAdapterOptions): Budget {
+  const budget = {} as Budget;
+  budget.timeoutMs = request.timeoutMs ?? settings.timeoutMs ?? FALLBACK_TIMEOUT_MS;
+  budget.responseBytes =
+    request.maxResponseBytes ?? settings.maxResponseBytes ?? FALLBACK_RESPONSE_BYTES;
+  budget.capturedFallback = settings.capturedUserProxyEnvFallback === true;
+  return budget;
+}
+
+/** 建立取消联动：父 signal 已取消则立刻取消，否则挂一次性监听。 */
+function linkCancellation(parent: AbortSignal | undefined): Cancellation {
+  const gate = new AbortController();
+  const forward = (): void => gate.abort(parent?.reason);
+  let linked = false;
+  if (parent?.aborted) forward();
+  else if (parent !== undefined) {
+    parent.addEventListener("abort", forward, { once: true });
+    linked = true;
+  }
+  return {
+    gate,
+    parent,
+    linked,
+    detach(): void {
+      if (linked) parent?.removeEventListener("abort", forward);
+    },
+  };
+}
+
+/**
+ * 超时闸门：只有「预算确实大于 0」才设定时器。
+ * 注意这里判的是 `> 0` 的正向条件而不是 `<= 0` 的取反 —— NaN 两种比较都为 false，
+ * 用 `<= 0` 会把 NaN 当成「正预算」而设出一个立刻生效的定时器。
+ */
+function armDeadline(
+  budgetMs: number,
+  gate: AbortController,
+  markTimedOut: () => void,
+): NodeJS.Timeout | undefined {
+  if (!(budgetMs > 0)) return undefined;
+  return setTimeout(() => {
+    markTimedOut();
+    gate.abort(new Error(`HTTP request timed out after ${budgetMs}ms`));
+  }, budgetMs);
+}
+
+/**
+ * 出口预检的同步部分：public 策略下不允许配代理，直接抛。
+ * 单独拆出来是为了让「不需要预检」的请求不经过任何 await —— 否则会多出一个微任务边界，
+ * 调用方紧接着的取消操作就会落在 fetch 之后。
+ */
+function assertEgressNotProxied(prepared: Prepared): void {
+  if (prepared.resolver === undefined) return;
+  if (prepared.proxyUrl === undefined) return;
+  throw createHttpClientError({
+    code: "egress_blocked",
+    url: prepared.finalUrl,
+    message:
+      "HTTP public egress cannot use a proxy because proxy-side DNS resolution cannot be verified",
+  });
+}
+
+/** 组装发出去用的头：复制请求头，必要时补追踪头。 */
+function buildHeaders(request: HttpClientRequest): Headers {
+  const headers = new Headers(request.headers);
+  const traceId = request.trace?.traceId;
+  if (traceId && !headers.has(TRACE_HEADER)) headers.set(TRACE_HEADER, traceId);
+  return headers;
+}
+
+/** 发请求：按需在 node http(s) 与全局 fetch 之间选择，统一返回 Response。 */
+function dispatch(
+  prepared: Prepared,
+  request: HttpClientRequest,
+  headers: Headers,
+  body: Buffer | undefined,
+  gate: AbortController,
+): Promise<Response> {
+  const method = request.method ?? "GET";
+  const needsNode =
+    prepared.proxyUrl !== undefined ||
+    prepared.resolver !== undefined ||
+    (prepared.url.protocol === "https:" && prepared.ca !== undefined);
+
+  if (needsNode) {
+    return exchangeWithNode({
+      url: prepared.url,
+      method,
+      headers,
+      body,
+      signal: gate.signal,
+      proxyUrl: prepared.proxyUrl,
+      ca: prepared.ca,
+      lookup:
+        prepared.resolver === undefined
+          ? undefined
+          : createPublicEgressLookup(prepared.finalUrl, prepared.resolver, { signal: gate.signal }),
+    });
+  }
+  return fetch(prepared.finalUrl, {
+    method,
+    headers,
+    // Node 的 fetch 接受 Buffer；类型层面的 BodyInit 不含它，这里按运行时约定直接传。
+    body: body as unknown as BodyInit | null | undefined,
+    redirect: request.redirect ?? "manual",
+    signal: gate.signal,
+  });
+}
+
+/** 把响应头摊成普通对象（Headere.forEach 的键已小写）。 */
+function plainHeaders(reply: Response): Record<string, string> {
+  const collected: Record<string, string> = {};
+  reply.headers.forEach((value, key) => {
+    collected[key] = value;
+  });
+  return collected;
 }
 
 export class NodeHttpClientAdapter implements HttpClientPort {
@@ -113,148 +277,106 @@ export class NodeHttpClientAdapter implements HttpClientPort {
     this.#settings = settings;
   }
 
+  /** 自定义 CA：首次需要时读一次并缓存，避免每请求读盘。 */
   #certificates(): Buffer | undefined {
-    if (!this.#caLoaded) {
-      const ca = loadTlsCaCertificates({
-        caCertFile: this.#settings.caCertFile,
-        env: this.#settings.env,
-      });
-      this.#ca = ca;
-      this.#caLoaded = true;
-    }
+    if (this.#caLoaded) return this.#ca;
+    this.#ca = loadTlsCaCertificates({
+      caCertFile: this.#settings.caCertFile,
+      env: this.#settings.env,
+    });
+    this.#caLoaded = true;
     return this.#ca;
+  }
+
+  /** 准备阶段：URL、预算、代理、预检解析器、CA 一次定齐。 */
+  #prepare(request: HttpClientRequest): Prepared {
+    const url = parseRequestUrl(request.url);
+    const budget = makeBudget(request, this.#settings);
+    const pickProxy = budget.capturedFallback
+      ? resolveWebFetchProxyForRequest
+      : resolveProxyForRequest;
+    const proxy = pickProxy(url, {
+      env: this.#settings.env,
+      httpProxy: this.#settings.proxyUrl,
+      noProxy: this.#settings.noProxy,
+    });
+    const prepared = {} as Prepared;
+    prepared.url = url;
+    prepared.finalUrl = url.toString();
+    prepared.budget = budget;
+    prepared.proxyUrl = proxy.proxyUrl;
+    prepared.proxySource = proxy.proxySource;
+    prepared.noProxyMatched = proxy.noProxyMatched;
+    prepared.resolver =
+      request.egressPolicy === "public"
+        ? (this.#settings.dnsLookup ?? defaultPublicDnsLookup())
+        : undefined;
+    prepared.ca = this.#certificates();
+    return prepared;
   }
 
   async request(
     request: HttpClientRequest,
     settings: HttpClientRunOptions = {},
   ): Promise<HttpClientResponse> {
-    const start = Date.now();
-    const inputUrl = request.url;
-    let url: URL;
-    try {
-      url = new URL(inputUrl);
-    } catch (cause) {
-      throw createHttpClientError({
-        code: "invalid_url",
-        url: inputUrl,
-        message: `Invalid URL: ${inputUrl}`,
-        cause,
-      });
-    }
-    if (url.protocol !== "http:" && url.protocol !== "https:") {
-      throw createHttpClientError({
-        code: "unsupported_protocol",
-        url: inputUrl,
-        message: `Unsupported URL protocol for HTTP request: ${url.protocol}`,
-      });
-    }
-
-    const budgetMs = request.timeoutMs ?? this.#settings.timeoutMs ?? DEFAULT_TIMEOUT_MS;
-    const byteLimit =
-      request.maxResponseBytes ?? this.#settings.maxResponseBytes ?? DEFAULT_MAX_RESPONSE_BYTES;
-    const pickResolver = this.#settings.capturedUserProxyEnvFallback
-      ? resolveWebFetchProxyForRequest
-      : resolveProxyForRequest;
-    const proxyTarget = pickResolver(url, {
-      env: this.#settings.env,
-      httpProxy: this.#settings.proxyUrl,
-      noProxy: this.#settings.noProxy,
+    const startedAt = Date.now();
+    const prepared = this.#prepare(request);
+    const cancellation = linkCancellation(settings.signal);
+    let timedOut = false;
+    const deadline = armDeadline(prepared.budget.timeoutMs, cancellation.gate, () => {
+      timedOut = true;
     });
-    const resolver =
-      request.egressPolicy === "public"
-        ? (this.#settings.dnsLookup ?? defaultPublicDnsLookup())
-        : undefined;
-    const ca = this.#certificates();
-    const viaProxy = proxyTarget.proxyUrl !== undefined;
-    const egressInfo: HttpClientEgressInfo = {
-      proxied: viaProxy,
-      proxySource: proxyTarget.proxySource,
-      proxyHost: proxyHost(proxyTarget.proxyUrl),
-      noProxyMatched: proxyTarget.noProxyMatched || undefined,
-      customCa: ca !== undefined,
-    };
-    const finalUrl = url.toString();
-    const abortGate = new AbortController();
-    const upstreamSignal = settings.signal;
-    const abortFromParent = () => abortGate.abort(upstreamSignal?.reason);
-    let linkedListener = false;
-    if (upstreamSignal?.aborted) abortFromParent();
-    else if (upstreamSignal) {
-      upstreamSignal.addEventListener("abort", abortFromParent, { once: true });
-      linkedListener = true;
-    }
-    let expired = false;
-    const deadlineTimer =
-      budgetMs > 0
-        ? setTimeout(() => {
-            expired = true;
-            abortGate.abort(new Error(`HTTP request timed out after ${budgetMs}ms`));
-          }, budgetMs)
-        : undefined;
 
     try {
-      if (resolver) {
-        if (viaProxy) {
-          throw createHttpClientError({
-            code: "egress_blocked",
-            url: finalUrl,
-            message:
-              "HTTP public egress cannot use a proxy because proxy-side DNS resolution cannot be verified",
-          });
-        }
-        await assertPublicEgressDestination(url, resolver, { signal: abortGate.signal });
+      // 先做同步部分的出口检查（不产生 await 边界），再按需等待 DNS 预检。
+      assertEgressNotProxied(prepared);
+      // 只有真的启用 public 预检时才等待；否则请求直接同步往下走。
+      if (prepared.resolver !== undefined) {
+        await assertPublicEgressDestination(prepared.url, prepared.resolver, {
+          signal: cancellation.gate.signal,
+        });
       }
 
-      // public 预检可能等待；请求正文和头等字段必须在此后读取，不能提前冻结。
-      const headers = new Headers(request.headers);
-      const traceId = request.trace?.traceId;
-      if (traceId && !headers.has("x-knorvia-trace-id")) headers.set("x-knorvia-trace-id", traceId);
+      // 预检可能等待，正文与头必须在此之后才读。
+      const headers = buildHeaders(request);
       const body = request.body ? Buffer.from(request.body) : undefined;
-      const method = request.method ?? "GET";
-      const useNode =
-        viaProxy || resolver !== undefined || (url.protocol === "https:" && ca !== undefined);
-      const reply = useNode
-        ? await exchangeWithNode({
-            url,
-            method,
-            headers,
-            body,
-            signal: abortGate.signal,
-            proxyUrl: proxyTarget.proxyUrl,
-            ca,
-            lookup: resolver
-              ? createPublicEgressLookup(finalUrl, resolver, { signal: abortGate.signal })
-              : undefined,
-          })
-        : await fetch(finalUrl, {
-            method,
-            headers,
-            body,
-            redirect: request.redirect ?? "manual",
-            signal: abortGate.signal,
-          });
-      const responseUrl = reply.url || finalUrl;
-      const bytes = await readResponseBody(reply, byteLimit, abortGate.signal, responseUrl);
-      const responseHeaders: Record<string, string> = {};
-      reply.headers.forEach((value, key) => {
-        responseHeaders[key] = value;
-      });
+      const reply = await dispatch(prepared, request, headers, body, cancellation.gate);
+
+      const responseUrl = reply.url || prepared.finalUrl;
+      const bytes = await readResponseBody(
+        reply,
+        prepared.budget.responseBytes,
+        cancellation.gate.signal,
+        responseUrl,
+      );
+      const egress: HttpClientEgressInfo = {
+        proxied: prepared.proxyUrl !== undefined,
+        proxySource: prepared.proxySource,
+        proxyHost: proxyLabel(prepared.proxyUrl),
+        noProxyMatched: prepared.noProxyMatched || undefined,
+        customCa: prepared.ca !== undefined,
+      };
       return {
         url: responseUrl,
         status: reply.status,
         statusText: reply.statusText,
-        headers: responseHeaders,
+        headers: plainHeaders(reply),
         body: bytes,
         bytes: bytes.byteLength,
-        durationMs: Math.max(0, Date.now() - start),
-        egress: egressInfo,
+        durationMs: Math.max(0, Date.now() - startedAt),
+        egress,
       };
     } catch (cause) {
-      throw normalizeFailure(cause, finalUrl, abortGate.signal, expired, viaProxy);
+      throw toPortError(
+        cause,
+        prepared.finalUrl,
+        cancellation.gate.signal,
+        timedOut,
+        prepared.proxyUrl !== undefined,
+      );
     } finally {
-      if (deadlineTimer !== undefined) clearTimeout(deadlineTimer);
-      if (linkedListener) upstreamSignal?.removeEventListener("abort", abortFromParent);
+      if (deadline !== undefined) clearTimeout(deadline);
+      cancellation.detach();
     }
   }
 }

@@ -4,7 +4,16 @@
 import { join } from "node:path";
 import { type KernelPluginModuleIds, kernelPluginModuleIds } from "./builtins-modules.js";
 import { type KernelMcpServerLike, createBuiltinsRows, createMcpRows } from "./builtins-rows.js";
+import {
+  type KernelCredentialProviderRow,
+  createKernelCredentialProviderRow,
+} from "./credential-provider.js";
 import { KERNEL_PERSONA_PREFIX } from "./constants.js";
+
+/** 把「凭据 provider 行」摊成组合行形状（行 id 与模块标识来自该模块的约定）。 */
+function toPluginRow(row: KernelCredentialProviderRow): KernelPluginRow {
+  return { id: row.rowId, name: row.moduleId };
+}
 
 export interface KernelPluginRow {
   readonly id: string;
@@ -72,6 +81,9 @@ export const KERNEL_PLUGIN_ROWS: readonly KernelPluginRow[] = [
  * @param options.cwd - 启动 cwd；沙箱策略的 workspace-write 写边界取它。
  * @param options.moduleIds - 本包自有插件模块的可解析地址。
  * @param options.mcpServers - Knorvia MCP 配置；缺席表示不挂 MCP 客户端。
+ * @param options.credentialProviderModuleId - 凭据 provider 插件模块标识；缺席表示不挂（
+ *   此时 `ctx.credentials` 无人提供，`llm-pi-ai` 的 `apiKeyEnv` 只能回退启动环境——
+ *   而进程级清洗已删掉 `*_API_KEY`，所以真实模型调用需要它）。
  * @returns 最终行清单，顺序确定。
  */
 export function createKernelPluginRows(
@@ -81,6 +93,7 @@ export function createKernelPluginRows(
     readonly cwd?: string;
     readonly moduleIds?: KernelPluginModuleIds;
     readonly mcpServers?: Readonly<Record<string, KernelMcpServerLike>>;
+    readonly credentialProviderModuleId?: string;
   },
 ): KernelPluginRow[] {
   const base = KERNEL_PLUGIN_ROWS.map((row) => {
@@ -99,5 +112,11 @@ export function createKernelPluginRows(
     workspaceRoot: options?.cwd ?? process.cwd(),
     moduleIds: options?.moduleIds ?? kernelPluginModuleIds(),
   });
-  return [...base, ...builtins, ...mcpRows];
+  // 凭据 provider 行：位置在本包追加行之后、MCP 行之前。
+  // 缺席时不生成任何行（`ctx.credentials` 无人提供，`llm-pi-ai` 回退启动环境）。
+  const credentialRows =
+    options?.credentialProviderModuleId === undefined
+      ? []
+      : [toPluginRow(createKernelCredentialProviderRow(options.credentialProviderModuleId))];
+  return [...base, ...builtins, ...credentialRows, ...mcpRows];
 }
