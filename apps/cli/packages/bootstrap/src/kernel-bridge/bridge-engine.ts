@@ -27,6 +27,9 @@ import type {
   BridgeUnsubscribeRequest,
 } from "./interface.js";
 import { createBridgeEventProjectionLayer } from "./projection-layer.js";
+import { TurnApprovalRegistry } from "./turn-approval.js";
+import { type KernelTurnExecutor, TurnSessionUnavailableError } from "./turn-executor.js";
+import { dispatchTurnCommand } from "./turn-commands.js";
 
 /** 段 A 尚未接入的命令类型统一回 failed + 该 reasonCode；不伪造 accepted/noop。 */
 const UNSUPPORTED_REASON_CODE = "unsupported";
@@ -40,6 +43,11 @@ export interface BridgeEngineOptions {
   /** 下行帧出口：entry.ts 注入，负责写 stdout NDJSON。 */
   readonly writeFrame: (frame: RoutedTopicWireFrame) => void;
   readonly now?: () => number;
+  /**
+   * 回合动作执行器（kernel-bridge-02）。缺席时回合类命令保持 unsupported，
+   * 用于只跑段 A 骨架的场景与 legacy 反向断言测试。
+   */
+  readonly turnExecutor?: KernelTurnExecutor;
 }
 
 /** 一个桥会话的注册信息（DSH 会话 id ↔ v4 会话 id）。 */
@@ -54,6 +62,13 @@ export class BridgeEngine implements BridgeCommandExecutor {
   private readonly inbox: BridgeCommandInbox;
   private readonly sessions = new Map<string, BridgeSessionRecord>();
   private readonly detachEvents: Array<() => void> = [];
+  /**
+   * 未决审批登记表（kernel-bridge-02 B9/B10）。
+   *
+   * 放在引擎上而不是 turn-executor 上，是因为**关闭路径**必须能把它整体收敛：
+   * `dispose()` 是引擎的职责，执行器不知道进程要退出。
+   */
+  readonly approvals = new TurnApprovalRegistry();
 
   constructor(private readonly options: BridgeEngineOptions) {
     this.projection = createBridgeEventProjectionLayer({
@@ -112,6 +127,11 @@ export class BridgeEngine implements BridgeCommandExecutor {
           true,
         );
       }
+      // ── kernel-bridge-02：输入与回合（合同 behavior.md B1–B7）；分派在 turn-commands.ts ──
+      case "sendText":
+      case "stop":
+      case "compact":
+        return await dispatchTurnCommand(envelope, this.options.turnExecutor);
       default:
         return { status: "failed", reasonCode: UNSUPPORTED_REASON_CODE };
     }
@@ -158,8 +178,9 @@ export class BridgeEngine implements BridgeCommandExecutor {
   /** createSession：SessionId() 包装 id，logEpoch = `epoch_` + randomUUID，projection.initSession。 */
   private async createSession(envelope: CommandEnvelope): Promise<CommandExecutionOutcome> {
     const payload = envelope.payload as CommandPayloadMap["createSession"];
-    // firstInput 需要 sendText 同一条 turn 写路径；输入投递未实现前不能建出“吞掉用户输入”的会话。
-    if (payload.firstInput !== undefined) {
+    const executor = this.options.turnExecutor;
+    // 有 firstInput 但没有回合执行器：仍然不能建出「吞掉用户输入」的会话（段 A 的旧口径）。
+    if (payload.firstInput !== undefined && executor === undefined) {
       return { status: "failed", reasonCode: UNSUPPORTED_REASON_CODE };
     }
     const sessionId = envelope.sessionId ?? `sess_${randomUUID()}`;
@@ -181,6 +202,40 @@ export class BridgeEngine implements BridgeCommandExecutor {
         sessionId,
         workspacePath,
       });
+    }
+    // B3：建会话与首输入在同一个 ACK 之前完成——Host 依赖「创建成功即可认为首输入已被接受」。
+    // 冻结的 createSession ACK 用 `input: { delivery, inputId, messageId? }` 表达首输入，
+    // 没有 `turnId` 字段，因此这里按协议形状回填。
+    if (payload.firstInput !== undefined && executor !== undefined) {
+      try {
+        const turn = await executor.createSession({
+          sessionId,
+          workspacePath,
+          // 注意：`firstInput.mode` 是**提交模式**（build/edit/plan/yolo 一类），
+          // 不是交付意愿；首输入没有 requestedDelivery 字段，按空闲会话的首个回合处理。
+          firstInput: { text: payload.firstInput.text },
+        });
+        return {
+          status: "accepted",
+          result: {
+            type: "createSession",
+            sessionId,
+            input: { delivery: turn.admitted ?? "startNow", inputId: envelope.commandId },
+          },
+        };
+      } catch (error) {
+        // 首输入被拒时不能留下「半建的会话」：DSH 侧会话已由上面 create 建立，
+        // 这里把它从桥的登记表摘掉，再如实回失败（不伪造成功）。
+        this.sessions.delete(sessionId);
+        if (error instanceof TurnSessionUnavailableError) {
+          return {
+            status: "failed",
+            reasonCode: BRIDGE_REASON_CODES.sessionNotFound,
+            message: `Session is not active: ${sessionId}`,
+          };
+        }
+        throw error;
+      }
     }
     return { status: "accepted", result: { type: "createSession", sessionId } };
   }
@@ -207,6 +262,10 @@ export class BridgeEngine implements BridgeCommandExecutor {
   }
 
   async dispose(): Promise<void> {
+    // 关闭时把未决审批全部结算为 unavailable：否则 Host 侧的审批请求永远等不到应答，
+    // 会挂着一个永不返回的反向请求（与 legacy 的「反向请求先收口」同一族问题）。
+    // 这条必须在释放投影层**之前**做——投影层释放后就没有通道可以回执了。
+    this.approvals.failAllPending();
     for (const detach of this.detachEvents.splice(0)) detach();
     await this.projection.dispose?.();
   }
