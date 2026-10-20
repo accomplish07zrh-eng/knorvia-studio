@@ -43,7 +43,23 @@ test("B3 DSH_HOME 与用户 ~/.dsh 的 patch 均不参与启动，配置内容�
     assert.equal(contents[0].includes("\r"), false);
 
     const parsed = JSON.parse(contents[0]);
-    assert.deepEqual(parsed, kernel.createKernelPluginRows(dshHome));
+    // 物化结果 = 底座 19 行 + kernel-dsh-builtins 追加行。底座部分必须与公开物化的
+    // 前 19 行逐字段一致（蓝图本身不含注入的持久化根，所以基准取物化结果的底座切片；
+    // kernel-dsh-builtins known-differences D1：追加行由该包合同断言）。
+    const materialized = kernel.createKernelPluginRows(dshHome, { cwd: root });
+    const base = materialized.slice(0, 19);
+    assert.equal(base.length, 19, "底座必须是 19 行");
+    assert.deepEqual(parsed.slice(0, base.length), base, "底座行必须与物化结果一致");
+    assert.ok(parsed.length > base.length, "物化结果必须含 kernel-dsh-builtins 追加行");
+    const appendedIds = parsed.slice(base.length).map((row) => row.id);
+    assert.equal(new Set(appendedIds).size, appendedIds.length, "追加行 id 不得重复");
+    for (const id of appendedIds) {
+      assert.equal(
+        base.some((row) => row.id === id),
+        false,
+        `追加行 id 不得与底座重名：${id}`,
+      );
+    }
   } finally {
     await removeTempDir(root);
   }

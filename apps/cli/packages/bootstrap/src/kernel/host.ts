@@ -4,6 +4,8 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import type { Context } from "@deepseek-ai/cordis";
+import { kernelPluginModuleIds } from "./builtins-modules.js";
+import { type KernelMcpServerLike } from "./builtins-rows.js";
 import { createKernelPluginRows } from "./composition.js";
 import { KERNEL_DSH_VERSION } from "./constants.js";
 import { prepareKernelEnvironment } from "./environment.js";
@@ -16,6 +18,11 @@ import {
 } from "./errors.js";
 import { callKernelLogger, createStderrKernelLogger, type KernelLogger } from "./logger.js";
 import { resolveDefaultModuleBaseUrl } from "./module-url.js";
+import {
+  type KernelUserEnvironmentSnapshot,
+  createUserEnvironmentSnapshot,
+} from "./user-environment.js";
+import { provideUserEnvironment } from "./user-environment-service.js";
 
 const CONFIG_DIRECTORY = "knorvia";
 const CONFIG_FILE = "kernel.cordis.json";
@@ -27,12 +34,18 @@ export interface BootKernelOptions {
   readonly dataRoot?: string;
   readonly moduleBaseUrl?: string;
   readonly logger?: KernelLogger;
+  /** 启动时点的用户环境快照；不传则内部按 `process.env` 在清洗前建立（B9-B13）。 */
+  readonly userEnvironment?: KernelUserEnvironmentSnapshot;
+  /** Knorvia MCP 服务器配置；缺席表示不挂 MCP 客户端（B22）。 */
+  readonly mcpServers?: Readonly<Record<string, KernelMcpServerLike>>;
 }
 
 export interface KernelHost {
   readonly engine: "dsh";
   readonly dshVersion: string;
   readonly dshHome: string;
+  /** 本次启动的用户环境快照；工具子进程用它，且不含 DSH_*。 */
+  readonly userEnvironment: KernelUserEnvironmentSnapshot;
   readonly context: Context;
   dispose(): Promise<void>;
 }
@@ -47,6 +60,12 @@ export async function bootKernel(options: BootKernelOptions): Promise<KernelHost
   const logger = options.logger ?? createStderrKernelLogger(process.stderr);
 
   try {
+    // 修正一的前提：快照必须在 prepareKernelEnvironment 的进程级清洗之前拍下。
+    // 这里读的是调用方给的环境（默认进程环境）当时的值，而不是清洗之后的值，
+    // 所以用户自己的 *_API_KEY 会留在快照里（B10、B12）。
+    const userEnvironment =
+      options.userEnvironment ?? createUserEnvironmentSnapshot(options.env ?? process.env);
+
     const prepared = await prepareKernelEnvironment({
       cwd: options.cwd,
       env: options.env ?? process.env,
@@ -54,7 +73,12 @@ export async function bootKernel(options: BootKernelOptions): Promise<KernelHost
       logger,
     });
 
-    const rows = createKernelPluginRows(prepared.dshHome);
+    const rows = createKernelPluginRows(prepared.dshHome, {
+      platform: process.platform,
+      cwd: prepared.cwd,
+      moduleIds: kernelPluginModuleIds(),
+      ...(options.mcpServers === undefined ? {} : { mcpServers: options.mcpServers }),
+    });
     const configPath = join(prepared.dshHome, CONFIG_DIRECTORY, CONFIG_FILE);
     try {
       await mkdir(dirname(configPath), { recursive: true });
@@ -67,6 +91,8 @@ export async function bootKernel(options: BootKernelOptions): Promise<KernelHost
     }
     callKernelLogger(logger, "info", "kernel.dsh.config.materialized", { path: configPath });
     callKernelLogger(logger, "debug", "kernel.dsh.rows", { ids: rows.map((row) => row.id) });
+    // 只报条目数：快照可能含用户凭据形变量，键名与键值都不进日志（interface §二）。
+    callKernelLogger(logger, "info", "kernel.env.snapshot", { entries: userEnvironment.size });
     callKernelLogger(logger, "info", `dsh.version=${KERNEL_DSH_VERSION}`);
     callKernelLogger(logger, "info", "kernel.dsh.platform", {
       platform: process.platform,
@@ -80,7 +106,16 @@ export async function bootKernel(options: BootKernelOptions): Promise<KernelHost
     let context: Context;
     try {
       const { boot } = await import("@deepseek-ai/dsh-app-boot");
-      context = await boot("knorvia", configPath, undefined, undefined, moduleBaseUrl);
+      // prepare 在配置树挂载前运行：把快照作为宿主服务提供给带快照的 shell 执行器。
+      context = await boot(
+        "knorvia",
+        configPath,
+        undefined,
+        (bootContext: Context) => {
+          provideUserEnvironment(bootContext, userEnvironment);
+        },
+        moduleBaseUrl,
+      );
     } catch (cause) {
       throw new KernelBootError(`DSH boot failed: ${errorMessage(cause)}`, { cause });
     }
@@ -90,6 +125,7 @@ export async function bootKernel(options: BootKernelOptions): Promise<KernelHost
       engine: "dsh",
       dshVersion: KERNEL_DSH_VERSION,
       dshHome: prepared.dshHome,
+      userEnvironment,
       context,
       dispose(): Promise<void> {
         disposePromise ??= disposeContext(context, logger).then(() => {
