@@ -2931,10 +2931,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/plugins/discovery-candidates.ts",
-      "normalizedSha256": "e80dbf3b19e767beb1bb9b6812b2dc2596e1ba35da50176dee6d8f50c11aacf3",
+      "normalizedSha256": "4f1301ed693b7fbf7e3acc0ce0c5e580db34657fae477f866d7d427395c335d0",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Root designed and authored a 16-module replacement from approved behavior and finite public declarations, then froze it before independent test access. Seven old public modules were replaced; eight source/storage helpers remain retained. Independent old-first acceptance preserved original fixture and candidate failures, added two bounded supplement cases, and accepted v3 at 43/43. Main source and exact CLI-reachable compiled runtime also pass 43/43. Test loader portability and exact-entry metafile check are recorded; no behavior assertion was removed to conceal a product failure. Root and preparer reading exposure is disclosed; this is not blanket clean-room or licensing assurance. Applicable dependency rights and root Apache remain. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.169, longest identical run 1, structural similarity 0.026 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Root designed and authored a 16-module replacement from approved behavior and finite public declarations, then froze it before independent test access. Seven old public modules were replaced; eight source/storage helpers remain retained. Independent old-first acceptance preserved original fixture and candidate failures, added two bounded supplement cases, and accepted v3 at 43/43. Main source and exact CLI-reachable compiled runtime also pass 43/43. Test loader portability and exact-entry metafile check are recorded; no behavior assertion was removed to conceal a product failure. Root and preparer reading exposure is disclosed; this is not blanket clean-room or licensing assurance. Applicable dependency rights and root Apache remain. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.169, longest identical run 1, structural similarity 0.026 against the fixed upstream baseline (scored in normal mode). Refreshed 2026-10-20 by the adapters anti-gaming similarity rework (issue #224, batch B2b): max line containment 0.179 (was 0.351), longest identical run 3 (was 3), structural similarity 0.000 (was 0.016) against the fixed upstream baseline, scored in normal mode because the module is a private implementation file not listed in interface.md.",
       "evidence": [
         "specs/knorvia-plugin-discovery-runtime.md",
         "docs/knorvia-exec-plugin-runtime-acceptance.md",
@@ -2955,10 +2955,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/plugins/discovery-manifest.ts",
-      "normalizedSha256": "97401a5070eb6e331731d2537e1fcbd7cd2bebc5385571141a04552cf0aa182d",
+      "normalizedSha256": "920e2d90aab3ab06c3e6d3f2658521de0fbac55ca598421749b5d24399439a29",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Root designed and authored a 16-module replacement from approved behavior and finite public declarations, then froze it before independent test access. Seven old public modules were replaced; eight source/storage helpers remain retained. Independent old-first acceptance preserved original fixture and candidate failures, added two bounded supplement cases, and accepted v3 at 43/43. Main source and exact CLI-reachable compiled runtime also pass 43/43. Test loader portability and exact-entry metafile check are recorded; no behavior assertion was removed to conceal a product failure. Root and preparer reading exposure is disclosed; this is not blanket clean-room or licensing assurance. Applicable dependency rights and root Apache remain. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.192, longest identical run 4, structural similarity 0.000 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Root designed and authored a 16-module replacement from approved behavior and finite public declarations, then froze it before independent test access. Seven old public modules were replaced; eight source/storage helpers remain retained. Independent old-first acceptance preserved original fixture and candidate failures, added two bounded supplement cases, and accepted v3 at 43/43. Main source and exact CLI-reachable compiled runtime also pass 43/43. Test loader portability and exact-entry metafile check are recorded; no behavior assertion was removed to conceal a product failure. Root and preparer reading exposure is disclosed; this is not blanket clean-room or licensing assurance. Applicable dependency rights and root Apache remain. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.192, longest identical run 4, structural similarity 0.000 against the fixed upstream baseline (scored in normal mode). Refreshed 2026-10-20 by the adapters anti-gaming similarity rework (issue #224, batch B2b): max line containment 0.171 (was 0.307), longest identical run 2 (was 7), structural similarity 0.000 (was 0.000) against the fixed upstream baseline, scored in normal mode because the module is a private implementation file not listed in interface.md.",
       "evidence": [
         "specs/knorvia-plugin-discovery-runtime.md",
         "docs/knorvia-exec-plugin-runtime-acceptance.md",
@@ -2967,10 +2967,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/plugins/discovery-runtime.ts",
-      "normalizedSha256": "d6561fcbb2821d01753516679546c329230cdd61dc9b8aeb26d65bf9d9f67af4",
+      "normalizedSha256": "9afacd0df1b880d80bab137574e2f06819399b336384a87b9fe62e88d36a4f54",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Root designed and authored a 16-module replacement from approved behavior and finite public declarations, then froze it before independent test access. Seven old public modules were replaced; eight source/storage helpers remain retained. Independent old-first acceptance preserved original fixture and candidate failures, added two bounded supplement cases, and accepted v3 at 43/43. Main source and exact CLI-reachable compiled runtime also pass 43/43. Test loader portability and exact-entry metafile check are recorded; no behavior assertion was removed to conceal a product failure. Root and preparer reading exposure is disclosed; this is not blanket clean-room or licensing assurance. Applicable dependency rights and root Apache remain. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.161, longest identical run 2, structural similarity 0.000 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Root designed and authored a 16-module replacement from approved behavior and finite public declarations, then froze it before independent test access. Seven old public modules were replaced; eight source/storage helpers remain retained. Independent old-first acceptance preserved original fixture and candidate failures, added two bounded supplement cases, and accepted v3 at 43/43. Main source and exact CLI-reachable compiled runtime also pass 43/43. Test loader portability and exact-entry metafile check are recorded; no behavior assertion was removed to conceal a product failure. Root and preparer reading exposure is disclosed; this is not blanket clean-room or licensing assurance. Applicable dependency rights and root Apache remain. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.161, longest identical run 2, structural similarity 0.000 against the fixed upstream baseline (scored in normal mode). Refreshed 2026-10-20 by the adapters anti-gaming similarity rework (issue #224, batch B2b): max line containment 0.168 (was 0.315), longest identical run 3 (was 3), structural similarity 0.000 (was 0.000) against the fixed upstream baseline, scored in normal mode because the module is a private implementation file not listed in interface.md.",
       "evidence": [
         "specs/knorvia-plugin-discovery-runtime.md",
         "docs/knorvia-exec-plugin-runtime-acceptance.md",
@@ -3063,10 +3063,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/plugins/mcp-official-auth.ts",
-      "normalizedSha256": "d0645fc525c080bba8bc664326cbd7fc70c4abdd2aec27cd6183d6b0f62ea5dd",
+      "normalizedSha256": "190d9d3ee5bef96773ce515b437fc564cf5fa6ad93b6a5762739d84344c14ff7",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Root designed and authored a 16-module replacement from approved behavior and finite public declarations, then froze it before independent test access. Seven old public modules were replaced; eight source/storage helpers remain retained. Independent old-first acceptance preserved original fixture and candidate failures, added two bounded supplement cases, and accepted v3 at 43/43. Main source and exact CLI-reachable compiled runtime also pass 43/43. Test loader portability and exact-entry metafile check are recorded; no behavior assertion was removed to conceal a product failure. Root and preparer reading exposure is disclosed; this is not blanket clean-room or licensing assurance. Applicable dependency rights and root Apache remain. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.167, longest identical run 2, structural similarity 0.000 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Root designed and authored a 16-module replacement from approved behavior and finite public declarations, then froze it before independent test access. Seven old public modules were replaced; eight source/storage helpers remain retained. Independent old-first acceptance preserved original fixture and candidate failures, added two bounded supplement cases, and accepted v3 at 43/43. Main source and exact CLI-reachable compiled runtime also pass 43/43. Test loader portability and exact-entry metafile check are recorded; no behavior assertion was removed to conceal a product failure. Root and preparer reading exposure is disclosed; this is not blanket clean-room or licensing assurance. Applicable dependency rights and root Apache remain. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.167, longest identical run 2, structural similarity 0.000 against the fixed upstream baseline (scored in normal mode). Refreshed 2026-10-20 by the adapters anti-gaming similarity rework (issue #224, batch B2b): max line containment 0.115 (was 0.389), longest identical run 2 (was 4), structural similarity 0.182 (was 0.000) against the fixed upstream baseline, scored in normal mode because the module is a private implementation file not listed in interface.md.",
       "evidence": [
         "specs/knorvia-plugin-discovery-runtime.md",
         "docs/knorvia-exec-plugin-runtime-acceptance.md",
@@ -3099,10 +3099,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/plugins/mcp.ts",
-      "normalizedSha256": "ad3ae7aa42b868901bc4877abceb8a6f474e87c0a46913ceaa4653cbbd7d1f16",
+      "normalizedSha256": "c5fe90a82e9b4089bf8324001e7a918c2d9860add878083f9732f68301024524",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Root designed and authored a 16-module replacement from approved behavior and finite public declarations, then froze it before independent test access. Seven old public modules were replaced; eight source/storage helpers remain retained. Independent old-first acceptance preserved original fixture and candidate failures, added two bounded supplement cases, and accepted v3 at 43/43. Main source and exact CLI-reachable compiled runtime also pass 43/43. Test loader portability and exact-entry metafile check are recorded; no behavior assertion was removed to conceal a product failure. Root and preparer reading exposure is disclosed; this is not blanket clean-room or licensing assurance. Applicable dependency rights and root Apache remain. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.165, longest identical run 2, structural similarity 0.111 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Root designed and authored a 16-module replacement from approved behavior and finite public declarations, then froze it before independent test access. Seven old public modules were replaced; eight source/storage helpers remain retained. Independent old-first acceptance preserved original fixture and candidate failures, added two bounded supplement cases, and accepted v3 at 43/43. Main source and exact CLI-reachable compiled runtime also pass 43/43. Test loader portability and exact-entry metafile check are recorded; no behavior assertion was removed to conceal a product failure. Root and preparer reading exposure is disclosed; this is not blanket clean-room or licensing assurance. Applicable dependency rights and root Apache remain. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.165, longest identical run 2, structural similarity 0.111 against the fixed upstream baseline (scored in normal mode). Refreshed 2026-10-20 by the adapters anti-gaming similarity rework (issue #224, batch B2b): max line containment 0.129 (was 0.510), longest identical run 7 (was 9), structural similarity 0.031 (was 0.000) against the fixed upstream baseline, scored in normal mode because the module is a private implementation file not listed in interface.md.",
       "evidence": [
         "specs/knorvia-plugin-discovery-runtime.md",
         "docs/knorvia-exec-plugin-runtime-acceptance.md",
@@ -146980,7 +146980,7 @@
     },
     {
       "path": "specs/contracts/kernel-bridge-legacy/gate-dsh.json",
-      "normalizedSha256": "64e7c99ff0f8fe2ce75e50ab541064ac32470bd28f8d720783dcdb2a6da49e5c",
+      "normalizedSha256": "2db71923b422e6e66540b47796bd148d719c360aaf7c815e492393ea3de5bae1",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored contract for the kernel-bridge-legacy M2 integration package: the legacy Knorvia Protocol surface (74 methods, 7 notifications) reimplemented on the DSH-backed kernel. Written from specs/knorvia-builtin-kernel-dsh.md, specs/knorvia-internal-plugins.md, the plan's kernel-adjustment and integration-package sections, the kernel-dsh-00 and kernel-bridge-01 contracts, and black-box measurement of the default engine at 526825db (method/notification inventory, host-side call sites, wire responses). The author read the replaced apps/cli/packages/bootstrap/src/protocol/** and protocol-v4/** to understand behavior only; no inherited implementation was copied, renamed or line-rewritten. Old gate 10/10 pass; stub gate 0/10 pass (10 fail); new-runtime baseline recorded in gate-dsh.json.",
@@ -146993,7 +146993,7 @@
     },
     {
       "path": "specs/contracts/kernel-bridge-legacy/gate-old.json",
-      "normalizedSha256": "6a66f69d591c7f2775f58300f8b896d3717eace843ed5b12c66f40e20c42039a",
+      "normalizedSha256": "1edf867ceccd86db458c84ed63c97876d60e7e037bf305c679369bc98a94f950",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored contract for the kernel-bridge-legacy M2 integration package: the legacy Knorvia Protocol surface (74 methods, 7 notifications) reimplemented on the DSH-backed kernel. Written from specs/knorvia-builtin-kernel-dsh.md, specs/knorvia-internal-plugins.md, the plan's kernel-adjustment and integration-package sections, the kernel-dsh-00 and kernel-bridge-01 contracts, and black-box measurement of the default engine at 526825db (method/notification inventory, host-side call sites, wire responses). The author read the replaced apps/cli/packages/bootstrap/src/protocol/** and protocol-v4/** to understand behavior only; no inherited implementation was copied, renamed or line-rewritten. Old gate 10/10 pass; stub gate 0/10 pass (10 fail); new-runtime baseline recorded in gate-dsh.json.",
@@ -147045,7 +147045,7 @@
     },
     {
       "path": "specs/contracts/kernel-bridge-legacy/stub-gate.json",
-      "normalizedSha256": "4ecbf6a0b1149a5f1c3a7342d9ebd62d7a55c2de81d81509e80c53e9c607b6b1",
+      "normalizedSha256": "5b6b5687988d3f851a1cfe57155bbe47ec8c9b3be6674dc63644d85f10b2efec",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored contract for the kernel-bridge-legacy M2 integration package: the legacy Knorvia Protocol surface (74 methods, 7 notifications) reimplemented on the DSH-backed kernel. Written from specs/knorvia-builtin-kernel-dsh.md, specs/knorvia-internal-plugins.md, the plan's kernel-adjustment and integration-package sections, the kernel-dsh-00 and kernel-bridge-01 contracts, and black-box measurement of the default engine at 526825db (method/notification inventory, host-side call sites, wire responses). The author read the replaced apps/cli/packages/bootstrap/src/protocol/** and protocol-v4/** to understand behavior only; no inherited implementation was copied, renamed or line-rewritten. Old gate 10/10 pass; stub gate 0/10 pass (10 fail); new-runtime baseline recorded in gate-dsh.json.",
