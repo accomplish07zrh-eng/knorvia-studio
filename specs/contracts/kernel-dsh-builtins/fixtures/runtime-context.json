@@ -1,0 +1,21 @@
+{
+  "_comment": "kernel-dsh-builtins 运行环境信息期望；占位值，不含真实路径或用户数据。",
+  "requiredFields": [
+    "Primary working directory",
+    "Platform",
+    "Shell",
+    "OS Version",
+    "Today's date is",
+    "Time zone"
+  ],
+  "forbiddenBrandStrings": [
+    "powered by DeepSeek Harness",
+    "You are an AI agent powered by DeepSeek Harness.",
+    "@deepseek-ai/",
+    "harness:identity"
+  ],
+  "shellByPlatform": {
+    "win32": "pwsh",
+    "default": "bash"
+  }
+}

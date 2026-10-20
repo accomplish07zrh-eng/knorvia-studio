@@ -46,7 +46,9 @@ function expectedRows(dshHome, personaPrefix) {
       name: "@deepseek-ai/dsh-system-prompt",
       config: {
         includeHarnessIdentity: false,
-        includeRuntimeContext: false,
+        // kernel-dsh-builtins B14：运行环境信息（目录/平台/shell/日期/时区）是模型
+        // 判断工作环境的前提，该行由 false 改为 true（kernel-dsh-builtins D2）。
+        includeRuntimeContext: true,
         personaPrefix,
       },
     },
@@ -74,7 +76,7 @@ function expectedRows(dshHome, personaPrefix) {
   ];
 }
 
-test("B15 组合蓝图与物化结果和 README §三 的 19 行完全一致", async () => {
+test("B15 组合蓝图与物化结果和 README §三 的 19 行底座完全一致", async () => {
   const kernel = await loadKernel();
   assert.equal(kernel.KERNEL_DSH_VERSION, "0.2.0-rc.2");
   assert.deepEqual(
@@ -84,7 +86,20 @@ test("B15 组合蓝图与物化结果和 README §三 的 19 行完全一致", a
   const dshHome = join(tmpdir(), "kernel-dsh-snapshot-home");
   const before = structuredClone(kernel.KERNEL_PLUGIN_ROWS);
   const rows = kernel.createKernelPluginRows(dshHome);
-  assert.deepEqual(rows, expectedRows(dshHome, kernel.KERNEL_PERSONA_PREFIX));
+  // kernel-dsh-builtins 在本行之后追加自己的行（known-differences D1）。底座部分
+  // 必须逐字段一致；追加行的 id 与顺序由该包合同的 composition-builtins 用例断言。
+  assert.deepEqual(
+    rows.slice(0, EXPECTED_IDS.length),
+    expectedRows(dshHome, kernel.KERNEL_PERSONA_PREFIX),
+    "底座 19 行必须与快照逐字段一致",
+  );
+  const appended = rows.slice(EXPECTED_IDS.length);
+  assert.ok(appended.length > 0, "物化结果必须含 kernel-dsh-builtins 追加行");
+  const appendedIds = appended.map((row) => row.id);
+  assert.equal(new Set(appendedIds).size, appendedIds.length, "追加行 id 不得重复");
+  for (const id of appendedIds) {
+    assert.equal(EXPECTED_IDS.includes(id), false, `追加行 id 不得与底座重名：${id}`);
+  }
   assert.deepEqual(kernel.KERNEL_PLUGIN_ROWS, before, "生成 entry 不得修改蓝图");
 });
 
