@@ -181,6 +181,48 @@
 
 ---
 
+## B18 反向请求通道访问器 `channelForHostRequests`（2026-10-20 补齐）
+
+背景：`LegacyHostChannel` 在 #230 交付时**只有类型**——当时唯一使用者是本包自己
+（`runtime-preferences.ts` 发 `session/requestRuntimePreferences`）。`kernel-plugin-credentials`
+作为**调用方**接入后需要公开路径，故补访问器。编号规则同 B1、B2、B17。
+
+### B18a attach 前返回 `undefined`
+
+- **输入**：桥尚未 `attach()`（没有 stdout）。
+- **输出**：`channelForHostRequests()` 返回 `undefined`，**不抛错**。
+- **理由**：此时不可能向 Host 发反向请求；用 `undefined` 让调用方以 `channel?` 表达「此刻没有宿主可问」。
+
+### B18b attach 后是窄通道，不外露桥的管理面
+
+- **输入**：已 `attach()`。
+- **输出**：非 `undefined`，对象上**恰好**有 `request` / `notify` 两个函数。
+- **不变量**：`setChannel`、`settleFromClient`、`dispose`、`pendingCount` **不得**出现在返回对象上
+  （否则调用方能改通道状态或伪造应答结算，破坏单一所有者）。
+- **状态所有者**：桥（通道状态与 pending 表都只归它）。
+
+### B18c 通道 `request` 走桥的唯一反向请求簿
+
+- **输入**：通过通道调用 `request(method, params, resultSchema, options?)`。
+- **输出**：请求写出一行到 stdout，`id` 为 `server-<n>`；Host 应答后 promise 兑现解析后的结果。
+- **不变量**：id 计数、超时（`-32022`）、取消（`-32021`）、无客户端（`-32020`）与重发现语义**全部**
+  由桥的唯一 `HostRequestBook` 承担，通道不另建 pending 表、不复制计数。
+- **资源释放**：兑现或失败后不得残留 pending。
+
+### B18d detach 之后：旧引用明确失败，新调用拿不到
+
+- **输入**：`detach()` 之后，调用方仍持有之前的通道引用。
+- **输出**：`request` 以既有 `-32020`（无客户端）失败；`channelForHostRequests()` 之后返回 `undefined`。
+- **不变量**：不崩溃、不静默成功（安全口径：拿不到必须失败明确）。
+
+### B18e 通道 `notify` 是 CLI→Host 通知
+
+- **输入**：通过通道 `notify(method, params, trace?)`。
+- **输出**：写出一行 `{method, params, trace?}`，**不带 `id`**（通知不占请求 id 空间）。
+- **状态所有者**：通知发起方（如计算机使用适配器）；桥只提供出口。
+
+---
+
 ## 语义常量清单（改写时逐条对照，防丢边界）
 
 | 常量                                                            | 值                                             | 出处                                                                    |
