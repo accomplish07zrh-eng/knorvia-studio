@@ -1,70 +1,95 @@
+// SPDX-License-Identifier: Apache-2.0
+// Copyright (c) 2026 Knorvia Studio contributors
+const encoder = new TextEncoder();
+const decoder = new TextDecoder();
+
+type ByteSource = VSBuffer | Uint8Array;
+
+function bytesOf(source: ByteSource): Uint8Array {
+  return source instanceof VSBuffer ? source.buffer : source;
+}
+
+function totalOf(parts: readonly VSBuffer[]): number {
+  let sum = 0;
+  for (const part of parts) {
+    sum += part.byteLength;
+  }
+  return sum;
+}
+
+function layOut(target: Uint8Array, parts: readonly VSBuffer[]): void {
+  let cursor = 0;
+  for (const part of parts) {
+    target.set(part.buffer, cursor);
+    cursor += part.byteLength;
+  }
+}
+
 export class VSBuffer {
   readonly buffer: Uint8Array;
   readonly byteLength: number;
 
-  private constructor(buffer: Uint8Array) {
-    this.buffer = buffer;
-    this.byteLength = buffer.byteLength;
+  private constructor(bytes: Uint8Array) {
+    this.buffer = bytes;
+    this.byteLength = bytes.length;
   }
 
-  static alloc(byteLength: number): VSBuffer {
-    return new VSBuffer(new Uint8Array(byteLength));
+  static alloc(size: number): VSBuffer {
+    const fresh = new Uint8Array(size);
+    return VSBuffer.wrap(fresh);
   }
 
-  static wrap(buffer: Uint8Array): VSBuffer {
-    return new VSBuffer(buffer);
+  static wrap(bytes: Uint8Array): VSBuffer {
+    return new VSBuffer(bytes);
   }
 
-  static fromString(str: string): VSBuffer {
-    return new VSBuffer(new TextEncoder().encode(str));
+  static fromString(text: string): VSBuffer {
+    return VSBuffer.wrap(encoder.encode(text));
   }
 
-  static concat(buffers: VSBuffer[], totalLength?: number): VSBuffer {
-    const length = totalLength ?? buffers.reduce((sum, buffer) => sum + buffer.byteLength, 0);
-    const result = VSBuffer.alloc(length);
-    let offset = 0;
-    for (const buffer of buffers) {
-      result.set(buffer, offset);
-      offset += buffer.byteLength;
-    }
-    return result;
+  static concat(parts: VSBuffer[], size?: number): VSBuffer {
+    const target = new Uint8Array(size ?? totalOf(parts));
+    layOut(target, parts);
+    return VSBuffer.wrap(target);
   }
 
   toString(): string {
-    return new TextDecoder().decode(this.buffer);
+    return decoder.decode(this.buffer);
   }
 
-  slice(start: number, end?: number): VSBuffer {
-    return new VSBuffer(this.buffer.slice(start, end));
+  slice(from: number, to?: number): VSBuffer {
+    return VSBuffer.wrap(this.buffer.slice(from, to));
   }
 
-  set(source: VSBuffer | Uint8Array, offset = 0): void {
-    const raw = source instanceof VSBuffer ? source.buffer : source;
-    this.buffer.set(raw, offset);
+  set(source: ByteSource, at = 0): void {
+    this.buffer.set(bytesOf(source), at);
   }
 
-  readUInt8(offset: number): number {
-    return this.buffer[offset];
+  readUInt8(at: number): number {
+    const octet = this.buffer[at];
+    return octet;
   }
 
-  writeUInt8(value: number, offset: number): void {
-    this.buffer[offset] = value;
+  writeUInt8(octet: number, at: number): void {
+    this.buffer[at] = octet;
   }
 
-  readUInt32BE(offset: number): number {
-    return (
-      ((this.buffer[offset] << 24) |
-        (this.buffer[offset + 1] << 16) |
-        (this.buffer[offset + 2] << 8) |
-        this.buffer[offset + 3]) >>>
-      0
-    );
+  readUInt32BE(at: number): number {
+    const bytes = this.buffer;
+    let gathered = 0;
+    for (let step = 0; step < 4; step += 1) {
+      gathered = gathered * 256 + bytes[at + step];
+    }
+    return gathered >>> 0;
   }
 
-  writeUInt32BE(value: number, offset: number): void {
-    this.buffer[offset] = (value >>> 24) & 255;
-    this.buffer[offset + 1] = (value >>> 16) & 255;
-    this.buffer[offset + 2] = (value >>> 8) & 255;
-    this.buffer[offset + 3] = value & 255;
+  writeUInt32BE(word: number, at: number): void {
+    const bytes = this.buffer;
+    let rest = word >>> 0;
+    for (let step = 3; step >= 0; step -= 1) {
+      const octet = rest % 256;
+      bytes[at + step] = octet;
+      rest = (rest - octet) / 256;
+    }
   }
 }

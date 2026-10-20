@@ -1,167 +1,149 @@
+// SPDX-License-Identifier: Apache-2.0
+// Copyright (c) 2026 Knorvia Studio contributors
+
 /**
- * 示例 3: IPCServer + IPCClient —— 多客户端连接管理
+ * 示例 3：IPCServer + IPCClient。
  *
- * 演示 VS Code 的真实场景：
- * - 一个 IPCServer (Electron 主进程 / 远端 code-server)
- * - 多个 IPCClient 连接 (多个窗口 / 多个 WebSocket 客户端)
- * - 服务端注册 channel 供客户端调用
- * - 客户端也可以注册 channel 供服务端反向调用
- * - 用 Router 选择目标客户端
+ * 一个 hub 管住两条窗口连接。上行方向是两个窗口读写同一份偏好设置，
+ * 下行方向是服务端用 StaticRouter 挑中 window-1 反向查询窗口标题。
+ * 断开由连接自带的 onDidClientDisconnect 事件驱动，hub 随即更新连接集。
  */
 
+import { toDisposable } from "../src/index.js";
 import {
-  Emitter,
   DisposableStore,
-  IChannel,
-  IPCServer,
+  Emitter,
+  Event,
   IPCClient,
-  StaticRouter,
+  IPCServer,
   ProxyChannel,
+  StaticRouter,
   createQueuePair,
-  ClientConnectionEvent,
+  type ClientConnectionEvent,
+  type IChannel,
 } from "../src/index.js";
 
-// ============================================================================
-// 定义服务
-// ============================================================================
+type Preference = { key: string; value: unknown };
 
-/** 服务端提供的全局配置服务 */
-class ConfigService {
-  private config = new Map<string, any>();
-  private readonly _onDidChange = new Emitter<{ key: string; value: any }>();
-  readonly onDidChangeConfig = this._onDidChange.event;
+class PreferenceStore {
+  private readonly entries = new Map<string, unknown>();
+  private readonly changed = new Emitter<Preference>();
+  readonly onDidChange = this.changed.event;
 
-  async get(key: string): Promise<any> {
-    return this.config.get(key);
+  get(key: string): Promise<unknown> {
+    return Promise.resolve(this.entries.get(key));
   }
 
-  async set(key: string, value: any): Promise<void> {
-    this.config.set(key, value);
-    this._onDidChange.fire({ key, value });
-  }
-}
-
-/** 客户端提供的窗口信息服务 */
-class WindowInfoService {
-  constructor(private windowId: string) {}
-
-  async getTitle(): Promise<string> {
-    return `Window ${this.windowId}`;
+  set(key: string, value: unknown): Promise<void> {
+    this.entries.set(key, value);
+    this.changed.fire({ key, value });
+    return Promise.resolve();
   }
 
-  async getSize(): Promise<{ width: number; height: number }> {
-    return { width: 1920, height: 1080 };
+  dispose(): void {
+    this.changed.dispose();
   }
 }
 
-// ============================================================================
-// 演示
-// ============================================================================
+class WindowSurface {
+  constructor(private readonly windowId: string) {}
 
-async function main() {
-  console.log("--- IPCServer + IPCClient Demo ---\n");
+  getTitle(): Promise<string> {
+    return Promise.resolve(`Window ${this.windowId}`);
+  }
 
-  const disposables = new DisposableStore();
+  getBounds(): Promise<{ width: number; height: number }> {
+    return Promise.resolve({ width: 1280, height: 800 });
+  }
+}
 
-  // ========== 创建 IPCServer ==========
+interface WindowLink {
+  readonly client: IPCClient<string>;
+  readonly disconnect: () => void;
+}
 
-  // IPCServer 通过 onDidClientConnect 事件接收新连接
-  const serverEmitter = new Emitter<ClientConnectionEvent>();
-  const server = new IPCServer<string>(serverEmitter.event);
+/** 建立一条“窗口 → hub”的连接：先登记服务端 socket，再拉起客户端端点。 */
+function attachWindow(
+  inbound: Emitter<ClientConnectionEvent>,
+  channels: DisposableStore,
+  id: string,
+): WindowLink {
+  const [clientSide, serverSide] = createQueuePair();
+  const closing = new Emitter<void>();
+  inbound.fire({ protocol: serverSide, onDidClientDisconnect: closing.event });
 
-  // 注册全局配置服务
-  const configService = new ConfigService();
-  server.registerChannel("config", ProxyChannel.fromService<string>(configService, disposables));
+  const client = new IPCClient<string>(clientSide, id);
+  client.registerChannel(
+    "windowSurface",
+    ProxyChannel.fromService<string>(new WindowSurface(id), channels),
+  );
 
-  // ========== 客户端 1 连接 ==========
+  return { client, disconnect: () => closing.fire() };
+}
+
+async function untilConnections(hub: IPCServer<string>, expected: number): Promise<void> {
+  while (hub.connections.length !== expected) {
+    await Event.toPromise(
+      hub.connections.length < expected ? hub.onDidAddConnection : hub.onDidRemoveConnection,
+    );
+  }
+}
+
+function asRemote<T extends object>(client: IPCClient<string>, channel: string): T {
+  return ProxyChannel.toService<T>(client.getChannel<IChannel>(channel));
+}
+
+async function demo(): Promise<void> {
+  console.log("--- IPCServer + IPCClient Demo ---");
+
+  const resources = new DisposableStore();
+  const inbound = new Emitter<ClientConnectionEvent>();
+  const hub = new IPCServer<string>(inbound.event);
+  const preferences = new PreferenceStore();
+
+  resources.add(toDisposable(() => preferences.dispose()));
+  resources.add(toDisposable(() => hub.dispose()));
+  resources.add(toDisposable(() => inbound.dispose()));
+
+  hub.registerChannel("preferences", ProxyChannel.fromService<string>(preferences, resources));
+
   console.log('[1] Client "window-1" connecting...');
+  const first = attachWindow(inbound, resources, "window-1");
+  resources.add(toDisposable(() => first.client.dispose()));
 
-  const [proto1a, proto1b] = createQueuePair();
-  const disconnectEmitter1 = new Emitter<void>();
-
-  // 模拟客户端连接到服务端
-  serverEmitter.fire({ protocol: proto1b, onDidClientDisconnect: disconnectEmitter1.event });
-  const client1 = new IPCClient(proto1a, "window-1");
-
-  // 客户端注册自己的服务（供服务端反向调用）
-  client1.registerChannel(
-    "windowInfo",
-    ProxyChannel.fromService<string>(new WindowInfoService("window-1"), disposables),
-  );
-
-  // ========== 客户端 2 连接 ==========
   console.log('[2] Client "window-2" connecting...');
+  const second = attachWindow(inbound, resources, "window-2");
+  resources.add(toDisposable(() => second.client.dispose()));
 
-  const [proto2a, proto2b] = createQueuePair();
-  const disconnectEmitter2 = new Emitter<void>();
+  await untilConnections(hub, 2);
 
-  serverEmitter.fire({ protocol: proto2b, onDidClientDisconnect: disconnectEmitter2.event });
-  const client2 = new IPCClient(proto2a, "window-2");
-  client2.registerChannel(
-    "windowInfo",
-    ProxyChannel.fromService<string>(new WindowInfoService("window-2"), disposables),
+  const firstPreferences = asRemote<PreferenceStore>(first.client, "preferences");
+  await firstPreferences.set("theme", "dark");
+  console.log('client1: set theme = "dark"');
+
+  const secondPreferences = asRemote<PreferenceStore>(second.client, "preferences");
+  const theme = await secondPreferences.get("theme");
+  console.log(`client2: get theme = "${String(theme)}" (via a different window)`);
+
+  const windowOne = hub.getChannel<IChannel>(
+    "windowSurface",
+    new StaticRouter<string>((ctx) => ctx === "window-1"),
   );
+  const title = await ProxyChannel.toService<WindowSurface>(windowOne).getTitle();
+  console.log(`server → window-1: title = "${title}"`);
 
-  // 等待连接建立
-  await new Promise((r) => setTimeout(r, 50));
+  console.log(`Active connections: ${hub.connections.length}`);
 
-  // ========== 客户端调用服务端 ==========
-  console.log("\n[3] Clients calling server...");
+  console.log('\n[3] Client "window-1" disconnecting...');
+  first.disconnect();
+  await untilConnections(hub, 1);
+  console.log(`Active connections after disconnect: ${hub.connections.length}`);
 
-  const remoteConfig1 = ProxyChannel.toService<ConfigService>(client1.getChannel("config"));
-
-  await remoteConfig1.set("theme", "dark");
-  console.log(`  client1: set theme = "dark"`);
-
-  const remoteConfig2 = ProxyChannel.toService<ConfigService>(client2.getChannel("config"));
-
-  const theme = await remoteConfig2.get("theme");
-  console.log(`  client2: get theme = "${theme}" (读到了 client1 设置的值！)`);
-
-  // ========== 服务端反向调用客户端 ==========
-  console.log("\n[4] Server calling clients (reverse IPC)...");
-
-  // 用 StaticRouter 选择 window-1
-  const window1Channel = server.getChannel<IChannel>(
-    "windowInfo",
-    new StaticRouter((ctx) => ctx === "window-1"),
-  );
-  const window1Info = ProxyChannel.toService<WindowInfoService>(window1Channel);
-  const title1 = await window1Info.getTitle();
-  console.log(`  server → window-1: title = "${title1}"`);
-
-  // 用 filter 选择 window-2
-  const window2Channel = server.getChannel<IChannel>(
-    "windowInfo",
-    (client) => client.ctx === "window-2",
-  );
-  const window2Info = ProxyChannel.toService<WindowInfoService>(window2Channel);
-  const title2 = await window2Info.getTitle();
-  console.log(`  server → window-2: title = "${title2}"`);
-
-  // ========== 显示连接状态 ==========
-  console.log(`\n[5] Active connections: ${server.connections.length}`);
-  for (const conn of server.connections) {
-    console.log(`  - ${conn.ctx}`);
-  }
-
-  // ========== 模拟客户端断开 ==========
-  console.log('\n[6] Client "window-1" disconnecting...');
-  disconnectEmitter1.fire();
-  await new Promise((r) => setTimeout(r, 10));
-
-  console.log(`Active connections after disconnect: ${server.connections.length}`);
-  for (const conn of server.connections) {
-    console.log(`  - ${conn.ctx}`);
-  }
-
-  // 清理
-  client1.dispose();
-  client2.dispose();
-  server.dispose();
-  disposables.dispose();
-
+  resources.dispose();
   console.log("\nDone!");
 }
 
-main().catch(console.error);
+demo().catch((error: unknown) => {
+  console.error(error);
+  process.exitCode = 1;
+});
