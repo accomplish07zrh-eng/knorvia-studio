@@ -51,12 +51,11 @@ export async function installMarketplacePlugin(
       let failed = false;
       try {
         const version = /* 从清单读取安装版本号 */ installationVersion(node.entry, source.path);
-        const targetPath = pluginCacheDirectory(
-          /* 市场数据根目录 */ input.storageRoot,
+        const targetPath = pluginCacheDirectory(input.storageRoot, [
           node.marketplace,
           node.entry.name,
           version,
-        );
+        ]);
         if (isZipPluginUrlSource(node.entry.source))
           requireZipPluginManifest(source.path, node.entry, node.marketplace);
         let activation: AtomicDirectoryActivation | undefined;
