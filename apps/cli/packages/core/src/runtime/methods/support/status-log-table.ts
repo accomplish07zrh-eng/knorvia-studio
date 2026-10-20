@@ -152,29 +152,28 @@ export const commonStatusMetadata = (
   traceContext: TraceContext,
 ): LogFields => {
   const recovery = asRecord(statusEvent.streamRecovery);
-  return {
-    ...traceContextToLogContext(traceContext),
-    /** 第几次尝试发出该请求。 */
-    attempt: statusEvent.attempt,
-    /** 请求基址（含协议与主机）。 */
-    baseURL: statusEvent.baseURL,
-    /** 允许的最大尝试次数。 */
-    maxAttempts: statusEvent.maxAttempts,
-    /** 模型标识。 */
-    modelId: statusEvent.modelId,
-    /** 供应商标识。 */
-    providerId: statusEvent.providerId,
-    /** 供应商类别。 */
-    providerKind: statusEvent.providerKind,
-    /** 本次请求的追踪号。 */
-    requestId: statusEvent.requestId,
-    streamRecoveryAnchorId: recovery.anchorId,
-    streamRecoveryFromRequestId: recovery.recoveredFromRequestId,
-    streamRecoveryMaxRetries: recovery.maxRetries,
-    streamRecoveryRetryNumber: recovery.retryNumber,
-    /** 传输通道。 */
-    transport: statusEvent.transport,
-  };
+  // 两张表：直接透传的字段、以及从 streamRecovery 重新命名的字段。
+  const PASSTHROUGH = [
+    "attempt",
+    "baseURL",
+    "maxAttempts",
+    "modelId",
+    "providerId",
+    "providerKind",
+    "requestId",
+    "transport",
+  ] as const;
+  const RENAMED = [
+    ["streamRecoveryAnchorId", "anchorId"],
+    ["streamRecoveryFromRequestId", "recoveredFromRequestId"],
+    ["streamRecoveryMaxRetries", "maxRetries"],
+    ["streamRecoveryRetryNumber", "retryNumber"],
+  ] as const;
+
+  const metadata: LogFields = { ...traceContextToLogContext(traceContext) };
+  for (const field of PASSTHROUGH) metadata[field] = statusEvent[field];
+  for (const [target, source] of RENAMED) metadata[target] = recovery[source];
+  return metadata;
 };
 
 /** 打一条状态日志：未知 type 只走公共元数据、不打类型日志。 */
