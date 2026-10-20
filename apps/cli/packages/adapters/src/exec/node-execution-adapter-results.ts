@@ -128,7 +128,7 @@ export async function readBashResult(
   exit: /* 退出状态 */ ExitState,
   stopReason: StopReason | undefined,
 ): Promise<ExecutionStreamResult> {
-  const output = await file.result(maxInlineBytes);
+  const output = await file.collect(maxInlineBytes);
   if (output.bytes === 0 && exit.code && exit.code !== 137 && stopReason !== "output_limit") {
     const diagnosis = await diagnoseLostBashOutput(file.path);
     if (diagnosis) output.text = diagnosis;

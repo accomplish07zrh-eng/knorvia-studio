@@ -14,7 +14,7 @@ import {
   type ResolvedSpawnCommand,
 } from "./execution-command.js";
 import type { InternalExecutionRunOptions, PreparedExecution } from "./execution-adapter-types.js";
-import { ExecutionCoordinator } from "./node-execution-adapter-base.js";
+import type { ExecutionCoordinator } from "./node-execution-adapter-base.js";
 import {
   createExecutionOutputStreamDecoder,
   resolveLegacyExecutionOutputEncoding,
@@ -53,10 +53,11 @@ function mergeEnv(
   return overlay ? { ...base, ...overlay } : base;
 }
 
-export async function prepareChildSpawn(
-  coordinator: ExecutionCoordinator,
-  original: ExecutionRequest,
-): Promise<PreparedExecution> {
+export async function prepareChildSpawn(ask: {
+  coordinator: ExecutionCoordinator;
+  original: ExecutionRequest;
+}): Promise<PreparedExecution> {
+  const { coordinator, original } = ask;
   const env = buildExecutionEnv(original.env, {
     network: coordinator.options.network,
     platform: coordinator.platform,
@@ -90,9 +91,11 @@ export async function prepareChildSpawn(
       }
       request = applyBashSourcesToExecutionRequest(request, {
         leadingSources,
-        rootDir: coordinator.outputRootDir,
-        sessionId: String(request.trace?.sessionId ?? "session"),
         shellDialect: resolution.provider.dialect,
+        landing: {
+          rootDir: coordinator.outputRootDir,
+          sessionId: String(request.trace?.sessionId ?? "session"),
+        },
       });
     }
   }
@@ -102,7 +105,8 @@ export async function prepareChildSpawn(
     platform: coordinator.platform,
     /* 解析后的 shell 配置 */ resolvedShell,
   });
-  const capture = createCwdCapturePlan(request, {
+  const capture = createCwdCapturePlan({
+    request,
     dialect: command.cwdDialect,
     platform: coordinator.platform,
   });
@@ -125,7 +129,7 @@ export async function prepareChildSpawn(
   return /* 构造返回值 */ {
     command,
     cwdDialect: command.cwdDialect,
-    cwdFilePath: capture.cwdFilePath,
+    cwdFilePath: capture.cwdRecordPath,
     spawnOptions,
     request,
     isBash: request.command.mode === "shell" && request.command.shellProfile === "posix-bash",
@@ -133,13 +137,14 @@ export async function prepareChildSpawn(
   };
 }
 
-export function attachPipedOutput(
-  child: ChildProcess,
-  stdout: OutputCollector,
-  stderr: OutputCollector,
-  encoding: string | null,
-  options: InternalExecutionRunOptions,
-): /* 无返回值 */ void {
+export function attachPipedOutput(ask: {
+  child: ChildProcess;
+  stdout: OutputCollector;
+  stderr: OutputCollector;
+  encoding: string | null;
+  options: InternalExecutionRunOptions;
+}): void {
+  const { child, stdout, stderr, encoding, options } = ask;
   const stdoutDecoder = createExecutionOutputStreamDecoder(encoding);
   const stderrDecoder = createExecutionOutputStreamDecoder(encoding);
   child.stdout?.on("data", (value: Buffer | Uint8Array) => {
@@ -154,14 +159,15 @@ export function attachPipedOutput(
   });
 }
 
-export function startGenericProgress(
-  coordinator: ExecutionCoordinator,
-  options: InternalExecutionRunOptions,
-  startedAt: Date,
-  child: ChildProcess,
-  stdout: OutputCollector,
-  stderr: OutputCollector,
-): () => void {
+export function startGenericProgress(ask: {
+  coordinator: ExecutionCoordinator;
+  options: InternalExecutionRunOptions;
+  startedAt: Date;
+  child: ChildProcess;
+  stdout: OutputCollector;
+  stderr: OutputCollector;
+}): () => void {
+  const { coordinator, options, startedAt, child, stdout, stderr } = ask;
   let interval: NodeJS.Timeout | undefined;
   const delay = setTimeout(() => {
     interval = setInterval(() => {
@@ -254,14 +260,14 @@ export function terminateProcessTree(
     terminateGenericPosixProcessGroup(child);
     return /* 无需继续处理 */;
   }
-  const first = signalPosixProcessTree(pid, "SIGTERM");
+  const first = signalPosixProcessTree({ rootPid: pid, signal: "SIGTERM" });
   let timer!: NodeJS.Timeout;
   let refRequested = false;
   const completion = first.then(
     () =>
       new Promise<void>((resolve) => {
         timer = setTimeout(
-          () => void signalPosixProcessTree(pid, "SIGKILL").finally(resolve),
+          () => void signalPosixProcessTree({ rootPid: pid, signal: "SIGKILL" }).finally(resolve),
           BASH_SIGTERM_TO_SIGKILL_MS,
         );
         if (refRequested) timer.ref();

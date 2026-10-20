@@ -1,5 +1,11 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2026 Knorvia Studio contributors
+//
+// bash 启动脚本的物化与前缀注入。
+// 两件事：把内置搜索前置段落成文件（内容寻址，避免重复写），再把它与调用方给的
+// 前置脚本一起转成 `. <path>` 前缀行，接在用户命令前面。
+// 只有 posix / git-bash 方言且命令声明了 posix-bash profile 才做这件事；其余原样返回。
+
 import { createHash } from "node:crypto";
 import { chmodSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
@@ -8,76 +14,101 @@ import { windowsPathToGitBashPath } from "@knorvia/contracts";
 import { buildEmbeddedSearchPreludeContent } from "./embedded-search-prelude.js";
 import { sanitizePathSegment } from "./execution-utils.js";
 
-export type /* 启动方言：执行方言 + 遗留 shell */ StartupShellDialect =
-  | ExecutionShellDialect
-  | "legacy-shell";
-interface /* 需 source 的脚本：路径与 shell 路径 */ BashSourceScript {
+export type StartupShellDialect = ExecutionShellDialect | "legacy-shell";
+
+/** 前置脚本落点：输出根目录下按会话分栏。 */
+type Landing = { rootDir: string; sessionId: string };
+
+/** 注入所需的上下文：目标方言、落点与调用方给的前置脚本。 */
+type SourceAsk = {
+  leadingSources?: SourceEntry[];
+  shellDialect: StartupShellDialect;
+  landing: Landing;
+};
+
+/** 需要 source 的脚本；shellPath 是给 shell 看的写法，path 是宿主落点。 */
+type SourceEntry = {
+  shellPath: string;
   path: string;
-  shellPath: /* git-bash 下用于改写路径 */ string;
   optional?: boolean;
-}
-interface /* 应用 source 的选项 */ ApplyBashSourcesOptions {
-  leadingSources?: /* 前置脚本（可缺省） */ BashSourceScript[];
-  rootDir: string;
-  sessionId: string;
-  shellDialect: /* 目标方言：决定路径改写方式 */ StartupShellDialect;
+};
+
+/** 只有这两种方言认 `. <file>` 语法。 */
+function sourcesSupported(dialect: StartupShellDialect): boolean {
+  return dialect === "posix" || dialect === "git-bash";
 }
 
-function quote(value: string): string {
+/** 内容摘要取前 16 位，足够在单个会话目录里区分不同版本的前置段。 */
+function contentTag(content: string): string {
+  return createHash("sha256").update(content).digest("hex").slice(0, 16);
+}
+
+/** POSIX 单引号字面量。 */
+function singleQuote(value: string): string {
   return `'${value.replace(/'/g, `'"'"'`)}'`;
 }
 
-function materializePrelude(content: string, rootDir: string, sessionId: string): string {
-  const digest = createHash("sha256").update(content).digest("hex");
-  const directory = path.join(rootDir, "bash-startup", sanitizePathSegment(sessionId));
-  const target = path.join(directory, `${digest}.sh`);
+/**
+ * 把前置段写到会话目录下，文件名带内容摘要。
+ * 内容相同且已存在就不再写；权限设置失败按非 POSIX 文件系统处理。
+ */
+function writePreludeFile(content: string, landing: Landing): string {
+  const directory = path.join(
+    landing.rootDir,
+    "bash-startup",
+    sanitizePathSegment(landing.sessionId),
+  );
+  const target = path.join(directory, `${contentTag(content)}.sh`);
   mkdirSync(directory, { recursive: true, mode: 0o700 });
-  let current: string | undefined;
-  if (existsSync(target)) {
-    try /* 读取既有文件可能失败：视为未命中缓存 */ {
-      current = readFileSync(target, "utf8");
-    } catch /* 读失败：按未命中处理 */ {
-      current = undefined;
-    }
-  }
-  if (current !== content) writeFileSync(target, content, { encoding: "utf8", mode: 0o600 });
-  try /* 设置权限可能失败：非 POSIX 文件系统忽略 */ {
+  const existing = readExisting(target);
+  if (existing !== content) writeFileSync(target, content, { encoding: "utf8", mode: 0o600 });
+  try {
     chmodSync(target, 0o600);
-  } catch /* 非 POSIX 文件系统：忽略权限设置 */ {
-    // Windows and some mounted filesystems do not implement POSIX modes.
+  } catch {
+    // 部分挂载与 Windows 不实现 POSIX mode。
   }
   return target;
 }
 
-export function /* 入口：把 source 指令前置到命令 */ applyBashSourcesToExecutionRequest(
+/** 读既有前置段内容；读失败等同不存在，让下一步重写。 */
+function readExisting(target: string): string | undefined {
+  if (!existsSync(target)) return undefined;
+  try {
+    return readFileSync(target, "utf8");
+  } catch {
+    return undefined;
+  }
+}
+
+/** 把一条 source 指令渲染成前缀行；optional 的失败不影响后续命令。 */
+function renderSourceLine(entry: SourceEntry, dialect: StartupShellDialect): string {
+  const chosen = dialect === "git-bash" ? windowsPathToGitBashPath(entry.path) : entry.shellPath;
+  const load = `. ${singleQuote(chosen)}`;
+  return entry.optional ? `[ ! -r ${singleQuote(chosen)} ] || ${load}` : load;
+}
+
+/**
+ * 入口：把前置段与前脚本注入请求的命令。
+ * 没有可注入内容、或方言不支持时原样返回同一个请求对象。
+ */
+export function applyBashSourcesToExecutionRequest(
   request: ExecutionRequest,
-  options: ApplyBashSourcesOptions,
-): /* 改写后的执行请求 */ ExecutionRequest {
-  if (request.command.mode !== "shell" || request.command.shellProfile !== "posix-bash")
-    return request;
-  if (options.shellDialect !== "posix" && options.shellDialect !== "git-bash") return request;
-  const sources = [...(options.leadingSources ?? [])];
+  ask: SourceAsk,
+): ExecutionRequest {
+  const command = request.command;
+  const eligible = command.mode === "shell" && command.shellProfile === "posix-bash";
+  if (!eligible || !sourcesSupported(ask.shellDialect)) return request;
+  const entries = [...(ask.leadingSources ?? [])];
   const prelude = buildEmbeddedSearchPreludeContent(request.bashPrelude, {
-    shellDialect: options.shellDialect,
+    shellDialect: ask.shellDialect,
   });
   if (prelude) {
-    const localPath = materializePrelude(prelude, options.rootDir, options.sessionId);
-    sources.push({ path: localPath, shellPath: localPath });
+    const target = writePreludeFile(prelude, ask.landing);
+    entries.push({ path: target, shellPath: target });
   }
-  if (sources.length === 0) return request;
-  const commands = sources.map((source) => {
-    const selected =
-      options.shellDialect === "git-bash"
-        ? windowsPathToGitBashPath(source.path)
-        : source.shellPath;
-    const load = `. ${quote(selected)}`;
-    return source.optional ? `[ ! -r ${quote(selected)} ] || ${load}` : load;
-  });
-  return /* 改写后的请求：source 前置 */ {
-    ...request,
-    command: {
-      ...request.command,
-      command: `${commands.join("\n")}\n${request.command.command}`,
-    },
-  };
+  if (entries.length === 0) return request;
+  const lines: string[] = [];
+  for (const entry of entries) lines.push(renderSourceLine(entry, ask.shellDialect));
+  lines.push(command.command);
+  return { ...request, command: { ...command, command: lines.join("\n") } };
 }
