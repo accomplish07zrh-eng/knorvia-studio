@@ -82,6 +82,29 @@
 | (m) | C2：两条路径同一实现  | 旧协议 `session/send` 与 v4 `sendText` 走同一 `KernelTurnExecutor.sendText`；端口注册后被真实调用 |
 | (n) | 单一 admission 所有者 | 全部输入经 `CommandInbox`；DSH 收件箱只收已 admission 的输入                                      |
 
+### 4.6 C2 的完成度：本包**部分满足 4/11**
+
+C2 准入项要求「11 个回合类旧协议方法全部实到 legacy 执行端口并转绿」。按计划书原文划界（Lead 2026-10-20 裁决）：
+
+| 归属               | 数量  | 方法                                                                                                                                    | 本包交付                                                |
+| ------------------ | ----- | --------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
+| **本包（02）**     | **4** | `session/send`、`session/stop`、`session/cancelBackgroundTask`、`session/compact`                                                       | ✅ 实现并注册到 legacy 端口                             |
+| `kernel-bridge-03` | 7     | `session/fork`、`session/goal`、`session/setModel`、`session/setThoughtLevel`、`session/setMode`、`session/resume`、`session/subscribe` | ❌ 不实现；按 capability 缺席（`-32031`）返回并逐条登记 |
+
+**结论：C2 在本包合并后是「部分满足（4/11）」，完整满足待 `kernel-bridge-03`。** 该结论已同步到 issue #222 与 #124 的 switch 准入清单。
+
+**禁止的走捷径**：不得为了让 legacy 侧看起来「全通」而对未交付的 7 个方法伪造成功（例如返回空结果或假 ACK）。capability 缺席是 `kernel-bridge-legacy` behavior B10 明文允许的临时态。
+
+### 4.7 `session/compact` 与 DSH `/compact` 是两条路径（不得混）
+
+| 入口                            | 性质               | 路径                                                                |
+| ------------------------------- | ------------------ | ------------------------------------------------------------------- |
+| `session/compact`（旧协议方法） | Host 调用          | legacy 端口 → `KernelTurnExecutor.compact` → DSH 压缩服务           |
+| `v4/command type=compact`       | v4 命令            | 命令分派 → `KernelTurnExecutor.compact` → DSH 压缩服务              |
+| `/compact`（斜杠命令）          | **模型可见命令面** | DSH `dsh-command-compact` 命令注册表 → DSH 压缩服务，**不经过本包** |
+
+**审查要点**：本包实现里不得出现「把 `session/compact` 转成一条 `/compact` 斜杠命令文本投递给会话」的路径——那会让 Host 调用变成模型可见输入，改变语义。两条入口共用同一个下游执行器，但入口层不得互相转换。
+
 **复现命令（实现 PR 填写实测输出）**：
 
 ```powershell

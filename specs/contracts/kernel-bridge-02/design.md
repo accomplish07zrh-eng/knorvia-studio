@@ -182,21 +182,49 @@ export function registerLegacyExecutionPort(port: LegacyExecutionPort): () => vo
 
 `kernel-bridge-legacy` 的 `interface.md` §四 与 README §二 列明：回合类旧协议方法在旧协议侧由 legacy 路由器收口，但**执行落到本包注册的端口**。这 11 个是：
 
-| #   | 旧协议方法                     | 本包对应实现                              | 备注                                               |
-| --- | ------------------------------ | ----------------------------------------- | -------------------------------------------------- |
-| 1   | `session/send`                 | `KernelTurnExecutor.sendText`             | 与 v4 `sendText` 同一实现（B14）                   |
-| 2   | `session/stop`                 | `KernelTurnExecutor.stop`                 | 与 v4 `stop` 同一实现                              |
-| 3   | `session/cancelBackgroundTask` | `KernelTurnExecutor.stop`（后台作业分支） | 取消后台作业，不杀进程                             |
-| 4   | `session/compact`              | `KernelTurnExecutor.compact`              | 与 v4 `compact` 同一实现                           |
-| 5   | `session/fork`                 | 待定                                      | 若属 `kernel-bridge-03` 则本包返回 capability 缺席 |
-| 6   | `session/goal`                 | 待定                                      | 同上                                               |
-| 7   | `session/setModel`             | 待定                                      | 同上                                               |
-| 8   | `session/setThoughtLevel`      | 待定                                      | 同上                                               |
-| 9   | `session/setMode`              | 待定                                      | 同上                                               |
-| 10  | `session/resume`               | 待定                                      | 同上                                               |
-| 11  | `session/subscribe`            | 待定                                      | 同上                                               |
+| #   | 旧协议方法                     | 本包对应实现                              | 归属与依据                                                                                            |
+| --- | ------------------------------ | ----------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| 1   | `session/send`                 | `KernelTurnExecutor.sendText`             | **归 02**：计划书 02 明列「sendText」（B14）                                                          |
+| 2   | `session/stop`                 | `KernelTurnExecutor.stop`                 | **归 02**：计划书 02 明列「取消」                                                                     |
+| 3   | `session/cancelBackgroundTask` | `KernelTurnExecutor.stop`（后台作业分支） | **归 02**：属于「取消」的一类（v4 对应 `cancelBackgroundWork`），取消正在跑的回合内后台任务；不杀进程 |
+| 4   | `session/compact`              | `KernelTurnExecutor.compact`              | **归 02**：属回合内行为（「排队」+ 回合内压缩）；否则 03 要重复实现回合内压缩                         |
+| 5   | `session/fork`                 | 不实现 → capability 缺席                  | **归 03**：计划书 03 明列「fork」                                                                     |
+| 6   | `session/goal`                 | 不实现 → capability 缺席                  | **归 03**：计划书 03 明列「目标与计划相关命令」                                                       |
+| 7   | `session/setModel`             | 不实现 → capability 缺席                  | **归 03**：配置类「其余 v4 命令」（v4 对应 `switchModelConfig`）                                      |
+| 8   | `session/setThoughtLevel`      | 不实现 → capability 缺席                  | **归 03**：配置类（v4 对应思考档 / `switchCollaborationMode`）                                        |
+| 9   | `session/setMode`              | 不实现 → capability 缺席                  | **归 03**：配置类（v4 对应 `switchCollaborationMode` / `setFollowupMode`）                            |
+| 10  | `session/resume`               | 不实现 → capability 缺席                  | **归 03**：会话物化类（触发 `requestRuntimePreferences` 第二档）                                      |
+| 11  | `session/subscribe`            | 不实现 → capability 缺席                  | **归 03**：会话结构类（事件订阅）                                                                     |
 
-**口径**：本包只实现「输入与回合」四个（`send`/`stop`/`cancelBackgroundTask`/`compact`）。其余七个若归 `kernel-bridge-03`，本包在端口里对它们返回 capability 缺席（`kernel-bridge-legacy` behavior B10 的合法形态），并在实现 PR 的 `known-differences.md` 里逐条列明归属——**不得**为了让 legacy 侧看起来「全通」而伪造成功。
+**划界依据（Lead 2026-10-20 裁决，按计划书原文）**：
+
+- 计划书 02 原文：「输入与回合：sendText、`createSession.firstInput`、排队、steer、取消、审批交互、回合帧」；
+- 计划书 03 原文：「**其余 v4 命令**：fork、编辑重发、文件回退入口、**目标与计划相关命令**等」。
+
+**C2 状态（必读）**：C2 准入项要求「11 个回合方法全部实到 legacy 执行端口并转绿」。**本包只交付 4/11**，其余 7 个随 `kernel-bridge-03` 交付。因此 **C2 在本包合并后是「部分满足（4/11）」**，完整满足待 03；这个结论已同步到 issue #222 与 #124。本包不得为了让 legacy 侧看起来「全通」而伪造成功——未交付的 7 个按 `kernel-bridge-legacy` behavior B10 返回 capability 缺席（`-32031`），并在实现 PR 的 `known-differences.md` 里逐条登记归属。
+
+### 8.2b `session/compact` 与 DSH `/compact` 是两条路径（不要混）
+
+`kernel-dsh-builtins` 已挂载 DSH 的 `dsh-command-compact`，那是**模型可见的斜杠命令面**（`/compact`），由 DSH 命令注册表提供。本包的 `session/compact` 是**Host 调用的旧协议方法**，必须经 legacy 端口 → `KernelTurnExecutor.compact` → 最终触发 DSH 压缩。两者关系：
+
+```mermaid
+flowchart LR
+  subgraph Host 侧协议
+    A[session/compact<br/>旧协议方法] -->|legacy 端口| B[KernelTurnExecutor.compact]
+  end
+  subgraph v4 侧
+    C[v4/command type=compact] -->|命令分派| B
+  end
+  subgraph DSH 命令面
+    D["/compact 斜杠命令<br/>dsh-command-compact"] --> E[DSH commands 注册表]
+  end
+  B -->|ctx.compaction| F[DSH 压缩服务]
+  E -->|用户输入斜杠命令| F
+```
+
+- **两条入口、一个下游**：`session/compact`（旧协议）与 `v4/command compact`（v4）**共用 `KernelTurnExecutor.compact`**；`/compact` 斜杠命令走 DSH 自己的命令面，**不经过**本包。
+- **不得合并**：不能把 `session/compact` 实现成「向会话投递一条 `/compact` 文本」——那会让 Host 调用变成模型可见输入，改变语义。
+- 审查要点：本包实现里不得出现「把 `session/compact` 转成斜杠命令字符串」的路径。
 
 ### 8.3 与 v4 协议面的名字对照（防止两侧用不同的词）
 
@@ -211,9 +239,9 @@ export function registerLegacyExecutionPort(port: LegacyExecutionPort): () => vo
 
 ## 九、待实现阶段确认
 
-| #   | 事项                                                  | 说明                                                                         |
-| --- | ----------------------------------------------------- | ---------------------------------------------------------------------------- |
-| 1   | 旧协议 `session/send` 参数到 `TurnSendRequest` 的映射 | 以 `@knorvia/shared` 的旧协议 schema 为准                                    |
-| 2   | `firstInput` 失败时的回滚粒度                         | 二选一：整条拒绝（不留半建会话）或先建后投递；在实现 PR 说明并登记           |
-| 3   | 假 provider 驱动回合时是否需要 `modelSelection`       | 侦察后定；不影响帧断言本身                                                   |
-| 4   | 8.2 表里 7 个「待定」方法的归属（02 还是 03）         | 实现阶段按 `kernel-bridge-03` 的合同范围定；未定的先回 capability 缺席并登记 |
+| #   | 事项                                                  | 说明                                                                                                                                                                           |
+| --- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 1   | 旧协议 `session/send` 参数到 `TurnSendRequest` 的映射 | 以 `@knorvia/shared` 的旧协议 schema 为准                                                                                                                                      |
+| 2   | `firstInput` 失败时的回滚粒度                         | 二选一：整条拒绝（不留半建会话）或先建后投递；在实现 PR 说明并登记                                                                                                             |
+| 3   | 假 provider 驱动回合时是否需要 `modelSelection`       | 侦察后定；不影响帧断言本身                                                                                                                                                     |
+| 4   | 8.2 表里 7 个归 03 的方法                             | **已裁决**（Lead 2026-10-20，按计划书原文）：fork/goal/setModel/setThoughtLevel/setMode/resume/subscribe 归 03；本包对它们返回 capability 缺席（`-32031`）并在实现 PR 逐条登记 |
