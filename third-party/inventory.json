@@ -1189,7 +1189,7 @@
     "packages/rpc/src/channels.ts": "afaba1724055a3d2e6b8b379553569489b71ac6eb252f636ab91649657485209",
     "packages/rpc/src/channelServer.ts": "184709a8807e2b95e9982d84c61d8c09757b4e29c32cb08e6eb2b1dabdc32bbc",
     "packages/rpc/src/delayedChannel.ts": "14cfecbcbf2d4226bb229304481fd737baf0ad4b731ad2ae56c11907fd0fb425",
-    "packages/rpc/src/foundation.ts": "915982b811a7a44a276d5481346a27c661892e8071bfa66ee3e58f4b211841e2",
+    "packages/rpc/src/foundation.ts": "eea62ea94820a28e562cbed3229ce8cc91dbe3e29ecd6aa74d1c4b72195f9149",
     "packages/rpc/src/index.ts": "9134e421759ff999826b7a33a5faccf3a4294318f4890018480900ba7fb71e71",
     "packages/rpc/src/ipc.ts": "14db08aeaae3793f6b90cdf585fc946bcc8a5d7a09588f0c9068d88a42a54d22",
     "packages/rpc/src/logging-middleware.ts": "806a61b9399c39bf02b08ac0618c683a07554bc9d1915b4fdffc312828e72a32",
