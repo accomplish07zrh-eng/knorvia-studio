@@ -65,17 +65,17 @@
 | `storage/session-store/shared-context-commit.ts`          | 规格原文点名「提交共享上下文」在删除集合内                                                     | 引用者只有 `sqlite-session-store.ts` 的两个端口方法（`commitSharedContextImportBundle`、`transitionSharedContextImport`）                                                                                                                                                                     | 2026-10-20 |
 | `storage/session-target.ts`                               | 规格把「目标**记录**」列入保留读取范围，但本文件只含目标**写**入口                             | 导出 `setSessionTarget`/`cloneSessionTargetForFork`/`createSessionTarget`/`updateSessionTargetStatus`/`updateSessionTargetSummaryTitle`/`clearSessionTarget` 全部是写；目标**读**（`readSessionTarget`）在 `session-target-record.ts`，不在本文件                                             | 2026-10-20 |
 
-### 4.3 不属本线，归动态工作流包（3 个）
+### 4.3 dwf-journal 三个文件：按 lead 裁决归本线，并入批 E 返工
 
-规格「旧数据」原文：「动态工作流日志（dwf-journal）归动态工作流包」。
+~~本线不碰这三个文件。~~ **2026-10-20 lead 裁决已推翻先前的「移交动态工作流线」处置**，以裁决为准：三个文件**留在原地**、归本线返工到过线，并入批 E。理由：规格「旧数据」里「动态工作流日志（dwf-journal）归动态工作流包」是**删除范围**口径，不是物理搬迁要求；搬迁会牵动 session-store 导入链与 SQLite 事务归属，高风险且不满足任何验收项；M6 只要求「登记文件全量重扫零违规」，原地返工同样满足。返工后仍登记 `independent-replacement`，只刷新 basis 实测值，不改分类。
+
+本节措辞将在批 E 的 PR 里整段重写（不在批 A 单独开 PR）；下表保留作立项时的引用事实：
 
 | 文件                                                              | 引用者                                                |
 | ----------------------------------------------------------------- | ----------------------------------------------------- |
 | `storage/session-store/repositories/dwf-journal-artifacts.ts`     | 只有 `dwf-journal.ts`、`dwf-journal-introspection.ts` |
 | `storage/session-store/repositories/dwf-journal-introspection.ts` | 只有 `dwf-journal.ts`                                 |
 | `storage/session-store/repositories/dwf-journal-run-state.ts`     | 只有 `dwf-journal-codecs.ts`、`dwf-journal.ts`        |
-
-本线**不碰**这三个文件，也不为让它们过线而改。已在 issue #224 登记，并同步 lead（lead 会记到 #124 的 (d) 类处置与动态工作流线的准入项）。
 
 ### 4.4 `usage-values.ts` 的单独说明（规格未覆盖，按默认裁决表保留）
 
@@ -133,7 +133,23 @@
 
 批 A（exec 14）：`similarity.mjs` normal 门 **14/14 通过**，0 失败。报告 `wt/exec-batchA-normal.json`；声明门参考报告 `wt/exec-batchA-decl.json`（11 个私有模块在声明模式下反而超标，见第一节口径说明，不作判定）。
 
-### 6.2 契约测试（两种入口）
+### 6.2 隔离与进程安全（2026-10-20 实测）
+
+本线全部执行 Agent 与用户 GUI 都跑在 DSH 之上，因此进程与主目录两条边界按硬禁令自查，实测证据如下（扫描范围 `apps/cli/packages/adapters/src/**`、`test/**`、`scripts/**`）：
+
+| 检查项                                                                            | 结论     | 实测证据                                                                                                                                                                                                                                                                                                                          |
+| --------------------------------------------------------------------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 无进程级批量清理（`taskkill /IM`、`pkill -f`、`killall`、按可执行名或端口批量杀） | **通过** | 全树命中 15 处进程终止调用，逐处核对**全部按 PID 定向**：`exec/node-execution-adapter-process.ts:256` 用 `taskkill /pid <pid> /t /f`（自己 `spawn` 得到的句柄）；`mcp/process-tree.ts:191` 用 `taskkill /pid … /T /F`；`scripts/desktop-release-portable-launch.mjs:351` 用 `taskkill /PID <child.pid> /T /F`。无一按可执行名匹配 |
+| 杀进程只沿自己 `spawn` 出的 pid 树向下                                            | **通过** | `mcp/process-tree.ts` 的 Unix 分支用 `pgrep -P <parent>`，回退 `ps -eo pid=,ppid=` 后按 ppid 逐层 `descend`（第 100/120/139/144 行），从根 pid 向下的后代枚举，不按可执行名枚举                                                                                                                                                   |
+| 无 `Get-Process` 按名枚举                                                         | **通过** | 唯一出现处 `storage/workspace-hook-trust-process.ts:17` 为 `Get-Process -Id <id>`（按 Id 取 `StartTime`），不枚举、不终止                                                                                                                                                                                                         |
+| 不读写真实 DSH 主目录                                                             | **通过** | 全树搜 `DSH_HOME`、`.dsh`、`DSH_SESSION_ID`、`DSH_WEB_URL` **零命中**                                                                                                                                                                                                                                                             |
+| 夹具不硬编码真实用户目录                                                          | **通过** | 全树搜 `C:\Users`、`/home/<name>`、`~/`、本机用户目录名 **零命中**                                                                                                                                                                                                                                                                |
+| 夹具用临时根                                                                      | **通过** | `mkdtemp` 15 处；`mcp-lease-provider.fixture.ts:43`、`mcp-refresh.fixture.ts:323`、`http-transport-options.test.ts:23` 均为 `mkdtemp(join(tmpdir(), …))`，并断言 `dirname` 落在 `tmpdir()` 内、`relative` 无逃逸；`device-fs-contract` 的 home 是虚拟世界字段（`w.home` / `homedir()=>b.get().home`），不触碰真实主目录           |
+| 跨入口不靠 `instanceof` 判接口                                                    | **通过** | 契约测试两入口（源码 118/118、dist 118/118）同时通过，说明源码与 dist 各持的类对象未被跨入口混用                                                                                                                                                                                                                                  |
+
+批 B–E 保持同一边界：`mcp/**`（批 C）涉及 `process-tree`、`oauth-errors` 的改动会复核 PID 定向与错误分流方式；`http/**`、`network/**` 夹具继续用 `mkdtemp` 临时根。
+
+### 6.3 契约测试（两种入口）
 
 `specs/contracts/apps-cli-packages-01/tests/*.test.ts`：
 
@@ -144,7 +160,7 @@
 
 另跑执行子系统自有契约套件 `apps/cli/packages/adapters/test/exec-runtime-contract`：**62 / 62 通过**。
 
-### 6.3 构建与类型
+### 6.4 构建与类型
 
 - `pnpm --filter @knorvia/adapters build`：通过。
 - `tsc --noEmit -p apps/cli/packages/adapters/tsconfig.json`：通过（0 诊断）。
@@ -152,12 +168,25 @@
 
 ## 七、批次进度
 
-| 批  | 内容                                             | 文件数 | 状态          |
-| --- | ------------------------------------------------ | ------ | ------------- |
-| A   | `exec/`                                          | 14     | 完成（本 PR） |
-| B   | `plugins/`                                       | 18     | 进行中        |
-| C   | `mcp/`                                           | 15     | 待做          |
-| D   | `auth/`、`http/`、`network/`、`storage/index.ts` | 5      | 待做          |
-| E   | (d) 保留 4 个                                    | 4      | 待做          |
+| 批  | 内容                                                                                                             | 文件数 | 状态          |
+| --- | ---------------------------------------------------------------------------------------------------------------- | ------ | ------------- |
+| A   | `exec/`                                                                                                          | 14     | 完成（本 PR） |
+| B   | `plugins/`                                                                                                       | 18     | 进行中        |
+| C   | `mcp/`                                                                                                           | 15     | 待做          |
+| D   | `auth/browser.ts`、`http/index.ts`、`http/public-egress-policy.ts`、`network/http-config.ts`、`storage/index.ts` | 5      | 待做          |
+| E   | (d) 保留 4 个 + dwf-journal 3 个                                                                                 | 7      | 待做          |
 
-合计返工 **56** 个（52 (c) + 4 (d)），不返工 11 个（8 (a) + 3 (d) 删除），移交动态工作流线 3 个（dwf-journal）。
+合计返工 **63** 个（52 (c) + 4 (d) 保留 + 3 dwf-journal + 4 见下），不返工 11 个（8 (a) + 3 (d) 随切换删除）。
+
+对账口径（lead 裁决已采纳，见 #224）：`lead/rework77.txt` 里 adapters **63** 个文件必须逐文件闭合，**「在清单里」与「需要返工」是两件事**：
+
+```
+77 = adapters 63 + core 7（随切换删除，不归本线）+ shared 6（已完成 #210）+ node-repl-host 1（已完成 #203）
+adapters 63 = (c) 返工 52（A14 + B18 + C15 + D5）
+            + (d) 保留→返工 4（批 E）
+            + dwf-journal 返工 3（批 E）
+            + (d) 随切换删除 3（write-transaction / shared-context-commit / session-target）
+            + (a) 随切换删除 1（model/runner-debug-redaction.ts）
+```
+
+本线返工合计 **59**（52 + 4 + 3），不返工 4（3 (d) + 1 (a)）。逐文件对账表见 #224 评论。
