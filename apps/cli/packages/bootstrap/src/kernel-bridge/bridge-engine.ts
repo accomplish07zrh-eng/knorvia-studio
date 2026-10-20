@@ -27,6 +27,14 @@ import type {
   BridgeUnsubscribeRequest,
 } from "./interface.js";
 import { createBridgeEventProjectionLayer } from "./projection-layer.js";
+import { TurnApprovalRegistry } from "./turn-approval.js";
+import {
+  DefaultKernelTurnExecutor,
+  type KernelTurnExecutor,
+  TurnSessionUnavailableError,
+} from "./turn-executor.js";
+import { deliverFirstInput, dispatchTurnCommand } from "./turn-commands.js";
+import { createAgentLookupHost, registerTurnExecutionPort } from "./legacy-port/register.js";
 
 /** 段 A 尚未接入的命令类型统一回 failed + 该 reasonCode；不伪造 accepted/noop。 */
 const UNSUPPORTED_REASON_CODE = "unsupported";
@@ -40,6 +48,11 @@ export interface BridgeEngineOptions {
   /** 下行帧出口：entry.ts 注入，负责写 stdout NDJSON。 */
   readonly writeFrame: (frame: RoutedTopicWireFrame) => void;
   readonly now?: () => number;
+  /**
+   * 回合动作执行器（kernel-bridge-02）。缺席时回合类命令保持 unsupported，
+   * 用于只跑段 A 骨架的场景与 legacy 反向断言测试。
+   */
+  readonly turnExecutor?: KernelTurnExecutor;
 }
 
 /** 一个桥会话的注册信息（DSH 会话 id ↔ v4 会话 id）。 */
@@ -54,6 +67,13 @@ export class BridgeEngine implements BridgeCommandExecutor {
   private readonly inbox: BridgeCommandInbox;
   private readonly sessions = new Map<string, BridgeSessionRecord>();
   private readonly detachEvents: Array<() => void> = [];
+  /**
+   * 未决审批登记表（kernel-bridge-02 B9/B10）。
+   *
+   * 放在引擎上而不是 turn-executor 上，是因为**关闭路径**必须能把它整体收敛：
+   * `dispose()` 是引擎的职责，执行器不知道进程要退出。
+   */
+  readonly approvals = new TurnApprovalRegistry();
 
   constructor(private readonly options: BridgeEngineOptions) {
     this.projection = createBridgeEventProjectionLayer({
@@ -61,7 +81,29 @@ export class BridgeEngine implements BridgeCommandExecutor {
       now: options.now,
     });
     this.inbox = new BridgeCommandInbox(this.projection, this);
+    this.turnExecutor =
+      options.turnExecutor ??
+      new DefaultKernelTurnExecutor(
+        options.context,
+        createAgentLookupHost(options.context),
+        options.logger,
+      );
   }
+
+  /**
+   * 回合动作执行器：v4 命令路径与 legacy 执行端口**共用这一个实例**（C2）。
+   *
+   * 为什么由引擎自建而不是外部注入：`runBridge`（`entry.ts`）是本包唯一 `new BridgeEngine`
+   * 的地方，而它归 `kernel-bridge-legacy` 的边界（本包合同 interface.md §五：`entry.ts`
+   * 的 `route()` 与 `RunBridgeOptions` 不动）。因此执行器在引擎内部物化，
+   * 由 `start()` 注册到 legacy 的端口——两条路径拿到的仍是同一个对象。
+   *
+   * 外部若显式给了 `turnExecutor`（测试或将来组合根接管），就用外部那个。
+   */
+  readonly turnExecutor: KernelTurnExecutor;
+
+  /** 已注册的 legacy 执行端口；`dispose()` 时解绑。 */
+  private turnPort: { release(): void } | undefined;
 
   /** 订阅 ctx 的 session/event 等事件并转给 projection.ingestDshEvent。 */
   start(): void {
@@ -72,6 +114,26 @@ export class BridgeEngine implements BridgeCommandExecutor {
       this.projection.ingestDshEvent({ sessionId: session.id, event });
     });
     this.detachEvents.push(detach);
+    this.attachLegacyTurnPort();
+  }
+
+  /**
+   * 把本包的执行器注册成 legacy 的执行端口（C2 的落地动作）。
+   *
+   * 只在 `start()` 里做一次，且失败不致命：legacy 的注册面是「单所有者、重复注册抛错」，
+   * 若同一进程已经有别的所有者（例如测试先注册过），本包不抢——记 debug 后跳过，
+   * 此时旧协议回合方法由那个所有者处理，capability 缺席语义仍是合法的临时态。
+   */
+  private attachLegacyTurnPort(): void {
+    try {
+      this.turnPort = registerTurnExecutionPort(this.turnExecutor);
+    } catch (error) {
+      if (this.options.logger) {
+        callKernelLogger(this.options.logger, "debug", "kernel.bridge.legacy.port.unavailable", {
+          error: error instanceof Error ? error.message : String(error),
+        });
+      }
+    }
   }
 
   /** v4/command：准入（inbox）→ execute → ACK。 */
@@ -112,6 +174,14 @@ export class BridgeEngine implements BridgeCommandExecutor {
           true,
         );
       }
+      // ── kernel-bridge-02：输入与回合（合同 behavior.md B1–B7、B9）；分派在 turn-commands.ts ──
+      // `resolveInteraction` 与回合命令同一处分派：审批应答要落到引擎持有的未决登记表上，
+      // 从 v4 协议面必须可达（不是只有内部能力模块）。
+      case "sendText":
+      case "stop":
+      case "compact":
+      case "resolveInteraction":
+        return await dispatchTurnCommand(envelope, this.turnExecutor, this.approvals);
       default:
         return { status: "failed", reasonCode: UNSUPPORTED_REASON_CODE };
     }
@@ -158,8 +228,9 @@ export class BridgeEngine implements BridgeCommandExecutor {
   /** createSession：SessionId() 包装 id，logEpoch = `epoch_` + randomUUID，projection.initSession。 */
   private async createSession(envelope: CommandEnvelope): Promise<CommandExecutionOutcome> {
     const payload = envelope.payload as CommandPayloadMap["createSession"];
-    // firstInput 需要 sendText 同一条 turn 写路径；输入投递未实现前不能建出“吞掉用户输入”的会话。
-    if (payload.firstInput !== undefined) {
+    const executor = this.options.turnExecutor;
+    // 有 firstInput 但没有回合执行器：仍然不能建出「吞掉用户输入」的会话（段 A 的旧口径）。
+    if (payload.firstInput !== undefined && executor === undefined) {
       return { status: "failed", reasonCode: UNSUPPORTED_REASON_CODE };
     }
     const sessionId = envelope.sessionId ?? `sess_${randomUUID()}`;
@@ -182,6 +253,10 @@ export class BridgeEngine implements BridgeCommandExecutor {
         workspacePath,
       });
     }
+    // B3（首输入投递）在 turn-commands.ts：那段逻辑与本包其余回合语义同属一处，
+    // 引擎只负责「先建会话，再交给它」；失败回滚也由它调 forgetSession 做。
+    const delivered = await deliverFirstInput(envelope, executor, (id) => this.sessions.delete(id));
+    if (delivered !== undefined) return delivered;
     return { status: "accepted", result: { type: "createSession", sessionId } };
   }
 
@@ -207,6 +282,14 @@ export class BridgeEngine implements BridgeCommandExecutor {
   }
 
   async dispose(): Promise<void> {
+    // 关闭时把未决审批全部结算为 unavailable：否则 Host 侧的审批请求永远等不到应答，
+    // 会挂着一个永不返回的反向请求（与 legacy 的「反向请求先收口」同一族问题）。
+    // 这条必须在释放投影层**之前**做——投影层释放后就没有通道可以回执了。
+    this.approvals.failAllPending();
+    // 再解绑执行端口：本包注入的能力必须随引擎一起撤走，
+    // 不留一个指向已释放引擎的悬挂端口（否则后续旧协议请求会打到废对象上）。
+    this.turnPort?.release();
+    this.turnPort = undefined;
     for (const detach of this.detachEvents.splice(0)) detach();
     await this.projection.dispose?.();
   }
