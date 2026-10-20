@@ -72,6 +72,7 @@ import { NoopAgentExecutionTelemetry } from "./noop-writers.js";
 import type { AgentTraceRuntimeOptions } from "./writer-shapes.js";
 
 export type { AgentTraceRuntimeOptions };
+export { NoopAgentExecutionTelemetry };
 
 /** 默认活跃 writer 上限。 */
 const ACTIVE_WRITER_LIMIT = 5_000;
@@ -273,14 +274,5 @@ function positiveLimit(value: number | undefined, fallback: number): number {
   return Math.trunc(value);
 }
 
-/** 告警口转发：健康回调只在这里被外部替换。 */
-export function warnThrough(
-  onWarning: AgentTraceRuntimeOptions["onWarning"],
-  message: string,
-  context: Record<string, unknown>,
-): void {
-  warn({ health: { onWarning } }, message, context);
-}
-
-// noop 实现在 noop-writers.ts；合同把本模块的导出面冻结在「运行时类 + Noop 类」两个名字上。
-export { NoopAgentExecutionTelemetry, AgentTelemetryAbandonReason };
+// 合同把本模块的导出面冻结在「运行时类 + Noop 类」两个名字上。Noop 类由 noop-writers 实现，
+// 这里既导出它，也在「进程未启用遥测」的工厂里用它，因此不是空转的再导出。
