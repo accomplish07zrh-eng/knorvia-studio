@@ -1,378 +1,309 @@
-/**
- * 沙箱子进程逻辑。**一份实现，一份入口文件，两种启动方式**：
- *   - {@link renderChildEntry} 把 {@link childMain} 经 `toString()` 与 payload 一起渲染成一份
- *     自包含 ESM，harness 写到 `<cwd>/.knorvia-studio/workflow-runs/<runId>.mjs`（child-entry-file.ts）；
- *   - 普通 Node：`node --max-old-space-size=N <entry>`，入口文件发现自己就是进程入口时自启；
- *   - SEA 单文件二进制：CLI 的隐藏子命令 `__knorvia-dwf-child <entry>` `import()` 这份文件并调
- *     它导出的 `start(deps)`，注入 CLI 进程的 vm/readline/stdio（SEA 主程序不解释 Node CLI
- *     旗标，`--eval` 路不通）。
- *
- * Windows 的命令行上限是 32,767 字符，
- * `--eval CHILD_SOURCE -- <base64url payload>` 会把整份 lowered 脚本放在命令行上，脚本
- * 一过约 18 KB 就 `spawn ENAMETOOLONG`，Windows 上每个稍长的 run 都起不来。
- *
- * 结构：
- *   - 外层 realm（{@link childMain} 自身）是普通 Node 代码：持有 stdio、readline、vm，负责传输。
- *   - 求值单元是 `vm.createContext(...)` 建的**独立 realm**：只含 ES intrinsics + 注入的 `__host`。
- *     裸 vm context 天然没有 `process`/`require`/`Buffer`/`fetch`；我们只补 `__host` 与运行期禁令。
- *
- * 跨 realm 收敛（防原型泄漏 / prototype pollution）：脚本触及的一切（Promise、JSON 解析出的
- * host 结果、Error）都在 **context 内**构造；外层与 context 间仅有两种跨界值——一个 `__send(string)`
- * 外层函数，以及入站的行字符串（字符串是原始值，无 realm 归属）。故 `Array.isArray`/`instanceof`/
- * 原型链在脚本视角下全是 context-native，绝不掺入外层 realm 的 intrinsics。
- *
- * 动态 import：runFn 经 `vm.runInContext`（Script，未提供 importModuleDynamically 回调）编译，
- * 运行期 `import()` 抛 `ERR_VM_DYNAMIC_IMPORT_CALLBACK_MISSING`。`eval`/`Function` 绑定同一套
- * context 全局。
- *
- * ⚠ 本文件是 protocol.ts 线协议的**手写镜像**：入口文件里的 childMain 以内嵌字符串运行，无法 import
- * protocol.ts。改任一处必须同步另一处。故 {@link childMain} 只允许 import **类型**（编译期擦除），
- * 绝不引入运行期 package 依赖。
- */
-
+// SPDX-License-Identifier: Apache-2.0
+// 沙箱子进程逻辑。同一份实现有三种用法：被 renderChildEntry 内嵌进入口文件、
+// 由入口文件自启、或由 SEA 隐藏子命令 import 后调它的 start。
+//
+// 为什么不走 --eval：Windows 命令行上限 32,767 字符，脚本一长就 spawn 失败。
+//
+// 两层结构：
+//   - 外层 realm 是普通 Node 代码，持有 stdio / readline / vm，只做传输；
+//   - 求值单元是 vm.createContext 造的独立 realm，只有 ES intrinsics 加一个注入的 __host。
+//
+// 跨 realm 收敛：脚本触及的一切（Promise、JSON 解析结果、Error）都在 context 内构造；
+// 外层与 context 之间只有两种跨界值——一个 __send 函数与入站的行字符串（原始值无 realm 归属）。
+// 因此 Array.isArray / instanceof / 原型链在脚本视角下都是 context-native。
+//
+// 动态 import 在 vm.Script 下没有 importModuleDynamically 回调，运行期 import() 会抛
+// ERR_VM_DYNAMIC_IMPORT_CALLBACK_MISSING；eval / Function 绑定同一套 context 全局。
+//
+// ⚠ 本文件是 protocol.ts 线协议的手写镜像（入口文件里的 childMain 以内嵌字符串运行，
+// 无法 import protocol.ts）。改任一处必须同步另一处：因此 childMain 只允许 import 类型。
+import type { ChildMainDeps } from "./child-host-types.js";
 import type { ChildPayload } from "./protocol.js";
 
-/** {@link childMain} 用到的 `node:vm` 全部表面（窄到只有两个函数——这就是子进程的 vm 契约）。 */
-export interface ChildVmModule {
-  createContext(sandbox: object, options?: { name?: string }): object;
-  runInContext(code: string, sandbox: object, options?: { filename?: string }): unknown;
-}
-
-/** {@link childMain} 用到的 `readline.Interface` 表面。 */
-export interface ChildReadlineInterface {
-  on(event: "line", listener: (line: string) => void): unknown;
-  close(): void;
-}
+export type { ChildMainDeps, ChildReadlineInterface, ChildVmModule } from "./child-host-types.js";
 
 /**
- * 注入给 {@link childMain} 的宿主能力。**两种启动方式各自提供真实实现**：入口文件自启时从
- * `node:vm` / `node:readline` / `process` 现取，SEA 子命令从 CLI 进程现取。
- */
-export interface ChildMainDeps {
-  vm: ChildVmModule;
-  createInterface(options: { input: NodeJS.ReadableStream }): ChildReadlineInterface;
-  /** 入站 response 的来源（父进程 stdin 管道）。持有它也让事件循环保持存活。 */
-  stdin: NodeJS.ReadableStream;
-  /** 出站 NDJSON 的去处；{@link childMain} 自己补换行。 */
-  stdout: { write(chunk: string): unknown };
-  /**
-   * 本次 run 的 payload（{@link import("./protocol.js").ChildPayload}）。入口文件把它当 JSON
-   * 字面量内嵌并原样递进来——不再经 argv、不再 base64。
-   */
-  payload: ChildPayload;
-}
-
-/**
- * 沙箱子进程的**唯一**出口。返回的 promise 在脚本执行终结（complete 已发出、stdin 已关）后兑现。
+ * 沙箱子进程的唯一出口。返回的 promise 在脚本终结（complete 已发出、stdin 已关）后兑现。
  *
- * 为什么必须可 await：SEA 子命令跑在 CLI 进程里，而 CLI 入口在 `run()` 返回后会挂一个 1s
- * 退出 watchdog（shutdown.ts 的 `scheduleCliExitWatchdog`）。若子进程逻辑只是"装好 readline
- * 就同步返回"，watchdog 会在 run 刚起步时把整个子进程强退。入口文件自启时不需要这个 promise
- * （事件循环空了自然退出），但两条入口共用一个实现，所以由 childMain 统一给出终结信号。
+ * 为什么必须可 await：SEA 子命令跑在 CLI 进程里，而 CLI 入口在 run() 返回后会挂一个 1 秒退出
+ * watchdog；若子进程逻辑只是装好 readline 就同步返回，watchdog 会在 run 刚起步时强退整个进程。
  *
- * ⚠ 自包含约束（载荷性，不是风格）。{@link renderChildEntry} 靠 `childMain.toString()` 把本函数
- * 当**源码**内嵌，所以函数体必须是一段能独立成立的程序，两条规矩：
- *   1. 只引用参数、语言 intrinsics 与 `Buffer` 这类 Node 全局，**绝不引用模块作用域的任何绑定**
- *      （常量、辅助函数、import）。沙箱 bootstrap 也因此内联在函数体里，而不是模块级常量。
- *   2. **内层函数一律不许有名字**——理由和踩过的坑见函数体里那段注释（esbuild 的
- *      `minify + keepNames` 会给它们套上模块作用域的 `__name` helper）。
- * 两条约束都需要在真实打包/压缩形态下验证，光靠源码测试抓不到这类回归。
+ * ⚠ 自包含约束（载荷性，不是风格）。renderChildEntry 靠 childMain.toString() 把本函数当源码
+ * 内嵌，所以函数体必须是一段能独立成立的程序：
+ *   1. 只引用参数、语言 intrinsics 与 Buffer 这类 Node 全局，绝不引用模块作用域的任何绑定
+ *      （常量、辅助函数、import 都不行）——因此引导脚本与编译辅助都以字面量内联在函数体里。
+ *   2. 内层函数一律不许有名字：CLI 的 desktop-agent 构建用 minify + keepNames，会把能推导出
+ *      名字的内层函数改写成 __name(fn, "...")，而 __name 是模块作用域的 helper；它一旦进入
+ *      toString() 文本，内嵌出的子进程程序就会 ReferenceError，且只在压缩后的发布产物里坏。
+ *      成员赋值（sandbox.__send = …）与实参位置的匿名函数不被改写，下面一律用这两种形态。
  */
 export function childMain(deps: ChildMainDeps): Promise<void> {
-  /**
-   * 在 vm context 内运行的引导脚本（纯 JS，无 backtick / ${}，以便安全内嵌）。
-   * 定义 `__host`（Boundary A shims）、`__deliver`（消费入站 response）、`__execute`（跑 lowered fn），
-   * 并施加运行期禁令（Date.now / argless new Date() / Math.random）——belt；编译期诊断是 suspenders。
-   */
-  const BOOTSTRAP = String.raw`
+  // 引导脚本：context 内的运行时装配。三种帧走同一条组帧路径，差别只在「要不要等应答」——
+  // 单向的（create-actor 与各类事件）发完即返回，双向的（请求）先登记等待者再发。
+  // 纯 JS、无反引号与 ${}，因此可以安全内嵌进入口文件。
+  const bootstrap = String.raw`
 "use strict";
-
-var __nextLocal = 0;
-var __nextReq = 0;
-var __pending = new Map();
-
-function __emit(obj) {
-  __send(JSON.stringify(obj));
+var __counters = { local: 0, request: 0 };
+var __awaiting = new Map();
+function __merge(target, extra) {
+  var keys = Object.keys(extra);
+  for (var slot = 0; slot < keys.length; slot += 1) {
+    target[keys[slot]] = extra[keys[slot]];
+  }
+  return target;
 }
-
-function __createActor(siteId, name, persona) {
-  // 同步造 child-local 句柄并即发即忘 create-actor；父进程据 stdio FIFO 在后续 ask 前完成映射。
-  var localId = "local#" + (++__nextLocal);
-  __emit({ kind: "create-actor", localId: localId, siteId: siteId, name: name, persona: persona });
-  return localId;
+function __post(kind, fields) {
+  __send(JSON.stringify(__merge({ kind: kind }, fields)));
 }
-
-function __ask(siteId, actor, instructions) {
-  var id = "r" + (++__nextReq);
-  return new Promise(function (resolve, reject) {
-    __pending.set(id, { resolve: resolve, reject: reject });
-    __emit({ kind: "request", id: id, type: "ask", siteId: siteId, actor: actor, instructions: instructions });
+// 双向通道：id 在 child 内单调递增，ask / world-read / publish 共用一个计数器。
+function __call(type, fields) {
+  __counters.request += 1;
+  var id = "r" + __counters.request;
+  var reply = new Promise(function (resolve, reject) {
+    __awaiting.set(id, { resolve: resolve, reject: reject });
   });
+  __merge(fields, { kind: "request", id: id, type: type });
+  __send(JSON.stringify(fields));
+  return reply;
 }
-
-function __worldRead(siteId, op, args) {
-  // args 是 lowering 打包好的位置实参数组；本 shim 原样透传，不看 op、不校验元数（归 driver）。
-  var id = "r" + (++__nextReq);
-  return new Promise(function (resolve, reject) {
-    __pending.set(id, { resolve: resolve, reject: reject });
-    __emit({ kind: "request", id: id, type: "world-read", siteId: siteId, op: op, args: args });
-  });
-}
-
-function __log(message) {
-  __emit({ kind: "event", type: "log", message: String(message) });
-}
-
-function __enterPhase(name) {
-  // 阶段标记：无站点、不落 journal，只让引擎发一条事件——所以与 log 同走事件通道。
-  __emit({ kind: "event", type: "phase-entered", name: String(name) });
-}
-
-function __publishArtifact(siteId, op, args) {
-  // 内容产物是效应：脚本 await 它、要能 catch 它的拒绝，所以与 ask / world-read 同走
-  // request/response。args 是 lowering 打包的位置实参（[id, path|content, opts]），原样透传。
-  var id = "r" + (++__nextReq);
-  return new Promise(function (resolve, reject) {
-    __pending.set(id, { resolve: resolve, reject: reject });
-    __emit({ kind: "request", id: id, type: "publish-artifact", siteId: siteId, artifactOp: op, args: args });
-  });
-}
-
-function __declareArtifact(siteId, op, args) {
-  // 预置产物是声明：同步返回 void，没有可等的东西，所以走事件通道。它与 report 共用同一条
-  // FIFO——一条打了标签的 report 必须晚于它的声明到达父进程，而顺序正是由这一点保证的。
-  __emit({ kind: "event", type: "declare-artifact", siteId: siteId, op: op, args: args });
-}
-
-function __report(siteId, item, artifactId) {
-  // 即发即忘：脚本从不 await 它，所以走 event 通道而不是 request/response。父进程按 siteId ×
-  // ordinal 落一行 journal，故本条消息的**到达顺序**是承重的（stdio FIFO 保证它）。
-  // item 里若有环，这里的 JSON.stringify 会抛错——就在 report() 的调用点上，脚本要么 catch
-  // 要么让 run 失败。两者都比静默发出一条残缺的 item 好；父进程另有同样的护栏。
-  // artifactId 缺席时 JSON.stringify 直接把这个键丢掉，线上因此就是"没有标签"。
-  __emit({ kind: "event", type: "report", siteId: siteId, item: item, artifactId: artifactId });
-}
-
-// —— 运行实参（Boundary A 的 args）——
-// 与预算一样在 context **内**用 JSON.parse 构造，所以脚本拿到的是 context-native 对象，
-// 外层 realm 的 intrinsics 一点都不掺进来（本文件顶部的跨 realm 收敛约束）。
-// ⚠ Object.freeze 是**浅**冻结：嵌套对象未冻结，脚本仍能改动 args.foo.bar。v1 接受这个
-// 界限——它挡的是"手滑重新赋值 args"，不是一个安全边界（实参本来就是调用方给的）。
-var __args = Object.freeze(JSON.parse(__argsJson));
-
+// 沙箱实参：在 context 内 JSON.parse 出来的才是 context-native 对象。浅冻结挡住「手滑
+// 重新赋值 args」；嵌套对象仍可写，这不是安全边界（实参本来由调用方给）。
+var __args = Object.freeze(JSON.parse(String(__argsJson)));
 globalThis.__host = {
   args: __args,
-  createActor: __createActor,
-  ask: __ask,
-  worldRead: __worldRead,
-  publishArtifact: __publishArtifact,
-  declareArtifact: __declareArtifact,
-  report: __report,
-  log: __log,
-  enterPhase: __enterPhase,
+  createActor: function (siteId, name, persona) {
+    // 同步返回 child-local 句柄并即发即忘；父进程据 FIFO 在引用它的 ask 之前建好映射。
+    __counters.local += 1;
+    var handle = "local#" + __counters.local;
+    __post("create-actor", { localId: handle, siteId: siteId, name: name, persona: persona });
+    return handle;
+  },
+  ask: function (siteId, actor, instructions) {
+    return __call("ask", { siteId: siteId, actor: actor, instructions: instructions });
+  },
+  worldRead: function (siteId, op, args) {
+    // 位置实参原样透传：本层不看 op、不校验元数（那是 driver 的职责）。
+    return __call("world-read", { siteId: siteId, op: op, args: args });
+  },
+  publishArtifact: function (siteId, op, args) {
+    // 内容产物是效应：脚本 await 它、要能 catch 它的拒绝，所以走双向通道。
+    return __call("publish-artifact", { siteId: siteId, artifactOp: op, args: args });
+  },
+  declareArtifact: function (siteId, op, args) {
+    // 预置产物是声明：同步返回 void，走单向通道；它与 report 同一条 FIFO，
+    // 于是带标签的 report 必然晚于它的声明到达父进程。
+    __post("event", { type: "declare-artifact", siteId: siteId, op: op, args: args });
+  },
+  report: function (siteId, item, artifactId) {
+    // 即发即忘；item 有环时这里的 JSON.stringify 就在调用点上抛，脚本要么 catch 要么失败。
+    __post("event", { type: "report", siteId: siteId, item: item, artifactId: artifactId });
+  },
+  log: function (message) {
+    __post("event", { type: "log", message: String(message) });
+  },
+  enterPhase: function (name) {
+    // 阶段标记：无站点、不落 journal，父进程只让引擎发一条事件。
+    __post("event", { type: "phase-entered", name: String(name) });
+  },
 };
-
-// —— 入站 response 消费（由外层 realm 以行字符串调用）——
-globalThis.__deliver = function (line) {
-  var msg = JSON.parse(line);
-  if (msg.kind !== "response") return;
-  var waiter = __pending.get(msg.id);
+// 应答消费：只认 response，未知 id 静默丢弃（重复应答也算未知）。
+globalThis.__deliver = function (rawLine) {
+  var frame = JSON.parse(rawLine);
+  if (frame.kind !== "response") return;
+  var waiter = __awaiting.get(frame.id);
   if (!waiter) return;
-  __pending.delete(msg.id);
-  if (msg.ok) {
-    waiter.resolve(msg.value);
+  __awaiting.delete(frame.id);
+  if (frame.ok) {
+    waiter.resolve(frame.value);
     return;
   }
-  // 拒绝以 context-native Error 过界，带上 code/violations/finalText 供脚本 try/catch 结构化处理。
-  var e = msg.error || {};
-  var err = new Error(e.message || "workflow host error");
-  if (e.name) err.name = e.name;
-  if (e.code !== undefined) err.code = e.code;
-  if (e.violations !== undefined) err.violations = e.violations;
-  if (e.finalText !== undefined) err.finalText = e.finalText;
-  waiter.reject(err);
+  // 拒绝重建为 context-native Error，带上 code / violations / finalText 供脚本结构化处理。
+  var wire = frame.error || {};
+  var rebuilt = new Error(wire.message || "workflow host error");
+  if (wire.name) rebuilt.name = wire.name;
+  if (wire.code !== undefined) rebuilt.code = wire.code;
+  if (wire.violations !== undefined) rebuilt.violations = wire.violations;
+  if (wire.finalText !== undefined) rebuilt.finalText = wire.finalText;
+  waiter.reject(rebuilt);
 };
-
-function __complete(ok, payload) {
-  if (ok) {
-    __emit({ kind: "complete", ok: true, value: payload });
-    return;
-  }
-  var wire;
-  if (payload instanceof Error) {
-    wire = {
-      name: payload.name,
-      message: payload.message,
-      stack: payload.stack,
-      code: payload.code,
-      violations: payload.violations,
-      finalText: payload.finalText,
+// 错误过界形态：Error 取 name/message/stack 与三个结构化字段，其余抛出值统一成 Error。
+function __wireOf(cause) {
+  if (cause instanceof Error) {
+    return {
+      name: cause.name,
+      message: cause.message,
+      stack: cause.stack,
+      code: cause.code,
+      violations: cause.violations,
+      finalText: cause.finalText,
     };
-  } else {
-    wire = { name: "Error", message: String(payload) };
   }
-  __emit({ kind: "complete", ok: false, error: wire });
+  return { name: "Error", message: String(cause) };
 }
-
-// 外层 realm 调用它跑脚本；始终 resolve（错误已转成 complete 消息），便于外层收尾（关 stdin）。
+// 外层 realm 调用它跑脚本；始终 resolve（错误已转成 complete），便于外层收尾关 stdin。
 globalThis.__execute = async function (runFn) {
   try {
-    var value = await runFn(globalThis.__host);
-    __complete(true, value);
-  } catch (e) {
-    __complete(false, e);
+    __post("complete", { ok: true, value: await runFn(globalThis.__host) });
+  } catch (cause) {
+    __post("complete", { ok: false, error: __wireOf(cause) });
   }
 };
-
-// —— 运行期禁令（belt；编译诊断是 suspenders）：Date.now / argless new Date() / Math.random ——
-var __NativeDate = Date;
-class __WorkflowDate extends __NativeDate {
-  constructor() {
-    if (arguments.length === 0) throw new Error("argless new Date() is disabled in workflows");
-    super(...arguments);
-  }
+// 运行期禁令：三个入口都在 context 内拦下，编译期诊断另有一道保险。用子类而不是替换原型，
+// 于是 new Date(ms)、Date.parse、Date.UTC 都保留原生行为。
+var __clock = Date;
+class __GuardedDate extends __clock {
   static now() {
     throw new Error("Date.now() is disabled in workflows");
   }
-  static parse(value) {
-    return __NativeDate.parse(value);
+  static parse(text) {
+    return __clock.parse(text);
   }
-  static UTC() {
-    return __NativeDate.UTC.apply(__NativeDate, arguments);
+  static UTC(year, month, ...rest) {
+    return __clock.UTC(year, month, ...rest);
+  }
+  constructor(...params) {
+    if (params.length === 0) throw new Error("argless new Date() is disabled in workflows");
+    super(...params);
   }
 }
-globalThis.Date = __WorkflowDate;
-Math.random = function () {
-  throw new Error("Math.random() is disabled in workflows");
-};
+globalThis.Date = __GuardedDate;
+Object.defineProperty(Math, "random", {
+  value: function () {
+    throw new Error("Math.random() is disabled in workflows");
+  },
+  writable: true,
+  configurable: true,
+});
 `;
 
-  // ⚠ 自包含约束的第二条（见函数上方注释），比"别 import"更容易踩：**内层函数一律不许有名字**。
-  // 根因（本条测试写出来之前真踩到过）：CLI 的 desktop-agent 构建用 `minify + keepNames`，
-  // 那个组合下 esbuild 会把**能推导出名字**的内层函数（变量声明 `const send = …`、函数声明、
-  // 对象字面量属性）改写成 `__name(fn, "send")`，而 `__name` 是注入在模块作用域的 helper。
-  // 它一旦出现在 `toString()` 的文本里，内嵌出的子进程程序就会 ReferenceError——**只在压缩过的
-  // 发布产物里坏**，源码测试全绿。成员赋值（`sandbox.__send = …`）与实参位置的匿名函数不被改写，
-  // 所以下面一律用这两种形态。验证时需要运行真实打包、压缩后的产物。
-
-  const payload = deps.payload;
-
-  // 独立 realm：裸 context 只有 ES intrinsics，注入 __send 传输 + 实参 JSON。
-  // 实参缺席（内联 run、老 journal 行）编码成 "{}"：`args` 恒有定义是脚本侧的不变式，
-  // 沙箱这一侧就是它成立的地方。
+  // 裸 context 只有 ES intrinsics：注入传输函数与实参 JSON 即可。
+  // 实参缺席（内联 run、老 journal 行）编码成 "{}"，`args` 恒有定义是脚本侧的不变式。
   const sandbox = {
-    __argsJson: JSON.stringify(payload.args ?? {}),
+    __argsJson: JSON.stringify(deps.payload.args ?? {}),
   } as {
     __send: (line: string) => void;
     __argsJson: string;
     __deliver: (line: string) => void;
     __execute: (runFn: unknown) => Promise<void>;
   };
-  sandbox.__send = (line) => {
-    deps.stdout.write(`${line}\n`);
+  sandbox.__send = function (line) {
+    deps.stdout.write(line + "\n");
   };
   deps.vm.createContext(sandbox, { name: "workflow-sandbox" });
-  deps.vm.runInContext(BOOTSTRAP, sandbox, { filename: "workflow-bootstrap.js" });
+  deps.vm.runInContext(bootstrap, sandbox, { filename: "workflow-bootstrap.js" });
 
-  // 编译 lowered 函数体（context-native async fn；其 await 产生 context Promise，import() 无回调将抛错）。
+  // 编译 lowered 函数体（context-native async fn）。语法错误时发一条 error-complete 后返回：
+  // 刻意不调 process.exit——写往管道的 stdout 是异步的，立即退出会截断刚发出的 complete
+  // （父进程转而只看到「退出而未完成」，丢掉 SyntaxError 明细）。此时没有 reader，冲刷完自然退出。
   let runFn: unknown;
   try {
-    runFn = deps.vm.runInContext(`(async (__host) => {\n${payload.lowered}\n})`, sandbox, {
+    runFn = deps.vm.runInContext(`(async (__host) => {\n${deps.payload.lowered}\n})`, sandbox, {
       filename: "workflow-script.js",
     });
-  } catch (error) {
-    // lowered 体编译失败：发 error-complete 后直接终结。刻意**不**调 process.exit——写往管道的
-    // stdout 是异步的，立即 exit 会截断刚发出的那条 complete（父进程转而只看到"退出而未完成"，
-    // 丢掉 SyntaxError 明细）。此时事件循环里没有 reader，子进程冲刷完就自然退出。
-    const err = error as { name?: string; message?: string; stack?: string } | undefined;
-    deps.stdout.write(
-      `${JSON.stringify({
-        kind: "complete",
-        ok: false,
-        error: {
-          name: err?.name ?? "SyntaxError",
-          message: err?.message ?? String(error),
-          stack: err?.stack,
-        },
-      })}\n`,
-    );
+  } catch (caught) {
+    const detail = caught as { name?: string; message?: string; stack?: string } | undefined;
+    const frame = {
+      kind: "complete",
+      ok: false,
+      error: {
+        name: detail?.name ?? "SyntaxError",
+        message: detail?.message ?? String(caught),
+        stack: detail?.stack,
+      },
+    };
+    deps.stdout.write(`${JSON.stringify(frame)}\n`);
     return Promise.resolve();
   }
 
-  // stdin 持有事件循环存活；每行喂给 context 的 __deliver。
+  // stdin 持有事件循环存活；非空行喂给 context 的 __deliver。
   const reader = deps.createInterface({ input: deps.stdin });
-  reader.on("line", (line: string) => {
-    if (!line.trim()) return;
-    sandbox.__deliver(line);
+  reader.on("line", function (line: string) {
+    if (line.trim()) sandbox.__deliver(line);
   });
 
-  // 跑脚本；收尾时关 stdin，进程随空闲事件循环自然退出（父进程亦会在收到 complete 后 kill）。
+  // 跑脚本；无论成败都关 stdin，进程随空闲事件循环自然退出（父进程亦会在 complete 后 kill）。
   return sandbox.__execute(runFn).then(
-    () => reader.close(),
-    () => reader.close(),
+    function () {
+      reader.close();
+    },
+    function () {
+      reader.close();
+    },
   );
 }
 
-/** 入口文件名里 runId 的安全字符集之外一律换成 `_`（文件名与头注释共用同一份净化）。 */
+/** runId 里不属于安全字符集的部分一律换下划线；文件名与头注释共用同一份净化。 */
 function safeRunId(runId: string): string {
   return runId.replace(/[^A-Za-z0-9._-]/g, "_");
 }
 
+/** 入口文件顶部的导入语句：自启路径与 SEA 子命令路径共用同一组能力。 */
+const ENTRY_IMPORTS = [
+  'import { realpathSync } from "node:fs";',
+  'import { createInterface } from "node:readline";',
+  'import { fileURLToPath } from "node:url";',
+  'import { setFlagsFromString } from "node:v8";',
+  'import vm from "node:vm";',
+];
+
 /**
- * 渲染沙箱入口文件：一份自包含 ESM，harness 把它写到磁盘后以 `node <entry>` 启动。
+ * 入口文件顶层的自启段：堆上限 best-effort + 「我是不是进程入口」判定。
  *
- * 内容：payload 作为 JSON 字面量（`JSON.stringify` 的输出就是合法的 JS 表达式）、经 `toString()`
- * 内嵌的 {@link childMain}、导出的 `start(deps)`，以及两段顶层逻辑：
- *   - 堆上限 best-effort：缺省路径由真旗标 `--max-old-space-size` 生效；SEA 自 re-exec 传不了
- *     旗标，`execArgv` 里没有它时才 `v8.setFlagsFromString`（效果不保证，与原子命令侧同款）；
- *   - 自启判定：`realpath(argv[1])` 与本文件同一路径时（`node <entry>`）以 process 的
- *     vm/readline/stdio 自启；被 SEA 子命令 `import()` 时判定为假，由子命令调 `start`。
- *     比较 realpath 而不是裸路径：macOS 的 tmpdir 经 `/var → /private/var` 符号链接，
- *     `import.meta.url` 是解析后的真实路径，裸比较会让子进程静默不启动。
+ * 堆上限只在 SEA 自 re-exec 路径有意义——那条路传不了 --max-old-space-size，于是入口文件
+ * 在 execArgv 里看不到旗标时自己设一次（V8 对启动期已消费的旗标可能不再理会，记为 SEA 限制）。
  *
- * 唯一的插值是 childMain 的源文本与 payload JSON。childMain 自己带着模板字面量不成问题——插值是
- * **运行期的字符串拼接**，嵌进来的文本不会被再解析一次；真正的风险在 childMain 的自包含约束
- * 那一侧（见其注释）。生成的顶层代码刻意不用模板字面量，免得与外层的 `${}` 打架。
+ * 自启判定比较 realpath 而不是裸路径：macOS 的 tmpdir 经 /var → /private/var 符号链接，
+ * import.meta.url 是解析后的真实路径，裸比较会让子进程静默不启动。
+ */
+const ENTRY_STARTUP = [
+  "const declaredHeapMb = payload.maxOldSpaceSizeMb;",
+  'const hasHeapFlag = process.execArgv.some((arg) => arg.startsWith("--max-old-space-size"));',
+  'const wantsHeapFlag = typeof declaredHeapMb === "number" && Number.isFinite(declaredHeapMb);',
+  "if (wantsHeapFlag && declaredHeapMb > 0 && !hasHeapFlag) {",
+  "  try {",
+  '    setFlagsFromString("--max-old-space-size=" + Math.trunc(declaredHeapMb));',
+  "  } catch {",
+  "    // best-effort：V8 对启动期已消费的旗标可能不再理会，失败不得影响 run。",
+  "  }",
+  "}",
+  "",
+  "let isProcessEntry = false;",
+  "try {",
+  "  isProcessEntry =",
+  "    process.argv[1] !== undefined &&",
+  "    realpathSync(process.argv[1]) === realpathSync(fileURLToPath(import.meta.url));",
+  "} catch {",
+  "  isProcessEntry = false;",
+  "}",
+  "if (isProcessEntry) {",
+  "  void start({ vm, createInterface, stdin: process.stdin, stdout: process.stdout });",
+  "}",
+];
+
+/**
+ * 渲染沙箱入口文件：一份自包含 ESM，harness 写到磁盘后用 `node <entry>` 启动。
+ *
+ * 内容：payload 作为 JSON 字面量（JSON.stringify 的输出就是合法 JS 表达式）、经 toString()
+ * 内嵌的 childMain、导出的 start(deps)，以及自启段。唯一的插值是 childMain 的源文本与
+ * payload JSON；生成的顶层代码刻意不用模板字面量，免得与外层的 ${} 打架。
+ * 渲染对入参是纯函数：同样的 payload 与 runId 得到同样的文本。
  */
 export function renderChildEntry(payload: ChildPayload, meta: { runId: string }): string {
-  const runId = safeRunId(meta.runId);
-  return `// knorvia dynamic workflow run ${runId}
-// Generated by @knorvia/dynamic-workflow-runtime before every launch; safe to delete once the run has settled.
-import { realpathSync } from "node:fs";
-import { createInterface } from "node:readline";
-import { fileURLToPath } from "node:url";
-import { setFlagsFromString } from "node:v8";
-import vm from "node:vm";
-
-export const payload = ${JSON.stringify(payload)};
-
-const main = ${childMain.toString()};
-
-export const start = (deps) => main({ ...deps, payload });
-
-if (
-  typeof payload.maxOldSpaceSizeMb === "number" &&
-  Number.isFinite(payload.maxOldSpaceSizeMb) &&
-  payload.maxOldSpaceSizeMb > 0 &&
-  !process.execArgv.some((arg) => arg.startsWith("--max-old-space-size"))
-) {
-  try {
-    setFlagsFromString("--max-old-space-size=" + Math.trunc(payload.maxOldSpaceSizeMb));
-  } catch {
-    // best-effort：V8 对启动期已消费的旗标可能不再理会，失败不得影响 run。
-  }
-}
-
-let isProcessEntry = false;
-try {
-  isProcessEntry =
-    process.argv[1] !== undefined &&
-    realpathSync(process.argv[1]) === realpathSync(fileURLToPath(import.meta.url));
-} catch {
-  isProcessEntry = false;
-}
-if (isProcessEntry) {
-  void start({ vm, createInterface, stdin: process.stdin, stdout: process.stdout });
-}
-`;
+  const sections = [
+    [
+      `// knorvia dynamic workflow run ${safeRunId(meta.runId)}`,
+      "// Generated by @knorvia/dynamic-workflow-runtime before every launch; safe to delete once the run has settled.",
+      ...ENTRY_IMPORTS,
+      "",
+      `export const payload = ${JSON.stringify(payload)};`,
+      "",
+      `const main = ${childMain.toString()};`,
+      "",
+      "export const start = (deps) => main({ ...deps, payload });",
+      "",
+    ],
+    ENTRY_STARTUP,
+    [""],
+  ];
+  return sections.map((section) => section.join("\n")).join("\n");
 }

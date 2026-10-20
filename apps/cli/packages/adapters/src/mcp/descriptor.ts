@@ -1,29 +1,53 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2026 Knorvia Studio contributors
-// MCP 工具描述符归一化：把上游/插件给的任意 tool 对象收敛成契约要求的描述符。
-// 约定：
-// 一、tool 不是对象时按空对象处理，名字回落为 "unknown"，不抛错（上游数据常缺失）。
-// 二、显示名固定为 mcp__<server>__<tool>，两段都做字符净化，避免下游依赖非法字符。
-// 三、inputSchema 总是补上 type: object 与 properties，保证下游 JSON Schema 校验可读。
-// 四、annotations 只取四个已知布尔提示；未知字段丢弃，缺省为 undefined。
-// 五、official 标记仅在为真时写入，保持契约里的「缺席即非官方」语义。
-// 六、timeoutMs 原样透传，由调用方决定是否使用。
+//
+// MCP 工具描述符的归一化：把上游或插件给的任意 tool 对象收敛成契约要求的形状。
+//
+// 归一约定：
+// 一、tool 不是对象时按空对象处理，名字回落 "unknown" —— 上游数据常有缺失，这里不抛错。
+// 二、显示名固定为 mcp__<server>__<tool>，两段都做字符净化，避免非法字符流到下游。
+// 三、inputSchema 一律补 type: object 与 properties，让下游的 JSON Schema 校验有东西可读。
+// 四、annotations 只取四个已知布尔提示位；未知字段丢弃，缺省为 undefined。
+// 五、official 只在为真时写入 —— 契约语义是「缺席即非官方」。
+// 六、timeoutMs 原样透传，由调用方决定要不要用。
 
 import type { JsonSchema, McpToolAnnotations, McpToolDescriptor } from "@knorvia/contracts";
 
+/** 名字缺失时的回落值。 */
 const UNKNOWN_TOOL_NAME = "unknown";
+
+/** 显示名三段之间的分隔符。 */
 const TOOL_NAME_SEPARATOR = "__";
 
+/** 显示名的前缀。 */
+const DISPLAY_NAME_PREFIX = "mcp";
+
+/** 四个布尔提示位在契约里的字段名。 */
+const ANNOTATION_FLAGS = [
+  "readOnlyHint",
+  "destructiveHint",
+  "idempotentHint",
+  "openWorldHint",
+] as const;
+
+/** 普通对象判定（schema 与 tool 都用它）。 */
 function looksLikeSchema(raw: unknown): raw is JsonSchema {
   return typeof raw === "object" && raw !== null && !Array.isArray(raw);
 }
 
-/** 净化一段名字：非法字符替换为下划线，连续下划线合并，全空则回落 unknown。 */
+/** 净化一段名字：非法字符换下划线、连续下划线合并、全空回落 unknown。 */
 function sanitizeComponent(raw: string): string {
-  return raw.replace(/[^a-zA-Z0-9_-]/g, "_").replace(/_+/g, "_") || UNKNOWN_TOOL_NAME;
+  const replaced = raw.replace(/[^a-zA-Z0-9_-]/g, "_");
+  return replaced.replace(/_+/g, "_") || UNKNOWN_TOOL_NAME;
 }
 
-/** 输入 schema：非对象时给空对象 schema，是对象时补 type 与 properties。 */
+/** 拼显示名：前缀 + 净化后的服务名 + 工具名。 */
+function displayNameOf(serverName: string, toolName: string): string {
+  const parts = [DISPLAY_NAME_PREFIX, sanitizeComponent(serverName), sanitizeComponent(toolName)];
+  return parts.join(TOOL_NAME_SEPARATOR);
+}
+
+/** 输入 schema：非对象给空 schema；是对象就补 type 与 properties，保留原有键位。 */
 function projectInputSchema(raw: unknown): JsonSchema {
   if (!looksLikeSchema(raw)) {
     return { type: "object", properties: {}, additionalProperties: true };
@@ -31,33 +55,50 @@ function projectInputSchema(raw: unknown): JsonSchema {
   // 展开保留 symbol 与自有 __proto__ 数据字段；后续覆盖不移动已有键位。
   const schema: JsonSchema = { ...raw };
   schema.type = "object";
-  const declaredProperties = raw.properties;
-  schema.properties = looksLikeSchema(declaredProperties) ? declaredProperties : {};
+  schema.properties = looksLikeSchema(raw.properties) ? raw.properties : {};
   return schema;
 }
 
+/** 布尔提示位：只认真正的布尔值。 */
 function asBooleanFlag(raw: unknown): boolean | undefined {
   return typeof raw === "boolean" ? raw : undefined;
 }
 
-/** 工具提示：只保留契约声明的四个布尔位。 */
+/** 工具提示：逐位判定，四位都缺时仍返回对象（保持契约形状）。 */
 function projectAnnotations(raw: unknown): McpToolAnnotations | undefined {
   if (!looksLikeSchema(raw)) return undefined;
-  return {
-    readOnlyHint: asBooleanFlag(raw.readOnlyHint),
-    destructiveHint: asBooleanFlag(raw.destructiveHint),
-    idempotentHint: asBooleanFlag(raw.idempotentHint),
-    openWorldHint: asBooleanFlag(raw.openWorldHint),
-  };
+  const annotations = {} as McpToolAnnotations;
+  for (const flag of ANNOTATION_FLAGS) annotations[flag] = asBooleanFlag(raw[flag]);
+  return annotations;
 }
 
-/** 把已规范化的字段装配成描述符；official 只在为真时写入。 */
+/** 把字段装配成描述符；official 仅在为真时出现。 */
 function assembleDescriptor(
   fields: Omit<McpToolDescriptor, "official">,
   official: boolean | undefined,
 ): McpToolDescriptor {
   if (!official) return { ...fields };
   return { ...fields, official: true };
+}
+
+/** 归一的中间结果：先算出各字段，再交给装配函数决定 official 的取舍。 */
+function descriptorFields(
+  serverName: string,
+  payload: JsonSchema,
+  timeoutMs: number | undefined,
+): Omit<McpToolDescriptor, "official"> {
+  const candidateName = payload.name;
+  const toolName = typeof candidateName === "string" ? candidateName : UNKNOWN_TOOL_NAME;
+  const fields = {} as Omit<McpToolDescriptor, "official">;
+  fields.serverName = serverName;
+  fields.toolName = toolName;
+  fields.name = displayNameOf(serverName, toolName);
+  fields.description = typeof payload.description === "string" ? payload.description : undefined;
+  fields.timeoutMs = timeoutMs;
+  fields.inputSchema = projectInputSchema(payload.inputSchema);
+  fields.outputSchema = looksLikeSchema(payload.outputSchema) ? payload.outputSchema : undefined;
+  fields.annotations = projectAnnotations(payload.annotations);
+  return fields;
 }
 
 export function normalizeMcpToolDescriptor(
@@ -67,20 +108,5 @@ export function normalizeMcpToolDescriptor(
   official?: boolean,
 ): McpToolDescriptor {
   const payload = looksLikeSchema(tool) ? tool : {};
-  const candidateName = payload.name;
-  const toolName = typeof candidateName === "string" ? candidateName : UNKNOWN_TOOL_NAME;
-  const displayName = `mcp${TOOL_NAME_SEPARATOR}${sanitizeComponent(serverName)}${TOOL_NAME_SEPARATOR}${sanitizeComponent(toolName)}`;
-  return assembleDescriptor(
-    {
-      serverName,
-      toolName,
-      name: displayName,
-      description: typeof payload.description === "string" ? payload.description : undefined,
-      timeoutMs,
-      inputSchema: projectInputSchema(payload.inputSchema),
-      outputSchema: looksLikeSchema(payload.outputSchema) ? payload.outputSchema : undefined,
-      annotations: projectAnnotations(payload.annotations),
-    },
-    official,
-  );
+  return assembleDescriptor(descriptorFields(serverName, payload, timeoutMs), official);
 }

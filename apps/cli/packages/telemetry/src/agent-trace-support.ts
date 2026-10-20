@@ -1,423 +1,126 @@
-import {
-  context,
-  createContextKey,
-  createTraceState,
-  ROOT_CONTEXT,
-  SpanStatusCode,
-  trace,
-  type Attributes,
-  type Context,
-  type Span,
-  type SpanContext,
-} from "@opentelemetry/api";
+// SPDX-License-Identifier: Apache-2.0
+// Writer 的公共底座：上下文锚点、因果搬运与取值闸门。
+//
+// 三件事的共同点：它们都只做「值的形状转换」，不持有状态。
+//   - 锚点：把「当前在写哪个 Span」放进 OTel Context，子 Span 据此继承父级；
+//   - 因果：把 Span 压成纯数据（或还原成 SpanContext），跨异步与进程边界保存；
+//   - 闸门：外部给的字符串先过字符集与长度检查才进 Attribute。
+//
+// 本模块是合同冻结的包内接口面（interface.md 逐一列出这些名字），实现就在此处。
+import * as otel from "@opentelemetry/api";
+import type { Context, Link, SpanContext } from "@opentelemetry/api";
 import type {
-  AgentTelemetryAbandonReason,
   AgentTelemetryCausation,
   AgentTelemetryExecutionContext,
-  AgentTelemetryScope,
 } from "@knorvia/contracts/telemetry";
-import { claimSanitizedTelemetryError } from "./error-sanitizer.js";
+import type { ActiveWriterContext } from "./writer-shapes.js";
 
-const ACTIVE_WRITER_CONTEXT_KEY = createContextKey("@knorvia/telemetry/active-writer-v4");
-const SAFE_ID_PATTERN = /^[A-Za-z0-9._:-]{1,128}$/u;
-const SAFE_ENUM_PATTERN = /^[a-z0-9_./:-]{1,128}$/u;
-const SAFE_IDENTIFIER_PATTERN = /^[A-Za-z0-9._:/-]{1,128}$/u;
+/** 锚点键：名字带版本，语义变化时换新键，而不是改旧值的形状。 */
+const ANCHOR_KEY = otel.createContextKey("@knorvia/telemetry/active-writer-v4");
 
-export interface ActiveWriterContext {
-  activeContext: Context;
-  correlation?: AgentTelemetryExecutionContext;
-  parent?: ActiveWriterContext;
-  span: Span;
-  spanName: string;
-  toolCallId?: string;
-}
-
-export interface WriterHealth {
-  onWarning?: (message: string, context: Record<string, unknown>) => void;
-}
-
-export interface WriterLifecycleKeys {
-  abandonReason: string;
-  cancelReason: string;
-  errorCategory: string;
-  errorCode: string;
-  errorMessage: string;
-  errorType: string;
-  failureStage: string;
-  outcome: string;
-}
-
-export interface WriterTerminalObservation {
-  abandonReason?: string;
-  errorCategory?: string;
-}
-
-export abstract class BaseSpanWriter implements AgentTelemetryScope {
-  private ended = false;
-  private readonly startedAtMs = monotonicNowMs();
-  readonly state: ActiveWriterContext;
-
-  protected constructor(
-    span: Span,
-    parentContext: Context,
-    metadata: Omit<ActiveWriterContext, "activeContext" | "span">,
-    private readonly lifecycle: WriterLifecycleKeys,
-    private readonly health: WriterHealth,
-    private readonly onTerminal?: (
-      outcome: string,
-      durationMs: number,
-      observation: WriterTerminalObservation,
-    ) => void,
-  ) {
-    this.state = {
-      ...metadata,
-      activeContext: parentContext,
-      span,
-    };
-    this.state.activeContext = trace
-      .setSpan(parentContext, span)
-      .setValue(ACTIVE_WRITER_CONTEXT_KEY, this.state);
-  }
-
-  captureCausation(): AgentTelemetryCausation | undefined {
-    return causationFromState(this.state);
-  }
-
-  run<T>(execute: () => T): T {
-    let entered = false;
-    let businessReturned = false;
-    let businessValue: T | undefined;
-    let businessError: unknown;
-
-    const invokeBusinessOnce = (): T => {
-      if (entered) {
-        if (businessReturned) return businessValue as T;
-        throw businessError;
-      }
-      entered = true;
-      try {
-        businessValue = execute();
-        businessReturned = true;
-        return businessValue;
-      } catch (error) {
-        businessError = error;
-        throw error;
-      }
-    };
-
-    let value: T;
-    try {
-      value = context.with(this.state.activeContext, invokeBusinessOnce);
-    } catch (error) {
-      if (!entered) {
-        this.warn("Telemetry context activation failed", error);
-        value = invokeBusinessOnce();
-      } else if (businessReturned) {
-        // Bug 根因：观测 Context Manager 理论上不应在业务返回后抛错；若第三方实现违反
-        // 契约，不能因此重跑或覆盖已经成功执行一次的业务回调。
-        this.warn("Telemetry context teardown failed", error);
-        value = businessValue as T;
-      } else {
-        this.finishThrownIfOpen(error);
-        throw error;
-      }
-    }
-
-    if (!isPromiseLike(value)) {
-      this.finishAbandonedIfOpen("missing_terminal");
-      return value;
-    }
-
-    return Promise.resolve(value).then(
-      (result) => {
-        this.finishAbandonedIfOpen("missing_terminal");
-        return result;
-      },
-      (error: unknown) => {
-        this.finishThrownIfOpen(error);
-        throw error;
-      },
-    ) as T;
-  }
-
-  protected abstract finishUnhandled(error: unknown): void;
-
-  protected addEvent(name: string, attributes?: Attributes): void {
-    this.safe(() => this.state.span.addEvent(name, compactAttributes(attributes ?? {})));
-  }
-
-  protected elapsedMs(): number {
-    return Math.max(0, monotonicNowMs() - this.startedAtMs);
-  }
-
-  protected finishAbandonedIfOpen(reason: AgentTelemetryAbandonReason): void {
-    if (!this.claimTerminal()) return;
-    this.setAttribute(this.lifecycle.outcome, "abandoned");
-    this.setAttribute(this.lifecycle.abandonReason, reason);
-    this.endSpan("abandoned", { abandonReason: reason });
-  }
-
-  protected finishCancelledIfOpen(reason: string): void {
-    if (!this.claimTerminal()) return;
-    this.setAttribute(this.lifecycle.outcome, "cancelled");
-    this.setAttribute(this.lifecycle.cancelReason, safeEnum(reason));
-    this.endSpan("cancelled");
-  }
-
-  protected finishCompletedIfOpen(extra?: () => void): void {
-    if (!this.claimTerminal()) return;
-    this.safe(extra);
-    this.setAttribute(this.lifecycle.outcome, "completed");
-    this.safe(() => this.state.span.setStatus({ code: SpanStatusCode.OK }));
-    this.endSpan("completed");
-  }
-
-  protected finishDomainOutcomeIfOpen(outcome: string, extra?: () => void): void {
-    if (!this.claimTerminal()) return;
-    this.safe(extra);
-    this.setAttribute(this.lifecycle.outcome, safeEnum(outcome));
-    this.endSpan(outcome);
-  }
-
-  protected finishFailedIfOpen(stage: string, category: string, error?: unknown): void {
-    if (!this.claimTerminal()) return;
-    this.setAttribute(this.lifecycle.outcome, "failed");
-    this.setAttribute(this.lifecycle.failureStage, safeEnum(stage));
-    this.setAttribute(this.lifecycle.errorCategory, safeEnum(category));
-    if (error !== undefined) this.recordSanitizedError(error);
-    this.safe(() =>
-      this.state.span.setStatus({
-        code: SpanStatusCode.ERROR,
-      }),
-    );
-    this.endSpan("failed", { errorCategory: safeEnum(category) });
-  }
-
-  protected isOpen(): boolean {
-    return !this.ended;
-  }
-
-  protected recordSanitizedError(error: unknown): void {
-    const sanitized = claimSanitizedTelemetryError(error);
-    if (!sanitized) return;
-    this.setAttribute(this.lifecycle.errorType, sanitized.type);
-    this.setAttribute(this.lifecycle.errorCode, sanitized.code);
-    this.setAttribute(this.lifecycle.errorMessage, sanitized.message);
-    this.setAttribute("error.type", sanitized.type);
-    this.setAttribute("error.message", sanitized.message);
-    if (sanitized.cause) {
-      this.setAttribute("error.cause.type", sanitized.cause.type);
-      this.setAttribute("error.cause.code", sanitized.cause.code);
-      this.setAttribute("error.cause.message", sanitized.cause.message);
-    }
-  }
-
-  protected setAttribute(key: string, value: unknown): void {
-    const normalized = normalizeAttributeValue(value);
-    if (normalized === undefined) return;
-    this.safe(() => this.state.span.setAttribute(key, normalized));
-  }
-
-  protected setAttributes(attributes: Record<string, unknown>): void {
-    for (const [key, value] of Object.entries(attributes)) this.setAttribute(key, value);
-  }
-
-  protected safe(run: (() => void) | undefined): void {
-    if (!run) return;
-    try {
-      run();
-    } catch (error) {
-      this.warn("Telemetry writer operation failed", error);
-    }
-  }
-
-  private claimTerminal(): boolean {
-    if (this.ended) return false;
-    // 先关闭内存闩锁，再触碰任何 SDK/Adapter；即使后续抛错也不会重复终结。
-    this.ended = true;
-    return true;
-  }
-
-  private endSpan(outcome: string, observation: WriterTerminalObservation = {}): void {
-    const durationMs = this.elapsedMs();
-    this.safe(() => this.onTerminal?.(outcome, durationMs, observation));
-    this.safe(() => this.state.span.end());
-  }
-
-  private finishThrownIfOpen(error: unknown): void {
-    if (!this.isOpen()) return;
-    this.finishUnhandled(error);
-  }
-
-  private warn(message: string, error: unknown): void {
-    try {
-      this.health.onWarning?.(message, {
-        errorType: error instanceof Error ? error.name : typeof error,
-        spanName: this.state.spanName,
-      });
-    } catch {
-      // Telemetry 的健康回调也属于旁路，绝不能覆盖业务返回或异常。
-    }
-  }
-}
-
+/** 当前 Context 上登记的 writer 状态（没有 writer 时是 undefined）。 */
 export function activeWriterContext(): ActiveWriterContext | undefined {
-  return context.active().getValue(ACTIVE_WRITER_CONTEXT_KEY) as ActiveWriterContext | undefined;
+  return otel.context.active().getValue(ANCHOR_KEY) as ActiveWriterContext | undefined;
 }
 
-function causationFromState(
-  state: ActiveWriterContext | undefined,
+/** 把 writer 的 Span 与自身状态一起写进 Context。 */
+export function withWriterAnchor(parent: Context, state: ActiveWriterContext): Context {
+  return otel.trace.setSpan(parent, state.span).setValue(ANCHOR_KEY, state);
+}
+
+/** 子 Span 的元数据：关联信息与工具调用标识都沿父级链继承。 */
+export function inheritedMetadata(
+  parent: ActiveWriterContext | undefined,
+  spanName: string,
+): Omit<ActiveWriterContext, "activeContext" | "span"> {
+  const inherited: Partial<ActiveWriterContext> = { parent, spanName };
+  inherited.correlation = parent?.correlation;
+  inherited.toolCallId = parent?.toolCallId;
+  return inherited as Omit<ActiveWriterContext, "activeContext" | "span">;
+}
+
+/** 因果引用的可选字段来源：哪些信息随引用一起走。 */
+interface CausationExtras {
+  correlation: AgentTelemetryExecutionContext | undefined;
+  toolCallId: string | undefined;
+}
+
+/** 三种关系词：谁发起了这个独立根 Span。 */
+export type LinkRelation = "resumed_from" | "spawned_by" | "triggered_by";
+
+/** 可选字段：会话、轮次与工具调用各自是否存在，决定键写不写。 */
+function causationExtras(extras: CausationExtras): Partial<AgentTelemetryCausation> {
+  const carried: Partial<AgentTelemetryCausation> = {};
+  const sessionId = extras.correlation?.sessionId;
+  const turnId = extras.correlation?.turnId;
+  if (sessionId !== undefined) carried.sessionId = sessionId;
+  if (turnId !== undefined) carried.turnId = turnId;
+  if (extras.toolCallId !== undefined) carried.toolCallId = extras.toolCallId;
+  return carried;
+}
+
+/**
+ * Span 状态 → 因果引用。
+ * 五个 OTel 字段必写，traceState 与三条关联信息按存在与否附加。
+ */
+export function causationOf(
+  spanContext: SpanContext,
+  extras: CausationExtras,
 ): AgentTelemetryCausation | undefined {
-  if (!state) return undefined;
-  const spanContext = state.span.spanContext();
-  if (!trace.isSpanContextValid(spanContext)) return undefined;
-  return {
-    isRemote: spanContext.isRemote ?? false,
+  if (!otel.trace.isSpanContextValid(spanContext)) return undefined;
+  const traceState = spanContext.traceState?.serialize();
+  const carried: Partial<AgentTelemetryCausation> = causationExtras(extras);
+  if (traceState !== undefined) carried.traceState = traceState;
+  const ref: AgentTelemetryCausation = {
+    isRemote: spanContext.isRemote === true,
     spanId: spanContext.spanId,
     traceFlags: spanContext.traceFlags,
     traceId: spanContext.traceId,
-    ...(spanContext.traceState ? { traceState: spanContext.traceState.serialize() } : {}),
-    sessionId: state.correlation?.sessionId,
-    turnId: state.correlation?.turnId,
-    toolCallId: state.toolCallId,
   };
+  return Object.assign(ref, carried);
 }
 
-export function contextFromCausation(causation: AgentTelemetryCausation): Context {
-  // 显式 Causation 只传播保存下来的 SpanContext。不能以执行时碰巧活跃的 Context
-  // 为底，否则会把另一个异步任务的 Baggage 或 Knorvia Writer 私有状态夹带进来。
-  return trace.setSpanContext(ROOT_CONTEXT, spanContextFromCausation(causation));
-}
-
+/** 因果引用 → SpanContext；traceState 从序列化串还原。 */
 export function spanContextFromCausation(causation: AgentTelemetryCausation): SpanContext {
-  return {
-    isRemote: causation.isRemote,
-    spanId: causation.spanId,
-    traceFlags: causation.traceFlags,
-    traceId: causation.traceId,
-    ...(causation.traceState ? { traceState: createTraceState(causation.traceState) } : {}),
-  };
+  const { isRemote, spanId, traceFlags, traceId, traceState } = causation;
+  const base: SpanContext = { isRemote, spanId, traceFlags, traceId };
+  return traceState === undefined
+    ? base
+    : { ...base, traceState: otel.createTraceState(traceState) };
 }
 
-export function compactAttributes(attributes: Attributes): Attributes {
-  const compacted: Attributes = {};
-  for (const [key, value] of Object.entries(attributes)) {
-    const normalized = normalizeAttributeValue(value);
-    if (normalized !== undefined) compacted[key] = normalized;
-  }
-  return compacted;
+/**
+ * 因果引用 → Context。
+ * 基底固定 ROOT_CONTEXT：以执行时活跃的 Context 为底会把别的任务的 baggage 带进来。
+ */
+export function contextFromCausation(causation: AgentTelemetryCausation): Context {
+  return otel.trace.setSpanContext(otel.ROOT_CONTEXT, spanContextFromCausation(causation));
 }
 
-export function executionProjection(
-  correlation: AgentTelemetryExecutionContext | undefined,
-  options: {
-    includeActor?: boolean;
-    includeAgent?: boolean;
-    includeIdentity?: boolean;
-    includeQuery?: boolean;
-    includeSession?: boolean;
-  } = {},
-): Record<string, unknown> {
-  if (!correlation) return {};
-  return {
-    "knorvia.execution.session_id": options.includeSession
-      ? safeId(correlation.sessionId)
-      : undefined,
-    "knorvia.execution.parent_session_id": options.includeSession
-      ? safeId(correlation.parentSessionId)
-      : undefined,
-    "knorvia.execution.turn_id": safeId(correlation.turnId),
-    "knorvia.execution.parent_turn_id": options.includeSession
-      ? safeId(correlation.parentTurnId)
-      : undefined,
-    "knorvia.execution.query_id": options.includeQuery ? safeId(correlation.queryId) : undefined,
-    "knorvia.execution.actor_kind": options.includeActor
-      ? safeEnum(correlation.actorKind)
-      : undefined,
-    "knorvia.execution.agent_name": options.includeAgent
-      ? safeIdentifier(correlation.agentName)
-      : undefined,
-    "knorvia.execution.identity_state": options.includeIdentity
-      ? safeEnum(correlation.identityState)
-      : undefined,
-    "knorvia.execution.user_subject_id": options.includeIdentity
-      ? safeId(correlation.userSubjectId)
-      : undefined,
-    "knorvia.execution.launch_surface": safeEnum(correlation.launchSurface),
-  };
+/** 独立根 Span 与父运行的关联：父 SpanContext + 关系词。 */
+export function causationLink(causation: AgentTelemetryCausation, relation: LinkRelation): Link {
+  const link: Link = { attributes: {}, context: spanContextFromCausation(causation) };
+  link.attributes!["knorvia.link.relation"] = relation;
+  return link;
 }
 
-export function safeEnum(value: string | undefined): string | undefined {
-  if (!value) return undefined;
-  const normalized = value.trim().toLowerCase();
-  return SAFE_ENUM_PATTERN.test(normalized) ? normalized : undefined;
-}
-
-export function safeId(value: string | undefined): string | undefined {
-  const normalized = value?.trim();
-  return normalized && SAFE_ID_PATTERN.test(normalized) ? normalized : undefined;
-}
-
-export function safeIdentifier(value: string | undefined): string | undefined {
-  if (!value) return undefined;
-  const normalized = value.trim().slice(0, 128);
-  return SAFE_IDENTIFIER_PATTERN.test(normalized) ? normalized : undefined;
-}
-
-export function safeString(value: string | undefined, maxLength = 256): string | undefined {
-  if (!value) return undefined;
-  const normalized = value
-    .replace(/\p{Cc}+/gu, " ")
-    .replace(/\s+/gu, " ")
-    .trim()
-    .slice(0, maxLength);
-  return normalized || undefined;
-}
-
-export function finiteNonNegative(value: number | undefined): number | undefined {
-  return typeof value === "number" && Number.isFinite(value) && value >= 0 ? value : undefined;
-}
-
-export function integer(value: number | undefined): number | undefined {
-  return typeof value === "number" && Number.isSafeInteger(value) ? value : undefined;
-}
-
-export function isAbortLike(error: unknown): boolean {
-  if (!(error instanceof Error)) return false;
-  return (
-    error.name === "AbortError" ||
-    ("code" in error && (error as Error & { code?: unknown }).code === "ABORT_ERR")
-  );
-}
-
-function normalizeAttributeValue(
-  value: unknown,
-): string | number | boolean | string[] | number[] | boolean[] | undefined {
-  if (typeof value === "string") return safeString(value, 1_024);
-  if (typeof value === "number") return Number.isFinite(value) ? value : undefined;
-  if (typeof value === "boolean") return value;
-  if (Array.isArray(value)) {
-    const strings = value.filter((item): item is string => typeof item === "string");
-    if (strings.length === value.length) return strings;
-    const numbers = value.filter(
-      (item): item is number => typeof item === "number" && Number.isFinite(item),
-    );
-    if (numbers.length === value.length) return numbers;
-    const booleans = value.filter((item): item is boolean => typeof item === "boolean");
-    if (booleans.length === value.length) return booleans;
-    return undefined;
-  }
-  return undefined;
-}
-
-function isPromiseLike(value: unknown): value is PromiseLike<unknown> {
-  return (
-    (typeof value === "object" || typeof value === "function") &&
-    value !== null &&
-    typeof (value as PromiseLike<unknown>).then === "function"
-  );
-}
-
-function monotonicNowMs(): number {
-  return Number(process.hrtime.bigint()) / 1_000_000;
-}
+// 取值闸门的实现住在 gates.ts；这里只把它们汇到同一个公开面上。
+export {
+  compactAttributes,
+  executionProjection,
+  finiteNonNegative,
+  integer,
+  isAbortLike,
+  safeEnum,
+  safeId,
+  safeIdentifier,
+  safeString,
+} from "./gates.js";
+export { SpanWriter, lifecycleKeysOf, type Conclusion } from "./span-writer.js";
+export type {
+  ActiveWriterContext,
+  WriterHealth,
+  WriterLifecycleKeys,
+  WriterSpan,
+  WriterTerminalObservation,
+} from "./writer-shapes.js";
