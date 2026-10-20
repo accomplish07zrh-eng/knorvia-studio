@@ -7,12 +7,12 @@
   "type": "module",
   "exports": {
     ".": "./src/server.ts",
-    "./browser-bridge": "./src/browser-bridge.ts",
     "./cua-bridge": "./src/cua-bridge.ts",
+    "./browser-bridge": "./src/browser-bridge.ts",
     "./cua-broker": "./src/cua-broker.ts",
     "./result": "./src/result.ts",
-    "./runtime-bridge": "./src/runtime-bridge.ts",
-    "./tool-contract": "./src/tool-contract.ts"
+    "./tool-contract": "./src/tool-contract.ts",
+    "./runtime-bridge": "./src/runtime-bridge.ts"
   },
   "scripts": {
     "build": "tsc && node scripts/build.mjs",

@@ -23070,19 +23070,6 @@
       ]
     },
     {
-      "path": "apps/cli/packages/node-repl-host/package.json",
-      "normalizedSha256": "a0badbddd5e47a78c7c495c1be63272589ae7b7238a051742d82cacbd22c136a",
-      "decision": "reviewed-retained",
-      "nature": "functional-configuration",
-      "license": "NOASSERTION",
-      "basis": "Exports, build/typecheck/lint commands and dependencies retain the fixed upstream configuration relationship (blob d85ac2fdb7363ae80a0d5bda510ab36a1caf3d9e); current identity/version/license fields changed. The package MIT field is not a whole-package implementation provenance decision. This is a nature-only review; existing applicable license notices are retained and no new license grant or authorship claim is made.",
-      "evidence": [
-        "licensing/evidence/node-repl-host-retained.md",
-        "specs/knorvia-independent-implementation.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
-    },
-    {
       "path": "apps/cli/packages/node-repl-host/scripts/build.mjs",
       "normalizedSha256": "6c2043a322dcf678a5c1b3bd677ed0f9d0479f73b7e13a2458f775d21334eee8",
       "decision": "independent-replacement",
@@ -146800,6 +146787,14 @@
         "specs/contracts/kernel-bridge-01/interface.md",
         "specs/contracts/kernel-bridge-01/acceptance.md"
       ]
+    },
+    {
+      "path": "docs/knorvia-apps-cli-packages-02-acceptance.md",
+      "normalizedSha256": "9a7a17b053822805e654debfe36386bb41f62197411b993d01fc34b3c06e2c86",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored acceptance record for the apps-cli-packages-02 independent replacement, listing per-file scoring modes, the line-mode and declaration-mode similarity measurements, the old-gate and stub-replacement results, the first failures and their corrections, the isolation self-check, and the remaining risks. Measured in this package: line-mode similarity 25/25 pass with highest containment 0.194, declaration-mode similarity 7/7 pass with 0-1 residual lines and containment 0.000, contract tests source 38/38 and dist 38/38, old gate PASS with stub replacement 0/38 allFail.",
+      "evidence": ["specs/contracts/apps-cli-packages-02/README.md", "licensing/current-files.json"]
     }
   ]
 }
