@@ -34,21 +34,40 @@ const STATE_ID_LENGTH = 16;
 
 type AuthorizationCodeConfig = Extract<McpOAuthConfig, { type: "authorization_code" }>;
 
-interface TransactionInput {
+/** 事务入参里与凭据存储相关的三段：配置、存储、以及凭据键前缀。 */
+type TransactionStorePart = {
   config: AuthorizationCodeConfig;
   credentialStore: SharedKnorviaCredentialStore;
   keyPrefix: string;
+};
+
+/** 事务入参里与服务身份相关的两段：服务名与（可选的）请求作用域。 */
+type TransactionServerPart = { serverName: string; requestedScope?: string };
+
+/** 用户交互回调的类型（两个回调签名相同）。 */
+type AuthorizationHook = (context: McpOAuthAuthorizationContext) => Promise<void> | void;
+
+/** 事务入参里与用户交互相关的三段：待授权通知、打开授权页、以及可选日志。 */
+type TransactionInteractionPart = {
   logger?: Logger;
-  onAuthorizationRequired?: (context: McpOAuthAuthorizationContext) => Promise<void> | void;
-  openAuthorizationUrl?: (context: McpOAuthAuthorizationContext) => Promise<void> | void;
-  requestedScope?: string;
-  serverName: string;
+  onAuthorizationRequired?: AuthorizationHook;
+  openAuthorizationUrl?: AuthorizationHook;
+};
+
+/** 事务入参里与「这一次尝试」相关的五项：回调服务、尝试 id、基线代号、TTL 与 state。 */
+type TransactionAttemptPart = {
   callback: LocalhostOAuthCallbackServer;
   attemptId: string;
   baselineGeneration?: string;
   ttlMs: number;
   state: string;
-}
+};
+
+/** 交互式授权事务的完整入参：由上面四段合成。 */
+type TransactionInput = TransactionStorePart &
+  TransactionServerPart &
+  TransactionInteractionPart &
+  TransactionAttemptPart;
 
 /** 事务内可变状态：动态注册结果、PKCE verifier、issuer 与发现记录。 */
 interface TxState {
