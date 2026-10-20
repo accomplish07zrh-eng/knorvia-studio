@@ -57,6 +57,19 @@ export * from "./domain/reference.js";
 
 **B11 的准确范围**：13 个文件（9 声明 + 4 端口），排除 `contract.ts`（桶）、`module.ts`/`node.ts`（入口）、`contract.example.ts`（示例）。
 
+**`services-03` 的 3 个 domain 模块（`imageInput`/`outputRef`/`reference`）被本包 `contract.ts` 聚合转发，模块本身的实现归 `services-03`**；`export *` 属入口聚合职责，逻辑分包下不构成跨包依赖。
+**这是「逻辑分包」**（`services-01` 起就是如此：合同与 scope 按包划分，物理上仍在 `packages/services/src/` 同一目录树），
+因此相对路径合法、包公开面（`src/index.ts` 的 `export *`）不变、`packages/ui` 等消费方无需改动。
+
+**实测这 45 个符号的消费面**（`imageInput` 6 + `outputRef` 22 + `reference` 17）：
+| 消费方式 | 处数 |
+| --- | ---: |
+| 直接 `import ... from ".../studio-runtime/contract.js"` 取这些符号 | **0** |
+| 通过 `@knorvia/services` 根桶取这些符号 | **10（全部在 `packages/ui`）** |
+| 直接 `import ... from ".../domain/{imageInput,outputRef,reference}.js"` | 多处（`app/`、`adapters/` 内部使用） |
+
+**所以这 3 行的 `export *` 是必须保留的公开面**——删掉会让 `packages/ui` 的 10 个文件编译失败。
+
 ## K5 三个 `domain/` 模块不纳入本包
 
 `domain/imageInput.ts`（126 行）、`domain/outputRef.ts`（279 行）、`domain/reference.ts`（340 行）
