@@ -14452,13 +14452,13 @@
     },
     {
       "path": "apps/cli/packages/core/src/tool/executor/deadline/handler-settlement.ts",
-      "normalizedSha256": "053be704934671885897455239ca6c89d3cdb6154e2e7c9cda0bc9310f0757e1",
+      "normalizedSha256": "efdb3de600a83d64f76c7fdc8ad21be274ec109593db5832c886eede44e75cae",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Independent handler lifetime uses a discriminated success/failure outcome and one completion gate for handler, cancellation and expiry. Cleanup precedes notification, timeout owns its generated abort, and synchronous throws now enter the same gate while retaining the established two-reaction rejection race. Prior source was accessed; no no-access clean-room claim is made. Standard Promise/AbortSignal/timer semantics, public names, arithmetic order and error text/fields are compatibility facts. Splitting, renaming or passing tests alone is not independent implementation evidence. The reviewed basis is the independent wait-interval budget ledger, timer adapter and a single completion-decision gate, with regression-first cleanup of synchronous handler/setup-chain failures. Invocation, permission racing, Hook clocks, shared error/trace contracts and other adjacent services remain outside this decision and retain applicable licenses.",
+      "basis": "Knorvia independent replacement of the core tool executor deadline settlement. The author read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. The six positional parameters became one named DeadlineExecution object, and the once-only settlement, deadline ownership and cleanup now live in a CallSettlement class whose four trigger paths all funnel through one private settle step. Measured after rework against upstream zcode-872ad960 at rev 872ad960 with old-rev origin/main: containment 0.145 with longest run 2. Contract tests core-tool-01 81/81.",
       "evidence": [
-        "specs/knorvia-tool-deadline.md",
-        "docs/knorvia-independence-progress-20260927.md"
+        "specs/contracts/core-tool-01/README.md",
+        "specs/contracts/core-tool-01/interface.md"
       ]
     },
     {
@@ -14629,10 +14629,10 @@
     },
     {
       "path": "apps/cli/packages/core/src/tool/executor/invocation/invocation.ts",
-      "normalizedSha256": "0b871d5c4f6bf75c572d8172f321a30a3e851ab692f0c38d148b28a7c1956586",
+      "normalizedSha256": "bf540bf1740fa9bdc698acf9c3d9858cdc7150f2bfea143c6b335bf5ba9ab659",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Knorvia independent replacement of the core tool executor invocation path. The author read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. This round only updated its hook call sites to the reworked hook-flow signature (one named context plus a named stage payload); the file body itself is still scheduled for similarity rework. Measured this round against upstream zcode-872ad960 at rev 872ad960 with old-rev origin/main: containment 0.342 with longest run 5, which is still above the containment threshold, so this entry is recorded as pending rework rather than as passing. Contract tests core-tool-01 81/81 pass.",
+      "basis": "Knorvia independent replacement of the core tool executor invocation path. The author read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. This round only forwarded the reworked signatures at its call sites (hook stages and deadline settlement now take named objects); the file body itself is still scheduled for similarity rework. Measured this round against upstream zcode-872ad960 at rev 872ad960 with old-rev origin/main: containment 0.332 with longest run 5, still above the containment threshold, so this entry records a pending rework state rather than a pass. Contract tests core-tool-01 81/81 pass.",
       "evidence": [
         "specs/contracts/core-tool-01/README.md",
         "specs/contracts/core-tool-01/interface.md"
