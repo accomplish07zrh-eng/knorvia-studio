@@ -1,173 +1,199 @@
 #!/usr/bin/env node
-import { readdir, readFile } from "node:fs/promises";
+// 统计仓库里 TypeScript 源码的长度：逐文件行数与字节数，外加总计。
+//
+// 行为依据 specs/contracts/apps-cli-01/behavior.md 的 B4–B14。要点是三件事：
+//   1. 哪些文件算源码 —— 由扩展名与测试文件判据共同决定（B5/B6）；
+//   2. 怎么遍历 —— 字典序、跳过符号链接与固定的忽略目录（B7/B8）；
+//   3. 行怎么数 —— CRLF 归一到 LF，再去掉**一个**结尾换行（B4）。
+//
+// 结构上按「判据 → 遍历 → 度量 → 渲染」分段，每段都是纯函数或只读 IO，
+// 这样单条规则可以独立核对，不必读完整条流水线。
+import { readFile, readdir } from "node:fs/promises";
 import { extname, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const countedExtensions = new Set([".ts", ".tsx"]);
-const ignoredTestDirectories = new Set(["__tests__", "tests"]);
-const ignoredTestFileSuffixes = [".spec.ts", ".spec.tsx", ".test.ts", ".test.tsx"];
-const pathSeparatorPattern = /[\\/]+/u;
-const ignoredWorkspacePackageDirectories = new Set([]);
-const ignoredDirectories = new Set([
-  ".git",
-  ".next",
-  ".turbo",
-  "build",
-  "coverage",
-  "dist",
-  "node_modules",
-  "out",
+/** 计入统计的扩展名。`.mts`/`.cts`/`.js` 等一律不算。 */
+const SOURCE_EXTENSIONS = ["ts", "tsx"];
+/** 目录名命中即整棵跳过：测试目录与构建/安装产物目录。 */
+const SKIPPED_DIRECTORY_NAMES = ["__tests__", "node_modules", "tests"];
+const BUILD_OUTPUT_DIRECTORIES = [".next", ".turbo", "build", "coverage", "dist", "out"];
+/** 版本库元数据目录，不参与统计。 */
+const VCS_DIRECTORY = ".git";
+/** 测试文件的文件名后缀，区分大小写。 */
+const TEST_FILE_SUFFIXES = [".spec.ts", ".spec.tsx", ".test.ts", ".test.tsx"];
+/** Windows 与 POSIX 的分隔符都要认。 */
+const SEPARATOR_RUN = /[\\/]+/gu;
+const REPORT_TITLE = "TypeScript file lengths (.ts, .tsx)";
+const HEADER_LABELS = ["Lines", "Bytes", "File"];
+const COLUMN_GAP = "  ";
+
+/** 目录名集合：整棵跳过（含 VCS 与构建产物）。 */
+const SKIP_DIRECTORIES = new Set([
+  VCS_DIRECTORY,
+  ...SKIPPED_DIRECTORY_NAMES,
+  ...BUILD_OUTPUT_DIRECTORIES,
 ]);
 
-const compareText = (left, right) => {
-  if (left === right) {
-    return 0;
-  }
+/** 统一的展示路径：分隔符一律折成 `/`，与平台无关。 */
+const toDisplayPath = (path) => path.split(SEPARATOR_RUN).join("/");
 
-  return left < right ? -1 : 1;
-};
+/** 文件名：展示路径的最后一段。 */
+const fileNameOf = (displayPath) => displayPath.slice(displayPath.lastIndexOf("/") + 1);
 
-const toDisplayPath = (filePath) => filePath.split(pathSeparatorPattern).join("/");
+/**
+ * 普通字符串比较。
+ * 这里刻意不用 localeCompare —— 报告顺序必须与运行环境的语言设置无关（B7）。
+ */
+const byText = (left, right) => (left === right ? 0 : left < right ? -1 : 1);
 
-const isIgnoredWorkspacePackageDirectory = (root, directoryPath) => {
-  const relativePath = toDisplayPath(relative(root, directoryPath));
-  return ignoredWorkspacePackageDirectories.has(relativePath);
-};
+/** 路径的目录段（不含文件名）。 */
+const directorySegmentsOf = (displayPath) => displayPath.split("/").slice(0, -1);
 
-export const isTestSourceFile = (filePath) => {
+/** 判据：路径含测试目录段，或文件名以测试后缀结尾。 */
+export function isTestSourceFile(filePath) {
   const displayPath = toDisplayPath(filePath);
-  const pathSegments = displayPath.split("/");
-  const fileName = pathSegments.at(-1) ?? displayPath;
-
-  return (
-    pathSegments.some((segment) => ignoredTestDirectories.has(segment)) ||
-    ignoredTestFileSuffixes.some((suffix) => fileName.endsWith(suffix))
+  const directoryHit = directorySegmentsOf(displayPath).some((segment) =>
+    SKIPPED_DIRECTORY_NAMES.includes(segment),
   );
-};
+  if (directoryHit) return true;
+  const fileName = fileNameOf(displayPath);
+  return TEST_FILE_SUFFIXES.some((suffix) => fileName.endsWith(suffix));
+}
 
-export const countLines = (source) => {
-  if (source.length === 0) {
-    return 0;
-  }
+/**
+ * 判据：扩展名在统计范围内，且不是测试文件。
+ * `extname` 已带前导点，比较时去掉。
+ */
+export function isCountedSourceFile(filePath) {
+  const extension = extname(filePath).replace(/^\./u, "");
+  return SOURCE_EXTENSIONS.includes(extension) && !isTestSourceFile(filePath);
+}
 
-  const normalized = source.replaceAll("\r\n", "\n");
-  const withoutFinalNewline = normalized.endsWith("\n") ? normalized.slice(0, -1) : normalized;
+/**
+ * 行数口径：CRLF 先归一到 LF；空串为 0；随后去掉**一个**结尾换行，
+ * 再按换行分段计数。因此 `"\n"` 与 `"a\n"` 都是 1 行，`"\n\n"` 是 2 行。
+ */
+export function countLines(source) {
+  if (source.length === 0) return 0;
+  const unified = source.split("\r\n").join("\n");
+  const withoutTrailingBreak = unified.endsWith("\n") ? unified.slice(0, -1) : unified;
+  return withoutTrailingBreak.length === 0 ? 1 : withoutTrailingBreak.split("\n").length;
+}
 
-  if (withoutFinalNewline.length === 0) {
-    return 1;
-  }
+/** 一个目录项要不要继续深入：普通目录、且名不在跳过集合里。 */
+const isDescendableDirectory = (entry) => entry.isDirectory() && !SKIP_DIRECTORIES.has(entry.name);
 
-  return withoutFinalNewline.split("\n").length;
-};
-
-export const isCountedSourceFile = (filePath) =>
-  countedExtensions.has(extname(filePath)) && !isTestSourceFile(filePath);
-
-export const collectTypeScriptFiles = async (rootDirectory) => {
+/**
+ * 递归收集源码文件。
+ * 顺序：同层按名称字典序，深度优先；符号链接（文件与目录）都不收集、不进入（B8）。
+ */
+export async function collectTypeScriptFiles(rootDirectory) {
   const root = resolve(rootDirectory);
-  const files = [];
+  const collected = [];
 
-  const walk = async (directory) => {
+  const visit = async (directory) => {
     const entries = await readdir(directory, { withFileTypes: true });
-    entries.sort((left, right) => compareText(left.name, right.name));
-
+    entries.sort((left, right) => byText(left.name, right.name));
     for (const entry of entries) {
-      if (entry.isSymbolicLink()) {
-        continue;
-      }
-
+      if (entry.isSymbolicLink()) continue;
       const absolutePath = join(directory, entry.name);
-
-      if (entry.isDirectory()) {
-        if (
-          !ignoredDirectories.has(entry.name) &&
-          !ignoredTestDirectories.has(entry.name) &&
-          !isIgnoredWorkspacePackageDirectory(root, absolutePath)
-        ) {
-          await walk(absolutePath);
-        }
+      if (isDescendableDirectory(entry)) {
+        await visit(absolutePath);
         continue;
       }
-
+      if (!entry.isFile()) continue;
       const relativePath = toDisplayPath(relative(root, absolutePath));
-      if (entry.isFile() && isCountedSourceFile(relativePath)) {
-        files.push({
-          absolutePath,
-          relativePath,
-        });
-      }
+      if (isCountedSourceFile(relativePath)) collected.push({ absolutePath, relativePath });
     }
   };
 
-  await walk(root);
-  return files.sort((left, right) => compareText(left.relativePath, right.relativePath));
-};
+  await visit(root);
+  return collected.sort((left, right) => byText(left.relativePath, right.relativePath));
+}
 
-export const measureTypeScriptFiles = async (rootDirectory) => {
+/** 在收集结果上补 `{bytes, lines}`；并发读取但按输入顺序返回（B9）。 */
+export async function measureTypeScriptFiles(rootDirectory) {
   const files = await collectTypeScriptFiles(rootDirectory);
-
   return Promise.all(
-    files.map(async (file) => {
-      const buffer = await readFile(file.absolutePath);
-      const source = buffer.toString("utf8");
-
+    files.map(async ({ absolutePath, relativePath }) => {
+      const bytes = await readFile(absolutePath);
       return {
-        ...file,
-        bytes: buffer.byteLength,
-        lines: countLines(source),
+        absolutePath,
+        relativePath,
+        bytes: bytes.byteLength,
+        lines: countLines(bytes.toString("utf8")),
       };
     }),
   );
+}
+
+/** 列宽：取表头与所有取值的最大字符数。 */
+const widthOf = (label, values) =>
+  Math.max(label.length, ...values.map((value) => String(value).length));
+
+/** 一行数据：数字右对齐，路径左对齐。 */
+const formatRow = (lines, bytes, path, [lineWidth, byteWidth]) =>
+  [String(lines).padStart(lineWidth), String(bytes).padStart(byteWidth), path].join(COLUMN_GAP);
+
+/**
+ * 渲染报告（B10）：先按行数降序、再按路径升序；固定头部三行 + 空行 + 表头 + 数据行，
+ * 整体以**一个**换行结尾。空输入也输出头部与表头，合计为 0。
+ */
+export function formatReport(measurements) {
+  const ordered = [...measurements].sort(
+    (left, right) => right.lines - left.lines || byText(left.relativePath, right.relativePath),
+  );
+  const totals = ordered.reduce(
+    (sum, file) => ({ bytes: sum.bytes + file.bytes, lines: sum.lines + file.lines }),
+    { bytes: 0, lines: 0 },
+  );
+  const lineWidth = widthOf(
+    HEADER_LABELS[0],
+    ordered.map((file) => file.lines),
+  );
+  const byteWidth = widthOf(
+    HEADER_LABELS[1],
+    ordered.map((file) => file.bytes),
+  );
+  const widths = [lineWidth, byteWidth];
+  const headline = [
+    REPORT_TITLE,
+    `Files: ${ordered.length}`,
+    `Total lines: ${totals.lines}`,
+    `Total bytes: ${totals.bytes}`,
+  ];
+  const header = [
+    HEADER_LABELS[0].padStart(lineWidth),
+    HEADER_LABELS[1].padStart(byteWidth),
+    HEADER_LABELS[2],
+  ].join(COLUMN_GAP);
+  const rows = ordered.map((file) => formatRow(file.lines, file.bytes, file.relativePath, widths));
+  return [...headline, "", header, ...rows].join("\n") + "\n";
+}
+
+/** 扫描根：给了参数就用参数，否则用 cwd；多余参数忽略（B11/B12）。 */
+const resolveScanRoot = (argv) => {
+  const [first] = argv;
+  return first ? resolve(first) : process.cwd();
 };
 
-export const formatReport = (measurements) => {
-  const sorted = [...measurements].sort((left, right) => {
-    const lineDelta = right.lines - left.lines;
-    if (lineDelta !== 0) {
-      return lineDelta;
-    }
-
-    return compareText(left.relativePath, right.relativePath);
-  });
-
-  const totalLines = sorted.reduce((total, file) => total + file.lines, 0);
-  const totalBytes = sorted.reduce((total, file) => total + file.bytes, 0);
-  const lineWidth = Math.max("Lines".length, ...sorted.map((file) => String(file.lines).length));
-  const byteWidth = Math.max("Bytes".length, ...sorted.map((file) => String(file.bytes).length));
-
-  const rows = sorted.map(
-    (file) =>
-      `${String(file.lines).padStart(lineWidth)}  ${String(file.bytes).padStart(byteWidth)}  ${file.relativePath}`,
-  );
-
-  return (
-    [
-      "TypeScript file lengths (.ts, .tsx)",
-      `Files: ${sorted.length}`,
-      `Total lines: ${totalLines}`,
-      `Total bytes: ${totalBytes}`,
-      "",
-      `${"Lines".padStart(lineWidth)}  ${"Bytes".padStart(byteWidth)}  File`,
-      ...rows,
-    ].join("\n") + "\n"
-  );
+/** 失败语义（B13）：stdout 保持空，stderr 一行前缀 + 底层原因，退出码 1。 */
+const reportFailure = (error) => {
+  const message = error instanceof Error ? error.message : String(error);
+  process.stderr.write(`lint:count failed: ${message}\n`);
+  process.exitCode = 1;
 };
 
 const main = async () => {
-  const [rootArgument] = process.argv.slice(2);
-  const rootDirectory = rootArgument ? resolve(rootArgument) : process.cwd();
-  const measurements = await measureTypeScriptFiles(rootDirectory);
-
+  const measurements = await measureTypeScriptFiles(resolveScanRoot(process.argv.slice(2)));
   process.stdout.write(formatReport(measurements));
 };
 
-const scriptPath = fileURLToPath(import.meta.url);
-const invokedPath = process.argv[1] ? resolve(process.argv[1]) : "";
+/**
+ * 入口守卫（B14）：仅当本文件被 `node` 直接执行时跑主流程。
+ * 被 `import` 时模块只导出纯函数，不扫描、不输出。
+ */
+const isDirectInvocation = () =>
+  process.argv[1] !== undefined && resolve(process.argv[1]) === fileURLToPath(import.meta.url);
 
-if (invokedPath === scriptPath) {
-  main().catch((error) => {
-    const message = error instanceof Error ? error.message : String(error);
-    process.stderr.write(`lint:count failed: ${message}\n`);
-    process.exitCode = 1;
-  });
-}
+if (isDirectInvocation()) main().catch(reportFailure);
