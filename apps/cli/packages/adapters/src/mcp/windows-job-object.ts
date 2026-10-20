@@ -3,6 +3,43 @@
 
 type WindowsJobHandle = object; // Win32 句柄（koffi 的 opaque 指针），不透明类型。
 
+/**
+ * 本文件用到的 koffi 面（最小结构声明）。
+ *
+ * 刻意不用「整个模块的类型」来断言：本仓库里 koffi 有两个大版本共存——DSH 的若干包
+ * （dsh-fs-local / dsh-sandbox-windows-acl / dsh-session-persistence-jsonl / dsh-subprocess-local
+ * / dsh-win32-process）要 3.x，adapters 自己声明 2.15.6。pnpm 重装时的 hoist 结果会变，
+ * 顶层解析到哪个版本就决定「整个模块的类型」是哪个形状；3.x 在 struct 等处新增了内部成员，
+ * 于是按 2.x 写的整模块断言在 3.x 上直接报 TS2352。
+ *
+ * 只声明真正调用到的成员，就把「跟着 hoist 版本漂移」这件事从类型层面切断了：无论顶层
+ * 解析到 2.x 还是 3.x，本文件的类型检查只看这几个成员是否具备，运行期仍是同一个 koffi。
+ */
+interface KoffiApi {
+  /** 加载动态库，返回带 func 的绑定对象。 */
+  load(path: string): KoffiLibrary;
+  /** 指针类型：可带名字，也可直接包一个已有类型。 */
+  pointer(name: string, type: unknown): unknown;
+  pointer(type: unknown): unknown;
+  /** 不透明类型（句柄）：可带名字。 */
+  opaque(name?: string): unknown;
+  /** 结构体：名字 + 字段表。 */
+  struct(name: string, fields: Record<string, unknown>): unknown;
+  /** 类型字节宽度：SetInformationJobObject 的长度参数要用它。 */
+  sizeof(type: unknown): number;
+}
+
+/** 已加载动态库上的函数声明入口（__stdcall 形式）。 */
+interface KoffiLibrary {
+  func(convention: string, name: string, result: unknown, args: unknown[]): KoffiBoundFunction;
+}
+
+/**
+ * 绑定后的原生函数：参数与返回值都由声明决定，这里只表达「可调用」。
+ * 返回值用 unknown，由调用点按声明自行收窄（例如句柄按 truthy 判定）。
+ */
+type KoffiBoundFunction = (...args: unknown[]) => unknown;
+
 export interface /* 对外控制器：仅暴露 terminate/close */ WindowsJobObjectController {
   terminate(): void; // 终止整个任务对象（连带其进程）。
   close(): void; // 释放控制器持有的句柄。
@@ -30,7 +67,7 @@ let nativeApiPromise: Promise<WindowsJobObjectApi | undefined> | undefined;
 async function loadNativeApi(): Promise<WindowsJobObjectApi | undefined> {
   try /* 绑定失败要向上抛出，不做静默降级 */ {
     const imported = await import("koffi");
-    const koffi = ("default" in imported ? imported.default : imported) as typeof import("koffi");
+    const koffi = ("default" in imported ? imported.default : imported) as unknown as KoffiApi;
     const kernel = koffi.load("kernel32.dll");
     const handleType = /* 不透明句柄指针类型 */ koffi.pointer("HANDLE", koffi.opaque());
     // 结构体一律用「名字 + 字段表」建：字段顺序即结构体布局顺序，逐条可核对。
