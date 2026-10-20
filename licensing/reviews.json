@@ -754,10 +754,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/exec/bash-file-output.ts",
-      "normalizedSha256": "1fceea47b822946a2b3da2e16ae1a900dd43ecb1f27e3226bdb83988beadc9ba",
+      "normalizedSha256": "ae8be608bc0f36873a786533a80b5044e8134e289179edecc02603ab86dacb14",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.182, longest identical run 3, structural similarity 0.052 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-20 after the anti-gaming similarity rework (#124 (c) class, issue #224): max line containment 0.160, longest identical run 3, structural similarity 0.008 against the fixed upstream baseline (scored in normal mode; the module is a private implementation file not listed in interface.md).182, longest identical run 3, structural similarity 0.052 against the fixed upstream baseline (scored in normal mode).",
       "evidence": [
         "specs/knorvia-command-execution-runtime.md",
         "docs/knorvia-exec-plugin-runtime-acceptance.md",
@@ -766,10 +766,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/exec/bash-output-policy.ts",
-      "normalizedSha256": "f9bd7345ce6a9e87d4304727e8571f451a935b59d75e53c0a48bf8b068f531f3",
+      "normalizedSha256": "876e2bbbbccae0de24acab9fcb62285762d58f93cd58d69feb1fb74d7205b82b",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.063, longest identical run 1, structural similarity 0.000 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-20 after the anti-gaming similarity rework (#124 (c) class, issue #224): max line containment 0.071, longest identical run 1, structural similarity 0.000 against the fixed upstream baseline (scored in normal mode; the module is a private implementation file not listed in interface.md).063, longest identical run 1, structural similarity 0.000 against the fixed upstream baseline (scored in normal mode).",
       "evidence": [
         "specs/knorvia-command-execution-runtime.md",
         "docs/knorvia-exec-plugin-runtime-acceptance.md",
@@ -778,10 +778,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/exec/bash-output-preview.ts",
-      "normalizedSha256": "78157cc0e254330af570a9189ab46b4b6b479e48ca2b0bae5a91da2659d473ad",
+      "normalizedSha256": "816d5c133f7c6fc33f2bd67b7cb527e1a8e07ca0fad5dd76d61a820d9a2417e8",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.037, longest identical run 1, structural similarity 0.000 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-20 after the anti-gaming similarity rework (#124 (c) class, issue #224): max line containment 0.040, longest identical run 1, structural similarity 0.000 against the fixed upstream baseline (scored in normal mode; the module is a private implementation file not listed in interface.md).037, longest identical run 1, structural similarity 0.000 against the fixed upstream baseline (scored in normal mode).",
       "evidence": [
         "specs/knorvia-command-execution-runtime.md",
         "docs/knorvia-exec-plugin-runtime-acceptance.md",
@@ -790,10 +790,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/exec/bash-progress-poller.ts",
-      "normalizedSha256": "a07ca382101fe4a04445a237e5b77e169daa396d896aecd72f16d45bff060e1c",
+      "normalizedSha256": "cc700fa189b5970603de2d254e817291807d48ffa3db308fe2a326213b3995a5",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.114, longest identical run 1, structural similarity 0.030 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-20 after the anti-gaming similarity rework (#124 (c) class, issue #224): max line containment 0.083, longest identical run 2, structural similarity 0.031 against the fixed upstream baseline (scored in normal mode; the module is a private implementation file not listed in interface.md).114, longest identical run 1, structural similarity 0.030 against the fixed upstream baseline (scored in normal mode).",
       "evidence": [
         "specs/knorvia-command-execution-runtime.md",
         "docs/knorvia-exec-plugin-runtime-acceptance.md",
@@ -802,10 +802,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/exec/bash-resource-telemetry.ts",
-      "normalizedSha256": "a917e0ba3e4d16f574be99a961b3221f49e95fb416668f53bf9b281370428209",
+      "normalizedSha256": "d071c1dda4ce6ff245fa982b6b7d2f95de0840118994bf58a4e1892e988dbdb4",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.157, longest identical run 4, structural similarity 0.058 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-20 after the anti-gaming similarity rework (#124 (c) class, issue #224): max line containment 0.176, longest identical run 3, structural similarity 0.042 against the fixed upstream baseline (scored in normal mode; the module is a private implementation file not listed in interface.md).157, longest identical run 4, structural similarity 0.058 against the fixed upstream baseline (scored in normal mode).",
       "evidence": [
         "specs/knorvia-command-execution-runtime.md",
         "docs/knorvia-exec-plugin-runtime-acceptance.md",
@@ -814,10 +814,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/exec/bash-shell-provider.ts",
-      "normalizedSha256": "6636341ac428201b0c78c41e7b8302d4a4bd1b729cbecae3b4ccd21c0e7b67ca",
+      "normalizedSha256": "9e1aeea37a5bb42f3ba0addf1feeb181fcca08066a9021374df3a30ece678cc8",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.115, longest identical run 3, structural similarity 0.020 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-20 after the anti-gaming similarity rework (#124 (c) class, issue #224): max line containment 0.138, longest identical run 3, structural similarity 0.000 against the fixed upstream baseline (scored in normal mode; the module is a private implementation file not listed in interface.md).115, longest identical run 3, structural similarity 0.020 against the fixed upstream baseline (scored in normal mode).",
       "evidence": [
         "specs/knorvia-command-execution-runtime.md",
         "docs/knorvia-exec-plugin-runtime-acceptance.md",
@@ -826,10 +826,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/exec/bash-startup-script.ts",
-      "normalizedSha256": "89a0d466cb16e7a8158b1cd2bf19e973f196079741109fe047baad0e06354fbb",
+      "normalizedSha256": "cf4ac5010634c163e3530091226b05e80554f91c7d74801b7aeb1a13a2787d6d",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.193, longest identical run 3, structural similarity 0.182 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-20 after the anti-gaming similarity rework (#124 (c) class, issue #224): max line containment 0.167, longest identical run 2, structural similarity 0.100 against the fixed upstream baseline (scored in normal mode; the module is a private implementation file not listed in interface.md).193, longest identical run 3, structural similarity 0.182 against the fixed upstream baseline (scored in normal mode).",
       "evidence": [
         "specs/knorvia-command-execution-runtime.md",
         "docs/knorvia-exec-plugin-runtime-acceptance.md",
@@ -838,10 +838,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/exec/cwd-capture.ts",
-      "normalizedSha256": "a661064a41c78f72f8dd74fe3a018f0215993fcb0004255de5ef675deaeca32e",
+      "normalizedSha256": "76feb4937fb5b423c8e68fcef696ecf5ad5c2704a1c2008cf6970dbfed5553ba",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.114, longest identical run 1, structural similarity 0.000 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-20 after the anti-gaming similarity rework (#124 (c) class, issue #224): max line containment 0.158, longest identical run 3, structural similarity 0.000 against the fixed upstream baseline (scored in normal mode; the module is a private implementation file not listed in interface.md).114, longest identical run 1, structural similarity 0.000 against the fixed upstream baseline (scored in normal mode).",
       "evidence": [
         "specs/knorvia-command-execution-runtime.md",
         "docs/knorvia-exec-plugin-runtime-acceptance.md",
@@ -874,7 +874,7 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/exec/execution-command.ts",
-      "normalizedSha256": "5c520d4dee8079d49a239c60126b5ec82c23ef6bca4e8da88d70872826243290",
+      "normalizedSha256": "0391f34ba24e23f11c6a0c5f1113fff8d49786f561ff384806a6187b2e0974a1",
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.050, longest identical run 1, structural similarity 0.000 against the fixed upstream baseline (scored in declaration mode).",
@@ -910,10 +910,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/exec/node-execution-adapter-base.ts",
-      "normalizedSha256": "61f74aa64f3bc8db4890c9a10980c81fd6ad38b92f8c7396fb6a8ad0fe826064",
+      "normalizedSha256": "30c5276bb47625206ca02b79c5919174102128a69bc34f71732a3ece3f296ed0",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.182, longest identical run 2, structural similarity 0.012 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-20 after the anti-gaming similarity rework (#124 (c) class, issue #224): max line containment 0.115, longest identical run 3, structural similarity 0.015 against the fixed upstream baseline (scored in normal mode; the module is a private implementation file not listed in interface.md).182, longest identical run 2, structural similarity 0.012 against the fixed upstream baseline (scored in normal mode).",
       "evidence": [
         "specs/knorvia-command-execution-runtime.md",
         "docs/knorvia-exec-plugin-runtime-acceptance.md",
@@ -922,10 +922,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/exec/node-execution-adapter-lifecycle.ts",
-      "normalizedSha256": "f609b6e4f42ceba2d6e2802ff6d96fa88e01a12442972295c9c1acbd49c689d0",
+      "normalizedSha256": "b424bb14b0c64f9564d70e16abc49fa2b2e4a3c04eef8bcae5cf24b613f92b40",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.179, longest identical run 4, structural similarity 0.011 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-20 after the anti-gaming similarity rework (#124 (c) class, issue #224): max line containment 0.194, longest identical run 4, structural similarity 0.009 against the fixed upstream baseline (scored in normal mode; the module is a private implementation file not listed in interface.md).179, longest identical run 4, structural similarity 0.011 against the fixed upstream baseline (scored in normal mode).",
       "evidence": [
         "specs/knorvia-command-execution-runtime.md",
         "docs/knorvia-exec-plugin-runtime-acceptance.md",
@@ -934,10 +934,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/exec/node-execution-adapter-process.ts",
-      "normalizedSha256": "67c6e8ec44416a5332a6a38d178c867ee948e2e0f97b0992231f481c47da6b80",
+      "normalizedSha256": "dd35713c755821b253a5b771ef3e0ae0547694c9174e585bf83e39f0cce20738",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.164, longest identical run 5, structural similarity 0.021 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-20 after the anti-gaming similarity rework (#124 (c) class, issue #224): max line containment 0.190, longest identical run 5, structural similarity 0.020 against the fixed upstream baseline (scored in normal mode; the module is a private implementation file not listed in interface.md).164, longest identical run 5, structural similarity 0.021 against the fixed upstream baseline (scored in normal mode).",
       "evidence": [
         "specs/knorvia-command-execution-runtime.md",
         "docs/knorvia-exec-plugin-runtime-acceptance.md",
@@ -946,7 +946,7 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/exec/node-execution-adapter-results.ts",
-      "normalizedSha256": "523183214b31539ac468535371ec4eb370ef526c2502d791556ce5cc055de4e1",
+      "normalizedSha256": "ffbd7c1f5a05d29f1cdd6d81ce42f5a8dad5c9d9d2dd41bdbcbadb04c92bdd65",
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.029, longest identical run 1, structural similarity 0.000 against the fixed upstream baseline (scored in declaration mode).",
@@ -958,7 +958,7 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/exec/node-execution-adapter-run.ts",
-      "normalizedSha256": "56bf47a7e08018cbb290adca13cbeefec28b3ad67fd0016c85f5fac5fce7295f",
+      "normalizedSha256": "23f36285da501526cc2595d48e2ffc3977aaf4cc9779fa7f715b3de606b668d8",
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged.",
@@ -970,10 +970,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/exec/node-execution-adapter.ts",
-      "normalizedSha256": "ef11ca2b5db1aa9accd209eb6c3c297fdc8e011d70a3ac0343a24189cac84b84",
+      "normalizedSha256": "7ec3dff3b7f20bba38583ceb00b72205682a3a39ed86865a719e26d5ca28a633",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.171, longest identical run 4, structural similarity 0.033 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-20 after the anti-gaming similarity rework (#124 (c) class, issue #224): max line containment 0.029, longest identical run 1, structural similarity 0.000 against the fixed upstream baseline (scored in normal mode; the module is a private implementation file not listed in interface.md).171, longest identical run 4, structural similarity 0.033 against the fixed upstream baseline (scored in normal mode).",
       "evidence": [
         "specs/knorvia-command-execution-runtime.md",
         "docs/knorvia-exec-plugin-runtime-acceptance.md",
@@ -994,10 +994,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/exec/outputEncoding.ts",
-      "normalizedSha256": "e2537e089ad78efc4201488dbf9884e7241093e387f256b17718421c353c27a6",
+      "normalizedSha256": "6f583bce2565f51f5e556cddf78edd76c9b8baae1b89364f57c8c7b0501c5ba0",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.142, longest identical run 3, structural similarity 0.020 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-20 after the anti-gaming similarity rework (#124 (c) class, issue #224): max line containment 0.193, longest identical run 4, structural similarity 0.016 against the fixed upstream baseline (scored in normal mode; the module is a private implementation file not listed in interface.md).142, longest identical run 3, structural similarity 0.020 against the fixed upstream baseline (scored in normal mode).",
       "evidence": [
         "specs/knorvia-command-execution-runtime.md",
         "docs/knorvia-exec-plugin-runtime-acceptance.md",
@@ -1006,10 +1006,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/exec/process-tree.ts",
-      "normalizedSha256": "fa7fca614edf05f5aa7ebe935b582f55cb3eb2e62086d88b03a0395751c1f719",
+      "normalizedSha256": "efd5366e6e11791c997ea7d8c325b65cdd99d72a1dc3a8cc78c6daf9d20a5383",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.132, longest identical run 2, structural similarity 0.096 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-20 after the anti-gaming similarity rework (#124 (c) class, issue #224): max line containment 0.162, longest identical run 3, structural similarity 0.031 against the fixed upstream baseline (scored in normal mode; the module is a private implementation file not listed in interface.md).132, longest identical run 2, structural similarity 0.096 against the fixed upstream baseline (scored in normal mode).",
       "evidence": [
         "specs/knorvia-command-execution-runtime.md",
         "docs/knorvia-exec-plugin-runtime-acceptance.md",
