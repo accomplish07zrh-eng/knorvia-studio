@@ -1863,10 +1863,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/mcp/windows-job-object.ts",
-      "normalizedSha256": "f5b6fe53ffdcc8130e6ff8465731481ad7eee942aa9f1ecadf97c8f1e7ed8cda",
+      "normalizedSha256": "44c46b84ace3f5acfb2766a2f1fa82f50282590877c92cad125ce4401b14f33e",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Independently designed optional native-loader cache and one-handle job controller with explicit partial-acquisition compensation; standard ABI and Koffi rights retained. Root/preparer read old three sources655 lines; independent source/test authors received approved behavior and finite declarations, with previously retained adjacent context explicitly disclosed. Root reviewed complete tests and old-first36 before candidate; independent integration review checked105 hashes and fixture-only URL bindings. Initial test3 type diagnostics/5 unsafe optional-chain warnings/8 format files and parse-only TypeScript failures retained; final static checks pass. Root main strict2 diagnostics corrected with type-only unknown operand, identical emitted JS; production candidate bytes and assertions unchanged. Old/candidate/main-source/exact CLI artifacts36 each and full3612 pass. Actual OS signals/process trees/native ABI, this-batch remote CI and packaged desktop remain unverified. Directory isolation is not OS auditing, strict clean-room or legal guarantee. Applicable third-party rights, root Apache and preview remain. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.149, longest identical run 6, structural similarity 0.149 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Independently designed optional native-loader cache and one-handle job controller with explicit partial-acquisition compensation; standard ABI and Koffi rights retained. Root/preparer read old three sources655 lines; independent source/test authors received approved behavior and finite declarations, with previously retained adjacent context explicitly disclosed. Root reviewed complete tests and old-first36 before candidate; independent integration review checked105 hashes and fixture-only URL bindings. Initial test3 type diagnostics/5 unsafe optional-chain warnings/8 format files and parse-only TypeScript failures retained; final static checks pass. Root main strict2 diagnostics corrected with type-only unknown operand, identical emitted JS; production candidate bytes and assertions unchanged. Old/candidate/main-source/exact CLI artifacts36 each and full3612 pass. Actual OS signals/process trees/native ABI, this-batch remote CI and packaged desktop remain unverified. Directory isolation is not OS auditing, strict clean-room or legal guarantee. Applicable third-party rights, root Apache and preview remain. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.149, longest identical run 6, structural similarity 0.149 against the fixed upstream baseline (scored in normal mode). Refreshed 2026-10-20 with the koffi type-hoist fix: the native loader no longer asserts the whole module type, so a top-level hoist to koffi 3.x (pulled in by the DSH packages) no longer breaks this file's type check. A local interface declares only the members this file calls (load, pointer, opaque, struct, sizeof and the loaded library's func), which compiles against both 2.15.6 and 3.1.1; runtime logic, bindings and constants are untouched and the loader still propagates binding failures. Measured against the fixed upstream baseline in normal mode: max line containment 0.430, longest identical run 11, structural similarity 0.120 (before this fix: 0.461 / 12 / 0.149). This file remains on the adapters similarity rework list (issue #224, batch C) and does not clear the gates yet.",
       "evidence": [
         "specs/knorvia-mcp-process-boundary.md",
         "docs/knorvia-mcp-process-boundary-acceptance.md",
@@ -2765,10 +2765,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/plugins/catalog-install.ts",
-      "normalizedSha256": "a7df4722fa307e5f5ee67ac0cfc0aab2cd4632749877f3901b85b42a155dd46e",
+      "normalizedSha256": "f2bf96421de249a262971e47ffe0fef8c13ab053def1b480b97eb6ad4ba3af30",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.144, longest identical run 2, structural similarity 0.011 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.144, longest identical run 2, structural similarity 0.011 against the fixed upstream baseline (scored in normal mode). Refreshed 2026-10-20 by the adapters anti-gaming similarity rework (issue #224, batch B2a): only the pluginCacheDirectory call expression was updated to its tuple signature; no behavior change. Measured in normal mode against the fixed upstream baseline: max line containment 0.157.",
       "evidence": [
         "specs/knorvia-plugin-storage-runtime.md",
         "docs/knorvia-plugin-storage-runtime-acceptance.md",
@@ -2847,10 +2847,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/plugins/catalog-refresh.ts",
-      "normalizedSha256": "6472f42c0019bc57718a48a0e8b43c6beabcb64f7eef0c07057808b5a2ccdb50",
+      "normalizedSha256": "f0e61d41d8159b71c9c14a13beada7f56d557bac17f7eab6a16927f5e77e014c",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.188, longest identical run 3, structural similarity 0.000 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.188, longest identical run 3, structural similarity 0.000 against the fixed upstream baseline (scored in normal mode). Refreshed 2026-10-20 by the adapters anti-gaming similarity rework (issue #224, batch B2a): max line containment 0.164 (was 0.235), longest identical run 4 (was 4), structural similarity 0.000 (was 0.000) against the fixed upstream baseline, scored in normal mode because the module is a private implementation file not listed in interface.md.",
       "evidence": [
         "specs/knorvia-plugin-storage-runtime.md",
         "docs/knorvia-plugin-storage-runtime-acceptance.md",
@@ -2859,10 +2859,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/plugins/catalog-repository.ts",
-      "normalizedSha256": "c39b9c43c52df18fd1ae392ef402e0cd0ea41aa8bce73ff46d58c02de6bb34df",
+      "normalizedSha256": "e1a838df4dd7009260631f71fc5ac4dd322ebf0e65df565accafc377d8f2e85e",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.155, longest identical run 3, structural similarity 0.033 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.155, longest identical run 3, structural similarity 0.033 against the fixed upstream baseline (scored in normal mode). Refreshed 2026-10-20 by the adapters anti-gaming similarity rework (issue #224, batch B2a): max line containment 0.157 (was 0.256), longest identical run 2 (was 5), structural similarity 0.028 (was 0.000) against the fixed upstream baseline, scored in normal mode because the module is a private implementation file not listed in interface.md.",
       "evidence": [
         "specs/knorvia-plugin-storage-runtime.md",
         "docs/knorvia-plugin-storage-runtime-acceptance.md",
@@ -2895,10 +2895,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/plugins/catalog-validation.ts",
-      "normalizedSha256": "771fb83b47d34be68ed01bef3f93ce405676d2b0e21219d97ca516aeab0d2427",
+      "normalizedSha256": "934ecfab54951d4e03372b2e4591746cf6ce7e96be03dd5f2c57d238a5840850",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.172, longest identical run 2, structural similarity 0.250 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.172, longest identical run 2, structural similarity 0.250 against the fixed upstream baseline (scored in normal mode). Refreshed 2026-10-20 by the adapters anti-gaming similarity rework (issue #224, batch B2a): max line containment 0.183 (was 0.338), longest identical run 5 (was 8), structural similarity 0.074 (was 0.000) against the fixed upstream baseline, scored in normal mode because the module is a private implementation file not listed in interface.md.",
       "evidence": [
         "specs/knorvia-plugin-storage-runtime.md",
         "docs/knorvia-plugin-storage-runtime-acceptance.md",
@@ -3111,10 +3111,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/plugins/official-marketplace.ts",
-      "normalizedSha256": "3f2f20db307dab8b1f0d8ffe057856cebcb8af77ed5c0d30ce4200aa5fc8347e",
+      "normalizedSha256": "3aca9372b1e549a15c477e0cc3ed70026c3393c7844eccbdef9095354dd9b343",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.094, longest identical run 1, structural similarity 0.024 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.094, longest identical run 1, structural similarity 0.024 against the fixed upstream baseline (scored in normal mode). Refreshed 2026-10-20 by the adapters anti-gaming similarity rework (issue #224, batch B2a): max line containment 0.101 (was 0.295), longest identical run 2 (was 4), structural similarity 0.000 (was 0.000) against the fixed upstream baseline, scored in normal mode because the module is a private implementation file not listed in interface.md.",
       "evidence": [
         "specs/knorvia-plugin-storage-runtime.md",
         "docs/knorvia-plugin-storage-runtime-acceptance.md",
@@ -3147,10 +3147,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/plugins/plugin-source.ts",
-      "normalizedSha256": "e3b3534e50b82b43f0727429139040451f4d5f30e8673acc93d9521405da271c",
+      "normalizedSha256": "8a6e52aa60bf18de31d3f8ece5cd426dc41360adb4017b664f5884b485cb9220",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.068, longest identical run 1, structural similarity 0.000 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.068, longest identical run 1, structural similarity 0.000 against the fixed upstream baseline (scored in normal mode). Refreshed 2026-10-20 by the adapters anti-gaming similarity rework (issue #224, batch B2a): only the pluginCacheDirectory call expression was updated to its tuple signature; no behavior change. Measured in normal mode against the fixed upstream baseline: max line containment 0.177.",
       "evidence": [
         "specs/knorvia-plugin-storage-runtime.md",
         "docs/knorvia-plugin-storage-runtime-acceptance.md",
@@ -3159,10 +3159,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/plugins/plugin-validation.ts",
-      "normalizedSha256": "e3f917fdb4552a4d02d1d000e3006945ac40a111ef9299f210248d4c58c6a807",
+      "normalizedSha256": "db4673931f665f0d53a778fe077f233ba8d32ad6cbabe32d3299d4bdbe8b1b9e",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.168, longest identical run 3, structural similarity 0.000 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.168, longest identical run 3, structural similarity 0.000 against the fixed upstream baseline (scored in normal mode). Refreshed 2026-10-20 by the adapters anti-gaming similarity rework (issue #224, batch B2a): max line containment 0.191 (was 0.310), longest identical run 3 (was 3), structural similarity 0.000 (was 0.000) against the fixed upstream baseline, scored in normal mode because the module is a private implementation file not listed in interface.md.",
       "evidence": [
         "specs/knorvia-plugin-storage-runtime.md",
         "docs/knorvia-plugin-storage-runtime-acceptance.md",
@@ -130043,7 +130043,7 @@
     },
     {
       "path": "scripts/contract-gate.mjs",
-      "normalizedSha256": "05ee4f829786bae4d295b75ca580740cd2243c8853ca28cff10b484fee7175fc",
+      "normalizedSha256": "90c2b5c5781a2863591c1093229af51e88ef396b5b5b0c6cb7d8b3e65759c80d",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored replacement-process tooling: a shared runner for a package contract's old gate (source and dist entries) that also records the stub-replacement check into the standard gate-old.json shape. Replaces per-package ad-hoc runners; no thresholds or product code are involved.",
@@ -146777,6 +146777,820 @@
       ]
     },
     {
+      "path": "specs/contracts/services-01/README.md",
+      "normalizedSha256": "e94dccdc5ac1d05f71047f99bc6275ba80463de57f5a2321299fe1038f904350",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract artifact for @knorvia/services (M3: agent/broadcast/commands/conversation-telemetry/credential/cua-permission-broker/file, 60 inherited files in packages/services/src).",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/acceptance.md",
+      "normalizedSha256": "8980e1ac3a5d9564bc4d26b1c5ed0893620e8e4595c5d83b3f42ef1e15311528",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract artifact for @knorvia/services (M3: agent/broadcast/commands/conversation-telemetry/credential/cua-permission-broker/file, 60 inherited files in packages/services/src).",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/behavior.md",
+      "normalizedSha256": "7a89fe40a0ecdd5b474c054ffb8236703cbd92e616e026683ee659b01958610d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract artifact for @knorvia/services (M3: agent/broadcast/commands/conversation-telemetry/credential/cua-permission-broker/file, 60 inherited files in packages/services/src).",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/callers-raw.json",
+      "normalizedSha256": "888608c4bed1b0e4e06cd5cc54a692b7a03af01d5dd93f0f11f79eeaed424164",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract artifact for @knorvia/services (M3: agent/broadcast/commands/conversation-telemetry/credential/cua-permission-broker/file, 60 inherited files in packages/services/src).",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/callers.md",
+      "normalizedSha256": "3ec0369948a9fdaa6195ce5bdbcdc14c183a58d96e65989acb67379e0673b374",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract artifact for @knorvia/services (M3: agent/broadcast/commands/conversation-telemetry/credential/cua-permission-broker/file, 60 inherited files in packages/services/src).",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/design.md",
+      "normalizedSha256": "63acaa9163e997ee0a3eb5689c1dad3f1bbe0286229d0420a8bf8809a05a7090",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract artifact for @knorvia/services (M3: agent/broadcast/commands/conversation-telemetry/credential/cua-permission-broker/file, 60 inherited files in packages/services/src).",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/gate-old.json",
+      "normalizedSha256": "544ba3676abb4bc3bcccc6428f770b44be6ae207dfd4247accbd8d93012d02cc",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract artifact for @knorvia/services (M3: agent/broadcast/commands/conversation-telemetry/credential/cua-permission-broker/file, 60 inherited files in packages/services/src).",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/interface.md",
+      "normalizedSha256": "55c625746477e66551969805b98d695606207dc74a93aae61f64f97c9c395274",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract artifact for @knorvia/services (M3: agent/broadcast/commands/conversation-telemetry/credential/cua-permission-broker/file, 60 inherited files in packages/services/src).",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/known-differences.md",
+      "normalizedSha256": "09dede137ec84e39ae418136c41ce9d1b191dc1d1588ab9840938833e3ca1ea8",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract artifact for @knorvia/services (M3: agent/broadcast/commands/conversation-telemetry/credential/cua-permission-broker/file, 60 inherited files in packages/services/src).",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/scope-files.json",
+      "normalizedSha256": "8df4838e5e6dd7aebfa36ddfb71da9abaf1a57acf3ad754de191cea8a8a756c1",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract artifact for @knorvia/services (M3: agent/broadcast/commands/conversation-telemetry/credential/cua-permission-broker/file, 60 inherited files in packages/services/src).",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/build-stubs.mjs",
+      "normalizedSha256": "c924272a0be72f86b8edb071883826f808d879bb2b81181c0a4d18066478c88c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/agent.ts",
+      "normalizedSha256": "db83bb22417dbba87869d4063c23cc36268e248784585bdf0e51b193e8faa07d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/agentBrowserAmbientContext.ts",
+      "normalizedSha256": "5ed7e66c8d68ac2e0606078f19d8c2c5ae79fb28bc9d6bd4ff25c464b1216374",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/agentConnectionScope.ts",
+      "normalizedSha256": "f91fc78bc745e214ded7489dafae247364f04e19e21d98855c19f344a59fd710",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/agentErrors.ts",
+      "normalizedSha256": "b8dfc3635c5ad1b3744617d49a0158d307753fc348da7ee392eceed6aaa2f4ff",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/agentPluginParams.ts",
+      "normalizedSha256": "27a7e443308502d78b7ac76ea1c1a9b6f76306e23125d79a7f3834dfe321676d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/agentPresentationSurface.ts",
+      "normalizedSha256": "1b5dfa98b6d02505d079ed4dbc05e349d0caa9b1f2d56f85db517e2f0b02d14f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/agentProcessManager.ts",
+      "normalizedSha256": "a1cd88f6df36acd1c4862c7306f62327b603b40c01f3659ac3f938a5460ec733",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/agentService.ts",
+      "normalizedSha256": "39aa6d55a5ff04c10d0f92d1c627e3d66b019b76a223aed633a6f56d376a3e8c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/agentSpawnCwd.ts",
+      "normalizedSha256": "fb92734b2893582ff0f9bffdcccc8fb52fe5fe243a32a9f9108a99e90cefbccc",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/agentStderrCollector.ts",
+      "normalizedSha256": "720a268eb110e55a7a0beb48ccff73f73d8975666531ac81c10949e13e628b89",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/agentWorkflowParams.ts",
+      "normalizedSha256": "3187e9b1c860ef39d5dcdb84dbc75200c81d64e97aade05a302fe21ad34895b0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/automationToolPolicy.ts",
+      "normalizedSha256": "4df1ec5d9fbb1a974d8de19452738ee5d7adefc0f3f97698ae34fe909890151c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/configOptions.ts",
+      "normalizedSha256": "73099898f8aa1136710d326846f207e110f0f158c2e079cf77ec1287198a41d6",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/cuaOperationTurnTracker.ts",
+      "normalizedSha256": "553097e199ad2afb2645aeba75d4a58dd826b4a3170a4c1b50a1559cedf923e0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/independentPlanSupport.ts",
+      "normalizedSha256": "3b83d95cd6e7027c77743a22378e8e22837894c3c72bd3e2d38ba9683164cede",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/modelTrajectory.ts",
+      "normalizedSha256": "fd019410b3e36a42632614d40bda31189bd3c17a2dd8f064706657f602a96ab4",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/modelTrajectoryFileTail.ts",
+      "normalizedSha256": "15d3f69a8713675f4858f0011236d20657324e2cdad55adc0e982b488dbb98d9",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/pluginReferenceCatalogRequest.ts",
+      "normalizedSha256": "7a9afecdb297aca1f64016f26202547a0d217d3d6d17f2a7ad5a15de980689df",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/protocolClient.ts",
+      "normalizedSha256": "c84a931402f3ab1529adaf41529e50acc166a45976fc30715007c472c98c8b7d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/protocolTransport.ts",
+      "normalizedSha256": "b6eddac41e3d19cd007cf06b84f26070ecaee9cb60cb5ce1e0c0770f6e0fca39",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/repairSubagentTaskIndex.ts",
+      "normalizedSha256": "7bf6f8665a3e943a70f1afce19a018f56f98bc1122be173a25255a06863b09c1",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/sessionEventCoalescer.ts",
+      "normalizedSha256": "adeefeab77028509dfa75de9d887bf41126d5a514ceb4ed164a6051ad7135088",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/stdioTapDevConfig.ts",
+      "normalizedSha256": "309cf10c722f3d7ddc7fb1b9d78475aeb3091d80ce18dff71c10c0f3e2cbeef0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/stdioTransport.ts",
+      "normalizedSha256": "6a9bc5955c9faa4007b599d40998ba3bdb9987df2456c8a2642790a4b4d2106a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/storageStartupGate.ts",
+      "normalizedSha256": "22b05e86ae20b2694d826d59331b8d763f40822d27bdd43ab5de6a2ee70fae96",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/task-index-ingestion/sessionIndexProjection.ts",
+      "normalizedSha256": "fd54dddaa93e507ecb67ed15412599648ea7670a0c015c262e60925806e4c7cc",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/task-index-ingestion/snapshotProjection.ts",
+      "normalizedSha256": "b1dee2d118e75a7424bb030cb29678f11d5f626b82b1a41e75c3956d87203ba1",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/task-index-ingestion/topicTypes.ts",
+      "normalizedSha256": "b91628b0fbee1c6244306d1e933b1bce8fe7b52934b72cb72bb144d99d4fa80a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/taskIndexSyncer.ts",
+      "normalizedSha256": "0172fb6e9bc757217211ea5d69b87cde42969ee1c64aa52243f35ab825628b89",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/taskServiceAdapter.ts",
+      "normalizedSha256": "2b20042f557fb620604b0d3e62f9ba30e3e20e282693b9f008bcb03045060de7",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/agent/v4HostCommand.ts",
+      "normalizedSha256": "c73f68fc25ee8a47980ed72669140d7eb217cac289feb8d187e567c99f11ccd3",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/broadcast/broadcast.ts",
+      "normalizedSha256": "6fb9fd19984902cfc27143d2dbe48c4a94948c4270f7830f3067559203c77f66",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/broadcast/broadcastService.ts",
+      "normalizedSha256": "deef2d1b2f84106977d9f324955e67eef63c637f596d2f4e3d9aae1234bfef19",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/commands/commandConfig.ts",
+      "normalizedSha256": "d5ebbe65944ac09614e7907ed353a10126dcf99bcc02d6d1cb4046c889396bbf",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/commands/commandDiscovery.ts",
+      "normalizedSha256": "3b078101c78059e42e9f30601a4ea1416b2594b1903df9ada59a2341396ae9fb",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/commands/commandFileParser.ts",
+      "normalizedSha256": "b7759d85e79894b7a6b066082f087ada3dbe7dd6829390956600adcfc70575e3",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/commands/commands.ts",
+      "normalizedSha256": "d7bfece93f1ef6effe28564957e488de5e6aaa66a86c208bd1f1e149bca2d013",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/commands/commandsService.ts",
+      "normalizedSha256": "8cd883a159e3e106c374351d98ec0e8fb06027f7dae4a8f7f52d1473cac5260e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/conversation-telemetry/conversationTelemetry.ts",
+      "normalizedSha256": "0cbaf75dce2d2755a2c1f7d3d5b04663a557e5eda42fc4252c11b03835d0d9a3",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/credential/credential.ts",
+      "normalizedSha256": "0f3b2a9567dab16ed0cb7a0f9cb2ffd43a20618313497f45e0445c72f66f28e1",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/credential/credentialService.ts",
+      "normalizedSha256": "683e8ebca54b18927f5eb96fbb388c469b3313641b4bb3e23785e9a722cebd52",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/credential/providers/credentialCipherProvider.ts",
+      "normalizedSha256": "48b371fc7b2016741d8ed8dc7c5ae6422d034f258f1551835a8ca41532264d7b",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/cua-permission-broker/cuaAgentAdmissionGate.ts",
+      "normalizedSha256": "59a523088de1d5470662b7575c8b91e52675c51dba195d213eaff647c0322f43",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/cua-permission-broker/cuaHelperInstaller.ts",
+      "normalizedSha256": "bc8cef614c0db1c1df2cca74a14b0e202edcb84c66662f04dcb4d82d5cffb880",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/cua-permission-broker/cuaPermissionService.ts",
+      "normalizedSha256": "eb519f0beb4755e4dd5651f4d93e1311b2a845399636dadce28ac2ef0f265683",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/cua-permission-broker/cuaPipSession.ts",
+      "normalizedSha256": "669e571f9221751118303bd0050e7bfa6d6a77edf67d64bf96a0c8e7ab7f4b15",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/cua-permission-broker/cuaPipSessionService.ts",
+      "normalizedSha256": "643d689aedcc506b68cbb24091f3a7f2b5f24bdb52a2eb5f427353ea86f29f09",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/cua-permission-broker/index.ts",
+      "normalizedSha256": "c3fc13a23aee659c89ae12953933c081c41454a3ee8957c00fe066f5d140f65d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/cua-permission-broker/windowsCuaDevHelperHost.ts",
+      "normalizedSha256": "9bac8f857643388904c408baf53d1a6211ce6c200e5ed96cffaf2127c091e116",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/cua-permission-broker/windowsCuaDevRuntime.ts",
+      "normalizedSha256": "ef2e28f7abff34f67aa3d2034990614da1103fd8732e7c35b799e6a718957069",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/cua-permission-broker/windowsCuaHelperHostSupport.ts",
+      "normalizedSha256": "90383321ec6bde7bdd36dc54eb239e671a2350685de17e1e635ba6e02051b936",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/file/file.ts",
+      "normalizedSha256": "9891f4762ef23cb697e0590c8bf185da1b82ac4acd6c7088be64983da27098ad",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/file/fileService.ts",
+      "normalizedSha256": "fd347a9940e0585e612f0b40105ba9004467be739cd8775b97e25e6cf8201cb9",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/file/fileServiceIO.ts",
+      "normalizedSha256": "2d1016c01ac24f5183ee912c6958522028b45553aafe7bf2be7981eacec6fb8a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/file/fileServiceIndex.ts",
+      "normalizedSha256": "c2193db6ae10a4cdb977f77e385285556e76933279412d1f7c9b1e5d81f62710",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/file/workspaceFileIgnore.ts",
+      "normalizedSha256": "d7aacdf8374be0bee0ea93e9adfdd6c6dea963188bec62e7a22833645192cecb",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/file/workspaceFileMentionFilter.ts",
+      "normalizedSha256": "e858ae676ed09c1c653c9985e56cef8d9a7446188b7edab52648fbfa696e1729",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/packages/services/src/file/workspaceFileSearch.ts",
+      "normalizedSha256": "7f4328fef3111af9d6ce089a60bd5cd5cee65217dd879980d53228451ae5143a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/stubs/targets.txt",
+      "normalizedSha256": "f8318a79a74a46b6a803cabf68ae25b22b7789d88954fae9afd5afb71fa668aa",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/tests/agent-process.test.mjs",
+      "normalizedSha256": "b8f35415304cd64d919e9d2ab91b045b373e41db3409e13c220e2716702c64c1",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/tests/agent-surface.test.mjs",
+      "normalizedSha256": "791e6e6e4a6c9bd94ab17d4597195a52c3505eb9fc7a13977c7b27174fda72db",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/tests/callers-scan.mjs",
+      "normalizedSha256": "4eabeb8c3c1a1286d2708c19e872369d5827c7afd3ecbb350175a511508254c6",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/tests/commands-2.test.mjs",
+      "normalizedSha256": "18068c6b7a7dbd79912388e18430bddd203903190d46fde2759338d2295a7bef",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/tests/commands.test.mjs",
+      "normalizedSha256": "44b25fedeb95f7077ce9adf779d154ba83c68597b8b6dc2e04d5acb99a579e75",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/tests/credential-broadcast-2.test.mjs",
+      "normalizedSha256": "953aaaac69054b7f2411661bb115d145c5342e06ec627dbe202e99817597efd6",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/tests/credential-broadcast-lock-holder.mjs",
+      "normalizedSha256": "46316398d4eeff6e6022eaa67cd9e3e3285829bbcdee33024d8fa137c5c516cc",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/tests/credential-broadcast.test.mjs",
+      "normalizedSha256": "6ac4b81a60e6be2562193309e1b4e3329c40ef07e7b4c2fb99c8b0b84fb201f8",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/tests/credential.test.mjs",
+      "normalizedSha256": "6ca14d578398d48901e623766725a20f32e682465bfec6dc96e001d72c2d5f1e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/tests/cua-permission-broker-2.test.mjs",
+      "normalizedSha256": "7ca124508deafd375dfbcacd186df68458ff5b0602e0f80525a49e53a6587463",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/tests/cua-permission-broker.test.mjs",
+      "normalizedSha256": "86abd081080a2a059458769334b8959d8f20a2914c15fa589ab55337558004e8",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/tests/dist-loader.mjs",
+      "normalizedSha256": "76f75eb91c9b9f89f6d51916056fbf14ae2fc74b0204b559f1675d8cc447fa85",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/tests/dist-resolve.mjs",
+      "normalizedSha256": "b6d512217baf9716f9816a2f876d1ea42ae7775acbdd43b5d94d55edbb621847",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/tests/entry.mjs",
+      "normalizedSha256": "3450b5238b9c910978b2593d3e04f4cdfc45033c01ac41bb18656dd30b391d88",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/tests/exports-ast.mjs",
+      "normalizedSha256": "65fb28c731c3e90f2346daf2cf924f0cc13807fb0fd5f4a567512e21558f7a97",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/tests/file-service.test.mjs",
+      "normalizedSha256": "06b55410639a9edbf3cd3e217f3a5f57885d89dc152f735c5732e7f392b26627",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/tests/gen-interface.mjs",
+      "normalizedSha256": "880d82de8366c80563b4a53c362604088c116301dc46f5908b80c0cfc6980c6a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/tests/helpers.mjs",
+      "normalizedSha256": "3dd7f8a52f3d2673629aed2da24ca9063651b72bbf9a81766c522ba188f8e502",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/tests/realuse-scan.mjs",
+      "normalizedSha256": "858d47cd942726e65547d75402281664dd3df68aab7221b23d4913cbe5b5c70e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/tests/scope.mjs",
+      "normalizedSha256": "2d624e23a8568db32c1bb00f9cad27086c454b0bb143c72519ac9e168e1ec678",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/tests/surface.test.mjs",
+      "normalizedSha256": "6de900e1ffd9ae52b75015f0f7d762d918ea03ea5d319912f9f9b31e49ba41d2",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/tests/task-service-adapter.test.mjs",
+      "normalizedSha256": "b4a180e122c984db0dc8b92384e04d3569d7b39546ee0c8e117a6ee333e792be",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/tests/agent-connection-scope.test.mjs",
+      "normalizedSha256": "04330090d8ca699be3b52618b5cc2e8341eb5a908ea8715c974429790a7e3415",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/tests/agent-service-composition.test.mjs",
+      "normalizedSha256": "d70ade8dd525e3487c9775d68a51de4fa7d5e479a8c33c8cb8f5380fe0ee66e0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/tests/model-trajectory.test.mjs",
+      "normalizedSha256": "7177b6c4b9eddf05985c4886e972389f7602f9ce1804d5f7c262b234dcf2b793",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/tests/repair-subagent-task-index.test.mjs",
+      "normalizedSha256": "7cfecddef06397ce6765c577cc5fe8c0b51e9ca860720fc4b89c9f9d0290399b",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/tests/session-event-coalescer.test.mjs",
+      "normalizedSha256": "98d98db755f29a9f404fdea008ccc4d5b2e1826bad70962e12518a6ee42fe990",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/tests/task-index-syncer.test.mjs",
+      "normalizedSha256": "0f519c110947746a45f1596283d6adaa9ff08ab81f84f9fcf08f2baf243de00f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/tests/v4-host-command.test.mjs",
+      "normalizedSha256": "21f12b0c3425f0e834caba842473413f33a361fc3ef5326c6c14aaa9f50f1006",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/fixtures/command-config.json",
+      "normalizedSha256": "709636333cb038f6722ed71fe46b7e790fd627c21ab0251f95705026b40598b6",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract fixture for @knorvia/services. Synthetic historical cli/config.json golden sample with test-only command paths used by black-box round-trip tests; contains no real credentials or user data.",
+      "evidence": [
+        "specs/contracts/services-01/README.md",
+        "specs/contracts/services-01/fixtures/command-config.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/services-01/fixtures/credential-enc-v1.json",
+      "normalizedSha256": "5aab7f4008d6e5a07290ef442afbf2350f5b2239535f87171d2f41f56cb57f9b",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract fixture for @knorvia/services. Synthetic enc:v1 credential golden samples built from fixed test secret and IVs for black-box round-trip tests; contains no real credentials or user data.",
+      "evidence": [
+        "specs/contracts/services-01/README.md",
+        "specs/contracts/services-01/fixtures/credential-enc-v1.json"
+      ]
+    },
+    {
       "path": "specs/contracts/kernel-dsh-builtins/acceptance.md",
       "normalizedSha256": "69a5567c4b18a5247de1d63f954c5e014dd79d7b0f9e3c835c8d3dc9d81699e8",
       "decision": "original",
@@ -146954,7 +147768,7 @@
     },
     {
       "path": "specs/contracts/kernel-bridge-legacy/behavior.md",
-      "normalizedSha256": "73cb45da25754d84833df6a2381136d7e0187eaf93a7acad0a6abc4b17e62a2d",
+      "normalizedSha256": "2120a19bf4ccc9df995a288af1dbb8a249e58b5cf5903ffdba5fbcf56970c450",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored contract for the kernel-bridge-legacy M2 integration package: the legacy Knorvia Protocol surface (74 methods, 7 notifications) reimplemented on the DSH-backed kernel. Written from specs/knorvia-builtin-kernel-dsh.md, specs/knorvia-internal-plugins.md, the plan's kernel-adjustment and integration-package sections, the kernel-dsh-00 and kernel-bridge-01 contracts, and black-box measurement of the default engine at 526825db (method/notification inventory, host-side call sites, wire responses). The author read the replaced apps/cli/packages/bootstrap/src/protocol/** and protocol-v4/** to understand behavior only; no inherited implementation was copied, renamed or line-rewritten. Old gate 10/10 pass; stub gate 0/10 pass (10 fail); new-runtime baseline recorded in gate-dsh.json.",
@@ -146980,7 +147794,7 @@
     },
     {
       "path": "specs/contracts/kernel-bridge-legacy/gate-dsh.json",
-      "normalizedSha256": "269708b7d17a1d68ad615439bb1d999e5329ec88d733675f5f2cdaa88227640b",
+      "normalizedSha256": "2db71923b422e6e66540b47796bd148d719c360aaf7c815e492393ea3de5bae1",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored contract for the kernel-bridge-legacy M2 integration package: the legacy Knorvia Protocol surface (74 methods, 7 notifications) reimplemented on the DSH-backed kernel. Written from specs/knorvia-builtin-kernel-dsh.md, specs/knorvia-internal-plugins.md, the plan's kernel-adjustment and integration-package sections, the kernel-dsh-00 and kernel-bridge-01 contracts, and black-box measurement of the default engine at 526825db (method/notification inventory, host-side call sites, wire responses). The author read the replaced apps/cli/packages/bootstrap/src/protocol/** and protocol-v4/** to understand behavior only; no inherited implementation was copied, renamed or line-rewritten. Old gate 10/10 pass; stub gate 0/10 pass (10 fail); new-runtime baseline recorded in gate-dsh.json.",
@@ -146993,7 +147807,7 @@
     },
     {
       "path": "specs/contracts/kernel-bridge-legacy/gate-old.json",
-      "normalizedSha256": "b621f2ee8f53daf2007e063ef7c61f156eb14d0fe55998bb864bf075d6cb27e8",
+      "normalizedSha256": "1edf867ceccd86db458c84ed63c97876d60e7e037bf305c679369bc98a94f950",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored contract for the kernel-bridge-legacy M2 integration package: the legacy Knorvia Protocol surface (74 methods, 7 notifications) reimplemented on the DSH-backed kernel. Written from specs/knorvia-builtin-kernel-dsh.md, specs/knorvia-internal-plugins.md, the plan's kernel-adjustment and integration-package sections, the kernel-dsh-00 and kernel-bridge-01 contracts, and black-box measurement of the default engine at 526825db (method/notification inventory, host-side call sites, wire responses). The author read the replaced apps/cli/packages/bootstrap/src/protocol/** and protocol-v4/** to understand behavior only; no inherited implementation was copied, renamed or line-rewritten. Old gate 10/10 pass; stub gate 0/10 pass (10 fail); new-runtime baseline recorded in gate-dsh.json.",
@@ -147006,7 +147820,7 @@
     },
     {
       "path": "specs/contracts/kernel-bridge-legacy/interface.md",
-      "normalizedSha256": "e5bd7e1c50f885fc38388ea0cd64029122992c136ad31e462996d9755949d518",
+      "normalizedSha256": "f9a6ce1aa807bee3d7a15d20eeeeff4e7061552a535e0e58dc2c10adb7770e0d",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored contract for the kernel-bridge-legacy M2 integration package: the legacy Knorvia Protocol surface (74 methods, 7 notifications) reimplemented on the DSH-backed kernel. Written from specs/knorvia-builtin-kernel-dsh.md, specs/knorvia-internal-plugins.md, the plan's kernel-adjustment and integration-package sections, the kernel-dsh-00 and kernel-bridge-01 contracts, and black-box measurement of the default engine at 526825db (method/notification inventory, host-side call sites, wire responses). The author read the replaced apps/cli/packages/bootstrap/src/protocol/** and protocol-v4/** to understand behavior only; no inherited implementation was copied, renamed or line-rewritten. Old gate 10/10 pass; stub gate 0/10 pass (10 fail); new-runtime baseline recorded in gate-dsh.json.",
@@ -147032,7 +147846,7 @@
     },
     {
       "path": "specs/contracts/kernel-bridge-legacy/README.md",
-      "normalizedSha256": "0ef18b809a3a61f8da4c31135cc42f81acb9943629de89b4ce631dd9908d1a3d",
+      "normalizedSha256": "2c831e66d67bd34a28bcc2aab33307ee7a7d504e979ff61fb09852bae9ba2d9d",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored contract for the kernel-bridge-legacy M2 integration package: the legacy Knorvia Protocol surface (74 methods, 7 notifications) reimplemented on the DSH-backed kernel. Written from specs/knorvia-builtin-kernel-dsh.md, specs/knorvia-internal-plugins.md, the plan's kernel-adjustment and integration-package sections, the kernel-dsh-00 and kernel-bridge-01 contracts, and black-box measurement of the default engine at 526825db (method/notification inventory, host-side call sites, wire responses). The author read the replaced apps/cli/packages/bootstrap/src/protocol/** and protocol-v4/** to understand behavior only; no inherited implementation was copied, renamed or line-rewritten. Old gate 10/10 pass; stub gate 0/10 pass (10 fail); new-runtime baseline recorded in gate-dsh.json.",
@@ -147045,7 +147859,7 @@
     },
     {
       "path": "specs/contracts/kernel-bridge-legacy/stub-gate.json",
-      "normalizedSha256": "cb36f782c7c5718893f6e420684c9ca162c7a452171709769d9d5aeecc05e0d0",
+      "normalizedSha256": "5b6b5687988d3f851a1cfe57155bbe47ec8c9b3be6674dc63644d85f10b2efec",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored contract for the kernel-bridge-legacy M2 integration package: the legacy Knorvia Protocol surface (74 methods, 7 notifications) reimplemented on the DSH-backed kernel. Written from specs/knorvia-builtin-kernel-dsh.md, specs/knorvia-internal-plugins.md, the plan's kernel-adjustment and integration-package sections, the kernel-dsh-00 and kernel-bridge-01 contracts, and black-box measurement of the default engine at 526825db (method/notification inventory, host-side call sites, wire responses). The author read the replaced apps/cli/packages/bootstrap/src/protocol/** and protocol-v4/** to understand behavior only; no inherited implementation was copied, renamed or line-rewritten. Old gate 10/10 pass; stub gate 0/10 pass (10 fail); new-runtime baseline recorded in gate-dsh.json.",
@@ -147412,17 +148226,6 @@
       ]
     },
     {
-      "path": "packages/rpc/src/channel-codec.ts",
-      "normalizedSha256": "73ad8d0c58ea0d32e42cd71c3da580d195ea1199277bbea81d994ef6fa210d02",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia rewrite of packages-02 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Internal module extracted during the rewrite; the containing package passed the old gate 99/99 on both src and dist entries, and both similarity gates (line and structural) against the replaced files and the upstream baseline at 872ad960.",
-      "evidence": [
-        "specs/contracts/packages-02/README.md",
-        "docs/knorvia-packages-02-acceptance.md"
-      ]
-    },
-    {
       "path": "packages/rpc/src/channel-contract.ts",
       "normalizedSha256": "d58451a1dba0ca3664900ef891be6673b4cd22391cc28a1a61a221734e4ff5dc",
       "decision": "original",
@@ -147447,61 +148250,6 @@
     {
       "path": "packages/rpc/src/channel-protocol-declaration.ts",
       "normalizedSha256": "2ce2447eb5544c59239c125d1ac2ae1834e996ac30eb2d3381e35ad7ac057219",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia rewrite of packages-02 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Internal module extracted during the rewrite; the containing package passed the old gate 99/99 on both src and dist entries, and both similarity gates (line and structural) against the replaced files and the upstream baseline at 872ad960.",
-      "evidence": [
-        "specs/contracts/packages-02/README.md",
-        "docs/knorvia-packages-02-acceptance.md"
-      ]
-    },
-    {
-      "path": "packages/rpc/src/channel-error-mapping.ts",
-      "normalizedSha256": "ca5d7c6d0c40a9ca5a0a07231233505cd7d9aae1080047b99115f12183eb2e9b",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia rewrite of packages-02 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Internal module extracted during the rewrite; the containing package passed the old gate 99/99 on both src and dist entries, and both similarity gates (line and structural) against the replaced files and the upstream baseline at 872ad960.",
-      "evidence": [
-        "specs/contracts/packages-02/README.md",
-        "docs/knorvia-packages-02-acceptance.md"
-      ]
-    },
-    {
-      "path": "packages/rpc/src/transport-contract.ts",
-      "normalizedSha256": "6c67f1d5720358bca99872cf530309c25f2e8890c6888c4eefa63a6ff5917395",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia rewrite of packages-02 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Internal module extracted during the rewrite; the containing package passed the old gate 99/99 on both src and dist entries, and both similarity gates (line and structural) against the replaced files and the upstream baseline at 872ad960.",
-      "evidence": [
-        "specs/contracts/packages-02/README.md",
-        "docs/knorvia-packages-02-acceptance.md"
-      ]
-    },
-    {
-      "path": "packages/rpc/src/network-telemetry-sink.ts",
-      "normalizedSha256": "0f91074fd8379c698e6dd17c7a2253367510eaf578a007f889d1de19b94fdb03",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia rewrite of packages-02 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Internal module extracted during the rewrite; the containing package passed the old gate 99/99 on both src and dist entries, and both similarity gates (line and structural) against the replaced files and the upstream baseline at 872ad960.",
-      "evidence": [
-        "specs/contracts/packages-02/README.md",
-        "docs/knorvia-packages-02-acceptance.md"
-      ]
-    },
-    {
-      "path": "packages/rpc/src/network-telemetry-observation.ts",
-      "normalizedSha256": "d41aac25d780db19a0c082ef14b09a82cc7af3242bf8e3d7ad4f170f8b062e06",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia rewrite of packages-02 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Internal module extracted during the rewrite; the containing package passed the old gate 99/99 on both src and dist entries, and both similarity gates (line and structural) against the replaced files and the upstream baseline at 872ad960.",
-      "evidence": [
-        "specs/contracts/packages-02/README.md",
-        "docs/knorvia-packages-02-acceptance.md"
-      ]
-    },
-    {
-      "path": "packages/rpc/src/network-telemetry-measurement.ts",
-      "normalizedSha256": "7ca36842a00440912239cd35dcc82ed6b82b28ef8c42f7574632d6ffe01029b5",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia rewrite of packages-02 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Internal module extracted during the rewrite; the containing package passed the old gate 99/99 on both src and dist entries, and both similarity gates (line and structural) against the replaced files and the upstream baseline at 872ad960.",
@@ -147983,7 +148731,7 @@
     },
     {
       "path": "apps/cli/packages/bootstrap/src/kernel-bridge/legacy/index.ts",
-      "normalizedSha256": "618ab934d0732f6c8c48199743dff3b691f9513b9ea953c821705449a57d14cf",
+      "normalizedSha256": "4a843497bbb12265c3e50b51b466d7b140566e8dcc77f381c262406ef2cd502d",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored package entry for kernel-bridge-legacy against contract v1 (interface.md sections 4 and 5). Owns one bridge instance per app-server process, binds it to its Cordis context, and exposes the attach/detach/dispose lifecycle plus the reverse-request settlement hook that the bridge entry point calls. Written from specs/contracts/kernel-bridge-legacy/interface.md; the author read the replaced implementation for behavior, and no code was copied, renamed or rewritten line by line. Old gate 19/19, dsh gate 19/19, stub gate 0/19. Measured against the replaced protocol files and zai-org/ZCode@872ad960: max line containment 0.104, longest identical run 3, structural similarity 0.021.",
@@ -148030,6 +148778,88 @@
         "specs/contracts/kernel-bridge-legacy/README.md",
         "specs/contracts/kernel-bridge-legacy/behavior.md",
         "licensing/current-files.json"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-bridge/legacy/host-channel.ts",
+      "normalizedSha256": "9e2844f6d995e02a6b14fec7859d768b47ac8c70acde8dbbf59a6f6bbf365d6a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored narrow accessor that hands the reverse-request channel to later packages (contract v1, interface.md section 4 supplement of 2026-10-20). Wraps the bridge's single HostRequestBook into the frozen LegacyHostChannel shape so a caller can send a reverse request without reaching the book's management surface, keeping the bridge the single owner of channel state, the server-N id counter and the pending table. Written from specs/contracts/kernel-bridge-legacy/interface.md and behavior.md; the author read the replaced implementation for behavior, and no code was copied, renamed or rewritten line by line. At registration the legacy gate and the dsh gate each report 19/19 with zero skipped, the new B18 suite reports 5/5, and the stub gate reports 0/19. Measured against the replaced protocol files and zai-org/ZCode@872ad960: max line containment 0.000, longest identical run 0, structural similarity 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-legacy/interface.md",
+        "specs/contracts/kernel-bridge-legacy/behavior.md",
+        "specs/contracts/kernel-bridge-legacy/README.md",
+        "docs/knorvia-kernel-bridge-legacy-acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-legacy/tests/host-channel.test.ts",
+      "normalizedSha256": "acae22fb256934d03970a71cc6de8737c6bc219ccc005c85e8c18dad78d0a1f6",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contract test for kernel-bridge-legacy entries B18a-B18e (contract v1, interface.md section 4 supplement of 2026-10-20). Covers the reverse-request channel accessor: undefined before attach, a narrow interface that hides the bridge's management surface, a request that goes through the bridge's single pending book and settles on the host reply, an explicit no-client failure after detach, and a notification that carries no request id. Loaded through the local legacy-entry helper because the behaviour under test is the channel object's shape and lifecycle rather than the wire face. Written from specs/contracts/kernel-bridge-legacy/interface.md and behavior.md; no code was copied, renamed or rewritten line by line. The legacy gate and the dsh gate each remain 19/19 with zero skipped while this suite reports 5/5.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-legacy/interface.md",
+        "specs/contracts/kernel-bridge-legacy/behavior.md",
+        "specs/contracts/kernel-bridge-legacy/README.md",
+        "docs/knorvia-kernel-bridge-legacy-acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-legacy/tests/legacy-entry.mjs",
+      "normalizedSha256": "9658c330de1dcd4efe4555356d223b13652fff62f5ab1482b9026c1fa38a015d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contract-test entry helper for kernel-bridge-legacy. Resolves the legacy bridge modules by repository path so the in-process B18 suite can load the TypeScript source, following the existing apps-cli-packages-01 entry precedent: contract tests live under specs/, which is not a workspace package that declares the bootstrap dependency, so Node package resolution cannot reach it. Written from the local test-loading convention only; no inherited implementation was copied, renamed or rewritten line by line.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-legacy/README.md",
+        "specs/contracts/apps-cli-packages-01/tests/entry.mjs",
+        "docs/knorvia-kernel-bridge-legacy-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/cli/test/protocol-eof-startup.test.mjs",
+      "normalizedSha256": "8c29c77f5cfd6cca00d35f1e1cc756d46406664ddf94e905563aa175def4e52a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contract test and acceptance note for the CLI protocol stdin-EOF fix (NOT a replacement of inherited implementation). The test spawns the real CLI artifact over real stdio to assert that startup-period stdin EOF exits with code 0 and that no 'Protocol input closed' text reaches stderr; it imports no internal implementation and uses no sleeps. Measured in this fix: kernel-dsh-00 B1+B2/B20 passed 10/10 consecutive runs on Windows, kernel-bridge-legacy 10/10 (including B16 'stdin EOF exits 0'), apps-cli-packages-02 38/38, apps-cli-01 17/17, new contract tests 3/3; the fix changed the startup-EOF exit code from 1 to 0 with empty stderr.",
+      "evidence": [
+        "docs/knorvia-cli-protocol-eof-startup-20261020.md",
+        "specs/contracts/kernel-dsh-00/behavior.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-cli-protocol-eof-startup-20261020.md",
+      "normalizedSha256": "cbccf6d22d2427785f90affd10fe491b4a92a4daf8b93686d77e85497453574a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contract test and acceptance note for the CLI protocol stdin-EOF fix (NOT a replacement of inherited implementation). The test spawns the real CLI artifact over real stdio to assert that startup-period stdin EOF exits with code 0 and that no 'Protocol input closed' text reaches stderr; it imports no internal implementation and uses no sleeps. Measured in this fix: kernel-dsh-00 B1+B2/B20 passed 10/10 consecutive runs on Windows, kernel-bridge-legacy 10/10 (including B16 'stdin EOF exits 0'), apps-cli-packages-02 38/38, apps-cli-01 17/17, new contract tests 3/3; the fix changed the startup-EOF exit code from 1 to 0 with empty stderr.",
+      "evidence": [
+        "docs/knorvia-cli-protocol-eof-startup-20261020.md",
+        "specs/contracts/kernel-dsh-00/behavior.md"
+      ]
+    },
+    {
+      "path": "packages/rpc/src/transport-declarations.ts",
+      "normalizedSha256": "b0d491c0409341726690c58600ab05563ee6a1b5194664ea11df910934d77233",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of packages-02 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Pure type declaration module extracted during the rewrite (referenced only via import type, so it is erased at bundle time and does not enter the runtime dependency graph); the containing package passed the old gate 99/99 on both src and dist entries, and both similarity gates (line and structural) against the replaced files and the upstream baseline at 872ad960.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-packages-02-acceptance.md"
+      ]
+    },
+    {
+      "path": "packages/rpc/src/network-telemetry-declarations.ts",
+      "normalizedSha256": "2ac2f9949b8418a117883398cb34e03bd7e368481bd49cf552c78665d5380ea9",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of packages-02 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Pure type declaration module extracted during the rewrite (referenced only via import type, so it is erased at bundle time and does not enter the runtime dependency graph); the containing package passed the old gate 99/99 on both src and dist entries, and both similarity gates (line and structural) against the replaced files and the upstream baseline at 872ad960.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-packages-02-acceptance.md"
       ]
     }
   ]

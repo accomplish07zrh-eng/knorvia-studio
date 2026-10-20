@@ -95,12 +95,11 @@ export async function resolvePluginEntrySource(input: {
       const cache = recoverAtomicTargetSync(entry.cachePath);
       if (directoryExists(cache)) return { path: cache };
     }
-    const cache = pluginCacheDirectory(
-      /* 分区根 */ input.storageRoot,
-      /* 所属市场 */ input.marketplace,
+    const cache = pluginCacheDirectory(input.storageRoot, [
+      input.marketplace,
       entry.name,
       entry.version || "0.0.0",
-    );
+    ]);
     return requireLocalDirectory(recoverAtomicTargetSync(cache));
   }
   let base =

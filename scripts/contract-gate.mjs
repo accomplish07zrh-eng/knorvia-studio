@@ -123,6 +123,18 @@ const parseEnvironment = (items) => {
 };
 
 function runTests(extraArgs, extraEnv) {
+  // 兜底超时：用例级的 --test-timeout 只能判挂起的**用例**，抓不到「用例都过了但 runner
+  // 退出阶段仍有活句柄」这一类挂死（合同测试的清理问题就属这一族）。所以外层再给一个
+  // 远高于正常耗时的墙钟上限，且**超时一律判失败**（exitCode=1），不用 --test-force-exit
+  // 掩盖——能自然退出就不该强杀；真挂死时夹具必须退回并修好清理。
+  //
+  // `KNORVIA_CONTRACT_GATE_TIMEOUT_MS` 只是本门禁脚本的**工具级**覆盖（默认 1800000ms），
+  // 不是产品运行时变量，也不改变任何门禁通过条件；合同文档里的用途见 acceptance.md。
+  const fallbackTimeoutMs = Number(process.env.KNORVIA_CONTRACT_GATE_TIMEOUT_MS ?? 1_800_000);
+  const effectiveTimeoutMs =
+    Number.isSafeInteger(fallbackTimeoutMs) && fallbackTimeoutMs > 0
+      ? fallbackTimeoutMs
+      : 1_800_000;
   const result = spawnSync(
     process.execPath,
     [
@@ -139,9 +151,16 @@ function runTests(extraArgs, extraEnv) {
       encoding: "utf8",
       env: { ...parseEnvironment(options.env), ...extraEnv },
       maxBuffer: 256 * 1024 * 1024,
+      timeout: effectiveTimeoutMs,
+      killSignal: "SIGKILL",
     },
   );
   const output = `${result.stdout ?? ""}${result.stderr ?? ""}`;
+  // 超时与被外部信号杀掉是两件事，必须分开记：都算失败（方向安全，绝不把失败写成通过），
+  // 但混成一个 timedOut 会把「CI 取消 / OOM killer 发 SIGTERM」误报成「夹具挂死」，
+  // 让后续排查抓错方向。timedOut 只认 spawnSync 自己的 ETIMEDOUT。
+  const timedOut = result.error?.code === "ETIMEDOUT";
+  const signaled = result.status === null && result.signal !== null;
   const count = (label) => {
     for (const line of output.split(/\r?\n/u)) {
       // node:test 的汇总行形如「ℹ tests 118」「ℹ pass 118」，取行内最后两个 token 即可。
@@ -151,7 +170,10 @@ function runTests(extraArgs, extraEnv) {
     return null;
   };
   return {
-    exitCode: result.status ?? 1,
+    exitCode: timedOut || signaled ? 1 : (result.status ?? 1),
+    timedOut,
+    signaled,
+    signal: result.signal ?? null,
     tests: count("tests"),
     pass: count("pass"),
     fail: count("fail"),
@@ -168,11 +190,13 @@ const node = process.version;
 
 if (options.build) {
   console.log("contract-gate: 先构建 CLI 包（pnpm build:cli-packages）…");
-  execFileSync(
-    "pwsh",
-    ["-NoProfile", "-File", "D:\\knorvia studio开发\\toolchain\\pnpm24.ps1", "build:cli-packages"],
-    { cwd: repoRoot, stdio: "inherit" },
-  );
+  // 构建走仓库既有入口 scripts/mise-run.mjs：它按 mise.toml 把 Node 钉到 24 并处理
+  // Windows 的 pnpm.cmd 外壳。早先这里硬编码了某台机器的包装器绝对路径——CI 与其它
+  // 机器上不存在，且属 AGENTS.md 禁止的个人工作目录泄漏。能复用既有入口就不造新开关。
+  execFileSync(process.execPath, ["scripts/mise-run.mjs", "pnpm", "build:cli-packages"], {
+    cwd: repoRoot,
+    stdio: "inherit",
+  });
 }
 
 console.log(`contract-gate: 源码入口（${testFiles.length} 个测试文件）…`);
