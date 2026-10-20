@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 // Personal provider 配置的磁盘存取引擎。
 //
 // 这一层只回答一个问题：「给定文件路径，如何在锁内安全地读出/写入一个规范层」。
@@ -19,16 +19,32 @@ import {
   decodeProviderConfigFile,
   encodeProviderConfigFile,
 } from "./provider-config-file-codec.js";
-import {
-  canonicalLayer,
-  isCanonicalDocument,
-  serializeLayer,
-} from "./personal-config-canonicalization.js";
 
 /** 文件不存在的哨兵；与「存在但内容需要修复」区分开。 */
 const ABSENT = Symbol("provider-config-absent");
 
 type FileState = typeof ABSENT | { readonly document: unknown };
+
+/**
+ * 规范化：走「编码 → 解码」一趟。
+ *
+ * 编码器剔除未知字段、补齐键序，解码器再读出规范形态；这一趟就是规范化的定义。
+ * 之所以要规范化：落盘字节必须与 revision 的哈希输入一致，同一逻辑内容才会
+ * 永远得到同一个 revision，轮询才能靠它判等。
+ */
+function canonicalLayer(layer: ProviderConfigLayerUpdate): ProviderConfigLayerUpdate {
+  return decodeProviderConfigFile(encodeProviderConfigFile(layer));
+}
+
+/** 规范层 → 落盘文本（两空格缩进）。 */
+function serializeLayer(layer: ProviderConfigLayerUpdate): string {
+  return JSON.stringify(encodeProviderConfigFile(layer), null, 2);
+}
+
+/** 盘上文档是否已是规范形态：比较原文与「规范化后重新编码」的结果。 */
+function isCanonicalDocument(document: unknown, decoded: ProviderConfigLayerUpdate): boolean {
+  return JSON.stringify(document) === JSON.stringify(encodeProviderConfigFile(decoded));
+}
 
 /** 空层：没有配置文件且没有可导入的旧配置时使用。 */
 export function emptyLayer(): ProviderConfigLayerUpdate {
@@ -81,7 +97,7 @@ async function loadState(filePath: string): Promise<FileState> {
   return { document: JSON.parse(text) };
 }
 
-export interface DiskStoreOptions {
+interface DiskStoreOptions {
   readonly filePath: string;
   /** 旧配置导入器；缺失表示「没有可导入的历史配置」。 */
   readonly importLegacy?: () => Promise<ProviderConfigLayerUpdate | null>;
@@ -89,7 +105,7 @@ export interface DiskStoreOptions {
   readonly onWritten?: () => void;
 }
 
-export interface DiskStore {
+interface DiskStore {
   /** 无锁读：已是规范文档就直接给快照，否则进锁重写。 */
   readSnapshot(): Promise<ProviderConfigLayerSnapshot>;
   /** 在锁内读 → 应用变换 → 规范化 → 写盘，返回落盘后的快照。 */

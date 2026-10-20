@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 // 服务端侧的 channel 容器：解出请求帧、路由到注册的 channel 实现，再把结果封成响应帧。
 //
 // 状态由本实例独占，共三份：
@@ -71,7 +71,7 @@ function unknownChannelPayload(channelName: string, timeoutDelay: number): IRawE
  * 后者是为 `ipc.ts` 这类「协议与上下文成对出现」的装配代码保留的；
  * 新增调用点一律用具名对象，读起来不必数位。
  */
-export interface ChannelServerInit<TContext> {
+interface ChannelServerInit<TContext> {
   readonly protocol: IMessagePassingProtocol;
   readonly context: TContext;
   readonly unknownChannelTimeoutMs?: number;

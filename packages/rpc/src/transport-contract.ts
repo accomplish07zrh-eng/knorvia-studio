@@ -22,7 +22,15 @@ export interface ConnectionFlowControl {
   readonly onDrained: Event<void>;
 }
 
-export type MessagePortFlowState = "saturated" | "drained";
+/**
+ * 流控状态的两个取值。
+ *
+ * 用「常量数组 + 派生联合」而不是直接写字面量联合：运行期需要一份可遍历的取值集合
+ * 来校验控制对象（`FLOW_VALUES`），从同一份来源派生类型就不会出现「类型与校验表不一致」。
+ */
+export const FLOW_STATES = ["saturated", "drained"] as const;
+
+export type MessagePortFlowState = (typeof FLOW_STATES)[number];
 
 /**
  * MessagePort 上用于表达流控的控制对象。

@@ -32,15 +32,15 @@ const CLASSIFICATION_RULES: ReadonlyArray<{
   { matches: (id) => OFF_PEAK_IDS.has(id), classifyAs: "account-offpeak" },
 ];
 
+/** 按有序规则表判定身份类别；没有规则命中时落到 `ordinary`。 */
+const classifyProvider = (providerId: string): ProviderClass =>
+  CLASSIFICATION_RULES.find((rule) => rule.matches(providerId))?.classifyAs ?? "ordinary";
+
 /**
  * 建 Node 侧模型选择门面：Host 与受管理 Worker 共用同一套身份分类，
  * 解析本身交给纯 Provider Facade（本层不参与匹配逻辑）。
  */
-export function createNodeModelSelectionFacade(
+export const createNodeModelSelectionFacade = (
   source: ProviderRegistryFacadeSource,
-): ModelSelectionFacade {
-  const classify = (providerId: string): ProviderClass =>
-    CLASSIFICATION_RULES.find((rule) => rule.matches(providerId))?.classifyAs ?? "ordinary";
-
-  return new ModelSelectionFacade(source, classify, resolveLegacyReasoningLevel);
-}
+): ModelSelectionFacade =>
+  new ModelSelectionFacade(source, classifyProvider, resolveLegacyReasoningLevel);

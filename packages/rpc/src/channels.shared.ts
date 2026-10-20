@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 // channel 层的公开词汇表（纯再导出壳）。
 //
 // 真正的定义按职责拆成三个模块：
@@ -13,4 +13,4 @@ export type {
   IChannelClient,
 } from "./channel-contract.js";
 export { RequestType, ResponseType } from "./channel-wire.js";
-export type { IRawErrorData, IRawResponse, IHandler } from "./channel-response.js";
+export type { IRawErrorData, IRawResponse, IHandler } from "./channel-protocol-declaration.js";

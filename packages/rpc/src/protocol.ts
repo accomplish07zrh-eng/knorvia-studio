@@ -1,9 +1,10 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 // Copyright (c) 2026 Knorvia Studio contributors
 import { VSBuffer } from "./buffer.js";
 import { DisposableStore, Emitter, type Event, type IDisposable } from "./foundation.js";
 // 跨进程契约形状集中在 transport-contract.ts（interface.md 冻结，签名逐字不改）；
 // 本文件只保留分帧、流控与两种协议实现。
+import { FLOW_STATES } from "./transport-contract.js";
 import type {
   ConnectionFlowControl,
   IMessagePassingProtocol,
@@ -23,8 +24,6 @@ export type {
   MessagePortLike,
   MessagePortPayload,
 };
-
-const FLOW_STATES = ["saturated", "drained"] as const;
 
 const FLOW_VERSION = "connection-flow-v1";
 const FLOW_VALUES: ReadonlySet<unknown> = new Set<unknown>(FLOW_STATES);

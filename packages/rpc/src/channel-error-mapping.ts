@@ -1,9 +1,9 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 // 结构化错误的双向映射：把 Error 摊成可跨进程的载荷，或把载荷还原成 Error。
 //
 // 两端各用一半：服务端编、客户端解。放在同一文件是因为它们**必须对称**——
 // 编的时候漏一个键，解的时候就少一个字段；写在一起才能一眼看出两边对齐。
-import { TRANSFERABLE_ERROR_KEYS, type IRawErrorData } from "./channel-response.js";
+import { TRANSFERABLE_ERROR_KEYS, type IRawErrorData } from "./channel-protocol-declaration.js";
 
 /**
  * 把 Error 摊成线上载荷。

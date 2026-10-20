@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 // 网络观测的分类与上报：把一次 RPC 调用的结局转成一条观测记录。
 //
 // 拆成三件事，各自独立可测：
@@ -24,7 +24,7 @@ const FAILURE_SIGNATURES: ReadonlyArray<{ kind: string; needles: readonly string
 const UNCLASSIFIED = "other";
 
 /** 从错误里推断失败种类；无法归类时返回 `UNCLASSIFIED`。 */
-export function classifyFailure(failure: unknown): string {
+function classifyFailure(failure: unknown): string {
   const haystack = (failure instanceof Error ? failure.message : String(failure)).toLowerCase();
   for (const signature of FAILURE_SIGNATURES) {
     if (signature.needles.some((needle) => haystack.includes(needle))) {
@@ -35,7 +35,7 @@ export function classifyFailure(failure: unknown): string {
 }
 
 /** 装配一条观测记录时所需的全部事实。 */
-export interface ObservationFacts {
+interface ObservationFacts {
   readonly transport: NetworkTransportKind;
   readonly channelName: string;
   readonly command: string;

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 // 轮询调度器：按固定间隔重复执行一次「检查文件是否变化」的动作。
 //
 // 抽成独立模块的理由：调度有三处微妙之处，与仓储的读改写逻辑无关——
@@ -9,13 +9,13 @@
 import type { ProviderConfigLayerSnapshot } from "@knorvia/provider";
 
 /** 一次检查的观察结果。 */
-export interface PollSnapshot {
+interface PollSnapshot {
   readonly layer: ProviderConfigLayerSnapshot;
   /** 检查期间本进程是否发生过写入；为真时本次结果必须丢弃。 */
   readonly writeGeneration: number;
 }
 
-export interface PollingControllerOptions {
+interface PollingControllerOptions {
   /** 间隔；`false` 表示不轮询。 */
   readonly intervalMs: number | false;
   /** 读一次当前文件状态。失败会进入错误分支。 */

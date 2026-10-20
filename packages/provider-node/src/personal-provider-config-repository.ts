@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 // Personal provider 配置仓储：文件是唯一事实来源，本类负责订阅、轮询与生命周期。
 //
 // 分层（各层的职责边界很清楚，改一层不会牵动其它层）：
@@ -13,7 +13,73 @@ import type { PersonalProviderConfigRepository } from "@knorvia/provider";
 import { createDiskStore } from "./personal-config-disk-store.js";
 import { emptyLayer, snapshotOf } from "./personal-config-disk-store.js";
 import { createPollingController, type PollingController } from "./personal-config-polling.js";
-import { runRead, runUpdate, type RepositoryExecutionHooks } from "./personal-config-execution.js";
+
+/** 一次公开调用结束后必然发生的动作。 */
+interface Invariants {
+  readonly armPolling: () => void;
+}
+
+/** read 的差异点。 */
+interface ReadHooks extends Invariants {
+  readonly read: () => Promise<ProviderConfigLayerSnapshot>;
+  readonly remember: (revision: string) => void;
+  readonly reportRecovery: (event: PersonalProviderConfigRecoveryEvent) => void;
+}
+
+/** update 的差异点。 */
+interface UpdateHooks extends Invariants {
+  readonly update: (
+    transform: (current: ProviderConfigLayerSnapshot) => ProviderConfigLayerUpdate,
+  ) => Promise<ProviderConfigLayerSnapshot>;
+  readonly observe: (revision: string) => void;
+  readonly notifyUpdated: () => void;
+}
+
+/**
+ * 读取。
+ *
+ * 失败不抛出：先通知恢复回调（回调自身抛错也不替换结果），再返回空层快照。
+ * 这样调用方在损坏文件上仍能启动，文件由后续写入自愈。
+ */
+async function runRead(hooks: ReadHooks): Promise<ProviderConfigLayerSnapshot> {
+  try {
+    const layer = await hooks.read();
+    hooks.remember(layer.revision);
+    return layer;
+  } catch (fault) {
+    try {
+      hooks.reportRecovery(Object.freeze({ error: fault }));
+    } catch {
+      /* 恢复回调只做观察。 */
+    }
+    const fallback = snapshotOf(emptyLayer());
+    hooks.remember(fallback.revision);
+    return fallback;
+  } finally {
+    // 三条出口（成功 / 失败 / 提前 return）都要重新武装轮询。
+    hooks.armPolling();
+  }
+}
+
+/**
+ * 写入。
+ *
+ * 成功路径的顺序是「记 revision → 广播」：订阅者收到 `updated` 时读到的
+ * 「上次观察值」必须已是新值，否则它紧接着的读取会被自己判成外部变更。
+ */
+async function runUpdate(
+  hooks: UpdateHooks,
+  transform: (current: ProviderConfigLayerSnapshot) => ProviderConfigLayerUpdate,
+): Promise<ProviderConfigLayerSnapshot> {
+  try {
+    const committed = await hooks.update(transform);
+    hooks.observe(committed.revision);
+    hooks.notifyUpdated();
+    return committed;
+  } finally {
+    hooks.armPolling();
+  }
+}
 
 // 构造参数与恢复事件形状集中在 personal-config-repository-contract.ts
 // （interface.md 冻结的纯类型面），这里再导出以保持模块路径可达。
@@ -94,7 +160,7 @@ export class NodePersonalProviderConfigRepository implements PersonalProviderCon
    *
    * 读取失败不退化为异常：先通知恢复回调，再返回空层快照。调用方永远拿得到一个
    * 可用快照，损坏文件由后续写入自愈——这是「配置读不到时仍要能启动」的要求。
-   * 横切规则（恢复、武装轮询）在 personal-config-execution.ts。
+   * 横切规则（恢复、武装轮询）由本文件下方的 runRead 负责。
    *
    * 必须是 `async`：dispose 后的调用要给出**被拒绝的 promise**而不是同步抛错，
    * 否则 `assert.rejects(repository.read())` 这类调用会因同步异常而失效。
@@ -118,7 +184,7 @@ export class NodePersonalProviderConfigRepository implements PersonalProviderCon
    * 每次调用新建一份：钩子对象里持有的是闭包而非快照值，
    * 因此 #writeGeneration / #disposed 的变化仍然实时可见。
    */
-  #hooks(): RepositoryExecutionHooks {
+  #hooks(): ReadHooks & UpdateHooks {
     return {
       armPolling: () => this.#polling.arm(),
       reportRecovery: (event) => {
