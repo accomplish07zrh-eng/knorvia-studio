@@ -90,9 +90,11 @@ export async function prepareChildSpawn(
       }
       request = applyBashSourcesToExecutionRequest(request, {
         leadingSources,
-        rootDir: coordinator.outputRootDir,
-        sessionId: String(request.trace?.sessionId ?? "session"),
         shellDialect: resolution.provider.dialect,
+        landing: {
+          rootDir: coordinator.outputRootDir,
+          sessionId: String(request.trace?.sessionId ?? "session"),
+        },
       });
     }
   }
