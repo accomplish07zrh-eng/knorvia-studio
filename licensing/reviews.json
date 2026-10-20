@@ -149569,6 +149569,17 @@
       "license": "Apache-2.0",
       "basis": "Knorvia-authored acceptance record for the apps-cli-packages-02 independent replacement, listing per-file scoring modes, both similarity measurement sets, the old-gate and stub-replacement results, the first failures and their corrections, the traps hit and corrected, the isolation self-check, the overlap check against earlier node-repl-host PRs, and the remaining risks. Measured in this package: line-mode similarity 25/25 pass with highest containment 0.194, declaration-mode similarity 7/7 pass with 0-1 residual lines and containment 0.000, contract tests source 38/38 and dist 38/38, old gate PASS with stub replacement 0/38 allFail.",
       "evidence": ["specs/contracts/apps-cli-packages-02/README.md", "licensing/current-files.json"]
+    },
+    {
+      "path": "scripts/merge-hygiene.mjs",
+      "normalizedSha256": "3b5337cd0235a6d156f051529736f7facd4ebf4257ee19ed236978628ad8f220",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored merge hygiene check for the apps-cli-packages-02 replacement branch. It asserts that the branch deletes only files whose deletion is registered with a stated basis, so that a merge which silently drops files newly added on main cannot pass unnoticed, and it also checks for leftover conflict markers, unparsable reviews.json and backslash paths. Measured on this branch: the check reports exactly one intentional deletion (the unreviewed node-repl-host test), 59 net changes, no conflict markers, 12840 review records parseable and no backslash paths.",
+      "evidence": [
+        "specs/contracts/apps-cli-packages-02/README.md",
+        "docs/knorvia-apps-cli-packages-02-acceptance.md"
+      ]
     }
   ]
 }
