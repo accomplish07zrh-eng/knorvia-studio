@@ -1,5 +1,13 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2026 Knorvia Studio contributors
+//
+// 执行结束后回捕工作目录。做法是把用户命令包进一层包装：命令本体跑完后，
+// 由包装段把 `pwd -P` 写进一个临时文件，宿主进程再从该文件读出解析后的路径。
+// 这样每次执行仍是独立 shell，环境变量、别名与函数都不会跨命令泄漏。
+//
+// 两种方言各有一套包装语法：POSIX 系（bash / sh / git-bash）用 `$?` 暂存退出码；
+// cmd 用 setlocal + 延迟展开，避免 `%ERRORLEVEL%` 在解析期就被展开成旧值。
+
 import { randomUUID } from "node:crypto";
 import { readFileSync, realpathSync, statSync, unlinkSync } from "node:fs";
 import os from "node:os";
@@ -7,60 +15,105 @@ import path from "node:path";
 import type { ExecutionCommand, ExecutionRequest, ExecutionShellDialect } from "@knorvia/contracts";
 import { gitBashPathToWindowsPath } from "@knorvia/contracts";
 
-interface /* cwd 捕获计划：命令 + 结果文件 */ CwdCapturePlan {
+/** 包装结果：替换后的命令，以及需要回读（随后删除）的临时文件路径。 */
+export type CwdCapturePlan = {
   command: ExecutionCommand;
-  cwdFilePath?: /* 结果文件路径：仅 shell 模式有 */ string;
-}
+  cwdRecordPath?: string;
+};
 
-function posixQuote(value: string): string {
+/** 回读参数：临时文件与方言。 */
+export type CwdReadAsk = {
+  recordPath: string | undefined;
+  dialect: ExecutionShellDialect;
+};
+
+/** 构造捕获计划的入参。 */
+export type CwdPlanAsk = {
+  request: ExecutionRequest;
+  dialect: ExecutionShellDialect;
+  platform: NodeJS.Platform;
+};
+
+/** POSIX 单引号字面量：内部单引号拆出拼接，其余原样。 */
+function quoteForPosix(value: string): string {
   return `'${value.replace(/'/g, `'"'"'`)}'`;
 }
 
-function cmdQuote(value: string): string {
+/** cmd 双引号字面量：内部双引号成对转义。 */
+function quoteForCmd(value: string): string {
   return `"${value.replace(/"/g, '""')}"`;
 }
 
-export function /* 构造捕获计划：按方言包装命令 */ createCwdCapturePlan(
-  request: ExecutionRequest,
-  options: { dialect: ExecutionShellDialect; platform: NodeJS.Platform },
-): /* 捕获计划 */ CwdCapturePlan {
-  if (!request.captureCwdAfterSuccess || request.command.mode !== "shell") {
-    return { command: request.command };
-  }
-  const cwdFilePath = path.join(os.tmpdir(), `knorvia-cwd-${randomUUID()}.txt`);
-  if (options.dialect === "cmd") {
-    const command =
-      `setlocal EnableDelayedExpansion & ${request.command.command} & ` +
-      `set "__KNORVIA_STATUS=!ERRORLEVEL!" & ` +
-      `if !__KNORVIA_STATUS! EQU 0 (cd > ${cmdQuote(cwdFilePath)}) & ` +
-      `exit /b !__KNORVIA_STATUS!`;
-    return { command: { ...request.command, command }, cwdFilePath };
-  }
-  const shellPath = options.dialect === "git-bash" ? cwdFilePath.replace(/\\/g, "/") : cwdFilePath;
-  const command =
-    `{\n${request.command.command}\n}\n__knorvia_status=$?; ` +
-    `if [ "$__knorvia_status" -eq 0 ]; then pwd -P > ${posixQuote(shellPath)}; fi; ` +
-    `exit "$__knorvia_status"`;
-  return { command: { ...request.command, command }, cwdFilePath };
+/** git-bash 需要 POSIX 形式的路径，其余方言直接用宿主路径。 */
+function recordPathForDialect(recordPath: string, dialect: ExecutionShellDialect): string {
+  if (dialect === "git-bash") return recordPath.replace(/\\/g, "/");
+  return recordPath;
 }
 
-export function /* 读取捕获的 cwd：读完即清理结果文件 */ readCapturedCwd(
-  cwdFilePath: /* 结果文件路径（可缺省） */ string | undefined,
-  options: { dialect: ExecutionShellDialect },
-): /* 捕获到的绝对路径 */ string | undefined {
-  if (!cwdFilePath) return /* 未捕获：无结果文件 */ undefined;
-  try /* 可能失败：失败按降级语义处理 */ {
-    let captured = readFileSync(cwdFilePath, "utf8").replace(/(?:\r?\n)$/, "");
-    if (options.dialect === "git-bash") captured = gitBashPathToWindowsPath(captured);
-    if (!statSync(captured).isDirectory()) return undefined;
-    return realpathSync(captured);
-  } catch /* 失败按降级语义处理 */ {
-    return /* 未捕获到有效目录 */ undefined;
-  } finally /* 无论成败都清理结果文件 */ {
-    try /* 可能失败：失败按降级语义处理 */ {
-      /* 删除临时结果文件 */ unlinkSync(cwdFilePath);
-    } catch /* 失败按降级语义处理 */ {
-      // Capture cleanup is secondary to the execution result.
-    }
+/** POSIX 包装：先执行原命令，成功后写回 `pwd -P`，再原样透传退出码。 */
+function wrapForPosix(body: string, recordPath: string): string {
+  return [
+    "{",
+    body,
+    "}",
+    `__knorvia_status=$?`,
+    `if [ "$__knorvia_status" -eq 0 ]; then pwd -P > ${quoteForPosix(recordPath)}; fi`,
+    `exit "$__knorvia_status"`,
+  ].join("\n");
+}
+
+/** cmd 包装：延迟展开保证读到的是命令执行后的 ERRORLEVEL。 */
+function wrapForCmd(body: string, recordPath: string): string {
+  const status = { check: "!__KNORVIA_STATUS!", assign: "!ERRORLEVEL!" };
+  return [
+    "setlocal EnableDelayedExpansion",
+    body,
+    `set "__KNORVIA_STATUS=${status.assign}"`,
+    `if ${status.check} EQU 0 (cd > ${quoteForCmd(recordPath)})`,
+    `exit /b ${status.check}`,
+  ].join(" & ");
+}
+
+/**
+ * 构造捕获计划。只有显式要求回捕且命令是 shell 模式时才包装；
+ * 其余情况原样返回入参命令，调用方不需要判断。
+ */
+export function createCwdCapturePlan(ask: CwdPlanAsk): CwdCapturePlan {
+  const command = ask.request.command;
+  if (!ask.request.captureCwdAfterSuccess || command.mode !== "shell") return { command };
+  const recordPath = path.join(os.tmpdir(), `knorvia-cwd-${randomUUID()}.txt`);
+  const dialectPath = recordPathForDialect(recordPath, ask.dialect);
+  const wrapped =
+    ask.dialect === "cmd"
+      ? wrapForCmd(command.command, recordPath)
+      : wrapForPosix(command.command, dialectPath);
+  return { command: { ...command, command: wrapped }, cwdRecordPath: recordPath };
+}
+
+/**
+ * 读回临时文件里的目录并物理化（`realpath`）。
+ * 无论成败都删除临时文件；任何一步失败都按「没捕到」处理，不影响命令结果。
+ */
+export function readCapturedCwd(ask: CwdReadAsk): string | undefined {
+  const recordPath = ask.recordPath;
+  if (recordPath === undefined) return undefined;
+  try {
+    const written = readFileSync(recordPath, "utf8").replace(/(?:\r?\n)$/, "");
+    const hostPath = ask.dialect === "git-bash" ? gitBashPathToWindowsPath(written) : written;
+    const isDirectory = statSync(hostPath).isDirectory();
+    return isDirectory ? realpathSync(hostPath) : undefined;
+  } catch {
+    return undefined;
+  } finally {
+    unlinkRecordQuietly(recordPath);
+  }
+}
+
+/** 清理临时文件；失败不影响命令结果，属次要动作。 */
+function unlinkRecordQuietly(recordPath: string): void {
+  try {
+    unlinkSync(recordPath);
+  } catch {
+    // 回捕清理失败不改变执行结果的任何字段。
   }
 }

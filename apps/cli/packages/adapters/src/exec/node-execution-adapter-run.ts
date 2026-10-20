@@ -2,7 +2,7 @@
 // Copyright (c) 2026 Knorvia Studio contributors
 import { spawn, type ChildProcess } from "node:child_process";
 import type { ExecutionRequest, ExecutionResult } from "@knorvia/contracts";
-import { BashFileOutput } from "./bash-file-output.js";
+import { createBashFileOutput, type BashFileOutput } from "./bash-file-output.js";
 import { createBashResourceTelemetry } from "./bash-resource-telemetry.js";
 import type {
   ExitState,
@@ -183,11 +183,11 @@ export async function runExecution(
     };
     const paths = coordinator.outputPathsForRequest(request);
     if (prepared.isBash) {
-      bashFile = new BashFileOutput(paths.outputPath!, coordinator.platform, legacyEncoding);
-      await bashFile.prepare();
+      bashFile = createBashFileOutput(paths.outputPath!, coordinator.platform, legacyEncoding);
+      await bashFile.openStorage();
       if (stopReason || coordinator.isClosing) {
         stopReason ??= "cancelled";
-        await bashFile.discard();
+        await bashFile.dropOwnedFile();
         const result = createStoppedResult(
           startedAt,
           "cancelled",
@@ -198,8 +198,8 @@ export async function runExecution(
       }
       prepared.spawnOptions.stdio = [
         prepared.request.stdin === undefined ? "ignore" : "pipe",
-        bashFile.fd!,
-        bashFile.fd!,
+        bashFile.handleFd!,
+        bashFile.handleFd!,
       ];
     } else {
       const aggregate = options.sharePersistedOutputLimitAcrossStreams
@@ -232,7 +232,7 @@ export async function runExecution(
     const observation = observeExit(child);
     const spawned = await waitForSpawn(child);
     if (!spawned.spawned) {
-      await bashFile?.discard();
+      await bashFile?.dropOwnedFile();
       const completedAt = new Date();
       const failure = toFailure(
         "spawn_error",
@@ -250,7 +250,7 @@ export async function runExecution(
       return result;
     }
 
-    if (bashFile) await bashFile.close();
+    if (bashFile) await bashFile.releaseHandle();
     if (!options.bashLifecycle?.isBackgrounded()) {
       emit(options, { type: "started", pid: child.pid, timestamp: new Date() });
     }
@@ -267,22 +267,22 @@ export async function runExecution(
         prepared.request.outputLimit?.maxPersistedBytes ??
         coordinator.options.maxPersistedOutputBytes ??
         BASH_RUNTIME_OUTPUT_LIMIT_BYTES;
-      bashFile.watchLimit(bashRuntimeLimit, onPersistedLimit);
+      bashFile.reportWhenOversized(bashRuntimeLimit, onPersistedLimit);
       if (!options.bashLifecycle?.isBackgrounded()) {
-        bashFile.watchProgress(
+        bashFile.feedProgress(
           coordinator.progressTailBytes,
           coordinator.progressThresholdMs,
           coordinator.progressIntervalMs,
-          (output, preview) => {
+          ({ preview, stream }) => {
             if (options.bashLifecycle?.isBackgrounded()) return;
             emit(options, {
               type: "progress",
               elapsedMs: Date.now() - startedAt.getTime(),
               pid: child?.pid,
-              stdoutBytes: output.bytes,
+              stdoutBytes: stream.bytes,
               stderrBytes: 0,
               outputPreview: preview,
-              stdoutTail: output.text,
+              stdoutTail: stream.text,
               timestamp: new Date(),
             });
           },
@@ -344,7 +344,7 @@ export async function runExecution(
     }
     const resolvedCwd =
       status === "completed" && !backgrounded
-        ? readCapturedCwd(preparedCwdFile, { dialect: prepared.cwdDialect })
+        ? readCapturedCwd({ recordPath: preparedCwdFile, dialect: prepared.cwdDialect })
         : undefined;
     let result = createResult({
       status,
@@ -372,7 +372,7 @@ export async function runExecution(
     if (!backgrounded && !options.suppressTerminalEvent) emitResult(options, result);
     return result;
   } catch (error) {
-    await bashFile?.discard();
+    await bashFile?.dropOwnedFile();
     await Promise.all([stdout?.close(), stderr?.close()]);
     const result = createResult({
       status: "spawn_error",
@@ -390,11 +390,12 @@ export async function runExecution(
   } finally {
     if (runtimeTimer) clearTimeout(runtimeTimer);
     stopProgress?.();
-    bashFile?.stopWatching();
-    await bashFile?.close();
+    bashFile?.silenceObservers();
+    await bashFile?.releaseHandle();
     options.signal?.removeEventListener("abort", onAbort);
     if (preparedCwdFile && (exitObserved || stopReason)) {
-      readCapturedCwd(preparedCwdFile, {
+      readCapturedCwd({
+        recordPath: preparedCwdFile,
         dialect: coordinator.platform === "win32" ? "cmd" : "posix",
       });
     }

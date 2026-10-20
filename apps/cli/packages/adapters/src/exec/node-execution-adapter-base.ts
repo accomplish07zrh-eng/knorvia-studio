@@ -89,7 +89,10 @@ export class ExecutionCoordinator {
   }
 
   bashInlineLimit(request: ExecutionRequest): number {
-    return resolveBashMaxOutputLength(this.processEnv, request.outputLimit?.maxInlineBytes);
+    return resolveBashMaxOutputLength({
+      env: this.processEnv,
+      requested: request.outputLimit?.maxInlineBytes,
+    });
   }
 
   persistedOutputLimit(request: ExecutionRequest): number {

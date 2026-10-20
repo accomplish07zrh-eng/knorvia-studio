@@ -102,7 +102,8 @@ export async function prepareChildSpawn(
     platform: coordinator.platform,
     /* 解析后的 shell 配置 */ resolvedShell,
   });
-  const capture = createCwdCapturePlan(request, {
+  const capture = createCwdCapturePlan({
+    request,
     dialect: command.cwdDialect,
     platform: coordinator.platform,
   });
@@ -125,7 +126,7 @@ export async function prepareChildSpawn(
   return /* 构造返回值 */ {
     command,
     cwdDialect: command.cwdDialect,
-    cwdFilePath: capture.cwdFilePath,
+    cwdFilePath: capture.cwdRecordPath,
     spawnOptions,
     request,
     isBash: request.command.mode === "shell" && request.command.shellProfile === "posix-bash",
@@ -254,14 +255,14 @@ export function terminateProcessTree(
     terminateGenericPosixProcessGroup(child);
     return /* 无需继续处理 */;
   }
-  const first = signalPosixProcessTree(pid, "SIGTERM");
+  const first = signalPosixProcessTree({ rootPid: pid, signal: "SIGTERM" });
   let timer!: NodeJS.Timeout;
   let refRequested = false;
   const completion = first.then(
     () =>
       new Promise<void>((resolve) => {
         timer = setTimeout(
-          () => void signalPosixProcessTree(pid, "SIGKILL").finally(resolve),
+          () => void signalPosixProcessTree({ rootPid: pid, signal: "SIGKILL" }).finally(resolve),
           BASH_SIGTERM_TO_SIGKILL_MS,
         );
         if (refRequested) timer.ref();
