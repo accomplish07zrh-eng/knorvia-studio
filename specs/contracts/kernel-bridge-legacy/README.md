@@ -131,10 +131,21 @@ Host 侧实际消费的方法键：`packages/services/src/agent/**` 扫描实测
 | B17a | `reverse-reply.test.mjs` · 「create 触发反向请求并在应答后完成（dsh 下应答可含 method 键）」                | L2         |
 | B17b | 同上 · 「顶层带 method 的行按 request 处理，同连接上请求仍被应答」                                          | L2         |
 | B17c | 同上 · 「无法匹配的在途应答被安全处置，连接继续可用」                                                       | L2/L6      |
+| B18a | `host-channel.test.ts` · 「attach 前 channelForHostRequests 返回 undefined（不抛错）」                      | L5         |
+| B18b | 同上 · 「attach 后返回窄通道：只有 request/notify，不外露桥的管理面」                                       | L5         |
+| B18c | 同上 · 「通过通道发 request 会写到 stdout，Host 应答后兑现」                                                | L5         |
+| B18d | 同上 · 「detach 后再用通道：按无客户端失败（-32020），不崩溃」                                              | L6         |
+| B18e | 同上 · 「通道的 notify 写 CLI→Host 通知（不占请求 id）」                                                    | L7         |
 
 B10–B15 与 B17a–c 为实现阶段补齐（Lead 2026-10-20 要求：`behavior.md` 每条都必须有测试、对照表不得留空）。
 两引擎**各自断言自己的真实行为**，不使用 `t.skip`——`run-gate.mjs` 的判据是 `tests === pass`，
 skip 会让门禁判 FAIL，且「有跳过」本身就是合同缺测的信号。
+
+B18a–e 为后续包接入补齐（2026-10-20，Lead 裁决方案 A）：`LegacyHostChannel` 在 #230 交付时只有类型
+（唯一使用者是本包自己）；`kernel-plugin-credentials` 作为调用方接入后需要公开访问器，故补
+`channelForHostRequests()` 与这组进程内用例。它们是 `.test.ts`，走 `tests/legacy-entry.mjs` 加载源码，
+**不进** `run-gate.mjs` 的两引擎黑盒运行（那套只跑 `.test.mjs`），但会被 `scripts/test-studio.mjs`
+的合同目录发现机制收集。
 
 ## 六、门禁与旧门/桩门
 
