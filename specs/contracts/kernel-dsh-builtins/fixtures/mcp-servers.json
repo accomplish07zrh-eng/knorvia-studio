@@ -1,0 +1,27 @@
+{
+  "_comment": "kernel-dsh-builtins MCP 行生成断言的虚构服务器；值均为占位串。",
+  "servers": {
+    "fixture-stdio": {
+      "type": "stdio",
+      "command": "fixture-mcp-server",
+      "args": ["--fixture"],
+      "env": {
+        "FIXTURE_MCP_TOKEN": "placeholder-token"
+      },
+      "enabled": true
+    },
+    "fixture-http": {
+      "type": "http",
+      "url": "http://127.0.0.1:59999/fixture-mcp",
+      "headers": {
+        "Authorization": "placeholder-token"
+      },
+      "enabled": true
+    },
+    "fixture-disabled": {
+      "type": "stdio",
+      "command": "fixture-mcp-disabled",
+      "enabled": false
+    }
+  }
+}
