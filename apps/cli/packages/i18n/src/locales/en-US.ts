@@ -261,7 +261,7 @@ function buildHelp(version: string): string {
   return `Knorvia Studio Agent ${version}
 
 How to call it:
-  knorvia <command> [options]
+  knorvia [command] [options]
 
 Called without a command, knorvia takes over the screen with its TUI.
 

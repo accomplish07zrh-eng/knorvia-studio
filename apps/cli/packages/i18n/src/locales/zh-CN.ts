@@ -260,7 +260,7 @@ function buildHelp(version: string): string {
   return `Knorvia Studio Agent ${version}
 
 调用方式:
-  knorvia <command> [options]
+  knorvia [command] [options]
 
 不带 command 时，knorvia 会用全屏 TUI 接管终端。
 
