@@ -9588,15 +9588,13 @@
     },
     {
       "path": "apps/cli/packages/bootstrap/src/kernel-bridge/bridge-engine.ts",
-      "normalizedSha256": "fef4fa606d0bbb122728f6ed3be66cac50ac11c1fe7fc06a1798dca781d155d9",
+      "normalizedSha256": "b2ca455cc002ee2967f24d95e5fc3e3a43c896ede55966be7af2d04b5f7c746f",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored kernel-bridge-02 implementation for the DSH-backed built-in kernel accessor package (input and turns): the v4 resolveInteraction command is dispatched through the same turn command path and settles the engine-held approval registry, first writer wins and late answers are a frozen alreadyResolved noop; the approval answer mapping follows the frozen permission option kinds, and unrecognized options are treated as refusal. No code was copied, renamed or rewritten line by line; the author read the replaced implementation to understand behavior only. Similarity against the replaced files and zai-org/ZCode@872ad960: max line containment 0.183, longest identical run 2, structural similarity 0.071; declaration mode 17/17.",
+      "basis": "Knorvia-authored implementation of the kernel-bridge-03 command surface for the DSH-backed built-in kernel: the remaining v4 commands (config, turn stack, queue operations) and the remaining legacy port methods, closing C2 at 12 of 12. The queue layer keeps one identity owner and drives the documented DSH inbox primitives; commands whose backends belong to the workflow, hooks and rewind plugin packages answer a frozen capability-absent reason code rather than pretending success. The author read the replaced runtime and protocol implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.170 normal and 0.170 declaration, and the two touched shared files end up lower than their main baseline.",
       "evidence": [
-        "specs/contracts/kernel-bridge-02/README.md",
-        "specs/contracts/kernel-bridge-02/behavior.md",
-        "specs/contracts/kernel-bridge-02/design.md",
-        "docs/knorvia-kernel-bridge-02-acceptance.md"
+        "specs/contracts/kernel-bridge-03/README.md",
+        "specs/contracts/kernel-bridge-03/interface.md"
       ]
     },
     {
@@ -9613,15 +9611,13 @@
     },
     {
       "path": "apps/cli/packages/bootstrap/src/kernel-bridge/legacy-port/index.ts",
-      "normalizedSha256": "4e4110d8007ead5690002e58e6199936b6eb5c1282d921bcc78fa0baa2a1d815",
+      "normalizedSha256": "021728db763f40c6863a4f91acc8c3fe1b6307c5bea130f8d6e65c708c9ba104",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored kernel-bridge-02 implementation for the DSH-backed built-in kernel (M2 accessor package: input and turns), plus the composition row position for a credential provider plugin and the C2 execution-port registration. The executor is materialized by the bridge engine and registered to the legacy execution registry at start and released at dispose; entry.ts is untouched. The author read the replaced core runtime, legacy bridge and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.183, longest identical run 2, structural similarity 0.071; declaration mode passes for all candidates.",
+      "basis": "Knorvia-authored implementation of the kernel-bridge-03 command surface for the DSH-backed built-in kernel: the remaining v4 commands (config, turn stack, queue operations) and the remaining legacy port methods, closing C2 at 12 of 12. The queue layer keeps one identity owner and drives the documented DSH inbox primitives; commands whose backends belong to the workflow, hooks and rewind plugin packages answer a frozen capability-absent reason code rather than pretending success. The author read the replaced runtime and protocol implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.170 normal and 0.170 declaration, and the two touched shared files end up lower than their main baseline.",
       "evidence": [
-        "specs/contracts/kernel-bridge-02/README.md",
-        "specs/contracts/kernel-bridge-02/design.md",
-        "specs/contracts/kernel-bridge-02/known-differences.md",
-        "docs/knorvia-kernel-bridge-02-acceptance.md"
+        "specs/contracts/kernel-bridge-03/README.md",
+        "specs/contracts/kernel-bridge-03/interface.md"
       ]
     },
     {
@@ -9903,28 +9899,24 @@
     },
     {
       "path": "apps/cli/packages/bootstrap/src/kernel-bridge/turn-commands.ts",
-      "normalizedSha256": "8fe57419e90e867493e192e134fad8c2263e4827c41eaab010b40060deee9dce",
+      "normalizedSha256": "6a00769f7eff3519ae4355e46fa25b087a32c72f2b31734c18440e1a103a58f4",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored kernel-bridge-02 implementation for the DSH-backed built-in kernel accessor package (input and turns): the v4 resolveInteraction command is dispatched through the same turn command path and settles the engine-held approval registry, first writer wins and late answers are a frozen alreadyResolved noop; the approval answer mapping follows the frozen permission option kinds, and unrecognized options are treated as refusal. No code was copied, renamed or rewritten line by line; the author read the replaced implementation to understand behavior only. Similarity against the replaced files and zai-org/ZCode@872ad960: max line containment 0.183, longest identical run 2, structural similarity 0.071; declaration mode 17/17.",
+      "basis": "Knorvia-authored implementation of the kernel-bridge-03 command surface for the DSH-backed built-in kernel: the remaining v4 commands (config, turn stack, queue operations) and the remaining legacy port methods, closing C2 at 12 of 12. The queue layer keeps one identity owner and drives the documented DSH inbox primitives; commands whose backends belong to the workflow, hooks and rewind plugin packages answer a frozen capability-absent reason code rather than pretending success. The author read the replaced runtime and protocol implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.170 normal and 0.170 declaration, and the two touched shared files end up lower than their main baseline.",
       "evidence": [
-        "specs/contracts/kernel-bridge-02/README.md",
-        "specs/contracts/kernel-bridge-02/behavior.md",
-        "specs/contracts/kernel-bridge-02/design.md",
-        "docs/knorvia-kernel-bridge-02-acceptance.md"
+        "specs/contracts/kernel-bridge-03/README.md",
+        "specs/contracts/kernel-bridge-03/interface.md"
       ]
     },
     {
       "path": "apps/cli/packages/bootstrap/src/kernel-bridge/turn-executor.ts",
-      "normalizedSha256": "84699a430e991382a2ac22fc047d2c1a242aa3476eacf5e788943cf8b878f19a",
+      "normalizedSha256": "045251a91bd1ea6cc9a9f0c0ab019f668c580bce0e35a3f862fb56f0203e52e7",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored kernel-bridge-02 implementation for the DSH-backed built-in kernel (M2 accessor package: input and turns), plus the composition row position for a credential provider plugin and the C2 execution-port registration. The executor is materialized by the bridge engine and registered to the legacy execution registry at start and released at dispose; entry.ts is untouched. The author read the replaced core runtime, legacy bridge and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.183, longest identical run 2, structural similarity 0.071; declaration mode passes for all candidates.",
+      "basis": "Knorvia-authored implementation of the kernel-bridge-03 command surface for the DSH-backed built-in kernel: the remaining v4 commands (config, turn stack, queue operations) and the remaining legacy port methods, closing C2 at 12 of 12. The queue layer keeps one identity owner and drives the documented DSH inbox primitives; commands whose backends belong to the workflow, hooks and rewind plugin packages answer a frozen capability-absent reason code rather than pretending success. The author read the replaced runtime and protocol implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.170 normal and 0.170 declaration, and the two touched shared files end up lower than their main baseline.",
       "evidence": [
-        "specs/contracts/kernel-bridge-02/README.md",
-        "specs/contracts/kernel-bridge-02/design.md",
-        "specs/contracts/kernel-bridge-02/known-differences.md",
-        "docs/knorvia-kernel-bridge-02-acceptance.md"
+        "specs/contracts/kernel-bridge-03/README.md",
+        "specs/contracts/kernel-bridge-03/interface.md"
       ]
     },
     {
@@ -149108,6 +149100,61 @@
       "evidence": [
         "third-party/upstream/f29b60ea39a2132e3baa98927c2d473b349a54143da44a0c6762b243e6459452.txt",
         "https://registry.npmjs.org/quickjs-wasi/2.2.0"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-bridge/capability-gap.ts",
+      "normalizedSha256": "d8b16fde2ab0234db3f013b50915847293f0a1934410c92fa6c2045db2d89856",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored implementation of the kernel-bridge-03 command surface for the DSH-backed built-in kernel: the remaining v4 commands (config, turn stack, queue operations) and the remaining legacy port methods, closing C2 at 12 of 12. The queue layer keeps one identity owner and drives the documented DSH inbox primitives; commands whose backends belong to the workflow, hooks and rewind plugin packages answer a frozen capability-absent reason code rather than pretending success. The author read the replaced runtime and protocol implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.170 normal and 0.170 declaration, and the two touched shared files end up lower than their main baseline.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-03/README.md",
+        "specs/contracts/kernel-bridge-03/interface.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-bridge/queue-ledger.ts",
+      "normalizedSha256": "f6ff9448a7bb33e5b389b307a64b4d9ba42c9d6ed522a3cf84ae229e54a8a445",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored implementation of the kernel-bridge-03 command surface for the DSH-backed built-in kernel: the remaining v4 commands (config, turn stack, queue operations) and the remaining legacy port methods, closing C2 at 12 of 12. The queue layer keeps one identity owner and drives the documented DSH inbox primitives; commands whose backends belong to the workflow, hooks and rewind plugin packages answer a frozen capability-absent reason code rather than pretending success. The author read the replaced runtime and protocol implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.170 normal and 0.170 declaration, and the two touched shared files end up lower than their main baseline.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-03/README.md",
+        "specs/contracts/kernel-bridge-03/interface.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-bridge/queue-ops.ts",
+      "normalizedSha256": "0685adc524dc0b53eb92581b51167d1737a41135dad300b51b3773e540ce70ba",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored implementation of the kernel-bridge-03 command surface for the DSH-backed built-in kernel: the remaining v4 commands (config, turn stack, queue operations) and the remaining legacy port methods, closing C2 at 12 of 12. The queue layer keeps one identity owner and drives the documented DSH inbox primitives; commands whose backends belong to the workflow, hooks and rewind plugin packages answer a frozen capability-absent reason code rather than pretending success. The author read the replaced runtime and protocol implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.170 normal and 0.170 declaration, and the two touched shared files end up lower than their main baseline.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-03/README.md",
+        "specs/contracts/kernel-bridge-03/interface.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-03/tests/queue-ops.test.mjs",
+      "normalizedSha256": "6435a61acdb09ed5ce2cd9872df8d09e650ee2eb7623f931ce7779ff5df84fc8",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored implementation of the kernel-bridge-03 command surface for the DSH-backed built-in kernel: the remaining v4 commands (config, turn stack, queue operations) and the remaining legacy port methods, closing C2 at 12 of 12. The queue layer keeps one identity owner and drives the documented DSH inbox primitives; commands whose backends belong to the workflow, hooks and rewind plugin packages answer a frozen capability-absent reason code rather than pretending success. The author read the replaced runtime and protocol implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.170 normal and 0.170 declaration, and the two touched shared files end up lower than their main baseline.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-03/README.md",
+        "specs/contracts/kernel-bridge-03/interface.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-03/tests/implementation-behavior.test.mjs",
+      "normalizedSha256": "02c5c4a618188463db2a0ca52d68d462d26c908d8965c925a1ca1f570f6ebd8a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored implementation of the kernel-bridge-03 command surface for the DSH-backed built-in kernel: the remaining v4 commands (config, turn stack, queue operations) and the remaining legacy port methods, closing C2 at 12 of 12. The queue layer keeps one identity owner and drives the documented DSH inbox primitives; commands whose backends belong to the workflow, hooks and rewind plugin packages answer a frozen capability-absent reason code rather than pretending success. The author read the replaced runtime and protocol implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.170 normal and 0.170 declaration, and the two touched shared files end up lower than their main baseline.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-03/README.md",
+        "specs/contracts/kernel-bridge-03/interface.md"
       ]
     }
   ]
