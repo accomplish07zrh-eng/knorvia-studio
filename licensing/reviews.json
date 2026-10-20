@@ -147399,6 +147399,186 @@
         "specs/contracts/kernel-dsh-builtins/README.md",
         "docs/knorvia-kernel-dsh-builtins-acceptance.md"
       ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-02/README.md",
+      "normalizedSha256": "d21f5e3074b604b91510f668a6c6a22c3fc642c0814ac730fc9c0e6b12d5ed91",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-bridge-02 contract artifact for the DSH-backed built-in kernel (M2 accessor package: input and turns). Behavior, interface and black-box tests are written from the plan, the frozen v4 command schemas in packages/shared/src/protocol-v4, the kernel-bridge-legacy registration surface and the public @deepseek-ai/dsh 0.2.0-rc.2 package surface. The author read the replaced core runtime and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.138, longest identical run 3, structural similarity 0.042; declaration mode 2/2 with containment 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-02/README.md",
+        "specs/contracts/kernel-bridge-02/behavior.md",
+        "specs/contracts/kernel-bridge-02/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-02/behavior.md",
+      "normalizedSha256": "c6ecd7d57668791692eb9b97c47ee57035f0d6fda51fd928e884933e54f42328",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-bridge-02 contract artifact for the DSH-backed built-in kernel (M2 accessor package: input and turns). Behavior, interface and black-box tests are written from the plan, the frozen v4 command schemas in packages/shared/src/protocol-v4, the kernel-bridge-legacy registration surface and the public @deepseek-ai/dsh 0.2.0-rc.2 package surface. The author read the replaced core runtime and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.138, longest identical run 3, structural similarity 0.042; declaration mode 2/2 with containment 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-02/README.md",
+        "specs/contracts/kernel-bridge-02/behavior.md",
+        "specs/contracts/kernel-bridge-02/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-02/interface.md",
+      "normalizedSha256": "9feb750feca6d8858fa4d51ded092670b01b535aea6368ec0596ca6be437234d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-bridge-02 contract artifact for the DSH-backed built-in kernel (M2 accessor package: input and turns). Behavior, interface and black-box tests are written from the plan, the frozen v4 command schemas in packages/shared/src/protocol-v4, the kernel-bridge-legacy registration surface and the public @deepseek-ai/dsh 0.2.0-rc.2 package surface. The author read the replaced core runtime and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.138, longest identical run 3, structural similarity 0.042; declaration mode 2/2 with containment 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-02/README.md",
+        "specs/contracts/kernel-bridge-02/behavior.md",
+        "specs/contracts/kernel-bridge-02/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-02/callers.md",
+      "normalizedSha256": "309700ac40e21c3dd212e65128ce4eec70a6a92136cda2f37bc88f8005dd7d28",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-bridge-02 contract artifact for the DSH-backed built-in kernel (M2 accessor package: input and turns). Behavior, interface and black-box tests are written from the plan, the frozen v4 command schemas in packages/shared/src/protocol-v4, the kernel-bridge-legacy registration surface and the public @deepseek-ai/dsh 0.2.0-rc.2 package surface. The author read the replaced core runtime and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.138, longest identical run 3, structural similarity 0.042; declaration mode 2/2 with containment 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-02/README.md",
+        "specs/contracts/kernel-bridge-02/behavior.md",
+        "specs/contracts/kernel-bridge-02/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-02/known-differences.md",
+      "normalizedSha256": "f2e4d7d9d66899dccf77c914a9144e1a8ccdacf881990f738befc3c220aec7d7",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-bridge-02 contract artifact for the DSH-backed built-in kernel (M2 accessor package: input and turns). Behavior, interface and black-box tests are written from the plan, the frozen v4 command schemas in packages/shared/src/protocol-v4, the kernel-bridge-legacy registration surface and the public @deepseek-ai/dsh 0.2.0-rc.2 package surface. The author read the replaced core runtime and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.138, longest identical run 3, structural similarity 0.042; declaration mode 2/2 with containment 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-02/README.md",
+        "specs/contracts/kernel-bridge-02/behavior.md",
+        "specs/contracts/kernel-bridge-02/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-02/acceptance.md",
+      "normalizedSha256": "50c2e00025c4a86fa976554f585581a084449563a2797b2125aa11aeaa99ea20",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-bridge-02 contract artifact for the DSH-backed built-in kernel (M2 accessor package: input and turns). Behavior, interface and black-box tests are written from the plan, the frozen v4 command schemas in packages/shared/src/protocol-v4, the kernel-bridge-legacy registration surface and the public @deepseek-ai/dsh 0.2.0-rc.2 package surface. The author read the replaced core runtime and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.138, longest identical run 3, structural similarity 0.042; declaration mode 2/2 with containment 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-02/README.md",
+        "specs/contracts/kernel-bridge-02/behavior.md",
+        "specs/contracts/kernel-bridge-02/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-02/fixtures/README.md",
+      "normalizedSha256": "06f01027977340d6f9f715fe84bd498423f9a5369fa108032aa14cd9ddab3d16",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-bridge-02 contract artifact for the DSH-backed built-in kernel (M2 accessor package: input and turns). Behavior, interface and black-box tests are written from the plan, the frozen v4 command schemas in packages/shared/src/protocol-v4, the kernel-bridge-legacy registration surface and the public @deepseek-ai/dsh 0.2.0-rc.2 package surface. The author read the replaced core runtime and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.138, longest identical run 3, structural similarity 0.042; declaration mode 2/2 with containment 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-02/README.md",
+        "specs/contracts/kernel-bridge-02/behavior.md",
+        "specs/contracts/kernel-bridge-02/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-02/fixtures/turn-commands.json",
+      "normalizedSha256": "1efbdc8c2d78964aad8fb33032384cd50eae780d9313bdf0451c699a459ca951",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-bridge-02 contract artifact for the DSH-backed built-in kernel (M2 accessor package: input and turns). Behavior, interface and black-box tests are written from the plan, the frozen v4 command schemas in packages/shared/src/protocol-v4, the kernel-bridge-legacy registration surface and the public @deepseek-ai/dsh 0.2.0-rc.2 package surface. The author read the replaced core runtime and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.138, longest identical run 3, structural similarity 0.042; declaration mode 2/2 with containment 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-02/README.md",
+        "specs/contracts/kernel-bridge-02/behavior.md",
+        "specs/contracts/kernel-bridge-02/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-02/fixtures/fake-provider.json",
+      "normalizedSha256": "f8bf06fd45b935f3933c7bea5edebbdfa4940ab3ff3ae8d1c4be7784c0058688",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-bridge-02 contract artifact for the DSH-backed built-in kernel (M2 accessor package: input and turns). Behavior, interface and black-box tests are written from the plan, the frozen v4 command schemas in packages/shared/src/protocol-v4, the kernel-bridge-legacy registration surface and the public @deepseek-ai/dsh 0.2.0-rc.2 package surface. The author read the replaced core runtime and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.138, longest identical run 3, structural similarity 0.042; declaration mode 2/2 with containment 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-02/README.md",
+        "specs/contracts/kernel-bridge-02/behavior.md",
+        "specs/contracts/kernel-bridge-02/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-02/fixtures/isolation.json",
+      "normalizedSha256": "6ef8c51dcbd6d127ca6ba7fab2446223e515e898e453e24c58ca72df09f55c8c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-bridge-02 contract artifact for the DSH-backed built-in kernel (M2 accessor package: input and turns). Behavior, interface and black-box tests are written from the plan, the frozen v4 command schemas in packages/shared/src/protocol-v4, the kernel-bridge-legacy registration surface and the public @deepseek-ai/dsh 0.2.0-rc.2 package surface. The author read the replaced core runtime and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.138, longest identical run 3, structural similarity 0.042; declaration mode 2/2 with containment 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-02/README.md",
+        "specs/contracts/kernel-bridge-02/behavior.md",
+        "specs/contracts/kernel-bridge-02/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-02/tests/entry.mjs",
+      "normalizedSha256": "56fe8e35f0b512651ccfb13378f4270ea91d350be63d8eb440a37052227d6034",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-bridge-02 contract artifact for the DSH-backed built-in kernel (M2 accessor package: input and turns). Behavior, interface and black-box tests are written from the plan, the frozen v4 command schemas in packages/shared/src/protocol-v4, the kernel-bridge-legacy registration surface and the public @deepseek-ai/dsh 0.2.0-rc.2 package surface. The author read the replaced core runtime and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.138, longest identical run 3, structural similarity 0.042; declaration mode 2/2 with containment 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-02/README.md",
+        "specs/contracts/kernel-bridge-02/behavior.md",
+        "specs/contracts/kernel-bridge-02/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-02/tests/_protocol.mjs",
+      "normalizedSha256": "153d40b1514e9e255b1e2414bc24b2308b126e1f3c26b17c3f13c7658145b920",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-bridge-02 contract artifact for the DSH-backed built-in kernel (M2 accessor package: input and turns). Behavior, interface and black-box tests are written from the plan, the frozen v4 command schemas in packages/shared/src/protocol-v4, the kernel-bridge-legacy registration surface and the public @deepseek-ai/dsh 0.2.0-rc.2 package surface. The author read the replaced core runtime and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.138, longest identical run 3, structural similarity 0.042; declaration mode 2/2 with containment 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-02/README.md",
+        "specs/contracts/kernel-bridge-02/behavior.md",
+        "specs/contracts/kernel-bridge-02/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-02/tests/_shared-probe.mjs",
+      "normalizedSha256": "83b12b9f4a5de46b0042d40cf3280067be7edeb6fdb492770a9ebf8e763a38f0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-bridge-02 contract artifact for the DSH-backed built-in kernel (M2 accessor package: input and turns). Behavior, interface and black-box tests are written from the plan, the frozen v4 command schemas in packages/shared/src/protocol-v4, the kernel-bridge-legacy registration surface and the public @deepseek-ai/dsh 0.2.0-rc.2 package surface. The author read the replaced core runtime and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.138, longest identical run 3, structural similarity 0.042; declaration mode 2/2 with containment 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-02/README.md",
+        "specs/contracts/kernel-bridge-02/behavior.md",
+        "specs/contracts/kernel-bridge-02/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-02/tests/command-surface.test.mjs",
+      "normalizedSha256": "64029ce963922ab5e23c4852a894b9a91e8317f395f5dfbf94ddcc3e94ce16af",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-bridge-02 contract artifact for the DSH-backed built-in kernel (M2 accessor package: input and turns). Behavior, interface and black-box tests are written from the plan, the frozen v4 command schemas in packages/shared/src/protocol-v4, the kernel-bridge-legacy registration surface and the public @deepseek-ai/dsh 0.2.0-rc.2 package surface. The author read the replaced core runtime and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.138, longest identical run 3, structural similarity 0.042; declaration mode 2/2 with containment 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-02/README.md",
+        "specs/contracts/kernel-bridge-02/behavior.md",
+        "specs/contracts/kernel-bridge-02/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-02/tests/fake-provider-seam.test.mjs",
+      "normalizedSha256": "b4ae56b62cad81445e4bf690c7e3d5bc793aa12325d6831b2bf5eb5263611b4c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-bridge-02 contract artifact for the DSH-backed built-in kernel (M2 accessor package: input and turns). Behavior, interface and black-box tests are written from the plan, the frozen v4 command schemas in packages/shared/src/protocol-v4, the kernel-bridge-legacy registration surface and the public @deepseek-ai/dsh 0.2.0-rc.2 package surface. The author read the replaced core runtime and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.138, longest identical run 3, structural similarity 0.042; declaration mode 2/2 with containment 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-02/README.md",
+        "specs/contracts/kernel-bridge-02/behavior.md",
+        "specs/contracts/kernel-bridge-02/acceptance.md"
+      ]
     }
   ]
 }
