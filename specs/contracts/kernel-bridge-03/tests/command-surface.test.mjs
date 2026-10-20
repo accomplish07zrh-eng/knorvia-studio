@@ -11,7 +11,10 @@
 // 它比「读代码发现」早一步，也比「CI 红了才查」便宜。
 import { strict as strictAssert } from "node:assert";
 import { readFileSync } from "node:fs";
-import { commandSchemaPath as schemaSourcePath, ownershipFixturePath as fixturePath } from "./entry.mjs";
+import {
+  commandSchemaPath as schemaSourcePath,
+  ownershipFixturePath as fixturePath,
+} from "./entry.mjs";
 import { test as caseTest } from "node:test";
 
 /**
@@ -48,9 +51,7 @@ caseTest("B1 命令面恰好 34 条，且与归属夹具双向一致", () => {
   strictAssert.equal(literalSet.size, 34, `命令面必须恰好 34 条；实际=${literalSet.size}`);
 
   const fixture = ownershipFixture();
-  const fixtureSet = new Set(
-    Object.values(fixture.groups).flatMap((group) => group.commands),
-  );
+  const fixtureSet = new Set(Object.values(fixture.groups).flatMap((group) => group.commands));
   strictAssert.deepEqual(
     [...literalSet].filter((name) => !fixtureSet.has(name)),
     [],
@@ -124,5 +125,9 @@ caseTest("B1 收口分母自洽：01 + 02 + 03 各组之和 = 34", () => {
   strictAssert.equal(grouped.length, 34, `分组之和必须是 34；实际=${grouped.length}`);
   // 01 与 02 的已交付项必须显式列出，便于实现阶段算「还剩多少」。
   strictAssert.equal(fixture.groups.deliveredBy01.commands.length, 3, "01 交付 3 条配置类命令");
-  strictAssert.equal(fixture.groups.deliveredBy02.commands.length, 4, "02 交付 4 条（createSession 的 firstInput 不重复计）");
+  strictAssert.equal(
+    fixture.groups.deliveredBy02.commands.length,
+    4,
+    "02 交付 4 条（createSession 的 firstInput 不重复计）",
+  );
 });

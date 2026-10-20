@@ -188,7 +188,13 @@ caseTest("缺口命令集合与已知的 10 条一致（不多不少）", () => 
 caseTest("夹具声明的不变量与实际分组一致", () => {
   const fixture = loadFixture();
   const invariants = fixture.invariants;
-  for (const key of ["noUnsupported", "portTableSize", "queuePositionAuthority", "noFakeSuccess", "entryUntouched"]) {
+  for (const key of [
+    "noUnsupported",
+    "portTableSize",
+    "queuePositionAuthority",
+    "noFakeSuccess",
+    "entryUntouched",
+  ]) {
     strictAssert.equal(
       typeof invariants[key],
       "string",

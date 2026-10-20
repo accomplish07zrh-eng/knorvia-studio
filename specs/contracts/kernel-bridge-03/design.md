@@ -34,12 +34,12 @@ flowchart TD
 
 分组依据是**「这条命令需要谁的状态」**，而不是「它属于哪个业务域」：
 
-| 组 | 需要谁的状态 | 为什么不能混 |
-| --- | --- | --- |
-| A 纯投影 | 只需 `ProjectionLayer` | 与 01 的配置类命令同路径，走 `applyConfigMutation` 即可，**不需要回合栈** |
-| B 队列 | 需 `CommandInbox`（身份）+ DSH `Inbox`（原语） | **必须双写且原子**：身份层与内容层分开，见 §三 |
-| C 回合栈 | 需 `KernelTurnExecutor` + DSH agent | 要真实执行回合，**不能只改投影** |
-| D 其余 | 需**不存在的**后端 | 只能如实回能力缺席 |
+| 组       | 需要谁的状态                                   | 为什么不能混                                                              |
+| -------- | ---------------------------------------------- | ------------------------------------------------------------------------- |
+| A 纯投影 | 只需 `ProjectionLayer`                         | 与 01 的配置类命令同路径，走 `applyConfigMutation` 即可，**不需要回合栈** |
+| B 队列   | 需 `CommandInbox`（身份）+ DSH `Inbox`（原语） | **必须双写且原子**：身份层与内容层分开，见 §三                            |
+| C 回合栈 | 需 `KernelTurnExecutor` + DSH agent            | 要真实执行回合，**不能只改投影**                                          |
+| D 其余   | 需**不存在的**后端                             | 只能如实回能力缺席                                                        |
 
 **关键判断**：A 组**不能**走 C 组的路径。`switchModelConfig` 若经执行器触发一次模型轮，就会
 产生一次真实的模型调用——而 v4 语义是「配置切换」，不是「发一条消息」。这是最容易犯的错。
@@ -79,12 +79,12 @@ sequenceDiagram
 
 ### 3.3 被否决的方案
 
-| 方案 | 为什么不行 |
-| --- | --- |
-| 只维护 v4 侧队列，DSH 每次重建 | 会丢失 DSH 的持久记录（`splice` 的「durably record」语义），重启后队列丢失 |
-| 直接用 DSH 的 `MessageId` 当 `queueItemId` | 违反「v4 身份由服务端发号」；且 `MessageId` 在 drain 后可能被复用/不可得 |
-| 队列命令绕开 `CommandInbox`，直接调 DSH | 违反单一 admission（02 的 B15），会产生第二条写入路径 |
-| `sendQueuedNow` 用「先移除再提交」 | 「移除成功但提交失败」会让用户输入**静默丢失**；必须先提交再移除，或显式失败 |
+| 方案                                       | 为什么不行                                                                   |
+| ------------------------------------------ | ---------------------------------------------------------------------------- |
+| 只维护 v4 侧队列，DSH 每次重建             | 会丢失 DSH 的持久记录（`splice` 的「durably record」语义），重启后队列丢失   |
+| 直接用 DSH 的 `MessageId` 当 `queueItemId` | 违反「v4 身份由服务端发号」；且 `MessageId` 在 drain 后可能被复用/不可得     |
+| 队列命令绕开 `CommandInbox`，直接调 DSH    | 违反单一 admission（02 的 B15），会产生第二条写入路径                        |
+| `sendQueuedNow` 用「先移除再提交」         | 「移除成功但提交失败」会让用户输入**静默丢失**；必须先提交再移除，或显式失败 |
 
 ## 四、`sendQueuedNow` 的顺序选择
 
@@ -128,10 +128,10 @@ switch 的规模只能数 `case`，容易漏。且新方法必须显式加一行
 
 两者都「结束回合」，但语义不同：
 
-| 命令 | 预期语义 | 待确认 |
-| --- | --- | --- |
-| `session/stop` | 停止**当前回合**，会话仍可继续 | 02 已实现（`agent.cancel({kind:"user"}, {keepInbox:true})`） |
-| `session/close` | **关闭会话**：结束回合 + 释放会话资源 | 需查旧引擎行为：是否等价于 `stop` + 会话销毁？ |
+| 命令            | 预期语义                              | 待确认                                                       |
+| --------------- | ------------------------------------- | ------------------------------------------------------------ |
+| `session/stop`  | 停止**当前回合**，会话仍可继续        | 02 已实现（`agent.cancel({kind:"user"}, {keepInbox:true})`） |
+| `session/close` | **关闭会话**：结束回合 + 释放会话资源 | 需查旧引擎行为：是否等价于 `stop` + 会话销毁？               |
 
 **实现阶段要求**：查 legacy 的 `session/close` 语义（`contracts.ts` 有 schema，
 但 `session-handlers.ts` **没有 handler**——需查更早的实现或 `@knorvia/shared` 的协议注释），
@@ -145,6 +145,7 @@ const CAPABILITY_ABSENT = "fault.command.capabilityAbsent";
 ```
 
 **为什么不复用 `unsupported`**：
+
 - `unsupported` 在 01/02 里的语义是「命令面还有未实现的命令」；
 - 03 的收口断言（B25）要求 **34 条全部非 `unsupported`**；
 - 若缺口命令也回 `unsupported`，收口断言将**永远无法通过**——那不是放宽断言能解决的，
@@ -155,15 +156,15 @@ const CAPABILITY_ABSENT = "fault.command.capabilityAbsent";
 
 ## 八、测试的分组与解耦
 
-| 测试文件 | 只测什么 | 不测什么 |
-| --- | --- | --- |
-| `config-session.test.mjs` | A 组：投影变化 | 不碰回合栈 |
-| `queue-ops.test.mjs` | B 组：身份层与 DSH 原语的**一致性** | 不碰模型 |
-| `fork-edit.test.mjs` | C 组：fork/edit/retry 的 DSH 映射 | 不碰队列 |
-| `goal-commands.test.mjs` | C 组：目标 3 条 | 不碰 fork |
-| `capability-gaps.test.mjs` | D 组：10 条缺口如实回缺席 | 不碰真实执行 |
-| `no-unsupported.test.mjs` | B25 收口：34 条遍历 | 不断言具体语义 |
-| `turn-seam.test.mjs` | B24：12/12 端口 | 不断言回合语义 |
+| 测试文件                   | 只测什么                            | 不测什么       |
+| -------------------------- | ----------------------------------- | -------------- |
+| `config-session.test.mjs`  | A 组：投影变化                      | 不碰回合栈     |
+| `queue-ops.test.mjs`       | B 组：身份层与 DSH 原语的**一致性** | 不碰模型       |
+| `fork-edit.test.mjs`       | C 组：fork/edit/retry 的 DSH 映射   | 不碰队列       |
+| `goal-commands.test.mjs`   | C 组：目标 3 条                     | 不碰 fork      |
+| `capability-gaps.test.mjs` | D 组：10 条缺口如实回缺席           | 不碰真实执行   |
+| `no-unsupported.test.mjs`  | B25 收口：34 条遍历                 | 不断言具体语义 |
+| `turn-seam.test.mjs`       | B24：12/12 端口                     | 不断言回合语义 |
 
 **为什么这样分**：任一组改动只影响自己那个测试文件，定位快；
 且 `no-unsupported.test.mjs` 是**纯收口断言**，不与语义断言混在一起——它失败时能立刻判断是

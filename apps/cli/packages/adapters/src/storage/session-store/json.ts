@@ -1,22 +1,34 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2026 Knorvia Studio contributors
 //
-// JSON 列的编解码：写入方向把「缺席」统一成 NULL，读取方向把「缺席」还原成 undefined。
+// 会话库里 JSON 文本列的进出转换。
 //
-// 约定一：只有 undefined 与 null 视为缺席；0、false、"" 都是有效 JSON 值。
-// 约定二：编码结果不包含 undefined（列类型是 TEXT/NULL），因此根标量与 Symbol
-//         仍走原生 JSON.stringify，由调用方按列语义决定是否接受。
-// 约定三：解码入口的入参可能是旧库里的空串，因此凡假值一律按缺席处理；
-//         必需文档不会经过这里，它们的校验由各自的 schema 负责。
+// 写出去的时候，「没有值」统一落成 SQL NULL —— 列类型是 TEXT，塞不进 undefined。
+// 读回来的时候，NULL 与空串都还原成「没有值」；空串是历史版本留下的形态，必须照样认。
+//
+// 两条不能破的边界：
+// 1. 只有 undefined 与 null 算「没有值」，0、false、空字符串都是有意义的 JSON 值；
+// 2. 读入口放过假值，所以必需文档不走这里 —— 它们的合法性由各自的 schema 判定。
 
-export function encodeJson(value: unknown): string | null {
-  const absent = value === undefined || value === null;
-  if (absent) return null;
-  return JSON.stringify(value) as string;
+/** 列类型允许的写出形态：文本，或表示「没有值」的 NULL。 */
+type ColumnText = string | null;
+
+/** 该值在列里是否等价于「没有值」。 */
+function isAbsent(candidate: unknown): boolean {
+  return candidate === undefined || candidate === null;
 }
 
-export function decodeJson<T>(value: string | null): T | undefined {
-  const present = Boolean(value);
-  if (!present) return undefined;
-  return JSON.parse(value as string) as T;
+/** 写出方向：给定任意值，产出要落进 TEXT 列的内容（「没有值」时为 NULL）。 */
+export function encodeJson(payload: unknown): ColumnText {
+  if (isAbsent(payload)) return null;
+  // stringify 对函数与 Symbol 返回 undefined，这类值不该落进 TEXT 列。
+  return JSON.stringify(payload) as string;
+}
+
+/** 读入方向：给定列内容，产出反序列化后的值（「没有值」时为 undefined）。 */
+export function decodeJson<T>(stored: ColumnText): T | undefined {
+  // 旧库里这一列可能是 NULL、空串，甚至真的少给（未类型化的旧数据）——三者都按「没有值」处理。
+  // 解析交给 JSON 自己抛错，不在这一层吞。
+  if (!stored) return undefined;
+  return JSON.parse(stored) as T;
 }

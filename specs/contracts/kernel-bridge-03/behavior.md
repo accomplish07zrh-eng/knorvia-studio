@@ -37,6 +37,7 @@
 ### B6 `editQueueItem` 原位改文案
 
 **断言**：对队列中一项 `{ queueItemId, newText }` →
+
 1. ACK `accepted`；
 2. 该项在 v4 `order` 里的**位次不变**（原位替换，不是重新入队）；
 3. DSH 侧对应 `MessageId` 的文本已更新（`Inbox.replace` 返回 `true`）；
@@ -50,6 +51,7 @@
 ### B8 `reorderQueueItem` 调整位次
 
 **断言**：`{ queueItemId, beforeQueueItemId }` →
+
 1. 目标项移动到 `beforeQueueItemId` **之前**；
 2. `beforeQueueItemId === null` → 移到**队尾**；
 3. 移动后 `order.queuePosition` 与 `Inbox.nextTurn` 的真实顺序一致；
@@ -58,6 +60,7 @@
 ### B9 `sendQueuedNow` 立即发送队列项
 
 **断言**：`{ queueItemId }` →
+
 1. 该项从队列移除并**立即开始执行**（不再等待）；
 2. 若该 `queueItemId` 的原文在投影里已不可得（已被 drain/删除）→ 拒绝
    （legacy 用 `V4QueueItemTextUnavailableError`，本包用同类 reasonCode）；
@@ -91,6 +94,7 @@ DSH `Inbox` 的 `MessageId` 是**映射目标**，不是对外身份。
 ### B13 `editUserQuery` 编辑重发
 
 **断言**：`{ target, newText, workspaceMode }` →
+
 1. `workspaceMode: "preserve"`（缺省）：仅切对话分支，**不动工作区文件**；
 2. `workspaceMode: "rewind"`：先安全恢复该轮文件，再切分支；
 3. 语义 = 「在该用户消息**前一序号** fork，然后发送新输入」（DSH 的 fork 能力映射，不是重写回合栈）；
@@ -110,11 +114,11 @@ DSH `Inbox` 的 `MessageId` 是**映射目标**，不是对外身份。
 
 ### B16–B18 目标 3 条
 
-| 命令 | 断言 |
-| --- | --- |
+| 命令              | 断言                                                                                                         |
+| ----------------- | ------------------------------------------------------------------------------------------------------------ |
 | `sendGoalCommand` | `{ text, displayText?, modelSelection?, mode?, planEnabled? }` → 设置目标并启动目标轮；投影产出 `goalSet` 行 |
-| `pauseGoal` | `{}` → 目标暂停；投影反映暂停态 |
-| `resumeGoal` | `{}` → 目标恢复 |
+| `pauseGoal`       | `{}` → 目标暂停；投影反映暂停态                                                                              |
+| `resumeGoal`      | `{}` → 目标恢复                                                                                              |
 
 **依据**：DSH 有 `ctx.goals`（`GoalService extends TypertRemoteService`，`dsh-goal`）+ `dsh-goal-round-driver` + `dsh-command-goal`（斜杠命令）。三条命令映射到该服务。
 
@@ -130,6 +134,7 @@ DSH `Inbox` 的 `MessageId` 是**映射目标**，不是对外身份。
 ### B20 `applyFileRewind`：**能力缺口**（`fault.command.capabilityAbsent`）
 
 **断言**：
+
 1. 命令**从 v4 协议面可达**（不返回 `unsupported`）；
 2. 返回专门 reasonCode 表示「命令面已实现，当前引擎无该能力后端」；
 3. **不伪造「文件已回退」**：不得回 `accepted`；
@@ -155,6 +160,7 @@ DSH `Inbox` 的 `MessageId` 是**映射目标**，不是对外身份。
 ### B24 legacy 执行端口 12/12（C2 完整满足）
 
 **断言**：
+
 1. `HANDLED_METHODS` 表**恰好 12 行**（`PORT_BACKED_METHODS` 的每一个都在表里）；
 2. 注册后 12 个方法**全部**落到执行器（逐条断言到达的方法名 + sessionId）；
 3. 未注册时 12 个方法**全部**回 `-32031`（反向断言）；
