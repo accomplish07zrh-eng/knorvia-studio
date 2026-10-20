@@ -146956,6 +146956,17 @@
         "specs/contracts/kernel-dsh-builtins/interface.md",
         "specs/contracts/kernel-dsh-builtins/acceptance.md"
       ]
+    },
+    {
+      "path": "docs/knorvia-adapters-similarity-rework-acceptance.md",
+      "normalizedSha256": "2bed1104d88b7c25573ead761a5dfc75fb2583ae75bbd3f08eeb3ff82d802e5a",
+      "decision": "original",
+      "license": "MIT;",
+      "basis": "Root-authored acceptance record for the adapters anti-gaming similarity rework (#124 (c) class plus (d) class attribution, issue #224). Records per-file scoring mode (normal mode for private implementation modules not listed in interface.md, declaration mode for pure declaration and barrel files), old-to-new containment/longest-run/structural measurements, the eight (a) class files deleted with kernel-switch and their deletion basis, the seven (b) class files already reworked by PR #210 and #203, the ten (d) class attribution decisions with pnpm dep:refs evidence, and the gate results. No implementation code: documentation evidence only.",
+      "evidence": [
+        "specs/knorvia-independent-implementation.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md"
+      ]
     }
   ]
 }
