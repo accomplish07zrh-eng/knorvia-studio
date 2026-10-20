@@ -142,7 +142,7 @@ node specs/contracts/kernel-bridge-legacy/tests/run-gate.mjs --engine dsh # 新�
 - 桩只复述 NDJSON transport 外壳（按 `id` 回 `Method not found`），不含任何旧协议方法或通知语义；用例若在桩上通过，说明断言没有真正触达行为。
 - 测试入口只由 `KNORVIA_BRIDGE_ENTRY` 覆盖（桩门专用）；**引擎只用产品开关 `KNORVIA_KERNEL_ENGINE`**，不新造变量。
 - 子进程环境清掉 `DSH_*` 与供应商凭据，隔离 HOME/数据目录；测试不依赖模型、网络或用户配置。
-- 测试运行器使用 `--test-force-exit`：断言全部结束后强制收尾，只影响进程退出（Windows 上子进程管道可能滞留），不影响任何断言结果。
+- 测试夹具自己保证自然退出：清理统一走 `app.registerCleanup(t, [home])`（收子进程与删临时目录在同一 after 钩子内各自 try/catch），删目录带 `maxRetries`；**不用** `--test-force-exit`。理由与实测见 [known-differences.md](known-differences.md) D7 —— CI 的 `test:studio` 直接收集这些 `.test.mjs`，夹具一处挂死会让 main 的 Windows CI 永久红。
 
 当前录制结果（2026-10-20，Node v24.14.0）：
 

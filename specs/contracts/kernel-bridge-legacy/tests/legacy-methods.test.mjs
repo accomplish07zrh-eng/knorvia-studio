@@ -20,13 +20,7 @@ import {
   LEGACY_NOTIFICATIONS,
 } from "../fixtures/request-script.mjs";
 import { activeEngine } from "./entry.mjs";
-import {
-  expectResult,
-  isError,
-  makeTempWorkspace,
-  removeTempDir,
-  spawnAppServer,
-} from "./_protocol.mjs";
+import { expectResult, isError, makeTempWorkspace, spawnAppServer } from "./_protocol.mjs";
 
 const CAPABILITY_ABSENT = -32031;
 const METHOD_NOT_FOUND = -32601;
@@ -59,10 +53,7 @@ function assertAnswered(method, response) {
 test("B5 客户端方向 59 个方法全部被应答：结果或既有错误码，永不 -32601", async (t) => {
   const { home, workspace } = await makeTempWorkspace("kbl-all-");
   const app = await spawnAppServer({ workspace, home, engine: activeEngine() });
-  t.after(async () => {
-    await app.close();
-    await removeTempDir(home);
-  });
+  app.registerCleanup(t, [home]);
 
   const script = buildLegacyRequestScript(workspace);
   assert.equal(
@@ -113,10 +104,7 @@ test("B5 客户端方向 59 个方法全部被应答：结果或既有错误码�
 test("B6 session/create → session/list 的会话身份闭环", async (t) => {
   const { home, workspace } = await makeTempWorkspace("kbl-create-");
   const app = await spawnAppServer({ workspace, home, engine: activeEngine() });
-  t.after(async () => {
-    await app.close();
-    await removeTempDir(home);
-  });
+  app.registerCleanup(t, [home]);
 
   const created = expectResult(
     await app.request("session/create", {
@@ -141,10 +129,7 @@ test("B6 session/create → session/list 的会话身份闭环", async (t) => {
 test("B7 空白会话的只读面返回空数组形状，不泄漏内部状态", async (t) => {
   const { home, workspace } = await makeTempWorkspace("kbl-read-");
   const app = await spawnAppServer({ workspace, home, engine: activeEngine() });
-  t.after(async () => {
-    await app.close();
-    await removeTempDir(home);
-  });
+  app.registerCleanup(t, [home]);
 
   const created = expectResult(
     await app.request("session/create", {
@@ -166,10 +151,7 @@ test("B7 空白会话的只读面返回空数组形状，不泄漏内部状态",
 test("B8 Host 方向的 14 个方法在客户端方向仍是 -32601，且同连接上客户端方向方法可用", async (t) => {
   const { home, workspace } = await makeTempWorkspace("kbl-dir-");
   const app = await spawnAppServer({ workspace, home, engine: activeEngine() });
-  t.after(async () => {
-    await app.close();
-    await removeTempDir(home);
-  });
+  app.registerCleanup(t, [home]);
 
   // 正向对照：同一连接上客户端方向方法必须真的被实现，否则「全部 -32601」的桩会让
   // 下面的方向断言在没有实现时也通过（自证陷阱）。
@@ -206,10 +188,7 @@ test("B9 方法表与方法名清单自洽：74 = 59 + 14 + 1，且清单非平�
   // 并且清单确实被协议面实现（与 B5 互补：B5 逐条问，这里一次正向对照）。
   const { home, workspace } = await makeTempWorkspace("kbl-meta-");
   const app = await spawnAppServer({ workspace, home, engine: activeEngine() });
-  t.after(async () => {
-    await app.close();
-    await removeTempDir(home);
-  });
+  app.registerCleanup(t, [home]);
   const response = await app.request("runtime/capabilities", {});
   assert.ok(
     !isError(response) || response.error.code !== METHOD_NOT_FOUND,

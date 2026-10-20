@@ -27,8 +27,12 @@ export async function makeTempWorkspace(prefix) {
   return { home, workspace };
 }
 
+/**
+ * 删临时目录。Windows 上子进程可能仍把目录当 cwd，句柄释放有延迟 → EBUSY/EPERM；
+ * 用重试覆盖延迟，并显式给 maxRetries，避免 after 钩子抛错把后续清理钩子一并跳过。
+ */
 export function removeTempDir(directory) {
-  return rm(directory, { recursive: true, force: true });
+  return rm(directory, { recursive: true, force: true, maxRetries: 10, retryDelay: 100 });
 }
 
 /**
@@ -203,6 +207,41 @@ export async function spawnAppServer({ workspace, home, engine }) {
     waitFor,
     close,
     requestCount: () => nextId,
+    /**
+     * 一次注册清理：先收子进程，再删临时目录，且两步互不阻塞。
+     *
+     * 为什么必须由夹具统一注册（2026-10-20 实测教训）：node:test 的 after 钩子按注册
+     * FIFO 执行，且前一个钩子抛错后**后续钩子不再执行**。若把 close 写在用例体里、
+     * 只把 rm 挂进 after，则断言失败时用例体后面的 close 根本不会跑到 —— 子进程常驻，
+     * runner 等不到事件循环清空，整个测试进程永不退出（--test-timeout 也救不了，
+     * 挂点在用例体之外）。这里把 close 与 rm 放进同一个钩子，且各自 catch，
+     * 保证任何一步失败都不会阻断另一步，也不会阻断其它测试的清理。
+     */
+    registerCleanup(t, directories = []) {
+      t.after(async () => {
+        let closeFailure;
+        try {
+          await close();
+        } catch (error) {
+          closeFailure = error;
+        }
+        const rmFailures = [];
+        for (const directory of directories) {
+          try {
+            await removeTempDir(directory);
+          } catch (error) {
+            rmFailures.push(`${directory}: ${error.code ?? error.message}`);
+          }
+        }
+        // 清理失败不当作用例失败：用例的结论由断言决定；这里只报告诊断信息。
+        if (closeFailure !== undefined) {
+          console.error(`[cleanup] close failed: ${closeFailure.message ?? closeFailure}`);
+        }
+        if (rmFailures.length > 0) {
+          console.error(`[cleanup] rm failed: ${rmFailures.join("; ")}`);
+        }
+      });
+    },
   };
 }
 

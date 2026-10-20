@@ -44,9 +44,14 @@
 - **理由**：老版本 Host 兼容；删除属 `kernel-switch` 的协议清理范围。
 - **对应测试**：B5（`outcome: "either"`：必须被应答，允许成功或业务错误）。
 
-## D7 Windows 上测试进程收尾
+## D7 Windows 上测试夹具的清理纪律（已修，非产品行为）
 
-- **现象**：子进程 stdout/stderr 管道在 Windows 上可能滞留，使 `node --test` 进程在断言全部结束后仍不退出。
-- **理由**：属测试运行器行为，不是产品行为。
-- **处置**：门禁运行器统一加 `--test-force-exit`；断言结果不受影响（先跑完全部断言再强制收尾）。
-- **对应测试**：`run-gate.mjs`（旧门/桩门/新运行时门都用同一命令）。
+- **现象（首轮）**：`dsh` 引擎下 `node --test` 在断言全部结束后仍不退出，`--test-timeout` 也救不了。
+- **根因（2026-10-20 实测定位）**：**测试夹具自己的缺陷**，不是产品/DSH 的句柄。`node:test` 的 `after` 钩子按注册 FIFO 执行，且**前一个钩子抛错后后续钩子不再执行**。首轮把 `app.close()` 写在用例体里、只把「删临时目录」挂进 `t.after`：一旦用例断言在 `close()` 之前失败（dsh 引擎下 B16 正是如此），`close()` 根本不会执行 → 子进程常驻 → runner 等不到事件循环清空 → 挂死。挂点在用例体之外，`--test-timeout` 覆盖不到。
+- **修法（已落地）**：
+  1. `_protocol.mjs` 新增 `app.registerCleanup(t, [home])`：把「收子进程」与「删临时目录」放进**同一个** after 钩子，各自 try/catch，任何一步失败都不阻断另一步，也不阻断其它测试的清理。
+  2. 所有用例统一改为 `app.registerCleanup(t, [home])`，不再把 `close()` 写在用例体里。
+  3. `removeTempDir` 加 `maxRetries: 10, retryDelay: 100`，覆盖 Windows 上子进程句柄延迟释放导致的 `EBUSY`/`EPERM`。
+- **结论**：修完自然退出（旧门 53 s、dsh 门 53 s），因此**门禁运行器不用 `--test-force-exit`**；运行器另保留 15 min 兜底超时，且把「超时」判为失败（夹具回归必须红，不能无限等）。
+- **为什么这条重要**：CI 的 `test:studio` 直接收集 `specs/contracts/*/tests/*.test.mjs`，不带任何强制退出开关——夹具一处挂死就会让 main 的 Windows CI 永久红。
+- **对应测试**：`run-gate.mjs`（三道路径都用同一命令，且 `timedOut` 记为失败）。

@@ -52,9 +52,8 @@ function runContractTests(entry) {
       "--test-reporter=spec",
       "--test",
       "--test-concurrency=1",
-      // 收尾闸门：子进程管道在部分平台上会滞留并让测试进程不退出；
-      // 断言全部结束后强制退出，只影响进程收尾，不影响任何断言结果。
-      "--test-force-exit",
+      // 不用 --test-force-exit：夹具自己保证自然退出（见 _protocol.mjs 的 registerCleanup）。
+      // CI 的 test:studio 直接跑这些 .test.mjs、不带任何强制退出开关，所以夹具必须自身干净。
       "--test-timeout=120000",
       ...testFiles,
     ],
@@ -75,6 +74,7 @@ function runContractTests(entry) {
     entry,
     engine: entry === "stub" ? "stub" : engine,
     exitCode: result.status,
+    timedOut: result.error !== undefined && result.error.code === "ETIMEDOUT",
     tests: count("tests"),
     pass: count("pass"),
     fail: count("fail"),
@@ -92,9 +92,10 @@ const report = {
   contractVersion,
   node: process.version,
   command:
-    "node --test-reporter=spec --test --test-concurrency=1 --test-force-exit --test-timeout=120000 <tests/*.test.mjs>",
+    "node --test-reporter=spec --test --test-concurrency=1 --test-timeout=120000 <tests/*.test.mjs>",
   engine,
   assertionsRelaxed: false,
+  forcedExit: false,
   runs: [runtime],
 };
 writeFileSync(join(contractDir, gateFile), `${JSON.stringify(report, null, 2)}\n`, "utf8");
@@ -110,7 +111,12 @@ writeFileSync(
   "utf8",
 );
 
-const runtimeOk = runtime.tests !== null && runtime.tests === runtime.pass && runtime.fail === 0;
+// 挂死也算失败：夹具若重新引入「清理被跳过」的形态，这里必须红，而不是无限等待。
+const runtimeOk =
+  runtime.tests !== null &&
+  runtime.tests === runtime.pass &&
+  runtime.fail === 0 &&
+  runtime.timedOut !== true;
 const ok = runtimeOk && stubGate.allFail;
 process.stdout.write(
   `run-gate: contract=${report.contract} version=${contractVersion} engine=${engine} ` +

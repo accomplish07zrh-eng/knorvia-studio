@@ -134,7 +134,7 @@
 - **输出**：进程退出码 0；stdout 只含 JSON 协议行；stderr 含日志/就绪标记，但**不含**协议消息（stderr 的每一行都不是合法 JSON 协议消息）。
 - **正向对照**：EOF 断言必须建立在「协议面真的应答过」之上（先调 `runtime/capabilities` 并断言不是 `-32601`），否则桩也能通过。
 - **资源释放**：EOF 后先在途请求收口、再释放投影与 DSH host、最后退出。
-- **平台差异**：Windows 上子进程管道可能滞留，测试运行器以 `--test-force-exit` 收尾（只影响进程退出，不影响断言）。
+- **平台差异**：Windows 上子进程句柄释放有延迟，测试夹具必须自己保证自然退出 —— 清理统一用 `app.registerCleanup(t, [home])`（收子进程与删临时目录在同一钩子内各自 try/catch，见 known-differences D7），删目录带 `maxRetries`。门禁运行器**不用** `--test-force-exit`。
 
 ---
 

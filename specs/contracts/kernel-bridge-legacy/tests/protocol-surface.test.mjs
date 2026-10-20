@@ -1,6 +1,9 @@
 // SPDX-License-Identifier: Apache-2.0
 // Copyright (c) 2026 Knorvia Studio contributors
 // B1/B2/B16：物理协议面与生命周期——NDJSON 严格外壳、错误码入口、stdout 纯净、EOF 收尾。
+//
+// 清理纪律：子进程与临时目录一律由 app.registerCleanup(t) 注册，不写在用例体里。
+// 原因见 _protocol.mjs 的 registerCleanup 注释（after 钩子 FIFO 且抛错会跳过后续钩子）。
 
 import assert from "node:assert/strict";
 import test from "node:test";
@@ -10,7 +13,6 @@ import {
   expectResult,
   isError,
   makeTempWorkspace,
-  removeTempDir,
   spawnAppServer,
   workspaceRef,
 } from "./_protocol.mjs";
@@ -21,10 +23,7 @@ const INVALID_REQUEST = -32600;
 test("B1 NDJSON 严格外壳：jsonrpc 字段被拒、非法 JSON 回 -32700、stdout 只有协议行", async (t) => {
   const { home, workspace } = await makeTempWorkspace("kbl-shell-");
   const app = await spawnAppServer({ workspace, home, engine: activeEngine() });
-  t.after(async () => {
-    await app.close();
-    await removeTempDir(home);
-  });
+  app.registerCleanup(t, [home]);
 
   app.writeRaw(JSON.stringify({ id: "j1", jsonrpc: "2.0", method: "runtime/capabilities" }));
   app.writeRaw("{ not json");
@@ -56,10 +55,7 @@ test("B1 NDJSON 严格外壳：jsonrpc 字段被拒、非法 JSON 回 -32700、s
 test("B2 未知方法仍是 -32601，旧协议方法名不得落入该分支", async (t) => {
   const { home, workspace } = await makeTempWorkspace("kbl-unknown-");
   const app = await spawnAppServer({ workspace, home, engine: activeEngine() });
-  t.after(async () => {
-    await app.close();
-    await removeTempDir(home);
-  });
+  app.registerCleanup(t, [home]);
 
   const unknown = await app.request("definitely/not-a-method", {});
   assert.ok(isError(unknown), "unknown method must answer a protocol error");
@@ -72,10 +68,8 @@ test("B2 未知方法仍是 -32601，旧协议方法名不得落入该分支", a
 test("B16 stdin EOF 后退出 0，stderr 只承载日志不承载协议行", async (t) => {
   const { home, workspace } = await makeTempWorkspace("kbl-eof-");
   const app = await spawnAppServer({ workspace, home, engine: activeEngine() });
-  // 清理必须挂在 t.after：断言失败时也要收掉子进程，否则管道句柄会让测试进程滞留。
-  t.after(async () => {
-    await removeTempDir(home);
-  });
+  // close 也由夹具注册：断言失败时用例体不再往下跑，必须仍能收掉子进程。
+  app.registerCleanup(t, [home]);
 
   // 正向对照：EOF 收尾断言必须建立在「协议面真的应答过」之上，否则桩也能过。
   const response = await app.request("runtime/capabilities", {});
@@ -101,10 +95,7 @@ test("B16 stdin EOF 后退出 0，stderr 只承载日志不承载协议行", asy
 test("B3 runtime/capabilities 与 process/childProcesses 的形状保持", async (t) => {
   const { home, workspace } = await makeTempWorkspace("kbl-cap-");
   const app = await spawnAppServer({ workspace, home, engine: activeEngine() });
-  t.after(async () => {
-    await app.close();
-    await removeTempDir(home);
-  });
+  app.registerCleanup(t, [home]);
 
   const response = await app.request("runtime/capabilities", {});
   const result = expectResult(response, "runtime/capabilities");
@@ -118,10 +109,7 @@ test("B3 runtime/capabilities 与 process/childProcesses 的形状保持", async
 test("B4 workspace 级只读方法在空白工作区可用且形状稳定", async (t) => {
   const { home, workspace } = await makeTempWorkspace("kbl-ws-");
   const app = await spawnAppServer({ workspace, home, engine: activeEngine() });
-  t.after(async () => {
-    await app.close();
-    await removeTempDir(home);
-  });
+  app.registerCleanup(t, [home]);
 
   const presentation = await app.request("workspace/readPresentation", {
     workspace: workspaceRef(workspace),

@@ -2,20 +2,22 @@
   "contract": "kernel-bridge-legacy",
   "contractVersion": "v1",
   "node": "v24.14.0",
-  "command": "node --test-reporter=spec --test --test-concurrency=1 --test-force-exit --test-timeout=120000 <tests/*.test.mjs>",
+  "command": "node --test-reporter=spec --test --test-concurrency=1 --test-timeout=120000 <tests/*.test.mjs>",
   "engine": "dsh",
   "assertionsRelaxed": false,
+  "forcedExit": false,
   "runs": [
     {
       "entry": "dist",
       "engine": "dsh",
       "exitCode": 1,
+      "timedOut": false,
       "tests": 10,
       "pass": 1,
       "fail": 9,
       "skipped": 0,
       "todo": 0,
-      "outputTail": "\ntest at specs\\contracts\\kernel-bridge-legacy\\tests\\protocol-surface.test.mjs:118:1\n✖ B4 workspace 级只读方法在空白工作区可用且形状稳定 (1824.0865ms)\n  AssertionError [ERR_ASSERTION]: workspace/readPresentation: unexpected protocol error {\"id\":\"c-1-workspace-readPresentation\",\"error\":{\"code\":-32601,\"message\":\"Method not found: workspace/readPresentation\"}}\n  + actual - expected\n  \n  + {\n  +   code: -32601,\n  +   message: 'Method not found: workspace/readPresentation'\n  + }\n  - undefined\n  \n      at expectResult (file:///D:/knorvia%20studio%E5%BC%80%E5%8F%91/wt/exec-kernel-legacy/specs/contracts/kernel-bridge-legacy/tests/_protocol.mjs:216:10)\n      at TestContext.<anonymous> (file:///D:/knorvia%20studio%E5%BC%80%E5%8F%91/wt/exec-kernel-legacy/specs/contracts/kernel-bridge-legacy/tests/protocol-surface.test.mjs:129:16)\n      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n      at async Test.run (node:internal/test_runner/test:1125:7)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:787:7) {\n    generatedMessage: false,\n    code: 'ERR_ASSERTION',\n    actual: { code: -32601, message: 'Method not found: workspace/readPresentation' },\n    expected: undefined,\n    operator: 'strictEqual',\n    diff: 'simple'\n  }"
+      "outputTail": "\ntest at specs\\contracts\\kernel-bridge-legacy\\tests\\protocol-surface.test.mjs:109:1\n✖ B4 workspace 级只读方法在空白工作区可用且形状稳定 (2006.1162ms)\n  AssertionError [ERR_ASSERTION]: workspace/readPresentation: unexpected protocol error {\"id\":\"c-1-workspace-readPresentation\",\"error\":{\"code\":-32601,\"message\":\"Method not found: workspace/readPresentation\"}}\n  + actual - expected\n  \n  + {\n  +   code: -32601,\n  +   message: 'Method not found: workspace/readPresentation'\n  + }\n  - undefined\n  \n      at expectResult (file:///D:/knorvia%20studio%E5%BC%80%E5%8F%91/wt/exec-kernel-legacy/specs/contracts/kernel-bridge-legacy/tests/_protocol.mjs:255:10)\n      at TestContext.<anonymous> (file:///D:/knorvia%20studio%E5%BC%80%E5%8F%91/wt/exec-kernel-legacy/specs/contracts/kernel-bridge-legacy/tests/protocol-surface.test.mjs:117:16)\n      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n      at async Test.run (node:internal/test_runner/test:1125:7)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:787:7) {\n    generatedMessage: false,\n    code: 'ERR_ASSERTION',\n    actual: { code: -32601, message: 'Method not found: workspace/readPresentation' },\n    expected: undefined,\n    operator: 'strictEqual',\n    diff: 'simple'\n  }"
     }
   ]
 }
