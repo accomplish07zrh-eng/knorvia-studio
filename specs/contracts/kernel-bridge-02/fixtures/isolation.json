@@ -1,0 +1,6 @@
+{
+  "_comment": "kernel-bridge-02 隔离断言期望；路径与值均为占位，不含真实用户数据。",
+  "redirectedHomeVars": ["HOME", "USERPROFILE"],
+  "forbiddenEnvPrefixes": ["DSH_"],
+  "decoyDshHomeEntries": [".credentials.yaml", "sessions/", "profiles/", "cordis.patch.yml"]
+}
