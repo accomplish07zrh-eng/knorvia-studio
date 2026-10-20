@@ -71,15 +71,13 @@ function observeFirstExit(
 /** 结束 job：terminate 与 close 各自兜错，引用已由调用方先清空。 */
 function closeJob(job: WindowsJobObjectController | undefined): void {
   if (!job) return;
-  try {
-    job.terminate();
-  } catch {
-    // 终止失败仍进入 close；不等待声明外的 Promise 返回值。
-  }
-  try {
-    job.close();
-  } catch {
-    // 引用已清空，失败不恢复它或新增重试。
+  // 两个动作各自兜错：终止失败仍要 close；close 失败也不恢复引用或重试。
+  for (const step of [job.terminate, job.close]) {
+    try {
+      step.call(job);
+    } catch {
+      // 边界内失败只吞掉，由日志与遥测暴露。
+    }
   }
 }
 
@@ -127,6 +125,10 @@ export class ProcessTreeStdioClientTransport extends StdioClientTransport {
     await super.send(metaFields ? withInjectedMeta(frame, metaFields) : frame);
   }
 
+  /**
+   * 启动：先让 SDK 拉起进程，再补三件事 —— 记住进程句柄、记录首次退出、绑 job。
+   * 若进程在 start 期间就已退出，则不再挂 exit 监听，也不再绑 job。
+   */
   override async start(): Promise<void> {
     const launchStartedAt = Date.now();
     await super.start();
@@ -141,9 +143,14 @@ export class ProcessTreeStdioClientTransport extends StdioClientTransport {
         this.#firstExit = info;
       },
     );
-    // 进程在 start 期间就已退出：不再挂 exit 监听，也不再绑定 job object。
     if (proc.exitCode !== null || proc.signalCode !== null) return;
-    if (process.platform !== "win32" || this.pid == null) return;
+    await this.#bindJobObject();
+  }
+
+  /** 绑定 job object：仅 win32 且有 pid 时尝试；失败按「无 job」继续，不抛出。 */
+  async #bindJobObject(): Promise<void> {
+    const usablePlatform = process.platform === "win32";
+    if (!usablePlatform || this.pid == null) return;
     try {
       this.#job = await this.#jobFactory(this.pid);
     } catch {
@@ -159,22 +166,28 @@ export class ProcessTreeStdioClientTransport extends StdioClientTransport {
   }
 }
 
-/** 进程树传输的回收：先结束 job 与进程树，再交给 SDK 的 _dispose（缺失时回退 close）。 */
+/**
+ * 进程树传输的回收顺序固定三步：先解绑 job、再终止进程树、最后交给 SDK。
+ * SDK 的私有 _dispose 在不同版本里可能不存在 —— 缺失时回退到 close()。
+ */
 async function recycleProcessTree(this: ProcessTreeStdioClientTransport): Promise<void> {
-  const pid = this.pid;
+  const targetPid = this.pid;
   await this.terminateWindowsJobObject();
-  if (typeof pid === "number" && Number.isInteger(pid) && pid > 0) {
+
+  const usablePid = typeof targetPid === "number" && Number.isInteger(targetPid) && targetPid > 0;
+  if (usablePid) {
     try {
-      await terminateMcpStdioProcessTree(pid);
+      await terminateMcpStdioProcessTree(targetPid as number);
     } catch {
       // 树终止失败不阻断 SDK 回收；更早的 pid/job 错误仍按原边界传播。
     }
   }
-  if (sdkDisposeRef) {
-    await sdkDisposeRef.call(this);
+
+  if (!sdkDisposeRef) {
+    await this.close();
     return;
   }
-  await this.close();
+  await sdkDisposeRef.call(this);
 }
 
 Object.defineProperty(ProcessTreeStdioClientTransport.prototype, "_dispose", {
