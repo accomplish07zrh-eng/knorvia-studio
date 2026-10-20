@@ -111,10 +111,25 @@
 | seam                    | `@deepseek-ai/dsh-llm` 的抽象类 `LlmAdapter` + `ctx.llm.registerAdapter(providers: string[], adapter)`                                                                                     |
 | 实测结果                | `registerOk: true`；`listProviders()` → `[{id:"knorvia-fake", name:"Knorvia Fake Provider"}]`；返回 handle 只有 `replace`                                                                  |
 | `LlmAdapter` 最小实现面 | `providerInfo(provider)` → `{id, name}`（`id` 必须等于 provider 名、`name` 非空，否则抛 `LlmError`）；`providerRetryPolicy()` / `imageRequestPricing()` → `undefined`；`stream` 产出固定帧 |
-| 测试位置                | `specs/contracts/kernel-bridge-02/tests/_fake-provider.mjs`（仅测试，不进产品代码、不进组合行）                                                                                            |
+| 测试位置                | `specs/contracts/kernel-bridge-02/tests/fake-provider-seam.test.mjs`（仅测试；**不进入产品打包产物**，见下方测试专用声明）                                                                 |
 | 合规性                  | 用公开 API，**不 fork、不改 DSH 源码**                                                                                                                                                     |
 
 **离线确定性覆盖的帧**：assistant 行、tool 行、`TurnComplete` 的**形状**与**序号单调性**；以及不依赖模型的 `stop` / `compact` 回合。
+
+**测试专用声明（M6 产物来源核对口径）**：假 provider 是**测试专用**构件，**不进入任何产品打包产物**——
+
+- 只存在于 `specs/contracts/kernel-bridge-02/tests/**`（契约测试目录），**不在** `apps/cli/packages/**` 的任何 `src/` 或 `dist/` 里；
+- 不进入组合行（`KERNEL_PLUGIN_ROWS` / `createKernelPluginRows` 里没有任何 `knorvia-fake` 行）；
+- 不进入 `knorvia.cjs` 单文件产物，也不进入安装版/便携版运行时树；
+- M6 核对产物来源时，`knorvia-fake` 在打包产物中**应为零命中**；若出现即为缺陷。
+
+### 反向断言：自造命令名不得进入协议面
+
+合同阶段测试 `command-surface.test.mjs` 除断言五个正确字面量存在外，还**反向断言** `cancelTurn` 与 `steer` **不得出现**在 `commandPayloadSchemas` 里。
+
+这条的价值不在「现在用对了名字」，而在**防止将来有人把自造名加进协议表**：一旦有人以「方便」为由往 `commandPayloadSchemas` 里加 `cancelTurn`，这条用例立刻红。协议表是冻结面，加名字属于破坏性变更，必须有这条护栏。
+
+同样的反向断言也覆盖 `V4_METHODS`：`v4/turn/send`、`v4/conversation/sendText` 一类「回合专用方法名」不得出现——回合能力只能经 `v4/command` 的 `type` 分派。
 
 **留给 kernel-switch 的真实冒烟**：真实模型 token 流、真实工具调用的完整回合、真实 Host 审批应答与 UI 交互、手机 `web-remote-replayable` 真实断线重连。
 
@@ -129,7 +144,7 @@
 | 3   | 手机 `web-remote-replayable` 真实断线重连         | `kernel-switch`（D19）              |
 | 4   | macOS 实机                                        | 无实机；Linux CI 覆盖 POSIX（D20）  |
 
-## 七、安全约定（全队口径，本包自查）
+## 八、安全约定（全队口径，本包自查）
 
 - **无任何进程级清理**：测试与探针只用自己 `spawn` 的句柄收尾；禁止 `taskkill /IM`、`pkill -f`、按可执行名批量杀进程。取消语义走 DSH 的 `agent.cancel()`，不杀进程。
 - **不碰真实用户目录**：全部测试用 `mkdtemp` 造临时根，`HOME`/`USERPROFILE` 重定向；不读写真实 `~/.dsh`。

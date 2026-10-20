@@ -189,7 +189,7 @@
 2. `LlmAdapter` 需要实现的最小面（**实测**）：`providerInfo(provider)` 返回 `{ id, name }`（`id` 必须等于注册的 provider 名、`name` 非空，否则注册抛 `LlmError`）；`providerRetryPolicy()` 与 `imageRequestPricing()` 返回 `undefined` 即用默认；再实现 `stream` 产出固定帧。
    `LlmAdapter.prototype` 的完整方法面：`providerInfo`、`providerRetryPolicy`、`imageRequestPricing`、`listModels`、`resolveModel`、`prepareCall`。
 3. `dsh-llm-pi-ai` 走的是同一条公开接口。**不 fork、不改 DSH 源码**，符合计划书红线。
-4. 假 provider 只用于契约测试（`tests/_fake-provider.mjs`），不进入组合行、不进入产品运行时。
+4. 假 provider 只用于契约测试（`tests/fake-provider-seam.test.mjs`），**不进入产品打包产物**：不在 `apps/cli/packages/**` 的 `src`/`dist` 里、不进组合行、不进 `knorvia.cjs`、不进安装版与便携版运行时树。M6 核对产物来源时 `knorvia-fake` 应为零命中（见 [acceptance.md](acceptance.md) §六「测试专用声明」）。
 
 **离线覆盖**：`createSession` + `sendText` 用假 provider 真实驱动 agent loop，从而断言 assistant 行、tool 行、`TurnComplete` 的**帧形状**与**序号单调性**；`stop` 与 `compact` 不需要模型即可确定性断言。
 
