@@ -1,0 +1,9 @@
+{
+  "_comment": "kernel-bridge-02 回合命令面期望；字面量权威源是 packages/shared/src/protocol-v4/command.ts。",
+  "turnCommands": ["createSession", "sendText", "stop", "compact", "resolveInteraction"],
+  "fabricatedNames": ["cancelTurn", "steer"],
+  "requestedDelivery": ["startNow", "queue", "guide"],
+  "guideIsSteer": true,
+  "heldQueueDisposition": ["clearQueueAndSend", "keepQueueAndSend"],
+  "expectedCommandCount": 34
+}
