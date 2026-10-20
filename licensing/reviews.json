@@ -135085,7 +135085,7 @@
     },
     {
       "path": "specs/contracts/core-tool-01/interface.md",
-      "normalizedSha256": "c599000bcb55a4307e51f1b07a89a938d61b437ccc68e758179187188f066191",
+      "normalizedSha256": "bef8ea8a08bb51648a93aa7af71f3bc9b035748ae65c70e3d1129f7c41454cd4",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "New core-tool-01 contract documents (scope, behavior B1-B88, interface signatures, callers, known differences, acceptance) authored for the Knorvia independent-replacement plan. Behavior and signatures were extracted by reading the replaced implementation and running it, as the plan allows; no code was copied, renamed or rewritten line by line, and the documents describe behavior in the authors' own words. The old gate results recorded in these documents are measurements on the unmodified implementation.",
@@ -138713,7 +138713,7 @@
     },
     {
       "path": "specs/contracts/shared-02/interface.md",
-      "normalizedSha256": "c412e44aa1c113b4149af31f57c491c9c52e29bdccf13d36aaebb718f46e334f",
+      "normalizedSha256": "eb4c4f8434c98b8ee729997b66cac3282fa1cf8067415b3e974366a122056d30",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
