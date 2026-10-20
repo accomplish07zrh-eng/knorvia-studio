@@ -1175,3 +1175,12 @@ export type ToolBatchEvent =
 ```ts
 export function isWebFetchPreapprovedUrl(value: string): boolean;
 ```
+
+## 纯数据常量表
+
+合同写死键名与数值的纯数据常量表按规则拆在同名声明文件 `<原名>-data.ts` 里：只放普通数组与
+普通对象字面量（可 `as const`），不含函数、条件、计算、`split`、展开或模板插值。原文件 import
+这些常量，其余逻辑照常。声明模式计分时，下列名字（连同它们所在的整块声明）按本文件剔除：
+
+- `apps/cli/packages/core/src/tool/webfetch-preapproved-data.ts`：`PREAPPROVED_HOSTS`、
+  `PREAPPROVED_PREFIX_ROWS`

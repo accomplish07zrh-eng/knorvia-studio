@@ -9749,7 +9749,7 @@
     },
     {
       "path": "apps/cli/packages/bootstrap/src/kernel/process.ts",
-      "normalizedSha256": "11a8c9f5d14bbae7ae199a601c7556f793ee4205753122bb3e7d0c99b2511126",
+      "normalizedSha256": "d4658750b2d606a4ee281b80f2f4148a1ded716449697dc2eeb70499d9635dd3",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored kernel-dsh-00 runtime for the DSH-backed built-in kernel. runKernelProcess：就绪/失败标记、stdin EOF 与信号关闭、退出码映射。 Written from specs/knorvia-builtin-kernel-dsh.md, the kernel-dsh-00 contract and the public @deepseek-ai/dsh 0.2.0-rc.2 package surface. The author read the replaced apps/cli/packages/bootstrap/src/app/create-app.ts, apps/cli/packages/bootstrap/src/protocol-entrypoint.ts and apps/cli/packages/core/src/runtime/** to understand existing behavior only; no DSH source and no inherited implementation was copied, renamed or line-rewritten. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.173, longest identical run 2, structural similarity 0.000.",
@@ -64695,7 +64695,7 @@
     },
     {
       "path": "docs/knorvia-independent-replacement-plan.md",
-      "normalizedSha256": "5a2696a721a0cf65a2ac7c30304a5794501f95c523384e64f0a0ef9a37ab15d8",
+      "normalizedSha256": "346c04e3f67fc4417d3f0891f8a4f3be299d8c4d8c255842e16213880eafe638",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored planning document: the synchronized copy of the independent-replacement plan that this work executes. Written by the Knorvia team; it lists scope, decisions, milestones and acceptance criteria and reproduces no upstream source text. Registered as original so the plan copy itself carries its own provenance record.",
@@ -66238,10 +66238,10 @@
     },
     {
       "path": "docs/knorvia-similarity-calibration-20261011.md",
-      "normalizedSha256": "b09da52bc2439e64eaf65eb9bb847334111928a0f171789df07a0c89e80675f7",
+      "normalizedSha256": "b0fbcccdb24a9fd3483d9005e691c0e7d7128685a7e28e2668e611647064c0cf",
       "decision": "original",
       "license": "MIT",
-      "basis": "New Knorvia calibration report for the M0-8 similarity tool: upstream tree provenance and full verification, threshold derivation, the 439-file rerun and the renamed-copy validation. Prior sources were read for the algorithm and the pinned upstream tree; no upstream text was copied into the report.",
+      "basis": "New Knorvia calibration report for the M0-8 similarity tool: upstream tree provenance and full verification, threshold derivation, the 439-file rerun and the renamed-copy validation. Prior sources were read for the algorithm and the pinned upstream tree; no upstream text was copied into the report. Section 12 records the 2026-10-19 packed-literal-split gate: whitespace-delimited literals split at runtime are an independent FAIL reason, runtime data is not flagged, and thresholds are unchanged; it also records that the four new cases pass while the pre-existing declaration case fails under the concurrent pure-data tightening, without claiming a fully green suite.",
       "evidence": [
         "docs/knorvia-similarity-calibration-20261011.md",
         "docs/knorvia-independent-replacement-plan.md"
@@ -130828,11 +130828,23 @@
       "normalizedSha256": "4922c8135670e4462fa36a8f315d1c67af20f5e30d33179e77a25ac448c50694"
     },
     {
-      "path": "scripts/provenance/similarity-declarations.mjs",
-      "normalizedSha256": "995cbe9d3f69c2d71e820cf868923d231e67334cd28d04a04eba3f955e6dc9ab",
+      "path": "scripts/provenance/similarity-declarations-purity.test.mjs",
+      "normalizedSha256": "fad10003a2ed9daaf33faceac975639fc917e4e9779fa40e66217430258f2323",
       "decision": "original",
       "license": "MIT",
-      "basis": "Knorvia-authored provenance tooling for M0-8 (line and structural similarity checker). The author read docs/knorvia-provenance-bookkeeping-20261010.md section 4 for the bookkeeping line algorithm and the task plan's tool requirements; no upstream or replaced implementation code was copied, renamed or rewritten line by line. Calibration on the 439 registered independent-replacement files: observed structural maximum 1.000, threshold 0.4 (23 files over the cap are queued for replacement); four renamed copies of real upstream-modified files were all blocked. License follows licensing/README.md for new scripts/provenance tools. Declaration compatibility-line stripping driven by interface.md names.",
+      "basis": "New Knorvia regression tests for the declaration-mode purity guard: a named const block is only exempt from scoring when it is pure data (literal arrays/objects, z.enum, Object.freeze), while functions, conditions, arithmetic, spreads, interpolated templates and computed calls keep their lines scored. Node built-ins only; no upstream test was copied or adapted. License follows licensing/README.md for new scripts/provenance tools.",
+      "evidence": [
+        "licensing/README.md",
+        "docs/knorvia-similarity-calibration-20261011.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "scripts/provenance/similarity-declarations.mjs",
+      "normalizedSha256": "fbeaabff67515116947a4e9fbb553d4ea1602d97f1e833ce8fc76e678ec987ce",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored provenance tooling for M0-8 (line and structural similarity checker). The author read docs/knorvia-provenance-bookkeeping-20261010.md section 4 for the bookkeeping line algorithm and the task plan's tool requirements; no upstream or replaced implementation code was copied, renamed or rewritten line by line. Calibration on the 439 registered independent-replacement files: observed structural maximum 1.000, threshold 0.4 (23 files over the cap are queued for replacement); four renamed copies of real upstream-modified files were all blocked. License follows licensing/README.md for new scripts/provenance tools. Declaration compatibility-line stripping driven by interface.md names; named const blocks are only stripped when they are pure data, so functions, conditions and computed values inside a listed const keep scoring.",
       "evidence": [
         "licensing/README.md",
         "docs/knorvia-similarity-calibration-20261011.md",
@@ -130876,6 +130888,18 @@
       ]
     },
     {
+      "path": "scripts/provenance/similarity-packed-literal.mjs",
+      "normalizedSha256": "4dffece869c166f981da49f8d054ce5afe4ca9c865833075c692759932e94325",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored anti-gaming extension for the M0-8 similarity checker: flag candidates that pack wording into whitespace-delimited string/template literals and split them into a list at runtime (direct split, const-bound literal/array/join result, flatMap over a literal array, or a literal argument to a wrapper that splits its parameter). Runtime data such as parameters, file/process output and parsed git/ps rows is deliberately not flagged. Lightweight AST literal propagation only, no constant evaluator. No upstream or replaced implementation was copied. License follows licensing/README.md for new scripts/provenance tools.",
+      "evidence": [
+        "licensing/README.md",
+        "docs/knorvia-similarity-calibration-20261011.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
       "path": "scripts/provenance/similarity-reexport.mjs",
       "normalizedSha256": "816660a9eb0ccd5fe5bf97a16800b3bed6249278286641ba11b29854958447f7",
       "decision": "original",
@@ -130901,10 +130925,10 @@
     },
     {
       "path": "scripts/provenance/similarity.mjs",
-      "normalizedSha256": "626ffc05ce58812edc6d75f0f3abc633906e123b972f71ba943a42cc26dd836c",
+      "normalizedSha256": "186693bb5c0b48431df63ce2d52077ab712c64234c3d9516a0eaf01a1cf953cc",
       "decision": "original",
       "license": "MIT",
-      "basis": "Knorvia-authored provenance tooling for M0-8 (line and structural similarity checker). The author read docs/knorvia-provenance-bookkeeping-20261010.md section 4 for the bookkeeping line algorithm and the task plan's tool requirements; no upstream or replaced implementation code was copied, renamed or rewritten line by line. Calibration on the 439 registered independent-replacement files: observed structural maximum 1.000, threshold 0.4 (23 files over the cap are queued for replacement); four renamed copies of real upstream-modified files were all blocked. License follows licensing/README.md for new scripts/provenance tools. Entry point: candidate/old/upstream resolution, gate evaluation, JSON report and exit code.",
+      "basis": "Knorvia-authored provenance tooling for M0-8 (line and structural similarity checker). The author read docs/knorvia-provenance-bookkeeping-20261010.md section 4 for the bookkeeping line algorithm and the task plan's tool requirements; no upstream or replaced implementation code was copied, renamed or rewritten line by line. Calibration on the 439 registered independent-replacement files: observed structural maximum 1.000, threshold 0.4 (23 files over the cap are queued for replacement); four renamed copies of real upstream-modified files were all blocked. License follows licensing/README.md for new scripts/provenance tools. Entry point: candidate/old/upstream resolution, gate evaluation, JSON report and exit code. Packed-literal gate: flag whitespace-delimited string/template literals split at runtime (direct, const/array/join-bound, or via a literal-argument helper), while leaving runtime data (parameters, file/process output, git/ps row parsing) alone.",
       "evidence": [
         "licensing/README.md",
         "docs/knorvia-similarity-calibration-20261011.md",
@@ -130913,10 +130937,10 @@
     },
     {
       "path": "scripts/provenance/similarity.test.mjs",
-      "normalizedSha256": "8f25673e7f16e09e2815d0c036b6b070843170cdc68841017e6af4fdb74c8a94",
+      "normalizedSha256": "f3a7439a6c08e3027068ab4aed974c6b04fe0922e9d20a80d1d4458ea75f3867",
       "decision": "original",
       "license": "MIT",
-      "basis": "Knorvia-authored provenance tooling for M0-8 (line and structural similarity checker). The author read docs/knorvia-provenance-bookkeeping-20261010.md section 4 for the bookkeeping line algorithm and the task plan's tool requirements; no upstream or replaced implementation code was copied, renamed or rewritten line by line. Calibration on the 439 registered independent-replacement files: observed structural maximum 1.000, threshold 0.4 (23 files over the cap are queued for replacement); four renamed copies of real upstream-modified files were all blocked. License follows licensing/README.md for new scripts/provenance tools. Contract tests: line boundaries (exactly ten lines, run 7 vs 8, containment 0.19 vs 0.2), renamed copy blocked, independently structured implementation passing, declaration line stripping, binary skip, Windows newlines, JSON fields and exit codes.",
+      "basis": "Knorvia-authored provenance tooling for M0-8 (line and structural similarity checker). The author read docs/knorvia-provenance-bookkeeping-20261010.md section 4 for the bookkeeping line algorithm and the task plan's tool requirements; no upstream or replaced implementation code was copied, renamed or rewritten line by line. Calibration on the 439 registered independent-replacement files: observed structural maximum 1.000, threshold 0.4 (23 files over the cap are queued for replacement); four renamed copies of real upstream-modified files were all blocked. License follows licensing/README.md for new scripts/provenance tools. Contract tests: line boundaries (exactly ten lines, run 7 vs 8, containment 0.19 vs 0.2), renamed copy blocked, independently structured implementation passing, declaration line stripping, binary skip, Windows newlines, JSON fields and exit codes. Packed-literal split positives (literal, const/array/join, helper call) and runtime-data negatives.",
       "evidence": [
         "licensing/README.md",
         "docs/knorvia-similarity-calibration-20261011.md",
@@ -135061,7 +135085,7 @@
     },
     {
       "path": "specs/contracts/core-tool-01/interface.md",
-      "normalizedSha256": "c599000bcb55a4307e51f1b07a89a938d61b437ccc68e758179187188f066191",
+      "normalizedSha256": "bef8ea8a08bb51648a93aa7af71f3bc9b035748ae65c70e3d1129f7c41454cd4",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "New core-tool-01 contract documents (scope, behavior B1-B88, interface signatures, callers, known differences, acceptance) authored for the Knorvia independent-replacement plan. Behavior and signatures were extracted by reading the replaced implementation and running it, as the plan allows; no code was copied, renamed or rewritten line by line, and the documents describe behavior in the authors' own words. The old gate results recorded in these documents are measurements on the unmodified implementation.",
@@ -138130,7 +138154,7 @@
     },
     {
       "path": "specs/contracts/packages-02/tests/rpc-channels.test.mjs",
-      "normalizedSha256": "bb7d7360455032cb54821a838aab9753dab8fa6bfc5d8b4f56768926d39c2134",
+      "normalizedSha256": "ab9b7cdaaddf8f6f9e4f4e8003e68ecbd194927b33d8b4144db64782a527f7a8",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored packages-02 contract v1 black-box test: exercises the frozen public behavior of the inherited rpc and provider-node modules through public entries on both source and dist entries, recorded against the unmodified implementation. No implementation code copied into the contract.",
@@ -138689,7 +138713,7 @@
     },
     {
       "path": "specs/contracts/shared-02/interface.md",
-      "normalizedSha256": "c412e44aa1c113b4149af31f57c491c9c52e29bdccf13d36aaebb718f46e334f",
+      "normalizedSha256": "eb4c4f8434c98b8ee729997b66cac3282fa1cf8067415b3e974366a122056d30",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
@@ -139206,7 +139230,7 @@
     },
     {
       "path": "specs/contracts/shared-04/interface.md",
-      "normalizedSha256": "47ccb35bbbdf77cb783bf835de0277375bc40fc4f07c42eadb9966ab178cc5bf",
+      "normalizedSha256": "ee297e5f2a58aa6e160a6f76b8bc67b72527cafc130d670fb68c9651f73ebc55",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored shared-04 contract artifact for @knorvia/shared (M3: remote/network, plugins/mcp, config/UI, feedback/onboarding, diagnostics/telemetry, auth/model/provider; 44 inherited files in packages/shared/src excluding node/, protocol-v4/ and the deferred index.ts root barrel). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries and module paths in both source and dist modes, the fixtures are synthetic goldens (remote identity, plugins, config, feedback, diagnostics, auth/model) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-04. Old gate: source 51/51, dist 51/51, stub replacement of 44 module paths made all 8 test files fail (allFail=true).",
@@ -140230,7 +140254,7 @@
     },
     {
       "path": "specs/knorvia-builtin-kernel-dsh.md",
-      "normalizedSha256": "b172fd65af743cb68303cc49c60786ae380d40f2c7b870fb0468ce31c59e0e05",
+      "normalizedSha256": "74b0b90e0e5d4d1b838880f54236786b9226e5c02c66f447e003cb1ce08dcc3e",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored product specification written on 2026-10-17 for the decision to build the built-in kernel on DeepSeek Harness as a pinned dependency and to restructure the project into internal plugins. It describes Knorvia rules, ownership and acceptance in its own words and reproduces no upstream source text.",
@@ -146764,6 +146788,7 @@
       ]
     },
     {
+<<<<<<< HEAD
       "path": "specs/contracts/services-01/README.md",
       "normalizedSha256": "e94dccdc5ac1d05f71047f99bc6275ba80463de57f5a2321299fe1038f904350",
       "decision": "original",
@@ -147575,6 +147600,19 @@
       "evidence": [
         "specs/contracts/services-01/README.md",
         "specs/contracts/services-01/fixtures/credential-enc-v1.json"
+=======
+      "path": "apps/cli/packages/bootstrap/src/kernel-bridge/interface.ts",
+      "normalizedSha256": "2cb6c68b3b7845024ead15cec147ae2f13e376951be0d068dc03ccc0b2be6195",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-bridge-01 interface definition between segment A (wiring, command-inbox, lifecycle) and segment B (projection, sequence, snapshot, links). Type declarations only. Written from specs/contracts/kernel-bridge-01/interface.md, behavior.md and acceptance.md; no DSH source and no inherited implementation was copied. Similarity against old core and zai-org/ZCode@872ad960: max line containment 0.062, longest identical run 1, structural similarity 0.019.",
+      "evidence": [
+        "specs/knorvia-builtin-kernel-dsh.md",
+        "specs/contracts/kernel-bridge-01/README.md",
+        "specs/contracts/kernel-bridge-01/behavior.md",
+        "specs/contracts/kernel-bridge-01/interface.md",
+        "specs/contracts/kernel-bridge-01/acceptance.md"
+>>>>>>> origin/main
       ]
     }
   ]

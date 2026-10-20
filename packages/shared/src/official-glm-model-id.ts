@@ -1,20 +1,16 @@
 // SPDX-License-Identifier: Apache-2.0
 // 官方 GLM 模型规范 ID 名单（B30）。
 // 只供官方名单、telemetry 白名单与单向迁移入口使用；不能用于 Registry 比较或通用请求改写。
-
-// 22 项规范 ID 按旧名单顺序文本装载；取值逐字冻结。
-const CANONICAL_ID_TEXT =
-  "GLM-5.3 GLM-5.3-Flash GLM-5V-Turbo GLM-5.2 GLM-5.1 GLM-5.1-Highspeed GLM-5 GLM-5-Turbo " +
-  "GLM-4.7 GLM-4.7-FlashX GLM-4.7-Flash GLM-4.6 GLM-4.5-Air GLM-4.5 GLM-4.6V GLM-4.6V-Flash " +
-  "GLM-4.6V-FlashX GLM-4.1V-Thinking-FlashX GLM-4.1V-Thinking-Flash GLM-4-FlashX-250414 " +
-  "GLM-4-Flash-250414 GLM-4V-Flash";
-const canonicalIds = CANONICAL_ID_TEXT.split(" ");
-const byLowercase = new Map(canonicalIds.map((id) => [id.toLowerCase(), id]));
+import { OFFICIAL_GLM_MODEL_ID_TABLE } from "./official-glm-model-id-data.js";
 
 /** 官方 GLM 模型规范 ID 名单；telemetry 白名单以此为来源，新增官方模型时同步进白名单。 */
-export const OFFICIAL_GLM_MODEL_IDS: readonly string[] = canonicalIds;
+export const OFFICIAL_GLM_MODEL_IDS: readonly string[] = OFFICIAL_GLM_MODEL_ID_TABLE;
 
-export function normalizeOfficialGlmModelId(modelId: string): string {
-  const canonical = byLowercase.get(modelId.toLowerCase());
-  return canonical ?? modelId;
-}
+// 大小写不敏感查表：键为小写规范 ID，值为名单里的规范大小写。
+const CANONICAL_ID_BY_LOWERCASE = new Map<string, string>(
+  OFFICIAL_GLM_MODEL_ID_TABLE.map((canonicalId) => [canonicalId.toLowerCase(), canonicalId]),
+);
+
+/** 命中名单返回规范大小写，未命中原样返回。 */
+export const normalizeOfficialGlmModelId = (modelId: string): string =>
+  CANONICAL_ID_BY_LOWERCASE.get(modelId.toLowerCase()) ?? modelId;
