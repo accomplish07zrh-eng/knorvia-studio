@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: Apache-2.0
+// Copyright (c) 2026 Knorvia Studio contributors
 import { VSBuffer } from "./buffer.js";
 
 export interface IReader {
@@ -9,224 +11,214 @@ export interface IWriter {
 }
 
 export class BufferReader implements IReader {
-  private position = 0;
+  #offset = 0;
 
-  constructor(private buffer: VSBuffer) {}
+  constructor(private readonly source: VSBuffer) {}
 
   read(bytes: number): VSBuffer {
-    const result = this.buffer.slice(this.position, this.position + bytes);
-    this.position += result.byteLength;
-    return result;
+    const end = this.#offset + bytes;
+    const window = this.source.slice(this.#offset, end);
+    this.#offset += window.byteLength;
+    return window;
   }
 }
 
 export class BufferWriter implements IWriter {
-  private readonly buffers: VSBuffer[] = [];
+  readonly #queue: VSBuffer[] = [];
 
   write(buffer: VSBuffer): void {
-    this.buffers.push(buffer);
+    this.#queue.push(buffer);
   }
 
   get buffer(): VSBuffer {
-    return VSBuffer.concat(this.buffers);
+    return VSBuffer.concat(this.#queue);
   }
 }
 
-enum Kind {
-  Undefined = 0,
-  String = 1,
-  Buffer = 2,
-  VSBuffer = 3,
-  Array = 4,
-  Object = 5,
-  Int = 6,
-}
+const UNDEFINED = 0x00;
+const STRING = 0x01;
+const BYTES = 0x02;
+const VS_BUFFER = 0x03;
+const LIST = 0x04;
+const JSON_OBJECT = 0x05;
+const INTEGER = 0x06;
 
-function byteBuffer(value: number): VSBuffer {
-  const buffer = VSBuffer.alloc(1);
-  buffer.writeUInt8(value, 0);
-  return buffer;
-}
+const ZERO_BYTE = VSBuffer.wrap(Uint8Array.of(0));
 
-const vqlZero = byteBuffer(0);
-const undefinedTag = byteBuffer(Kind.Undefined);
-const stringTag = byteBuffer(Kind.String);
-const bufferTag = byteBuffer(Kind.Buffer);
-const vsBufferTag = byteBuffer(Kind.VSBuffer);
-const arrayTag = byteBuffer(Kind.Array);
-const objectTag = byteBuffer(Kind.Object);
-const intTag = byteBuffer(Kind.Int);
+const SINGLE_BYTES: readonly VSBuffer[] = [
+  UNDEFINED,
+  STRING,
+  BYTES,
+  VS_BUFFER,
+  LIST,
+  JSON_OBJECT,
+  INTEGER,
+].map((tag) => VSBuffer.wrap(Uint8Array.of(tag)));
 
-function writeVQL(writer: IWriter, value: number): void {
-  if (value === 0) {
-    writer.write(vqlZero);
+function putQuantity(target: IWriter, quantity: number): void {
+  if (quantity === 0) {
+    target.write(ZERO_BYTE);
     return;
   }
 
-  let length = 0;
-  let remaining = value;
-  while (remaining !== 0) {
-    length++;
-    remaining = remaining >>> 7;
+  const pieces: number[] = [];
+  let remainder = quantity >>> 0;
+  while (remainder > 0) {
+    pieces.push(remainder % 128);
+    remainder = Math.floor(remainder / 128);
   }
 
-  const buffer = VSBuffer.alloc(length);
-  let offset = 0;
-  while (value !== 0) {
-    buffer.buffer[offset] = value & 127;
-    value = value >>> 7;
-    if (value > 0) {
-      buffer.buffer[offset] |= 128;
-    }
-    offset++;
+  const scratch = VSBuffer.alloc(pieces.length);
+  for (let index = 0; index < pieces.length; index += 1) {
+    const last = index === pieces.length - 1;
+    scratch.writeUInt8(last ? pieces[index] : pieces[index] + 128, index);
   }
-  writer.write(buffer);
+  target.write(scratch);
 }
 
-function readVQL(reader: IReader): number {
-  let value = 0;
-  for (let shift = 0; ; shift += 7) {
-    const next = reader.read(1);
-    value |= (next.buffer[0] & 127) << shift;
-    if (!(next.buffer[0] & 128)) {
-      return value;
-    }
+function takeQuantity(target: IReader): number {
+  let result = 0;
+  let position = 0;
+  let more = true;
+  while (more) {
+    const octet = target.read(1).readUInt8(0);
+    more = octet >= 128;
+    result += (octet % 128) * 2 ** position;
+    position += 7;
   }
+  return result | 0;
 }
 
-const nestedBytesMarker = "__knorvia_rpc_nested_uint8array_v1";
-const legacyNestedBytesMarker = "__zcode_rpc_nested_uint8array_v1";
+const CURRENT_MARK = "__knorvia_rpc_nested_uint8array_v1";
+const LEGACY_MARK = "__zcode_rpc_nested_uint8array_v1";
+const PAYLOAD_KEY = "base64";
 
-interface Base64Buffer extends ArrayLike<number> {
-  toString(encoding: string): string;
+type ByteHost = {
+  from(
+    input: Uint8Array | string,
+    encoding?: string,
+  ): Uint8Array & {
+    toString(encoding: string): string;
+  };
+};
+
+function nodeBuffer(): ByteHost | undefined {
+  return (globalThis as unknown as { Buffer?: ByteHost }).Buffer;
 }
 
-interface Base64BufferConstructor {
-  from(value: Uint8Array | string, encoding?: string): Base64Buffer;
+function encodeBase64(raw: Uint8Array): string {
+  const node = nodeBuffer();
+  if (node !== undefined) {
+    return node.from(raw).toString("base64");
+  }
+  const symbols: string[] = [];
+  for (const octet of raw) {
+    symbols.push(String.fromCharCode(octet));
+  }
+  return globalThis.btoa(symbols.join(""));
 }
 
-function bytesToBase64(bytes: Uint8Array): string {
-  const Buffer = (globalThis as typeof globalThis & { Buffer?: Base64BufferConstructor }).Buffer;
-  if (Buffer) {
-    return Buffer.from(bytes).toString("base64");
+function decodeBase64(text: string): Uint8Array {
+  const node = nodeBuffer();
+  if (node !== undefined) {
+    return new Uint8Array(node.from(text, "base64"));
   }
-
-  let binary = "";
-  const chunkSize = 0x8000;
-  for (let offset = 0; offset < bytes.length; offset += chunkSize) {
-    const chunk = bytes.subarray(offset, offset + chunkSize);
-    binary += String.fromCharCode(...chunk);
+  const plain = globalThis.atob(text);
+  const raw = new Uint8Array(plain.length);
+  let cursor = 0;
+  while (cursor < plain.length) {
+    raw[cursor] = plain.charCodeAt(cursor);
+    cursor += 1;
   }
-  return globalThis.btoa(binary);
+  return raw;
 }
 
-function base64ToBytes(base64: string): Uint8Array {
-  const Buffer = (globalThis as typeof globalThis & { Buffer?: Base64BufferConstructor }).Buffer;
-  if (Buffer) {
-    return new Uint8Array(Buffer.from(base64, "base64"));
-  }
-
-  const binary = globalThis.atob(base64);
-  const bytes = new Uint8Array(binary.length);
-  for (let index = 0; index < binary.length; index++) {
-    bytes[index] = binary.charCodeAt(index);
-  }
-  return bytes;
-}
-
-function encodeReplacer(_key: string, value: any): any {
+function substituteBytes(_key: string, value: unknown): unknown {
   if (value instanceof Uint8Array) {
-    return { [nestedBytesMarker]: true, base64: bytesToBase64(value) };
+    return { [CURRENT_MARK]: true, [PAYLOAD_KEY]: encodeBase64(value) };
   }
   return value;
 }
 
-function isEncodedBytes(value: any): value is { base64: string } {
-  return (
+function restoreBytes(_key: string, value: unknown): unknown {
+  const isCandidate =
     typeof value === "object" &&
     value !== null &&
-    !Array.isArray(value) &&
-    (value[nestedBytesMarker] === true || value[legacyNestedBytesMarker] === true) &&
-    typeof value.base64 === "string" &&
-    Object.keys(value).length === 2
-  );
+    Object.getPrototypeOf(value) === Object.prototype;
+  if (!isCandidate) {
+    return value;
+  }
+  const fields = value as Record<string, unknown>;
+  const signatures = Object.keys(fields);
+  const labelled = fields[CURRENT_MARK] === true || fields[LEGACY_MARK] === true;
+  if (!labelled || signatures.length !== 2 || typeof fields[PAYLOAD_KEY] !== "string") {
+    return value;
+  }
+  return decodeBase64(fields[PAYLOAD_KEY]);
 }
 
-function decodeReviver(_key: string, value: any): any {
-  if (isEncodedBytes(value)) {
-    return base64ToBytes(value.base64);
-  }
-  return value;
+function writeBody(target: IWriter, tag: number, body: VSBuffer): void {
+  target.write(SINGLE_BYTES[tag]);
+  putQuantity(target, body.byteLength);
+  target.write(body);
 }
 
 export function serialize(writer: IWriter, data: any): void {
-  if (typeof data === "undefined") {
-    writer.write(undefinedTag);
-    return;
-  }
-  if (typeof data === "string") {
-    const buffer = VSBuffer.fromString(data);
-    writer.write(stringTag);
-    writeVQL(writer, buffer.byteLength);
-    writer.write(buffer);
-    return;
-  }
-  if (data instanceof VSBuffer) {
-    writer.write(vsBufferTag);
-    writeVQL(writer, data.byteLength);
-    writer.write(data);
-    return;
-  }
-  if (data instanceof Uint8Array) {
-    const buffer = VSBuffer.wrap(data);
-    writer.write(bufferTag);
-    writeVQL(writer, buffer.byteLength);
-    writer.write(buffer);
-    return;
-  }
-  if (Array.isArray(data)) {
-    writer.write(arrayTag);
-    writeVQL(writer, data.length);
-    for (const element of data) {
-      serialize(writer, element);
-    }
-    return;
-  }
-  if (typeof data === "number" && (data | 0) === data) {
-    writer.write(intTag);
-    writeVQL(writer, data);
-    return;
+  switch (typeof data) {
+    case "undefined":
+      writer.write(SINGLE_BYTES[UNDEFINED]);
+      return;
+    case "string":
+      writeBody(writer, STRING, VSBuffer.fromString(data));
+      return;
+    case "number":
+      if ((data | 0) === data) {
+        writer.write(SINGLE_BYTES[INTEGER]);
+        putQuantity(writer, data);
+        return;
+      }
+      break;
   }
 
-  const json = JSON.stringify(data, encodeReplacer);
-  const buffer = VSBuffer.fromString(json);
-  writer.write(objectTag);
-  writeVQL(writer, buffer.byteLength);
-  writer.write(buffer);
+  if (data instanceof VSBuffer) {
+    writeBody(writer, VS_BUFFER, data);
+  } else if (data instanceof Uint8Array) {
+    writeBody(writer, BYTES, VSBuffer.wrap(data));
+  } else if (Array.isArray(data)) {
+    writer.write(SINGLE_BYTES[LIST]);
+    putQuantity(writer, data.length);
+    for (const member of data) {
+      serialize(writer, member);
+    }
+  } else {
+    writeBody(writer, JSON_OBJECT, VSBuffer.fromString(JSON.stringify(data, substituteBytes)));
+  }
 }
 
 export function deserialize(reader: IReader): any {
-  const kind = reader.read(1).readUInt8(0);
-  switch (kind) {
-    case Kind.Undefined:
+  const tag = reader.read(1).readUInt8(0);
+  switch (tag) {
+    case UNDEFINED:
       return undefined;
-    case Kind.String:
-      return reader.read(readVQL(reader)).toString();
-    case Kind.Buffer:
-      return reader.read(readVQL(reader)).buffer;
-    case Kind.VSBuffer:
-      return reader.read(readVQL(reader));
-    case Kind.Array: {
-      const length = readVQL(reader);
-      const result: any[] = [];
-      for (let index = 0; index < length; index++) {
-        result.push(deserialize(reader));
+    case STRING:
+      return reader.read(takeQuantity(reader)).toString();
+    case BYTES:
+      return reader.read(takeQuantity(reader)).buffer;
+    case VS_BUFFER:
+      return reader.read(takeQuantity(reader));
+    case LIST: {
+      const members: any[] = [];
+      let remaining = takeQuantity(reader);
+      while (remaining > 0) {
+        members.push(deserialize(reader));
+        remaining -= 1;
       }
-      return result;
+      return members;
     }
-    case Kind.Object:
-      return JSON.parse(reader.read(readVQL(reader)).toString(), decodeReviver);
-    case Kind.Int:
-      return readVQL(reader);
+    case JSON_OBJECT:
+      return JSON.parse(reader.read(takeQuantity(reader)).toString(), restoreBytes);
+    case INTEGER:
+      return takeQuantity(reader);
   }
+  return undefined;
 }

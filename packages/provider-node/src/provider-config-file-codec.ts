@@ -1,125 +1,150 @@
+// SPDX-License-Identifier: Apache-2.0
+// Copyright (c) 2026 Knorvia Studio contributors
 import { z } from "zod";
 import { modelSelectionSchema } from "@knorvia/shared/model-selection";
 import { completeModelConfigDataSchema, modelConfigDataSchema } from "@knorvia/shared/model-config";
 import {
-  parsePersonalModelConfigRules,
-  parsePersonalProviderConfigMap,
   extractManualModelConfig,
   manualModelConfigSchema,
+  parsePersonalModelConfigRules,
+  parsePersonalProviderConfigMap,
   type ProviderConfigLayerUpdate,
 } from "@knorvia/provider";
 
-const CURRENT_SCHEMA_VERSION = 1 as const;
-// Fixed schemas are retained compatibility/security data, not replacement validator implementations.
-const stored = z
-  .object({
-    schemaVersion: z.literal(CURRENT_SCHEMA_VERSION),
-    config: z
-      .object({
-        providerOrder: z.array(z.string().min(1)).optional(),
-        providerConfigRules: z.unknown(),
-        modelConfigRules: z.unknown(),
-        defaultModelSelection: modelSelectionSchema.optional(),
-      })
-      .strict(),
-  })
-  .strict();
-const legacyComplete = completeModelConfigDataSchema.extend({
-  enabled: modelConfigDataSchema.shape.enabled,
+const SUPPORTED_SCHEMA_VERSION = 1;
+
+const VERSION_MESSAGES = {
+  absent: "Provider Config 缺少 schemaVersion",
+  notAnIndex: "Provider Config schemaVersion 必须是非负整数",
+  unversionedUpgrade: "Provider Config 迁移器必须产生版本化文件",
+} as const;
+
+// 交换格式的字段声明：未知键在顶层与 config 层都拒绝，规则内容留给 provider 层校验。
+const anyPayload = z.unknown();
+const orderList = z.array(z.string().min(1)).optional();
+const selectionField = modelSelectionSchema.optional();
+
+const configContract = z.strictObject({
+  providerOrder: orderList,
+  providerConfigRules: anyPayload,
+  modelConfigRules: anyPayload,
+  defaultModelSelection: selectionField,
 });
-const legacyEditable = manualModelConfigSchema.extend({
-  properties: manualModelConfigSchema.shape.properties.extend({
-    requiresMfjsToolSchema:
-      completeModelConfigDataSchema.shape.properties.shape.requiresMfjsToolSchema,
+
+const fileContract = z.strictObject({
+  schemaVersion: z.literal(SUPPORTED_SCHEMA_VERSION),
+  config: configContract,
+});
+
+// 旧 manual 规则的两种历史形状：完整字段集，以及多带 requiresMfjsToolSchema 的可编辑形状。
+const enabledToggle = modelConfigDataSchema.shape.enabled;
+const toolSchemaToggle =
+  completeModelConfigDataSchema.shape.properties.shape.requiresMfjsToolSchema;
+
+const historicalManualForms = z.union([
+  completeModelConfigDataSchema.extend({ enabled: enabledToggle }),
+  manualModelConfigSchema.extend({
+    properties: manualModelConfigSchema.shape.properties.extend({
+      requiresMfjsToolSchema: toolSchemaToggle,
+    }),
   }),
-});
-const migrations: ReadonlyMap<number, (input: unknown) => unknown> = new Map();
+]);
+
+// 目前只有 1 版：升级表为空，任何低版本都会命中「缺迁移器」。
+const upgraders: ReadonlyMap<number, (payload: unknown) => unknown> = new Map();
+
 export class UnsupportedProviderConfigVersionError extends Error {
+  override readonly name = "UnsupportedProviderConfigVersionError";
+
   readonly version: number | null;
+
   constructor(message: string, version: number | null) {
     super(message);
-    this.name = "UnsupportedProviderConfigVersionError";
     this.version = version;
   }
 }
-function record(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
-}
-function versionOf(value: unknown): number | null {
-  if (!record(value) || !("schemaVersion" in value)) return null;
-  const version = value.schemaVersion;
-  if (!Number.isInteger(version) || (version as number) < 0)
-    throw new UnsupportedProviderConfigVersionError(
-      "Provider Config schemaVersion 必须是非负整数",
-      null,
-    );
-  return version as number;
-}
-function currentDocument(input: unknown): unknown {
-  let version = versionOf(input);
-  if (version === null)
-    throw new UnsupportedProviderConfigVersionError("Provider Config 缺少 schemaVersion", null);
-  if (version > CURRENT_SCHEMA_VERSION)
-    throw new UnsupportedProviderConfigVersionError(
-      `Provider Config schemaVersion ${version} 高于当前支持的 ${CURRENT_SCHEMA_VERSION}`,
-      version,
-    );
-  let document = input;
-  while (version < CURRENT_SCHEMA_VERSION) {
-    const migrate = migrations.get(version);
-    if (!migrate)
-      throw new UnsupportedProviderConfigVersionError(
-        `缺少 Provider Config schemaVersion ${version} 到 ${version + 1} 的迁移器`,
-        version,
-      );
-    document = migrate(document);
-    const next = versionOf(document);
-    if (next === null)
-      throw new UnsupportedProviderConfigVersionError(
-        "Provider Config 迁移器必须产生版本化文件",
-        null,
-      );
-    if (next !== version + 1)
-      throw new Error(
-        `Provider Config 迁移器必须从 schemaVersion ${version} 迁移到 ${version + 1}`,
-      );
-    version = next;
+
+const unsupported = (message: string, version: number | null) =>
+  new UnsupportedProviderConfigVersionError(message, version);
+
+const isPlainObject = (candidate: unknown): candidate is Record<string, unknown> =>
+  typeof candidate === "object" && candidate !== null && !Array.isArray(candidate);
+
+const readVersion = (candidate: unknown): number | null => {
+  if (!isPlainObject(candidate) || !Object.hasOwn(candidate, "schemaVersion")) return null;
+  const version = candidate.schemaVersion;
+  if (typeof version !== "number" || !Number.isInteger(version) || version < 0) {
+    throw unsupported(VERSION_MESSAGES.notAnIndex, null);
   }
-  return document;
-}
-function compatibleManualRules(value: unknown): unknown {
-  if (!record(value) || !Array.isArray(value.manualProviderModelRules)) return value;
-  return {
-    ...value,
-    manualProviderModelRules: value.manualProviderModelRules.map((rule) => {
-      if (!record(rule)) return rule;
-      if (manualModelConfigSchema.safeParse(rule.config).success) return rule;
-      const legacy = z.union([legacyComplete, legacyEditable]).safeParse(rule.config);
-      return legacy.success ? { ...rule, config: extractManualModelConfig(legacy.data) } : rule;
-    }),
+  return version;
+};
+
+const tooNew = (version: number) =>
+  `Provider Config schemaVersion ${version} 高于当前支持的 ${SUPPORTED_SCHEMA_VERSION}`;
+
+const missingUpgrade = (version: number) =>
+  `缺少 Provider Config schemaVersion ${version} 到 ${version + 1} 的迁移器`;
+
+const skippedStep = (version: number) =>
+  `Provider Config 迁移器必须从 schemaVersion ${version} 迁移到 ${version + 1}`;
+
+// 版本从文件声明值逐级加一；升级函数不存在或跳号都立即失败，不做猜测性修补。
+const upgradeToCurrent = (payload: unknown): unknown => {
+  const claimed = readVersion(payload);
+  if (claimed === null) throw unsupported(VERSION_MESSAGES.absent, null);
+  if (claimed > SUPPORTED_SCHEMA_VERSION) throw unsupported(tooNew(claimed), claimed);
+
+  const climb = (current: unknown, version: number): unknown => {
+    if (version === SUPPORTED_SCHEMA_VERSION) return current;
+    const upgrade = upgraders.get(version);
+    if (upgrade === undefined) throw unsupported(missingUpgrade(version), version);
+    const upgraded = upgrade(current);
+    const declared = readVersion(upgraded);
+    if (declared === null) throw unsupported(VERSION_MESSAGES.unversionedUpgrade, null);
+    if (declared !== version + 1) throw new Error(skippedStep(version));
+    return climb(upgraded, declared);
   };
-}
+
+  return climb(payload, claimed);
+};
+
+const normalizeManualRule = (rule: unknown): unknown => {
+  if (!isPlainObject(rule)) return rule;
+  if (manualModelConfigSchema.safeParse(rule.config).success) return rule;
+  const historical = historicalManualForms.safeParse(rule.config);
+  if (!historical.success) return rule;
+  return { ...rule, config: extractManualModelConfig(historical.data) };
+};
+
+const normalizeManualRules = (rules: unknown): unknown => {
+  if (!isPlainObject(rules) || !Array.isArray(rules.manualProviderModelRules)) return rules;
+  return {
+    ...rules,
+    manualProviderModelRules: rules.manualProviderModelRules.map(normalizeManualRule),
+  };
+};
+
 export function decodeProviderConfigFile(input: unknown): ProviderConfigLayerUpdate {
-  const document = stored.parse(currentDocument(input));
-  return Object.freeze({
-    providers: parsePersonalProviderConfigMap(document.config.providerConfigRules),
-    models: parsePersonalModelConfigRules(compatibleManualRules(document.config.modelConfigRules)),
-    providerOrder: document.config.providerOrder,
-    ...(document.config.defaultModelSelection !== undefined
-      ? { defaultModelSelection: document.config.defaultModelSelection }
-      : {}),
-  });
-}
-export function encodeProviderConfigFile(update: ProviderConfigLayerUpdate) {
-  return {
-    schemaVersion: CURRENT_SCHEMA_VERSION,
-    config: {
-      ...(update.providerOrder !== undefined ? { providerOrder: update.providerOrder } : {}),
-      providerConfigRules: { providerRules: update.providers.toJSON() },
-      modelConfigRules: update.models.toPersonalJSON(),
-      ...(update.defaultModelSelection !== undefined
-        ? { defaultModelSelection: update.defaultModelSelection }
-        : {}),
-    },
+  const { config } = fileContract.parse(upgradeToCurrent(input));
+  const snapshot: ProviderConfigLayerUpdate = {
+    providers: parsePersonalProviderConfigMap(config.providerConfigRules),
+    models: parsePersonalModelConfigRules(normalizeManualRules(config.modelConfigRules)),
+    providerOrder: config.providerOrder,
+    ...(config.defaultModelSelection === undefined
+      ? {}
+      : { defaultModelSelection: config.defaultModelSelection }),
   };
+  return Object.freeze(snapshot);
+}
+
+export function encodeProviderConfigFile(update: ProviderConfigLayerUpdate) {
+  const config = {
+    ...(update.providerOrder === undefined ? {} : { providerOrder: update.providerOrder }),
+    providerConfigRules: { providerRules: update.providers.toJSON() },
+    modelConfigRules: update.models.toPersonalJSON(),
+    ...(update.defaultModelSelection === undefined
+      ? {}
+      : { defaultModelSelection: update.defaultModelSelection }),
+  };
+  return { schemaVersion: SUPPORTED_SCHEMA_VERSION, config };
 }
