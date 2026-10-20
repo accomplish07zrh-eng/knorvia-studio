@@ -66,7 +66,16 @@
    （legacy 用 `V4QueueItemTextUnavailableError`，本包用同类 reasonCode）；
 3. **「已开始执行但移除失败」必须显式失败**，不能报告成功（legacy 用
    `V4QueuePromotionCommitError`；本包沿用同类 reasonCode 语义）；
-4. 重复提升同一项 → 拒绝（legacy 用 `guard.queueItemReserved`）。
+4. 重复提升同一项 → 拒绝（legacy 用 `guard.queueItemReserved`）；
+5. ★ **其余排队项必须仍在**（`keepInbox: true` 的可判定证据）。
+   DSH 的 `agent.cancel` 默认**不带** `keepInbox`，会 `splice` 丢弃排队的输入
+   （`dsh-agent` 类型注释原文：「without the stop button's `keepInbox`, so queued input is discarded
+   with a logged inbox splice」）。**用户只要求发这一条，不是清空队列**——
+   若用默认值，其余消息会**静默丢失**，而这个缺陷很难被其它断言抓到；
+6. ★ **必须等到回合真正 idle 才提交新输入**：`agent.cancel()` **不等待结算**
+   （同文件原文：「Nothing is awaited to settlement.」），因此要等 `agent/status` 事件变 `idle`
+   ——**用事件而不是轮询/sleep 凑时序**；超时仅作兜底并给出稳定错误类型。
+   若不等待，会出现「**新旧回合交错**」（新输入在旧回合尚未结束时提交）。
 
 ### B10 `setAutoDrain` 设置自动出队
 

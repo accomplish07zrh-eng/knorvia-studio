@@ -211,19 +211,60 @@ README §四 最初写「队列的**唯一所有者**必须是 `CommandInbox`，
 
 ### 5.3 由此产生的实现要求
 
-| #   | 要求                                                                                                                                                                                             |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| R1  | `CommandInbox` 必须维护 `queueItemId → MessageId` 的映射；映射缺失即「该项已被 drain/删除」                                                                                                      |
-| R2  | `editQueueItem` = `replace(messageId, newMessage)`；返回 `false` 表示已不在队列 → 按冻结面回拒绝                                                                                                 |
-| R3  | `deleteQueueItem` = `remove(messageId)`；同上                                                                                                                                                    |
-| R4  | `reorderQueueItem` = 先 `remove` 再 `splice` 到目标位次（`beforeQueueItemId === null` → 队尾）                                                                                                   |
-| R5  | `sendQueuedNow` = 把该项提升为「立即执行」：从队列移除 + 作为新回合输入提交；**必须处理「提升成功但移除失败」的中间态**（legacy 用 `V4QueuePromotionCommitError` 表达，本包沿用同类 reasonCode） |
-| R6  | `setAutoDrain`：DSH **没有** autoDrain 概念（实测零命中）→ 这是纯 v4 侧的调度策略，由 `CommandInbox` 自己持有                                                                                    |
-| R7  | **核心可判定断言**：任何队列操作后，v4 `order.queuePosition` 必须与 `Inbox.nextTurn.length`（队列态）一致                                                                                        |
+| #   | 要求                                                                                                                                                                                                                                                                                                                                                                                            |
+| --- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| R1  | `CommandInbox` 必须维护 `queueItemId → MessageId` 的映射；映射缺失即「该项已被 drain/删除」                                                                                                                                                                                                                                                                                                     |
+| R2  | `editQueueItem` = `replace(messageId, newMessage)`；返回 `false` 表示已不在队列 → 按冻结面回拒绝                                                                                                                                                                                                                                                                                                |
+| R3  | `deleteQueueItem` = `remove(messageId)`；同上                                                                                                                                                                                                                                                                                                                                                   |
+| R4  | `reorderQueueItem` = 先 `remove` 再 `splice` 到目标位次（`beforeQueueItemId === null` → 队尾）                                                                                                                                                                                                                                                                                                  |
+| R5  | `sendQueuedNow` = 把该项提升为「立即执行」：① 从队列移除；② `agent.cancel({ kind: "user" }, { keepInbox: true })`（**必须 `keepInbox: true`**——否则 DSH 会 splice 丢掉**其余**排队项，而用户只要求发这一条）；③ **显式等 `agent/status` 变为 `idle`**；④ 再提交该项为新回合输入。**必须处理「提升成功但移除失败」的中间态**（legacy 用 `V4QueuePromotionCommitError`，本包沿用同类 reasonCode） |
+| R6  | `setAutoDrain`：DSH **没有** autoDrain 概念（实测零命中）→ 这是纯 v4 侧的调度策略，由 `CommandInbox` 自己持有                                                                                                                                                                                                                                                                                   |
+| R7  | **核心可判定断言**：任何队列操作后，v4 `order.queuePosition` 必须与 `Inbox.nextTurn.length`（队列态）一致                                                                                                                                                                                                                                                                                       |
 
-### 5.4 仍需实现阶段确认的两点
+### 5.4 U1/U2 的实测结论（已确认，不再是待定项）
 
-| #   | 疑点                                                                                                                                                            | 处置                                                                                                             |
-| --- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| U1  | `nextTurn` 与 `nextStep` 两个列表如何映射到**一个** v4 线性队列？`nextStep` 是「下一步边界就并入」的（02 的 `guide` 就用它），它是否应出现在 v4 的 `order` 里？ | 实现阶段对照 legacy `queue.ts` 的 `inputIntentMetadataFromQueueItem` 与协议 `order` 定义确认，**合同阶段不拍板** |
-| U2  | `sendQueuedNow` 的「取消当前回合再执行」是否需要 `stop` 语义？legacy 用 `preemptActiveTurnAndWait`                                                              | 需要查 DSH `agent.cancel({kind:"user"})` 的语义是否等价，**合同阶段不拍板**                                      |
+#### U1 `order` 只映射 `nextTurn`，不含 `nextStep`
+
+**v4 侧的事实**（`packages/shared/src/protocol-v4/input-intent.ts` L18–L22）：
+
+```ts
+export const conversationInputOrderSchema = z
+  .object({
+    admissionSeq: z.number().int().nonnegative(),
+    queuePosition: z.number().int().nonnegative().optional(),
+  })
+  .strict();
+```
+
+且 `conversationInputIntentSchema` 里 **`queueItemId` 是必填**（`z.string().min(1)`）。
+即 v4 的队列由 `admissionSeq` + `queuePosition` 定义，`queueItemId` 是它的身份。
+
+**结论**：`order` 描述的是「**待开始的输入**」，因此
+
+- **只映射 DSH 的 `nextTurn`**：`queuePosition` = 该项在 `nextTurn` 中的 1-based 位次；
+- **不映射 `nextStep`**：它是 steer 通道（02 的 `guide` 用它，语义是「并入**当前**回合」），
+  不属于「排队等新回合」。02 的实现已经如此（`queuePosition` 仅在 `admitted === "queue"` 时为正，B4 已断言）。
+
+#### U2 DSH 的 `cancel` 不等待，必须显式等 `agent/status`
+
+**legacy 的做法**（`protocol-v4/commands/handlers/session-flow.ts` L409 `preemptActiveTurnAndWait`）：
+发出 abort 后**退出前显式等 idle**（`waitForSessionIdle`，L395 轮询两个 authority 释放，超时抛 `V4SessionIdleTimeoutError`）。
+
+**DSH 的关键事实**（`dsh-agent/lib/types/*.d.ts` L16，引原文）：
+
+> 「…but **without** the stop button's `keepInbox`, so queued input is discarded with a logged
+> inbox splice instead of waking the archived Session later. **Nothing is awaited to settlement.**」
+
+**即 `agent.cancel()` 是「发出取消就返回」，不等于「回合已结束」。**
+
+**但 DSH 提供了正确的等待原语**（同文件 L84–L86）：
+
+> 「An agent's lifecycle state, emitted on every transition as **`agent/status`**:
+> `idle` means no driver is active; `running` begins when waking input starts cancellable pre-step processing
+> and lasts while the driver drains, closes, or checkpoints turns.」
+
+**实现要求**：等 **`agent/status` 事件**变 `idle`，**不用轮询/sleep 凑时序**；
+超时仅作兜底，并给出**稳定错误类型**（等价于 legacy 的 `V4SessionIdleTimeoutError`）。
+
+**这条修掉了一个原合同的隐患**：§5.3 R5 原先只写「从队列移除 + 提交」而**没写「等 idle」**，
+若照原样实现会出现「**新旧回合交错**」（新输入在旧回合还没结束时就提交）。
