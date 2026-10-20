@@ -137700,7 +137700,7 @@
     },
     {
       "path": "specs/contracts/packages-02/interface.md",
-      "normalizedSha256": "67b5b46ea6ff9060a83624a61188b6b2b663381c62a005c7a64ba841353f9392",
+      "normalizedSha256": "ad4403d498da7fe12f8f03a7d244c3ed3aeafa06a20b50be3fde9553de190dc1",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored packages-02 contract v1 document for the independent replacement of packages/rpc and packages/provider-node/src (issue #191). Behavior was derived by reading and running the replaced implementation and is described in the authors' own words; no code was copied, renamed or rewritten line by line.",
@@ -147398,6 +147398,160 @@
       "evidence": [
         "specs/contracts/kernel-dsh-builtins/README.md",
         "docs/knorvia-kernel-dsh-builtins-acceptance.md"
+      ]
+    },
+    {
+      "path": "packages/rpc/src/channel-codec.ts",
+      "normalizedSha256": "73ad8d0c58ea0d32e42cd71c3da580d195ea1199277bbea81d994ef6fa210d02",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of packages-02 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Internal module extracted during the rewrite; the containing package passed the old gate 99/99 on both src and dist entries, and both similarity gates (line and structural) against the replaced files and the upstream baseline at 872ad960.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-packages-02-acceptance.md"
+      ]
+    },
+    {
+      "path": "packages/rpc/src/channel-contract.ts",
+      "normalizedSha256": "d58451a1dba0ca3664900ef891be6673b4cd22391cc28a1a61a221734e4ff5dc",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of packages-02 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Internal module extracted during the rewrite; the containing package passed the old gate 99/99 on both src and dist entries, and both similarity gates (line and structural) against the replaced files and the upstream baseline at 872ad960.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-packages-02-acceptance.md"
+      ]
+    },
+    {
+      "path": "packages/rpc/src/channel-wire.ts",
+      "normalizedSha256": "0351f0db2b95c6f8c0f2919df8ca708e4264be24e65f8b68d92e17a9ef06e040",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of packages-02 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Internal module extracted during the rewrite; the containing package passed the old gate 99/99 on both src and dist entries, and both similarity gates (line and structural) against the replaced files and the upstream baseline at 872ad960.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-packages-02-acceptance.md"
+      ]
+    },
+    {
+      "path": "packages/rpc/src/channel-protocol-declaration.ts",
+      "normalizedSha256": "2ce2447eb5544c59239c125d1ac2ae1834e996ac30eb2d3381e35ad7ac057219",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of packages-02 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Internal module extracted during the rewrite; the containing package passed the old gate 99/99 on both src and dist entries, and both similarity gates (line and structural) against the replaced files and the upstream baseline at 872ad960.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-packages-02-acceptance.md"
+      ]
+    },
+    {
+      "path": "packages/rpc/src/channel-error-mapping.ts",
+      "normalizedSha256": "ca5d7c6d0c40a9ca5a0a07231233505cd7d9aae1080047b99115f12183eb2e9b",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of packages-02 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Internal module extracted during the rewrite; the containing package passed the old gate 99/99 on both src and dist entries, and both similarity gates (line and structural) against the replaced files and the upstream baseline at 872ad960.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-packages-02-acceptance.md"
+      ]
+    },
+    {
+      "path": "packages/rpc/src/transport-contract.ts",
+      "normalizedSha256": "6c67f1d5720358bca99872cf530309c25f2e8890c6888c4eefa63a6ff5917395",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of packages-02 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Internal module extracted during the rewrite; the containing package passed the old gate 99/99 on both src and dist entries, and both similarity gates (line and structural) against the replaced files and the upstream baseline at 872ad960.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-packages-02-acceptance.md"
+      ]
+    },
+    {
+      "path": "packages/rpc/src/network-telemetry-sink.ts",
+      "normalizedSha256": "0f91074fd8379c698e6dd17c7a2253367510eaf578a007f889d1de19b94fdb03",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of packages-02 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Internal module extracted during the rewrite; the containing package passed the old gate 99/99 on both src and dist entries, and both similarity gates (line and structural) against the replaced files and the upstream baseline at 872ad960.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-packages-02-acceptance.md"
+      ]
+    },
+    {
+      "path": "packages/rpc/src/network-telemetry-observation.ts",
+      "normalizedSha256": "d41aac25d780db19a0c082ef14b09a82cc7af3242bf8e3d7ad4f170f8b062e06",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of packages-02 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Internal module extracted during the rewrite; the containing package passed the old gate 99/99 on both src and dist entries, and both similarity gates (line and structural) against the replaced files and the upstream baseline at 872ad960.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-packages-02-acceptance.md"
+      ]
+    },
+    {
+      "path": "packages/rpc/src/network-telemetry-measurement.ts",
+      "normalizedSha256": "7ca36842a00440912239cd35dcc82ed6b82b28ef8c42f7574632d6ffe01029b5",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of packages-02 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Internal module extracted during the rewrite; the containing package passed the old gate 99/99 on both src and dist entries, and both similarity gates (line and structural) against the replaced files and the upstream baseline at 872ad960.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-packages-02-acceptance.md"
+      ]
+    },
+    {
+      "path": "packages/provider-node/src/config-runtime-core.ts",
+      "normalizedSha256": "9e93d897130cc4eb2cb3b69e34ce4c3d6ea74810957a329fcd1ba68565a96636",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of packages-02 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Internal module extracted during the rewrite; the containing package passed the old gate 99/99 on both src and dist entries, and both similarity gates (line and structural) against the replaced files and the upstream baseline at 872ad960.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-packages-02-acceptance.md"
+      ]
+    },
+    {
+      "path": "packages/provider-node/src/config-runtime-options.ts",
+      "normalizedSha256": "22779f3f2d3b79fa70bb5ad8fff45b6ee39a3143ffc330b83b96f23363e5a7e0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of packages-02 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Internal module extracted during the rewrite; the containing package passed the old gate 99/99 on both src and dist entries, and both similarity gates (line and structural) against the replaced files and the upstream baseline at 872ad960.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-packages-02-acceptance.md"
+      ]
+    },
+    {
+      "path": "packages/provider-node/src/personal-config-disk-store.ts",
+      "normalizedSha256": "c58792d0fde6e126faf1762fdf9a19e0581701a09e721cc020bd6560e5a1d6c1",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of packages-02 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Internal module extracted during the rewrite; the containing package passed the old gate 99/99 on both src and dist entries, and both similarity gates (line and structural) against the replaced files and the upstream baseline at 872ad960.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-packages-02-acceptance.md"
+      ]
+    },
+    {
+      "path": "packages/provider-node/src/personal-config-polling.ts",
+      "normalizedSha256": "c1d389a36bf5469b2f80d2ce18d29bbd078aa89e69529ab189bb1836c4cd237c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of packages-02 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Internal module extracted during the rewrite; the containing package passed the old gate 99/99 on both src and dist entries, and both similarity gates (line and structural) against the replaced files and the upstream baseline at 872ad960.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-packages-02-acceptance.md"
+      ]
+    },
+    {
+      "path": "packages/provider-node/src/personal-config-repository-contract.ts",
+      "normalizedSha256": "77b18ed43a2e1b2add512ba2b70ff39736552ba1aae4e9c2e340e94a06033fdb",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of packages-02 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Internal module extracted during the rewrite; the containing package passed the old gate 99/99 on both src and dist entries, and both similarity gates (line and structural) against the replaced files and the upstream baseline at 872ad960.",
+      "evidence": [
+        "specs/contracts/packages-02/README.md",
+        "docs/knorvia-packages-02-acceptance.md"
       ]
     }
   ]

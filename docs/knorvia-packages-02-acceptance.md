@@ -87,6 +87,41 @@ node --import tsx --test --test-concurrency=2 --test-timeout=60000 specs/contrac
 
 **合计：普通门 21 PASS + 声明门 8/8 PASS ⇒ 两门未过并集 = 0。**
 
+### 3.1 文件角色 → 计分模式 → 实测值
+
+审查时按这张表即可判断「每个文件为什么这样计分」。**规则：有逻辑的一律普通门；纯声明/桶/纯数据表走声明门，且必须在 `interface.md` 列名。**
+
+| 文件                                                                                                   | 角色                                           | 计分模式 | 实测                         | 依据                         |
+| ------------------------------------------------------------------------------------------------------ | ---------------------------------------------- | -------- | ---------------------------- | ---------------------------- |
+| `channel-protocol-declaration.ts`                                                                      | 纯数据常量（9 键 + 5 响应形状）                | **声明** | 0.000 / residual 0           | `interface.md` §1.4 逐条列名 |
+| `channel-codec.ts`                                                                                     | 帧编解码 + 响应归一（**有逻辑**）              | **普通** | **0.132**                    | —                            |
+| `channel-error-mapping.ts`                                                                             | 错误双向映射（**有逻辑**）                     | **普通** | **0.182**                    | —                            |
+| `network-telemetry-middleware.ts`                                                                      | **声明壳**（两个冻结类 + sink 再导出，零逻辑） | **声明** | 0.000 / residual 0           | `interface.md` §1.1 类声明   |
+| `network-telemetry-measurement.ts`                                                                     | 计时与两个包装（**有逻辑**）                   | **普通** | **0.182**                    | —                            |
+| `network-telemetry-observation.ts`                                                                     | 失败分类 + 记录构造（**有逻辑**）              | **普通** | **0.036**                    | —                            |
+| `network-telemetry-sink.ts`                                                                            | 记录形状 + sink 装配面                         | **声明** | 0.000 / residual 2           | `interface.md` §1.1          |
+| `channel-contract.ts`                                                                                  | 两方向接口                                     | **声明** | 0.000 / residual 0           | `interface.md` §1.1          |
+| `channel-wire.ts`                                                                                      | 编号枚举（线格式）                             | **声明** | 0.000 / residual 0           | `interface.md` §1.3          |
+| `transport-contract.ts`                                                                                | 跨进程契约形状                                 | **声明** | 0.000 / residual 2           | `interface.md` §1.1          |
+| `channels.shared.ts`                                                                                   | 纯再导出壳                                     | **声明** | 0.000 / residual 0           | §5.1 论证                    |
+| `channels.ts` / `index.ts`                                                                             | barrel                                         | **声明** | 0.000 / residual 0           | `interface.md` §1.1          |
+| `config-runtime-options.ts`                                                                            | 11 字段构造参数                                | **声明** | 0.000 / residual 2           | `interface.md` §2.4 逐条列名 |
+| `personal-config-repository-contract.ts`                                                               | 构造参数与事件形状                             | **声明** | 0.000 / residual 0           | `interface.md` §2.2          |
+| `legacy-reasoning-level-renames.ts`                                                                    | 25 条纯数据表                                  | **声明** | 0.000 / residual 0           | `interface.md` §2.3          |
+| `config-runtime-core.ts`                                                                               | 装配 + 检查循环（**有逻辑**）                  | **普通** | **0.183**                    | —                            |
+| `personal-config-disk-store.ts`                                                                        | 锁内读改写 + 规范化（**有逻辑**）              | **普通** | **0.144**                    | —                            |
+| `personal-config-polling.ts`                                                                           | 单飞 + 代次 + 错误节流（**有逻辑**）           | **普通** | **0.170**                    | —                            |
+| `model-selection-config-repository.ts` / `provider-config-runtime.ts` / `provider-registry-runtime.ts` | 委托视图 / 薄壳                                | **声明** | 0.000（residual 0 / 0 / 10） | `interface.md` §2.2          |
+
+**关键对照（同一功能的两半，两半都必须过）**：
+
+| 功能         | 声明半边（壳/常量）                              | 实现半边（逻辑）                                  |
+| ------------ | ------------------------------------------------ | ------------------------------------------------- |
+| channel 协议 | `channel-protocol-declaration.ts` 声明 **0.000** | `channel-codec.ts` 普通 **0.132**                 |
+| 网络观测     | `network-telemetry-middleware.ts` 声明 **0.000** | `network-telemetry-measurement.ts` 普通 **0.182** |
+
+**实现半边的普通门数字**就是「不是把实现藏起来只留空壳」的证据——若把逻辑藏起来，空实现模块本身会不过门。
+
 ### 3.1 新增内部模块 14 个逐行账
 
 |  #  | 文件                                                       | 计分模式                   | 普通门                | 声明门                 |
