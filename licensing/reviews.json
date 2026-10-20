@@ -9592,10 +9592,7 @@
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored extension of the existing kernel-bridge skeleton for the DSH-backed built-in kernel: the engine gains the remaining v4 command dispatch, the turn command module gains the stack-command path with a shared failure translation, the executor gains the optional methods for the remaining legacy port methods, and the legacy port table grows to the full twelve. The author read the replaced runtime and protocol implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.170 normal and 0.170 declaration, and the two most sensitive files end up lower than their main baseline.",
-      "evidence": [
-        "specs/contracts/kernel-bridge-03/README.md",
-        "specs/contracts/kernel-bridge-03/design.md"
-      ]
+      "evidence": ["specs/contracts/kernel-bridge-03/README.md"]
     },
     {
       "path": "apps/cli/packages/bootstrap/src/kernel-bridge/capability-gap.ts",
@@ -9614,10 +9611,7 @@
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored extension of the existing kernel-bridge skeleton for the DSH-backed built-in kernel: the engine gains the remaining v4 command dispatch, the turn command module gains the stack-command path with a shared failure translation, the executor gains the optional methods for the remaining legacy port methods, and the legacy port table grows to the full twelve. The author read the replaced runtime and protocol implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.170 normal and 0.170 declaration, and the two most sensitive files end up lower than their main baseline.",
-      "evidence": [
-        "specs/contracts/kernel-bridge-03/README.md",
-        "specs/contracts/kernel-bridge-03/design.md"
-      ]
+      "evidence": ["specs/contracts/kernel-bridge-03/README.md"]
     },
     {
       "path": "apps/cli/packages/bootstrap/src/kernel-bridge/legacy-port/index.ts",
@@ -9625,10 +9619,7 @@
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored extension of the existing kernel-bridge skeleton for the DSH-backed built-in kernel: the engine gains the remaining v4 command dispatch, the turn command module gains the stack-command path with a shared failure translation, the executor gains the optional methods for the remaining legacy port methods, and the legacy port table grows to the full twelve. The author read the replaced runtime and protocol implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.170 normal and 0.170 declaration, and the two most sensitive files end up lower than their main baseline.",
-      "evidence": [
-        "specs/contracts/kernel-bridge-03/README.md",
-        "specs/contracts/kernel-bridge-03/design.md"
-      ]
+      "evidence": ["specs/contracts/kernel-bridge-03/README.md"]
     },
     {
       "path": "apps/cli/packages/bootstrap/src/kernel-bridge/legacy-port/register.ts",
@@ -9935,10 +9926,7 @@
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored extension of the existing kernel-bridge skeleton for the DSH-backed built-in kernel: the engine gains the remaining v4 command dispatch, the turn command module gains the stack-command path with a shared failure translation, the executor gains the optional methods for the remaining legacy port methods, and the legacy port table grows to the full twelve. The author read the replaced runtime and protocol implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.170 normal and 0.170 declaration, and the two most sensitive files end up lower than their main baseline.",
-      "evidence": [
-        "specs/contracts/kernel-bridge-03/README.md",
-        "specs/contracts/kernel-bridge-03/design.md"
-      ]
+      "evidence": ["specs/contracts/kernel-bridge-03/README.md"]
     },
     {
       "path": "apps/cli/packages/bootstrap/src/kernel-bridge/turn-executor.ts",
@@ -9946,10 +9934,7 @@
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored extension of the existing kernel-bridge skeleton for the DSH-backed built-in kernel: the engine gains the remaining v4 command dispatch, the turn command module gains the stack-command path with a shared failure translation, the executor gains the optional methods for the remaining legacy port methods, and the legacy port table grows to the full twelve. The author read the replaced runtime and protocol implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.170 normal and 0.170 declaration, and the two most sensitive files end up lower than their main baseline.",
-      "evidence": [
-        "specs/contracts/kernel-bridge-03/README.md",
-        "specs/contracts/kernel-bridge-03/design.md"
-      ]
+      "evidence": ["specs/contracts/kernel-bridge-03/README.md"]
     },
     {
       "path": "apps/cli/packages/bootstrap/src/kernel-bridge/turn-frames.ts",
@@ -24736,6 +24721,28 @@
       "evidence": [
         "git:dc63f521c42198e325f4d1da82fd509fe7526026",
         "licensing/upstream-baseline.json"
+      ]
+    },
+    {
+      "path": "apps/cli/scripts/count-ts-lines.mjs",
+      "normalizedSha256": "e13e4757bb5ebec653970a5052efc8f67b296a3435474f3fbb377d443f738b00",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of the apps/cli development scripts covered by contract apps-cli-01 (behavior B4-B19). The author was allowed to read the replaced scripts to understand behavior; no code was copied, renamed or rewritten line by line. count-ts-lines.mjs was restructured into criteria / traversal / measurement / rendering stages with a side-effect-free import guard; generate-bash-command-registry.mjs was restructured into load / reduce / hash / render stages with table-driven argument bits and a fixed skip-field order. Measured in this package: count-ts-lines containment 0.146 with longest run 3 and structural 0.089, generate-bash-command-registry containment 0.098 with longest run 3 and structural 0.000; contract tests 17/17 on the source entry and 17/17 on the process entry; stub replacement 17/17 allFail. clean-dist.mjs stays upstream-unchanged and is deliberately not rewritten.",
+      "evidence": [
+        "specs/contracts/apps-cli-01/README.md",
+        "specs/contracts/apps-cli-01/behavior.md"
+      ]
+    },
+    {
+      "path": "apps/cli/scripts/generate-bash-command-registry.mjs",
+      "normalizedSha256": "bddad2e0ef22ad98cf029e692aefdd21faa3d63a729a0044b42479be2a5b3a5c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of the apps/cli development scripts covered by contract apps-cli-01 (behavior B4-B19). The author was allowed to read the replaced scripts to understand behavior; no code was copied, renamed or rewritten line by line. count-ts-lines.mjs was restructured into criteria / traversal / measurement / rendering stages with a side-effect-free import guard; generate-bash-command-registry.mjs was restructured into load / reduce / hash / render stages with table-driven argument bits and a fixed skip-field order. Measured in this package: count-ts-lines containment 0.146 with longest run 3 and structural 0.089, generate-bash-command-registry containment 0.098 with longest run 3 and structural 0.000; contract tests 17/17 on the source entry and 17/17 on the process entry; stub replacement 17/17 allFail. clean-dist.mjs stays upstream-unchanged and is deliberately not rewritten.",
+      "evidence": [
+        "specs/contracts/apps-cli-01/README.md",
+        "specs/contracts/apps-cli-01/behavior.md"
       ]
     },
     {
@@ -65869,6 +65876,17 @@
       "evidence": [
         "specs/contracts/kernel-bridge-02/README.md",
         "specs/contracts/kernel-bridge-02/acceptance.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-kernel-bridge-03-acceptance.md",
+      "normalizedSha256": "56ecec3075f9a181de28174c36a008458bc1b49270a199afe633b0076cc8182d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored acceptance record for the kernel-bridge-03 implementation, covering the remaining v4 commands and legacy port methods, the C2 completion from four to twelve, the six schema corrections found while implementing, the runtime defect found by reading semantics rather than types, and the two declaration-gate improvements measured against the main baseline. No external material was copied.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-03/README.md",
+        "specs/contracts/kernel-bridge-03/acceptance.md"
       ]
     },
     {
@@ -149887,17 +149905,6 @@
       "evidence": [
         "third-party/upstream/f29b60ea39a2132e3baa98927c2d473b349a54143da44a0c6762b243e6459452.txt",
         "https://registry.npmjs.org/quickjs-wasi/2.2.0"
-      ]
-    },
-    {
-      "path": "docs/knorvia-kernel-bridge-03-acceptance.md",
-      "normalizedSha256": "56ecec3075f9a181de28174c36a008458bc1b49270a199afe633b0076cc8182d",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored acceptance record for the kernel-bridge-03 implementation, covering the remaining v4 commands and legacy port methods, the C2 completion from four to twelve, the six schema corrections found while implementing, the runtime defect found by reading semantics rather than types, and the two declaration-gate improvements measured against the main baseline. No external material was copied.",
-      "evidence": [
-        "specs/contracts/kernel-bridge-03/README.md",
-        "specs/contracts/kernel-bridge-03/acceptance.md"
       ]
     }
   ]
