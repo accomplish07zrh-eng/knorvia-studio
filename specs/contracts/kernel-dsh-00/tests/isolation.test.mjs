@@ -120,7 +120,20 @@ test("B7 工作区 .dsh/skills 与 DSH_HOME/skills 都不进入技能注册表",
     await withBoot(kernel, { root, cwd: workspace }, async ({ host }) => {
       const skills = host.context.get("skills");
       assert.ok(skills, "skill 服务应存在");
-      assert.deepEqual(await skills.list(), []);
+      const listed = await skills.list();
+      // 本用例锁的是「文件系统上的项目级与用户级技能不得被读进来」。挂载的 DSH 插件
+      // 自带的内置技能（例如 Windows ACL 诊断技能，由 dsh-sandbox-local 随沙箱后端注册）
+      // 属于第三方依赖的组成部分，不在这条隔离约束的对象里；kernel-dsh-builtins
+      // known-differences D26 记明了这一点。
+      const fromFileSystem = listed.filter((entry) => entry.source !== "bundled");
+      assert.deepEqual(fromFileSystem, [], "项目级与用户级技能都不得进入注册表");
+      for (const entry of listed) {
+        assert.equal(
+          entry.name === "project-skill" || entry.name === "home-skill",
+          false,
+          `不得读到文件系统技能：${entry.name}`,
+        );
+      }
     });
   } finally {
     await removeTempDir(root);

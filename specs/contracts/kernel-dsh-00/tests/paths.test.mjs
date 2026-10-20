@@ -35,7 +35,7 @@ test("B17 配置换行固定 \\n，数据根可含空格与非 ASCII 且 DSH_HOM
   const root = await makeTempDir("kernel-dsh-paths-data-");
   const dataBase = join(root, "数据 base");
   try {
-    await withBoot(kernel, { root, dataBase }, async ({ dshHome }) => {
+    await withBoot(kernel, { root, dataBase }, async ({ dshHome, workspace }) => {
       assert.equal(isAbsolute(dshHome), true);
       assert.ok(dshHome.startsWith(dataBase));
       const configPath = join(dshHome, "knorvia", "kernel.cordis.json");
@@ -43,7 +43,12 @@ test("B17 配置换行固定 \\n，数据根可含空格与非 ASCII 且 DSH_HOM
       assert.equal(bytes.includes(0x0d), false, "配置不得包含 CR");
       assert.equal(bytes[bytes.length - 1], 0x0a, "配置必须以单个 LF 结尾");
       const rows = JSON.parse(bytes.toString("utf8"));
-      assert.deepEqual(rows, kernel.createKernelPluginRows(dshHome));
+      // 底座 19 行必须与公开物化的底座切片逐字段一致；追加行由
+      // kernel-dsh-builtins 合同断言（D1）。
+      const materialized = kernel.createKernelPluginRows(dshHome, { cwd: workspace });
+      const base = materialized.slice(0, 19);
+      assert.equal(base.length, 19, "底座必须是 19 行");
+      assert.deepEqual(rows.slice(0, base.length), base);
       assert.equal(rows[3].config.root, join(dshHome, "sessions"));
     });
   } finally {

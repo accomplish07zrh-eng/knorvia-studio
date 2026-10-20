@@ -37,6 +37,8 @@ const API_KEY_SUFFIX = "_API_KEY";
 interface KernelEnvironment {
   readonly dataRoot: string;
   readonly dshHome: string;
+  /** 已校验为绝对路径的启动目录；组合用它做沙箱写边界。 */
+  readonly cwd: string;
 }
 
 function resolveDshHome(dataRoot: string): string {
@@ -89,5 +91,5 @@ export async function prepareKernelEnvironment(options: {
 
   callKernelLogger(options.logger, "info", "kernel.env.sanitized", { removed });
   callKernelLogger(options.logger, "info", "kernel.dsh.home", { dshHome });
-  return { dataRoot, dshHome };
+  return { dataRoot, dshHome, cwd: options.cwd };
 }

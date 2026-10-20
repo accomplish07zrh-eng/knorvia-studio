@@ -6,7 +6,7 @@
   "inputs": {
     "apps/cli/package.json": "5fc11f689b02e1d50fe3e05139b61bcacd203e92e77557521254459137036fb2",
     "apps/cli/packages/adapters/package.json": "4503a9c39646b5dd9a7db7ed7758e647f01d629d45d2840244bc7099822842b8",
-    "apps/cli/packages/bootstrap/package.json": "02035a520e98cce0c63043a197e62c02e8d9e50c68461e09cead95c51b2fd599",
+    "apps/cli/packages/bootstrap/package.json": "eecb05483929b40a2648114537097955b2ce6612a85ad7a9e33da254853a6072",
     "apps/cli/packages/browser-use-plugin/package.json": "bf6c3e0458209355aa3800297752e34eed045e942eb03d6e29b68fbb2d1a22ab",
     "apps/cli/packages/cli/package.json": "b0f0b9dd355805873d203a0a3fae9241a282036bfaed5a6b7cf05faf427fe0f6",
     "apps/cli/packages/contracts/package.json": "23b1d441b649af674cd8752ef54241abf9e68a0041c3d12f423faaddef9b25a6",
@@ -2452,7 +2452,7 @@
     "packages/web/public/material-icons/zip.svg": "dad79a45f756542d37abd422502ecfbea15720b92ea1c9d80ef0439ab6b9448a",
     "patches/@ai-sdk__anthropic@3.0.81.patch": "d3a7c381eba7f5157f765a0528003af17cf84544911dfb7412c7800168e01c18",
     "patches/@ai-sdk__openai-compatible@2.0.60.patch": "9632fe9d821b3dc20939ae509cc35b968d90d018bbd1d812390718898182a38b",
-    "pnpm-lock.yaml": "4a6aa1dc1bad08780ab2347664703ba1481c1c5afebf30a257b058225db3ff79",
+    "pnpm-lock.yaml": "d0d4f759c1a1509e396922ed65021ae6064c483deab2d73c722ee190941547a4",
     "pnpm-workspace.yaml": "f9ad8c3781f15b8960d084f5c2827e7bfd70c7e0ee7dd2f49bc12565c3287057",
     "scripts/license-texts/Apache-2.0.txt": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
     "scripts/native-search-tools-config.mjs": "ece0770f3c961b72658e47b0b76924094abb7ab82a2eb2d3837e7f56dcc6a661",
