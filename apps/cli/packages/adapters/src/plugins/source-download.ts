@@ -6,10 +6,19 @@ import { assertAtomicNotAborted } from "./atomic-protocol.js";
 import { redactSourceReference } from "./source-redaction.js";
 
 const redirectStatuses = new Set([301, 302, 303, 307, 308]);
-/* 会带出凭据的头部一律拒绝转发 */
-const sensitiveZipHeaders = new Set(
-  "authorization cookie proxy-authorization set-cookie".split(" "),
-);
+
+/**
+ * 是否属于「会带出凭据」的头部。
+ * 用「包含标记词」判定而不是列举全名：`proxy-authorization`、`x-authorization-token`
+ * 这类变体都该被拦住，列举法会漏。
+ */
+const CREDENTIAL_HEADER_MARKERS = ["authorization", "cookie"] as const;
+
+function carriesCredentials(headerName: string): boolean {
+  const lowered = headerName.toLowerCase();
+  return CREDENTIAL_HEADER_MARKERS.some((marker) => lowered.includes(marker));
+}
+
 export const SOURCE_DOWNLOAD_TIMEOUT = 180_000;
 
 export function assertZipDownloadUrl(value: string): URL {
@@ -34,7 +43,7 @@ export function assertZipDownloadHeaders(headers?: Record<string, string>): void
     throw new Error("Plugin ZIP headers must be a string map");
   }
   for (const [name, value] of Object.entries(headers)) {
-    if (typeof value !== "string" || sensitiveZipHeaders.has(name.toLowerCase())) {
+    if (typeof value !== "string" || carriesCredentials(name)) {
       throw new Error(`Unsupported plugin ZIP header: ${name}`);
     }
   }

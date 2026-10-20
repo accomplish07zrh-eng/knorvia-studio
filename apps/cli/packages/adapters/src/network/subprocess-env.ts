@@ -21,14 +21,30 @@ import type { NetworkEgressEnvOptions, NetworkEgressEnvPolicy } from "./subproce
 
 export type { NetworkEgressEnvPolicy } from "./subprocess-env-types.js";
 
-/** 写入代理时覆盖的变量名（大小写两套，顺序即写入顺序）。 */
-const PROXY_ENV_KEYS = "HTTP_PROXY HTTPS_PROXY ALL_PROXY http_proxy https_proxy all_proxy".split(
-  " ",
-);
+/**
+ * 代理相关变量名：按大小写分两组。
+ * 之所以分组而不是平铺，是因为「清掉哪一组」取决于平台对变量名大小写的处理方式，
+ * 保留分组语义后调用点能直接选组，不必再靠顺序约定。
+ */
+const PROXY_ENV_GROUPS = {
+  upper: ["HTTP_PROXY", "HTTPS_PROXY", "ALL_PROXY"],
+  lower: ["http_proxy", "https_proxy", "all_proxy"],
+} as const;
 
-/** 写入自定义 CA 时覆盖的变量名（Node / OpenSSL / requests / curl / git）。 */
-const CA_ENV_KEYS =
-  "NODE_EXTRA_CA_CERTS SSL_CERT_FILE REQUESTS_CA_BUNDLE CURL_CA_BUNDLE GIT_SSL_CAINFO".split(" ");
+/** 代理变量名的平铺视图（两组按「大写后小写」拼接，与该层既有写入顺序一致）。 */
+const PROXY_ENV_KEYS: readonly string[] = [...PROXY_ENV_GROUPS.upper, ...PROXY_ENV_GROUPS.lower];
+
+/** 自定义 CA 变量的来源组：Node 一个，其余工具链各自一个。 */
+const CA_ENV_GROUPS = {
+  node: "NODE_EXTRA_CA_CERTS",
+  openssl: "SSL_CERT_FILE",
+  requests: "REQUESTS_CA_BUNDLE",
+  curl: "CURL_CA_BUNDLE",
+  git: "GIT_SSL_CAINFO",
+} as const;
+
+/** CA 变量名的平铺视图（顺序与声明顺序一致）。 */
+const CA_ENV_KEYS: readonly string[] = Object.values(CA_ENV_GROUPS);
 
 /** 取值：Windows 下按不区分大小写的首个匹配键，其余平台直接取同名键。 */
 function sourceValue(
