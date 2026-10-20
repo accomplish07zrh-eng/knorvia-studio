@@ -8,15 +8,24 @@ import { redactSourceReference } from "./source-redaction.js";
 const redirectStatuses = new Set([301, 302, 303, 307, 308]);
 
 /**
- * 是否属于「会带出凭据」的头部。
- * 用「包含标记词」判定而不是列举全名：`proxy-authorization`、`x-authorization-token`
- * 这类变体都该被拦住，列举法会漏。
+ * 会被拒绝转发的头部：按「凭据头」与「会话头」两类分开列，小写化后精确匹配。
+ *
+ * **必须是精确匹配，不能改成「包含」判定**：契约要求 `Authorizationish` 这类
+ * 仅名字里含有标记词的合法头**通过**（`plugin-storage-contract` 的 F04 用例守这条）。
+ * 分类而不是平铺，是为了让「拒绝理由」在代码里自解释：两类都是「会把凭据带出去」的头。
  */
-const CREDENTIAL_HEADER_MARKERS = ["authorization", "cookie"] as const;
+const CREDENTIAL_HEADER_GROUPS = {
+  credentials: ["authorization", "proxy-authorization"],
+  session: ["cookie", "set-cookie"],
+} as const;
+
+/** 小写化后的拒绝名单。 */
+const CREDENTIAL_HEADER_NAMES: ReadonlySet<string> = new Set(
+  Object.values(CREDENTIAL_HEADER_GROUPS).flat(),
+);
 
 function carriesCredentials(headerName: string): boolean {
-  const lowered = headerName.toLowerCase();
-  return CREDENTIAL_HEADER_MARKERS.some((marker) => lowered.includes(marker));
+  return CREDENTIAL_HEADER_NAMES.has(headerName.toLowerCase());
 }
 
 export const SOURCE_DOWNLOAD_TIMEOUT = 180_000;
