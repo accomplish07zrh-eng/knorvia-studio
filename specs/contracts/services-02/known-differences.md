@@ -70,6 +70,30 @@ export * from "./domain/reference.js";
 
 **所以这 3 行的 `export *` 是必须保留的公开面**——删掉会让 `packages/ui` 的 10 个文件编译失败。
 
+### 为什么把 `contract.ts` 归入本包（而不是拆成「纯声明 + 聚合」两个文件）
+
+**`contract.ts` 是 `packages/services` 对外的契约出口**：`src/index.ts:231` 有 `export * from "./studio-runtime/contract.js"`，
+即 `@knorvia/services` 根桶转发的就是它。**跨层聚合是它的定义职责，不是缺陷。**
+
+**自身声明与转发的区分（重要）**：
+
+| 类别                 | 内容                                                                                              |
+| -------------------- | ------------------------------------------------------------------------------------------------- |
+| **自身声明（3 个）** | `StudioCommand`（约 40 行判别联合）、`StudioCommandResult`、`IStudioRuntimeService`（含运行时值） |
+| **转发（14 项）**    | 9 个契约层模块 + 3 个 `domain/` + 2 项来自 `app/runOutcomeProjection.ts`                          |
+
+**实测 26 处 `import ... from ".../contract.js"` 的取值构成**：
+
+| 取值性质                       |  处数 |
+| ------------------------------ | ----: |
+| 只取自身声明（3 个符号）       | **5** |
+| 混合（自身 + 转发）            |     7 |
+| 只取转发符号                   | **7** |
+| 其余（合计 19 处依赖转发符号） |     — |
+
+**结论：`contract.ts` 的引用数（22–26 处）不等于它的核心度** —— 大部分引用是「把转发层当入口用」。
+**若把它拆成「纯声明 + 聚合」两个文件，19 处引用要改路径，而收益仅是版面纯净度** —— 成本收益不成立，故**不拆分**。
+
 ## K5 三个 `domain/` 模块不纳入本包
 
 `domain/imageInput.ts`（126 行）、`domain/outputRef.ts`（279 行）、`domain/reference.ts`（340 行）
