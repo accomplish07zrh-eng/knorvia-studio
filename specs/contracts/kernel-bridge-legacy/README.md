@@ -121,9 +121,20 @@ Host 侧实际消费的方法键：`packages/services/src/agent/**` 扫描实测
 | B7   | 同上 · 「空白会话的只读面返回空数组形状，不泄漏内部状态」                                                   | L5         |
 | B8   | 同上 · 「Host 方向的 14 个方法在客户端方向仍是 -32601，且同连接上客户端方向方法可用」                       | L4         |
 | B9   | 同上 · 「方法表与方法名清单自洽：74 = 59 + 14 + 1，且清单非平凡」                                           | L3/L7      |
+| B10  | `implementation-behavior.test.mjs` · 「端口未注册时回合方法回 -32031 + 既有 capability 词表，不伪造成功」   | L6         |
+| B11  | 同上 · 「create 发起 runtime-materialization 反向请求并在应答后完成」                                       | L5         |
+| B12  | 同上 · 「interaction 六方法方向不可反，同连接上客户端方法可用」                                             | L4         |
+| B13  | 同上 · 「plugins/operationProgress 通知形状与触发点」                                                       | L7         |
+| B14  | 同上 · 「通知名冻结 7 个，本包触发点确有发出」                                                              | L7         |
+| B15  | 同上 · 「computer-use/operation-event 在客户端方向是 -32601」                                               | L4/L7      |
 | B16  | `protocol-surface.test.mjs` · 「stdin EOF 后退出 0，stderr 只承载日志不承载协议行」                         | L8         |
+| B17a | `reverse-reply.test.mjs` · 「create 触发反向请求并在应答后完成（dsh 下应答可含 method 键）」                | L2         |
+| B17b | 同上 · 「顶层带 method 的行按 request 处理，同连接上请求仍被应答」                                          | L2         |
+| B17c | 同上 · 「无法匹配的在途应答被安全处置，连接继续可用」                                                       | L2/L6      |
 
-实现阶段补齐（合同阶段先冻结断言、留待实现 PR 转绿）：B10 执行端口未注册时的 capability 缺席语义、B11 `session/requestRuntimePreferences` 反向请求与超时、B12 `interaction/*` 六方法的方向与取消、B13 `plugins/operationProgress` 进度通知、B14 通知名与触发点对应、B15 `computer-use/operation-event` 借名通知。
+B10–B15 与 B17a–c 为实现阶段补齐（Lead 2026-10-20 要求：`behavior.md` 每条都必须有测试、对照表不得留空）。
+两引擎**各自断言自己的真实行为**，不使用 `t.skip`——`run-gate.mjs` 的判据是 `tests === pass`，
+skip 会让门禁判 FAIL，且「有跳过」本身就是合同缺测的信号。
 
 ## 六、门禁与旧门/桩门
 
