@@ -1,4 +1,4 @@
-# packages-02 替换验收（`packages/rpc` 20 件 · `packages/provider-node/src` 9 件）
+﻿# packages-02 替换验收（`packages/rpc` 20 件 · `packages/provider-node/src` 9 件）
 
 对应计划书「替换验收」清单与「接入门禁」表。合同见 [`specs/contracts/packages-02/`](../../contracts/packages-02/README.md)（v1）。
 
@@ -16,10 +16,12 @@
 | `packages/rpc/examples`      |   4    | 四个可执行示例，各自自洽                                                                                                                                                                                                               |
 | `packages/provider-node/src` |   9    | 路径解析、配置编解码、仓储、模型选择（facade/仓储/旧档位）、两个 runtime                                                                                                                                                               |
 
-**新增内部模块 14 个**（不属继承文件，但同属本包交付物，逐个过门）：
+**新增内部模块 12 个**（不属继承文件，但同属本包交付物，逐个过门）：
 
-`rpc/src`：`channel-codec`、`channel-contract`、`channel-wire`、`channel-protocol-declaration`、`channel-error-mapping`、`transport-contract`、`network-telemetry-sink`、`network-telemetry-observation`、`network-telemetry-measurement`
+`rpc/src`：`channel-contract`、`channel-wire`、`channel-protocol-declaration`、`transport-declarations`、`network-telemetry-declarations`（**5 个纯类型/常量声明**）
 `provider-node/src`：`config-runtime-core`、`config-runtime-options`、`personal-config-disk-store`、`personal-config-polling`、`personal-config-repository-contract`
+
+> 注：`channel-codec` / `channel-error-mapping` / `network-telemetry-sink` / `network-telemetry-observation` / `network-telemetry-measurement` / `transport-contract` 在最终方案中**已合回各自实现文件**（原因见 §6.5：它们是运行期依赖，会破坏 owner-safety 白名单），其逻辑现在位于 `channelClient` / `channelServer` / `network-telemetry-middleware` 内部。
 
 ---
 
@@ -68,7 +70,7 @@ node --import tsx --test --test-concurrency=2 --test-timeout=60000 specs/contrac
 | 11  | `rpc/src/ipc.ts`                                           | 普通     | 连接装配                                | 0.128 / 2 / 0.219            | —                       |  ✅  |
 | 12  | `rpc/src/proxy-channel.ts`                                 | 普通     | 双向适配                                | 0.173 / 3 / 0.000            | —                       |  ✅  |
 | 13  | `rpc/src/logging-middleware.ts`                            | 普通     | 计时装饰                                | 0.118 / 1 / 0.000            | —                       |  ✅  |
-| 14  | `rpc/src/network-telemetry-middleware.ts`                  | **声明** | 声明壳（见 §5）                         | 0.333（不计分）              | **residual 0 / 0.000**  |  ✅  |
+| 14  | `rpc/src/network-telemetry-middleware.ts`                  | 普通     | 计时装饰（类型已按 §6.5 移出）          | 0.333（不计分）              | **residual 0 / 0.000**  |  ✅  |
 | 15  | `rpc/src/remote.ts`                                        | 普通     | authority 解析与重连                    | 0.172 / 2 / 0.000            | —                       |  ✅  |
 | 16  | `rpc/src/index.ts`                                         | **声明** | 89 行 barrel（`stripped-blocks=8`）     | 1.000（不计分）              | **residual 0 / 0.000**  |  ✅  |
 | 17  | `rpc/examples/01-basic-ipc.ts`                             | 普通     | 示例                                    | 0.111 / 2 / 0.000            | —                       |  ✅  |
@@ -85,7 +87,7 @@ node --import tsx --test --test-concurrency=2 --test-timeout=60000 specs/contrac
 | 28  | `provider-node/src/provider-config-runtime.ts`             | **声明** | 薄壳（`interface.md` §2.2）             | 0.560（不计分）              | **residual 0 / 0.000**  |  ✅  |
 | 29  | `provider-node/src/provider-registry-runtime.ts`           | **声明** | 薄壳（`interface.md` §2.2）             | 0.600（不计分）              | **residual 10 / 0.000** |  ✅  |
 
-**合计：普通门 21 PASS + 声明门 8/8 PASS ⇒ 两门未过并集 = 0。**
+**合计：普通门 22 PASS + 声明门 7/7 PASS ⇒ 两门未过并集 = 0。**
 
 ### 3.1 文件角色 → 计分模式 → 实测值
 
@@ -115,47 +117,32 @@ node --import tsx --test --test-concurrency=2 --test-timeout=60000 specs/contrac
 
 **关键对照（同一功能的两半，两半都必须过）**：
 
-| 功能         | 声明半边（壳/常量）                              | 实现半边（逻辑）                                  |
-| ------------ | ------------------------------------------------ | ------------------------------------------------- |
-| channel 协议 | `channel-protocol-declaration.ts` 声明 **0.000** | `channel-codec.ts` 普通 **0.132**                 |
-| 网络观测     | `network-telemetry-middleware.ts` 声明 **0.000** | `network-telemetry-measurement.ts` 普通 **0.182** |
+| 功能         | 声明半边（壳/常量）                                | 实现半边（逻辑）                                 |
+| ------------ | -------------------------------------------------- | ------------------------------------------------ |
+| channel 协议 | `channel-protocol-declaration.ts` 声明 **0.000**   | `channel-codec.ts` 普通 **0.132**                |
+| 网络观测     | `network-telemetry-declarations.ts` 声明 **0.000** | `network-telemetry-middleware.ts` 普通 **0.184** |
 
 **实现半边的普通门数字**就是「不是把实现藏起来只留空壳」的证据——若把逻辑藏起来，空实现模块本身会不过门。
 
-### 3.1 新增内部模块 14 个逐行账
+### 3.2 新增内部模块逐行账
 
-|  #  | 文件                                                       | 计分模式                   | 普通门                | 声明门                 |
-| :-: | ---------------------------------------------------------- | -------------------------- | --------------------- | ---------------------- |
-|  1  | `rpc/src/channel-codec.ts`                                 | 普通（转换逻辑）           | **0.132 / 2 / 0.000** | —                      |
-|  2  | `rpc/src/channel-error-mapping.ts`                         | 普通（双向映射）           | **0.182 / 2 / 0.083** | —                      |
-|  3  | `rpc/src/network-telemetry-measurement.ts`                 | 普通（计时+包装）          | **0.182 / 2 / 0.000** | —                      |
-|  4  | `rpc/src/network-telemetry-observation.ts`                 | 普通（分类+构造）          | **0.036 / 1 / 0.000** | —                      |
-|  5  | `provider-node/src/config-runtime-core.ts`                 | 普通（装配+检查循环）      | **0.183 / 3 / 0.011** | —                      |
-|  6  | `provider-node/src/personal-config-disk-store.ts`          | 普通（锁内读改写）         | **0.144 / 3 / 0.056** | —                      |
-|  7  | `provider-node/src/personal-config-polling.ts`             | 普通（单飞+代次+节流）     | **0.170 / 2 / 0.000** | —                      |
-|  8  | `rpc/src/channel-contract.ts`                              | 声明（两方向接口）         | —                     | **residual 0 / 0.000** |
-|  9  | `rpc/src/channel-wire.ts`                                  | 声明（编号常量）           | —                     | **residual 0 / 0.000** |
-| 10  | `rpc/src/channel-protocol-declaration.ts`                  | 声明（§1.4 常量表）        | —                     | **residual 0 / 0.000** |
-| 11  | `rpc/src/transport-contract.ts`                            | 声明（跨进程契约形状）     | —                     | **residual 2 / 0.000** |
-| 12  | `rpc/src/network-telemetry-sink.ts`                        | 声明（记录形状 + sink 面） | —                     | **residual 2 / 0.000** |
-| 13  | `provider-node/src/config-runtime-options.ts`              | 声明（§2.4 的 11 字段）    | —                     | **residual 2 / 0.000** |
-| 14  | `provider-node/src/personal-config-repository-contract.ts` | 声明（构造参数与事件）     | —                     | **residual 0 / 0.000** |
+|  #  | 文件                                                       | 计分模式                        | 实测                   | 依据                         |
+| :-: | ---------------------------------------------------------- | ------------------------------- | ---------------------- | ---------------------------- |
+|  1  | `rpc/src/channel-contract.ts`                              | **声明**（两方向接口）          | residual 0 / **0.000** | `interface.md` §1.1          |
+|  2  | `rpc/src/channel-wire.ts`                                  | **声明**（编号枚举）            | residual 0 / **0.000** | `interface.md` §1.3          |
+|  3  | `rpc/src/channel-protocol-declaration.ts`                  | **声明**（9 键 + 5 响应形状）   | residual 0 / **0.000** | `interface.md` §1.4 逐条列名 |
+|  4  | `rpc/src/transport-declarations.ts`                        | **声明**（跨进程契约形状）      | residual 0 / **0.000** | `interface.md` §1.1          |
+|  5  | `rpc/src/network-telemetry-declarations.ts`                | **声明**（观测记录形状）        | residual 0 / **0.000** | `interface.md` §1.1          |
+|  6  | `provider-node/src/config-runtime-options.ts`              | **声明**（11 字段）             | residual 2 / **0.000** | `interface.md` §2.4 逐条列名 |
+|  7  | `provider-node/src/personal-config-repository-contract.ts` | **声明**（构造参数与事件）      | residual 0 / **0.000** | `interface.md` §2.2          |
+|  8  | `provider-node/src/config-runtime-core.ts`                 | **普通**（装配 + 检查循环）     | **0.183 / 3 / 0.011**  | —                            |
+|  9  | `provider-node/src/personal-config-disk-store.ts`          | **普通**（锁内读改写 + 规范化） | **0.144 / 3 / 0.056**  | —                            |
+| 10  | `provider-node/src/personal-config-polling.ts`             | **普通**（单飞 + 代次 + 节流）  | **0.170 / 2 / 0.000**  | —                            |
 
-**合计：普通门 7 PASS + 声明门 7/7 PASS ⇒ 并集 = 0。**
+**合计：声明门 7/7 PASS + 普通门 3 PASS ⇒ 并集 = 0。**
 
-### 3.2 「纯数据常量表」口径的依据（计划书 L359）
-
-> 「**合同写死的纯数据常量表**（键名与数值都由合同规定、不含逻辑）：按 M1 复盘第 2、5 条，**在 `interface.md` 逐条列名、集中放进声明文件、用声明模式计分**；表中夹带的逻辑与文件其余代码照常计分。」
-
-本包据此处理的两张表（**已在 `interface.md` 逐条列名**，这是走声明门的前提）：
-
-| 常量表                             | 内容                                                                                                                        | `interface.md` 列名位置 |
-| ---------------------------------- | --------------------------------------------------------------------------------------------------------------------------- | ----------------------- |
-| 错误元数据搬运白名单               | 9 个键：`code`/`data`/`detail`/`details`/`kind`/`retryAfterMs`/`status`/`taskId`/`traceId`                                  | **§1.4（1）** 逐行列表  |
-| 五种响应形状                       | `Initialize`(200)/`PromiseSuccess`(201)/`PromiseError`(202)/`PromiseErrorObj`(203)/`EventFire`(204)，含 `id` 有无与载荷形状 | **§1.4（2）** 逐行列表  |
-| `NodeProviderConfigRuntimeOptions` | 11 个字段                                                                                                                   | **§2.4（1）** 逐行列表  |
-
-**表中不含逻辑**：上述内容全部是键名、编号与类型形状；相关的**转换逻辑**（`encodeFrame`/`decodeFrame`/`toResponse`、错误双向映射、计时包装）分别在 `channel-codec.ts`、`channel-error-mapping.ts`、`network-telemetry-measurement.ts`，**一律按普通门计分并通过**（见 §3.1 第 1–4 行）。
+**另有 6 个曾拆出、最终合回的模块**（原因见 §6.5：它们是运行期依赖，会破坏 owner-safety 白名单）：
+`channel-codec`、`channel-error-mapping`、`transport-contract`、`network-telemetry-sink`、`network-telemetry-observation`、`network-telemetry-measurement`。其逻辑现位于 `channelClient`、`channelServer`、`network-telemetry-middleware` 内部，随主文件过门（0.173 / 0.182 / 0.184）。
 
 ---
 
@@ -220,7 +207,7 @@ frame.writeUInt32BE(fields[cursor], cursor); // ✗ fields[5] = undefined
 
 ---
 
-## 5. 两处「声明壳」为什么是真拆分而非桩
+## 5. 「声明壳」与「真拆分」的判定
 
 ### 5.1 `channels.shared.ts`（声明门 residual 0 / 0.000）
 
@@ -235,18 +222,19 @@ frame.writeUInt32BE(fields[cursor], cursor); // ✗ fields[5] = undefined
 `channels.shared.ts` 只做 re-export，**导出面与 `interface.md` 一致**（导出面脚本比对：rpc 运行时 39/39、missing 0 / extra 0）。
 **理由**：编号是线格式（改动即破坏互通）、接口是本进程类型约束、响应形状是两端数据契约——三者变更风险不同，混在一处会让任何调整都显得像协议变更。
 
-### 5.2 `network-telemetry-middleware.ts`（声明门 residual 0 / 0.000）
+### 5.2 `network-telemetry-middleware.ts` —— 最终形态是**实现文件**（不是声明壳）
 
-| 模块                               | 实质内容                               | 计分             |
-| ---------------------------------- | -------------------------------------- | ---------------- |
-| `network-telemetry-sink.ts`        | 记录形状 + 模块级 sink 装配点          | 声明门 0.000     |
-| `network-telemetry-observation.ts` | 失败分类（规则表）+ 记录构造（纯函数） | 普通门 **0.036** |
-| `network-telemetry-measurement.ts` | 计时 + 两个 channel 包装               | 普通门 **0.182** |
-| `network-telemetry-middleware.ts`  | 两个冻结类声明 + sink 面再导出         | 声明门 0.000     |
+该文件在中途曾退化为「声明壳 + 三个实现模块」，但在最终方案中被**合回**：
 
-**关键证据**：含逻辑的两块（observation / measurement）**普通门分别 0.036 与 0.182，均通过**——不是把实现藏起来只留空壳（那样实现模块本身会不过门）。
+| 阶段             | 形态                                                           | 为什么不行 / 为什么行                                                              |
+| ---------------- | -------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| 拆成三个模块     | sink / observation / measurement + 壳                          | **`middleware-owner-safety` 拦下**：middleware 只允许依赖 `channels`、`foundation` |
+| 合回，类型仍在内 | 单文件含类型 + 逻辑                                            | 相似度 0.319 / run 15（`NetworkObservation` 15 行字段声明整段命中）                |
+| **最终**         | 单文件含逻辑；**类型移入 `network-telemetry-declarations.ts`** | 相似度 **0.184 PASS**；owner-safety **2/2 PASS**；测试零改动                       |
 
----
+**`network-telemetry-declarations.ts` 是纯类型文件**（`NetworkObservation` / `NetworkTelemetrySink` /
+`NetworkTransportKind`），声明门 **residual 0 / 0.000**；中间件以 `import type` 引用，
+打包时被完全擦除，因此不进入运行期依赖图（详见 §7）。
 
 ## 6. 五处「合并回主文件」的四步论证
 
@@ -261,33 +249,87 @@ frame.writeUInt32BE(fields[cursor], cursor); // ✗ fields[5] = undefined
 
 ---
 
-## 7. 接入门禁
+## 7. 架构边界约束（owner-safety）与「为什么不需要改测试」
 
-| 检查                                          | 结果                                                                           |
-| --------------------------------------------- | ------------------------------------------------------------------------------ |
-| `pnpm typecheck`                              | ✅（`tsc` 两包 `packages/rpc`、`packages/provider-node` 均 0 错误）            |
-| `pnpm lint`                                   | 待跑（见 §9）                                                                  |
-| `pnpm fmt:check`                              | ✅ 通过（8713 文件）                                                           |
-| `pnpm architecture:check`                     | ✅ `violations 0 / baseline 0 / new 0`                                         |
-| `pnpm knip`                                   | ✅ **本包零新增**（新增接口改为非导出后全部消除；其余为 main 既有）            |
-| 两道相似度门槛                                | ✅ 29 交付文件（21 普通 + 8 声明）+ 14 内部模块（7 普通 + 7 声明），**并集 0** |
-| 契约测试双入口                                | ✅ src 99/99；dist 95 pass / 0 fail / 4 skip（按合同设计）                     |
-| 导出面比对                                    | ✅ rpc 运行时 **39/39**、provider-node **31/31**，missing 0 / extra 0          |
-| `pnpm provenance:report` / `provenance:check` | 待跑（**登记后最后一步**，见 §9）                                              |
-| 远端 CI（Linux + Windows）                    | 待 PR 触发                                                                     |
+`packages/rpc/test/` 下有三个 **owner-safety 架构边界测试**，用 esbuild 插件拦截 `onResolve`，
+把被测模块的 `./` 依赖限定为一份文件级白名单，并把依赖替换成**合成替身**：
+
+| 测试                              | 锁定对象                                                                 | 白名单                                                                                          |
+| --------------------------------- | ------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------- |
+| `framing-primitives-owner-safety` | `protocol` / `proxy-channel` / `buffer` / `foundation` / `serialization` | 这 5 个名字                                                                                     |
+| `middleware-owner-safety`         | 中间件（logging / telemetry）                                            | `./channels.js`、`./foundation.js`                                                              |
+| `request-replay-owner-safety`     | `channelClient` / `channelServer`                                        | `./foundation.js`、`./channels.shared.js`、`./serialization.js`、`./buffer.js`、`./protocol.js` |
+
+### 冲突是怎么产生的
+
+首轮重写时我把实现拆成了若干内部模块（`channel-codec`、`channel-error-mapping`、
+`network-telemetry-sink/observation/measurement`、`transport-contract`），
+这些**运行期依赖**不在白名单内 → 三个测试全部 `assert` 失败。
+
+### 解法：纯类型声明用 `import type` 拆分，**不进入运行期依赖图**
+
+**关键事实**：esbuild 会**完全擦除** `import type`，因此 type-only 导入**不会触发 `onResolve`**。
+用两个探针实测确认：
+
+| 探针 | 内容                                                                                   | 结果                       |
+| ---- | -------------------------------------------------------------------------------------- | -------------------------- |
+| 1    | 一个对**任何** `./` 路径都 `throw` 的插件 + `import type { Foo } from "./nowhere.js"`  | **构建成功，插件从未触发** |
+| 2    | 完整复刻 `request-replay-owner-safety` 的合成端口插件 + `import type` 引入白名单外模块 | **通过**                   |
+
+**因此本包的处理方式是**：
+
+- **跨进程契约接口** → `transport-declarations.ts`（纯类型，`protocol.ts` 以 `import type` 引用）
+- **观测记录形状** → `network-telemetry-declarations.ts`（同上）
+- **必须留在文件内的运行期内容**（编解码、9 键白名单）→ 只在**文件内部**换形态（段表、reduce 收集器）
+
+**为什么这不是绕过架构约束**：
+owner-safety 拦的是**运行期依赖图**——它的首要目的是「依赖可替换成合成替身，从而无需真实
+IO / 定时器 / 原生模块即可测纯逻辑」（证据：测试里 `namespace: "synthetic"` + `onLoad` 返回
+`contents: "export const Event={};"`）。**类型在运行期不存在**，纯类型拆分既不改变可测性、
+也不引入新的运行期耦合，因此不越层。
+
+### 证据（可复现）
+
+| 证据                                      | 值                                                                             |
+| ----------------------------------------- | ------------------------------------------------------------------------------ |
+| `git status --short -- packages/rpc/test` | **空**（测试文件零改动）                                                       |
+| 三个 owner-safety 测试                    | **12/12 PASS**                                                                 |
+| `protocol.ts` 相似度                      | 0.212 → **0.120 PASS**                                                         |
+| `network-telemetry-middleware.ts`         | 0.319 → **0.184 PASS**                                                         |
+| `channelClient.ts`                        | 0.236 → **0.173 PASS**                                                         |
+| `channelServer.ts`                        | 0.231 → **0.182 PASS**                                                         |
+| 新增两个声明文件的声明门                  | `transport-declarations` **0.000**、`network-telemetry-declarations` **0.000** |
+
+**层约束未变**：没有放宽任何白名单、没有新增任何例外；只是把「运行期不需要的东西」
+移出了运行期依赖图。
 
 ---
 
-## 8. 未覆盖与已知边界
+## 8. 接入门禁
+
+| 检查 | 结果 |
+| 检查 | 结果 |
+| --- | --- |
+| `pnpm typecheck`（两包 `tsc`） | ✅ 0 错误 |
+| `pnpm lint` | ✅ **0 errors**（237 warnings 为 main 既有） |
+| `pnpm fmt:check` | ✅ 通过（8749 文件） |
+| `pnpm architecture:check` | ✅ `violations 0 / baseline 0 / new 0` |
+| `pnpm knip` | ✅ **本包零新增**（其余为 main 既有） |
+| 两道相似度门槛 | ✅ **29 交付文件：普通门 22 PASS + 声明门 7/7 PASS**；12 内部模块：声明 7/7 + 普通 3，**并集 0** |
+| 契约测试双入口 | ✅ src **99/99**；dist 95 pass / 0 fail / 4 skip（示例按合同只在 src 入口跑） |
+| **rpc 产品侧单元测试** | ✅ **12/12**（含三个 owner-safety 架构边界测试，测试文件零改动） |
+| 导出面比对 | ✅ rpc 运行时 **39/39**、provider-node **31/31**，missing 0 / extra 0 |
+| `pnpm provenance:report` / `provenance:check` | ✅ `reviewProblems 0`，**退出码 0** |
+| 远端 CI（Linux + Windows） | 见 PR |
+
+## 9. 未覆盖与已知边界
 
 1. **第三方归属**：`packages/rpc` 属 VS Code 派生（M0-6 结论：21 文件 / 一致 0、ZCode 改过 13、无上游 8）。本包按「视同 ZCode 代码重写」处理，**不登记 third-party**，理由与依据见 `docs/knorvia-third-party-verification-20261011.md` §packages-02。
 2. **`packages/provider-node` 依赖 `@knorvia/provider` 公开导出**（属 packages-01 范围）；本包只按公开入口调用，未改动对方文件。若 packages-01 后续调整导出面，需回归本包。
 3. **`wire-codec.ts`** 属 `shared-01`，不在本包。
 4. **示例 04 的 SSH 是内存 socket 模拟**，不做真实网络连接——与合同一致（示例只演示装配与编解码）。
 
----
-
-## 9. 收尾顺序（登记 → provenance）
+## 10. 收尾顺序（登记 → provenance）
 
 按 `#229` 实测顺序执行，登记必须是收尾最后一步：
 

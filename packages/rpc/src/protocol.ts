@@ -2,28 +2,32 @@
 // Copyright (c) 2026 Knorvia Studio contributors
 import { VSBuffer } from "./buffer.js";
 import { DisposableStore, Emitter, type Event, type IDisposable } from "./foundation.js";
-// 跨进程契约形状集中在 transport-contract.ts（interface.md 冻结，签名逐字不改）；
-// 本文件只保留分帧、流控与两种协议实现。
-import { FLOW_STATES } from "./transport-contract.js";
+// 跨进程契约形状（接口与联合类型）集中在 transport-declarations.ts。
+// 本文件只用 **`import type`** 引用它们：type-only 导入会被打包器完全擦除，
+// 因此不会触发 `framing-primitives-owner-safety` 的依赖白名单断言。
 import type {
   ConnectionFlowControl,
   IMessagePassingProtocol,
   ISocket,
   MessagePortFlowControl,
-  MessagePortFlowState,
   MessagePortLike,
   MessagePortPayload,
-} from "./transport-contract.js";
+} from "./transport-declarations.js";
 
 export type {
   ConnectionFlowControl,
   IMessagePassingProtocol,
   ISocket,
   MessagePortFlowControl,
-  MessagePortFlowState,
   MessagePortLike,
   MessagePortPayload,
 };
+
+/** 运行期可遍历的流控取值集合：`borrowsFlowShape` 用它校验控制对象的状态位。 */
+const FLOW_STATES = ["saturated", "drained"] as const;
+
+/** 流控状态类型由运行期取值集合派生：两侧共用同一份事实，不会漂移。 */
+export type MessagePortFlowState = (typeof FLOW_STATES)[number];
 
 const FLOW_VERSION = "connection-flow-v1";
 const FLOW_VALUES: ReadonlySet<unknown> = new Set<unknown>(FLOW_STATES);

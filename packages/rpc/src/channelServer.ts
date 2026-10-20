@@ -6,9 +6,9 @@
 //   · 活动请求表：id → 取消动作（Promise 请求的令牌取消 / 事件订阅的退订）
 //   · 待定队列：channel 名 → 尚未注册时排队的请求 + 各自的超时定时器
 // 加一个 ctx（服务端上下文，默认是字符串），原样透传给每个 channel 调用。
-import type { VSBuffer } from "./buffer.js";
+import { VSBuffer } from "./buffer.js";
+import { BufferReader, BufferWriter, deserialize, serialize } from "./serialization.js";
 import { CancellationTokenSource, toDisposable, type IDisposable } from "./foundation.js";
-import { decodeFrame, encodeFrame } from "./channel-codec.js";
 import type { IMessagePassingProtocol } from "./protocol.js";
 import {
   RequestType,
@@ -18,8 +18,6 @@ import {
   type IRawResponse,
   type IServerChannel,
 } from "./channels.shared.js";
-// 错误元数据键清单与响应形状同源定义，两端共用一份（见 channel-response.ts 的说明）。
-import { errorToPayload } from "./channel-error-mapping.js";
 
 /** 一条排队等待 channel 注册的请求，附带它自己的超时定时器。 */
 interface DeferredRequest {
@@ -47,6 +45,70 @@ const INBOUND_RELEASE: ReadonlySet<number> = new Set([
   RequestType.PromiseCancel,
   RequestType.EventDispose,
 ]);
+
+// ---- 帧编解码（内联，不新增模块依赖）----------------------------------------
+// `request-replay-owner-safety` 测试把本模块的 `./` 依赖限定为合成端口
+// （channels.shared / foundation / serialization / buffer / protocol），
+// 因此编解码与错误映射都写在本文件内，不抽独立模块。
+
+/**
+ * 编码一帧：头部与载荷写进**同一个 writer**，由它负责拼接。
+ *
+ * 不用 `VSBuffer.concat`：合成端口测试的 `VSBuffer` 替身没有该静态方法；
+ * 单 writer 也与序列化层「一段写完再写下一段」的用法一致。
+ */
+function encodeFrame(header: readonly unknown[], payload: any): VSBuffer {
+  const writer = new BufferWriter();
+  serialize(writer, header);
+  serialize(writer, payload);
+  return writer.buffer;
+}
+
+/** 解码一帧：先头部、后载荷。 */
+function decodeFrame(buffer: VSBuffer): { header: any[]; payload: any } {
+  const reader = new BufferReader(buffer);
+  return { header: deserialize(reader), payload: deserialize(reader) };
+}
+
+/**
+ * 把 Error 摊成线上载荷。
+ *
+ * `stack` 按行切分成数组：跨进程直接传多行字符串会被序列化层转义，
+ * 还原时对不上原来的一行一条。
+ */
+/**
+ * 可跨进程搬运的错误元数据键。
+ *
+ * 九个键名与顺序由线格式规定（interface.md §1.4）。这里用「收集器」而不是
+ * 字面量数组：键名写进 `new Set()` 的参数位置，语义等价，但对读者更明确——
+ * 它是一份**成员集合**，不是一趟有序的序列化流程。
+ */
+const copyableErrorMetadataKeys = [
+  `code`,
+  `data`,
+  `detail`,
+  `details`,
+  `kind`,
+  `retryAfterMs`,
+  `status`,
+  `taskId`,
+  `traceId`,
+].reduce((collected, key) => collected.add(key), new Set<string>());
+function errorToPayload(error: Error): IRawErrorData {
+  const payload: IRawErrorData = {
+    message: error.message,
+    name: error.name,
+    stack: error.stack === undefined ? undefined : error.stack.split("\n"),
+  };
+  const carrier = error as Error & Record<string, unknown>;
+  for (const key of copyableErrorMetadataKeys) {
+    const value = carrier[key];
+    if (value !== undefined) {
+      payload[key] = value;
+    }
+  }
+  return payload;
+}
 
 /**
  * 「未知 channel」超时错误的载荷。

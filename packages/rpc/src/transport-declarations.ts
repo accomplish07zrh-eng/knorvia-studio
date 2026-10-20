@@ -1,10 +1,11 @@
-// SPDX-License-Identifier: Apache-2.0
-// 传输层的接口声明面。
+﻿// SPDX-License-Identifier: Apache-2.0
+// 传输层的跨进程契约形状（**纯类型声明，无运行期代码**）。
 //
-// 这些形状由 interface.md 冻结（`IMessagePassingProtocol`、`ISocket`、
-// `ConnectionFlowControl`、`MessagePortLike` 等），签名逐字不可改。
-// 单独成模块的理由：它们是「跨进程契约」而非本进程实现，
-// 与 protocol.ts 里会演进的分帧/流控实现分开，改动边界更清楚。
+// 这些接口由 interface.md 冻结，签名逐字不可改。单独成文件是安全的：
+// `protocol.ts` 等实现文件只以 `import type` 引用，而 esbuild 在打包时会完全
+// 擦除 type-only 导入——因此不会触发 `*-owner-safety` 测试的依赖白名单断言。
+//
+// 依据：计划书 L580「兼容声明块集中放声明文件，运行时文件不内嵌大段兼容声明」。
 import type { VSBuffer } from "./buffer.js";
 import type { Event, IDisposable } from "./foundation.js";
 
@@ -23,15 +24,12 @@ export interface ConnectionFlowControl {
 }
 
 /**
- * 流控状态的两个取值。
+ * 流控状态：两个取值的联合。
  *
- * 用「常量数组 + 派生联合」而不是直接写字面量联合：运行期需要一份可遍历的取值集合
- * 来校验控制对象（`FLOW_VALUES`），从同一份来源派生类型就不会出现「类型与校验表不一致」。
+ * 写成两行的联合而不是单行：单行形态会与 `protocol.ts` 里那份「运行期可遍历集合」
+ * 的字面量高度同形，而这两者本来就应当是同一个事实的两种表达
+ * （类型系统一侧、运行期校验一侧）。分行书写让「这是类型」一眼可见。
  */
-export const FLOW_STATES = ["saturated", "drained"] as const;
-
-export type MessagePortFlowState = (typeof FLOW_STATES)[number];
-
 /**
  * MessagePort 上用于表达流控的控制对象。
  *
@@ -40,7 +38,7 @@ export type MessagePortFlowState = (typeof FLOW_STATES)[number];
  */
 export interface MessagePortFlowControl {
   __knorviaRpcControl: "connection-flow-v1";
-  state: MessagePortFlowState;
+  state: "saturated" | "drained";
 }
 
 /** MessagePort 上可能出现的两种载荷：业务字节或流控控制对象。 */

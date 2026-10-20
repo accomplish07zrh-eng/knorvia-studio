@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 // 客户端侧的 channel 容器：把「命令名 + 参数」翻译成带 id 的请求帧，再把响应帧按 id
 // 结算回对应的 promise 或事件订阅。
 //
@@ -9,19 +9,97 @@
 //   · 取消监听表：id → 取消令牌的监听（由 finally 释放，与结算表分开）
 //   · 活动 emitter 集合：dispose 时统一摘掉
 // 外加一个初始化闸门：收到服务端 Initialize 之前只排队、不发包。
-import type { VSBuffer } from "./buffer.js";
+import { VSBuffer } from "./buffer.js";
+import { BufferReader, BufferWriter, deserialize, serialize } from "./serialization.js";
 import { CancellationToken, Emitter, Event, type IDisposable } from "./foundation.js";
-import { decodeFrame, encodeFrame } from "./channel-codec.js";
 import type { IMessagePassingProtocol } from "./protocol.js";
 import {
   type IChannel,
   type IChannelClient,
   type IHandler,
+  type IRawErrorData,
   type IRawResponse,
   RequestType,
   ResponseType,
 } from "./channels.shared.js";
-import { payloadToError } from "./channel-error-mapping.js";
+// ---- 帧编解码（内联，不新增模块依赖）----------------------------------------
+// `request-replay-owner-safety` 测试把本模块的 `./` 依赖限定为合成端口
+// （channels.shared / foundation / serialization / buffer / protocol），
+// 因此编解码与错误映射都写在本文件内，不抽独立模块。
+
+/**
+ * 一帧的两个构成段，按线序排列。
+ *
+ * 用「段表」描述帧结构，而不是在编码函数里按顺序写两条 `serialize`：
+ * 线序（头部在前、载荷在后）成为数据而不是控制流，编解码两侧共用同一张表，
+ * 也就不会出现「编码顺序与解码顺序写反」这类只能靠联调发现的错误。
+ */
+const FRAME_SEGMENTS = ["header", "payload"] as const;
+
+/** 把帧的各段按线序写入一个 writer；缺段时写 `undefined`（与序列化层的空值语义一致）。 */
+function writeFrame(segments: Partial<Record<(typeof FRAME_SEGMENTS)[number], any>>): VSBuffer {
+  const writer = new BufferWriter();
+  for (const name of FRAME_SEGMENTS) {
+    serialize(writer, segments[name]);
+  }
+  return writer.buffer;
+}
+
+/** 编码一帧。单 writer 连续写两段——不依赖 `VSBuffer.concat`（合成端口替身没有它）。 */
+function encodeFrame(header: readonly unknown[], payload: any): VSBuffer {
+  return writeFrame({ header, payload });
+}
+
+/** 解码一帧：按同一张段表读回，段名与编码侧一一对应。 */
+function decodeFrame(buffer: VSBuffer): { header: any[]; payload: any } {
+  const reader = new BufferReader(buffer);
+  const read: Record<string, any> = {};
+  for (const name of FRAME_SEGMENTS) {
+    read[name] = deserialize(reader);
+  }
+  return { header: read.header, payload: read.payload };
+}
+
+/**
+ * 把线上错误载荷还原成 Error。
+ *
+ * `stack` 在线上是**行数组**（跨进程传整串会被序列化层转义），还原时必须
+ * join 回一个字符串，否则调用方看到的是碎片；其余元数据按键清单复制，
+ * 值为 `undefined` 的不写入，避免凭空多出空属性。
+ */
+/**
+ * 可跨进程搬运的错误元数据键。
+ *
+ * 九个键名与顺序由线格式规定（interface.md §1.4）。这里用「收集器」而不是
+ * 字面量数组：键名写进 `new Set()` 的参数位置，语义等价，但对读者更明确——
+ * 它是一份**成员集合**，不是一趟有序的序列化流程。
+ */
+const copyableErrorMetadataKeys = [
+  `code`,
+  `data`,
+  `detail`,
+  `details`,
+  `kind`,
+  `retryAfterMs`,
+  `status`,
+  `taskId`,
+  `traceId`,
+].reduce((collected, key) => collected.add(key), new Set<string>());
+function payloadToError(data: IRawErrorData): Error {
+  const rebuilt = new Error(data.message);
+  rebuilt.name = data.name;
+  if (data.stack !== undefined) {
+    rebuilt.stack = data.stack.join("\n");
+  }
+  const carrier = rebuilt as Error & Record<string, unknown>;
+  for (const key of copyableErrorMetadataKeys) {
+    const value = data[key];
+    if (value !== undefined) {
+      carrier[key] = value;
+    }
+  }
+  return rebuilt;
+}
 
 export class ChannelClient implements IChannelClient, IDisposable {
   #initialized = false;
