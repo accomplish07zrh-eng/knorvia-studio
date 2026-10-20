@@ -147600,6 +147600,28 @@
         "specs/contracts/kernel-bridge-02/README.md",
         "specs/contracts/kernel-bridge-02/behavior.md"
       ]
+    },
+    {
+      "path": "apps/cli/packages/cli/test/protocol-eof-startup.test.mjs",
+      "normalizedSha256": "8c29c77f5cfd6cca00d35f1e1cc756d46406664ddf94e905563aa175def4e52a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contract test and acceptance note for the CLI protocol stdin-EOF fix (NOT a replacement of inherited implementation). The test spawns the real CLI artifact over real stdio to assert that startup-period stdin EOF exits with code 0 and that no 'Protocol input closed' text reaches stderr; it imports no internal implementation and uses no sleeps. Measured in this fix: kernel-dsh-00 B1+B2/B20 passed 10/10 consecutive runs on Windows, kernel-bridge-legacy 10/10 (including B16 'stdin EOF exits 0'), apps-cli-packages-02 38/38, apps-cli-01 17/17, new contract tests 3/3; the fix changed the startup-EOF exit code from 1 to 0 with empty stderr.",
+      "evidence": [
+        "docs/knorvia-cli-protocol-eof-startup-20261020.md",
+        "specs/contracts/kernel-dsh-00/behavior.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-cli-protocol-eof-startup-20261020.md",
+      "normalizedSha256": "cbccf6d22d2427785f90affd10fe491b4a92a4daf8b93686d77e85497453574a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contract test and acceptance note for the CLI protocol stdin-EOF fix (NOT a replacement of inherited implementation). The test spawns the real CLI artifact over real stdio to assert that startup-period stdin EOF exits with code 0 and that no 'Protocol input closed' text reaches stderr; it imports no internal implementation and uses no sleeps. Measured in this fix: kernel-dsh-00 B1+B2/B20 passed 10/10 consecutive runs on Windows, kernel-bridge-legacy 10/10 (including B16 'stdin EOF exits 0'), apps-cli-packages-02 38/38, apps-cli-01 17/17, new contract tests 3/3; the fix changed the startup-EOF exit code from 1 to 0 with empty stderr.",
+      "evidence": [
+        "docs/knorvia-cli-protocol-eof-startup-20261020.md",
+        "specs/contracts/kernel-dsh-00/behavior.md"
+      ]
     }
   ]
 }
