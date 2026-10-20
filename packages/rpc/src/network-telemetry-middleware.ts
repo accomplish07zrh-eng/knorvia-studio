@@ -1,148 +1,61 @@
 // SPDX-License-Identifier: Apache-2.0
-// Copyright (c) 2026 Knorvia Studio contributors
-
+// 网络观测装饰器（装配壳）。
+//
+// 本文件保留 interface.md 冻结的模块路径与类声明；三段实现分别在：
+//   · network-telemetry-sink.ts             —— 记录形状 + 模块级 sink 装配点
+//   · network-telemetry-observation.ts      —— 失败分类 + 记录构造（纯函数）
+//   · network-telemetry-channel-wrapping.ts —— 计时与上报的包装
+// 这样拆是因为 sink 装配是「进程级唯一可变状态」，分类与构造是纯函数，
+// 包装是随观测指标演进会频繁改动的部分——三者的生命周期与变更频率都不同。
 import type { IChannel, IChannelClient, IChannelServer, IServerChannel } from "./channels.js";
-import type { CancellationToken, Event } from "./foundation.js";
+import {
+  observedClientChannel,
+  observedServerChannel,
+} from "./network-telemetry-channel-wrapping.js";
+import {
+  emitNetworkTelemetryObservation,
+  setNetworkTelemetrySink,
+  type NetworkObservation,
+  type NetworkTelemetrySink,
+  type NetworkTransportKind,
+} from "./network-telemetry-sink.js";
 
-export type NetworkTransportKind = "http" | "websocket" | "rpc";
-
-export interface NetworkObservation {
-  transport: NetworkTransportKind;
-  interface: string;
-  durationMs: number;
-  ok: boolean;
-  statusCode?: number;
-  errorKind?: string;
-  attempt?: number;
-  dnsMs?: number;
-  tcpMs?: number;
-  tlsMs?: number;
-  ttfbMs?: number;
-  downloadMs?: number;
-}
-
-export type NetworkTelemetrySink = (observation: NetworkObservation) => void;
-
-let sinkInUse: NetworkTelemetrySink | null = null;
-
-export function setNetworkTelemetrySink(sink: NetworkTelemetrySink | null): void {
-  sinkInUse = sink;
-}
-
-export function emitNetworkTelemetryObservation(observation: NetworkObservation): void {
-  const sink = sinkInUse;
-  if (sink !== null) {
-    sink(observation);
-  }
-}
-
-const FAILURE_KINDS: ReadonlyArray<readonly [string, readonly string[]]> = [
-  ["timeout", ["timeout", "timed out"]],
-  ["dns_failure", ["dns", "getaddrinfo", "enotfound"]],
-  ["connection_reset", ["econnreset", "connection reset", "econnrefused"]],
-];
-
-function failureKind(failure: unknown): string {
-  const text =
-    failure instanceof Error ? failure.message.toLowerCase() : String(failure).toLowerCase();
-  for (const [kind, needles] of FAILURE_KINDS) {
-    if (needles.some((needle) => text.includes(needle))) {
-      return kind;
-    }
-  }
-  return "other";
-}
-
-function report(
-  channelName: string,
-  command: string,
-  startedAt: number,
-  failure?: { reason: unknown },
-): void {
-  const observation: NetworkObservation = {
-    transport: "rpc",
-    interface: channelName + "." + command,
-    durationMs: Math.max(0, Math.round(performance.now() - startedAt)),
-    ok: failure === undefined,
-    errorKind: failure === undefined ? undefined : failureKind(failure.reason),
-    attempt: 1,
-  };
-  emitNetworkTelemetryObservation(observation);
-}
-
-async function observeInvocation<T>(
-  channelName: string,
-  command: string,
-  invoke: () => Promise<T>,
-): Promise<T> {
-  const startedAt = performance.now();
-  let value: T;
-  try {
-    value = await invoke();
-  } catch (reason) {
-    report(channelName, command, startedAt, { reason });
-    throw reason;
-  }
-  report(channelName, command, startedAt);
-  return value;
-}
-
-class ObservedServerChannel<TContext> implements IServerChannel<TContext> {
-  constructor(
-    private readonly target: IServerChannel<TContext>,
-    private readonly prefix: string,
-  ) {}
-
-  call<T>(
-    ctx: TContext,
-    command: string,
-    arg?: unknown,
-    cancellationToken?: CancellationToken,
-  ): Promise<T> {
-    return observeInvocation(this.prefix, command, () =>
-      this.target.call<T>(ctx, command, arg, cancellationToken),
-    );
-  }
-
-  listen<T>(ctx: TContext, event: string, arg?: unknown): Event<T> {
-    return this.target.listen<T>(ctx, event, arg);
-  }
-}
-
-class ObservedClientChannel implements IChannel {
-  constructor(
-    private readonly target: IChannel,
-    private readonly prefix: string,
-  ) {}
-
-  call<T>(command: string, arg?: unknown, cancellationToken?: CancellationToken): Promise<T> {
-    return observeInvocation(this.prefix, command, () =>
-      this.target.call<T>(command, arg, cancellationToken),
-    );
-  }
-
-  listen<T>(event: string, arg?: unknown): Event<T> {
-    return this.target.listen<T>(event, arg);
-  }
-}
+// 再导出 sink 装配面：`network-telemetry-middleware` 是冻结的模块路径，
+// 拆模块后 B18 的装配与发出仍要从这里可达。
+export {
+  emitNetworkTelemetryObservation,
+  setNetworkTelemetrySink,
+  type NetworkObservation,
+  type NetworkTelemetrySink,
+  type NetworkTransportKind,
+};
 
 export class NetworkTelemetryChannelServer<TContext = string> implements IChannelServer<TContext> {
-  constructor(private readonly inner: IChannelServer<TContext>) {}
+  readonly #inner: IChannelServer<TContext>;
+
+  constructor(inner: IChannelServer<TContext>) {
+    this.#inner = inner;
+  }
 
   registerChannel(channelName: string, channel: IServerChannel<TContext>): void {
-    this.inner.registerChannel(channelName, new ObservedServerChannel(channel, channelName));
+    // 注册时就把 channelName 绑进包装实例：下游调用拿不到它，也不能再传一次。
+    this.#inner.registerChannel(channelName, observedServerChannel(channel, channelName));
   }
 
   ready(): void {
-    this.inner.ready?.();
+    this.#inner.ready?.();
   }
 }
 
 export class NetworkTelemetryChannelClient implements IChannelClient {
-  constructor(private readonly inner: IChannelClient) {}
+  readonly #inner: IChannelClient;
+
+  constructor(inner: IChannelClient) {
+    this.#inner = inner;
+  }
 
   getChannel<T extends IChannel>(channelName: string): T {
-    const channel = this.inner.getChannel<T>(channelName);
-    return new ObservedClientChannel(channel as IChannel, channelName) as unknown as T;
+    const delegate = this.#inner.getChannel<T>(channelName);
+    return observedClientChannel(delegate as IChannel, channelName) as unknown as T;
   }
 }

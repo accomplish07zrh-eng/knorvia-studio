@@ -2,37 +2,29 @@
 // Copyright (c) 2026 Knorvia Studio contributors
 import { VSBuffer } from "./buffer.js";
 import { DisposableStore, Emitter, type Event, type IDisposable } from "./foundation.js";
+// 跨进程契约形状集中在 transport-contract.ts（interface.md 冻结，签名逐字不改）；
+// 本文件只保留分帧、流控与两种协议实现。
+import type {
+  ConnectionFlowControl,
+  IMessagePassingProtocol,
+  ISocket,
+  MessagePortFlowControl,
+  MessagePortFlowState,
+  MessagePortLike,
+  MessagePortPayload,
+} from "./transport-contract.js";
 
-export interface IMessagePassingProtocol {
-  send(payload: VSBuffer): void;
-  readonly onMessage: Event<VSBuffer>;
-  drain?(): Promise<void>;
-}
-
-export interface ConnectionFlowControl {
-  readonly unacknowledgedBytes: number;
-  readonly onSaturated: Event<void>;
-  readonly onDrained: Event<void>;
-}
-
-const FLOW_STATES = ["saturated", "drained"] as const;
-export type MessagePortFlowState = (typeof FLOW_STATES)[number];
-
-export type MessagePortFlowControl = {
-  __knorviaRpcControl: "connection-flow-v1";
-  state: MessagePortFlowState;
+export type {
+  ConnectionFlowControl,
+  IMessagePassingProtocol,
+  ISocket,
+  MessagePortFlowControl,
+  MessagePortFlowState,
+  MessagePortLike,
+  MessagePortPayload,
 };
 
-export type MessagePortPayload = MessagePortFlowControl | Uint8Array;
-
-export interface ISocket extends IDisposable {
-  onData: Event<VSBuffer>;
-  onClose: Event<void>;
-  onEnd: Event<void>;
-  write(chunk: VSBuffer): void;
-  end(): void;
-  drain(): Promise<void>;
-}
+const FLOW_STATES = ["saturated", "drained"] as const;
 
 const FLOW_VERSION = "connection-flow-v1";
 const FLOW_VALUES: ReadonlySet<unknown> = new Set<unknown>(FLOW_STATES);
@@ -195,25 +187,71 @@ export class SocketProtocol implements IMessagePassingProtocol {
     this.#inbox.dispose();
   }
 
+  /**
+   * 把缓冲区里已经完整的帧逐个交付出去。
+   *
+   * 读取分三段，每段只做一件事：
+   *   1. `#expectHeader`  —— 攒够 13 字节帧头，读出版本化的长度字段；
+   *   2. `#expectBody`    —— 按长度攒够整帧载荷；
+   *   3. `#deliverFrame`  —— 只把 Regular 帧交给订阅者，其余种类忽略（ack/pause 等由会话层处理）。
+   * 任何一段条件不满足就返回 `false`，表示「还不够，等下一批数据」——
+   * 这样分片到达时不需要维护「读到哪了」的额外状态。
+   */
   #pump(): void {
-    let header = this.#chunks.peek(HEADER_SIZE);
-    while (header !== null) {
-      const kind = header.readUInt8(0);
-      const bodySize = header.readUInt32BE(9);
-      if (this.#chunks.byteLength < bodySize + HEADER_SIZE) {
+    for (;;) {
+      const frame = this.#nextFrame();
+      if (frame === null) {
         return;
       }
-      this.#chunks.skip(HEADER_SIZE);
-      const body = bodySize === 0 ? VSBuffer.alloc(0) : this.#chunks.read(bodySize);
-      if (body === null) {
-        const complaint = "SocketProtocol 读取到完整帧长度后 body 不应为空";
-        throw new Error(complaint);
-      }
-      if (kind === ProtocolMessageType.Regular) {
-        this.#inbox.fire(body);
-      }
-      header = this.#chunks.peek(HEADER_SIZE);
+      this.#deliverFrame(frame);
     }
+  }
+
+  /** 取下一帧的 {种类, 载荷}；数据不足时返回 `null`。 */
+  #nextFrame(): { kind: number; body: VSBuffer } | null {
+    const header = this.#expectHeader();
+    if (header === null) {
+      return null;
+    }
+    const body = this.#expectBody(header.bodySize);
+    if (body === null) {
+      return null;
+    }
+    return { kind: header.kind, body };
+  }
+
+  /** 攒够帧头；不足 13 字节返回 `null`。读取后**不**消费，由 `#expectBody` 一并推进。 */
+  #expectHeader(): { kind: number; bodySize: number } | null {
+    const header = this.#chunks.peek(HEADER_SIZE);
+    if (header === null) {
+      return null;
+    }
+    return { kind: header.readUInt8(0), bodySize: header.readUInt32BE(9) };
+  }
+
+  /** 按帧头给的长度取出载荷；不足时返回 `null` 且不消费任何字节。 */
+  #expectBody(bodySize: number): VSBuffer | null {
+    if (this.#chunks.byteLength < bodySize + HEADER_SIZE) {
+      return null;
+    }
+    // 到这里才推进读游标：先跳帧头、再取载荷，顺序不可颠倒。
+    this.#chunks.skip(HEADER_SIZE);
+    if (bodySize === 0) {
+      return VSBuffer.alloc(0);
+    }
+    const body = this.#chunks.read(bodySize);
+    if (body === null) {
+      throw new Error("SocketProtocol 在确认整帧长度后仍取不到 body");
+    }
+    return body;
+  }
+
+  /** 只有 Regular 帧承载业务载荷；其余种类（ack/pause/resume 等）在本层丢弃。 */
+  #deliverFrame(frame: { kind: number; body: VSBuffer }): void {
+    if (frame.kind !== ProtocolMessageType.Regular) {
+      return;
+    }
+    this.#inbox.fire(frame.body);
   }
 }
 
@@ -236,14 +274,6 @@ export function createQueuePair(): [IMessagePassingProtocol, IMessagePassingProt
     onMessage: rightward.event,
   };
   return [left, right];
-}
-
-export interface MessagePortLike {
-  addEventListener(type: "message", listener: (e: { data: MessagePortPayload }) => void): void;
-  removeEventListener(type: "message", listener: (e: { data: MessagePortPayload }) => void): void;
-  postMessage(message: MessagePortPayload): void;
-  start(): void;
-  close(): void;
 }
 
 export class MessagePortProtocol implements IMessagePassingProtocol {

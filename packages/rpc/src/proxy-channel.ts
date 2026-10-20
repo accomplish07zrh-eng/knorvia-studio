@@ -1,149 +1,26 @@
 // SPDX-License-Identifier: Apache-2.0
-// Copyright (c) 2026 Knorvia Studio contributors
-
-import { Emitter, type DisposableStore, type Event, type IDisposable } from "./foundation.js";
+// 服务对象 ↔ channel 的双向适配（对外的 `ProxyChannel` 命名空间）。
+//
+// 三段实现分别在：
+//   · proxy-event-bridge.ts   —— 带缓冲的事件桥接（上游连接 + 暂存队列）
+//   · proxy-server-channel.ts —— 服务对象 → IServerChannel 的成员路由
+//   · proxy-service-view.ts   —— 服务对象 Proxy（属性访问 → call/listen）
+// 拆开的理由：三者变更原因不同——桥接管生命周期、路由管名字分类、Proxy 管翻译。
+//
+// 对外只暴露两个入口，参数形状由 interface.md 冻结：
+//   `fromService` 的第二个参数是历史调用点留下的占位，实现侧不使用；
+//   `toService` 的 `context` 会前置到每次 `call` 的参数前面。
 import type { IChannel, IServerChannel } from "./channels.js";
+import type { DisposableStore } from "./foundation.js";
+import { serverChannelFromService } from "./proxy-server-channel.js";
+import { createServiceProxy } from "./proxy-service-view.js";
 
-const PLAIN_EVENT = /^on[A-Z]/u;
-const PARAMETER_EVENT = /^onDynamic[A-Z]/u;
+/** 服务对象 → 服务端 channel；`DisposableStore` 参数仅为兼容旧调用点。 */
+const fromService = (service: unknown, _disposables?: DisposableStore): IServerChannel<unknown> =>
+  serverChannelFromService(service);
 
-type AnyCallable = (...input: any[]) => any;
+/** channel → 服务对象；`options.context` 前置到每次调用的参数前。 */
+const toService = (channel: IChannel, options?: { context?: unknown }): object =>
+  createServiceProxy(channel, options);
 
-function requireCallable(value: unknown, label: "Event" | "Method", key: string): AnyCallable {
-  if (typeof value !== "function") {
-    throw new Error(`${label} not found: ${key}`);
-  }
-  return value as AnyCallable;
-}
-
-/**
- * A buffered view over an event source. Values produced while the relay is
- * still collecting are held until somebody subscribes; once the first
- * subscription has drained the queue, later values pass straight through.
- */
-class BufferedEventRelay<T> {
-  private readonly held: T[] = [];
-  private readonly emitter: Emitter<T>;
-  private upstream: IDisposable | undefined;
-  private pumping = false;
-
-  constructor(origin: Event<T>) {
-    this.emitter = new Emitter<T>({
-      onWillAddFirstListener: () => {
-        this.upstream = origin((value) => this.receive(value));
-      },
-      onDidRemoveLastListener: () => {
-        this.upstream?.dispose();
-        this.upstream = undefined;
-        this.held.length = 0;
-      },
-    });
-  }
-
-  readonly event: Event<T> = (listener) => {
-    const handle = this.emitter.event(listener);
-    if (!this.pumping) {
-      this.pumping = true;
-      const queued = this.held.splice(0);
-      for (const value of queued) {
-        this.emitter.fire(value);
-      }
-    }
-    return handle;
-  };
-
-  private receive(value: T): void {
-    if (this.pumping) {
-      this.emitter.fire(value);
-    } else {
-      this.held.push(value);
-    }
-  }
-}
-
-function relayed<T>(origin: Event<T>): Event<T> {
-  return new BufferedEventRelay(origin).event;
-}
-
-function serverChannelFor<TContext>(service: unknown): IServerChannel<TContext> {
-  const members = service as Record<string, unknown>;
-  const cachedEvents = new Map<string, Event<unknown>>();
-
-  for (const key in members) {
-    const member = members[key];
-    if (typeof member === "function" && PLAIN_EVENT.test(key) && !PARAMETER_EVENT.test(key)) {
-      cachedEvents.set(key, relayed(member as Event<unknown>));
-    }
-  }
-
-  const listen = <T>(_ctx: TContext, name: string, arg?: unknown): Event<T> => {
-    const known = cachedEvents.get(name);
-    if (known !== undefined) {
-      return known as Event<T>;
-    }
-    const member = members[name];
-    if (!PARAMETER_EVENT.test(name)) {
-      if (!PLAIN_EVENT.test(name)) {
-        throw new Error(`Event not found: ${name}`);
-      }
-      const wrapped = relayed(requireCallable(member, "Event", name) as Event<unknown>);
-      cachedEvents.set(name, wrapped);
-      return wrapped as Event<T>;
-    }
-    const dynamic = requireCallable(member, "Event", name);
-    return dynamic.call(members, arg) as Event<T>;
-  };
-
-  const call = <T>(_ctx: TContext, command: string, args?: any[]): Promise<T> => {
-    const method = requireCallable(members[command], "Method", command);
-    const outcome = method.apply(members, args || []);
-    return (outcome instanceof Promise ? outcome : Promise.resolve(outcome)) as Promise<T>;
-  };
-
-  return { listen, call };
-}
-
-function createServiceProxy<T extends object>(
-  channel: IChannel,
-  options?: { context?: unknown },
-): T {
-  return new Proxy({} as T, {
-    get(target, key, receiver) {
-      if (typeof key !== "string") {
-        return Reflect.get(target, key, receiver);
-      }
-      switch (key) {
-        case "then":
-          return undefined;
-        default:
-          break;
-      }
-      if (PARAMETER_EVENT.test(key)) {
-        return (arg: unknown) => channel.listen(key, arg);
-      }
-      if (PLAIN_EVENT.test(key)) {
-        return channel.listen(key);
-      }
-      return async (...args: unknown[]) => {
-        const withContext = options?.context === undefined ? args : [options.context, ...args];
-        return channel.call(key, withContext);
-      };
-    },
-  });
-}
-
-export namespace ProxyChannel {
-  export function fromService<TContext>(
-    service: unknown,
-    _disposables?: DisposableStore,
-  ): IServerChannel<TContext> {
-    return serverChannelFor<TContext>(service);
-  }
-
-  export function toService<T extends object>(
-    channel: IChannel,
-    options?: { context?: unknown },
-  ): T {
-    return createServiceProxy<T>(channel, options);
-  }
-}
+export const ProxyChannel = { fromService, toService };
