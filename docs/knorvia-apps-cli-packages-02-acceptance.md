@@ -153,8 +153,10 @@
 
 ### 已踩过并规避的陷阱
 
+- **统计「本包改动」必须用 `git diff <分支起点> HEAD`，不能用 `git diff origin/main`**。本分支起点是 `526825db`，而 `origin/main` 已前进，用它统计会把 **main 上别人的改动**也算成自己的：实测因此得出「195 个文件、含 `adapters`/`bootstrap`/`kernel-dsh-00` 测试」的错误结论，而真实范围是 **57 个文件、全在 5 个包内**。这个错误若不纠正，会导致**给别人的文件乱登记**（把他人改动记成自己的替换产物），甚至把别人的改动写进 PR。
 - **不能用 `ConvertFrom-Json` / `JSON.stringify` 改 `licensing/reviews.json`**：会重写整个文件的数组排版（实测造成 1828 行噪声）。修正方式是写一次性脚本，按 `"path": "<目标>"` 定位后只删该对象的行区间（实测 13 行），文件其余字节不变。
 - **`provenance:check` 必须以退出码判定**：`reviewProblems: 0` 只说明登记与文件一致，**inventory stale 是另一类失败**。曾因「只 add 了 `reviews.json`、漏了 `report` 新产出的 `current-files.json`」而让 CI 红。
+- **先 `fmt` 再登记**：`fmt` 会改写 Markdown 与 JSON 排版。先登记、后 fmt 会让登记摘要立刻失效（`reviewProblems` 从 0 变 1，状态被判 `stale`）。同理，`node-repl-host/package.json` 曾按字母序重排 `exports`（语义等价、B37 仍过）却触发 `third-party audit inconsistent`——审计按字节/结构比对而非语义，故该文件已逐字节还原并撤销其登记条目。
 - 登记顺序固定为：`fmt → fmt:check → 登记 → fmt → fmt:check → provenance:report → git add 两个 licensing 文件 → provenance:check（看退出码）→ git status 干净`。
 
 ## 六、隔离（isolation）

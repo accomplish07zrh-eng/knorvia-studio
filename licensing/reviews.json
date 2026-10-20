@@ -146790,10 +146790,10 @@
     },
     {
       "path": "docs/knorvia-apps-cli-packages-02-acceptance.md",
-      "normalizedSha256": "9a7a17b053822805e654debfe36386bb41f62197411b993d01fc34b3c06e2c86",
+      "normalizedSha256": "efa7dbe2cc0043defdbbda8aea42e23753114eb1c4fcc90ac4926d0251753d20",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored acceptance record for the apps-cli-packages-02 independent replacement, listing per-file scoring modes, the line-mode and declaration-mode similarity measurements, the old-gate and stub-replacement results, the first failures and their corrections, the isolation self-check, and the remaining risks. Measured in this package: line-mode similarity 25/25 pass with highest containment 0.194, declaration-mode similarity 7/7 pass with 0-1 residual lines and containment 0.000, contract tests source 38/38 and dist 38/38, old gate PASS with stub replacement 0/38 allFail.",
+      "basis": "Knorvia-authored acceptance record for the apps-cli-packages-02 independent replacement, listing per-file scoring modes, the line-mode and declaration-mode similarity measurements, the old-gate and stub-replacement results, the first failures and their corrections, the statistics and registration traps that were hit and corrected, the isolation self-check, and the remaining risks. Measured in this package: line-mode similarity 25/25 pass with highest containment 0.194, declaration-mode similarity 7/7 pass with 0-1 residual lines and containment 0.000, contract tests source 38/38 and dist 38/38, old gate PASS with stub replacement 0/38 allFail.",
       "evidence": ["specs/contracts/apps-cli-packages-02/README.md", "licensing/current-files.json"]
     }
   ]
