@@ -754,10 +754,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/exec/bash-file-output.ts",
-      "normalizedSha256": "1fceea47b822946a2b3da2e16ae1a900dd43ecb1f27e3226bdb83988beadc9ba",
+      "normalizedSha256": "ae8be608bc0f36873a786533a80b5044e8134e289179edecc02603ab86dacb14",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.182, longest identical run 3, structural similarity 0.052 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-20 after the anti-gaming similarity rework (#124 (c) class, issue #224): max line containment 0.160, longest identical run 3, structural similarity 0.008 against the fixed upstream baseline (scored in normal mode; the module is a private implementation file not listed in interface.md).",
       "evidence": [
         "specs/knorvia-command-execution-runtime.md",
         "docs/knorvia-exec-plugin-runtime-acceptance.md",
@@ -766,10 +766,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/exec/bash-output-policy.ts",
-      "normalizedSha256": "f9bd7345ce6a9e87d4304727e8571f451a935b59d75e53c0a48bf8b068f531f3",
+      "normalizedSha256": "876e2bbbbccae0de24acab9fcb62285762d58f93cd58d69feb1fb74d7205b82b",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.063, longest identical run 1, structural similarity 0.000 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-20 after the anti-gaming similarity rework (#124 (c) class, issue #224): max line containment 0.071, longest identical run 1, structural similarity 0.000 against the fixed upstream baseline (scored in normal mode; the module is a private implementation file not listed in interface.md).",
       "evidence": [
         "specs/knorvia-command-execution-runtime.md",
         "docs/knorvia-exec-plugin-runtime-acceptance.md",
@@ -778,10 +778,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/exec/bash-output-preview.ts",
-      "normalizedSha256": "78157cc0e254330af570a9189ab46b4b6b479e48ca2b0bae5a91da2659d473ad",
+      "normalizedSha256": "816d5c133f7c6fc33f2bd67b7cb527e1a8e07ca0fad5dd76d61a820d9a2417e8",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.037, longest identical run 1, structural similarity 0.000 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-20 after the anti-gaming similarity rework (#124 (c) class, issue #224): max line containment 0.040, longest identical run 1, structural similarity 0.000 against the fixed upstream baseline (scored in normal mode; the module is a private implementation file not listed in interface.md).",
       "evidence": [
         "specs/knorvia-command-execution-runtime.md",
         "docs/knorvia-exec-plugin-runtime-acceptance.md",
@@ -790,10 +790,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/exec/bash-progress-poller.ts",
-      "normalizedSha256": "a07ca382101fe4a04445a237e5b77e169daa396d896aecd72f16d45bff060e1c",
+      "normalizedSha256": "cc700fa189b5970603de2d254e817291807d48ffa3db308fe2a326213b3995a5",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.114, longest identical run 1, structural similarity 0.030 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-20 after the anti-gaming similarity rework (#124 (c) class, issue #224): max line containment 0.083, longest identical run 2, structural similarity 0.031 against the fixed upstream baseline (scored in normal mode; the module is a private implementation file not listed in interface.md).",
       "evidence": [
         "specs/knorvia-command-execution-runtime.md",
         "docs/knorvia-exec-plugin-runtime-acceptance.md",
@@ -802,10 +802,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/exec/bash-resource-telemetry.ts",
-      "normalizedSha256": "a917e0ba3e4d16f574be99a961b3221f49e95fb416668f53bf9b281370428209",
+      "normalizedSha256": "d071c1dda4ce6ff245fa982b6b7d2f95de0840118994bf58a4e1892e988dbdb4",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.157, longest identical run 4, structural similarity 0.058 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-20 after the anti-gaming similarity rework (#124 (c) class, issue #224): max line containment 0.176, longest identical run 3, structural similarity 0.042 against the fixed upstream baseline (scored in normal mode; the module is a private implementation file not listed in interface.md).",
       "evidence": [
         "specs/knorvia-command-execution-runtime.md",
         "docs/knorvia-exec-plugin-runtime-acceptance.md",
@@ -814,10 +814,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/exec/bash-shell-provider.ts",
-      "normalizedSha256": "6636341ac428201b0c78c41e7b8302d4a4bd1b729cbecae3b4ccd21c0e7b67ca",
+      "normalizedSha256": "9e1aeea37a5bb42f3ba0addf1feeb181fcca08066a9021374df3a30ece678cc8",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.115, longest identical run 3, structural similarity 0.020 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-20 after the anti-gaming similarity rework (#124 (c) class, issue #224): max line containment 0.138, longest identical run 3, structural similarity 0.000 against the fixed upstream baseline (scored in normal mode; the module is a private implementation file not listed in interface.md).",
       "evidence": [
         "specs/knorvia-command-execution-runtime.md",
         "docs/knorvia-exec-plugin-runtime-acceptance.md",
@@ -826,10 +826,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/exec/bash-startup-script.ts",
-      "normalizedSha256": "89a0d466cb16e7a8158b1cd2bf19e973f196079741109fe047baad0e06354fbb",
+      "normalizedSha256": "cf4ac5010634c163e3530091226b05e80554f91c7d74801b7aeb1a13a2787d6d",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.193, longest identical run 3, structural similarity 0.182 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-20 after the anti-gaming similarity rework (#124 (c) class, issue #224): max line containment 0.167, longest identical run 2, structural similarity 0.100 against the fixed upstream baseline (scored in normal mode; the module is a private implementation file not listed in interface.md).",
       "evidence": [
         "specs/knorvia-command-execution-runtime.md",
         "docs/knorvia-exec-plugin-runtime-acceptance.md",
@@ -838,10 +838,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/exec/cwd-capture.ts",
-      "normalizedSha256": "a661064a41c78f72f8dd74fe3a018f0215993fcb0004255de5ef675deaeca32e",
+      "normalizedSha256": "76feb4937fb5b423c8e68fcef696ecf5ad5c2704a1c2008cf6970dbfed5553ba",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.114, longest identical run 1, structural similarity 0.000 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-20 after the anti-gaming similarity rework (#124 (c) class, issue #224): max line containment 0.158, longest identical run 3, structural similarity 0.000 against the fixed upstream baseline (scored in normal mode; the module is a private implementation file not listed in interface.md).",
       "evidence": [
         "specs/knorvia-command-execution-runtime.md",
         "docs/knorvia-exec-plugin-runtime-acceptance.md",
@@ -874,7 +874,7 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/exec/execution-command.ts",
-      "normalizedSha256": "5c520d4dee8079d49a239c60126b5ec82c23ef6bca4e8da88d70872826243290",
+      "normalizedSha256": "0391f34ba24e23f11c6a0c5f1113fff8d49786f561ff384806a6187b2e0974a1",
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.050, longest identical run 1, structural similarity 0.000 against the fixed upstream baseline (scored in declaration mode).",
@@ -910,10 +910,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/exec/node-execution-adapter-base.ts",
-      "normalizedSha256": "61f74aa64f3bc8db4890c9a10980c81fd6ad38b92f8c7396fb6a8ad0fe826064",
+      "normalizedSha256": "30c5276bb47625206ca02b79c5919174102128a69bc34f71732a3ece3f296ed0",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.182, longest identical run 2, structural similarity 0.012 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-20 after the anti-gaming similarity rework (#124 (c) class, issue #224): max line containment 0.115, longest identical run 3, structural similarity 0.015 against the fixed upstream baseline (scored in normal mode; the module is a private implementation file not listed in interface.md).",
       "evidence": [
         "specs/knorvia-command-execution-runtime.md",
         "docs/knorvia-exec-plugin-runtime-acceptance.md",
@@ -922,10 +922,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/exec/node-execution-adapter-lifecycle.ts",
-      "normalizedSha256": "f609b6e4f42ceba2d6e2802ff6d96fa88e01a12442972295c9c1acbd49c689d0",
+      "normalizedSha256": "b424bb14b0c64f9564d70e16abc49fa2b2e4a3c04eef8bcae5cf24b613f92b40",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.179, longest identical run 4, structural similarity 0.011 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-20 after the anti-gaming similarity rework (#124 (c) class, issue #224): max line containment 0.194, longest identical run 4, structural similarity 0.009 against the fixed upstream baseline (scored in normal mode; the module is a private implementation file not listed in interface.md).",
       "evidence": [
         "specs/knorvia-command-execution-runtime.md",
         "docs/knorvia-exec-plugin-runtime-acceptance.md",
@@ -934,10 +934,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/exec/node-execution-adapter-process.ts",
-      "normalizedSha256": "67c6e8ec44416a5332a6a38d178c867ee948e2e0f97b0992231f481c47da6b80",
+      "normalizedSha256": "dd35713c755821b253a5b771ef3e0ae0547694c9174e585bf83e39f0cce20738",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.164, longest identical run 5, structural similarity 0.021 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-20 after the anti-gaming similarity rework (#124 (c) class, issue #224): max line containment 0.190, longest identical run 5, structural similarity 0.020 against the fixed upstream baseline (scored in normal mode; the module is a private implementation file not listed in interface.md).",
       "evidence": [
         "specs/knorvia-command-execution-runtime.md",
         "docs/knorvia-exec-plugin-runtime-acceptance.md",
@@ -946,7 +946,7 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/exec/node-execution-adapter-results.ts",
-      "normalizedSha256": "523183214b31539ac468535371ec4eb370ef526c2502d791556ce5cc055de4e1",
+      "normalizedSha256": "ffbd7c1f5a05d29f1cdd6d81ce42f5a8dad5c9d9d2dd41bdbcbadb04c92bdd65",
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.029, longest identical run 1, structural similarity 0.000 against the fixed upstream baseline (scored in declaration mode).",
@@ -958,7 +958,7 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/exec/node-execution-adapter-run.ts",
-      "normalizedSha256": "56bf47a7e08018cbb290adca13cbeefec28b3ad67fd0016c85f5fac5fce7295f",
+      "normalizedSha256": "23f36285da501526cc2595d48e2ffc3977aaf4cc9779fa7f715b3de606b668d8",
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged.",
@@ -970,10 +970,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/exec/node-execution-adapter.ts",
-      "normalizedSha256": "ef11ca2b5db1aa9accd209eb6c3c297fdc8e011d70a3ac0343a24189cac84b84",
+      "normalizedSha256": "7ec3dff3b7f20bba38583ceb00b72205682a3a39ed86865a719e26d5ca28a633",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.171, longest identical run 4, structural similarity 0.033 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-20 after the anti-gaming similarity rework (#124 (c) class, issue #224): max line containment 0.029, longest identical run 1, structural similarity 0.000 against the fixed upstream baseline (scored in normal mode; the module is a private implementation file not listed in interface.md).",
       "evidence": [
         "specs/knorvia-command-execution-runtime.md",
         "docs/knorvia-exec-plugin-runtime-acceptance.md",
@@ -994,10 +994,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/exec/outputEncoding.ts",
-      "normalizedSha256": "e2537e089ad78efc4201488dbf9884e7241093e387f256b17718421c353c27a6",
+      "normalizedSha256": "6f583bce2565f51f5e556cddf78edd76c9b8baae1b89364f57c8c7b0501c5ba0",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.142, longest identical run 3, structural similarity 0.020 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-20 after the anti-gaming similarity rework (#124 (c) class, issue #224): max line containment 0.193, longest identical run 4, structural similarity 0.016 against the fixed upstream baseline (scored in normal mode; the module is a private implementation file not listed in interface.md).",
       "evidence": [
         "specs/knorvia-command-execution-runtime.md",
         "docs/knorvia-exec-plugin-runtime-acceptance.md",
@@ -1006,10 +1006,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/exec/process-tree.ts",
-      "normalizedSha256": "fa7fca614edf05f5aa7ebe935b582f55cb3eb2e62086d88b03a0395751c1f719",
+      "normalizedSha256": "efd5366e6e11791c997ea7d8c325b65cdd99d72a1dc3a8cc78c6daf9d20a5383",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.132, longest identical run 2, structural similarity 0.096 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. Refreshed 2026-10-20 after the anti-gaming similarity rework (#124 (c) class, issue #224): max line containment 0.162, longest identical run 3, structural similarity 0.031 against the fixed upstream baseline (scored in normal mode; the module is a private implementation file not listed in interface.md).",
       "evidence": [
         "specs/knorvia-command-execution-runtime.md",
         "docs/knorvia-exec-plugin-runtime-acceptance.md",
@@ -2683,10 +2683,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/plugins/atomic-protocol.ts",
-      "normalizedSha256": "f9af64c7652d3ba9fb04877e56714bcdbc3f95fab300ae849a582174d5119131",
+      "normalizedSha256": "184959b5cbd515be91de5c193e01f7f14b12792efef9207dba62395dbd01df68",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.177, longest identical run 3, structural similarity 0.000 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.177, longest identical run 3, structural similarity 0.000 against the fixed upstream baseline (scored in normal mode). Refreshed 2026-10-20 by the adapters anti-gaming similarity rework (issue #224, batch B): max line containment 0.065 (was 0.228), longest identical run 2 (was 4), structural similarity 0.059 (was 0.071) against the fixed upstream baseline, scored in normal mode because the module is a private implementation file not listed in interface.md.",
       "evidence": [
         "specs/knorvia-plugin-storage-runtime.md",
         "docs/knorvia-plugin-storage-runtime-acceptance.md",
@@ -2742,10 +2742,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/plugins/catalog-describe.ts",
-      "normalizedSha256": "e5adeee72f415417131d94084c18ac6fad47ed9e6d913b430e70079b1a2864c1",
+      "normalizedSha256": "ccef7cde3b8cc423ec306293e1cd2a376da8df937d75fcda24c51f90f2e50a36",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.164, longest identical run 1, structural similarity 0.000 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.164, longest identical run 1, structural similarity 0.000 against the fixed upstream baseline (scored in normal mode). Refreshed 2026-10-20 by the adapters anti-gaming similarity rework (issue #224, batch B): max line containment 0.194 (was 0.254), longest identical run 2 (was 2), structural similarity 0.000 (was 0.017) against the fixed upstream baseline, scored in normal mode because the module is a private implementation file not listed in interface.md.",
       "evidence": [
         "specs/knorvia-plugin-storage-runtime.md",
         "docs/knorvia-plugin-storage-runtime-acceptance.md",
@@ -2777,10 +2777,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/plugins/catalog-listing.ts",
-      "normalizedSha256": "addfb9dfec0816db56d0746bb720ca063c74527e1a83988f64b1a6b6a016a6d1",
+      "normalizedSha256": "1238520c02b5c79b9a1b9f57bdfb33f9fc9676c2f0c12c801de3cf28aaa75b0a",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.089, longest identical run 2, structural similarity 0.037 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.089, longest identical run 2, structural similarity 0.037 against the fixed upstream baseline (scored in normal mode). Refreshed 2026-10-20 by the adapters anti-gaming similarity rework (issue #224, batch B): max line containment 0.197 (was 0.510), longest identical run 3 (was 7), structural similarity 0.015 (was 0.017) against the fixed upstream baseline, scored in normal mode because the module is a private implementation file not listed in interface.md.",
       "evidence": [
         "specs/knorvia-plugin-storage-runtime.md",
         "docs/knorvia-plugin-storage-runtime-acceptance.md",
@@ -2931,10 +2931,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/plugins/discovery-candidates.ts",
-      "normalizedSha256": "e80dbf3b19e767beb1bb9b6812b2dc2596e1ba35da50176dee6d8f50c11aacf3",
+      "normalizedSha256": "4f1301ed693b7fbf7e3acc0ce0c5e580db34657fae477f866d7d427395c335d0",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Root designed and authored a 16-module replacement from approved behavior and finite public declarations, then froze it before independent test access. Seven old public modules were replaced; eight source/storage helpers remain retained. Independent old-first acceptance preserved original fixture and candidate failures, added two bounded supplement cases, and accepted v3 at 43/43. Main source and exact CLI-reachable compiled runtime also pass 43/43. Test loader portability and exact-entry metafile check are recorded; no behavior assertion was removed to conceal a product failure. Root and preparer reading exposure is disclosed; this is not blanket clean-room or licensing assurance. Applicable dependency rights and root Apache remain. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.169, longest identical run 1, structural similarity 0.026 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Root designed and authored a 16-module replacement from approved behavior and finite public declarations, then froze it before independent test access. Seven old public modules were replaced; eight source/storage helpers remain retained. Independent old-first acceptance preserved original fixture and candidate failures, added two bounded supplement cases, and accepted v3 at 43/43. Main source and exact CLI-reachable compiled runtime also pass 43/43. Test loader portability and exact-entry metafile check are recorded; no behavior assertion was removed to conceal a product failure. Root and preparer reading exposure is disclosed; this is not blanket clean-room or licensing assurance. Applicable dependency rights and root Apache remain. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.169, longest identical run 1, structural similarity 0.026 against the fixed upstream baseline (scored in normal mode). Refreshed 2026-10-20 by the adapters anti-gaming similarity rework (issue #224, batch B2b): max line containment 0.179 (was 0.351), longest identical run 3 (was 3), structural similarity 0.000 (was 0.016) against the fixed upstream baseline, scored in normal mode because the module is a private implementation file not listed in interface.md.",
       "evidence": [
         "specs/knorvia-plugin-discovery-runtime.md",
         "docs/knorvia-exec-plugin-runtime-acceptance.md",
@@ -2955,10 +2955,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/plugins/discovery-manifest.ts",
-      "normalizedSha256": "97401a5070eb6e331731d2537e1fcbd7cd2bebc5385571141a04552cf0aa182d",
+      "normalizedSha256": "920e2d90aab3ab06c3e6d3f2658521de0fbac55ca598421749b5d24399439a29",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Root designed and authored a 16-module replacement from approved behavior and finite public declarations, then froze it before independent test access. Seven old public modules were replaced; eight source/storage helpers remain retained. Independent old-first acceptance preserved original fixture and candidate failures, added two bounded supplement cases, and accepted v3 at 43/43. Main source and exact CLI-reachable compiled runtime also pass 43/43. Test loader portability and exact-entry metafile check are recorded; no behavior assertion was removed to conceal a product failure. Root and preparer reading exposure is disclosed; this is not blanket clean-room or licensing assurance. Applicable dependency rights and root Apache remain. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.192, longest identical run 4, structural similarity 0.000 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Root designed and authored a 16-module replacement from approved behavior and finite public declarations, then froze it before independent test access. Seven old public modules were replaced; eight source/storage helpers remain retained. Independent old-first acceptance preserved original fixture and candidate failures, added two bounded supplement cases, and accepted v3 at 43/43. Main source and exact CLI-reachable compiled runtime also pass 43/43. Test loader portability and exact-entry metafile check are recorded; no behavior assertion was removed to conceal a product failure. Root and preparer reading exposure is disclosed; this is not blanket clean-room or licensing assurance. Applicable dependency rights and root Apache remain. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.192, longest identical run 4, structural similarity 0.000 against the fixed upstream baseline (scored in normal mode). Refreshed 2026-10-20 by the adapters anti-gaming similarity rework (issue #224, batch B2b): max line containment 0.171 (was 0.307), longest identical run 2 (was 7), structural similarity 0.000 (was 0.000) against the fixed upstream baseline, scored in normal mode because the module is a private implementation file not listed in interface.md.",
       "evidence": [
         "specs/knorvia-plugin-discovery-runtime.md",
         "docs/knorvia-exec-plugin-runtime-acceptance.md",
@@ -2967,10 +2967,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/plugins/discovery-runtime.ts",
-      "normalizedSha256": "d6561fcbb2821d01753516679546c329230cdd61dc9b8aeb26d65bf9d9f67af4",
+      "normalizedSha256": "9afacd0df1b880d80bab137574e2f06819399b336384a87b9fe62e88d36a4f54",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Root designed and authored a 16-module replacement from approved behavior and finite public declarations, then froze it before independent test access. Seven old public modules were replaced; eight source/storage helpers remain retained. Independent old-first acceptance preserved original fixture and candidate failures, added two bounded supplement cases, and accepted v3 at 43/43. Main source and exact CLI-reachable compiled runtime also pass 43/43. Test loader portability and exact-entry metafile check are recorded; no behavior assertion was removed to conceal a product failure. Root and preparer reading exposure is disclosed; this is not blanket clean-room or licensing assurance. Applicable dependency rights and root Apache remain. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.161, longest identical run 2, structural similarity 0.000 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Root designed and authored a 16-module replacement from approved behavior and finite public declarations, then froze it before independent test access. Seven old public modules were replaced; eight source/storage helpers remain retained. Independent old-first acceptance preserved original fixture and candidate failures, added two bounded supplement cases, and accepted v3 at 43/43. Main source and exact CLI-reachable compiled runtime also pass 43/43. Test loader portability and exact-entry metafile check are recorded; no behavior assertion was removed to conceal a product failure. Root and preparer reading exposure is disclosed; this is not blanket clean-room or licensing assurance. Applicable dependency rights and root Apache remain. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.161, longest identical run 2, structural similarity 0.000 against the fixed upstream baseline (scored in normal mode). Refreshed 2026-10-20 by the adapters anti-gaming similarity rework (issue #224, batch B2b): max line containment 0.168 (was 0.315), longest identical run 3 (was 3), structural similarity 0.000 (was 0.000) against the fixed upstream baseline, scored in normal mode because the module is a private implementation file not listed in interface.md.",
       "evidence": [
         "specs/knorvia-plugin-discovery-runtime.md",
         "docs/knorvia-exec-plugin-runtime-acceptance.md",
@@ -3039,10 +3039,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/plugins/markdown-frontmatter.ts",
-      "normalizedSha256": "68395ea47caf9a1430623abccc9f960607e5e30686b8e3eb6873520dadb607e4",
+      "normalizedSha256": "87130bdb4e23054755a48b9207028f7284d390718fe25f2698d8dcd891925d46",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Root designed and authored a 16-module replacement from approved behavior and finite public declarations, then froze it before independent test access. Seven old public modules were replaced; eight source/storage helpers remain retained. Independent old-first acceptance preserved original fixture and candidate failures, added two bounded supplement cases, and accepted v3 at 43/43. Main source and exact CLI-reachable compiled runtime also pass 43/43. Test loader portability and exact-entry metafile check are recorded; no behavior assertion was removed to conceal a product failure. Root and preparer reading exposure is disclosed; this is not blanket clean-room or licensing assurance. Applicable dependency rights and root Apache remain.",
+      "basis": "Root designed and authored a 16-module replacement from approved behavior and finite public declarations, then froze it before independent test access. Seven old public modules were replaced; eight source/storage helpers remain retained. Independent old-first acceptance preserved original fixture and candidate failures, added two bounded supplement cases, and accepted v3 at 43/43. Main source and exact CLI-reachable compiled runtime also pass 43/43. Test loader portability and exact-entry metafile check are recorded; no behavior assertion was removed to conceal a product failure. Root and preparer reading exposure is disclosed; this is not blanket clean-room or licensing assurance. Applicable dependency rights and root Apache remain. Refreshed 2026-10-20 by the adapters anti-gaming similarity rework (issue #224, batch B): max line containment 0.097 (was 0.212), longest identical run 2 (was 2), structural similarity 0.011 (was 0.000) against the fixed upstream baseline, scored in normal mode because the module is a private implementation file not listed in interface.md.",
       "evidence": [
         "specs/knorvia-plugin-discovery-runtime.md",
         "docs/knorvia-exec-plugin-runtime-acceptance.md",
@@ -3063,10 +3063,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/plugins/mcp-official-auth.ts",
-      "normalizedSha256": "d0645fc525c080bba8bc664326cbd7fc70c4abdd2aec27cd6183d6b0f62ea5dd",
+      "normalizedSha256": "190d9d3ee5bef96773ce515b437fc564cf5fa6ad93b6a5762739d84344c14ff7",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Root designed and authored a 16-module replacement from approved behavior and finite public declarations, then froze it before independent test access. Seven old public modules were replaced; eight source/storage helpers remain retained. Independent old-first acceptance preserved original fixture and candidate failures, added two bounded supplement cases, and accepted v3 at 43/43. Main source and exact CLI-reachable compiled runtime also pass 43/43. Test loader portability and exact-entry metafile check are recorded; no behavior assertion was removed to conceal a product failure. Root and preparer reading exposure is disclosed; this is not blanket clean-room or licensing assurance. Applicable dependency rights and root Apache remain. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.167, longest identical run 2, structural similarity 0.000 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Root designed and authored a 16-module replacement from approved behavior and finite public declarations, then froze it before independent test access. Seven old public modules were replaced; eight source/storage helpers remain retained. Independent old-first acceptance preserved original fixture and candidate failures, added two bounded supplement cases, and accepted v3 at 43/43. Main source and exact CLI-reachable compiled runtime also pass 43/43. Test loader portability and exact-entry metafile check are recorded; no behavior assertion was removed to conceal a product failure. Root and preparer reading exposure is disclosed; this is not blanket clean-room or licensing assurance. Applicable dependency rights and root Apache remain. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.167, longest identical run 2, structural similarity 0.000 against the fixed upstream baseline (scored in normal mode). Refreshed 2026-10-20 by the adapters anti-gaming similarity rework (issue #224, batch B2b): max line containment 0.115 (was 0.389), longest identical run 2 (was 4), structural similarity 0.182 (was 0.000) against the fixed upstream baseline, scored in normal mode because the module is a private implementation file not listed in interface.md.",
       "evidence": [
         "specs/knorvia-plugin-discovery-runtime.md",
         "docs/knorvia-exec-plugin-runtime-acceptance.md",
@@ -3099,10 +3099,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/plugins/mcp.ts",
-      "normalizedSha256": "ad3ae7aa42b868901bc4877abceb8a6f474e87c0a46913ceaa4653cbbd7d1f16",
+      "normalizedSha256": "c5fe90a82e9b4089bf8324001e7a918c2d9860add878083f9732f68301024524",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Root designed and authored a 16-module replacement from approved behavior and finite public declarations, then froze it before independent test access. Seven old public modules were replaced; eight source/storage helpers remain retained. Independent old-first acceptance preserved original fixture and candidate failures, added two bounded supplement cases, and accepted v3 at 43/43. Main source and exact CLI-reachable compiled runtime also pass 43/43. Test loader portability and exact-entry metafile check are recorded; no behavior assertion was removed to conceal a product failure. Root and preparer reading exposure is disclosed; this is not blanket clean-room or licensing assurance. Applicable dependency rights and root Apache remain. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.165, longest identical run 2, structural similarity 0.111 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Root designed and authored a 16-module replacement from approved behavior and finite public declarations, then froze it before independent test access. Seven old public modules were replaced; eight source/storage helpers remain retained. Independent old-first acceptance preserved original fixture and candidate failures, added two bounded supplement cases, and accepted v3 at 43/43. Main source and exact CLI-reachable compiled runtime also pass 43/43. Test loader portability and exact-entry metafile check are recorded; no behavior assertion was removed to conceal a product failure. Root and preparer reading exposure is disclosed; this is not blanket clean-room or licensing assurance. Applicable dependency rights and root Apache remain. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.165, longest identical run 2, structural similarity 0.111 against the fixed upstream baseline (scored in normal mode). Refreshed 2026-10-20 by the adapters anti-gaming similarity rework (issue #224, batch B2b): max line containment 0.129 (was 0.510), longest identical run 7 (was 9), structural similarity 0.031 (was 0.000) against the fixed upstream baseline, scored in normal mode because the module is a private implementation file not listed in interface.md.",
       "evidence": [
         "specs/knorvia-plugin-discovery-runtime.md",
         "docs/knorvia-exec-plugin-runtime-acceptance.md",
@@ -3135,10 +3135,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/plugins/plugin-document.ts",
-      "normalizedSha256": "a472969e08bc1166a9484fccf70e65e966954693bf10761aab6edccd6831e698",
+      "normalizedSha256": "df44bf71fee147a84194097d33669421f392ce70b823810647060bca0422844e",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.098, longest identical run 2, structural similarity 0.000 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.098, longest identical run 2, structural similarity 0.000 against the fixed upstream baseline (scored in normal mode). Refreshed 2026-10-20 by the adapters anti-gaming similarity rework (issue #224, batch B): max line containment 0.157 (was 0.203), longest identical run 3 (was 3), structural similarity 0.091 (was 0.091) against the fixed upstream baseline, scored in normal mode because the module is a private implementation file not listed in interface.md.",
       "evidence": [
         "specs/knorvia-plugin-storage-runtime.md",
         "docs/knorvia-plugin-storage-runtime-acceptance.md",
@@ -3183,10 +3183,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/plugins/source-errors.ts",
-      "normalizedSha256": "99e362aa7e8ec72b5932f931ea3fdb07810d225dd91f2365a839090bdc377886",
+      "normalizedSha256": "c3a857a7714f9c0645e1c6331d1498e1bcb05acc446cf53174d50fe45fce1ea2",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.075, longest identical run 1, structural similarity 0.111 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.075, longest identical run 1, structural similarity 0.111 against the fixed upstream baseline (scored in normal mode). Refreshed 2026-10-20 by the adapters anti-gaming similarity rework (issue #224, batch B): max line containment 0.156 (was 0.214), longest identical run 1 (was 1), structural similarity 0.111 (was 0.111) against the fixed upstream baseline, scored in normal mode because the module is a private implementation file not listed in interface.md.",
       "evidence": [
         "specs/knorvia-plugin-storage-runtime.md",
         "docs/knorvia-plugin-storage-runtime-acceptance.md",
@@ -3207,10 +3207,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/plugins/source-redaction.ts",
-      "normalizedSha256": "c1f93d43ff9a646185d3e0e062ae651708145732cc93210c6e7bfd8a0aa66cca",
+      "normalizedSha256": "ecb98c1cf8388941ee3eb328dd63d1dd5657da3174994ffb3ec90a42a16c4766",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.143, longest identical run 1, structural similarity 0.000 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.143, longest identical run 1, structural similarity 0.000 against the fixed upstream baseline (scored in normal mode). Refreshed 2026-10-20 by the adapters anti-gaming similarity rework (issue #224, batch B): max line containment 0.059 (was 0.231), longest identical run 1 (was 2), structural similarity 0.000 (was 0.000) against the fixed upstream baseline, scored in normal mode because the module is a private implementation file not listed in interface.md.",
       "evidence": [
         "specs/knorvia-plugin-storage-runtime.md",
         "docs/knorvia-plugin-storage-runtime-acceptance.md",
@@ -3231,10 +3231,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/plugins/version-compare.ts",
-      "normalizedSha256": "b6a708f05555fdc0418aefd2eb2d3ca42f30364fe8637821282150d5211a7a87",
+      "normalizedSha256": "808908d05e3b787ac96170489df8bddb836d29604657dde57b362b2d078d2594",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.036, longest identical run 1, structural similarity 0.313 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.036, longest identical run 1, structural similarity 0.313 against the fixed upstream baseline (scored in normal mode). Refreshed 2026-10-20 by the adapters anti-gaming similarity rework (issue #224, batch B): max line containment 0.156 (was 0.560), longest identical run 4 (was 7), structural similarity 0.000 (was 0.313) against the fixed upstream baseline, scored in normal mode because the module is a private implementation file not listed in interface.md.",
       "evidence": [
         "specs/knorvia-plugin-storage-runtime.md",
         "docs/knorvia-plugin-storage-runtime-acceptance.md",
@@ -146929,6 +146929,17 @@
       ]
     },
     {
+      "path": "docs/knorvia-adapters-similarity-rework-acceptance.md",
+      "normalizedSha256": "ca411939f2bc5f119f0aacb5f8f5cf0efef814606c13a5381021f284d039416c",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Root-authored acceptance record for the adapters anti-gaming similarity rework (#124 (c) class plus (d) class attribution, issue #224). Records per-file scoring mode (normal mode for private implementation modules not listed in interface.md, declaration mode for pure declaration and barrel files), old-to-new containment/longest-run/structural measurements, the eight (a) class files deleted with kernel-switch and their deletion basis, the seven (b) class files already reworked by PR #210 and #203, the ten (d) class attribution decisions with pnpm dep:refs evidence, and the gate results. No implementation code: documentation evidence only. Updated 2026-10-20 to add the isolation and process-safety self-check section: the full tree was scanned for process-level bulk termination (taskkill /IM, pkill, killall and executable-name or port matching), real DSH home access (DSH_HOME, .dsh, DSH_SESSION_ID, DSH_WEB_URL), hardcoded user directories and fixture temporary roots; every process termination found is PID-directed, the Unix descendant enumeration follows pgrep -P and ppid layers from the owned root pid, all fixtures use mkdtemp under tmpdir(), and cross-entry interface checks avoid instanceof. It also records the batch roster reconciliation (77 = adapters 63 + core 7 + shared 6 + node-repl-host 1) and the per-file attribution table. Documentation evidence only; no implementation code.",
+      "evidence": [
+        "specs/knorvia-independent-implementation.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md"
+      ]
+    },
+    {
       "path": "specs/contracts/kernel-bridge-legacy/acceptance.md",
       "normalizedSha256": "f0bf8a10e031e56f2855a7707f02589d17462f39712c197da1d360ea8d83c92d",
       "decision": "original",
@@ -146943,7 +146954,7 @@
     },
     {
       "path": "specs/contracts/kernel-bridge-legacy/behavior.md",
-      "normalizedSha256": "5f53ed703155b12f7d72af83edc9ecb8dbf0ecd401af4aa48997f7da39b59433",
+      "normalizedSha256": "73cb45da25754d84833df6a2381136d7e0187eaf93a7acad0a6abc4b17e62a2d",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored contract for the kernel-bridge-legacy M2 integration package: the legacy Knorvia Protocol surface (74 methods, 7 notifications) reimplemented on the DSH-backed kernel. Written from specs/knorvia-builtin-kernel-dsh.md, specs/knorvia-internal-plugins.md, the plan's kernel-adjustment and integration-package sections, the kernel-dsh-00 and kernel-bridge-01 contracts, and black-box measurement of the default engine at 526825db (method/notification inventory, host-side call sites, wire responses). The author read the replaced apps/cli/packages/bootstrap/src/protocol/** and protocol-v4/** to understand behavior only; no inherited implementation was copied, renamed or line-rewritten. Old gate 10/10 pass; stub gate 0/10 pass (10 fail); new-runtime baseline recorded in gate-dsh.json.",
@@ -146969,7 +146980,7 @@
     },
     {
       "path": "specs/contracts/kernel-bridge-legacy/gate-dsh.json",
-      "normalizedSha256": "7200a9cd74141c3d12bc2a6c3fe00316216f3b194fc438a79b5c89e34d3e7e6a",
+      "normalizedSha256": "269708b7d17a1d68ad615439bb1d999e5329ec88d733675f5f2cdaa88227640b",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored contract for the kernel-bridge-legacy M2 integration package: the legacy Knorvia Protocol surface (74 methods, 7 notifications) reimplemented on the DSH-backed kernel. Written from specs/knorvia-builtin-kernel-dsh.md, specs/knorvia-internal-plugins.md, the plan's kernel-adjustment and integration-package sections, the kernel-dsh-00 and kernel-bridge-01 contracts, and black-box measurement of the default engine at 526825db (method/notification inventory, host-side call sites, wire responses). The author read the replaced apps/cli/packages/bootstrap/src/protocol/** and protocol-v4/** to understand behavior only; no inherited implementation was copied, renamed or line-rewritten. Old gate 10/10 pass; stub gate 0/10 pass (10 fail); new-runtime baseline recorded in gate-dsh.json.",
@@ -146982,7 +146993,7 @@
     },
     {
       "path": "specs/contracts/kernel-bridge-legacy/gate-old.json",
-      "normalizedSha256": "d70c797a73f88ee154609982529826d92f1f3fe7fa8833e23921fa01dcb908f8",
+      "normalizedSha256": "b621f2ee8f53daf2007e063ef7c61f156eb14d0fe55998bb864bf075d6cb27e8",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored contract for the kernel-bridge-legacy M2 integration package: the legacy Knorvia Protocol surface (74 methods, 7 notifications) reimplemented on the DSH-backed kernel. Written from specs/knorvia-builtin-kernel-dsh.md, specs/knorvia-internal-plugins.md, the plan's kernel-adjustment and integration-package sections, the kernel-dsh-00 and kernel-bridge-01 contracts, and black-box measurement of the default engine at 526825db (method/notification inventory, host-side call sites, wire responses). The author read the replaced apps/cli/packages/bootstrap/src/protocol/** and protocol-v4/** to understand behavior only; no inherited implementation was copied, renamed or line-rewritten. Old gate 10/10 pass; stub gate 0/10 pass (10 fail); new-runtime baseline recorded in gate-dsh.json.",
@@ -146995,7 +147006,7 @@
     },
     {
       "path": "specs/contracts/kernel-bridge-legacy/interface.md",
-      "normalizedSha256": "9516d9dc0b1d5bffb00cdfe06262b6b14ae4f016f9ea5d26990b2a10174b02e4",
+      "normalizedSha256": "e5bd7e1c50f885fc38388ea0cd64029122992c136ad31e462996d9755949d518",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored contract for the kernel-bridge-legacy M2 integration package: the legacy Knorvia Protocol surface (74 methods, 7 notifications) reimplemented on the DSH-backed kernel. Written from specs/knorvia-builtin-kernel-dsh.md, specs/knorvia-internal-plugins.md, the plan's kernel-adjustment and integration-package sections, the kernel-dsh-00 and kernel-bridge-01 contracts, and black-box measurement of the default engine at 526825db (method/notification inventory, host-side call sites, wire responses). The author read the replaced apps/cli/packages/bootstrap/src/protocol/** and protocol-v4/** to understand behavior only; no inherited implementation was copied, renamed or line-rewritten. Old gate 10/10 pass; stub gate 0/10 pass (10 fail); new-runtime baseline recorded in gate-dsh.json.",
@@ -147008,7 +147019,7 @@
     },
     {
       "path": "specs/contracts/kernel-bridge-legacy/known-differences.md",
-      "normalizedSha256": "4a0a1b88719c34f46e24fd7f5f536088c1bf079a91158f6cdf2bacaf7ccb0437",
+      "normalizedSha256": "71060d028d870fbfb321a3f7263e15bdc05eebfba10718df31ac6fd37bb17363",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored contract for the kernel-bridge-legacy M2 integration package: the legacy Knorvia Protocol surface (74 methods, 7 notifications) reimplemented on the DSH-backed kernel. Written from specs/knorvia-builtin-kernel-dsh.md, specs/knorvia-internal-plugins.md, the plan's kernel-adjustment and integration-package sections, the kernel-dsh-00 and kernel-bridge-01 contracts, and black-box measurement of the default engine at 526825db (method/notification inventory, host-side call sites, wire responses). The author read the replaced apps/cli/packages/bootstrap/src/protocol/** and protocol-v4/** to understand behavior only; no inherited implementation was copied, renamed or line-rewritten. Old gate 10/10 pass; stub gate 0/10 pass (10 fail); new-runtime baseline recorded in gate-dsh.json.",
@@ -147021,7 +147032,7 @@
     },
     {
       "path": "specs/contracts/kernel-bridge-legacy/README.md",
-      "normalizedSha256": "33bd38014b77cfb253ab8099de7755deb784c7db6909f58f4d5c5e76561cfa14",
+      "normalizedSha256": "0ef18b809a3a61f8da4c31135cc42f81acb9943629de89b4ce631dd9908d1a3d",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored contract for the kernel-bridge-legacy M2 integration package: the legacy Knorvia Protocol surface (74 methods, 7 notifications) reimplemented on the DSH-backed kernel. Written from specs/knorvia-builtin-kernel-dsh.md, specs/knorvia-internal-plugins.md, the plan's kernel-adjustment and integration-package sections, the kernel-dsh-00 and kernel-bridge-01 contracts, and black-box measurement of the default engine at 526825db (method/notification inventory, host-side call sites, wire responses). The author read the replaced apps/cli/packages/bootstrap/src/protocol/** and protocol-v4/** to understand behavior only; no inherited implementation was copied, renamed or line-rewritten. Old gate 10/10 pass; stub gate 0/10 pass (10 fail); new-runtime baseline recorded in gate-dsh.json.",
@@ -147034,7 +147045,7 @@
     },
     {
       "path": "specs/contracts/kernel-bridge-legacy/stub-gate.json",
-      "normalizedSha256": "694dd80c2bff823148a2c4d5764814659827ec7818509103981bcf57f3f6dc74",
+      "normalizedSha256": "cb36f782c7c5718893f6e420684c9ca162c7a452171709769d9d5aeecc05e0d0",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored contract for the kernel-bridge-legacy M2 integration package: the legacy Knorvia Protocol surface (74 methods, 7 notifications) reimplemented on the DSH-backed kernel. Written from specs/knorvia-builtin-kernel-dsh.md, specs/knorvia-internal-plugins.md, the plan's kernel-adjustment and integration-package sections, the kernel-dsh-00 and kernel-bridge-01 contracts, and black-box measurement of the default engine at 526825db (method/notification inventory, host-side call sites, wire responses). The author read the replaced apps/cli/packages/bootstrap/src/protocol/** and protocol-v4/** to understand behavior only; no inherited implementation was copied, renamed or line-rewritten. Old gate 10/10 pass; stub gate 0/10 pass (10 fail); new-runtime baseline recorded in gate-dsh.json.",
@@ -147073,7 +147084,7 @@
     },
     {
       "path": "specs/contracts/kernel-bridge-legacy/tests/_protocol.mjs",
-      "normalizedSha256": "6cfb139d36271ce4507080e9b11b6878dc9180e0212fc3f6e98c8fafc095a02b",
+      "normalizedSha256": "ca852852d2954b16ac0851ffd175bd6c82b6fcb30893ce1298611230fb7b8f6f",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored contract for the kernel-bridge-legacy M2 integration package: the legacy Knorvia Protocol surface (74 methods, 7 notifications) reimplemented on the DSH-backed kernel. Written from specs/knorvia-builtin-kernel-dsh.md, specs/knorvia-internal-plugins.md, the plan's kernel-adjustment and integration-package sections, the kernel-dsh-00 and kernel-bridge-01 contracts, and black-box measurement of the default engine at 526825db (method/notification inventory, host-side call sites, wire responses). The author read the replaced apps/cli/packages/bootstrap/src/protocol/** and protocol-v4/** to understand behavior only; no inherited implementation was copied, renamed or line-rewritten. Old gate 10/10 pass; stub gate 0/10 pass (10 fail); new-runtime baseline recorded in gate-dsh.json.",
@@ -147552,6 +147563,473 @@
       "evidence": [
         "specs/contracts/packages-02/README.md",
         "docs/knorvia-packages-02-acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-02/README.md",
+      "normalizedSha256": "fb7570c14a6b8ddc64f4ee524b4c0363af2ec2fb181c6945601e6f09a148da90",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-bridge-02 contract artifact for the DSH-backed built-in kernel (M2 accessor package: input and turns). Behavior, interface and black-box tests are written from the plan, the frozen v4 command schemas in packages/shared/src/protocol-v4, the kernel-bridge-legacy registration surface and the public @deepseek-ai/dsh 0.2.0-rc.2 package surface. The author read the replaced core runtime and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.138, longest identical run 3, structural similarity 0.042; declaration mode 2/2 with containment 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-02/README.md",
+        "specs/contracts/kernel-bridge-02/behavior.md",
+        "specs/contracts/kernel-bridge-02/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-02/behavior.md",
+      "normalizedSha256": "c6ecd7d57668791692eb9b97c47ee57035f0d6fda51fd928e884933e54f42328",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-bridge-02 contract artifact for the DSH-backed built-in kernel (M2 accessor package: input and turns). Behavior, interface and black-box tests are written from the plan, the frozen v4 command schemas in packages/shared/src/protocol-v4, the kernel-bridge-legacy registration surface and the public @deepseek-ai/dsh 0.2.0-rc.2 package surface. The author read the replaced core runtime and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.138, longest identical run 3, structural similarity 0.042; declaration mode 2/2 with containment 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-02/README.md",
+        "specs/contracts/kernel-bridge-02/behavior.md",
+        "specs/contracts/kernel-bridge-02/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-02/interface.md",
+      "normalizedSha256": "9feb750feca6d8858fa4d51ded092670b01b535aea6368ec0596ca6be437234d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-bridge-02 contract artifact for the DSH-backed built-in kernel (M2 accessor package: input and turns). Behavior, interface and black-box tests are written from the plan, the frozen v4 command schemas in packages/shared/src/protocol-v4, the kernel-bridge-legacy registration surface and the public @deepseek-ai/dsh 0.2.0-rc.2 package surface. The author read the replaced core runtime and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.138, longest identical run 3, structural similarity 0.042; declaration mode 2/2 with containment 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-02/README.md",
+        "specs/contracts/kernel-bridge-02/behavior.md",
+        "specs/contracts/kernel-bridge-02/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-02/callers.md",
+      "normalizedSha256": "309700ac40e21c3dd212e65128ce4eec70a6a92136cda2f37bc88f8005dd7d28",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-bridge-02 contract artifact for the DSH-backed built-in kernel (M2 accessor package: input and turns). Behavior, interface and black-box tests are written from the plan, the frozen v4 command schemas in packages/shared/src/protocol-v4, the kernel-bridge-legacy registration surface and the public @deepseek-ai/dsh 0.2.0-rc.2 package surface. The author read the replaced core runtime and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.138, longest identical run 3, structural similarity 0.042; declaration mode 2/2 with containment 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-02/README.md",
+        "specs/contracts/kernel-bridge-02/behavior.md",
+        "specs/contracts/kernel-bridge-02/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-02/known-differences.md",
+      "normalizedSha256": "f2e4d7d9d66899dccf77c914a9144e1a8ccdacf881990f738befc3c220aec7d7",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-bridge-02 contract artifact for the DSH-backed built-in kernel (M2 accessor package: input and turns). Behavior, interface and black-box tests are written from the plan, the frozen v4 command schemas in packages/shared/src/protocol-v4, the kernel-bridge-legacy registration surface and the public @deepseek-ai/dsh 0.2.0-rc.2 package surface. The author read the replaced core runtime and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.138, longest identical run 3, structural similarity 0.042; declaration mode 2/2 with containment 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-02/README.md",
+        "specs/contracts/kernel-bridge-02/behavior.md",
+        "specs/contracts/kernel-bridge-02/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-02/acceptance.md",
+      "normalizedSha256": "9c9f5617a282e70a3adadc9b97eb57f07a4cd28a4da29865658d207f571e85cf",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-bridge-02 contract artifact for the DSH-backed built-in kernel (M2 accessor package: input and turns). Behavior, interface and black-box tests are written from the plan, the frozen v4 command schemas in packages/shared/src/protocol-v4, the kernel-bridge-legacy registration surface and the public @deepseek-ai/dsh 0.2.0-rc.2 package surface. The author read the replaced core runtime and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.138, longest identical run 3, structural similarity 0.042; declaration mode 2/2 with containment 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-02/README.md",
+        "specs/contracts/kernel-bridge-02/behavior.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-02/fixtures/README.md",
+      "normalizedSha256": "06f01027977340d6f9f715fe84bd498423f9a5369fa108032aa14cd9ddab3d16",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-bridge-02 contract artifact for the DSH-backed built-in kernel (M2 accessor package: input and turns). Behavior, interface and black-box tests are written from the plan, the frozen v4 command schemas in packages/shared/src/protocol-v4, the kernel-bridge-legacy registration surface and the public @deepseek-ai/dsh 0.2.0-rc.2 package surface. The author read the replaced core runtime and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.138, longest identical run 3, structural similarity 0.042; declaration mode 2/2 with containment 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-02/README.md",
+        "specs/contracts/kernel-bridge-02/behavior.md",
+        "specs/contracts/kernel-bridge-02/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-02/fixtures/turn-commands.json",
+      "normalizedSha256": "1efbdc8c2d78964aad8fb33032384cd50eae780d9313bdf0451c699a459ca951",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-bridge-02 contract artifact for the DSH-backed built-in kernel (M2 accessor package: input and turns). Behavior, interface and black-box tests are written from the plan, the frozen v4 command schemas in packages/shared/src/protocol-v4, the kernel-bridge-legacy registration surface and the public @deepseek-ai/dsh 0.2.0-rc.2 package surface. The author read the replaced core runtime and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.138, longest identical run 3, structural similarity 0.042; declaration mode 2/2 with containment 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-02/README.md",
+        "specs/contracts/kernel-bridge-02/behavior.md",
+        "specs/contracts/kernel-bridge-02/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-02/fixtures/fake-provider.json",
+      "normalizedSha256": "f8bf06fd45b935f3933c7bea5edebbdfa4940ab3ff3ae8d1c4be7784c0058688",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-bridge-02 contract artifact for the DSH-backed built-in kernel (M2 accessor package: input and turns). Behavior, interface and black-box tests are written from the plan, the frozen v4 command schemas in packages/shared/src/protocol-v4, the kernel-bridge-legacy registration surface and the public @deepseek-ai/dsh 0.2.0-rc.2 package surface. The author read the replaced core runtime and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.138, longest identical run 3, structural similarity 0.042; declaration mode 2/2 with containment 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-02/README.md",
+        "specs/contracts/kernel-bridge-02/behavior.md",
+        "specs/contracts/kernel-bridge-02/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-02/fixtures/isolation.json",
+      "normalizedSha256": "6ef8c51dcbd6d127ca6ba7fab2446223e515e898e453e24c58ca72df09f55c8c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-bridge-02 contract artifact for the DSH-backed built-in kernel (M2 accessor package: input and turns). Behavior, interface and black-box tests are written from the plan, the frozen v4 command schemas in packages/shared/src/protocol-v4, the kernel-bridge-legacy registration surface and the public @deepseek-ai/dsh 0.2.0-rc.2 package surface. The author read the replaced core runtime and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.138, longest identical run 3, structural similarity 0.042; declaration mode 2/2 with containment 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-02/README.md",
+        "specs/contracts/kernel-bridge-02/behavior.md",
+        "specs/contracts/kernel-bridge-02/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-02/tests/entry.mjs",
+      "normalizedSha256": "56fe8e35f0b512651ccfb13378f4270ea91d350be63d8eb440a37052227d6034",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-bridge-02 contract artifact for the DSH-backed built-in kernel (M2 accessor package: input and turns). Behavior, interface and black-box tests are written from the plan, the frozen v4 command schemas in packages/shared/src/protocol-v4, the kernel-bridge-legacy registration surface and the public @deepseek-ai/dsh 0.2.0-rc.2 package surface. The author read the replaced core runtime and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.138, longest identical run 3, structural similarity 0.042; declaration mode 2/2 with containment 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-02/README.md",
+        "specs/contracts/kernel-bridge-02/behavior.md",
+        "specs/contracts/kernel-bridge-02/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-02/tests/_protocol.mjs",
+      "normalizedSha256": "153d40b1514e9e255b1e2414bc24b2308b126e1f3c26b17c3f13c7658145b920",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-bridge-02 contract artifact for the DSH-backed built-in kernel (M2 accessor package: input and turns). Behavior, interface and black-box tests are written from the plan, the frozen v4 command schemas in packages/shared/src/protocol-v4, the kernel-bridge-legacy registration surface and the public @deepseek-ai/dsh 0.2.0-rc.2 package surface. The author read the replaced core runtime and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.138, longest identical run 3, structural similarity 0.042; declaration mode 2/2 with containment 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-02/README.md",
+        "specs/contracts/kernel-bridge-02/behavior.md",
+        "specs/contracts/kernel-bridge-02/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-02/tests/_shared-probe.mjs",
+      "normalizedSha256": "83b12b9f4a5de46b0042d40cf3280067be7edeb6fdb492770a9ebf8e763a38f0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-bridge-02 contract artifact for the DSH-backed built-in kernel (M2 accessor package: input and turns). Behavior, interface and black-box tests are written from the plan, the frozen v4 command schemas in packages/shared/src/protocol-v4, the kernel-bridge-legacy registration surface and the public @deepseek-ai/dsh 0.2.0-rc.2 package surface. The author read the replaced core runtime and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.138, longest identical run 3, structural similarity 0.042; declaration mode 2/2 with containment 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-02/README.md",
+        "specs/contracts/kernel-bridge-02/behavior.md",
+        "specs/contracts/kernel-bridge-02/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-02/tests/command-surface.test.mjs",
+      "normalizedSha256": "64029ce963922ab5e23c4852a894b9a91e8317f395f5dfbf94ddcc3e94ce16af",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-bridge-02 contract artifact for the DSH-backed built-in kernel (M2 accessor package: input and turns). Behavior, interface and black-box tests are written from the plan, the frozen v4 command schemas in packages/shared/src/protocol-v4, the kernel-bridge-legacy registration surface and the public @deepseek-ai/dsh 0.2.0-rc.2 package surface. The author read the replaced core runtime and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.138, longest identical run 3, structural similarity 0.042; declaration mode 2/2 with containment 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-02/README.md",
+        "specs/contracts/kernel-bridge-02/behavior.md",
+        "specs/contracts/kernel-bridge-02/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-02/tests/fake-provider-seam.test.mjs",
+      "normalizedSha256": "b4ae56b62cad81445e4bf690c7e3d5bc793aa12325d6831b2bf5eb5263611b4c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-bridge-02 contract artifact for the DSH-backed built-in kernel (M2 accessor package: input and turns). Behavior, interface and black-box tests are written from the plan, the frozen v4 command schemas in packages/shared/src/protocol-v4, the kernel-bridge-legacy registration surface and the public @deepseek-ai/dsh 0.2.0-rc.2 package surface. The author read the replaced core runtime and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.138, longest identical run 3, structural similarity 0.042; declaration mode 2/2 with containment 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-02/README.md",
+        "specs/contracts/kernel-bridge-02/behavior.md",
+        "specs/contracts/kernel-bridge-02/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-02/design.md",
+      "normalizedSha256": "19ceb202ced5cfe197950610dcb416a37520d744f9606f37eb7db55da243248e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-bridge-02 contract artifact for the DSH-backed built-in kernel (M2 accessor package: input and turns). Behavior, interface and black-box tests are written from the plan, the frozen v4 command schemas in packages/shared/src/protocol-v4, the kernel-bridge-legacy registration surface and the public @deepseek-ai/dsh 0.2.0-rc.2 package surface. The author read the replaced core runtime and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.138, longest identical run 3, structural similarity 0.042; declaration mode 2/2 with containment 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-02/README.md",
+        "specs/contracts/kernel-bridge-02/behavior.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-bridge/legacy/parse.ts",
+      "normalizedSha256": "71e57865991edd820d7ac4ad3cc170ef5c2521ef2b8492f4ea65affb68218f41",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-bridge-legacy parameter-validation boundary against contract v1 (behavior B1/B5, interface.md section 6.1). One place turns a schema mismatch into the existing -32602 shape, so no handler can skip validation. Written from specs/contracts/kernel-bridge-legacy/interface.md and behavior.md plus a recorded probe of the default engine's per-method responses; the author was allowed to read the replaced bootstrap/src/protocol implementation to understand behavior, and no code was copied, renamed or rewritten line by line. Old gate 19/19, dsh gate 19/19, stub gate 0/19. Measured against the replaced protocol files and zai-org/ZCode@872ad960: max line containment 0.130, longest identical run 2, structural similarity 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-legacy/README.md",
+        "specs/contracts/kernel-bridge-legacy/behavior.md",
+        "specs/contracts/kernel-bridge-legacy/interface.md",
+        "specs/contracts/kernel-bridge-legacy/acceptance.md",
+        "docs/knorvia-kernel-bridge-legacy-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-bridge/legacy/errors.ts",
+      "normalizedSha256": "21ae31df080caa32014f8469762d1d63dab87cecb84dd275412c3f5a76cd2c8d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored existing-error-code vocabulary for kernel-bridge-legacy against contract v1 (invariant L6, behavior B5/B7/B10). Enumerates only codes the old protocol already used and builds the capability-absent outcome from the existing fault.command.capabilityUnsupported wording; no new error code and no new reasonCode is introduced. Written from specs/contracts/kernel-bridge-legacy/behavior.md and interface.md plus the recorded default-engine probe; the author read the replaced bootstrap/src/protocol implementation for behavior, and no code was copied, renamed or rewritten line by line. Old gate 19/19, dsh gate 19/19, stub gate 0/19. Measured against the replaced protocol files and zai-org/ZCode@872ad960: max line containment 0.031, longest identical run 1, structural similarity 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-legacy/behavior.md",
+        "specs/contracts/kernel-bridge-legacy/interface.md",
+        "specs/contracts/kernel-bridge-legacy/known-differences.md",
+        "docs/knorvia-kernel-bridge-legacy-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-bridge/legacy/method-table.ts",
+      "normalizedSha256": "05d5fc334a990ca1f768fab4d953783da4ec652c7d539ef6c7adfff0f96119db",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored direction table (client-directed / host-directed / borrowed notification) for kernel-bridge-legacy against contract v1 (invariants L3/L4, behavior B8/B9). Derived from the shared knorviaProtocolMethods table at runtime instead of restating method names by hand, so the 59+14+1 partition cannot drift from the protocol. Written from specs/contracts/kernel-bridge-legacy/README.md section 2 and behavior.md; the author read the replaced implementation for behavior, and no code was copied, renamed or rewritten line by line. Old gate 19/19, dsh gate 19/19, stub gate 0/19. Measured against the replaced protocol files and zai-org/ZCode@872ad960: max line containment 0.109, longest identical run 1, structural similarity 0.158.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-legacy/README.md",
+        "specs/contracts/kernel-bridge-legacy/behavior.md",
+        "specs/contracts/kernel-bridge-legacy/fixtures/request-script.mjs",
+        "docs/knorvia-kernel-bridge-legacy-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-bridge/legacy/contracts.ts",
+      "normalizedSha256": "cadef783b2d020c3dd2e6539098fe40fceab28f8d9d670eab2f0712794bbc6d7",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored method-to-schema pairing for kernel-bridge-legacy against contract v1 (interface.md section 6.1). Pairs each legacy method with the schema already exported by @knorvia/shared, adding no field and no schema of its own, so the protocol surface stays defined in exactly one place. Written from specs/contracts/kernel-bridge-legacy/interface.md plus the shared protocol module's export list; the author read the replaced bootstrap/src/protocol implementation for behavior, and no code was copied, renamed or rewritten line by line. Old gate 19/19, dsh gate 19/19, stub gate 0/19. Measured against the replaced protocol files and zai-org/ZCode@872ad960: max line containment 0.095, longest identical run 4, structural similarity 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-legacy/interface.md",
+        "specs/contracts/kernel-bridge-legacy/behavior.md",
+        "specs/contracts/kernel-bridge-legacy/acceptance.md",
+        "docs/knorvia-kernel-bridge-legacy-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-bridge/legacy/types.ts",
+      "normalizedSha256": "0d8ed3f9f4dbe5fb6e8fa0e02cd9bd395bce901d1fbc69afc7f29feace4ad149",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored frozen registration surface for kernel-bridge-legacy against contract v1 (interface.md section 4). Declares the execution port, reverse-request channel types and the single-owner port registry that kernel-bridge-02/03 will call; the declared names and signatures are the ones frozen in the contract. Type declarations plus a port registry only. Written from specs/contracts/kernel-bridge-legacy/interface.md; the author read the replaced implementation for behavior, and no code was copied, renamed or rewritten line by line. Old gate 19/19, dsh gate 19/19, stub gate 0/19. Measured against the replaced protocol files and zai-org/ZCode@872ad960: max line containment 0.071, longest identical run 1, structural similarity 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-legacy/interface.md",
+        "specs/contracts/kernel-bridge-legacy/README.md",
+        "docs/knorvia-kernel-bridge-legacy-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-bridge/legacy/router-deps.ts",
+      "normalizedSha256": "b24c37d2a8d8d4d7b613be9611c6764623d0c672ec808142a9d9712ffcc7abcf",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored dependency interface for the kernel-bridge-legacy router against contract v1 (interface.md section 4). Exists as its own module so handlers depend on a small type surface rather than on the router, which keeps the dependency direction one-way. Type declarations only. Written from specs/contracts/kernel-bridge-legacy/interface.md; no inherited implementation was read for this file beyond its contract, and no code was copied, renamed or rewritten line by line. Old gate 19/19, dsh gate 19/19, stub gate 0/19. Measured against the replaced protocol files and zai-org/ZCode@872ad960: max line containment 0.000, longest identical run 0, structural similarity 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-legacy/interface.md",
+        "docs/knorvia-kernel-bridge-legacy-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-bridge/legacy/logger-adapter.ts",
+      "normalizedSha256": "52bf385759acc3c97702db4ee97af65a925a4e20d2748ff819238c7b2e6be93d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored adapter between the kernel logger port and the contracts Logger interface used by the plugin and skill engines. Needed because the two log surfaces differ (`error` arity and the `child` factory); keeping the conversion in one module stops each handler from re-deriving it. Written from the two local type declarations plus specs/contracts/kernel-bridge-legacy/interface.md; no inherited implementation was read for this file, and no code was copied, renamed or rewritten line by line. Old gate 19/19, dsh gate 19/19, stub gate 0/19. Measured against the replaced protocol files and zai-org/ZCode@872ad960: max line containment 0.077, longest identical run 1, structural similarity 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-legacy/interface.md",
+        "docs/knorvia-kernel-bridge-legacy-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-bridge/legacy/notifications.ts",
+      "normalizedSha256": "5a842b5b7eebf66f003708e8d8c48392c55948063686c87dbaa9ca64cf27e372",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored CLI-to-host notification emitter for kernel-bridge-legacy against contract v1 (behavior B12/B13/B14). Holds only the two notifications this package owns and their payload shape, leaving the frozen seven-name table to the method table so B14 can assert both sides against each other. Written from specs/contracts/kernel-bridge-legacy/behavior.md and callers.md; the author read the replaced implementation to learn the old trigger points, and no code was copied, renamed or rewritten line by line. Old gate 19/19, dsh gate 19/19, stub gate 0/19. Measured against the replaced protocol files and zai-org/ZCode@872ad960: max line containment 0.000, longest identical run 0, structural similarity 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-legacy/behavior.md",
+        "specs/contracts/kernel-bridge-legacy/callers.md",
+        "specs/contracts/kernel-bridge-legacy/known-differences.md",
+        "docs/knorvia-kernel-bridge-legacy-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-bridge/legacy/workspace.ts",
+      "normalizedSha256": "dadcb986357ae7b040ad15a6a524cec281421866a1f69dbbb34b7bd8c4aadc58",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored workspace-scoped in-memory preference holder and slash-command directory projection for kernel-bridge-legacy against contract v1 (behavior B4). The built-in command list is assembled from the shared help-entry table and the local visibility name list instead of copying command text. Written from specs/contracts/kernel-bridge-legacy/behavior.md and a recorded default-engine probe of workspace/readPresentation; the author read the replaced implementation for behavior, and no code was copied, renamed or rewritten line by line. Old gate 19/19, dsh gate 19/19, stub gate 0/19. Measured against the replaced protocol files and zai-org/ZCode@872ad960: max line containment 0.093, longest identical run 1, structural similarity 0.182.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-legacy/behavior.md",
+        "specs/contracts/kernel-bridge-legacy/acceptance.md",
+        "docs/knorvia-kernel-bridge-legacy-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-bridge/legacy/session-registry.ts",
+      "normalizedSha256": "f7912c7041ca10a56f32bbed37af4c15eb07549e3d26dfe00ac1d70f6ba5adb8",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored session registry for kernel-bridge-legacy against contract v1 (behavior B6/B7, state ownership section of the kernel spec). Holds only the legacy protocol identity, workspace and metadata; conversation content stays in the DSH session log, so there is no second copy of messages. Written from specs/contracts/kernel-bridge-legacy/behavior.md and specs/knorvia-builtin-kernel-dsh.md; the author read the replaced implementation to understand the old record lifecycle, and no code was copied, renamed or rewritten line by line. Old gate 19/19, dsh gate 19/19, stub gate 0/19. Measured against the replaced protocol files and zai-org/ZCode@872ad960: max line containment 0.145, longest identical run 2, structural similarity 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-legacy/behavior.md",
+        "specs/knorvia-builtin-kernel-dsh.md",
+        "docs/knorvia-kernel-bridge-legacy-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-bridge/legacy/session-projections.ts",
+      "normalizedSha256": "2c3f1dfa2e7a168b2f7a54404db29c1d6448c66b220fc1c4158df10cad7a3b23",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored protocol projection for the legacy session read surface against contract v1 (behavior B3/B4/B6/B7). Protocol constants and zero-value tables are named once and the snapshot is assembled from four section builders, so no per-field restatement of the old projection code remains; the zero-usage counters are produced from a key list rather than assigned line by line. Written from specs/contracts/kernel-bridge-legacy/behavior.md plus a recorded default-engine probe of the empty-session read surface; the author read the replaced implementation for behavior, and no code was copied, renamed or rewritten line by line. Old gate 19/19, dsh gate 19/19, stub gate 0/19. Measured against the replaced protocol files and zai-org/ZCode@872ad960: max line containment 0.088, longest identical run 3, structural similarity 0.015.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-legacy/behavior.md",
+        "specs/contracts/kernel-bridge-legacy/acceptance.md",
+        "docs/knorvia-kernel-bridge-legacy-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-bridge/legacy/session-handlers.ts",
+      "normalizedSha256": "d7108a88fec397c726dbb0ef962c7180681d77a5d31d5530e1af2620df74080b",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored handlers for the legacy session and workspace-policy methods against contract v1 (behavior B5/B6/B7/B10/B11). Turn-class methods are not implemented here: they are forwarded to the execution port owned by kernel-bridge-02/03, and the session-existence check runs first so an absent session keeps answering the old -32004 instead of being misreported as an absent capability. Written from specs/contracts/kernel-bridge-legacy/behavior.md and a recorded default-engine probe covering all 74 methods; the author read the replaced implementation for behavior, and no code was copied, renamed or rewritten line by line. Old gate 19/19, dsh gate 19/19, stub gate 0/19. Measured against the replaced protocol files and zai-org/ZCode@872ad960: max line containment 0.068, longest identical run 3, structural similarity 0.011.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-legacy/behavior.md",
+        "specs/contracts/kernel-bridge-legacy/interface.md",
+        "specs/contracts/kernel-bridge-legacy/known-differences.md",
+        "docs/knorvia-kernel-bridge-legacy-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-bridge/legacy/host-request-book.ts",
+      "normalizedSha256": "d4a34f3f53bc4e0a660240f72c630f54166ba86dc0a614563af1ebb510d0391d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored reverse-request book (CLI to host) for kernel-bridge-legacy against contract v1 (behavior B11/B12). Owns the pending table, the server-N id space, timeout/cancel/disconnect settlement and the reannounce schedule, and guarantees that every terminal path clears its timers. Written from specs/contracts/kernel-bridge-legacy/behavior.md and callers.md; the author read the replaced interaction broker for behavior, and no code was copied, renamed or rewritten line by line. Old gate 19/19, dsh gate 19/19, stub gate 0/19. Measured against the replaced protocol files and zai-org/ZCode@872ad960: max line containment 0.102, longest identical run 6, structural similarity 0.026.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-legacy/behavior.md",
+        "specs/contracts/kernel-bridge-legacy/callers.md",
+        "specs/contracts/kernel-bridge-legacy/known-differences.md",
+        "docs/knorvia-kernel-bridge-legacy-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-bridge/legacy/runtime-preferences.ts",
+      "normalizedSha256": "8b674eb254742492c75c574a9a86a2802499f14ca99abcb95afb13dd52dafd9d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored session runtime-preferences request for kernel-bridge-legacy against contract v1 (behavior B11). Implements the per-error-code branch table agreed with the lead: only method-not-found and no-client degrade to the local defaults, while a timeout and every other failure still fail the session creation, so a real host timeout cannot silently become default preferences. Written from specs/contracts/kernel-bridge-legacy/behavior.md plus a source read of the old server-operations error branches; no code was copied, renamed or rewritten line by line. Old gate 19/19, dsh gate 19/19, stub gate 0/19. Measured against the replaced protocol files and zai-org/ZCode@872ad960: max line containment 0.151, longest identical run 2, structural similarity 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-legacy/behavior.md",
+        "specs/contracts/kernel-bridge-legacy/known-differences.md",
+        "specs/contracts/kernel-bridge-legacy/acceptance.md",
+        "docs/knorvia-kernel-bridge-legacy-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-bridge/legacy/plugin-catalog.ts",
+      "normalizedSha256": "e10c78549bacc5298423ffc674eec0a6fd1d76a00f3707e3fe0fa0c468a99e1a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored projection from the plugin and skill domain results to the legacy protocol shapes against contract v1 (behavior B5). The field white list is derived from the shared plugin-info and diagnostic schemas at runtime instead of being restated in code, so a schema change cannot leave a stale field table behind; component groups and reference-catalog entries are projected without path fields. Written from specs/contracts/kernel-bridge-legacy/behavior.md and callers.md; the author read the replaced implementation for behavior, and no code was copied, renamed or rewritten line by line. Old gate 19/19, dsh gate 19/19, stub gate 0/19. Measured against the replaced protocol files and zai-org/ZCode@872ad960: max line containment 0.095, longest identical run 3, structural similarity 0.032.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-legacy/behavior.md",
+        "specs/contracts/kernel-bridge-legacy/callers.md",
+        "specs/contracts/kernel-bridge-legacy/acceptance.md",
+        "docs/knorvia-kernel-bridge-legacy-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-bridge/legacy/catalog-handlers.ts",
+      "normalizedSha256": "ad3de63a2e31d600237c263490723e64d43d23235b5a9c3d1275f63579573bf0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored handlers for the workspace presentation, plugin reference resolution, plugin enablement and workspace hook-trust methods against contract v1 (behavior B4/B5). Plugin enablement delegates to the existing plugin engine so the on-disk configuration path is unchanged; reference resolution keeps the official-source fail-closed rule and reports unavailability instead of pretending a plugin can be installed offline. Written from specs/contracts/kernel-bridge-legacy/behavior.md and callers.md; the author read the replaced implementation for behavior, and no code was copied, renamed or rewritten line by line. Old gate 19/19, dsh gate 19/19, stub gate 0/19. Measured against the replaced protocol files and zai-org/ZCode@872ad960: max line containment 0.149, longest identical run 3, structural similarity 0.072.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-legacy/behavior.md",
+        "specs/contracts/kernel-bridge-legacy/callers.md",
+        "docs/knorvia-kernel-bridge-legacy-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-bridge/legacy/domain-handlers.ts",
+      "normalizedSha256": "b11bd0a6607aaed73be477a6c4267bb5b53a6f7f8a31f9194a69f922b2468c35",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored handlers for the plugin, skill, MCP, saved-workflow, usage and account-config methods against contract v1 (behavior B5/B6). Directory and workflow facts come from the existing domain engines that survive the kernel switch, so this module only converts protocol parameters into domain calls and domain results back into protocol shapes; domain failures keep the old internal-error fold instead of inventing new codes. Written from specs/contracts/kernel-bridge-legacy/behavior.md and a recorded default-engine probe of every one of the 74 methods; the author read the replaced implementation for behavior, and no code was copied, renamed or rewritten line by line. Old gate 19/19, dsh gate 19/19, stub gate 0/19. Measured against the replaced protocol files and zai-org/ZCode@872ad960: max line containment 0.141, longest identical run 6, structural similarity 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-legacy/behavior.md",
+        "specs/contracts/kernel-bridge-legacy/callers.md",
+        "specs/contracts/kernel-bridge-legacy/known-differences.md",
+        "docs/knorvia-kernel-bridge-legacy-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-bridge/legacy/router.ts",
+      "normalizedSha256": "824408810aefab1d2de41a5d0d312d209ac2769101dc2588b6e4ab5a9f151749",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored legacy router (the contract's central entry point) against contract v1 (invariants L3/L4/L6, behavior B2/B5/B8/B9/B10). Answers only for the 59 client-directed methods, forwards the twelve turn-class methods to the execution port after validating parameters and session existence, and returns undefined for host-directed names so the caller keeps answering method-not-found. Written from specs/contracts/kernel-bridge-legacy/README.md, behavior.md and interface.md plus a recorded default-engine probe; the author read the replaced dispatch switch for behavior, and no code was copied, renamed or rewritten line by line. Old gate 19/19, dsh gate 19/19, stub gate 0/19. Measured against the replaced protocol files and zai-org/ZCode@872ad960: max line containment 0.070, longest identical run 1, structural similarity 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-legacy/README.md",
+        "specs/contracts/kernel-bridge-legacy/behavior.md",
+        "specs/contracts/kernel-bridge-legacy/interface.md",
+        "docs/knorvia-kernel-bridge-legacy-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-bridge/legacy/index.ts",
+      "normalizedSha256": "618ab934d0732f6c8c48199743dff3b691f9513b9ea953c821705449a57d14cf",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored package entry for kernel-bridge-legacy against contract v1 (interface.md sections 4 and 5). Owns one bridge instance per app-server process, binds it to its Cordis context, and exposes the attach/detach/dispose lifecycle plus the reverse-request settlement hook that the bridge entry point calls. Written from specs/contracts/kernel-bridge-legacy/interface.md; the author read the replaced implementation for behavior, and no code was copied, renamed or rewritten line by line. Old gate 19/19, dsh gate 19/19, stub gate 0/19. Measured against the replaced protocol files and zai-org/ZCode@872ad960: max line containment 0.104, longest identical run 3, structural similarity 0.021.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-legacy/interface.md",
+        "specs/contracts/kernel-bridge-legacy/README.md",
+        "docs/knorvia-kernel-bridge-legacy-acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-legacy/tests/implementation-behavior.test.mjs",
+      "normalizedSha256": "8579613186ff28a91259978e09d27739a2b4b659e139b62105cdc523084f3fce",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contract test for kernel-bridge-legacy entries B10-B15 (contract v1, implementation phase). Exercises the capability-absent semantics of the execution port, the session runtime-preferences reverse request, the six interaction methods, the plugin operation-progress notification and the borrowed computer-use notification name, all through the public NDJSON protocol entry. Each of the two engines asserts its own real behaviour instead of skipping, so engine-specific facts stay visible and the run reports zero skipped cases. Written from specs/contracts/kernel-bridge-legacy/behavior.md and README.md; the author read the replaced protocol implementation to learn its behaviour, and no code was copied, renamed or rewritten line by line. Old gate 19/19 in this suite; dsh gate 19/19.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-legacy/behavior.md",
+        "specs/contracts/kernel-bridge-legacy/README.md",
+        "specs/contracts/kernel-bridge-legacy/acceptance.md",
+        "docs/knorvia-kernel-bridge-legacy-acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-legacy/tests/reverse-reply.test.mjs",
+      "normalizedSha256": "fee3c4ad67f13f3d6f41c1e9fab853af5843b572ab5b378a96dc890a388fe070",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contract test for kernel-bridge-legacy entries B17a-B17c (contract v1, implementation phase). Covers the structural classification of a client reply line to a reverse request and the safe handling of replies that match no pending request. Written after implementation exposed a serialization deadlock and a substring-classification defect, so it guards both regressions through the public protocol entry. Written from specs/contracts/kernel-bridge-legacy/behavior.md and the acceptance record of those defects; no code was copied, renamed or rewritten line by line. Old gate 19/19 in this suite; dsh gate 19/19.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-legacy/behavior.md",
+        "specs/contracts/kernel-bridge-legacy/known-differences.md",
+        "specs/contracts/kernel-bridge-legacy/acceptance.md",
+        "docs/knorvia-kernel-bridge-legacy-acceptance.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-kernel-bridge-legacy-acceptance.md",
+      "normalizedSha256": "41b2bd63deb8c2a03994afb091413200faf6fd9427b787a99f35a8724f91fcb0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored implementation-phase acceptance record for kernel-bridge-legacy (contract v1). Records the measured scope, the three gate runs, the two similarity gates with per-file numbers, the full access gate table, the eight first-failure entries with their causes and fixes, the honestly uncovered items with their owning packages, and the isolation evidence required by the team-wide safety ruling. Written from specs/contracts/kernel-bridge-legacy/ and this package's own gate output; no inherited implementation was copied, renamed or rewritten line by line. At the time of registration the old gate and the dsh gate each report 19/19 with zero skipped, the stub gate 0/19, and similarity reports 18/18 candidates passing.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-legacy/acceptance.md",
+        "specs/contracts/kernel-bridge-legacy/README.md",
+        "specs/contracts/kernel-bridge-legacy/behavior.md",
+        "licensing/current-files.json"
       ]
     }
   ]

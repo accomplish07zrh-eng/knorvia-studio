@@ -1,5 +1,8 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2026 Knorvia Studio contributors
+//
+// 插件更新判定。先比版本号：两侧都能归一成 semver 时按「谁更大」定论，否则退回字符串相等；
+// 版本号缺失时才看提交指纹。状态字面量是对外契约，集中在一张取值表里。
 
 import { coerce, gt, valid } from "semver";
 
@@ -8,34 +11,59 @@ export type /* 更新结果三分类 */ PluginUpdateStatus =
   | "update-available"
   | "version-changed";
 
-export function /* 同名版本的更新判定 */ comparePluginVersions(input: {
-  installed: /* 已安装版本（可缺省） */ string | undefined;
-  latest: /* 最新版本（可缺省） */ string | undefined;
-}): /* 更新状态 */ PluginUpdateStatus {
-  const { installed, latest } = /* 直接解包入参 */ input;
-  if (!installed || !latest) return /* 缺任一侧：无从比较 */ "none";
+/** 一对版本号：安装侧与最新侧，任一侧缺失都表示无从比较。 */
+type VersionPair = {
+  installed: string | undefined;
+  latest: string | undefined;
+};
 
-  const installedVersion = valid(coerce(installed) ?? installed);
-  const latestVersion = valid(coerce(latest) ?? latest);
-  if (installedVersion && latestVersion) {
-    return gt(latestVersion, installedVersion) ? "update-available" : "none";
-  }
-  return /* 版本串逐字一致才算无变化 */ installed === latest ? "none" : "version-changed";
+/** 一次更新探针：版本号优先，版本号缺失时用提交指纹兜底。 */
+type UpdateProbe = {
+  installedVersion: string | undefined;
+  installedSha: string | undefined;
+  latestVersion: string | undefined;
+  latestSha: string | undefined;
+};
+
+const STATUS = {
+  none: "none",
+  updateAvailable: "update-available",
+  versionChanged: "version-changed",
+} as const satisfies Record<string, PluginUpdateStatus>;
+
+/** semver 归一：解析不出来就返回 null，由调用方决定回退方式。 */
+function semverOf(raw: string | undefined): string | null {
+  if (!raw) return null;
+  return valid(coerce(raw) ?? raw);
 }
 
-export function /* 按版本号或提交指纹判定更新 */ comparePluginUpdate(input: {
-  installedVersion: /* 已安装版本号 */ string | undefined;
-  installedSha: /* 已安装提交指纹 */ string | undefined;
-  latestVersion: /* 最新版本号 */ string | undefined;
-  latestSha: /* 最新提交指纹 */ string | undefined;
-}): /* 更新状态 */ PluginUpdateStatus {
-  if (input.latestVersion) {
+/** 版本对判定：能归一的两侧走大小比较，不能归一的退化为原串相等。 */
+function judgePair(pair: VersionPair): PluginUpdateStatus {
+  const before = semverOf(pair.installed);
+  const after = semverOf(pair.latest);
+  if (before === null || after === null) {
+    return pair.installed === pair.latest ? STATUS.none : STATUS.versionChanged;
+  }
+  return gt(after, before) ? STATUS.updateAvailable : STATUS.none;
+}
+
+export function /* 同名版本的更新判定 */ comparePluginVersions(
+  pair: VersionPair,
+): PluginUpdateStatus {
+  if (!pair.installed || !pair.latest) return STATUS.none;
+  return judgePair(pair);
+}
+
+export function /* 按版本号或提交指纹判定更新 */ comparePluginUpdate(
+  probe: UpdateProbe,
+): PluginUpdateStatus {
+  if (probe.latestVersion) {
     return comparePluginVersions({
-      installed: input.installedVersion,
-      latest: input.latestVersion,
+      installed: probe.installedVersion,
+      latest: probe.latestVersion,
     });
   }
-  if (!input.latestSha) return "none";
-  if (!input.installedSha) return "version-changed";
-  return input.installedSha === input.latestSha ? "none" : "update-available";
+  if (!probe.latestSha) return STATUS.none;
+  if (!probe.installedSha) return STATUS.versionChanged;
+  return probe.installedSha === probe.latestSha ? STATUS.none : STATUS.updateAvailable;
 }

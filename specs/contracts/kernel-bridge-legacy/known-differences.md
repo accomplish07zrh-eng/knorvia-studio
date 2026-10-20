@@ -55,3 +55,18 @@
 - **结论**：修完自然退出（旧门 53 s、dsh 门 53 s），因此**门禁运行器不用 `--test-force-exit`**；运行器另保留 15 min 兜底超时，且把「超时」判为失败（夹具回归必须红，不能无限等）。
 - **为什么这条重要**：CI 的 `test:studio` 直接收集 `specs/contracts/*/tests/*.test.mjs`，不带任何强制退出开关——夹具一处挂死就会让 main 的 Windows CI 永久红。
 - **对应测试**：`run-gate.mjs`（三道路径都用同一命令，且 `timedOut` 记为失败）。
+
+## D8 四个 process 类通知的触发点不在本包（实现阶段新增）
+
+- **现象**：`process/mcpTelemetry`、`process/mcpResourceSamples`、`process/toolExecResource`、`process/resourceSample` 四个通知在新引擎下**没有触发点**；`interaction/providerRuntimeHeadersCancelled` 的触发点在运行时 headers 请求方，本包只提供发射器与 `onCancelled` 钩子。
+- **理由**：这四个通知的数据源是 MCP 子进程生命周期与资源采样器，dsh 引擎下这两者归 `kernel-dsh-builtins`（MCP 客户端）与 `kernel-plugin-*`（资源采样）。在数据源存在之前发通知只能编造采样值，那比不发更糟。
+- **本包已保证的部分**：7 个通知名进冻结表（B14 静态断言 7 个唯一名）；本包**已发出的**通知名必须在冻结表内（B14 运行时断言，防自造新名）；本包拥有的触发点 `plugins/operationProgress` 确有发出且顺序为 `running → done`（B13）。
+- **关闭条件**：`kernel-dsh-builtins` 或对应 `kernel-plugin-*` 挂上数据源后，各自补触发点并在此登记。
+- **对应测试**：B13（本包触发点）、B14（名字表 + 不新造 + dsh 下 `plugins/operationProgress` 确有发出、`startup/storageState` 按 D1 缺席）。
+
+## D9 回合方法在端口注册前回 `-32031`（D5 的实测补充）
+
+- **补充事实**：端口未注册时，`-32031` 只在**会话存在**时返回；会话不存在时仍按旧语义回 `-32004`。
+- **判定顺序（冻结）**：`-32602`（参数非法）→ `-32004`（会话不存在）→ `-32031`（端口未注册）→ 交端口执行。
+- **理由**：若先报 `-32031`，Host 会把「会话不存在」误读成「该功能永久不可用」，那是错误的信号。这条是实现阶段被 B5 抓出来的（见 acceptance 首轮失败 2）。
+- **对应测试**：B10（用活会话断言 `-32031` + 既有 fault 词表；旧引擎侧反向断言「绝不得回 -32031」）。

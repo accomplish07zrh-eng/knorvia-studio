@@ -124,6 +124,35 @@ export interface LegacyHostChannel {
 3. 本包**不 import** `kernel-bridge-02/03` 的任何模块；注册由组合根完成。
 4. 端口未注册时，回合类方法按 behavior B10 返回 capability 缺席；这是**临时态**，登记在 [known-differences.md](known-differences.md)。
 
+### 端口接收的是「旧协议方法语义」，不是 v4 命令名（2026-10-20 补充，C2 准入判定依据）
+
+执行端口收的 `LegacyExecutionRequest.method` 是**旧协议方法字面量**，语义也是旧协议语义。
+`kernel-bridge-02/03` 的职责是「v4 命令 → 旧协议语义」的映射，**不得**把 v4 命令名透传到端口。
+
+端口方法清单（11 个，字面量与 `@knorvia/shared` 的 `knorviaProtocolMethods` 一致）：
+
+```text
+session/resume
+session/subscribe
+session/send
+session/stop
+session/cancelBackgroundTask
+session/compact
+session/fork
+session/goal
+session/setModel
+session/setThoughtLevel
+session/setMode
+session/close
+```
+
+**不接受自造名**。特别地：v4 的 `stop` 对应端口的 `session/stop`；v4 的 steer 是 `sendText` 的
+`guide` 投递模式，对应端口的 `session/send`——**不存在** `cancelTurn`、`steer`、`sendText` 这类端口方法名。
+端口实现方若收到清单外的名字，应按内部失败处理（桥会折叠为既有 `-32603`），不得静默改写。
+
+**调用顺序也是冻结面**：参数校验（`-32602`）→ 会话存在性（`-32004`）→ 端口注册检查（`-32031`）→ 交端口执行。
+理由见 [known-differences.md](known-differences.md) D9：顺序颠倒会让 Host 把「会话不存在」误读成「功能永久缺失」。
+
 ## 五、`entry.ts` 的唯一改动点
 
 实现阶段在 `apps/cli/packages/bootstrap/src/kernel-bridge/entry.ts` 的 `route()` **default 分支**加一处委派：
