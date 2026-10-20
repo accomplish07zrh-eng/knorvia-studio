@@ -1,0 +1,125 @@
+{
+  "$comment": "kernel-bridge-03 夹具：34 条 v4 命令的本包归属与预期终态。只用于测试，不含任何真实凭据、用户数据或内部地址。",
+  "$source": "packages/shared/src/protocol-v4/command.ts 的 commandPayloadSchemas（唯一事实源）",
+  "version": 1,
+  "totalCommands": 34,
+  "registeredPackages": {
+    "source": "docs/knorvia-independent-replacement-plan.md L38-L39（新增接入包表）",
+    "packages": [
+      "kernel-plugin-credentials",
+      "kernel-plugin-hooks",
+      "kernel-plugin-memory",
+      "kernel-plugin-policy",
+      "kernel-plugin-rewind",
+      "kernel-plugin-skills",
+      "kernel-plugin-workflow"
+    ],
+    "comment": "计划书已登记的接入包清单。owners 的键必须全部落在这里——防止编造包名（自带免责声明的编造仍然是编造）。"
+  },
+  "groups": {
+    "deliveredBy01": {
+      "description": "kernel-bridge-01 已实现的配置类命令；03 不重复实现，但收口断言包含它们",
+      "commands": ["createSession", "setFollowupMode", "switchCollaborationMode"]
+    },
+    "deliveredBy02": {
+      "description": "kernel-bridge-02 已实现（含 createSession.firstInput，不重复计 createSession）",
+      "commands": ["sendText", "stop", "compact", "resolveInteraction"]
+    },
+    "aProjectionOrConfig": {
+      "description": "A 组：纯投影/配置，走 projection.applyConfigMutation，不触发模型轮",
+      "commands": ["renameSession", "setAssistantFeedback", "switchModelConfig", "deleteSession"],
+      "expectedReasonCode": null
+    },
+    "bQueue": {
+      "description": "B 组：队列操作，经 CommandInbox 身份层 + DSH Inbox 原语",
+      "commands": [
+        "sendQueuedNow",
+        "editQueueItem",
+        "reorderQueueItem",
+        "deleteQueueItem",
+        "setAutoDrain"
+      ],
+      "expectedReasonCode": null
+    },
+    "cTurnStack": {
+      "description": "C 组：需要回合栈，经 KernelTurnExecutor 扩展方法",
+      "commands": [
+        "forkAssistant",
+        "editUserQuery",
+        "retryTurn",
+        "createSelectionSideSession",
+        "sendGoalCommand",
+        "pauseGoal",
+        "resumeGoal"
+      ],
+      "expectedReasonCode": null
+    },
+    "dOtherExecutable": {
+      "description": "D 组里可执行的一条",
+      "commands": ["cancelBackgroundWork"],
+      "expectedReasonCode": null
+    },
+    "dCapabilityGap": {
+      "description": "能力缺口：命令面已实现，当前引擎没有后端；必须回专门 reasonCode，且不得伪造 accepted",
+      "commands": [
+        "resumeWorkflowRun",
+        "startSavedWorkflow",
+        "amendWorkflowRunSettings",
+        "respondWorkspaceHookReview",
+        "toggleWorkspaceHookReviewItem",
+        "revokeWorkspaceHookTrust",
+        "requestWorkspaceHookReview",
+        "snoozeInteractionAutoResolution",
+        "applyFileRewind",
+        "discardSharedContext"
+      ],
+      "expectedReasonCode": "fault.command.capabilityAbsent",
+      "owners": {
+        "kernel-plugin-workflow": [
+          "resumeWorkflowRun",
+          "startSavedWorkflow",
+          "amendWorkflowRunSettings",
+          "discardSharedContext"
+        ],
+        "kernel-plugin-hooks": [
+          "respondWorkspaceHookReview",
+          "toggleWorkspaceHookReviewItem",
+          "revokeWorkspaceHookTrust",
+          "requestWorkspaceHookReview",
+          "snoozeInteractionAutoResolution"
+        ],
+        "kernel-plugin-rewind": ["applyFileRewind"]
+      },
+      "$comment": "reasonCode 已由 Lead 核准并冻结（interface.md §3.1）。owners 是「归属包 → 缺口命令」的唯一事实源。discardSharedContext 归 kernel-plugin-workflow（与工作流同属跨会话数据传递），由 Lead 2026-10-20 裁决并入，计划书未单独登记该包。kernel-switch 硬前置要求这三个包在切换前全部合并。"
+    }
+  },
+  "legacyPortMethods": {
+    "description": "kernel-bridge-legacy 的 PORT_BACKED_METHODS（12 个）；03 完成后 HANDLED_METHODS 必须与它一一对应",
+    "source": "kernel-bridge/legacy/method-table.ts",
+    "total": 12,
+    "deliveredBy02": [
+      "session/send",
+      "session/stop",
+      "session/cancelBackgroundTask",
+      "session/compact"
+    ],
+    "toDeliverBy03": [
+      "session/resume",
+      "session/subscribe",
+      "session/fork",
+      "session/goal",
+      "session/setModel",
+      "session/setThoughtLevel",
+      "session/setMode",
+      "session/close"
+    ],
+    "$comment": "session/close 曾被人工清单两次漏掉；规模断言应直接对比集合，不靠清单"
+  },
+  "invariants": {
+    "noUnsupported": "34 条命令的 reasonCode 全部 ≠ unsupported（B25）",
+    "portTableSize": "HANDLED_METHODS.size === 12（B24）",
+    "queuePositionAuthority": "队列操作后 order.queuePosition 与 Inbox 真实顺序一致（B6–B11）",
+    "noFakeSuccess": "10 条缺口命令不得回 accepted（B20–B23）",
+    "entryUntouched": "entry.ts 零改动（B28）"
+  }
+}
