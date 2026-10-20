@@ -54,7 +54,7 @@ export function buildExecutionEnv(
   const source = options.processEnv ?? process.env;
   let env: NodeJS.ProcessEnv = overlay?.base === "empty" ? {} : { ...source };
   sanitizeKnorviaRuntimeEnvInPlace(env);
-  applyExecutionTextEnv(env as Record<string, string>, platform);
+  applyExecutionTextEnv({ env: env as Record<string, string>, platform });
   env = applyNetworkEgressEnv(env as Record<string, string>, {
     network: options.network,
     /* 平台（win32 走 cmd） */ platform,
