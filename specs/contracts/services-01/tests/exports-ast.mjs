@@ -15,11 +15,22 @@ function signatureText(node, source) {
   if (ts.isClassDeclaration(node)) {
     const first = node.members[0];
     if (first !== undefined) {
-      return `${head.slice(0, first.getStart(source) - node.getStart(source)).trimEnd()}{ … }`;
+      const prefix = head
+        .slice(0, first.getStart(source) - node.getStart(source))
+        .trimEnd()
+        .replace(/\{$/u, "")
+        .trimEnd();
+      return `${prefix} { … }`;
     }
     return head.replace(/\{[\s\S]*\}$/u, "{ … }");
   }
   return head;
+}
+
+/** 单行签名统一以分号收尾，使生成结果稳定且可直接粘贴为 TS 声明。 */
+function withSemicolon(text) {
+  const trimmed = text.trimEnd();
+  return trimmed.endsWith(";") ? trimmed : `${trimmed};`;
 }
 
 function initializerText(decl, source) {
@@ -41,7 +52,7 @@ export function extractExports(repoRoot, modulePath) {
           kind: "star-reexport",
           name: "*",
           runtime: !statement.isTypeOnly,
-          signature: `export ${statement.isTypeOnly ? "type " : ""}* from ${from}`,
+          signature: withSemicolon(`export ${statement.isTypeOnly ? "type " : ""}* from ${from}`),
         });
         continue;
       }
@@ -50,7 +61,7 @@ export function extractExports(repoRoot, modulePath) {
           kind: "namespace-reexport",
           name: statement.exportClause.name.text,
           runtime: true,
-          signature: statement.getText(source).split("\n")[0],
+          signature: withSemicolon(statement.getText(source).split("\n")[0]),
         });
         continue;
       }
@@ -59,11 +70,12 @@ export function extractExports(repoRoot, modulePath) {
           spec.propertyName !== undefined && spec.propertyName.text !== spec.name.text
             ? `${spec.propertyName.text} as ${spec.name.text}`
             : spec.name.text;
+        const fromClause = from === "" ? "" : ` from ${from}`;
         rows.push({
           kind: statement.isTypeOnly || spec.isTypeOnly ? "type-reexport" : "reexport",
           name: spec.name.text,
           runtime: !(statement.isTypeOnly || spec.isTypeOnly),
-          signature: `export ${statement.isTypeOnly || spec.isTypeOnly ? "type " : ""}{ ${alias} } from ${from}`,
+          signature: `export ${statement.isTypeOnly || spec.isTypeOnly ? "type " : ""}{ ${alias} }${fromClause};`,
         });
       }
       continue;
@@ -75,7 +87,7 @@ export function extractExports(repoRoot, modulePath) {
         kind: "function",
         name: statement.name.text,
         runtime: true,
-        signature: signatureText(statement, source),
+        signature: withSemicolon(signatureText(statement, source)),
       });
     } else if (ts.isClassDeclaration(statement) && statement.name !== undefined) {
       rows.push({
@@ -121,7 +133,7 @@ export function extractExports(repoRoot, modulePath) {
           kind: "const",
           name: decl.name.text,
           runtime: true,
-          signature: `${head} = ${initializerText(decl, source)}`,
+          signature: withSemicolon(`${head} = ${initializerText(decl, source)}`),
         });
       }
     }
@@ -137,7 +149,9 @@ export function declaredNames(blockText) {
   )) {
     names.add(match[1]);
   }
-  for (const match of blockText.matchAll(/^export\s+(?:type\s+)?\{([^}]*)\}\s+from/gmu)) {
+  for (const match of blockText.matchAll(
+    /^export\s+(?:type\s+)?\{([^}]*)\}(?:\s+from\b[^\n]*)?;?\s*$/gmu,
+  )) {
     if (match[1] === "*") continue;
     for (const spec of match[1].split(",")) {
       const name = spec

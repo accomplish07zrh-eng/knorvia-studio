@@ -4,13 +4,13 @@
     "scopeTs": 58,
     "documents": 2,
     "deep": {
-      "scannedFiles": 6589,
+      "scannedFiles": 6804,
       "sites": 107,
       "consumerFiles": 43,
       "internalEdges": 89
     },
     "barrel": {
-      "scannedFiles": 6589,
+      "scannedFiles": 6804,
       "sites": 46,
       "consumerFiles": 21,
       "symbolsMapped": 298

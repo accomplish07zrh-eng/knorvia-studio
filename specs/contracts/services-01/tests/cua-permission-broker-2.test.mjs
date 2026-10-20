@@ -792,9 +792,8 @@ describe("S53 WindowsCuaHelperHost stop/restart 边界", () => {
     assert.equal(harness.host.running, false);
 
     const forkCount = harness.forks.length;
-    await assert.rejects(
-      harness.host.start(),
-      (error) => (error.message === harness.entries.at(-1).args[2].error && false) || true,
+    await assert.rejects(harness.host.start(), (error) =>
+      error.message.includes("termination blocker"),
     );
     assert.equal(harness.forks.length, forkCount);
   });

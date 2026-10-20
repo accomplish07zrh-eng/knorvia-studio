@@ -8,7 +8,7 @@
 
 当前 60 个继承文件按目录平铺，服务注册散在三处组合根（`packages/services/src/node.ts`、
 `packages/desktop/src/host/remoteWorkspaceServiceCollection.ts`、`packages/server/src/http.ts`），
-两处同名重复声明（见 `callers.md` §五）。目标是把同一批能力收进 7 个功能模块，
+两处同名重复声明（见 `callers.md` §五）。目标是把同一批能力收进 8 个功能模块，
 每个模块唯一持有自己的状态与服务描述符，模块之间只通过对方的公开入口或 `@knorvia/shared` 协议类型交互。
 
 | 功能模块 id           | 继承来源（本包范围文件）                                                                                                                                                                                                                                                                                                                  | 唯一状态所有者                                    |
@@ -82,6 +82,6 @@ export const agentKernelModule = {
 | ---------------------------------------- | ---------------------------------------------------------------------------------- |
 | 三处组合根来自同一清单                   | 断言清单来源唯一（`node.ts`/desktop/server 注册集合可逐 id 对齐）                  |
 | 去掉一个功能模块其余仍通过               | 每个模块的 `requires` 显式；`pnpm architecture:check` 拦住悬空导入                 |
-| 架构检查拦住跨模块深层导入与循环         | 7 个模块登记进 `architecture-policy.yaml`，`forbidDeepImports`/`forbidCycles` 生效 |
+| 架构检查拦住跨模块深层导入与循环         | 8 个模块登记进 `architecture-policy.yaml`，`forbidDeepImports`/`forbidCycles` 生效 |
 | 行为不变（界面、数据、协议）             | `behavior.md` B 条目 + `tests/` 黑盒两入口全过 + `fixtures/` 金样往返              |
 | `pnpm test:studio`、typecheck、lint 全过 | 接入阶段实测，记进 `acceptance.md`                                                 |

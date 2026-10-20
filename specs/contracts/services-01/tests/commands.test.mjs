@@ -3,7 +3,9 @@
 // commandPluginConfiguration 与 configuredPluginPath 的展开规则，
 // commandFileParser 的 frontmatter 接受/拒绝样例与写回生成（保留未知元数据）。
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import { describe, it } from "node:test";
 
 import { importDeep } from "./entry.mjs";
@@ -390,5 +392,53 @@ describe("S26 generateCommandFileContent 写回生成", () => {
     assert.equal(round.description, "fresh");
     assert.equal(round.argumentHint, "h2");
     assert.equal(round.prompt, "new prompt");
+  });
+});
+
+describe("S21 命令配置往返（旧写 → 新读 → 新写 → 旧读）", () => {
+  it("旧实现写的 config.json 金样读成同一覆盖表；新写回后旧读口径不变", async (t) => {
+    const root = await makeTempRoot(t);
+    const fixture = JSON.parse(
+      await readFile(
+        fileURLToPath(new URL("../fixtures/command-config.json", import.meta.url)),
+        "utf8",
+      ),
+    );
+    const file = join(knorviaDataRoot(root), "cli", "config.json");
+    // 旧写：把历史配置原样落盘。
+    await writeText(file, `${JSON.stringify(fixture, null, 2)}\n`);
+
+    // 新读
+    const overrides = await commandConfig.readEnabledOverrides();
+    assert.deepEqual(
+      [...overrides.entries()].sort(),
+      [
+        ["/ws/.knorvia/commands/disabled.md", false],
+        ["/ws/.knorvia/commands/enabled.md", true],
+      ],
+      "只有 boolean enable 进覆盖表；note-only 条目被跳过",
+    );
+
+    // 新写：禁用另一条命令并写回。
+    const next = commandConfig.withCommandEnabled(
+      await commandConfig.readCommandConfiguration(),
+      "/ws/.knorvia/commands/flagless.md",
+      false,
+    );
+    await commandConfig.writeCommandConfiguration(next);
+
+    // 旧读：顶层未知键与条目内未知键都还在，enable 语义一致。
+    const onDisk = JSON.parse(await readText(file));
+    assert.equal(onDisk.theme, "dark");
+    assert.deepEqual(onDisk.command["/ws/.knorvia/commands/disabled.md"], {
+      enable: false,
+      note: "keep-me",
+    });
+    assert.deepEqual(onDisk.command["/ws/.knorvia/commands/flagless.md"], { enable: false });
+    assert.deepEqual([...(await commandConfig.readEnabledOverrides()).entries()].sort(), [
+      ["/ws/.knorvia/commands/disabled.md", false],
+      ["/ws/.knorvia/commands/enabled.md", true],
+      ["/ws/.knorvia/commands/flagless.md", false],
+    ]);
   });
 });

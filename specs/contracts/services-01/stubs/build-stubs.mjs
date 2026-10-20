@@ -36,7 +36,7 @@ for (const file of tsFiles) {
 
   for (const exp of exports) {
     if (exp.kind === "star-reexport") {
-      lines.push(`${exp.signature};`);
+      lines.push(exp.signature);
     } else if (exp.kind === "function") {
       lines.push(
         `export function ${exp.name}(..._args: unknown[]): unknown { throw new Error("not implemented: services-01"); }`,

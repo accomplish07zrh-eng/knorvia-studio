@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: Apache-2.0
 // B4 凭据存储：密文格式、损坏留证、读改写与变更通知。
 import assert from "node:assert/strict";
-import { readdir } from "node:fs/promises";
+import { readFile, readdir } from "node:fs/promises";
 import { join } from "node:path";
+import { fileURLToPath } from "node:url";
 import { describe, it } from "node:test";
 
 import { importDeep, servicesNode } from "./entry.mjs";
@@ -21,6 +22,7 @@ const { createCredentialCipherProvider } = await importDeep(
 );
 
 const credentialsPath = (root) => join(knorviaDataRoot(root), "v2", "credentials.json");
+const fixturePath = (name) => fileURLToPath(new URL(`../fixtures/${name}`, import.meta.url));
 
 describe("B4 凭据密文格式", () => {
   it("enc:v1 前缀、随机 IV 与可逆解密；非前缀值原样透传", () => {
@@ -118,5 +120,61 @@ describe("B4 凭据服务", () => {
     const names = await readdir(join(knorviaDataRoot(root), "v2"));
     assert.ok(names.some((name) => /^credentials\.json\.corrupt-[0-9a-f]{24}\.bak$/u.test(name)));
     assert.equal(await pathExists(file), true);
+  });
+});
+
+describe("B4 凭据存储往返（旧写 → 新读 → 新写 → 旧读）", () => {
+  it("旧实现写的 enc:v1 金样能被当前 provider 读回原文；当前写出的密文保持同一线格式", async () => {
+    const fixture = JSON.parse(await readFile(fixturePath("credential-enc-v1.json"), "utf8"));
+    const cipher = createCredentialCipherProvider({
+      env: { KNORVIA_CREDENTIAL_SECRET: fixture.secret },
+    });
+    // 旧写 → 新读：固定 secret 与固定 IV 的历史密文必须逐字可解。
+    for (const sample of fixture.samples) {
+      assert.equal(cipher.decrypt(sample.ciphertext), sample.plaintext);
+    }
+    // 新写 → 旧读：新密文仍是 enc:v1:<iv>.<tag>.<body> 三段 base64url，旧 provider 同 secret 可解。
+    for (const sample of fixture.samples) {
+      const written = cipher.encrypt(sample.plaintext);
+      const parts = written.slice(encPrefix.length).split(".");
+      assert.equal(parts.length, 3);
+      assert.equal(Buffer.from(parts[0], "base64url").length, 12);
+      assert.equal(Buffer.from(parts[1], "base64url").length, 16);
+      assert.equal(cipher.decrypt(written), sample.plaintext);
+    }
+  });
+
+  it("金样落盘为 credentials.json 后 load 可读；save 新值不破坏旧条目", async (t) => {
+    const root = await makeTempRoot(t);
+    const fixture = JSON.parse(await readFile(fixturePath("credential-enc-v1.json"), "utf8"));
+    const file = credentialsPath(root);
+    // 旧写：把历史密文直接落盘成旧格式文件。
+    const legacy = Object.fromEntries(
+      fixture.samples.map((sample, index) => [`legacy-${index}`, sample.ciphertext]),
+    );
+    await writeText(file, `${JSON.stringify(legacy, null, 2)}\n`);
+
+    const service = createCredentialService({
+      cipherProvider: createCredentialCipherProvider({
+        env: { KNORVIA_CREDENTIAL_SECRET: fixture.secret },
+      }),
+    });
+    // 新读
+    for (const [index, sample] of fixture.samples.entries()) {
+      assert.equal(await service.load(`legacy-${index}`), sample.plaintext);
+    }
+    // 新写
+    await service.save("fresh", "brand-new");
+    // 旧读：新写入的条目仍能被同一 secret 的 provider 解开，旧条目原样保留。
+    const onDisk = JSON.parse(await readText(file));
+    for (const [index, sample] of fixture.samples.entries()) {
+      assert.equal(onDisk[`legacy-${index}`], sample.ciphertext, "旧条目逐字不变");
+    }
+    assert.equal(
+      createCredentialCipherProvider({
+        env: { KNORVIA_CREDENTIAL_SECRET: fixture.secret },
+      }).decrypt(onDisk.fresh),
+      "brand-new",
+    );
   });
 });

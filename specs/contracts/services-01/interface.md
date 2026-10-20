@@ -23,7 +23,7 @@
 
 ### `packages/services/src/agent/agent.ts`
 
-导出 66 项（运行时 2 / 纯类型 64），分类 `unreviewed`。签名逐字取自源码。
+导出 66 项（运行时 4 / 纯类型 62），分类 `unreviewed`。签名逐字取自源码。
 
 ```ts
 export * from "./agentPluginParams.js";
@@ -758,9 +758,9 @@ export function createKnorviaAgentConnectionScope(
 导出 3 项（运行时 3 / 纯类型 0），分类 `unreviewed`。签名逐字取自源码。
 
 ```ts
-export const KNORVIA_AGENT_MCP_STATUS_MODE_UNSUPPORTED_ERROR_CODE = "KNORVIA_AGENT_MCP_STATUS_MODE_UNSUPPORTED"
-export class KnorviaAgentMcpStatusModeUnsupportedError extends Error {{ … }
-export function isKnorviaAgentMcpStatusModeUnsupportedError(error: unknown): boolean
+export const KNORVIA_AGENT_MCP_STATUS_MODE_UNSUPPORTED_ERROR_CODE = "KNORVIA_AGENT_MCP_STATUS_MODE_UNSUPPORTED";
+export class KnorviaAgentMcpStatusModeUnsupportedError extends Error { … }
+export function isKnorviaAgentMcpStatusModeUnsupportedError(error: unknown): boolean;
 ```
 
 ### `packages/services/src/agent/agentPluginParams.ts`
@@ -982,8 +982,8 @@ export interface KnorviaAgentRuntimeLifecycleEvent {
 }
 export function resolveDefaultKnorviaAgentCommand(
   context: KnorviaAgentCommandResolverContext,
-): KnorviaAgentCommand | null
-export class KnorviaAgentProcessManager {{ … }
+): KnorviaAgentCommand | null;
+export class KnorviaAgentProcessManager { … }
 ```
 
 ### `packages/services/src/agent/agentService.ts`
@@ -1012,8 +1012,8 @@ export async function resolveKnorviaAgentSpawnCwd(
 导出 2 项（运行时 2 / 纯类型 0），分类 `unreviewed`。签名逐字取自源码。
 
 ```ts
-export const EXIT_STDERR_DRAIN_MS = 250
-export class AgentStderrCollector {{ … }
+export const EXIT_STDERR_DRAIN_MS = 250;
+export class AgentStderrCollector { … }
 ```
 
 ### `packages/services/src/agent/agentWorkflowParams.ts`
@@ -1164,8 +1164,8 @@ export async function requestPluginReferenceCatalog(
 导出 2 项（运行时 2 / 纯类型 0），分类 `unreviewed`。签名逐字取自源码。
 
 ```ts
-export class KnorviaProtocolRequestTimeoutError extends Error {{ … }
-export class KnorviaProtocolClient implements IDisposable {{ … }
+export class KnorviaProtocolRequestTimeoutError extends Error { … }
+export class KnorviaProtocolClient implements IDisposable { … }
 ```
 
 ### `packages/services/src/agent/protocolTransport.ts`
@@ -1230,7 +1230,7 @@ export function setKnorviaStdioTapDevEnabled(enabled: boolean): KnorviaStdioTapD
 导出 1 项（运行时 1 / 纯类型 0），分类 `unreviewed`。签名逐字取自源码。
 
 ```ts
-export class KnorviaStdioTransport {{ … }
+export class KnorviaStdioTransport { … }
 ```
 
 ### `packages/services/src/agent/storageStartupGate.ts`
@@ -1238,7 +1238,7 @@ export class KnorviaStdioTransport {{ … }
 导出 1 项（运行时 1 / 纯类型 0），分类 `unreviewed`。签名逐字取自源码。
 
 ```ts
-export class KnorviaStorageStartupGate {{ … }
+export class KnorviaStorageStartupGate { … }
 ```
 
 ### `packages/services/src/agent/task-index-ingestion/sessionIndexProjection.ts`
@@ -1545,7 +1545,7 @@ export async function discoverPluginCommands(
 
 ```ts
 export type CommandFileFormat = "markdown";
-export class CommandFileParser {{ … }
+export class CommandFileParser { … }
 ```
 
 ### `packages/services/src/commands/commands.ts`
@@ -1651,7 +1651,7 @@ export interface CuaAgentSpawnAdmissionContext {
   workspaceIdentity?: string;
   signal?: AbortSignal;
 }
-export class CuaAgentAdmissionGate {{ … }
+export class CuaAgentAdmissionGate { … }
 ```
 
 ### `packages/services/src/cua-permission-broker/cuaHelperInstaller.ts`
@@ -1675,19 +1675,19 @@ export function createCanonicalCuaHelperInstaller(
 导出 11 项（运行时 3 / 纯类型 8），分类 `upstream-modified`。签名逐字取自源码。
 
 ```ts
-export type { CuaPermissionState } from
-export type { CuaPermissionStatus } from
-export type { CuaPermissionStatusUnavailable } from
-export type { CuaPermissionStatusResult } from
-export type { CuaPermissionStatusQueryOptions } from
-export type { CuaPermissionRestartResult } from
-export type { CuaPermissionRestartOptions } from
-export { isCuaPermissionStatusAvailable } from "@knorvia/cua/broker/ports"
-export { shouldRunCuaScreenCaptureProbe } from "@knorvia/cua/broker/ports"
+export type { CuaPermissionState };
+export type { CuaPermissionStatus };
+export type { CuaPermissionStatusUnavailable };
+export type { CuaPermissionStatusResult };
+export type { CuaPermissionStatusQueryOptions };
+export type { CuaPermissionRestartResult };
+export type { CuaPermissionRestartOptions };
+export { isCuaPermissionStatusAvailable } from "@knorvia/cua/broker/ports";
+export { shouldRunCuaScreenCaptureProbe } from "@knorvia/cua/broker/ports";
 export interface ICuaPermissionService extends BrokerICuaPermissionService {}
 export const ICuaPermissionService = createServiceDescriptor<BrokerICuaPermissionService>(
   ServiceChannels.CuaPermission,
-)
+);
 ```
 
 ### `packages/services/src/cua-permission-broker/cuaPipSession.ts`
@@ -1736,7 +1736,7 @@ export function createCuaPipSessionOwner(
 
 ### `packages/services/src/cua-permission-broker/index.ts`
 
-导出 56 项（运行时 33 / 纯类型 23），分类 `upstream-modified`。签名逐字取自源码。
+导出 56 项（运行时 34 / 纯类型 22），分类 `upstream-modified`。签名逐字取自源码。
 
 ```ts
 export * from "@knorvia/cua/broker/server";
@@ -1802,15 +1802,15 @@ export type { CuaRestrictedRuntimeDecisionInput } from "./cuaRestrictedGateWirin
 导出 5 项（运行时 1 / 纯类型 4），分类 `upstream-modified`。签名逐字取自源码。
 
 ```ts
-export type { WindowsCuaChild } from "#src/cua-permission-broker/windowsCuaHelperHostSupport.js"
-export type { WindowsCuaChildProcessAdapter } from "#src/cua-permission-broker/windowsCuaHelperHostSupport.js"
-export type { WindowsCuaHelperHostOptions } from "#src/cua-permission-broker/windowsCuaHelperHostSupport.js"
+export type { WindowsCuaChild } from "#src/cua-permission-broker/windowsCuaHelperHostSupport.js";
+export type { WindowsCuaChildProcessAdapter } from "#src/cua-permission-broker/windowsCuaHelperHostSupport.js";
+export type { WindowsCuaHelperHostOptions } from "#src/cua-permission-broker/windowsCuaHelperHostSupport.js";
 export type ManagedCuaProductHelperHost = CuaProductHelperHost & {
   stop(): Promise<void>;
   checkHealth(timeoutMs?: number): Promise<unknown>;
   waitForTransport?(timeoutMs?: number): Promise<CuaHelperTransportHandle>;
 };
-export class WindowsCuaHelperHost implements ManagedCuaProductHelperHost {{ … }
+export class WindowsCuaHelperHost implements ManagedCuaProductHelperHost { … }
 ```
 
 ### `packages/services/src/cua-permission-broker/windowsCuaDevRuntime.ts`
@@ -1825,10 +1825,10 @@ export interface WindowsCuaRuntime {
   command: string;
   commandEnv: Record<string, string>;
 }
-export class WindowsCuaDevRuntimeResolutionError extends Error {{ … }
+export class WindowsCuaDevRuntimeResolutionError extends Error { … }
 export async function resolveWindowsCuaRuntime(
   options: WindowsCuaRuntimeResolveOptions = {},
-): Promise<WindowsCuaRuntime>
+): Promise<WindowsCuaRuntime>;
 ```
 
 ### `packages/services/src/cua-permission-broker/windowsCuaHelperHostSupport.ts`
@@ -1836,7 +1836,7 @@ export async function resolveWindowsCuaRuntime(
 导出 12 项（运行时 8 / 纯类型 4），分类 `upstream-modified`。签名逐字取自源码。
 
 ```ts
-export const ADDON_ENV = HELPER_ADDON_ENV
+export const ADDON_ENV = HELPER_ADDON_ENV;
 export interface WindowsCuaChild {
   readonly pid?: number;
   send(message: unknown): boolean;
@@ -1870,19 +1870,19 @@ export interface Generation {
   terminationPromise?: Promise<void>;
   removeMainListeners(): void;
 }
-export const defaultChildProcess: WindowsCuaChildProcessAdapter = …
-export const defaultSocketPathFactory = mintBrokerSocketPath
+export const defaultChildProcess: WindowsCuaChildProcessAdapter = …;
+export const defaultSocketPathFactory = mintBrokerSocketPath;
 export const defaultHealthProbe = (socketPath: string, timeoutMs: number): Promise<HelperHealth> =>
-  probeHelperHealth(socketPath, { timeoutMs })
-export class WindowsCuaChildLifecycle {{ … }
+  probeHelperHealth(socketPath, { timeoutMs });
+export class WindowsCuaChildLifecycle { … }
 export function parseReadyMessage(
   message: unknown,
-): WindowsDevHelperControlMessage | "ignore" | null
+): WindowsDevHelperControlMessage | "ignore" | null;
 export function isExactHealthPid(
   health: HelperHealth,
   childPid: number | undefined,
-): health is HelperHealth & { pid: number }
-export function asError(error: unknown): Error
+): health is HelperHealth & { pid: number };
+export function asError(error: unknown): Error;
 ```
 
 ## file（工作区文件服务与搜索索引）（7 个文件）
@@ -2064,7 +2064,7 @@ export interface WorkspaceFileSearchFilter {
     context?: WorkspaceFileSearchFilterContext,
   ): WorkspaceFileSearchDecision;
 }
-export const defaultWorkspaceFileSearchFilter: WorkspaceFileSearchFilter = …
+export const defaultWorkspaceFileSearchFilter: WorkspaceFileSearchFilter = …;
 ```
 
 ### `packages/services/src/file/workspaceFileSearch.ts`

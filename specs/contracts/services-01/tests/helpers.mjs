@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 // services-01 测试公用件：临时数据目录 + 文件读写。数据根通过公开的 setDataBaseDir 切换，
 // 不依赖 HOME 环境变量（仅命令目录/插件目录的测试按需改 HOME）。
-import { mkdtemp, readFile, rm, stat, writeFile, mkdir } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, rm, stat, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 
@@ -25,7 +25,7 @@ export function knorviaDataRoot(root) {
 
 export async function writeText(path, content) {
   await mkdir(dirname(path), { recursive: true });
-  await writeFile(path, content, "utf8");
+  await writeFile(path, content, { encoding: "utf8" });
 }
 
 export async function readText(path) {
@@ -33,12 +33,8 @@ export async function readText(path) {
 }
 
 export async function pathExists(path) {
-  try {
-    await stat(path);
-    return true;
-  } catch {
-    return false;
-  }
+  const info = await stat(path).catch(() => undefined);
+  return info !== undefined;
 }
 
 /** 在测试期间临时改写一个环境变量，结束后恢复。 */

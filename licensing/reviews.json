@@ -146765,7 +146765,7 @@
     },
     {
       "path": "specs/contracts/services-01/README.md",
-      "normalizedSha256": "9cc280393b687fee720bf2098e1571cf450dea5371ea859dc29f266662a8ca31",
+      "normalizedSha256": "e94dccdc5ac1d05f71047f99bc6275ba80463de57f5a2321299fe1038f904350",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored services-01 contract artifact for @knorvia/services (M3: agent/broadcast/commands/conversation-telemetry/credential/cua-permission-broker/file, 60 inherited files in packages/services/src).",
@@ -146773,7 +146773,7 @@
     },
     {
       "path": "specs/contracts/services-01/acceptance.md",
-      "normalizedSha256": "2708e8eb6f3c0a3bf0a8049d225d21cd8cfc7b35c8af445dbbb9c9ac0a04ff16",
+      "normalizedSha256": "9e67f6b133899c01e5cfcaead9cc29114c601e853c312bc46f38267707b06d41",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored services-01 contract artifact for @knorvia/services (M3: agent/broadcast/commands/conversation-telemetry/credential/cua-permission-broker/file, 60 inherited files in packages/services/src).",
@@ -146781,7 +146781,7 @@
     },
     {
       "path": "specs/contracts/services-01/behavior.md",
-      "normalizedSha256": "74b43186678045b4dadfd6fa4c3c587f4c5b612b1bf321e179c11cf49f61422b",
+      "normalizedSha256": "7a89fe40a0ecdd5b474c054ffb8236703cbd92e616e026683ee659b01958610d",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored services-01 contract artifact for @knorvia/services (M3: agent/broadcast/commands/conversation-telemetry/credential/cua-permission-broker/file, 60 inherited files in packages/services/src).",
@@ -146789,7 +146789,7 @@
     },
     {
       "path": "specs/contracts/services-01/callers-raw.json",
-      "normalizedSha256": "78f3679126cbecfb453d0d22fe6949cfeb74a93eb91cb1f053a9ead6e799c6f4",
+      "normalizedSha256": "888608c4bed1b0e4e06cd5cc54a692b7a03af01d5dd93f0f11f79eeaed424164",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored services-01 contract artifact for @knorvia/services (M3: agent/broadcast/commands/conversation-telemetry/credential/cua-permission-broker/file, 60 inherited files in packages/services/src).",
@@ -146797,7 +146797,7 @@
     },
     {
       "path": "specs/contracts/services-01/callers.md",
-      "normalizedSha256": "c101c33192a20217be3c51290a7ed1052f51ba3909254a9a86bd8c5b7aa9e065",
+      "normalizedSha256": "3ec0369948a9fdaa6195ce5bdbcdc14c183a58d96e65989acb67379e0673b374",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored services-01 contract artifact for @knorvia/services (M3: agent/broadcast/commands/conversation-telemetry/credential/cua-permission-broker/file, 60 inherited files in packages/services/src).",
@@ -146805,7 +146805,7 @@
     },
     {
       "path": "specs/contracts/services-01/design.md",
-      "normalizedSha256": "eb297f0921e9459f3d6e69590b6df5a56e2dad9d907bce7e3f96bb83b547f2db",
+      "normalizedSha256": "63acaa9163e997ee0a3eb5689c1dad3f1bbe0286229d0420a8bf8809a05a7090",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored services-01 contract artifact for @knorvia/services (M3: agent/broadcast/commands/conversation-telemetry/credential/cua-permission-broker/file, 60 inherited files in packages/services/src).",
@@ -146813,7 +146813,7 @@
     },
     {
       "path": "specs/contracts/services-01/gate-old.json",
-      "normalizedSha256": "8ae360c3000c37146e1cca98ef3f021690c2c871fe90e222a740d4e4d5e620dc",
+      "normalizedSha256": "43a1cbf3d07e723aa94267d1127dbccc0fdd93851b4c1019304e6beaf2edcd64",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored services-01 contract artifact for @knorvia/services (M3: agent/broadcast/commands/conversation-telemetry/credential/cua-permission-broker/file, 60 inherited files in packages/services/src).",
@@ -146821,7 +146821,7 @@
     },
     {
       "path": "specs/contracts/services-01/interface.md",
-      "normalizedSha256": "6de72d26b6cb2b37d4fa7f6d5095e67436ea16ec9931c5387cc30f288d31afa8",
+      "normalizedSha256": "55c625746477e66551969805b98d695606207dc74a93aae61f64f97c9c395274",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored services-01 contract artifact for @knorvia/services (M3: agent/broadcast/commands/conversation-telemetry/credential/cua-permission-broker/file, 60 inherited files in packages/services/src).",
@@ -146829,7 +146829,7 @@
     },
     {
       "path": "specs/contracts/services-01/known-differences.md",
-      "normalizedSha256": "620b5e471c345aab59a9246cd7887dd339cb4fb084ac9180fda4472f586fc396",
+      "normalizedSha256": "09dede137ec84e39ae418136c41ce9d1b191dc1d1588ab9840938833e3ca1ea8",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored services-01 contract artifact for @knorvia/services (M3: agent/broadcast/commands/conversation-telemetry/credential/cua-permission-broker/file, 60 inherited files in packages/services/src).",
@@ -146845,7 +146845,7 @@
     },
     {
       "path": "specs/contracts/services-01/stubs/build-stubs.mjs",
-      "normalizedSha256": "6344052ae554776076bd6d17db296ce79e02521a87b0504c3759e40fb17a7f01",
+      "normalizedSha256": "c924272a0be72f86b8edb071883826f808d879bb2b81181c0a4d18066478c88c",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored services-01 contract stub for @knorvia/services. Minimal import-and-throw stubs generated to verify contract-gate allFail.",
@@ -147357,7 +147357,7 @@
     },
     {
       "path": "specs/contracts/services-01/tests/commands.test.mjs",
-      "normalizedSha256": "590d630ab9b967538a5810c1bd952173b8de3e1e391291df29878c00bf55ea86",
+      "normalizedSha256": "44b25fedeb95f7077ce9adf779d154ba83c68597b8b6dc2e04d5acb99a579e75",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
@@ -147389,7 +147389,7 @@
     },
     {
       "path": "specs/contracts/services-01/tests/credential.test.mjs",
-      "normalizedSha256": "764e462c772ce67770d55af27e0038c6a27d12cdaa99d8e557e0408820539b92",
+      "normalizedSha256": "6ca14d578398d48901e623766725a20f32e682465bfec6dc96e001d72c2d5f1e",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
@@ -147397,7 +147397,7 @@
     },
     {
       "path": "specs/contracts/services-01/tests/cua-permission-broker-2.test.mjs",
-      "normalizedSha256": "5e8caf246d159c56a6dbbff6230577736ebbcc64115c334329cf2f00ff716b0e",
+      "normalizedSha256": "4520ba5c0ecae5d0efd824daae91c16e58d9f83586b4a9f27eba158083ef0739",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
@@ -147437,7 +147437,7 @@
     },
     {
       "path": "specs/contracts/services-01/tests/exports-ast.mjs",
-      "normalizedSha256": "5bab94cb4f43f666e20fedad8143e6f3a74c579871fcecc89f3af5ebee2f9625",
+      "normalizedSha256": "65fb28c731c3e90f2346daf2cf924f0cc13807fb0fd5f4a567512e21558f7a97",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
@@ -147445,7 +147445,7 @@
     },
     {
       "path": "specs/contracts/services-01/tests/file-service.test.mjs",
-      "normalizedSha256": "5baa846ec141677a5b7ca9411c0ed87a0e4b67de144d918240a97be157aafaf7",
+      "normalizedSha256": "a02767125730e87e2b447a6bdd5259a105d8a3f2a58b217867068775bf19d57e",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
@@ -147453,7 +147453,7 @@
     },
     {
       "path": "specs/contracts/services-01/tests/gen-interface.mjs",
-      "normalizedSha256": "7b94fbb972f891aea6510b1f1148852d019434d0f41d4ea4533850031c5345cf",
+      "normalizedSha256": "880d82de8366c80563b4a53c362604088c116301dc46f5908b80c0cfc6980c6a",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
@@ -147461,7 +147461,7 @@
     },
     {
       "path": "specs/contracts/services-01/tests/helpers.mjs",
-      "normalizedSha256": "b86b853c088a38db070c5f8f5c689d5209d52d5f082bd781d1595e90054dadc9",
+      "normalizedSha256": "3cd39c69dce5d0b01653dfbd75ed21bc6cd16e613f349e60fce01213e72618c1",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
@@ -147498,6 +147498,84 @@
       "license": "Apache-2.0",
       "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
       "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/tests/agent-connection-scope.test.mjs",
+      "normalizedSha256": "04330090d8ca699be3b52618b5cc2e8341eb5a908ea8715c974429790a7e3415",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/tests/agent-service-composition.test.mjs",
+      "normalizedSha256": "8e30063bf0b6aa24650cc0ae0f69d810d3783046aaa831c2b7e4fcc3374f526c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/tests/model-trajectory.test.mjs",
+      "normalizedSha256": "7177b6c4b9eddf05985c4886e972389f7602f9ce1804d5f7c262b234dcf2b793",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/tests/repair-subagent-task-index.test.mjs",
+      "normalizedSha256": "7cfecddef06397ce6765c577cc5fe8c0b51e9ca860720fc4b89c9f9d0290399b",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/tests/session-event-coalescer.test.mjs",
+      "normalizedSha256": "98d98db755f29a9f404fdea008ccc4d5b2e1826bad70962e12518a6ee42fe990",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/tests/task-index-syncer.test.mjs",
+      "normalizedSha256": "0f519c110947746a45f1596283d6adaa9ff08ab81f84f9fcf08f2baf243de00f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/tests/v4-host-command.test.mjs",
+      "normalizedSha256": "21f12b0c3425f0e834caba842473413f33a361fc3ef5326c6c14aaa9f50f1006",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
+      "evidence": ["specs/contracts/services-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/services-01/fixtures/command-config.json",
+      "normalizedSha256": "709636333cb038f6722ed71fe46b7e790fd627c21ab0251f95705026b40598b6",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract fixture for @knorvia/services. Synthetic historical cli/config.json golden sample with test-only command paths used by black-box round-trip tests; contains no real credentials or user data.",
+      "evidence": [
+        "specs/contracts/services-01/README.md",
+        "specs/contracts/services-01/fixtures/command-config.json"
+      ]
+    },
+    {
+      "path": "specs/contracts/services-01/fixtures/credential-enc-v1.json",
+      "normalizedSha256": "5aab7f4008d6e5a07290ef442afbf2350f5b2239535f87171d2f41f56cb57f9b",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored services-01 contract fixture for @knorvia/services. Synthetic enc:v1 credential golden samples built from fixed test secret and IVs for black-box round-trip tests; contains no real credentials or user data.",
+      "evidence": [
+        "specs/contracts/services-01/README.md",
+        "specs/contracts/services-01/fixtures/credential-enc-v1.json"
+      ]
     }
   ]
 }

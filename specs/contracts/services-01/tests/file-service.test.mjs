@@ -666,3 +666,245 @@ describe(`S41 二进制预览与 classifyFileEntry（${entryLabel}）`, () => {
     ]);
   });
 });
+
+describe(`S42 工作区文件搜索索引与忽略规则（${entryLabel}）`, () => {
+  it("索引按 identity 分桶、目录先于文件、忽略规则命中即剪枝，且 60s 内命中缓存", async (t) => {
+    const root = await makeWorkspace(t, "search-index");
+    await makeDir(join(root, "src", "nested"));
+    await makeDir(join(root, "node_modules", "pkg"));
+    await makeDir(join(root, ".hidden"));
+    await writeText(join(root, "src", "a.ts"), "export {};\n");
+    await writeText(join(root, "src", "nested", "b.ts"), "export {};\n");
+    await writeText(join(root, "node_modules", "pkg", "c.js"), "module.exports = 1;\n");
+    await writeText(join(root, ".hidden", "d.ts"), "export {};\n");
+    await writeText(join(root, "readme.md"), "# r\n");
+    const service = createFileService();
+
+    const length = await service.listWorkspaceFilesLength({ rootPath: root });
+    assert.ok(length > 0);
+    const packed = await service.listWorkspaceFilesRange({ rootPath: root, offset: 0, length });
+    assert.equal(packed.length, length);
+    assert.equal(
+      await service.listWorkspaceFilesRange({ rootPath: root, offset: length, length: 10 }),
+      "",
+      "offset 越界返回空串而不是抛错",
+    );
+    assert.equal(
+      await service.listWorkspaceFilesRange({ rootPath: root, offset: length - 1, length: 0 }),
+      "",
+    );
+
+    // 索引行是 TSV：目录整体在前，组内 localeCompare；隐藏目录与 node_modules 被忽略。
+    const lines = packed.split("\n").filter(Boolean);
+    const paths = lines.map((line) => line.split("\t")[1]);
+    assert.deepEqual(
+      paths,
+      [...paths].sort((left, right) => {
+        const leftType = lines[paths.indexOf(left)].split("\t")[0];
+        const rightType = lines[paths.indexOf(right)].split("\t")[0];
+        if (leftType !== rightType) return leftType === "directory" ? -1 : 1;
+        return left.localeCompare(right);
+      }),
+    );
+    assert.equal(lines[0].startsWith("directory\t"), true, "目录整体排在文件之前");
+    for (const path of paths) {
+      assert.equal(path.includes("node_modules"), false, "内置默认规则必须剪掉 node_modules");
+    }
+    assert.equal(paths.includes("src"), true);
+    assert.equal(paths.includes("src/nested"), true);
+    assert.equal(paths.includes("src/a.ts"), true);
+    assert.equal(paths.includes("readme.md"), true);
+    // 隐藏目录自身不进索引，但其中的文件仍可见（隐藏只作用于目录条目本身）。
+    assert.equal(paths.includes(".hidden"), false, "隐藏目录条目被过滤");
+    assert.equal(paths.includes(".hidden/d.ts"), true, "隐藏目录内的文件仍可检索");
+    // .knorviaignore 自身永不进入索引。
+    assert.equal(paths.includes(".knorviaignore"), false);
+    assert.equal(
+      await pathExists(join(root, ".knorviaignore")),
+      true,
+      "首次索引会自动创建忽略文件",
+    );
+
+    // 60s TTL 内命中缓存：新建文件不改变已冻结的索引，refresh 才重建。
+    const countEntries = async (params) => {
+      const size = await service.listWorkspaceFilesLength(params);
+      const text = await service.listWorkspaceFilesRange({ ...params, offset: 0, length: size });
+      return text.split("\n").filter(Boolean).length;
+    };
+    const before = await countEntries({ rootPath: root });
+    await writeText(join(root, "late.txt"), "x");
+    assert.equal(
+      await service.listWorkspaceFilesLength({ rootPath: root }),
+      length,
+      "TTL 内 packed 字节数完全不变",
+    );
+    assert.deepEqual(
+      await service.searchWorkspaceFiles({ rootPath: root, query: "late" }),
+      [],
+      "缓存索引里没有晚到文件，未命中补扫要靠调用方显式 refresh",
+    );
+    const refreshed = await service.searchWorkspaceFiles({
+      rootPath: root,
+      query: "late",
+      refresh: true,
+    });
+    assert.deepEqual(
+      refreshed.map((item) => item.relativePath),
+      ["late.txt"],
+      "refresh 绕过未过期索引并就地重建该桶",
+    );
+    assert.equal(
+      await countEntries({ rootPath: root }),
+      before + 1,
+      "refresh 之后桶里已有晚到文件",
+    );
+
+    // identity 是缓存桶键：同一 root 换 identity 得到独立桶，各自扫描。
+    await writeText(join(root, "identity.txt"), "x");
+    assert.deepEqual(
+      await service.searchWorkspaceFiles({
+        rootPath: root,
+        query: "identity",
+        workspaceIdentity: "ws-a",
+      }),
+      [
+        {
+          name: "identity.txt",
+          path: join(root, "identity.txt"),
+          relativePath: "identity.txt",
+          type: "file",
+        },
+      ],
+      "新 identity 桶重新扫描，能看到晚到文件",
+    );
+    assert.deepEqual(
+      await service.searchWorkspaceFiles({ rootPath: root, query: "identity" }),
+      [],
+      "root 桶仍是旧快照，不被 identity 桶顶掉",
+    );
+    // listWorkspaceFilesLength/Range 不接 identity 与 refresh：它们恒读 root 桶。
+    const rootLength = await service.listWorkspaceFilesLength({ rootPath: root });
+    assert.equal(
+      await service.listWorkspaceFilesLength({ rootPath: root, workspaceIdentity: "ws-a" }),
+      rootLength,
+      "只有 searchWorkspaceFiles 透传 identity，分页读接口按 root 取桶",
+    );
+  });
+
+  it("搜索按名字/相对路径/绝对路径三档打分，limit 截断到 1000 上限，非法入参拒绝", async (t) => {
+    const root = await makeWorkspace(t, "search-query");
+    await makeDir(join(root, "alpha"));
+    await writeText(join(root, "alpha", "alpha-report.md"), "x");
+    await writeText(join(root, "beta-alpha.txt"), "x");
+    await writeText(join(root, "gamma.txt"), "x");
+    const service = createFileService();
+
+    const byName = await service.searchWorkspaceFiles({ rootPath: root, query: "alpha" });
+    assert.deepEqual(
+      byName.map((item) => item.relativePath),
+      ["alpha", "alpha/alpha-report.md", "beta-alpha.txt"],
+      "目录与文件同名命中按索引序返回，未命中项被剔除",
+    );
+    for (const item of byName) {
+      assert.deepEqual(Object.keys(item).sort(), ["name", "path", "relativePath", "type"]);
+      assert.equal(item.path, join(root, item.relativePath));
+    }
+
+    // 空白查询不是「无结果」：searchWorkspaceFiles 不传 requireQuery，返回全量候选，
+    // 且文件整体排在目录之前。
+    const empty = await service.searchWorkspaceFiles({ rootPath: root, query: "  " });
+    assert.deepEqual(
+      empty.map((item) => item.relativePath),
+      ["alpha/alpha-report.md", "beta-alpha.txt", "gamma.txt", "alpha"],
+    );
+
+    const none = await service.searchWorkspaceFiles({ rootPath: root, query: "zzz-nope" });
+    assert.deepEqual(none, []);
+
+    assert.deepEqual(
+      await service.searchWorkspaceFiles({ rootPath: root, query: "alpha", limit: 0 }),
+      [],
+      "limit=0 直接短路，不建立索引",
+    );
+    assert.equal(
+      (await service.searchWorkspaceFiles({ rootPath: root, query: "alpha", limit: 1 })).length,
+      1,
+    );
+    // 上限是 1000：超出的请求被截断而不是报错。
+    assert.equal(
+      (await service.searchWorkspaceFiles({ rootPath: root, query: "alpha", limit: 5000 })).length,
+      byName.length,
+    );
+    await assert.rejects(
+      () => service.searchWorkspaceFiles({ rootPath: root, query: "alpha", limit: Number.NaN }),
+      /^Error: Invalid workspace file search query or limit$/u,
+    );
+    await assert.rejects(
+      () => service.searchWorkspaceFiles({ rootPath: root, query: 42, limit: 1 }),
+      /^Error: Invalid workspace file search query or limit$/u,
+    );
+  });
+
+  it("忽略文件模板带同步/默认两段标记，transform 只重写对应段，写回是原子替换", async (t) => {
+    const root = await makeWorkspace(t, "search-ignore");
+    await writeText(join(root, ".gitignore"), "dist/\n*.log\n");
+    const service = createFileService();
+
+    const template = await service.readWorkspaceFileSearchIgnore({ rootPath: root });
+    assert.equal(template.source, "template", "文件不存在时回模板而不落盘");
+    assert.equal(await pathExists(join(root, ".knorviaignore")), false);
+    assert.ok(template.content.includes("dist/"), "模板同步 .gitignore 内容");
+    assert.ok(template.content.includes("*.log"));
+    assert.ok(template.content.includes("# ====="), "同步段标记存在");
+    assert.ok(template.content.includes("# -----"), "默认段标记存在");
+
+    await service.writeWorkspaceFileSearchIgnore({
+      rootPath: root,
+      content: `${template.content}custom-keep/\n`,
+    });
+    const written = await service.readWorkspaceFileSearchIgnore({ rootPath: root });
+    assert.equal(written.source, "file");
+    assert.ok(written.content.endsWith("custom-keep/\n"));
+    assert.equal(
+      (await readdir(root)).includes(".knorviaignore.tmp"),
+      false,
+      "写入走临时文件 + rename，不留中间产物",
+    );
+
+    // 改 .gitignore 后 sync 只重写同步段，自定义段原样保留。
+    await writeText(join(root, ".gitignore"), "build/\n");
+    const synced = await service.applyWorkspaceFileSearchIgnoreTransform({
+      rootPath: root,
+      transform: "sync-gitignore",
+    });
+    assert.ok(synced.content.includes("build/"));
+    assert.ok(synced.content.includes("custom-keep/"), "自定义段不被同步覆盖");
+    assert.equal(synced.content.includes("dist/"), false, "旧同步段被整体替换");
+
+    // reset-defaults 恢复内置默认段，但同样保留自定义段。
+    const reset = await service.applyWorkspaceFileSearchIgnoreTransform({
+      rootPath: root,
+      transform: "reset-defaults",
+    });
+    assert.ok(reset.content.includes("node_modules/"));
+    assert.ok(reset.content.includes("custom-keep/"));
+  });
+
+  it("忽略文件损坏时降级为 .gitignore 或内置规则，索引不因坏规则整体失败", async (t) => {
+    const root = await makeWorkspace(t, "search-ignore-broken");
+    await makeDir(join(root, "keep"));
+    await writeText(join(root, "keep", "f.txt"), "x");
+    await makeDir(join(root, "node_modules"));
+    await writeText(join(root, "node_modules", "x.js"), "x");
+    const service = createFileService();
+    await service.listWorkspaceFilesLength({ rootPath: root });
+    assert.equal(await pathExists(join(root, ".knorviaignore")), true);
+
+    // 坏规则（未闭合的字符类）不能让整个索引抛错。
+    await writeText(join(root, ".knorviaignore"), "[\n");
+    const length = await service.listWorkspaceFilesLength({ rootPath: root });
+    assert.ok(length > 0);
+    const packed = await service.listWorkspaceFilesRange({ rootPath: root, offset: 0, length });
+    assert.equal(packed.includes("keep"), true, "坏规则降级后仍能看到正常条目");
+  });
+});
