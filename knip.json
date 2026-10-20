@@ -18,6 +18,8 @@
         "scripts/contract-gate.test.mjs",
         "scripts/contract-test-discovery.mjs",
         "scripts/contract-test-discovery.test.mjs",
+        "scripts/kernel-context-probe.mjs",
+        "scripts/kernel-shell-probe.mjs",
         "scripts/provenance/similarity.mjs",
         "scripts/provenance/similarity.test.mjs",
         "scripts/provenance/bookkeeping-round2.mjs",

@@ -137,32 +137,33 @@
 
 > 接入包例外：无"旧实现"可录旧门；新增路径的测试随实现 PR 落地。合同 PR 只带能立即通过的两条（T1/T2），CI 必须绿。
 
-| 条目                               | 测试文件 · 用例                                                                               | 覆盖     |
-| ---------------------------------- | --------------------------------------------------------------------------------------------- | -------- |
-| B1 组合追加行固定                  | `composition-builtins.test.mjs` · 行 id/顺序/包名快照                                         | 组合     |
-| B2 平台二选一                      | `composition-builtins.test.mjs` · win32 只挂 pwsh 支、非 win32 只挂 bash 支                   | 平台     |
-| B3 无 Hook/遥测/账号/凭据行        | `composition-builtins.test.mjs` · 仍是零 Hook 兼容层、零遥测                                  | 隔离     |
-| B4 工具可用集合                    | `tools-mount.test.mjs` · `ctx.tools.get()` 列出本包承诺的工具名                               | 工具     |
-| B5 工具实际可执行（shell）         | `tools-mount.test.mjs` · 真实跑一条命令并断言输出                                             | 工具     |
-| B6 工具实际可执行（文件与搜索）    | `tools-mount.test.mjs` · 写读回、glob/grep 命中                                               | 工具     |
-| B7 todo 与 skill                   | `tools-mount.test.mjs` · `todo_write` 注册、`ctx.skills` 存在                                 | 工具     |
-| B8 沙箱与审批服务在位              | `policy-approval.test.mjs` · `ctx.sandboxPolicy`/`ctx.approval` 解析与 fail-closed            | 策略     |
-| B9 用户普通变量可见（修正一 a）    | `child-env.test.mjs` · shell 子进程读到 `KNORVIA_TEST_PLAIN_MARKER`                           | 修正一   |
-| B10 凭据形用户变量可见（修正一 b） | `child-env.test.mjs` · shell 子进程读到 `MY_SERVICE_API_KEY`                                  | 修正一   |
-| B11 `DSH_*` 不可见（修正一 c）     | `child-env.test.mjs` · 宿主继承与 `dshEnv` 托管两支都不可见                                   | 修正一   |
-| B12 快照早于清洗                   | `child-env.test.mjs` · 进程级已删的 key 仍在子进程可见                                        | 修正一   |
-| B13 快照不含启动后新增变量         | `child-env.test.mjs` · boot 后设置的新变量不进子进程                                          | 修正一   |
-| B14 运行环境信息齐全（修正二）     | `runtime-context.test.mjs` · 六个字段逐条断言                                                 | 修正二   |
-| B15 运行环境信息动态               | `runtime-context.test.mjs` · 日期随装配时刻变化、cwd 随会话变化                               | 修正二   |
-| B16 无 DSH 品牌（修正二）          | `runtime-context.test.mjs` · 装配结果无 Harness 身份句与 DSH 包名                             | 修正二   |
-| B17 压缩链在位                     | `compaction-mount.test.mjs` · token 计量/自动压缩/结果裁剪/`/compact` 服务与命令在位          | 压缩     |
-| B18 压缩阈值符合旧内核口径         | `compaction-mount.test.mjs` · 由 config 推导的阈值与旧内核公式一致                            | 压缩     |
-| B19 目标模式在位                   | `goal-plan.test.mjs` · `ctx.goals` 存在、`defaultMaxGoalRounds` 生效                          | 目标     |
-| B20 计划模式在位                   | `goal-plan.test.mjs` · `ctx.planMode` 存在、`exit_plan_mode` 已注册、激活后提示含部署 section | 计划     |
-| B21 子 Agent 在位                  | `subagent-mcp.test.mjs` · `ctx.subagents` 有 spawn/fork 两个 provider、`subagent` 工具已注册  | 子 Agent |
-| B22 MCP 客户端配置                 | `subagent-mcp.test.mjs` · 由 Knorvia MCP 配置生成的行、`ctx.mcp` 可见                         | MCP      |
-| B23 默认引擎不受影响               | `default-engine.test.mjs` · 无 `KNORVIA_KERNEL_ENGINE=dsh` 时不加载任何 `@deepseek-ai/*`      | 隔离     |
-| B24 合同阶段可直接通过项           | `default-engine.test.mjs` · `version`/`help` 与基线一致                                       | 合同 PR  |
+| 条目                               | 测试文件 · 用例                                                                                        | 覆盖     |
+| ---------------------------------- | ------------------------------------------------------------------------------------------------------ | -------- |
+| B1 组合追加行固定                  | `composition-builtins.test.mjs` · 行 id/顺序/包名快照                                                  | 组合     |
+| B2 平台二选一                      | `composition-builtins.test.mjs` · win32 只挂 pwsh 支、非 win32 只挂 bash 支                            | 平台     |
+| B3 无 Hook/遥测/账号/凭据行        | `composition-builtins.test.mjs` · 仍是零 Hook 兼容层、零遥测                                           | 隔离     |
+| B3 隔离面（不碰真实用户目录）      | `isolation-mount.test.mjs` · 诱饵 `~/.dsh` 全树内容+mtime 不变、宿主 `DSH_HOME` 被忽略、临时根互不相同 | 隔离     |
+| B4 工具可用集合                    | `tools-mount.test.mjs` · `ctx.tools.get()` 列出本包承诺的工具名                                        | 工具     |
+| B5 工具实际可执行（shell）         | `tools-mount.test.mjs` · 真实跑一条命令并断言输出                                                      | 工具     |
+| B6 工具实际可执行（文件与搜索）    | `tools-mount.test.mjs` · 写读回、glob/grep 命中                                                        | 工具     |
+| B7 todo 与 skill                   | `tools-mount.test.mjs` · `todo_write` 注册、`ctx.skills` 存在                                          | 工具     |
+| B8 沙箱与审批服务在位              | `policy-approval.test.mjs` · `ctx.sandboxPolicy`/`ctx.approval` 解析与 fail-closed                     | 策略     |
+| B9 用户普通变量可见（修正一 a）    | `child-env.test.mjs` · shell 子进程读到 `KNORVIA_TEST_PLAIN_MARKER`                                    | 修正一   |
+| B10 凭据形用户变量可见（修正一 b） | `child-env.test.mjs` · shell 子进程读到 `MY_SERVICE_API_KEY`                                           | 修正一   |
+| B11 `DSH_*` 不可见（修正一 c）     | `child-env.test.mjs` · 宿主继承与 `dshEnv` 托管两支都不可见                                            | 修正一   |
+| B12 快照早于清洗                   | `child-env.test.mjs` · 进程级已删的 key 仍在子进程可见                                                 | 修正一   |
+| B13 快照不含启动后新增变量         | `child-env.test.mjs` · boot 后设置的新变量不进子进程                                                   | 修正一   |
+| B14 运行环境信息齐全（修正二）     | `runtime-context.test.mjs` · 六个字段逐条断言                                                          | 修正二   |
+| B15 运行环境信息动态               | `runtime-context.test.mjs` · 日期随装配时刻变化、cwd 随会话变化                                        | 修正二   |
+| B16 无 DSH 品牌（修正二）          | `runtime-context.test.mjs` · 装配结果无 Harness 身份句与 DSH 包名                                      | 修正二   |
+| B17 压缩链在位                     | `compaction-mount.test.mjs` · token 计量/自动压缩/结果裁剪/`/compact` 服务与命令在位                   | 压缩     |
+| B18 压缩阈值符合旧内核口径         | `compaction-mount.test.mjs` · 由 config 推导的阈值与旧内核公式一致                                     | 压缩     |
+| B19 目标模式在位                   | `goal-plan.test.mjs` · `ctx.goals` 存在、`defaultMaxGoalRounds` 生效                                   | 目标     |
+| B20 计划模式在位                   | `goal-plan.test.mjs` · `ctx.planMode` 存在、`exit_plan_mode` 已注册、激活后提示含部署 section          | 计划     |
+| B21 子 Agent 在位                  | `subagent-mcp.test.mjs` · `ctx.subagents` 有 spawn/fork 两个 provider、`subagent` 工具已注册           | 子 Agent |
+| B22 MCP 客户端配置                 | `subagent-mcp.test.mjs` · 由 Knorvia MCP 配置生成的行、`ctx.mcp` 可见                                  | MCP      |
+| B23 默认引擎不受影响               | `default-engine.test.mjs` · 无 `KNORVIA_KERNEL_ENGINE=dsh` 时不加载任何 `@deepseek-ai/*`               | 隔离     |
+| B24 合同阶段可直接通过项           | `default-engine.test.mjs` · `version`/`help` 与基线一致                                                | 合同 PR  |
 
 ## 六、计分模式
 
