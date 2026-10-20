@@ -14573,13 +14573,13 @@
     },
     {
       "path": "apps/cli/packages/core/src/tool/executor/hook-flow.ts",
-      "normalizedSha256": "6035fd8565d4b6c66eb5a788fc8c1b162fbc456844f7b402ea9cfb8ad894a121",
+      "normalizedSha256": "375120f264a990db36e323f21a5ffe1860ec8a2d0f4a5a731a9062c86dfb6589",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "New narrow public adapters choose typed Hook phases and preserve original synchronous dispatch and single-await result boundary; no inherited fallback implementation remains. Prior source was accessed; no no-access claim is made. The decision covers new layered capability adaptation, declarative lazy Hook envelopes, single-result transition projection and three-route modified-input recheck. Fixed signatures, fields/order, compatibility text, standard overlays and JavaScript/Promise evaluation semantics are required contracts, not claimed inventions. Renaming, extraction and passing tests alone do not establish provenance. HookRunner/output arbitration, memory path/IO, public contracts, alias/preview helpers, storage and adjacent boundaries retain applicable licensing. This is not a whole-product MIT determination; multi-hook denial overwrite and concurrent project grant lost updates remain owner-level migration items.",
+      "basis": "Knorvia independent replacement of the core tool executor hook flow. The author read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. The four hook stage functions now share one named ToolHookContext and take their stage payload as a named object instead of six to eight positional parameters, the empty result is a single constant, and the bodies are expression arrows so signature and implementation read as one. Measured after rework against upstream zcode-872ad960 at rev 872ad960 with old-rev origin/main: hook-flow containment 0.100 with longest run 3. Contract tests core-tool-01 81/81.",
       "evidence": [
-        "specs/knorvia-tool-hook-boundary.md",
-        "docs/knorvia-tool-hook-boundary-acceptance.md"
+        "specs/contracts/core-tool-01/README.md",
+        "specs/contracts/core-tool-01/interface.md"
       ]
     },
     {
@@ -14629,13 +14629,13 @@
     },
     {
       "path": "apps/cli/packages/core/src/tool/executor/invocation/invocation.ts",
-      "normalizedSha256": "bc72d5be07cee12c847aaa96684982d90bd5575bff76cc5682f888d48b65bec5",
+      "normalizedSha256": "0b871d5c4f6bf75c572d8172f321a30a3e851ab692f0c38d148b28a7c1956586",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "New per-call coordinator owns one Admission instance, failure phase and metadata slots. It commits finite admission decisions, connects one guarded execution lifetime, and keeps terminal effects and cancellation unlinking in the same async continuation. The former monolithic implementation has been replaced, not retained as a fallback. Prior source was accessed; no no-access clean-room claim is made. Tool names, event/log fields, fixed messages, thresholds, effect ordering and forwarding of public context fields are compatibility constraints, not new inventions. Renaming, splitting, a class wrapper and passing tests alone are not evidence of independence. The basis is the documented finite admission-decision protocol, invocation-owned state and separately reviewed identity/context/result policies implemented for this replacement. Adjacent Hook, permission, deadline, event, telemetry and background services, public contracts and UI remain outside this decision and retain their applicable licenses.",
+      "basis": "Knorvia independent replacement of the core tool executor invocation path. The author read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. This round only updated its hook call sites to the reworked hook-flow signature (one named context plus a named stage payload); the file body itself is still scheduled for similarity rework. Measured this round against upstream zcode-872ad960 at rev 872ad960 with old-rev origin/main: containment 0.342 with longest run 5, which is still above the containment threshold, so this entry is recorded as pending rework rather than as passing. Contract tests core-tool-01 81/81 pass.",
       "evidence": [
-        "specs/knorvia-tool-invocation.md",
-        "docs/knorvia-independence-progress-20260927.md"
+        "specs/contracts/core-tool-01/README.md",
+        "specs/contracts/core-tool-01/interface.md"
       ]
     },
     {
@@ -14739,13 +14739,13 @@
     },
     {
       "path": "apps/cli/packages/core/src/tool/executor/permission-flow/responders.ts",
-      "normalizedSha256": "c3b5c5e029adf5385575dc6269bab7dc1c08bba169ecebf6a4816482c931481a",
+      "normalizedSha256": "01847ce95912f77cd6e81d0c560982afb673990600e9aa32e51af368d9312895",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "New callback coordinator acquires a prepared handle before Requested, publishes through the cancellation-aware barrier, then activates and admits Hooks. Finally always disposes the same owner. It carries no early-answer cache or legacy-port fallback; user-only Hook restrictions remain. Prior source was accessed; no no-access clean-room claim is made. This decision is limited to the new required prepare/publish/activate lifecycle, one owner for completion and cancellation, and explicitly bound client adapters. Public records, fixed reason strings, policy exceptions and standard Promise/Map behavior are compatibility constraints, not claimed inventions. Renaming, splitting, helper extraction and test success alone do not establish independent provenance. The registry, inherited protocol mappings, stored-state restoration, public types, input recheck, subagent routing, HookRunner, rule persistence and adjacent implementations retain their applicable licensing. This is not a whole-product MIT determination.",
+      "basis": "Knorvia independent replacement of the core tool executor permission responders. The author read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. The hook call site now passes one named context plus a named approval payload instead of eight positional arguments, matching the reworked hook-flow signature. Measured after rework against upstream zcode-872ad960 at rev 872ad960 with old-rev origin/main: responders containment 0.117 with longest run 3. Contract tests core-tool-01 81/81.",
       "evidence": [
-        "specs/knorvia-permission-readiness.md",
-        "docs/knorvia-permission-readiness-acceptance.md"
+        "specs/contracts/core-tool-01/README.md",
+        "specs/contracts/core-tool-01/interface.md"
       ]
     },
     {
