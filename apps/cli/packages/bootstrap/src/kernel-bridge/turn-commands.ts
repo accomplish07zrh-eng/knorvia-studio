@@ -13,6 +13,7 @@
 
 import type { CommandAck, CommandEnvelope, CommandPayloadMap } from "@knorvia/shared/protocol-v4";
 import type { CommandExecutionOutcome } from "./command-inbox.js";
+import type { TurnApprovalRegistry } from "./turn-approval.js";
 import {
   type KernelTurnExecutor,
   TurnCapabilityUnavailableError,
@@ -25,6 +26,12 @@ const SESSION_NOT_FOUND_REASON = "proto.sessionNotFound";
 /** 未支持能力的 reasonCode。 */
 const UNSUPPORTED_REASON = "unsupported";
 
+/**
+ * 交互已被解决：冻结面规定的 noop 原因码（`command.ts` L171
+ * 「先到先得，晚到 noop（reasonCode=proto.alreadyResolved）」）。
+ */
+const ALREADY_RESOLVED_REASON = "proto.alreadyResolved";
+
 /** 交付档位的冻结取值（`conversationInputDeliverySchema.admitted`）。 */
 type AdmittedDelivery = "startNow" | "queue" | "guide";
 
@@ -36,7 +43,12 @@ type AdmittedDelivery = "startNow" | "queue" | "guide";
  * 清单本身的作用是「分派表」：`bridge-engine` 的 case 与这里必须同步，
  * 因此它只在本模块内使用，不对外导出。
  */
-const TURN_COMMAND_TYPES: ReadonlySet<string> = new Set(["sendText", "stop", "compact"]);
+const TURN_COMMAND_TYPES: ReadonlySet<string> = new Set([
+  "sendText",
+  "stop",
+  "compact",
+  "resolveInteraction",
+]);
 
 /**
  * 把一条回合类命令翻译成执行层终态。
@@ -50,16 +62,32 @@ const TURN_COMMAND_TYPES: ReadonlySet<string> = new Set(["sendText", "stop", "co
  *
  * @param envelope - 已通过准入的命令信封。
  * @param executor - 回合执行器；`undefined` 表示当前组合没有回合能力。
+ * @param approvals - 未决交互登记表（`resolveInteraction` 用它闭合等待中的审批）。
  * @returns 执行层终态。
  */
 export async function dispatchTurnCommand(
   envelope: CommandEnvelope,
   executor: KernelTurnExecutor | undefined,
+  approvals: TurnApprovalRegistry,
 ): Promise<CommandExecutionOutcome> {
   // 分派表与引擎的 case 必须同步：不是本包管的类型在这里直接判「不归我」，
   // 避免将来引擎多转发一个类型时被静默当成回合命令执行。
   if (!TURN_COMMAND_TYPES.has(envelope.type)) {
     return failedOutcome(UNSUPPORTED_REASON, `${envelope.type} is not a kernel-bridge-02 command`);
+  }
+  // `resolveInteraction` 在**执行器之前**处理：审批应答不需要回合执行器
+  // （它只闭合已登记的未决请求），也不能因为执行器缺席就被判 unsupported。
+  if (envelope.type === "resolveInteraction") {
+    const payload = envelope.payload as CommandPayloadMap["resolveInteraction"];
+    // 冻结语义（command.ts L171）：先到先得，晚到 noop（`proto.alreadyResolved`）。
+    const settled = approvals.settle(payload.interactionId, payload.answer);
+    const result: NonNullable<CommandAck["result"]> = {
+      type: "inputDisposition",
+      delivery: "startNow",
+    };
+    return settled
+      ? { status: "accepted", result }
+      : { status: "noop", reasonCode: ALREADY_RESOLVED_REASON };
   }
   if (executor === undefined) return failedOutcome(UNSUPPORTED_REASON, undefined);
   const sessionId = envelope.sessionId;

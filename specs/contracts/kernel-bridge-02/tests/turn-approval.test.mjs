@@ -143,18 +143,39 @@ test("B9 明确 accept 才授权；decline/cancel 是拒绝", async () => {
   }
 });
 
-test("B9 只有 optionId 而没有 action 时不授权（宁可多拒）", async () => {
+test("B9 认不出的 optionId 不授权（宁可多拒）", async () => {
   const { requestTurnApproval } = await loadApprovalModule();
-  const outcome = await requestTurnApproval(
-    approvalRequest({
-      channel: {
-        async request() {
-          return { optionId: "allow-always" };
+  // 冻结面的审批选项 `kind` 只有 allowOnce / allowAlways / deny / custom；
+  // 这里用**不属于同意类**的 id，必须按拒绝处理。
+  for (const optionId of ["deny", "custom", "something-else", "allow-never"]) {
+    const outcome = await requestTurnApproval(
+      approvalRequest({
+        channel: {
+          async request() {
+            return { optionId };
+          },
         },
-      },
-    }),
-  );
-  assert.notEqual(outcome, "allowed-once", "无法判断是否同意时不得授权");
+      }),
+    );
+    assert.equal(outcome, "rejected", `optionId=${optionId} 不表达同意时必须 rejected`);
+  }
+});
+
+test("B9 表达同意的 optionId 授权（allowOnce / allowAlways / fullAccess）", async () => {
+  const { requestTurnApproval } = await loadApprovalModule();
+  // 连字符与驼峰两种写法都要认（`permissionOptionSchema.kind` 是驼峰，协议里也可能带连字符）。
+  for (const optionId of ["allowOnce", "allow-once", "allowAlways", "fullAccess"]) {
+    const outcome = await requestTurnApproval(
+      approvalRequest({
+        channel: {
+          async request() {
+            return { optionId };
+          },
+        },
+      }),
+    );
+    assert.equal(outcome, "allowed-once", `optionId=${optionId} 是同意类，必须授权`);
+  }
 });
 
 test("B9 resolveInteraction 先到先得，晚到 noop", async () => {

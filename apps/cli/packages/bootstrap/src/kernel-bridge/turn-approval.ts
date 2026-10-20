@@ -125,9 +125,17 @@ function parseInteractionAnswer(value: unknown): TurnInteractionAnswer {
 /**
  * 把 Host 应答映射成 DSH 的闭合结果。
  *
- * 只有**明确的 accept** 才是授权；`decline`/`cancel` 是拒绝；
- * 其余（含只有 optionId 而没有 action 的兼容路径）按「没有明确同意」处理为拒绝。
- * `cancel` 归到 `rejected` 而不是 `unavailable`：那是用户明确表态，不是通道故障。
+ * v4 协议的审批应答主路径是 **`optionId`**（`permissionOptionSchema` 的选项 id，
+ * 其 `kind` 取值 `allowOnce` / `allowAlways` / `deny` / `custom`，见
+ * `packages/shared/src/protocol-v4/snapshot.ts` L216–L220）；
+ * `action` 是 `command.ts` L181 提到的**兼容路径**。因此判定顺序是：
+ *   1. `action` 存在且为 `accept` → 授权；
+ *   2. `action` 为 `decline`/`cancel` → 拒绝；
+ *   3. 否则看 `optionId`：只有表达「同意」的选项才授权，其余一律拒绝。
+ *
+ * **只有明确同意才授权**：认不出来的选项、只有 freeText、空应答，全部按拒绝处理
+ * ——安全侧宁可多拒，不可错放。`cancel` 归 `rejected` 而不是 `unavailable`：
+ * 那是用户明确表态，不是通道故障。
  *
  * @param answer - 已校验的应答。
  * @returns DSH 侧闭合结果。
@@ -135,9 +143,34 @@ function parseInteractionAnswer(value: unknown): TurnInteractionAnswer {
 function mapAnswerToOutcome(answer: TurnInteractionAnswer): TurnApprovalOutcome {
   if (answer.action === "accept") return "allowed-once";
   if (answer.action === "decline" || answer.action === "cancel") return "rejected";
-  // 兼容路径：没有 action 时，只有 optionId 就等于「选了某项」，无法判断是否同意，
-  // 因此按拒绝处理——安全侧宁可多拒，不可错放。
-  return "rejected";
+  // 兼容路径：没有 action 时按 optionId 判定是否等价于「同意」。
+  return isConsentOption(answer.optionId) ? "allowed-once" : "rejected";
+}
+
+/**
+ * 判断一个选项 id 是否表达「同意」。
+ *
+ * 冻结面的审批选项 id 是 `permissionOptionSchema` 的 `optionId`，其语义由 `kind`
+ * 决定。这里按**词形**识别同意类（去连字符后比较，兼容驼峰与连字符两种写法），
+ * **不做模糊匹配**：认不出就返回 false（→ 拒绝）。
+ *
+ * @param optionId - 客户端选中的选项 id。
+ * @returns 是否等价于「同意」。
+ */
+function isConsentOption(optionId: string | undefined): boolean {
+  if (optionId === undefined) return false;
+  /**
+   * 明确表达同意的词形。`deny` / `decline` / `cancel` / `custom` 都不在此列。
+   */
+  const consentForms = new Set([
+    "allowonce",
+    "allowalways",
+    "allow",
+    "accept",
+    "approve",
+    "fullaccess",
+  ]);
+  return consentForms.has(optionId.toLowerCase().replaceAll("-", ""));
 }
 
 /**

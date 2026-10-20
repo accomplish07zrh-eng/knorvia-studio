@@ -9566,14 +9566,14 @@
     },
     {
       "path": "apps/cli/packages/bootstrap/src/kernel-bridge/bridge-engine.ts",
-      "normalizedSha256": "a062767d5899f0b5ce404259d596246e914d104b1758b2c3c8913cc7b245a246",
+      "normalizedSha256": "fef4fa606d0bbb122728f6ed3be66cac50ac11c1fe7fc06a1798dca781d155d9",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored kernel-bridge-02 implementation for the DSH-backed built-in kernel (M2 accessor package: input and turns), plus the composition row position for a credential provider plugin and the C2 execution-port registration. The executor is materialized by the bridge engine and registered to the legacy execution registry at start and released at dispose; entry.ts is untouched. The author read the replaced core runtime, legacy bridge and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.183, longest identical run 2, structural similarity 0.071; declaration mode passes for all candidates.",
+      "basis": "Knorvia-authored kernel-bridge-02 implementation for the DSH-backed built-in kernel accessor package (input and turns): the v4 resolveInteraction command is dispatched through the same turn command path and settles the engine-held approval registry, first writer wins and late answers are a frozen alreadyResolved noop; the approval answer mapping follows the frozen permission option kinds, and unrecognized options are treated as refusal. No code was copied, renamed or rewritten line by line; the author read the replaced implementation to understand behavior only. Similarity against the replaced files and zai-org/ZCode@872ad960: max line containment 0.183, longest identical run 2, structural similarity 0.071; declaration mode 17/17.",
       "evidence": [
         "specs/contracts/kernel-bridge-02/README.md",
+        "specs/contracts/kernel-bridge-02/behavior.md",
         "specs/contracts/kernel-bridge-02/design.md",
-        "specs/contracts/kernel-bridge-02/known-differences.md",
         "docs/knorvia-kernel-bridge-02-acceptance.md"
       ]
     },
@@ -9870,27 +9870,27 @@
     },
     {
       "path": "apps/cli/packages/bootstrap/src/kernel-bridge/turn-approval.ts",
-      "normalizedSha256": "d857ab2039d8a8da82b841e6896c88c897a27771ee3e7f534fe6a5dd848e87a7",
+      "normalizedSha256": "1b329ba2539f3d1f453f231762152e757ab1453f21406c1f1cbd84c216be1553",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored kernel-bridge-02 implementation for the DSH-backed built-in kernel (M2 accessor package: input and turns), plus the composition row position for a credential provider plugin and the C2 execution-port registration. The executor is materialized by the bridge engine and registered to the legacy execution registry at start and released at dispose; entry.ts is untouched. The author read the replaced core runtime, legacy bridge and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.183, longest identical run 2, structural similarity 0.071; declaration mode passes for all candidates.",
+      "basis": "Knorvia-authored kernel-bridge-02 implementation for the DSH-backed built-in kernel accessor package (input and turns): the v4 resolveInteraction command is dispatched through the same turn command path and settles the engine-held approval registry, first writer wins and late answers are a frozen alreadyResolved noop; the approval answer mapping follows the frozen permission option kinds, and unrecognized options are treated as refusal. No code was copied, renamed or rewritten line by line; the author read the replaced implementation to understand behavior only. Similarity against the replaced files and zai-org/ZCode@872ad960: max line containment 0.183, longest identical run 2, structural similarity 0.071; declaration mode 17/17.",
       "evidence": [
         "specs/contracts/kernel-bridge-02/README.md",
+        "specs/contracts/kernel-bridge-02/behavior.md",
         "specs/contracts/kernel-bridge-02/design.md",
-        "specs/contracts/kernel-bridge-02/known-differences.md",
         "docs/knorvia-kernel-bridge-02-acceptance.md"
       ]
     },
     {
       "path": "apps/cli/packages/bootstrap/src/kernel-bridge/turn-commands.ts",
-      "normalizedSha256": "2c480dcce7cc5a3816835e41afde8bb614d0fc0c465378b616f11011be05adee",
+      "normalizedSha256": "8fe57419e90e867493e192e134fad8c2263e4827c41eaab010b40060deee9dce",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored kernel-bridge-02 implementation for the DSH-backed built-in kernel (M2 accessor package: input and turns), plus the composition row position for a credential provider plugin and the C2 execution-port registration. The executor is materialized by the bridge engine and registered to the legacy execution registry at start and released at dispose; entry.ts is untouched. The author read the replaced core runtime, legacy bridge and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.183, longest identical run 2, structural similarity 0.071; declaration mode passes for all candidates.",
+      "basis": "Knorvia-authored kernel-bridge-02 implementation for the DSH-backed built-in kernel accessor package (input and turns): the v4 resolveInteraction command is dispatched through the same turn command path and settles the engine-held approval registry, first writer wins and late answers are a frozen alreadyResolved noop; the approval answer mapping follows the frozen permission option kinds, and unrecognized options are treated as refusal. No code was copied, renamed or rewritten line by line; the author read the replaced implementation to understand behavior only. Similarity against the replaced files and zai-org/ZCode@872ad960: max line containment 0.183, longest identical run 2, structural similarity 0.071; declaration mode 17/17.",
       "evidence": [
         "specs/contracts/kernel-bridge-02/README.md",
+        "specs/contracts/kernel-bridge-02/behavior.md",
         "specs/contracts/kernel-bridge-02/design.md",
-        "specs/contracts/kernel-bridge-02/known-differences.md",
         "docs/knorvia-kernel-bridge-02-acceptance.md"
       ]
     },
@@ -138033,13 +138033,14 @@
     },
     {
       "path": "specs/contracts/kernel-bridge-02/tests/turn-approval.test.mjs",
-      "normalizedSha256": "2af2c816e8ce9960e98a906b1a5a3c64e582504f866798aa1bc874cadc48e828",
+      "normalizedSha256": "dce5ff2eadbdd27e0f9e66d72361aac483b00a51c1a7edaf18f4ca6a6bf102bf",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored kernel-bridge-02 tests and acceptance record for the DSH-backed built-in kernel accessor package (input and turns): C2 execution-port registration, turn delivery verdicts, fail-closed approvals, turn frame derivation, and the credential provider composition row position. The author read the replaced core runtime, legacy bridge and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.183, longest identical run 2, structural similarity 0.071; declaration mode passes for all candidates.",
+      "basis": "Knorvia-authored kernel-bridge-02 implementation for the DSH-backed built-in kernel accessor package (input and turns): the v4 resolveInteraction command is dispatched through the same turn command path and settles the engine-held approval registry, first writer wins and late answers are a frozen alreadyResolved noop; the approval answer mapping follows the frozen permission option kinds, and unrecognized options are treated as refusal. No code was copied, renamed or rewritten line by line; the author read the replaced implementation to understand behavior only. Similarity against the replaced files and zai-org/ZCode@872ad960: max line containment 0.183, longest identical run 2, structural similarity 0.071; declaration mode 17/17.",
       "evidence": [
         "specs/contracts/kernel-bridge-02/README.md",
-        "specs/contracts/kernel-bridge-02/acceptance.md",
+        "specs/contracts/kernel-bridge-02/behavior.md",
+        "specs/contracts/kernel-bridge-02/design.md",
         "docs/knorvia-kernel-bridge-02-acceptance.md"
       ]
     },
@@ -148106,6 +148107,19 @@
       "evidence": [
         "third-party/upstream/f29b60ea39a2132e3baa98927c2d473b349a54143da44a0c6762b243e6459452.txt",
         "https://registry.npmjs.org/quickjs-wasi/2.2.0"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-02/tests/turn-resolve-interaction.test.mjs",
+      "normalizedSha256": "39c153d7c929e8b61865589fb15aebc119f46bdc7d9aca2fc520543fab81f20a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-bridge-02 implementation for the DSH-backed built-in kernel accessor package (input and turns): the v4 resolveInteraction command is dispatched through the same turn command path and settles the engine-held approval registry, first writer wins and late answers are a frozen alreadyResolved noop; the approval answer mapping follows the frozen permission option kinds, and unrecognized options are treated as refusal. No code was copied, renamed or rewritten line by line; the author read the replaced implementation to understand behavior only. Similarity against the replaced files and zai-org/ZCode@872ad960: max line containment 0.183, longest identical run 2, structural similarity 0.071; declaration mode 17/17.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-02/README.md",
+        "specs/contracts/kernel-bridge-02/behavior.md",
+        "specs/contracts/kernel-bridge-02/design.md",
+        "docs/knorvia-kernel-bridge-02-acceptance.md"
       ]
     }
   ]

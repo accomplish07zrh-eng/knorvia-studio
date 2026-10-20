@@ -174,11 +174,14 @@ export class BridgeEngine implements BridgeCommandExecutor {
           true,
         );
       }
-      // ── kernel-bridge-02：输入与回合（合同 behavior.md B1–B7）；分派在 turn-commands.ts ──
+      // ── kernel-bridge-02：输入与回合（合同 behavior.md B1–B7、B9）；分派在 turn-commands.ts ──
+      // `resolveInteraction` 与回合命令同一处分派：审批应答要落到引擎持有的未决登记表上，
+      // 从 v4 协议面必须可达（不是只有内部能力模块）。
       case "sendText":
       case "stop":
       case "compact":
-        return await dispatchTurnCommand(envelope, this.options.turnExecutor);
+      case "resolveInteraction":
+        return await dispatchTurnCommand(envelope, this.turnExecutor, this.approvals);
       default:
         return { status: "failed", reasonCode: UNSUPPORTED_REASON_CODE };
     }
