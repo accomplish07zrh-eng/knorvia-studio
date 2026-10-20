@@ -148956,6 +148956,138 @@
         "third-party/upstream/f29b60ea39a2132e3baa98927c2d473b349a54143da44a0c6762b243e6459452.txt",
         "https://registry.npmjs.org/quickjs-wasi/2.2.0"
       ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-03/README.md",
+      "normalizedSha256": "81694fb0b1ae4f76d8bd0cb7ad58554e5b116a2ed5d79df994965ff3412a4902",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contract for kernel-bridge-03, the closing package of the M2 accessor series: it covers the remaining 26 v4 commands and the remaining 8 of the 12 port-backed legacy turn methods, while the ten commands whose backends belong to the workflow, hooks and rewind plugin packages answer a frozen capabilityAbsent reason code. The contract records the counting correction that the port table has 12 methods rather than 11, the evidence that the dsh and legacy engines are separate process paths, the queue ownership boundary between the admission layer and the DSH inbox primitives, and a fixture ledger cross-checked against the protocol schema source with a registered-package allow list. The author read the replaced runtime and protocol implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: contract prose and fixture data, declaration mode clean.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "specs/contracts/kernel-bridge-03/README.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-03/behavior.md",
+      "normalizedSha256": "8e4d520627e2eb2017ecb5dca11f4b02b82a546927d5d3582754856418d6de7e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contract for kernel-bridge-03, the closing package of the M2 accessor series: it covers the remaining 26 v4 commands and the remaining 8 of the 12 port-backed legacy turn methods, while the ten commands whose backends belong to the workflow, hooks and rewind plugin packages answer a frozen capabilityAbsent reason code. The contract records the counting correction that the port table has 12 methods rather than 11, the evidence that the dsh and legacy engines are separate process paths, the queue ownership boundary between the admission layer and the DSH inbox primitives, and a fixture ledger cross-checked against the protocol schema source with a registered-package allow list. The author read the replaced runtime and protocol implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: contract prose and fixture data, declaration mode clean.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "specs/contracts/kernel-bridge-03/README.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-03/interface.md",
+      "normalizedSha256": "a223498757bc0c7028c404ba019bf66934df1f4bd8cd70d2fc78f38b9860fcd3",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contract for kernel-bridge-03, the closing package of the M2 accessor series: it covers the remaining 26 v4 commands and the remaining 8 of the 12 port-backed legacy turn methods, while the ten commands whose backends belong to the workflow, hooks and rewind plugin packages answer a frozen capabilityAbsent reason code. The contract records the counting correction that the port table has 12 methods rather than 11, the evidence that the dsh and legacy engines are separate process paths, the queue ownership boundary between the admission layer and the DSH inbox primitives, and a fixture ledger cross-checked against the protocol schema source with a registered-package allow list. The author read the replaced runtime and protocol implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: contract prose and fixture data, declaration mode clean.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "specs/contracts/kernel-bridge-03/README.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-03/callers.md",
+      "normalizedSha256": "93fcf960f5039f87bb24e7e412a8d2fb2998f2c4b56b9b13e46e81ea8b82aa1a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contract for kernel-bridge-03, the closing package of the M2 accessor series: it covers the remaining 26 v4 commands and the remaining 8 of the 12 port-backed legacy turn methods, while the ten commands whose backends belong to the workflow, hooks and rewind plugin packages answer a frozen capabilityAbsent reason code. The contract records the counting correction that the port table has 12 methods rather than 11, the evidence that the dsh and legacy engines are separate process paths, the queue ownership boundary between the admission layer and the DSH inbox primitives, and a fixture ledger cross-checked against the protocol schema source with a registered-package allow list. The author read the replaced runtime and protocol implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: contract prose and fixture data, declaration mode clean.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "specs/contracts/kernel-bridge-03/README.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-03/acceptance.md",
+      "normalizedSha256": "c6a1f847b710f749db515b7b0c9ae762bf1420ddfe649d3627f0143d69c6b1ff",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contract for kernel-bridge-03, the closing package of the M2 accessor series: it covers the remaining 26 v4 commands and the remaining 8 of the 12 port-backed legacy turn methods, while the ten commands whose backends belong to the workflow, hooks and rewind plugin packages answer a frozen capabilityAbsent reason code. The contract records the counting correction that the port table has 12 methods rather than 11, the evidence that the dsh and legacy engines are separate process paths, the queue ownership boundary between the admission layer and the DSH inbox primitives, and a fixture ledger cross-checked against the protocol schema source with a registered-package allow list. The author read the replaced runtime and protocol implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: contract prose and fixture data, declaration mode clean.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "specs/contracts/kernel-bridge-03/README.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-03/known-differences.md",
+      "normalizedSha256": "d01f7c492c25625df58bb4ad092095bbe1c7cc7901681edc95a196db0411eaea",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contract for kernel-bridge-03, the closing package of the M2 accessor series: it covers the remaining 26 v4 commands and the remaining 8 of the 12 port-backed legacy turn methods, while the ten commands whose backends belong to the workflow, hooks and rewind plugin packages answer a frozen capabilityAbsent reason code. The contract records the counting correction that the port table has 12 methods rather than 11, the evidence that the dsh and legacy engines are separate process paths, the queue ownership boundary between the admission layer and the DSH inbox primitives, and a fixture ledger cross-checked against the protocol schema source with a registered-package allow list. The author read the replaced runtime and protocol implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: contract prose and fixture data, declaration mode clean.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "specs/contracts/kernel-bridge-03/README.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-03/design.md",
+      "normalizedSha256": "30243f89ba4274d30cb644374e25e98f306f8d82bf4855f46e3d580ba46cc95e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contract for kernel-bridge-03, the closing package of the M2 accessor series: it covers the remaining 26 v4 commands and the remaining 8 of the 12 port-backed legacy turn methods, while the ten commands whose backends belong to the workflow, hooks and rewind plugin packages answer a frozen capabilityAbsent reason code. The contract records the counting correction that the port table has 12 methods rather than 11, the evidence that the dsh and legacy engines are separate process paths, the queue ownership boundary between the admission layer and the DSH inbox primitives, and a fixture ledger cross-checked against the protocol schema source with a registered-package allow list. The author read the replaced runtime and protocol implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: contract prose and fixture data, declaration mode clean.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "specs/contracts/kernel-bridge-03/README.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-03/fixtures/command-ownership.json",
+      "normalizedSha256": "5e298467fbb5b16f6f73eb81a440c5f69f384aa2d2f00b1bccdda0e9729207a0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contract for kernel-bridge-03, the closing package of the M2 accessor series: it covers the remaining 26 v4 commands and the remaining 8 of the 12 port-backed legacy turn methods, while the ten commands whose backends belong to the workflow, hooks and rewind plugin packages answer a frozen capabilityAbsent reason code. The contract records the counting correction that the port table has 12 methods rather than 11, the evidence that the dsh and legacy engines are separate process paths, the queue ownership boundary between the admission layer and the DSH inbox primitives, and a fixture ledger cross-checked against the protocol schema source with a registered-package allow list. The author read the replaced runtime and protocol implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: contract prose and fixture data, declaration mode clean.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "specs/contracts/kernel-bridge-03/README.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-03/tests/entry.mjs",
+      "normalizedSha256": "e89ab879bf5887d04fda7717c97a8cbb5b2ce9a6a61a4b0838aa6f1de1c98041",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contract for kernel-bridge-03, the closing package of the M2 accessor series: it covers the remaining 26 v4 commands and the remaining 8 of the 12 port-backed legacy turn methods, while the ten commands whose backends belong to the workflow, hooks and rewind plugin packages answer a frozen capabilityAbsent reason code. The contract records the counting correction that the port table has 12 methods rather than 11, the evidence that the dsh and legacy engines are separate process paths, the queue ownership boundary between the admission layer and the DSH inbox primitives, and a fixture ledger cross-checked against the protocol schema source with a registered-package allow list. The author read the replaced runtime and protocol implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: contract prose and fixture data, declaration mode clean.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "specs/contracts/kernel-bridge-03/README.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-03/tests/fixture-integrity.test.mjs",
+      "normalizedSha256": "a2937567fce300a6f8a1d707664e4cfa83e4f9fae46f012048e6980c1daf7905",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contract for kernel-bridge-03, the closing package of the M2 accessor series: it covers the remaining 26 v4 commands and the remaining 8 of the 12 port-backed legacy turn methods, while the ten commands whose backends belong to the workflow, hooks and rewind plugin packages answer a frozen capabilityAbsent reason code. The contract records the counting correction that the port table has 12 methods rather than 11, the evidence that the dsh and legacy engines are separate process paths, the queue ownership boundary between the admission layer and the DSH inbox primitives, and a fixture ledger cross-checked against the protocol schema source with a registered-package allow list. The author read the replaced runtime and protocol implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: contract prose and fixture data, declaration mode clean.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "specs/contracts/kernel-bridge-03/README.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-03/tests/command-surface.test.mjs",
+      "normalizedSha256": "209618c757be3a286b8fa53a48e042815fe3c9368ff0987663fb68e2937b935c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contract for kernel-bridge-03, the closing package of the M2 accessor series: it covers the remaining 26 v4 commands and the remaining 8 of the 12 port-backed legacy turn methods, while the ten commands whose backends belong to the workflow, hooks and rewind plugin packages answer a frozen capabilityAbsent reason code. The contract records the counting correction that the port table has 12 methods rather than 11, the evidence that the dsh and legacy engines are separate process paths, the queue ownership boundary between the admission layer and the DSH inbox primitives, and a fixture ledger cross-checked against the protocol schema source with a registered-package allow list. The author read the replaced runtime and protocol implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: contract prose and fixture data, declaration mode clean.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "specs/contracts/kernel-bridge-03/README.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-03/tests/capability-gaps.test.mjs",
+      "normalizedSha256": "d31aea27636b32c11f2052bddc47e241b91590ff78631c65ce90dedf10c43406",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contract for kernel-bridge-03, the closing package of the M2 accessor series: it covers the remaining 26 v4 commands and the remaining 8 of the 12 port-backed legacy turn methods, while the ten commands whose backends belong to the workflow, hooks and rewind plugin packages answer a frozen capabilityAbsent reason code. The contract records the counting correction that the port table has 12 methods rather than 11, the evidence that the dsh and legacy engines are separate process paths, the queue ownership boundary between the admission layer and the DSH inbox primitives, and a fixture ledger cross-checked against the protocol schema source with a registered-package allow list. The author read the replaced runtime and protocol implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: contract prose and fixture data, declaration mode clean.",
+      "evidence": [
+        "docs/knorvia-independent-replacement-plan.md",
+        "specs/contracts/kernel-bridge-03/README.md"
+      ]
     }
   ]
 }
