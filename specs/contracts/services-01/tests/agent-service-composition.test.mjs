@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: Apache-2.0
 // A72：Agent 服务组合根的可构造性、面覆盖与 dispose 收口。
-// 组合根会开 SQLite 连接，因此每条用例都在临时数据根里跑，并在 t.after 里收口。
+// 组合根会开 SQLite 连接，因此每条用例都在临时数据根里跑，收口交给统一清理钩子。
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 
 import { importDeep } from "./entry.mjs";
-import { makeTempRoot } from "./helpers.mjs";
+import { makeTempRoot, registerCleanup } from "./helpers.mjs";
 
 const { createKnorviaAgentService } = await importDeep("agent/agentService.ts");
 
@@ -41,11 +41,17 @@ const REQUIRED_METHODS = [
   "disposeWorkspace",
 ];
 
-/** 建一个组合根，并在用例结束时同步 + 异步各收口一次。 */
+/**
+ * 建一个组合根，并在用例结束时收口。
+ *
+ * 同步 `disposeAll()` 与异步 `disposeAllAndWait()` 都登记到同一清理钩子：组合根一建就
+ * 挂上，不等到用例体末尾——用例体中的断言失败会直接中断，写在它下游的收口语句不会
+ * 执行，SQLite 连接与进程池就会留到 runner 退出阶段。
+ */
 async function makeService(t, options = {}) {
   await makeTempRoot(t);
   const service = createKnorviaAgentService(options);
-  t.after(async () => {
+  registerCleanup(t, async () => {
     service.disposeAll();
     await service.disposeAllAndWait();
   });

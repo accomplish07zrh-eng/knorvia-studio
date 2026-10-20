@@ -4,6 +4,7 @@
 // Linux 上只跑「平台判定 + 注入式假子进程/假文件系统」，不真起 Helper、不碰真实文件系统。
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
+import { join, resolve as resolveHostPath } from "node:path";
 import { describe, it } from "node:test";
 
 import { cuaBroker, importDeep } from "./entry.mjs";
@@ -799,7 +800,23 @@ describe("S53 WindowsCuaHelperHost stop/restart 边界", () => {
   });
 });
 
-const DEV_ROOT = "/synthetic/cua-dev-root";
+/**
+ * 合成根路径必须与实现同口径构造。
+ *
+ * 被测实现用宿主的 `path.resolve()` 把 `resourcesPath` 与 `KNORVIA_CUA_DEV_ROOT`
+ * 变成真实路径（`packages/services/src/cua-permission-broker/windowsCuaDevRuntime.ts`
+ * 的 `resolvePackagedRuntime` / `resolveDevelopmentRuntime`）。宿主是 Windows 时
+ * `resolve("/synthetic/Resources")` 得到 `D:\synthetic\Resources`，若夹具仍用
+ * POSIX 字面量建键，归一后是 `/synthetic/Resources`，两侧永不相等，所有用例都会
+ * 误报 `invalid-runtime-manifest`（Linux 上恰好相等，故只在 Windows 暴露）。
+ *
+ * 因此这里也过一遍 `resolveHostPath()`，让夹具键与实现键落在同一坐标系，并把比较
+ * 统一成「分隔符归一成 /、大小写归一」——前者吸收分隔符差异，后者与实现
+ * `samePhysicalPath()` 的 `toLowerCase()` 口径一致。
+ */
+const hostRoot = (posixPath) => resolveHostPath(posixPath);
+
+const DEV_ROOT = hostRoot("/synthetic/cua-dev-root");
 const DEV_ENTRY = "dist/windowsDevHelperMain.js";
 const DEV_ADDON = "dist/cua_windows.node";
 
@@ -813,8 +830,8 @@ function devPackage(contractOverrides) {
 }
 
 const sha256Hex = (bytes) => createHash("sha256").update(bytes).digest("hex");
-const PACKAGED_RESOURCES = "/synthetic/Resources";
-const PACKAGED_ROOT = "/synthetic/Resources/tools/cua-helper";
+const PACKAGED_RESOURCES = hostRoot("/synthetic/Resources");
+const PACKAGED_ROOT = hostRoot("/synthetic/Resources/tools/cua-helper");
 const PACKAGED_ENTRY = "bin/windowsDevHelperMain.js";
 const PACKAGED_ADDON = "bin/cua_windows.node";
 const packagedEntryBytes = new Uint8Array([1, 2, 3, 65, 66]);
@@ -835,9 +852,15 @@ function packagedManifest(overrides = {}) {
   });
 }
 
-/** 注入式文件系统：全部路径按 POSIX 归一比较，不接触真实磁盘。 */
+/**
+ * 注入式文件系统：全部路径按「分隔符归一 + 大小写归一」比较，不接触真实磁盘。
+ *
+ * 大小写归一与实现 `samePhysicalPath()` 的 `windowsPath.normalize(p).toLowerCase()`
+ * 保持同一口径（`windowsCuaDevRuntime.ts`）；Windows 的盘符与临时路径大小写不稳定，
+ * 夹具若按大小写敏感建键会出现「同一路径查不到」的假阴性。
+ */
 function makeFakeFileSystem(entries, options = {}) {
-  const norm = (value) => value.replace(/\\/gu, "/").replace(/\/+$/u, "") || "/";
+  const norm = (value) => (value.replace(/\\/gu, "/").replace(/\/+$/u, "") || "/").toLowerCase();
   const index = new Map();
   for (const [key, value] of Object.entries(entries)) index.set(norm(key), value);
   const touched = [];
@@ -912,12 +935,23 @@ describe("S54 resolveWindowsCuaRuntime 平台门与开发根解析", () => {
         platform,
       );
     }
-    // 默认按宿主平台判定：Linux 上不注入 platform 也必须拒绝。
-    assert.notEqual(process.platform, "win32");
-    await assert.rejects(
-      () => resolveWindowsCuaRuntime(),
-      (error) => error.reason === "unsupported-platform",
-    );
+    // 默认按宿主平台判定：宿主不是 win32 时不注入 platform 也必须拒绝。
+    // 宿主是 win32 时同一分支无法成立（拒绝理由会变成 missing-resources-path），
+    // 改为断言「不注入 platform 时走的是 win32 分支」——两条分支都必须可测，
+    // 且都不接触真实文件系统。
+    if (process.platform === "win32") {
+      await assert.rejects(
+        () => resolveWindowsCuaRuntime({}),
+        (error) =>
+          error.reason === "missing-resources-path" &&
+          error.message === "Windows CUA packaged runtime requires resourcesPath.",
+      );
+    } else {
+      await assert.rejects(
+        () => resolveWindowsCuaRuntime(),
+        (error) => error.reason === "unsupported-platform",
+      );
+    }
   });
 
   it("S54 显式开发根优先于安装资源；配置成相对路径时 fail closed 而不回退资源目录", async () => {
@@ -939,8 +973,10 @@ describe("S54 resolveWindowsCuaRuntime 平台门与开发根解析", () => {
       }),
     );
     assert.equal(runtime.root, DEV_ROOT);
-    assert.equal(runtime.entryPath, `${DEV_ROOT}/${DEV_ENTRY}`);
-    assert.equal(runtime.addonPath, `${DEV_ROOT}/${DEV_ADDON}`);
+    // 返回值按宿主原生分隔符给出（实现内部用 join/resolve），期望值同样用 join 构造，
+    // 避免把 `/` 拼接的字面量与 Windows 反斜杠路径做字符串比较。
+    assert.equal(runtime.entryPath, join(DEV_ROOT, DEV_ENTRY));
+    assert.equal(runtime.addonPath, join(DEV_ROOT, DEV_ADDON));
     assert.equal(runtime.command, process.execPath);
     assert.deepEqual(runtime.commandEnv, { ELECTRON_RUN_AS_NODE: "1" });
 
@@ -1195,8 +1231,8 @@ describe("S55 resolveWindowsCuaRuntime 打包模式与完整性", () => {
       }),
     );
     assert.equal(runtime.root, PACKAGED_ROOT);
-    assert.equal(runtime.entryPath, `${PACKAGED_ROOT}/${PACKAGED_ENTRY}`);
-    assert.equal(runtime.addonPath, `${PACKAGED_ROOT}/${PACKAGED_ADDON}`);
+    assert.equal(runtime.entryPath, join(PACKAGED_ROOT, PACKAGED_ENTRY));
+    assert.equal(runtime.addonPath, join(PACKAGED_ROOT, PACKAGED_ADDON));
     assert.deepEqual(runtime.commandEnv, { ELECTRON_RUN_AS_NODE: "1" });
     assert.ok(fileSystem.touched.some((path) => path.endsWith("runtime-manifest.json")));
     assert.ok(!fileSystem.touched.some((path) => path.includes("node_modules")));

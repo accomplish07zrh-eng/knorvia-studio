@@ -9,7 +9,7 @@ import { dirname, isAbsolute, join, resolve } from "node:path";
 import { describe, it } from "node:test";
 
 import { importDeep, servicesNode } from "./entry.mjs";
-import { makeTempRoot, withEnv, writeText } from "./helpers.mjs";
+import { makeTempRoot, registerCleanup, withEnv, writeText } from "./helpers.mjs";
 
 const { KnorviaAgentProcessManager, resolveDefaultKnorviaAgentCommand } = servicesNode;
 const { KnorviaStorageStartupGate } = await importDeep("agent/storageStartupGate.ts");
@@ -283,15 +283,15 @@ describe("A33 默认候选链：本仓库 CLI 入口兜底", () => {
     assert.ok(isAbsolute(resolved.command));
     assert.equal(existsSync(resolved.command), true, resolved.command);
     assert.deepEqual(resolved.args.slice(-2), ["app-server", "--stdio"]);
+    // 入口断言必须两侧同口径归一：resolver 返回的是宿主原生分隔符（Windows 为反斜杠），
+    // 而期望后缀由 join() 拼出来；只归一化期望值会在 Windows 上恒假（旧断言即此缺陷）。
+    const entrySegments = [
+      join("apps", "cli", "packages", "cli", "src", "main.ts"),
+      join("apps", "cli", "packages", "cli", "dist", "knorvia.cjs"),
+    ];
+    const resolvedEntry = resolved.args[0].replace(/\\/gu, "/").replace(/[\\/]$/u, "");
     assert.ok(
-      resolved.args[0]
-        .replace(/[\\/]$/u, "")
-        .endsWith(join("apps", "cli", "packages", "cli", "src", "main.ts").replace(/\\/gu, "/")) ||
-        resolved.args[0]
-          .replace(/[\\/]$/u, "")
-          .endsWith(
-            join("apps", "cli", "packages", "cli", "dist", "knorvia.cjs").replace(/\\/gu, "/"),
-          ),
+      entrySegments.some((segment) => resolvedEntry.endsWith(segment.replace(/\\/gu, "/"))),
       resolved.args[0],
     );
     assert.equal(isAbsolute(resolved.args[0]), true);
@@ -302,7 +302,7 @@ describe("A33 默认候选链：本仓库 CLI 入口兜底", () => {
     if (resolved.env !== undefined) assert.deepEqual(resolved.env, { ELECTRON_RUN_AS_NODE: "1" });
   });
 
-  it("resolver 抛错时 canStart 报告原因而不抛出，未配置时给出稳定 reason", async () => {
+  it("resolver 抛错时 canStart 报告原因而不抛出，未配置时给出稳定 reason", async (t) => {
     const failing = new KnorviaAgentProcessManager({
       commandResolver: () => {
         throw new Error("resolver exploded");
@@ -311,6 +311,13 @@ describe("A33 默认候选链：本仓库 CLI 入口兜底", () => {
     const unavailable = new KnorviaAgentProcessManager({ commandResolver: () => null });
     const available = new KnorviaAgentProcessManager({
       commandResolver: () => ({ command: process.execPath, args: [] }),
+    });
+    // 三个 manager 都没有真进程，dispose 只为释放内部登记；登记进统一钩子后，
+    // 断言失败也不会漏掉（`finally` 与钩子都幂等，重复收口无副作用）。
+    registerCleanup(t, () => {
+      failing.disposeAll();
+      unavailable.disposeAll();
+      available.disposeAll();
     });
     try {
       assert.deepEqual(await failing.canStart({ workspacePath: "/tmp/svc01-a" }), {
@@ -337,7 +344,7 @@ describe("A33 默认候选链：本仓库 CLI 入口兜底", () => {
     }
   });
 
-  it("resolver 收到的上下文是 workspace 三元组加呈现面，且不额外 spawn 进程", async () => {
+  it("resolver 收到的上下文是 workspace 三元组加呈现面，且不额外 spawn 进程", async (t) => {
     const contexts = [];
     const manager = new KnorviaAgentProcessManager({
       presentationSurface: "desktop",
@@ -346,6 +353,7 @@ describe("A33 默认候选链：本仓库 CLI 入口兜底", () => {
         return null;
       },
     });
+    registerCleanup(t, () => manager.disposeAll());
     try {
       await manager.canStart({ workspacePath: "/tmp/svc01-c", workspaceIdentity: "  ident  " });
       assert.deepEqual(contexts, [
@@ -379,7 +387,7 @@ describe("A34 getClient 启动、复用与并发串行化", () => {
       },
       processLifecycleReporter: createLifecycleReporter(recorder),
     });
-    t.after(() => manager.disposeAllAndWait());
+    registerCleanup(t, () => manager.disposeAllAndWait());
     const events = createRecorder();
     const lifecycle = manager.onRuntimeLifecycle((event) =>
       events.push({ kind: "lifecycle", event }),
@@ -453,7 +461,7 @@ describe("A34 getClient 启动、复用与并发串行化", () => {
       },
       processLifecycleReporter: createLifecycleReporter(recorder),
     });
-    t.after(() => manager.disposeAllAndWait());
+    registerCleanup(t, () => manager.disposeAllAndWait());
 
     const firstStart = manager.getClient({ workspacePath });
     const secondStart = manager.getClient({ workspacePath });
@@ -485,7 +493,7 @@ describe("A34 getClient 启动、复用与并发串行化", () => {
         cwd: context.workspacePath,
       }),
     });
-    t.after(() => manager.disposeAllAndWait());
+    registerCleanup(t, () => manager.disposeAllAndWait());
     const [clientA, clientB] = await Promise.all([
       manager.getClient({ workspacePath }),
       manager.getClient({ workspacePath: secondWorkspace }),
@@ -518,7 +526,7 @@ describe("A35 workspaceIdentity 身份键与 lane 泳道", () => {
       }),
       processLifecycleReporter: createLifecycleReporter(recorder),
     });
-    t.after(() => manager.disposeAllAndWait());
+    registerCleanup(t, () => manager.disposeAllAndWait());
     const identityKey = "  remote:/srv/project  ";
     const client = await manager.getClient({ workspacePath, workspaceIdentity: identityKey });
     const snapshot = await requestSnapshot(client);
@@ -578,7 +586,7 @@ describe("A35 workspaceIdentity 身份键与 lane 泳道", () => {
       }),
       processLifecycleReporter: createLifecycleReporter(plainRecorder),
     });
-    t.after(async () => {
+    registerCleanup(t, async () => {
       await laneManager.disposeAllAndWait();
       await mainManager.disposeAllAndWait();
     });
@@ -625,7 +633,7 @@ describe("A36 被动观察入口不隐式拉起 Agent", () => {
         };
       },
     });
-    t.after(() => manager.disposeAllAndWait());
+    registerCleanup(t, () => manager.disposeAllAndWait());
     assert.equal(manager.getExistingClient({ workspacePath }), undefined);
     await assert.rejects(
       () => manager.getRuntimeIdentity({ workspacePath }),
@@ -656,7 +664,7 @@ describe("A37 退出、崩溃与换代重启", () => {
       }),
       processLifecycleReporter: createLifecycleReporter(recorder),
     });
-    t.after(() => manager.disposeAllAndWait());
+    registerCleanup(t, () => manager.disposeAllAndWait());
     const events = createRecorder();
     manager.onRuntimeLifecycle((event) => events.push({ kind: "lifecycle", event }));
     manager.onRuntimeRestarted((event) => events.push({ kind: "restarted", event }));
@@ -720,7 +728,7 @@ describe("A37 退出、崩溃与换代重启", () => {
       }),
       processLifecycleReporter: createLifecycleReporter(recorder),
     });
-    t.after(() => manager.disposeAllAndWait());
+    registerCleanup(t, () => manager.disposeAllAndWait());
 
     await manager.getClient({ workspacePath }).then(async (client) => {
       assert.equal(manager.getExistingClient({ workspacePath }), client);
@@ -777,7 +785,7 @@ describe("A37 退出、崩溃与换代重启", () => {
       }),
       processLifecycleReporter: createLifecycleReporter(recorder),
     });
-    t.after(() => manager.disposeAllAndWait());
+    registerCleanup(t, () => manager.disposeAllAndWait());
     await manager.getClient({ workspacePath });
 
     const spawn = await recorder.next((entry) => entry.kind === "spawn");
@@ -818,7 +826,7 @@ describe("A37 退出、崩溃与换代重启", () => {
       },
       processLifecycleReporter: createLifecycleReporter(recorder),
     });
-    t.after(() => manager.disposeAllAndWait());
+    registerCleanup(t, () => manager.disposeAllAndWait());
     const events = createRecorder();
     manager.onRuntimeLifecycle((event) => events.push({ kind: "lifecycle", event }));
 
@@ -862,7 +870,7 @@ describe("A38 disposeWorkspace 取消在飞启动（stale run 防护）", () => 
       },
       processLifecycleReporter: createLifecycleReporter(recorder),
     });
-    t.after(() => manager.disposeAllAndWait());
+    registerCleanup(t, () => manager.disposeAllAndWait());
 
     const start = manager.getClient({ workspacePath });
     const disposal = manager.disposeWorkspace({ workspacePath });
@@ -914,7 +922,7 @@ describe("A38 disposeWorkspace 取消在飞启动（stale run 防护）", () => 
         observed = context.signal.reason;
       },
     });
-    t.after(() => manager.disposeAllAndWait());
+    registerCleanup(t, () => manager.disposeAllAndWait());
     const start = manager.getClient({ workspacePath });
     await admissionGate;
     const disposal = manager.disposeWorkspace({ workspacePath });
@@ -943,6 +951,9 @@ describe("A38 disposeWorkspace 取消在飞启动（stale run 防护）", () => 
     await recorder.next((entry) => entry.kind === "spawn");
     const events = createRecorder();
     manager.onRuntimeLifecycle((event) => events.push({ kind: "lifecycle", event }));
+    // 本用例的主题就是「dispose 之后的行为」，dispose 必须由用例体触发；但断言失败会中断
+    // 用例体，所以再挂一道钩子兜住「dispose 已生效时幂等、未生效时收尾」两条路径。
+    registerCleanup(t, () => manager.disposeAllAndWait());
     manager.disposeAll();
     await assert.rejects(
       () => manager.getClient({ workspacePath }),
@@ -979,6 +990,8 @@ describe("A38 disposeWorkspace 取消在飞启动（stale run 防护）", () => 
     const client = await manager.getClient({ workspacePath });
     const pid = (await requestSnapshot(client)).pid;
     await recorder.next((entry) => entry.kind === "spawn");
+    // disposeAllAndWait 本身就是被测对象；钩子兜住断言失败时的收尾（幂等，重复调用无副作用）。
+    registerCleanup(t, () => manager.disposeAllAndWait());
     const firstCall = manager.disposeAllAndWait();
     const secondCall = manager.disposeAllAndWait();
     await Promise.all([firstCall, secondCall]);
@@ -1011,7 +1024,7 @@ describe("A39 生命周期上报时序与 ready 幂等", () => {
       }),
       processLifecycleReporter: createLifecycleReporter(recorder),
     });
-    t.after(() => manager.disposeAllAndWait());
+    registerCleanup(t, () => manager.disposeAllAndWait());
     const client = await manager.getClient({ workspacePath });
     const snapshot = await requestSnapshot(client);
 
@@ -1076,7 +1089,7 @@ describe("A39 生命周期上报时序与 ready 幂等", () => {
         },
       },
     });
-    t.after(() => manager.disposeAllAndWait());
+    registerCleanup(t, () => manager.disposeAllAndWait());
     const client = await manager.getClient({ workspacePath });
     assert.equal((await requestSnapshot(client)).ok, true);
     assert.equal((await manager.getRuntimeIdentity({ workspacePath })).generation, 1);
@@ -1108,7 +1121,7 @@ describe("A40 spawn 前置 hook 时序", () => {
         return { SVC01_SPAWN_ENV: "from-resolve-spawn-env" };
       },
     });
-    t.after(() => manager.disposeAllAndWait());
+    registerCleanup(t, () => manager.disposeAllAndWait());
     const client = await manager.getClient({ workspacePath });
     const result = await requestSnapshot(client);
     assert.deepEqual(order, ["resolveCommand", "admission", "resolveSpawnEnv", "admission"]);
@@ -1138,7 +1151,7 @@ describe("A40 spawn 前置 hook 时序", () => {
         return { SVC01_PRIORITY: "from-spawn-env", HTTPS_PROXY: "http://spawn-env-proxy.invalid" };
       },
     });
-    t.after(() => manager.disposeAllAndWait());
+    registerCleanup(t, () => manager.disposeAllAndWait());
     const client = await manager.getClient({
       workspacePath,
       workspaceIdentity: "  trimmed identity  ",
@@ -1169,7 +1182,7 @@ describe("A40 spawn 前置 hook 时序", () => {
         cwd: workspacePath,
       }),
     });
-    t.after(() => manager.disposeAllAndWait());
+    registerCleanup(t, () => manager.disposeAllAndWait());
     const { env } = await requestSnapshot(await manager.getClient({ workspacePath }));
     assert.equal(env.KNORVIA_RUNTIME_ENV, "production");
     assert.equal(env.KNORVIA_CUA_PERMISSION_BROKER_TOKEN, undefined);
@@ -1189,7 +1202,7 @@ describe("A40 spawn 前置 hook 时序", () => {
         cwd: workspacePath,
       }),
     });
-    t.after(() => manager.disposeAllAndWait());
+    registerCleanup(t, () => manager.disposeAllAndWait());
     const injected = await requestSnapshot(await manager.getClient({ workspacePath }));
     const coverageDir = resolve(artifactDir, "coverage", "raw", "cli");
     assert.equal(injected.env.NODE_V8_COVERAGE, coverageDir);
@@ -1218,7 +1231,7 @@ describe("A41 spawn cwd 兜底与失败可见性", () => {
       }),
       processLifecycleReporter: createLifecycleReporter(recorder),
     });
-    t.after(() => manager.disposeAllAndWait());
+    registerCleanup(t, () => manager.disposeAllAndWait());
     const events = createRecorder();
     manager.onRuntimeLifecycle((event) => events.push({ kind: "lifecycle", event }));
 
@@ -1251,7 +1264,7 @@ describe("A41 spawn cwd 兜底与失败可见性", () => {
       }),
       processLifecycleReporter: createLifecycleReporter(recorder),
     });
-    t.after(() => manager.disposeAllAndWait());
+    registerCleanup(t, () => manager.disposeAllAndWait());
     const client = await manager.getClient({ workspacePath: missingWorkspace });
     const snapshot = await requestSnapshot(client);
     assert.equal(snapshot.cwd, resolve(fallback), "进程实际 cwd 走兜底目录");
@@ -1274,7 +1287,7 @@ describe("A41 spawn cwd 兜底与失败可见性", () => {
         cwd: otherCwd,
       }),
     });
-    t.after(() => explicit.disposeAllAndWait());
+    registerCleanup(t, () => explicit.disposeAllAndWait());
     assert.equal(
       (await requestSnapshot(await explicit.getClient({ workspacePath: missingWorkspace }))).cwd,
       resolve(otherCwd),
@@ -1295,7 +1308,7 @@ describe("A42 请求超时看门狗与空闲回收", () => {
       }),
       processLifecycleReporter: createLifecycleReporter(recorder),
     });
-    t.after(() => manager.disposeAllAndWait());
+    registerCleanup(t, () => manager.disposeAllAndWait());
     const events = createRecorder();
     manager.onRuntimeLifecycle((event) => events.push({ kind: "lifecycle", event }));
 
@@ -1330,7 +1343,7 @@ describe("A42 请求超时看门狗与空闲回收", () => {
         cwd: workspacePath,
       }),
     });
-    t.after(() => manager.disposeAllAndWait());
+    registerCleanup(t, () => manager.disposeAllAndWait());
     const events = createRecorder();
     manager.onRuntimeLifecycle((event) => events.push({ kind: "lifecycle", event }));
     const client = await manager.getClient({ workspacePath });
@@ -1358,7 +1371,7 @@ describe("A42 请求超时看门狗与空闲回收", () => {
       }),
       processLifecycleReporter: createLifecycleReporter(recorder),
     });
-    t.after(() => manager.disposeAllAndWait());
+    registerCleanup(t, () => manager.disposeAllAndWait());
     const events = createRecorder();
     manager.onRuntimeLifecycle((event) => events.push({ kind: "lifecycle", event }));
 
@@ -1409,7 +1422,7 @@ describe("A43 存储启动门闩上报", () => {
         supportsStorageStartup: true,
       }),
     });
-    t.after(() => manager.disposeAllAndWait());
+    registerCleanup(t, () => manager.disposeAllAndWait());
     const events = createRecorder();
     const disposable = manager.onStorageStartupChanged((event) =>
       events.push({ kind: "storage", event }),
@@ -1477,7 +1490,7 @@ describe("A43 存储启动门闩上报", () => {
         supportsStorageStartup: true,
       }),
     });
-    t.after(() => manager.disposeAllAndWait());
+    registerCleanup(t, () => manager.disposeAllAndWait());
     const events = createRecorder();
     manager.onStorageStartupChanged((event) => events.push({ kind: "storage", event }));
     const client = await manager.getClient({ workspacePath });

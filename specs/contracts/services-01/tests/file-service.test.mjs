@@ -10,21 +10,66 @@ import { describe, it } from "node:test";
 
 import { entryLabel, importDeep, repoRoot, services, servicesNode } from "./entry.mjs";
 import { extractExports } from "./exports-ast.mjs";
-import { knorviaDataRoot, makeTempRoot, pathExists, readText, writeText } from "./helpers.mjs";
+import {
+  knorviaDataRoot,
+  makeTempRoot,
+  pathExists,
+  readText,
+  testCleanup,
+  writeText,
+} from "./helpers.mjs";
 
 const { createFileService } = servicesNode;
 const fileIO = await importDeep("file/fileServiceIO.ts");
 
 const isPosix = process.platform !== "win32";
 
-/** 独立的工作区根（与被测数据目录无关），用例结束先恢复权限再清理。 */
+/**
+ * 独立的工作区根（与被测数据目录无关）。
+ *
+ * 权限还原与目录删除都登记进统一的清理钩子：POSIX 上夹具会把某些目录改成不可写
+ * 来验证权限边界，不先恢复就删会 `EACCES`；Windows 上仍可能有个别句柄延迟释放。
+ * 两条都走同一钩子，任一步失败不会顶掉另一步（`t.after` 抛错即跳过后续钩子）。
+ */
 async function makeWorkspace(t, label) {
   const base = await mkdtemp(join(tmpdir(), `svc01-${label}-`));
-  t.after(async () => {
-    await restoreWritable(base);
-    await rm(base, { recursive: true, force: true });
-  });
+  const cleanup = testCleanup(t);
+  cleanup.release(() => restoreWritable(base));
+  cleanup.directory(base);
   return base;
+}
+
+/**
+ * 断言用的查询词：在真实文件名里保留可命中的核心词，同时保证它不会在**根路径**里
+ * 以子序列形式出现。
+ *
+ * 搜索有三档打分，第三档把绝对路径也纳入模糊匹配；Windows 的临时根路径
+ * `C:\Users\<用户>\AppData\Local\Temp\…` 字母充足，`alpha`/`late` 这类短词会跨段
+ * 子序列命中每一个候选（`a`ppdata→`l`ocal→`p`Temp→`h`→`a`），让「未命中项被剔除」
+ * 类断言在 Windows 上恒假。POSIX 的 `/tmp/…` 前缀字母少，不暴露该噪声。
+ *
+ * 返回 `{ core, file }`：`core` 是查询词（含原词，保证名字档命中），
+ * `file` 是对应的文件名主体（含 `core` 前缀）。
+ */
+function pickCoreAbsentFromRoot(rootPath, core) {
+  const haystack = rootPath.toLowerCase();
+  const isSubsequence = (needle) => {
+    let matched = 0;
+    for (const char of haystack) {
+      if (char === needle[matched]) {
+        matched += 1;
+        if (matched === needle.length) return true;
+      }
+    }
+    return false;
+  };
+  // 后缀取非常用字母组合，逐步加长，直到整词不再是根路径的子序列。
+  for (let attempt = 0; attempt < 64; attempt += 1) {
+    const suffix = `q${attempt}${"zkvwyq"[attempt % 6]}`;
+    const candidate = `${core}-${suffix}`;
+    if (!isSubsequence(candidate)) return candidate;
+  }
+  throw new Error("cannot pick a query core absent from the workspace root");
 }
 
 async function restoreWritable(base) {
@@ -732,25 +777,28 @@ describe(`S42 工作区文件搜索索引与忽略规则（${entryLabel}）`, ()
       return text.split("\n").filter(Boolean).length;
     };
     const before = await countEntries({ rootPath: root });
-    await writeText(join(root, "late.txt"), "x");
+    // 「晚到文件」的名字自选：必须保证它不会因为绝对路径档的子序列匹配而在
+    // 未刷新时就命中（见 pickCoreAbsentFromRoot 的说明），否则「缓存里没有它」无法断言。
+    const lateToken = pickCoreAbsentFromRoot(root, "late");
+    await writeText(join(root, `${lateToken}.txt`), "x");
     assert.equal(
       await service.listWorkspaceFilesLength({ rootPath: root }),
       length,
       "TTL 内 packed 字节数完全不变",
     );
     assert.deepEqual(
-      await service.searchWorkspaceFiles({ rootPath: root, query: "late" }),
+      await service.searchWorkspaceFiles({ rootPath: root, query: lateToken }),
       [],
       "缓存索引里没有晚到文件，未命中补扫要靠调用方显式 refresh",
     );
     const refreshed = await service.searchWorkspaceFiles({
       rootPath: root,
-      query: "late",
+      query: lateToken,
       refresh: true,
     });
     assert.deepEqual(
       refreshed.map((item) => item.relativePath),
-      ["late.txt"],
+      [`${lateToken}.txt`],
       "refresh 绕过未过期索引并就地重建该桶",
     );
     assert.equal(
@@ -760,25 +808,26 @@ describe(`S42 工作区文件搜索索引与忽略规则（${entryLabel}）`, ()
     );
 
     // identity 是缓存桶键：同一 root 换 identity 得到独立桶，各自扫描。
-    await writeText(join(root, "identity.txt"), "x");
+    const identityToken = pickCoreAbsentFromRoot(root, "identity");
+    await writeText(join(root, `${identityToken}.txt`), "x");
     assert.deepEqual(
       await service.searchWorkspaceFiles({
         rootPath: root,
-        query: "identity",
+        query: identityToken,
         workspaceIdentity: "ws-a",
       }),
       [
         {
-          name: "identity.txt",
-          path: join(root, "identity.txt"),
-          relativePath: "identity.txt",
+          name: `${identityToken}.txt`,
+          path: join(root, `${identityToken}.txt`),
+          relativePath: `${identityToken}.txt`,
           type: "file",
         },
       ],
       "新 identity 桶重新扫描，能看到晚到文件",
     );
     assert.deepEqual(
-      await service.searchWorkspaceFiles({ rootPath: root, query: "identity" }),
+      await service.searchWorkspaceFiles({ rootPath: root, query: identityToken }),
       [],
       "root 桶仍是旧快照，不被 identity 桶顶掉",
     );
@@ -793,16 +842,19 @@ describe(`S42 工作区文件搜索索引与忽略规则（${entryLabel}）`, ()
 
   it("搜索按名字/相对路径/绝对路径三档打分，limit 截断到 1000 上限，非法入参拒绝", async (t) => {
     const root = await makeWorkspace(t, "search-query");
-    await makeDir(join(root, "alpha"));
-    await writeText(join(root, "alpha", "alpha-report.md"), "x");
-    await writeText(join(root, "beta-alpha.txt"), "x");
+    // 名字统一用「不会在根路径里子序列出现」的词构造：Windows 临时根路径字母充足，
+    // 短词会跨段命中绝对路径档，让未命中项也进结果（见 pickCoreAbsentFromRoot）。
+    const core = pickCoreAbsentFromRoot(root, "alpha");
+    await makeDir(join(root, core));
+    await writeText(join(root, core, `${core}-report.md`), "x");
+    await writeText(join(root, `beta-${core}.txt`), "x");
     await writeText(join(root, "gamma.txt"), "x");
     const service = createFileService();
 
-    const byName = await service.searchWorkspaceFiles({ rootPath: root, query: "alpha" });
+    const byName = await service.searchWorkspaceFiles({ rootPath: root, query: core });
     assert.deepEqual(
       byName.map((item) => item.relativePath),
-      ["alpha", "alpha/alpha-report.md", "beta-alpha.txt"],
+      [core, `${core}/${core}-report.md`, `beta-${core}.txt`],
       "目录与文件同名命中按索引序返回，未命中项被剔除",
     );
     for (const item of byName) {
@@ -815,28 +867,47 @@ describe(`S42 工作区文件搜索索引与忽略规则（${entryLabel}）`, ()
     const empty = await service.searchWorkspaceFiles({ rootPath: root, query: "  " });
     assert.deepEqual(
       empty.map((item) => item.relativePath),
-      ["alpha/alpha-report.md", "beta-alpha.txt", "gamma.txt", "alpha"],
+      [`${core}/${core}-report.md`, `beta-${core}.txt`, "gamma.txt", core],
     );
 
     const none = await service.searchWorkspaceFiles({ rootPath: root, query: "zzz-nope" });
     assert.deepEqual(none, []);
 
+    // 绝对路径档单独覆盖：查询词只出现在**绝对路径前缀**里、不出现在任何名字或相对路径里。
+    // 三段打分中 `fullMatch + 300` 才是绝对路径档，这里断言它确实能把候选带进结果，
+    // 否则「换查询词」的修法会让这一档永远不被测到。
+    const rootSegment = root.slice(root.length - 24).replace(/\\/gu, "/");
+    const byAbsolutePath = await service.searchWorkspaceFiles({
+      rootPath: root,
+      query: rootSegment,
+    });
+    assert.ok(byAbsolutePath.length > 0, "只命中绝对路径前缀的查询词必须经绝对路径档返回结果");
+    for (const item of byAbsolutePath) {
+      assert.equal(
+        item.name.toLowerCase().includes(rootSegment.toLowerCase()) ||
+          item.relativePath.toLowerCase().includes(rootSegment.toLowerCase()),
+        false,
+        "该查询词不得出现在名字或相对路径里，命中只能来自绝对路径档",
+      );
+      assert.ok(item.path.toLowerCase().includes(rootSegment.toLowerCase()));
+    }
+
     assert.deepEqual(
-      await service.searchWorkspaceFiles({ rootPath: root, query: "alpha", limit: 0 }),
+      await service.searchWorkspaceFiles({ rootPath: root, query: core, limit: 0 }),
       [],
       "limit=0 直接短路，不建立索引",
     );
     assert.equal(
-      (await service.searchWorkspaceFiles({ rootPath: root, query: "alpha", limit: 1 })).length,
+      (await service.searchWorkspaceFiles({ rootPath: root, query: core, limit: 1 })).length,
       1,
     );
     // 上限是 1000：超出的请求被截断而不是报错。
     assert.equal(
-      (await service.searchWorkspaceFiles({ rootPath: root, query: "alpha", limit: 5000 })).length,
+      (await service.searchWorkspaceFiles({ rootPath: root, query: core, limit: 5000 })).length,
       byName.length,
     );
     await assert.rejects(
-      () => service.searchWorkspaceFiles({ rootPath: root, query: "alpha", limit: Number.NaN }),
+      () => service.searchWorkspaceFiles({ rootPath: root, query: core, limit: Number.NaN }),
       /^Error: Invalid workspace file search query or limit$/u,
     );
     await assert.rejects(

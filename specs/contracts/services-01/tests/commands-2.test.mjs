@@ -13,6 +13,7 @@ import {
   makeTempRoot,
   pathExists,
   readText,
+  registerCleanup,
   withEnv,
   writeText,
 } from "./helpers.mjs";
@@ -213,9 +214,9 @@ describe("S28 目录来源优先级与同名去重", () => {
     await writeUserCommand(root, "good.md", "fine");
     // 把 .md 做成指向不存在目标的软链：readFile 抛错 → 该条被 catch 跳过。
     const broken = join(userDirOf(root), "broken.md");
-    t.after(async () => {
-      await rm(broken, { recursive: true, force: true });
-    });
+    // 断链占位登记进统一清理：`rm -r` 对断链在部分平台会失败，必须先于数据根删除处理，
+    // 否则失败会污染数据根那一步的清理结果。
+    registerCleanup(t, () => rm(broken, { recursive: true, force: true }));
     try {
       await symlink(join(root, "does-not-exist.md"), broken);
     } catch {

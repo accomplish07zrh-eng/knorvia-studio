@@ -18,6 +18,7 @@ import {
   makeTempRoot,
   pathExists,
   readText,
+  registerCleanup,
   withEnv,
   writeText,
 } from "./helpers.mjs";
@@ -292,7 +293,9 @@ describe("S16 跨进程锁（credential/credentialService.ts）", () => {
     });
     const stdout = lineQueue(child.stdout);
     const closed = new Promise((resolveClose) => child.once("close", () => resolveClose()));
-    t.after(async () => {
+    // 持锁子进程必须在任何断言之前登记：本用例后面有「锁未释放时 save 不完成」这类
+    // 必然依赖真实时序的断言，失败时用例体中断，收尾只能靠钩子完成。
+    registerCleanup(t, async () => {
       if (child.exitCode === null && child.signalCode === null) child.kill("SIGKILL");
       await closed;
     });
