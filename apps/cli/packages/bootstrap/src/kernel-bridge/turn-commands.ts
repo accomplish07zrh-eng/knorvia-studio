@@ -51,6 +51,160 @@ const TURN_COMMAND_TYPES: ReadonlySet<string> = new Set([
 ]);
 
 /**
+ * kernel-bridge-03 的 C 组：需要回合栈、但**不投递用户输入**的命令。
+ *
+ * 与 `TURN_COMMAND_TYPES` 分开是因为它们的产出不是 `inputAccepted`/`inputDisposition`：
+ * `forkAssistant`/`createSelectionSideSession` 返回**新会话**，其余返回处置类 ACK。
+ */
+const STACK_COMMAND_TYPES: ReadonlySet<string> = new Set([
+  "forkAssistant",
+  "editUserQuery",
+  "retryTurn",
+  "createSelectionSideSession",
+  "sendGoalCommand",
+  "pauseGoal",
+  "resumeGoal",
+]);
+
+/**
+ * 把一条 C 组命令翻译成执行层终态。
+ *
+ * 失败语义与回合命令一致（执行器缺席 → `unsupported`；会话不存在 → `proto.sessionNotFound`；
+ * 能力缺席 → `unsupported`），只是产出形状不同。
+ *
+ * @param envelope - 已通过准入的命令信封。
+ * @param executor - 回合执行器；`undefined` 表示当前组合没有回合能力。
+ * @returns 执行层终态。
+ */
+export async function dispatchStackCommand(
+  envelope: CommandEnvelope,
+  executor: KernelTurnExecutor | undefined,
+): Promise<CommandExecutionOutcome> {
+  if (!STACK_COMMAND_TYPES.has(envelope.type)) {
+    return failedOutcome(UNSUPPORTED_REASON, `${envelope.type} is not a kernel-bridge-03 command`);
+  }
+  if (executor === undefined) return failedOutcome(UNSUPPORTED_REASON, undefined);
+  const sessionId = envelope.sessionId;
+  if (sessionId === null) {
+    return failedOutcome(SESSION_NOT_FOUND_REASON, `${envelope.type} requires a session`);
+  }
+  return await guardedBySession(envelope, sessionId, () => runStack(envelope, executor, sessionId));
+}
+
+/**
+ * 回合命令的统一收口：把「调执行器」的异常翻成既有失败语义。
+ *
+ * **为什么抽成一个 helper**：三处分派（C 组 / 回合组 / 首输入）原本各写一份
+ * 完全相同的 `try { … } catch { 两个 instanceof 检查; throw error }`。
+ * 同一段控制流写三遍既是冗余，也让「失败语义只有一份」失去保证——
+ * 将来改一处忘另两处就会分叉。集中后调用点只表达「做什么」。
+ *
+ * @param envelope - 命令信封（用于拼参数错误的文案）。
+ * @param sessionId - 已确认非空的会话 id。
+ * @param body - 真正的执行体，返回冻结形状的 result。
+ * @returns 执行层终态；未识别的异常继续上抛，由调用方折叠为内部错误。
+ */
+async function guardedBySession(
+  envelope: CommandEnvelope,
+  sessionId: string,
+  body: () => Promise<NonNullable<CommandAck["result"]>>,
+): Promise<CommandExecutionOutcome> {
+  try {
+    const result = await body();
+    return { status: "accepted", result };
+  } catch (error) {
+    if (error instanceof TurnSessionUnavailableError) {
+      return failedOutcome(SESSION_NOT_FOUND_REASON, `Session is not active: ${sessionId}`);
+    }
+    if (error instanceof TurnCapabilityUnavailableError) {
+      return failedOutcome(UNSUPPORTED_REASON, error.message);
+    }
+    // 未识别的异常带上下文上抛：消息里点明是哪条命令，便于定位。
+    if (error instanceof Error) {
+      error.message = `${envelope.type}: ${error.message}`;
+    }
+    throw error;
+  }
+}
+
+/**
+ * 按命令类型调执行器的可选方法，并把结果收窄成冻结的 v4 result 形状。
+ *
+ * @param envelope - 命令信封。
+ * @param executor - 回合执行器。
+ * @param sessionId - 已确认非空的会话 id。
+ * @returns 冻结形状的 result。
+ */
+async function runStack(
+  envelope: CommandEnvelope,
+  executor: KernelTurnExecutor,
+  sessionId: string,
+): Promise<NonNullable<CommandAck["result"]>> {
+  // `forkAssistant` 与 `createSelectionSideSession` 都产出**新会话**，
+  // 冻结面的 result type 就是它们自己的名字（`commandResultSchema` 已列）。
+  if (envelope.type === "forkAssistant") {
+    const payload = envelope.payload as CommandPayloadMap["forkAssistant"];
+    const forked = await executor.forkSession?.({
+      sessionId,
+      params: { rowId: payload.target.rowId },
+    });
+    const forkedSessionId = (forked as { sessionId?: string } | undefined)?.sessionId;
+    if (forkedSessionId === undefined) {
+      throw new TurnCapabilityUnavailableError("session fork");
+    }
+    return { type: "forkAssistant", sessionId: forkedSessionId };
+  }
+  if (envelope.type === "createSelectionSideSession") {
+    const payload = envelope.payload as CommandPayloadMap["createSelectionSideSession"];
+    // `firstInput` 按冻结面是**可选**的：缺席表示「只建侧会话、不预置输入」。
+    const created = await executor.createSelectionSideSession?.({
+      parentSessionId: sessionId,
+      text: payload.firstInput?.text ?? "",
+    });
+    if (created === undefined) {
+      throw new TurnCapabilityUnavailableError("selection side session");
+    }
+    const result: NonNullable<CommandAck["result"]> = {
+      type: "createSelectionSideSession",
+      sessionId: created.sessionId,
+      ...(payload.firstInput === undefined
+        ? {}
+        : { input: { delivery: created.admitted, inputId: envelope.commandId } }),
+    };
+    return result;
+  }
+  if (envelope.type === "sendGoalCommand") {
+    const payload = envelope.payload as CommandPayloadMap["sendGoalCommand"];
+    await executor.setGoal?.({ sessionId, params: { text: payload.text } });
+    return { type: "inputDisposition", delivery: "startNow" };
+  }
+  if (envelope.type === "pauseGoal") {
+    await executor.pauseGoal?.({ sessionId, params: {} });
+    return { type: "inputDisposition", delivery: "queue" };
+  }
+  if (envelope.type === "resumeGoal") {
+    await executor.resumeGoal?.({ sessionId, params: {} });
+    return { type: "inputDisposition", delivery: "startNow" };
+  }
+  if (envelope.type === "editUserQuery") {
+    const payload = envelope.payload as CommandPayloadMap["editUserQuery"];
+    await executor.editUserQuery?.({
+      sessionId,
+      params: {
+        rowId: payload.target.rowId,
+        newText: payload.newText,
+        workspaceMode: payload.workspaceMode,
+      },
+    });
+    return { type: "inputDisposition", delivery: "startNow" };
+  }
+  // retryTurn：重试该助手轮。
+  const payload = envelope.payload as CommandPayloadMap["retryTurn"];
+  await executor.retryTurn?.({ sessionId, params: { rowId: payload.target.rowId } });
+  return { type: "inputDisposition", delivery: "startNow" };
+}
+
+/**
  * 把一条回合类命令翻译成执行层终态。
  *
  * 失败只有四个来源，各有固定语义：
@@ -94,17 +248,7 @@ export async function dispatchTurnCommand(
   if (sessionId === null) {
     return failedOutcome(SESSION_NOT_FOUND_REASON, `${envelope.type} requires a session`);
   }
-  try {
-    return { status: "accepted", result: await runTurn(envelope, executor, sessionId) };
-  } catch (error) {
-    if (error instanceof TurnSessionUnavailableError) {
-      return failedOutcome(SESSION_NOT_FOUND_REASON, `Session is not active: ${sessionId}`);
-    }
-    if (error instanceof TurnCapabilityUnavailableError) {
-      return failedOutcome(UNSUPPORTED_REASON, error.message);
-    }
-    throw error;
-  }
+  return await guardedBySession(envelope, sessionId, () => runTurn(envelope, executor, sessionId));
 }
 
 /**
@@ -133,29 +277,31 @@ export async function deliverFirstInput(
   if (executor === undefined) return failedOutcome(UNSUPPORTED_REASON, undefined);
 
   const sessionId = envelope.sessionId ?? "";
-  try {
-    const turn = await executor.createSession({
+  const firstTurn = await executor
+    .createSession({
       sessionId,
       workspacePath: payload.workspaceId,
       // `firstInput.mode` 是**提交模式**（build/edit/plan/yolo 一类），不是交付意愿；
       // 首输入没有 requestedDelivery 字段，按空闲会话的首个回合处理。
       firstInput: { text: payload.firstInput.text },
+    })
+    .catch((rejection: unknown) => {
+      // 首输入被拒时不能留下「半建的会话」：DSH 侧会话已由引擎建好，
+      // 这里把它摘出登记表，再如实回失败（不伪造成功）。
+      forgetSession(sessionId);
+      if (rejection instanceof TurnSessionUnavailableError) {
+        return failedOutcome(SESSION_NOT_FOUND_REASON, `Session is not active: ${sessionId}`);
+      }
+      throw rejection;
     });
-    const result: NonNullable<CommandAck["result"]> = {
-      type: "createSession",
-      sessionId,
-      input: { delivery: turn.admitted ?? "startNow", inputId: envelope.commandId },
-    };
-    return { status: "accepted", result };
-  } catch (error) {
-    // 首输入被拒时不能留下「半建的会话」：DSH 侧会话已由引擎建好，
-    // 这里把它摘出登记表，再如实回失败（不伪造成功）。
-    forgetSession(sessionId);
-    if (error instanceof TurnSessionUnavailableError) {
-      return failedOutcome(SESSION_NOT_FOUND_REASON, `Session is not active: ${sessionId}`);
-    }
-    throw error;
-  }
+  // 失败分支返回的是 outcome 而不是首回合结果：用 `status` 区分，避免再抛一次。
+  if ("status" in firstTurn) return firstTurn;
+  const result: NonNullable<CommandAck["result"]> = {
+    type: "createSession",
+    sessionId,
+    input: { delivery: firstTurn.admitted ?? "startNow", inputId: envelope.commandId },
+  };
+  return { status: "accepted", result };
 }
 
 /**

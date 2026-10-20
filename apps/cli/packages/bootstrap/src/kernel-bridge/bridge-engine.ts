@@ -33,8 +33,22 @@ import {
   type KernelTurnExecutor,
   TurnSessionUnavailableError,
 } from "./turn-executor.js";
-import { deliverFirstInput, dispatchTurnCommand } from "./turn-commands.js";
+import { deliverFirstInput, dispatchStackCommand, dispatchTurnCommand } from "./turn-commands.js";
+import { capabilityAbsentOutcome } from "./capability-gap.js";
 import { createAgentLookupHost, registerTurnExecutionPort } from "./legacy-port/register.js";
+
+/**
+ * 从 v4 的行目标里取 `rowId`。
+ *
+ * `conversationRowTargetSchema` 是 `{ rowId: number, entityId: string }`（`.strict()`），
+ * 所以这里直接取 `rowId`；定义在模块作用域而不是类里，因为它是不依赖引擎状态的纯函数。
+ *
+ * @param target - 命令载荷里的行目标。
+ * @returns 行标识。
+ */
+function rowIdOf(target: { readonly rowId: number }): number {
+  return target.rowId;
+}
 
 /** 段 A 尚未接入的命令类型统一回 failed + 该 reasonCode；不伪造 accepted/noop。 */
 const UNSUPPORTED_REASON_CODE = "unsupported";
@@ -182,6 +196,69 @@ export class BridgeEngine implements BridgeCommandExecutor {
       case "compact":
       case "resolveInteraction":
         return await dispatchTurnCommand(envelope, this.turnExecutor, this.approvals);
+      // ── kernel-bridge-03：A 组（纯投影/配置），走既有配置变更通道 ──
+      case "renameSession": {
+        const payload = envelope.payload as CommandPayloadMap["renameSession"];
+        // 标题来源必须标 custom，否则模型自动生成的标题会把用户显式重命名覆盖掉。
+        return this.applyConfigCommand(
+          envelope,
+          { title: payload.title, titleSource: "custom" },
+          false,
+        );
+      }
+      case "switchModelConfig": {
+        const payload = envelope.payload as CommandPayloadMap["switchModelConfig"];
+        // 只改配置里的模型选择，**不触发模型轮**——这是「配置切换」与「发消息」的区别。
+        return this.applyConfigCommand(
+          envelope,
+          {
+            modelSelection: {
+              providerId: payload.provider,
+              modelId: payload.model,
+              options: { reasoningLevel: payload.thought },
+            },
+          },
+          false,
+        );
+      }
+      case "setAssistantFeedback": {
+        const payload = envelope.payload as CommandPayloadMap["setAssistantFeedback"];
+        // 反馈属于**行**而不是快照：目标行由 payload.target 指定。
+        return this.applyConfigCommand(
+          envelope,
+          {
+            assistantFeedback: payload.feedback,
+            assistantFeedbackRowId: rowIdOf(payload.target),
+          },
+          false,
+        );
+      }
+      case "deleteSession":
+        return this.deleteSession(envelope);
+      // ── kernel-bridge-03 C 组：需要回合栈（经执行器；与 v4/legacy 共用实现） ──
+      // 分派与失败翻译统一在 turn-commands.ts，引擎只委派。
+      case "forkAssistant":
+      case "editUserQuery":
+      case "retryTurn":
+      case "createSelectionSideSession":
+      case "sendGoalCommand":
+      case "pauseGoal":
+      case "resumeGoal":
+        return await dispatchStackCommand(envelope, this.turnExecutor);
+      // ── kernel-bridge-03 D 组：能力缺口（后端在插件包，本包只如实回缺失） ──
+      case "resumeWorkflowRun":
+      case "startSavedWorkflow":
+      case "amendWorkflowRunSettings":
+      case "discardSharedContext":
+      case "respondWorkspaceHookReview":
+      case "toggleWorkspaceHookReviewItem":
+      case "revokeWorkspaceHookTrust":
+      case "requestWorkspaceHookReview":
+      case "snoozeInteractionAutoResolution":
+      case "applyFileRewind":
+        // 回**专门**的能力缺失码，不是 `unsupported`：后者是「实现进度」语义，
+        // 而这些命令在当前引擎下**永远**缺失（后端归 workflow / hooks / rewind 包）。
+        return capabilityAbsentOutcome(envelope.type);
       default:
         return { status: "failed", reasonCode: UNSUPPORTED_REASON_CODE };
     }
@@ -222,6 +299,27 @@ export class BridgeEngine implements BridgeCommandExecutor {
     if (result.deltas.length === 0 && noopOnSameValue) {
       return { status: "noop", reasonCode: CONFIG_UNCHANGED_REASON_CODE };
     }
+    return { status: "accepted" };
+  }
+
+  /**
+   * `deleteSession`：把会话从桥的登记表摘掉（会话事实的唯一来源是 DSH，
+   * 这里只撤销本桥对该会话的投影与路由）。
+   *
+   * 语义选择：**不抛错、不伪造**。对已不存在的会话，`CommandInbox` 已在准入阶段
+   * 回 `proto.sessionNotFound`，所以走到这里说明会话确实存在。
+   * 删除后其队列项由 `CommandInbox` 的会话表一并清理，不留悬挂的 `queueItemId`。
+   */
+  private deleteSession(envelope: CommandEnvelope): CommandExecutionOutcome {
+    const sessionId = envelope.sessionId;
+    if (sessionId === null) {
+      return {
+        status: "failed",
+        reasonCode: BRIDGE_REASON_CODES.sessionNotFound,
+        message: `${envelope.type} requires a session`,
+      };
+    }
+    this.sessions.delete(sessionId);
     return { status: "accepted" };
   }
 
