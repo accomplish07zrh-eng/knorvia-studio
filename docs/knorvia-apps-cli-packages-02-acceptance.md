@@ -158,6 +158,9 @@
 - **`provenance:check` 必须以退出码判定**：`reviewProblems: 0` 只说明登记与文件一致，**inventory stale 是另一类失败**。曾因「只 add 了 `reviews.json`、漏了 `report` 新产出的 `current-files.json`」而让 CI 红。
 - **先 `fmt` 再登记**：`fmt` 会改写 Markdown 与 JSON 排版。先登记、后 fmt 会让登记摘要立刻失效（`reviewProblems` 从 0 变 1，状态被判 `stale`）。同理，`node-repl-host/package.json` 曾按字母序重排 `exports`（语义等价、B37 仍过）却触发 `third-party audit inconsistent`——审计按字节/结构比对而非语义，故该文件已逐字节还原并撤销其登记条目。
 - 登记顺序固定为：`fmt → fmt:check → 登记 → fmt → fmt:check → provenance:report → git add 两个 licensing 文件 → provenance:check（看退出码）→ git status 干净`。
+- **merge main 后必须做「删除项专项」检查**：`git diff origin/main --diff-filter=D --name-only`。一次合并曾把 main 上新加的文件（`specs/contracts/kernel-bridge-legacy/C2-VERIFICATION.md`，227 行，由 #237 加入）**静默丢掉**，而 `git diff origin/main --name-only` 只把它算作「本分支的删除」，混在 59 项正常改动里看不出来。修复方式是 `git checkout origin/main -- <file>` 再 amend。该检查已固化为 `scripts/merge-hygiene.mjs`（含反向检查：已登记的删除项若消失也报错）。
+- **不要打断正在运行的 CI**：首次 push `5238d86d` 后 CI 已启动，随后又 push `60dbe1f4`（新增卫生检查脚本），**取消了已运行约 20 分钟的那轮 run**。教训：**工具类改动不该塞进正在验证的功能 PR**；即使要塞，也必须等当前 run 结束。该脚本本身保留（只新增一个文件、与本 PR 的合并卫生主题相关），但此后再遇到同类改动应单独开 PR。
+- **`--force-with-lease` 报 `stale info` 时先刷新认知**：它表示「本地对远端的认知过期」，不是「远端被人改了」。解法是 `git ls-remote origin <branch>` 看真实远端 SHA，再 `git fetch origin --prune` 刷新 tracking ref，然后普通 `git push`。
 
 ## 六、隔离（isolation）
 

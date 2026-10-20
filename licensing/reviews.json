@@ -282,7 +282,7 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/auth/browser.ts",
-      "normalizedSha256": "d534448c905ea18ff2ca32382cd601c158cac6c078b0b51a677876157c4a3736",
+      "normalizedSha256": "b95ef0901b7c7fe58a4266eb40ba25b4432e1590faf92ae838c324e69e142207",
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independently authored from frozen public interface, declaration and behavioral contracts. The exact candidate v2 source passed the separately authored 30-case source and dist suites after both frozen old targets passed. Root repaired only the OS platform port selection based on a bounded behavioral finding. Public-fixture exposure and limited role separation are disclosed; this is not a whole-thread clean-room or whole-application license claim. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.162, longest identical run 5, structural similarity 0.047 against the fixed upstream baseline (scored in normal mode).",
@@ -1127,7 +1127,7 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/http/index.ts",
-      "normalizedSha256": "acf45702e234766c916cbc778cd7a66d002c0a0a797613729239c6bd1758d20b",
+      "normalizedSha256": "9d97b73e9c29a4a5dce4263b2c512646a20c6502e7369b08ac63c585193dae89",
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Contract-led request owner with instance CA success cache, per-request timer/controller and linked-parent cleanup, public preflight, retained byte reader and preserved error priorities. Options/reference and field-read timing follow the prior behavior contract. Root fully read the old source and retained public/caller boundaries. The isolated author received approved behavior and declarations plus its own design review, not old bodies/history/tests/probes/bundles; prior author context remains. No whole-process clean-room or legal guarantee is claimed. Root fully read the final 352-line pair and checked old-first failures, source behavior and actual CLI-reachable compiled bytes. Fixed public declarations, literals and short standard Node/Headers/Promise expressions are compatibility constraints, not independent evidence of authorship. Passing tests or an MIT header alone does not establish provenance. Retained CA/proxy config, shared environment reader, public error/port contracts, third-party dependencies, root Apache-2.0 and preview identity keep their rights and scope. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.198, longest identical run 3, structural similarity 0.000 against the fixed upstream baseline (scored in normal mode).",
@@ -2483,7 +2483,7 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/network/http-config.ts",
-      "normalizedSha256": "8c19e8f7a9f7bcd13355936b9a1c341c07d8f184da8af148274cdb462c2a7ccf",
+      "normalizedSha256": "0ad1ac53bd0a710af0d84347b2dac5e5c9cdcd7b528d9caa9fac1d1914ccb877",
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Contract-led stateless ordered proxy selection and shared no-proxy matcher, with exact port constraints before wildcard/host checks, structurally validated bracket tokens and native URL reparse to preserve explicitly written default ports. Synchronous CA bytes use the retained path/read contract without a helper cache. Root fully read the inherited helper and public/caller boundaries, authored behavior requirements after finite pure observations and reviewed the final 205-line candidate. The isolated author used approved behavior/declarations and its own review, not old bodies/history/tests/probes/bundles, but prior context remains. No whole-process clean-room or legal guarantee is claimed. Public signatures, constants and short standard URL/filesystem expressions are compatibility constraints rather than standalone authorship evidence. Candidate static lint corrections were preserved; runtime acceptance did not revise candidate source. Passing tests or MIT headers alone does not prove provenance. The retained shared runtime-env reader/constants, callers, Node and third-party dependencies retain their rights, as do root Apache-2.0 and preview identity. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.196, longest identical run 5, structural similarity 0.015 against the fixed upstream baseline (scored in normal mode).",
@@ -3404,7 +3404,7 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-store/json.ts",
-      "normalizedSha256": "a6d531a3f94c6383d8b1914381be06dcc0325e96854faab8e27bac4ce2b71785",
+      "normalizedSha256": "bd90f933f8e7b0de5d7b96eace64d6b3fc6d4b65a318de4dce8dce2efd1d2b16",
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Contract-authored optional JSON cell adapter uses native serialization and all-falsy runtime absence without absorbing required-document parsing. Thin functional wrapper has little expressive latitude; not claimed as a new algorithm. The root and reviewer accessed old source; no project-wide clean-room or legal-completion assertion is made. A separate implementation task received the prior behavior contract and exported signatures, permitted public types/schema, and was prohibited from opening old target implementations, history, compiled output or frozen baselines. Current expression was inspected before integration. Fixed SQL field mappings, native JSON behavior, names, ordinary field projection techniques and common wrappers are compatibility requirements, not claimed novel algorithms. Prior source relationships and old checkpoints remain recorded. Rows, public schema, validator, adjacent repositories, transaction owner and migrations retain their applicable licensing. Finite comparisons prove only bounded behavior; mutable getter differences and inaccurate legacy return declarations are disclosed. Naming, extraction, AI generation and tests alone do not establish authorship. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.125, longest identical run 1, structural similarity 0.000 against the fixed upstream baseline (scored in normal mode).",
@@ -3488,7 +3488,7 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-store/record-projection.ts",
-      "normalizedSha256": "3c6f6d3ac75e43db5a20be308942fd083e10690e45dd2bdb32fdbcd93acef757",
+      "normalizedSha256": "d386eedb675fe17f9737974aa13c1036c500bbfcb197cd223b3f0c2f27545020",
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Fresh shared ordered projection constructs own entries using filtering and Object.fromEntries, retaining positions and ordinary __proto__ data. Reused by member normalization, identity overlays and full-access branch updates; no cache or duplicated business state. The root and reviewer accessed old source; no project-wide clean-room or legal-completion assertion is made. A separate implementation task received the prior behavior contract and exported signatures, permitted public types/schema, and was prohibited from opening old target implementations, history, compiled output or frozen baselines. Current expression was inspected before integration. Fixed SQL field mappings, native JSON behavior, names, ordinary field projection techniques and common wrappers are compatibility requirements, not claimed novel algorithms. Prior source relationships and old checkpoints remain recorded. Rows, public schema, validator, adjacent repositories, transaction owner and migrations retain their applicable licensing. Finite comparisons prove only bounded behavior; mutable getter differences and inaccurate legacy return declarations are disclosed. Naming, extraction, AI generation and tests alone do not establish authorship.",
@@ -3513,7 +3513,7 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/dwf-journal-artifacts.ts",
-      "normalizedSha256": "d083e6218e215b5362058058d86d12a1bbd93fe8d8cd462e03a10f407a22baf6",
+      "normalizedSha256": "3e7644729537715104cdaf4ccb1f517ce94377ad505d4014682fb7628bcb1e85",
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Fresh artifact node and report-event query implementation with selected-row decode, strict cursor, caller pagination probe, version/order and scalar/undefined item preservation. Root/reviewer read inherited source and callers to prepare the prior behavior contract; this is not a whole-process clean-room, legal guarantee, or whole-product MIT claim. Restricted author received only the approved contract, structural declarations, behavioral supplement, explicit authorization and later behavioral regression feedback; old targets/history/dist/maps/frozen baseline/tests/other implementations were excluded. Fixed declarations, record fields/order and standard SQL/JSON expressions are compatibility facts, not algorithmic novelty or proprietary claims. Pure synchronous compatibility preserves caller transaction ownership and documented O1/O2 legacy limits. Untouched public declarations, facade, schema/migrations/runtime and third parties retain applicable licensing; root Apache and preview identity remain. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.188, longest identical run 4, structural similarity 0.000 against the fixed upstream baseline (scored in normal mode).",
@@ -3537,7 +3537,7 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/dwf-journal-introspection.ts",
-      "normalizedSha256": "11723fb934d6aee86c1db8dfccff3ad00470ff052d6ac29cd73fe81154a78657",
+      "normalizedSha256": "42cc3e3c5fca1a6bafbdedd014d3df0c4a9247637c0726586ca978a522525c4a",
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Fresh six host query operations with narrow run projections, logical SQL filtering, native count/log ordering and in-database world result byte/scalar summaries. Root/reviewer read inherited source and callers to prepare the prior behavior contract; this is not a whole-process clean-room, legal guarantee, or whole-product MIT claim. Restricted author received only the approved contract, structural declarations, behavioral supplement, explicit authorization and later behavioral regression feedback; old targets/history/dist/maps/frozen baseline/tests/other implementations were excluded. Fixed declarations, record fields/order and standard SQL/JSON expressions are compatibility facts, not algorithmic novelty or proprietary claims. Pure synchronous compatibility preserves caller transaction ownership and documented O1/O2 legacy limits. Untouched public declarations, facade, schema/migrations/runtime and third parties retain applicable licensing; root Apache and preview identity remain. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.115, longest identical run 2, structural similarity 0.216 against the fixed upstream baseline (scored in normal mode).",
@@ -3560,7 +3560,7 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/dwf-journal-run-state.ts",
-      "normalizedSha256": "156ab2d42eef51d5ca221926c612672d9e99fe2338fd8740cf5086da4d4c646c",
+      "normalizedSha256": "aa7387ef871d2d9dee2964bd3dce5d82b0b28c27af6f0637be348759d23e5679",
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "New cohesive internal logical/physical settlement and predicate implementation replacing the state responsibility of the inherited codec module. Initial malformed-envelope recognition regression was observed before correction and repaired using behavioral feedback only; not an extraction of inherited function bodies. Root/reviewer read inherited source and callers to prepare the prior behavior contract; this is not a whole-process clean-room, legal guarantee, or whole-product MIT claim. Restricted author received only the approved contract, structural declarations, behavioral supplement, explicit authorization and later behavioral regression feedback; old targets/history/dist/maps/frozen baseline/tests/other implementations were excluded. Fixed declarations, record fields/order and standard SQL/JSON expressions are compatibility facts, not algorithmic novelty or proprietary claims. Pure synchronous compatibility preserves caller transaction ownership and documented O1/O2 legacy limits. Untouched public declarations, facade, schema/migrations/runtime and third parties retain applicable licensing; root Apache and preview identity remain. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.189, longest identical run 5, structural similarity 0.105 against the fixed upstream baseline (scored in normal mode).",
@@ -3875,7 +3875,7 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/usage-values.ts",
-      "normalizedSha256": "441d17a7f545acab5eb718d74470bc74f295b8742431a6c6b5a6d0de6aa18cb7",
+      "normalizedSha256": "464a62a5e47e1d318964bd8643fac89a7b2e4cbd4acb442b3f2135061341218d",
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Fresh small shared finite-number count policy for write projection and task inference; generic short expression not a standalone novelty claim. Root and reviewer inspected old implementation to extract a prior contract; no whole-process clean-room or whole-product MIT claim. Isolated author read only behavior policies, selected public declarations and dependency signatures with behavior-only corrections; old target/history/baseline/dist/maps/tests/other repository bodies were excluded. Fixed schema fields, standard SQL/aggregation and tiny generic expressions are compatibility constraints rather than novel algorithms. Existing facade/schema/migrations/helper and consumers retain their applicable licenses. Root Apache and preview identity remain; synthetic memory SQLite only. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.167, longest identical run 1, structural similarity 0.000 against the fixed upstream baseline (scored in normal mode).",
@@ -3923,7 +3923,7 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-store/session-store-connection.ts",
-      "normalizedSha256": "63ee664e4a07c167a2b91f119f2e259af8679d02a6be6d30574e14058620e818",
+      "normalizedSha256": "20cda5b503a3d88052e45378312013e72d569e3c6e98c152ee72f9747791dda9",
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "New narrow connection preparation and synchronous startup cleanup sequence consuming the already reviewed initializer, without duplicating migrations or owning an additional connection. Root and validation roles read inherited source to extract behavior; the isolated author received approved contracts, stripped public signatures and dependency declarations, not old target bodies/history/baselines/tests/comparers. Prior conversation context remains. The first two author typecheck resolutions loaded 107 product sources through shared paths; the author inspected path lists rather than bodies, but these compiler inputs are not described as declaration-only. Final exact export mappings restricted non-declaration product inputs to six candidates. No whole-process clean-room or legal guarantee is claimed. Fixed fields, errors, signatures, standard SQL and thin delegation are compatibility expression, not novel algorithms; splitting, names, headers and line counts are not independent evidence. Public barrels, options/rows, historical SQL and other retained dependencies keep applicable provenance. Root Apache-2.0 and preview identity remain. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.175, longest identical run 2, structural similarity 0.000 against the fixed upstream baseline (scored in normal mode).",
@@ -148958,6 +148958,28 @@
       ]
     },
     {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/dwf-journal-artifacts-types.ts",
+      "normalizedSha256": "cc6573d61f29a33b6a9f67e75fe5cbae3d17d889a94c2686883e5153294a35f3",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored pure declaration file for the adapters similarity rework (issue #224, batch E). It holds only the interfaces already listed in specs/contracts/apps-cli-packages-01/interface.md, moved out of the implementation module so the contract-fixed field names stay in one place. No implementation code. Scored in declaration mode against the fixed upstream baseline: residual lines 0, containment 0.000.",
+      "evidence": [
+        "specs/contracts/apps-cli-packages-01/interface.md",
+        "docs/knorvia-adapters-similarity-rework-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/dwf-journal-introspection-types.ts",
+      "normalizedSha256": "48a7b31002e5fb8d2171d3376391a7c0bfb6e5e52549e247e9a5b479c29ae314",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored pure declaration file for the adapters similarity rework (issue #224, batch E). It holds only the interfaces already listed in specs/contracts/apps-cli-packages-01/interface.md, moved out of the implementation module so the contract-fixed field names stay in one place. No implementation code. Scored in declaration mode against the fixed upstream baseline: residual lines 0, containment 0.000.",
+      "evidence": [
+        "specs/contracts/apps-cli-packages-01/interface.md",
+        "docs/knorvia-adapters-similarity-rework-acceptance.md"
+      ]
+    },
+    {
       "path": "apps/cli/packages/dynamic-workflow-runtime/src/bridge-errors.ts",
       "normalizedSha256": "f5b8db0d2793882bc9bbb4c76fc5ee1230ba0e597653ee7cb7d3916874a41e72",
       "decision": "original",
@@ -149564,7 +149586,7 @@
     },
     {
       "path": "docs/knorvia-apps-cli-packages-02-acceptance.md",
-      "normalizedSha256": "efa7dbe2cc0043defdbbda8aea42e23753114eb1c4fcc90ac4926d0251753d20",
+      "normalizedSha256": "028729940ae24d243b176b15502f47be2e4e2a1ac28b25e4985e10cd35df40dc",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored acceptance record for the apps-cli-packages-02 independent replacement, listing per-file scoring modes, both similarity measurement sets, the old-gate and stub-replacement results, the first failures and their corrections, the traps hit and corrected, the isolation self-check, the overlap check against earlier node-repl-host PRs, and the remaining risks. Measured in this package: line-mode similarity 25/25 pass with highest containment 0.194, declaration-mode similarity 7/7 pass with 0-1 residual lines and containment 0.000, contract tests source 38/38 and dist 38/38, old gate PASS with stub replacement 0/38 allFail.",
@@ -149575,10 +149597,10 @@
       "normalizedSha256": "3b5337cd0235a6d156f051529736f7facd4ebf4257ee19ed236978628ad8f220",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored merge hygiene check for the apps-cli-packages-02 replacement branch. It asserts that the branch deletes only files whose deletion is registered with a stated basis, so that a merge which silently drops files newly added on main cannot pass unnoticed, and it also checks for leftover conflict markers, unparsable reviews.json and backslash paths. Measured on this branch: the check reports exactly one intentional deletion (the unreviewed node-repl-host test), 59 net changes, no conflict markers, 12840 review records parseable and no backslash paths.",
+      "basis": "Knorvia-authored merge hygiene check for the apps-cli-packages-02 replacement branch. It asserts that the branch deletes only files whose deletion is registered with a stated basis, so that a merge which silently drops files newly added on main cannot pass unnoticed, and it also checks for leftover conflict markers, unparsable reviews.json and backslash paths. Measured on this branch: the check reports exactly one intentional deletion (the unreviewed node-repl-host test), 59 net changes, no conflict markers, review records parseable and no backslash paths.",
       "evidence": [
-        "specs/contracts/apps-cli-packages-02/README.md",
-        "docs/knorvia-apps-cli-packages-02-acceptance.md"
+        "docs/knorvia-apps-cli-packages-02-acceptance.md",
+        "specs/contracts/apps-cli-packages-02/README.md"
       ]
     }
   ]
