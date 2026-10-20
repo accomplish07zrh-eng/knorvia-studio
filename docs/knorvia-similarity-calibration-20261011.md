@@ -356,3 +356,23 @@ node scripts/provenance/similarity.mjs --repo . --candidate <新文件> --candid
 | `packages/shared/src/protocol-v4/workflow-runs-lineage.ts`                                       | 13 → 7    | 0.154 → 0.286 | 1 → 1  | containment 0.286 must be 0 below 10 normalized lines   |
 
 **结论**：新口径堵住「压行 + 注释稀释」，同时保持阈值与结构算法不变；相对旧工具整体更严（77 个过→不过，3 个不过→过），且 3 个不过→过均可逐行归因于「注释行不再计分（以及对象折叠）」，不是放宽规则。按计划书要求，上述 77 个文件与结构门槛超过 0.4 的文件在合并后需重新打开返工，返工前不计为完成。
+
+## 12. 反刷分：压行字面量运行时拆分（2026-10-19，packed-literal-split）
+
+**背景**：第三种刷法是「压词」——把多行文案写成一个以空格分隔的字符串字面量，运行时 `.split(" ")` / `.split(/\s+/)` 还原成列表。行比较只看到一行，包含率与最长段都被做小。
+
+**实现**：新增 `scripts/provenance/similarity-packed-literal.mjs`，由 `similarity.mjs` 作为**独立 gate** 调用（不随 `--gates line|structural` 关闭）。命中即 FAIL，违规项前缀固定为 `packed-literal-split:`，与行/结构门槛分开计数，因此阈值常量 0.2 / 8 / 0.4 / minLines 10 一律未动。JSON 报告每个候选新增 `packedLiteralSplits`（`line` / `column` / `via`），供返工时定位。
+
+**判定口径**（只拦候选自己写死的字面量，用 TypeScript 语法树做轻量字面量传播，不是完整常量求值器）：
+
+1. 字符串或模板字面量（含插值的模板不算）直接 `.split(" ")` / `.split(/\s+/)` / `.split(new RegExp("\\s+"))`；
+2. 绑定到 `const` 的字面量、字面量数组（`.flatMap(x => x.split(/\s+/))` / `.map`）、`join(" ")` 结果再 split；分隔符本身也可以是 `const WS = /\s+/`；
+3. 包装助手：函数体内对参数（含 `param.trim()`）按空白 split，且调用点对应实参是字面量/字面量数组/上述 const。参数、`import`、解构与内层同名绑定会遮蔽外层 const，避免把运行时数据当字面量。
+
+**不误报**：函数参数来自外部输入、读取的文件/进程输出、正则解析 git/ps 行、`split(",")` / `split(".")` 等非空白分隔、带插值模板、跨文件导入的常量一律不判失败。
+
+**验证**：`similarity.test.mjs` 新增 4 个用例（三类正例各一 + 运行时数据反例），这 4 个用例全部通过；该文件共 45 个用例，44 个通过，唯一失败的是既有的「声明模式：interface.md 列出的 const 声明块整块剔除」——它由同期 `similarity-declarations.mjs` 收紧纯数据判定（zod 链不再算纯数据）引起，与本门禁无关，记录在案不掩盖。另对仓库内全部 693 个含 `split(` 的已跟踪脚本（基准 `85ea50ce`；本次新增的两个工具文件另计）做一次全量扫描：0 解析异常，46 个文件命中 93 处，人工抽查均为真实的「写死词表」写法（如 `workspace-hook-trust.ts` 的 `fieldList("enabled timeoutMs …")`），不是误报。
+
+**范围**：只改门禁路径，`bookkeeping-round2*` 与 `normalizeLines` 语义不变；新文件按 `licensing/README.md` 登记为 `original` / MIT，并已重新生成 `licensing/current-files.json`（`reviewProblems: 0`）。
+
+**边界**：`--declaration --interface` 剔除列名声明块发生在读入阶段，被剔除的块不再进入行/结构/压行三道门槛，因此「列名纯数据表 + 运行时 split」仍可通过声明模式（声明模式本就按「合同写死的纯数据常量表」约定使用，不构成本门禁的绕过）。要拦的是普通模式下的压词，纯再导出桩经 `tracedLeaves` 追踪后同样适用本门禁。
