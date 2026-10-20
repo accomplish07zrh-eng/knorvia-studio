@@ -117,27 +117,73 @@ class CallSettlement<TInput, TOutput> {
   readonly onAbortBound = (): void => this.onAbort();
 }
 
+/**
+ * 把两种入参形态归一：字段对象直接用，六个位置参数按序装配。
+ * 位置参数形态是既有公开契约（调用方与契约测试都这么用），必须保留。
+ */
+const requestOf = <TInput, TOutput>(
+  first: DeadlineExecution<TInput, TOutput> | DeadlineExecution<TInput, TOutput>["handler"],
+  input?: TInput,
+  context?: ToolExecutionContext,
+  deadline?: ToolDeadline,
+  controller?: AbortController,
+  entry?: ToolEntry,
+): DeadlineExecution<TInput, TOutput> =>
+  typeof first === "function"
+    ? {
+        context: context as ToolExecutionContext,
+        controller: controller as AbortController,
+        deadline: deadline as ToolDeadline,
+        entry: entry as ToolEntry,
+        handler: first,
+        input: input as TInput,
+      }
+    : first;
+
 export async function executeWithTimeout<TInput, TOutput>(
   request: DeadlineExecution<TInput, TOutput>,
+): Promise<TOutput>;
+export async function executeWithTimeout<TInput, TOutput>(
+  handler: DeadlineExecution<TInput, TOutput>["handler"],
+  input: TInput,
+  context: ToolExecutionContext,
+  deadline: ToolDeadline,
+  controller: AbortController,
+  entry: ToolEntry,
+): Promise<TOutput>;
+export async function executeWithTimeout<TInput, TOutput>(
+  first: DeadlineExecution<TInput, TOutput> | DeadlineExecution<TInput, TOutput>["handler"],
+  input?: TInput,
+  context?: ToolExecutionContext,
+  deadline?: ToolDeadline,
+  controller?: AbortController,
+  entry?: ToolEntry,
 ): Promise<TOutput> {
-  const { context, deadline, handler, input } = request;
+  const {
+    context: executionContext,
+    deadline: executionDeadline,
+    handler,
+    input: executionInput,
+  } = requestOf(first, input, context, deadline, controller, entry);
+  const request = requestOf(first, input, context, deadline, controller, entry);
   return new Promise<TOutput>((resolve, reject) => {
-    if (context.abortSignal.aborted) {
+    if (executionContext.abortSignal.aborted) {
       reject(cancellation(request.entry, false));
       return;
     }
 
     const settlement = new CallSettlement(request, resolve, reject);
-    deadline.start(() => settlement.onDeadline());
-    context.abortSignal.addEventListener("abort", settlement.onAbortBound);
+    executionDeadline.start(() => settlement.onDeadline());
+    executionContext.abortSignal.addEventListener("abort", settlement.onAbortBound);
 
     try {
-      // 同步调用也要走同一条结算门：handler 同步抛错时不能留下未清的 timer。
-      handler(input, context).then(
-        (value) => settlement.onValue(value),
-        (error: unknown) => settlement.onError(error),
-      );
+      // 刻意用 then + catch 两段式：让「失败」比「成功」多花一个微任务，
+      // 排队中的 abort 因此能先结算。契约测试锁定了这个优先级，不能合成单段双回调。
+      handler(executionInput, executionContext)
+        .then((value) => settlement.onValue(value))
+        .catch((error: unknown) => settlement.onError(error));
     } catch (error) {
+      // 同步抛错仍走同一结算门，避免留下未清的 timer。
       settlement.onError(error);
     }
   });
