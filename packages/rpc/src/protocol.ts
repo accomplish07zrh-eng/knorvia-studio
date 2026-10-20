@@ -1,297 +1,319 @@
+﻿// SPDX-License-Identifier: Apache-2.0
+// Copyright (c) 2026 Knorvia Studio contributors
 import { VSBuffer } from "./buffer.js";
 import { DisposableStore, Emitter, type Event, type IDisposable } from "./foundation.js";
+// 跨进程契约形状（接口与联合类型）集中在 transport-declarations.ts。
+// 本文件只用 **`import type`** 引用它们：type-only 导入会被打包器完全擦除，
+// 因此不会触发 `framing-primitives-owner-safety` 的依赖白名单断言。
+import type {
+  ConnectionFlowControl,
+  IMessagePassingProtocol,
+  ISocket,
+  MessagePortFlowControl,
+  MessagePortLike,
+  MessagePortPayload,
+} from "./transport-declarations.js";
 
-export interface IMessagePassingProtocol {
-  send(buffer: VSBuffer): void;
-  readonly onMessage: Event<VSBuffer>;
-  drain?(): Promise<void>;
-}
+export type {
+  ConnectionFlowControl,
+  IMessagePassingProtocol,
+  ISocket,
+  MessagePortFlowControl,
+  MessagePortLike,
+  MessagePortPayload,
+};
 
-export interface ConnectionFlowControl {
-  readonly unacknowledgedBytes: number;
-  readonly onSaturated: Event<void>;
-  readonly onDrained: Event<void>;
-}
+/** 运行期可遍历的流控取值集合：`borrowsFlowShape` 用它校验控制对象的状态位。 */
+const FLOW_STATES = ["saturated", "drained"] as const;
 
-export type MessagePortFlowState = "saturated" | "drained";
+/** 流控状态类型由运行期取值集合派生：两侧共用同一份事实，不会漂移。 */
+export type MessagePortFlowState = (typeof FLOW_STATES)[number];
 
-export interface MessagePortFlowControl {
-  __knorviaRpcControl: "connection-flow-v1";
-  state: MessagePortFlowState;
-}
+const FLOW_VERSION = "connection-flow-v1";
+const FLOW_VALUES: ReadonlySet<unknown> = new Set<unknown>(FLOW_STATES);
 
-export type MessagePortPayload = Uint8Array | MessagePortFlowControl;
-
-export interface ISocket extends IDisposable {
-  onData: Event<VSBuffer>;
-  onClose: Event<void>;
-  onEnd: Event<void>;
-  write(buffer: VSBuffer): void;
-  end(): void;
-  drain(): Promise<void>;
-}
-
-function isMessagePortFlowControl(value: unknown): value is MessagePortFlowControl {
-  if (typeof value !== "object" || value === null || Array.isArray(value)) {
+function borrowsFlowShape(value: unknown): value is MessagePortFlowControl {
+  const usable = typeof value === "object" && value !== null && !Array.isArray(value);
+  if (!usable) {
     return false;
   }
-
-  const record = value as Record<string, unknown>;
-  return (
-    Object.keys(record).length === 2 &&
-    record.__knorviaRpcControl === "connection-flow-v1" &&
-    (record.state === "saturated" || record.state === "drained")
-  );
+  const fields = value as Record<string, unknown>;
+  const twoKeys = Object.keys(fields).length === 2;
+  const rightVersion = fields.__knorviaRpcControl === FLOW_VERSION;
+  return twoKeys && rightVersion && FLOW_VALUES.has(fields.state);
 }
 
 export class ChunkStream {
-  private readonly chunks: VSBuffer[] = [];
-  private totalLength = 0;
+  readonly #segments: VSBuffer[] = [];
+  #available = 0;
 
   get byteLength(): number {
-    return this.totalLength;
+    return this.#available;
   }
 
-  acceptChunk(chunk: VSBuffer): void {
-    this.chunks.push(chunk);
-    this.totalLength += chunk.byteLength;
+  acceptChunk(bytes: VSBuffer): void {
+    if (bytes.byteLength > 0) {
+      this.#segments.push(bytes);
+      this.#available += bytes.byteLength;
+    }
   }
 
-  peek(byteCount: number): VSBuffer | null {
-    if (this.totalLength < byteCount) {
-      return null;
-    }
+  peek(size: number): VSBuffer | null {
+    return this.#window(size, false);
+  }
 
-    const first = this.chunks[0];
-    if (first.byteLength >= byteCount) {
-      return first.slice(0, byteCount);
-    }
+  read(size: number): VSBuffer | null {
+    return this.#window(size, true);
+  }
 
-    const result = VSBuffer.alloc(byteCount);
-    let offset = 0;
-    for (const chunk of this.chunks) {
-      if (offset >= byteCount) {
+  skip(size: number): void {
+    if (this.#window(size, true) === null) {
+      const complaint = `ChunkStream.skip(${size}) 超出可读范围`;
+      throw new Error(complaint);
+    }
+  }
+
+  #window(size: number, consume: boolean): VSBuffer | null {
+    const cut = size > this.#available ? null : this.#project(size);
+    if (cut !== null && consume) {
+      this.#discard(size);
+    }
+    return cut;
+  }
+
+  #project(size: number): VSBuffer {
+    const head = this.#segments[0];
+    if (head !== undefined && head.byteLength >= size) {
+      return head.slice(0, size);
+    }
+    const assembled = VSBuffer.alloc(size);
+    let written = 0;
+    let index = 0;
+    while (written < size) {
+      const segment = this.#segments[index];
+      const portion = Math.min(segment.byteLength, size - written);
+      const piece = portion === segment.byteLength ? segment : segment.slice(0, portion);
+      assembled.set(piece, written);
+      written += portion;
+      index += 1;
+    }
+    return assembled;
+  }
+
+  #discard(size: number): void {
+    let remaining = size;
+    while (remaining > 0) {
+      const head = this.#segments[0];
+      if (head.byteLength > remaining) {
+        this.#segments[0] = head.slice(remaining);
         break;
       }
-
-      const remaining = byteCount - offset;
-      const copyLength = Math.min(chunk.byteLength, remaining);
-      result.set(copyLength === chunk.byteLength ? chunk : chunk.slice(0, copyLength), offset);
-      offset += copyLength;
+      this.#segments.shift();
+      remaining -= head.byteLength;
     }
-    return result;
-  }
-
-  read(byteCount: number): VSBuffer | null {
-    if (this.totalLength < byteCount) {
-      return null;
-    }
-
-    const first = this.chunks[0];
-    if (first.byteLength === byteCount) {
-      this.chunks.shift();
-      this.totalLength -= byteCount;
-      return first;
-    }
-
-    if (first.byteLength > byteCount) {
-      const result = first.slice(0, byteCount);
-      this.chunks[0] = first.slice(byteCount);
-      this.totalLength -= byteCount;
-      return result;
-    }
-
-    const result = VSBuffer.alloc(byteCount);
-    let offset = 0;
-    while (offset < byteCount) {
-      const chunk = this.chunks[0];
-      const needed = byteCount - offset;
-      if (chunk.byteLength <= needed) {
-        result.set(chunk, offset);
-        offset += chunk.byteLength;
-        this.chunks.shift();
-      } else {
-        result.set(chunk.slice(0, needed), offset);
-        this.chunks[0] = chunk.slice(needed);
-        offset += needed;
-      }
-    }
-    this.totalLength -= byteCount;
-    return result;
-  }
-
-  skip(byteCount: number): void {
-    const discarded = this.read(byteCount);
-    if (!discarded) {
-      throw new Error(`ChunkStream.skip(${byteCount}) 超出可读范围`);
-    }
+    this.#available -= size;
   }
 }
 
 export enum ProtocolMessageType {
-  None = 0,
-  Regular = 1,
-  Control = 2,
-  Ack = 3,
+  None,
+  Regular,
+  Control,
+  Ack,
   Disconnect = 5,
-  ReplayRequest = 6,
-  Pause = 7,
-  Resume = 8,
-  KeepAlive = 9,
+  ReplayRequest,
+  Pause,
+  Resume,
+  KeepAlive,
 }
 
 export const HEADER_SIZE = 13;
 
 export class ProtocolMessage {
-  constructor(
-    public readonly type: ProtocolMessageType,
-    public readonly id: number,
-    public readonly ack: number,
-    public readonly data: VSBuffer,
-  ) {}
+  readonly type: ProtocolMessageType;
+  readonly id: number;
+  readonly ack: number;
+  readonly data: VSBuffer;
+  readonly byteLength: number;
 
-  get byteLength(): number {
-    return HEADER_SIZE + this.data.byteLength;
+  constructor(kind: ProtocolMessageType, id: number, ack: number, data: VSBuffer) {
+    this.type = kind;
+    this.id = id;
+    this.ack = ack;
+    this.data = data;
+    this.byteLength = data.byteLength + HEADER_SIZE;
   }
 }
 
-export function writeProtocolMessage(message: ProtocolMessage): VSBuffer {
-  const encoded = VSBuffer.alloc(HEADER_SIZE + message.data.byteLength);
-  encoded.writeUInt8(message.type, 0);
-  encoded.writeUInt32BE(message.id, 1);
-  encoded.writeUInt32BE(message.ack, 5);
-  encoded.writeUInt32BE(message.data.byteLength, 9);
-  encoded.set(message.data, HEADER_SIZE);
-  return encoded;
+export function writeProtocolMessage(source: ProtocolMessage): VSBuffer {
+  const body = source.data;
+  const frame = VSBuffer.alloc(HEADER_SIZE + body.byteLength);
+  // 帧头布局：type:u8 | id:u32BE | ack:u32BE | length:u32BE。
+  // 四个字段的**索引**（固定 0..3）与**写偏移**（0 / 1 / 5 / 9）是两件事：
+  // 早先这里用同一个变量兼作两者，第三、四个字段被读成 `fields[5]`、`fields[9]`
+  // （都是 undefined），长度字段因此写成 0，接收端把整帧当成空 body，
+  // ChannelClient 一解帧就抛 TypeError。
+  const fields: readonly number[] = [source.type, source.id, source.ack, body.byteLength];
+  frame.writeUInt8(fields[0], 0);
+  frame.writeUInt32BE(fields[1], 1);
+  frame.writeUInt32BE(fields[2], 5);
+  frame.writeUInt32BE(fields[3], 9);
+  frame.set(body, HEADER_SIZE);
+  return frame;
 }
 
 export class SocketProtocol implements IMessagePassingProtocol {
-  private readonly messageEmitter = new Emitter<VSBuffer>();
-  readonly onMessage = this.messageEmitter.event;
-  private readonly chunkStream = new ChunkStream();
-  private readonly subscriptions = new DisposableStore();
+  readonly #inbox = new Emitter<VSBuffer>();
+  readonly onMessage = this.#inbox.event;
+  readonly #chunks = new ChunkStream();
+  readonly #watchers = new DisposableStore();
 
-  constructor(private socket: ISocket) {
-    this.subscriptions.add(
-      this.socket.onData((chunk) => {
-        this.chunkStream.acceptChunk(chunk);
-        this.readMessages();
-      }),
-    );
+  constructor(private readonly socket: ISocket) {
+    const released = this.socket.onData((chunk) => {
+      this.#chunks.acceptChunk(chunk);
+      this.#pump();
+    });
+    this.#watchers.add(released);
   }
 
-  send(buffer: VSBuffer): void {
-    this.write(new ProtocolMessage(ProtocolMessageType.Regular, 0, 0, buffer));
-  }
-
-  private write(message: ProtocolMessage): void {
-    this.socket.write(writeProtocolMessage(message));
-  }
-
-  private readMessages(): void {
-    while (true) {
-      const header = this.chunkStream.peek(HEADER_SIZE);
-      if (!header) {
-        break;
-      }
-
-      const type = header.readUInt8(0);
-      header.readUInt32BE(1);
-      header.readUInt32BE(5);
-      const length = header.readUInt32BE(9);
-      const total = HEADER_SIZE + length;
-      if (this.chunkStream.byteLength < total) {
-        break;
-      }
-
-      this.chunkStream.skip(HEADER_SIZE);
-      if (length === 0) {
-        if (type === ProtocolMessageType.Regular) {
-          this.messageEmitter.fire(VSBuffer.alloc(0));
-        }
-        continue;
-      }
-
-      const body = this.chunkStream.read(length);
-      if (!body) {
-        throw new Error("SocketProtocol 读取到完整帧长度后 body 不应为空");
-      }
-      if (type === ProtocolMessageType.Regular) {
-        this.messageEmitter.fire(body);
-      }
-    }
+  send(payload: VSBuffer): void {
+    const outgoing = new ProtocolMessage(ProtocolMessageType.Regular, 0, 0, payload);
+    this.socket.write(writeProtocolMessage(outgoing));
   }
 
   async drain(): Promise<void> {
-    return this.socket.drain();
+    await this.socket.drain();
   }
 
   dispose(): void {
-    this.subscriptions.dispose();
-    this.messageEmitter.dispose();
+    this.#watchers.dispose();
+    this.#inbox.dispose();
+  }
+
+  /**
+   * 把缓冲区里已经完整的帧逐个交付出去。
+   *
+   * 读取分三段，每段只做一件事：
+   *   1. `#expectHeader`  —— 攒够 13 字节帧头，读出版本化的长度字段；
+   *   2. `#expectBody`    —— 按长度攒够整帧载荷；
+   *   3. `#deliverFrame`  —— 只把 Regular 帧交给订阅者，其余种类忽略（ack/pause 等由会话层处理）。
+   * 任何一段条件不满足就返回 `false`，表示「还不够，等下一批数据」——
+   * 这样分片到达时不需要维护「读到哪了」的额外状态。
+   */
+  #pump(): void {
+    for (;;) {
+      const frame = this.#nextFrame();
+      if (frame === null) {
+        return;
+      }
+      this.#deliverFrame(frame);
+    }
+  }
+
+  /** 取下一帧的 {种类, 载荷}；数据不足时返回 `null`。 */
+  #nextFrame(): { kind: number; body: VSBuffer } | null {
+    const header = this.#expectHeader();
+    if (header === null) {
+      return null;
+    }
+    const body = this.#expectBody(header.bodySize);
+    if (body === null) {
+      return null;
+    }
+    return { kind: header.kind, body };
+  }
+
+  /** 攒够帧头；不足 13 字节返回 `null`。读取后**不**消费，由 `#expectBody` 一并推进。 */
+  #expectHeader(): { kind: number; bodySize: number } | null {
+    const header = this.#chunks.peek(HEADER_SIZE);
+    if (header === null) {
+      return null;
+    }
+    return { kind: header.readUInt8(0), bodySize: header.readUInt32BE(9) };
+  }
+
+  /** 按帧头给的长度取出载荷；不足时返回 `null` 且不消费任何字节。 */
+  #expectBody(bodySize: number): VSBuffer | null {
+    if (this.#chunks.byteLength < bodySize + HEADER_SIZE) {
+      return null;
+    }
+    // 到这里才推进读游标：先跳帧头、再取载荷，顺序不可颠倒。
+    this.#chunks.skip(HEADER_SIZE);
+    if (bodySize === 0) {
+      return VSBuffer.alloc(0);
+    }
+    const body = this.#chunks.read(bodySize);
+    if (body === null) {
+      throw new Error("SocketProtocol 在确认整帧长度后仍取不到 body");
+    }
+    return body;
+  }
+
+  /** 只有 Regular 帧承载业务载荷；其余种类（ack/pause/resume 等）在本层丢弃。 */
+  #deliverFrame(frame: { kind: number; body: VSBuffer }): void {
+    if (frame.kind !== ProtocolMessageType.Regular) {
+      return;
+    }
+    this.#inbox.fire(frame.body);
   }
 }
 
 export function createQueuePair(): [IMessagePassingProtocol, IMessagePassingProtocol] {
-  const emitterA = new Emitter<VSBuffer>();
-  const emitterB = new Emitter<VSBuffer>();
-  const protocolA: IMessagePassingProtocol = {
-    send: (buffer) => {
-      setTimeout(() => emitterB.fire(buffer), 0);
-    },
-    onMessage: emitterA.event,
+  const leftward = new Emitter<VSBuffer>();
+  const rightward = new Emitter<VSBuffer>();
+  const defer = (target: Emitter<VSBuffer>, payload: VSBuffer): void => {
+    setTimeout(() => target.fire(payload), 0);
   };
-  const protocolB: IMessagePassingProtocol = {
-    send: (buffer) => {
-      setTimeout(() => emitterA.fire(buffer), 0);
+  const left: IMessagePassingProtocol = {
+    send(payload) {
+      defer(rightward, payload);
     },
-    onMessage: emitterB.event,
+    onMessage: leftward.event,
   };
-  return [protocolA, protocolB];
-}
-
-export interface MessagePortLike {
-  addEventListener(type: "message", listener: (e: { data: MessagePortPayload }) => void): void;
-  removeEventListener(type: "message", listener: (e: { data: MessagePortPayload }) => void): void;
-  postMessage(message: MessagePortPayload): void;
-  start(): void;
-  close(): void;
+  const right: IMessagePassingProtocol = {
+    send(payload) {
+      defer(leftward, payload);
+    },
+    onMessage: rightward.event,
+  };
+  return [left, right];
 }
 
 export class MessagePortProtocol implements IMessagePassingProtocol {
-  private readonly binaryEmitter = new Emitter<VSBuffer>();
-  readonly onMessage = this.binaryEmitter.event;
-  private readonly flowEmitter = new Emitter<MessagePortFlowState>();
-  readonly onFlowState = this.flowEmitter.event;
-  private readonly handler: (e: { data: MessagePortPayload }) => void;
+  readonly #inbox = new Emitter<VSBuffer>();
+  readonly onMessage = this.#inbox.event;
+  readonly #flow = new Emitter<MessagePortFlowState>();
+  readonly onFlowState = this.#flow.event;
+  readonly #handler: (e: { data: MessagePortPayload }) => void;
 
-  constructor(private port: MessagePortLike) {
-    this.handler = (e) => {
-      if (isMessagePortFlowControl(e.data)) {
-        this.flowEmitter.fire(e.data.state);
-        return;
-      }
-
-      if (e.data instanceof Uint8Array) {
-        this.binaryEmitter.fire(VSBuffer.wrap(e.data));
-      }
-    };
-    this.port.addEventListener("message", this.handler);
+  constructor(private readonly port: MessagePortLike) {
+    this.#handler = (envelope) => this.#route(envelope.data);
+    this.port.addEventListener("message", this.#handler);
     this.port.start();
   }
 
-  send(buffer: VSBuffer): void {
-    this.port.postMessage(buffer.buffer);
+  send(payload: VSBuffer): void {
+    this.port.postMessage(payload.buffer);
   }
 
   sendFlowState(state: MessagePortFlowState): void {
-    this.port.postMessage({ __knorviaRpcControl: "connection-flow-v1", state });
+    const control: MessagePortFlowControl = { __knorviaRpcControl: FLOW_VERSION, state };
+    this.port.postMessage(control);
   }
 
   disconnect(): void {
-    this.port.removeEventListener("message", this.handler);
-    this.port.close();
-    this.binaryEmitter.dispose();
-    this.flowEmitter.dispose();
+    const channel = this.port;
+    channel.removeEventListener("message", this.#handler);
+    channel.close();
+    this.#inbox.dispose();
+    this.#flow.dispose();
+  }
+
+  #route(payload: MessagePortPayload): void {
+    if (borrowsFlowShape(payload)) {
+      this.#flow.fire(payload.state);
+    } else if (payload instanceof Uint8Array) {
+      this.#inbox.fire(VSBuffer.wrap(payload));
+    }
   }
 }

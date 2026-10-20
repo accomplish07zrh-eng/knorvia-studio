@@ -48,6 +48,39 @@
 `HEADER_SIZE`（`protocol.ts`）、`ClientState`、`legacyReasoningLevelRenames` 等内部名
 **不在一级导出面**。替换实现可以改变内部模块布局，但不得让这些名字出现在 `index.ts`。
 
+### 1.4 合同写死的纯数据常量表（声明模式计分）
+
+以下两张表**键名与形状都由协议规定、不含逻辑**，按计划书「合同写死的纯数据常量表」口径处理：
+集中在 `packages/rpc/src/channel-protocol-declaration.ts`，**用声明模式计分**；
+该文件不含任何运行时逻辑，表中的转换逻辑在 `channel-codec.ts` 内按普通模式计分。
+
+**（1）错误元数据搬运白名单** —— `TRANSFERABLE_ERROR_KEYS`，九个键（服务端写入、客户端还原）：
+
+|  #  | 键名           | 说明                     |
+| :-: | -------------- | ------------------------ |
+|  1  | `code`         | 业务错误码               |
+|  2  | `data`         | 附带的业务数据           |
+|  3  | `detail`       | 单条明细                 |
+|  4  | `details`      | 多条明细                 |
+|  5  | `kind`         | 错误种类（如 `timeout`） |
+|  6  | `retryAfterMs` | 建议重试间隔             |
+|  7  | `status`       | 上游状态码               |
+|  8  | `taskId`       | 关联任务                 |
+|  9  | `traceId`      | 关联追踪                 |
+
+**（2）五种响应种类的判别式与载荷形状** —— `IRawResponse`：
+
+|  #  | 种类              | 判别键 `type` | `id` | 载荷形状                                                                                |
+| :-: | ----------------- | ------------- | :--: | --------------------------------------------------------------------------------------- |
+|  1  | `Initialize`      | `200`         |  无  | 无（全局就绪信号）                                                                      |
+|  2  | `PromiseSuccess`  | `201`         |  有  | `data: any`                                                                             |
+|  3  | `PromiseError`    | `202`         |  有  | `data: IRawErrorData`（`message` / `name` / `stack: string[] \| undefined` + 上述九键） |
+|  4  | `PromiseErrorObj` | `203`         |  有  | `data: any`（非 `Error` 的原值）                                                        |
+|  5  | `EventFire`       | `204`         |  有  | `data: any`                                                                             |
+
+编号 `200`–`204` 与 `101`–`103` 属线格式，逐字固定；`IRawErrorData` 的 `stack`
+以**行数组**传输（跨进程传整串会被序列化层转义）。
+
 ## 二、`@knorvia/provider-node`
 
 - 源入口：`packages/provider-node/src/index.ts`
@@ -96,3 +129,27 @@
 `legacyReasoningLevelRenames`、`resolveLegacyReasoningLevel` 从各自模块 `export`，
 但 `index.ts` **没有** re-export；替换实现必须保持「模块内可用、包入口不可见」。
 `index.ts` 的 14 个 `export *` 源路径属于模块路径兼容面（B29）。
+
+### 2.4 合同写死的纯类型/常量表（声明模式计分）
+
+按计划书「合同写死的纯数据常量表 → 在 interface.md 逐条列名、集中放进声明文件、
+用声明模式计分」的口径，下列形状由合同规定、不含逻辑，集中在各自声明文件：
+
+**（1）`NodeProviderConfigRuntimeOptions` 的 11 个字段**
+（`config-runtime-options.ts`）
+
+|  #  | 字段                            | 类型                                                                                          | 说明                          |
+| :-: | ------------------------------- | --------------------------------------------------------------------------------------------- | ----------------------------- |
+|  1  | `knorviaBuiltinFilePath`        | `string`                                                                                      | Built-in 配置文件路径（必填） |
+|  2  | `knorviaBuiltinActiveFilePath?` | `string`                                                                                      | 生效路径（缺省同 bundled）    |
+|  3  | `knorviaBuiltinRemote?`         | `Omit<KnorviaBuiltinRemoteSynchronizerOptions, "source">`                                     | 远端同步参数                  |
+|  4  | `knorviaBuiltinEnvironment?`    | `Omit<EndpointScopedKnorviaBuiltinSourceOptions, "bundledFilePath">`                          | 端点范围来源参数              |
+|  5  | `onKnorviaBuiltinRefreshError?` | `(error: unknown) => void`                                                                    | 刷新失败回调                  |
+|  6  | `onPersonalConfigRecovery?`     | `(event: PersonalProviderConfigRecoveryEvent) => void`                                        | 个人配置恢复回调              |
+|  7  | `onPersonalConfigPollingError?` | `(error: unknown) => void`                                                                    | 轮询失败回调                  |
+|  8  | `personalFilePath`              | `string`                                                                                      | Personal 配置文件路径（必填） |
+|  9  | `personalPollingIntervalMs?`    | `number \| false`                                                                             | 轮询间隔；`false` 关闭        |
+| 10  | `importLegacy?`                 | `(knorviaBuiltin: ProviderConfigLayerSnapshot) => Promise<ProviderConfigLayerUpdate \| null>` | 旧配置导入                    |
+| 11  | `watch?`                        | `boolean`                                                                                     | 是否监视文件变化              |
+
+**（2）`channel-protocol-declaration.ts` 的常量表**：见 §1.4（九个错误元数据键 + 五种响应形状）。

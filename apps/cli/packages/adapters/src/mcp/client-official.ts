@@ -1,17 +1,24 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2026 Knorvia Studio contributors
-// 官方 MCP 鉴权装配：判定是否使用官方鉴权，并为 HTTP / stdio 两条传输准备鉴权材料。
-// 装配约定：
-// 一、usesOfficialAuth 要求四个条件同时成立：传输为 http/stdio、auth.type 匹配、
-//     provider 为 jwt_token、official 配置存在；任一不满足都走原样透传。
-// 二、HTTP 路径缺可信来源注册表时，返回一个总是抛 OfficialMcpAuthError 的 fetch，
-//     让「运行时缺少注册表」在调用点立刻可见，而不是静默降级成未鉴权请求。
-// 三、stdio 元数据顺序固定：解析目标来源 → 判定来源可信 → 取鉴权头；
-//     任一环节失败都返回 ok:false 与稳定 reason，不抛给上层。
-// 四、日志事件名与字段名（event / mcpKey / mcpServerName / module / pluginId / status）
-//     是观测契约，逐字保留；identityHeaderNames 只输出小写排序后的头名，不含头值。
-// 五、可信判定失败用 official_mcp_origin_untrusted，其余失败沿用端口返回的 reason。
-// 六、来源解析与可信判定包在同一段 try 内，任一抛出都按「鉴权不可用」处理并记录 error/errorName。
+//
+// 官方 MCP 鉴权的装配层：判定「是否使用官方鉴权」，并为 HTTP / stdio 两条传输准备材料。
+//
+// 判定条件（`usesOfficialAuth` 要求四项同时成立）：
+//   1. 传输是 http 或 stdio；
+//   2. `auth.type` 等于官方鉴权标记；
+//   3. `auth.provider` 是 jwt_token；
+//   4. 配置里带 official 段。
+// 任一不满足就原样透传，不做任何鉴权包装。
+//
+// 两条传输的差别：
+// - **HTTP**：缺可信来源注册表时返回一个**必然抛 OfficialMcpAuthError 的 fetch**，
+//   让「运行时缺注册表」在调用点立刻可见，而不是静默降级成未鉴权请求；
+// - **stdio**：顺序固定为「解析目标来源 → 判定来源可信 → 取鉴权头」，
+//   任一环节失败都返回 `ok:false` 与稳定 reason，**不抛给上层**。
+//
+// 观测契约（字段名逐字保留）：event / mcpKey / mcpServerName / module / pluginId / status /
+// reason / detail / targetOrigin / error / errorName / identityHeaderNames / identityTargetType。
+// `identityHeaderNames` 只输出小写排序后的头名，**不含头值**。本文件不读写凭据。
 
 import type {
   McpHttpServerConfig,
@@ -27,19 +34,34 @@ import type { McpClientState } from "./client-state.js";
 import { errorName, errorText } from "./client-stdio-log.js";
 import { createOfficialMcpAuthFetch, OfficialMcpAuthError } from "./official-auth.js";
 
-/** 短别名：把长类型压成短名，让导出签名收敛到一两行，避免长参数块。 */
+/** 短别名：让导出签名收敛到一两行。 */
 type FetchLike = typeof globalThis.fetch;
 type HttpConfig = McpHttpServerConfig;
 type Meta = Record<string, unknown>;
 type State = McpClientState;
 
+/** stdio 元数据的固定日志基底（事件名与 module 是观测契约）。 */
+const STDIO_META_EVENT = "mcp.official_auth.stdio_meta";
+const MODULE_TAG = "adapters.mcp";
+
+/** 是否应对该服务启用官方鉴权：四项条件同时成立才启用。 */
 export function usesOfficialAuth(server: McpServerConfig): boolean {
-  return (
-    (server.type === "http" || server.type === "stdio") &&
-    server.auth?.type === KNORVIA_OFFICIAL_MCP_AUTH_TYPE &&
-    server.auth.provider === "jwt_token" &&
-    server.official !== undefined
-  );
+  // 只有 http / stdio 两支带 auth 与 official 字段，故先按传输类型提前返回。
+  if (server.type !== "http" && server.type !== "stdio") return false;
+  const marked = server.auth?.type === KNORVIA_OFFICIAL_MCP_AUTH_TYPE;
+  const jwtProvider = server.auth?.provider === "jwt_token";
+  const hasOfficialSettings = server.official !== undefined;
+  return marked && jwtProvider && hasOfficialSettings;
+}
+
+/** 造一个必然失败的 fetch：运行时缺可信来源注册表时用它，让问题立刻暴露。 */
+function unavailableFetch(name: string): FetchLike {
+  return () => {
+    throw new OfficialMcpAuthError(
+      "official_auth_unavailable",
+      `official MCP trusted origin registry is not available in this runtime: ${name}`,
+    );
+  };
 }
 
 /** 官方 HTTP 鉴权：注册表缺失时返回必然失败的 fetch，否则包装底层 fetch。 */
@@ -52,34 +74,53 @@ export function officialHttpFetch(
 ): FetchLike {
   if (!usesOfficialAuth(config) || !config.official) return from;
   const ports = state.official;
-  if (!ports?.trustedOrigins) {
-    return () => {
-      throw new OfficialMcpAuthError(
-        "official_auth_unavailable",
-        `official MCP trusted origin registry is not available in this runtime: ${name}`,
-      );
-    };
-  }
-  return createOfficialMcpAuthFetch({
+  const trustedOrigins = ports?.trustedOrigins;
+  if (ports === undefined || trustedOrigins === undefined) return unavailableFetch(name);
+
+  // 可选依赖按「存在才写」拼装：避免把 undefined 塞进下游配置。
+  const extra: Record<string, unknown> = {};
+  if (ports.authHeadersPort) extra.authHeadersPort = ports.authHeadersPort;
+  if (state.logger) extra.logger = state.logger;
+  if (ports.workspaceIdentity) extra.workspaceIdentity = ports.workspaceIdentity;
+  if (state.workingDirectory) extra.workspacePath = state.workingDirectory;
+
+  const plan = {
     baseFetch: from,
     official: config.official,
-    onAuthFailure: (kind) => {
+    onAuthFailure: (kind: Parameters<State["authFailures"]["set"]>[1]): void => {
       state.authFailures.set(name, kind);
     },
-    onServerResponse: (info) => {
+    onServerResponse: (info: Parameters<State["observeResponse"]>[2]): void => {
       state.observeResponse(name, gen, info);
     },
     serverName: name,
-    trustedOrigins: ports.trustedOrigins,
+    trustedOrigins,
     url: config.url,
-    ...(ports.authHeadersPort ? { authHeadersPort: ports.authHeadersPort } : {}),
-    ...(state.logger ? { logger: state.logger } : {}),
-    ...(ports.workspaceIdentity ? { workspaceIdentity: ports.workspaceIdentity } : {}),
-    ...(state.workingDirectory ? { workspacePath: state.workingDirectory } : {}),
-  });
+  };
+  return createOfficialMcpAuthFetch({ ...plan, ...extra } as Parameters<
+    typeof createOfficialMcpAuthFetch
+  >[0]);
 }
 
-/** 官方 stdio 元数据：只有 stdio + 官方鉴权才产出元数据，其余返回 undefined。 */
+/** 拼一条 stdio 元数据日志：基底字段 + 调用方给的差异字段。 */
+function stdioMetaLog(
+  base: Record<string, unknown>,
+  delta: Record<string, unknown>,
+): Record<string, unknown> {
+  const fields: Record<string, unknown> = {};
+  Object.assign(fields, base);
+  Object.assign(fields, delta);
+  return fields;
+}
+
+/** 把鉴权结果包成 `_meta` 载荷（键名是协议契约）。 */
+function wrapMeta(payload: OfficialMcpAuthHeadersResult): Meta {
+  const meta: Meta = {};
+  meta[OFFICIAL_MCP_AUTH_META_KEY] = payload;
+  return meta;
+}
+
+/** 官方 stdio 元数据：只有 stdio 且启用官方鉴权才产出，其余返回 undefined。 */
 export async function officialStdioMeta(
   state: State,
   name: string,
@@ -92,78 +133,67 @@ export async function officialStdioMeta(
   const headersPort = ports?.authHeadersPort;
   const registry = ports?.trustedOrigins;
   const resolveOrigin = ports?.resolveKnorviaApiOrigin;
-  const logBase = {
-    event: "mcp.official_auth.stdio_meta",
-    mcpKey: auth.mcpKey,
-    mcpServerName: name,
-    module: "adapters.mcp",
+
+  const logBase: Record<string, unknown> = {};
+  logBase.event = STDIO_META_EVENT;
+  logBase.mcpKey = auth.mcpKey;
+  logBase.mcpServerName = name;
+  logBase.module = MODULE_TAG;
+
+  /** 失败统一出口：记一条 warn 日志并交出 `ok:false` 载荷。 */
+  const failed = (reason: OfficialMcpAuthPortFailureReason): Meta => {
+    const delta: Record<string, unknown> = {};
+    delta.reason = reason;
+    delta.status = "failed";
+    state.logger?.warn("Official MCP stdio auth headers unavailable", stdioMetaLog(logBase, delta));
+    return wrapMeta({ ok: false, reason });
   };
-  const failed = (reason: OfficialMcpAuthPortFailureReason): OfficialMcpAuthHeadersResult => {
-    state.logger?.warn("Official MCP stdio auth headers unavailable", {
-      ...logBase,
-      reason,
-      status: "failed",
-    });
-    return { ok: false, reason };
-  };
-  const wrapMeta = (payload: OfficialMcpAuthHeadersResult): Meta => ({
-    [OFFICIAL_MCP_AUTH_META_KEY]: payload,
-  });
-  if (!headersPort || !registry || !resolveOrigin)
-    return wrapMeta(failed("official_auth_unavailable"));
+
+  if (!headersPort || !registry || !resolveOrigin) return failed("official_auth_unavailable");
 
   let origin: string;
   let verdict: Awaited<ReturnType<typeof registry.isTrusted>>;
   try {
     origin = resolveOrigin();
-    verdict = await registry.isTrusted({
-      mcpKey: auth.mcpKey,
-      origin,
-      pluginId: auth.pluginId,
-    });
+    verdict = await registry.isTrusted({ mcpKey: auth.mcpKey, origin, pluginId: auth.pluginId });
   } catch (cause) {
-    state.logger?.warn("Official MCP stdio origin resolution failed", {
-      ...logBase,
-      error: errorText(cause),
-      errorName: errorName(cause),
-      pluginId: auth.pluginId,
-    });
-    return wrapMeta(failed("official_auth_unavailable"));
-  }
-  if (!verdict.trusted) {
-    state.logger?.warn("Official MCP stdio origin is not trusted", {
-      ...logBase,
-      detail: verdict.detail ?? "unknown",
-      pluginId: auth.pluginId,
-      targetOrigin: origin,
-    });
-    return wrapMeta(failed("official_mcp_origin_untrusted"));
+    const delta: Record<string, unknown> = {};
+    delta.error = errorText(cause);
+    delta.errorName = errorName(cause);
+    delta.pluginId = auth.pluginId;
+    state.logger?.warn("Official MCP stdio origin resolution failed", stdioMetaLog(logBase, delta));
+    return failed("official_auth_unavailable");
   }
 
-  const result = await headersPort.resolveHeaders({
-    mcpKey: auth.mcpKey,
-    pluginId: auth.pluginId,
-    targetOrigin: origin,
-    ...(ports?.workspaceIdentity ? { workspaceIdentity: ports.workspaceIdentity } : {}),
-    ...(state.workingDirectory ? { workspacePath: state.workingDirectory } : {}),
-    ...(signal ? { signal } : {}),
-  });
-  if (!result.ok) return wrapMeta(failed(result.reason));
+  if (!verdict.trusted) {
+    const delta: Record<string, unknown> = {};
+    delta.detail = verdict.detail ?? "unknown";
+    delta.pluginId = auth.pluginId;
+    delta.targetOrigin = origin;
+    state.logger?.warn("Official MCP stdio origin is not trusted", stdioMetaLog(logBase, delta));
+    return failed("official_mcp_origin_untrusted");
+  }
+
+  const headerAsk: Record<string, unknown> = {};
+  headerAsk.mcpKey = auth.mcpKey;
+  headerAsk.pluginId = auth.pluginId;
+  headerAsk.targetOrigin = origin;
+  if (ports?.workspaceIdentity) headerAsk.workspaceIdentity = ports.workspaceIdentity;
+  if (state.workingDirectory) headerAsk.workspacePath = state.workingDirectory;
+  if (signal) headerAsk.signal = signal;
+
+  const result = await headersPort.resolveHeaders(
+    headerAsk as Parameters<typeof headersPort.resolveHeaders>[0],
+  );
+  if (!result.ok) return failed(result.reason);
+
   const targetType = result.headers["Bigmodel-Target-Type"];
-  state.logger?.debug("Official MCP stdio auth headers attached", {
-    ...logBase,
-    identityHeaderNames: Object.keys(result.headers)
-      .map((header) => header.toLowerCase())
-      .sort(),
-    ...(targetType ? { identityTargetType: targetType } : {}),
-    status: "completed",
-  });
+  const delta: Record<string, unknown> = {};
+  delta.identityHeaderNames = Object.keys(result.headers)
+    .map((header) => header.toLowerCase())
+    .sort();
+  if (targetType) delta.identityTargetType = targetType;
+  delta.status = "completed";
+  state.logger?.debug("Official MCP stdio auth headers attached", stdioMetaLog(logBase, delta));
   return wrapMeta({ ok: true, headers: result.headers });
 }
-// 排障补充（照此定位线上问题）：
-// 一、日志里 event=mcp.official_auth.stdio_meta 的 status=failed 表示 stdio 元数据未产出，reason 给出原因。
-// 二、official_auth_unavailable 常见于运行时未注入 official 端口（桌面宿主早期启动阶段）。
-// 三、official_mcp_origin_untrusted 表示来源未在可信注册表中：先查 workspaceIdentity 是否随请求传递。
-// 四、Bigmodel-Target-Type 只在服务端返回时记录；缺席不代表鉴权失败。
-// 五、HTTP 路径的失败发生在请求阶段（fetch 内），不会走到本文件的 stdio 分支。
-// 六、本文件不读写凭据：凭据由 official-auth 模块与共享凭据存储负责。
