@@ -75,14 +75,8 @@ export function permissionResponders(
     runHooks: async (signal) => {
       if (!(await publication.hooks) || signal.aborted) return undefined;
       const reply = await runPermissionRequestHooks(
-        c.deps,
-        c.call,
-        c.input,
-        id,
-        decision,
-        c.mode,
-        c.trace,
-        signal,
+        { deps: c.deps, input: c.input, signal, toolCall: c.call, traceContext: c.trace },
+        { decision, mode: c.mode, requestId: id },
       );
       // Windows 接管只接受用户本次授权；自动 allow/modify 退赛，deny 仍可拒绝。
       if (

@@ -75,13 +75,15 @@ export class Invocation {
     }
     exit = admission.acceptHook(
       await runPreToolUseHooks(
-        deps,
-        call,
-        admission.input,
+        {
+          deps,
+          input: admission.input,
+          signal: options?.signal,
+          toolCall: call,
+          traceContext: trace,
+        },
         entry,
         admission.mode,
-        trace,
-        options?.signal,
       ),
     );
     if (exit) return this.finishAdmission(exit);
@@ -187,13 +189,14 @@ export class Invocation {
       );
       this.stage = "post_hook";
       const post = await runPostToolUseHooks(
-        deps,
-        call,
-        admission.input,
-        output,
-        serialization.artifactPath,
-        trace,
-        options?.signal,
+        {
+          deps,
+          input: admission.input,
+          signal: options?.signal,
+          toolCall: call,
+          traceContext: trace,
+        },
+        { artifactPath: serialization.artifactPath, output },
       );
       serialization = appendHookAdditionalContexts(
         serialization,
@@ -246,12 +249,14 @@ export class Invocation {
     } catch (error) {
       const duration = Date.now() - started;
       const failure = await runPostToolUseFailureHooks(
-        deps,
-        call,
-        admission.input,
+        {
+          deps,
+          input: admission.input,
+          signal: options?.signal,
+          toolCall: call,
+          traceContext: trace,
+        },
         error,
-        trace,
-        options?.signal,
       );
       const result = failedExecution(call, error, duration, admission.hooks, failure);
       await emitToolCallError(deps, call.id, trace, turnId, result.error, this.skillMetadata);
