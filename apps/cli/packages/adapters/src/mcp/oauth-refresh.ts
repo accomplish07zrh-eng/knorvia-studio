@@ -51,16 +51,21 @@ import { loadDiscoveryRecord, saveDiscoveryRecord } from "./oauth-shared.js";
 const REFRESH_LOCK_MAX_WAIT_MS = 45_000;
 const LOGGED_GENERATION_LENGTH = 12;
 
-interface RefreshMcpOAuthTokensInput {
-  credentialStore: SharedKnorviaCredentialStore;
-  fetchFn?: FetchLike;
-  keyPrefix: string;
-  logger?: Logger;
-  reactive: boolean;
+/** 刷新入参里与凭据存储相关的两段：存储本身，以及凭据键的前缀。 */
+type RefreshStorePart = { credentialStore: SharedKnorviaCredentialStore; keyPrefix: string };
+
+/** 刷新入参里与服务身份相关的三段：服务名、服务地址、以及可选的固定 clientId。 */
+type RefreshServerPart = {
   serverName: string;
   serverUrl: string;
   staticClientId?: string;
-}
+};
+
+/** 刷新入参里与「怎么做」相关的三段：可选 fetch、可选日志、以及是否由 401 触发。 */
+type RefreshBehaviorPart = { fetchFn?: FetchLike; logger?: Logger; reactive: boolean };
+
+/** 刷新一次的完整入参：由上面三段合成。 */
+type RefreshMcpOAuthTokensInput = RefreshStorePart & RefreshServerPart & RefreshBehaviorPart;
 
 type ExchangeOptions = Parameters<typeof refreshAuthorization>[1];
 interface ResolvedAuthorization {
@@ -101,11 +106,15 @@ async function resolveAuthorization(
   refresh: RefreshMcpOAuthTokensInput,
   pair: CredentialPairSnapshot,
 ): Promise<ResolvedAuthorization> {
+  const issuerHint = pair.issuer ? { expectedIssuer: pair.issuer } : {};
   const cachedRecord = await loadDiscoveryRecord(
     refresh.credentialStore,
     refresh.keyPrefix,
-    pair.issuer ? { expectedIssuer: pair.issuer } : {},
+    issuerHint,
   );
+  // 注意：refresh.fetchFn 必须**在调用点读取**，不能提前求值。它可能是读取时抛错的
+  // 惰性 getter；提前读会让该错误逃出交换阶段的错误处理，把「换取出错」误判成
+  // 「发现出错」。测试 exchange options ... failures retain exchange error handling 守这条。
   const serverInfo =
     cachedRecord ??
     (await discoverOAuthServerInfo(
@@ -115,19 +124,19 @@ async function resolveAuthorization(
   if (!cachedRecord) {
     await saveDiscoveryRecord(refresh.credentialStore, refresh.keyPrefix, serverInfo);
   }
+
+  const metadata = serverInfo.authorizationServerMetadata;
   const resource = await selectResourceURL(
     refresh.serverUrl,
     {} as Parameters<typeof selectResourceURL>[1],
     serverInfo.resourceMetadata,
   );
   // 发现结果的 getter 也属于发现失败；先投影，避免误进入 grant 失效处理。
-  return {
-    authorizationServerUrl: serverInfo.authorizationServerUrl,
-    ...(serverInfo.authorizationServerMetadata
-      ? { metadata: serverInfo.authorizationServerMetadata }
-      : {}),
-    ...(resource ? { resource } : {}),
-  };
+  const resolved = {} as ResolvedAuthorization;
+  resolved.authorizationServerUrl = serverInfo.authorizationServerUrl;
+  if (metadata) resolved.metadata = metadata;
+  if (resource) resolved.resource = resource;
+  return resolved;
 }
 
 /** grant 失效：先按表失效凭据，再抛交互式授权要求（固定 clientId 被拒时提示修配置）。 */
