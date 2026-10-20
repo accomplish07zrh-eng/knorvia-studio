@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
+// Copyright (c) 2026 Knorvia Studio contributors
 // 桥入口（段 A）：NDJSON 读写循环，把 request 路由到 BridgeEngine，把 response / notification 写回 stdout。
 // 骨架由工程小弟给定，段 A 只填实现，不改签名。仅由 kernel/process.ts 在 dsh 引擎下动态 import。
 
@@ -20,6 +21,9 @@ import { callKernelLogger } from "../kernel/logger.js";
 import type { KernelLogger } from "../kernel/logger.js";
 import { BridgeEngine } from "./bridge-engine.js";
 import { BridgeProtocolError } from "./links-registry.js";
+import { createLegacyBridge } from "./legacy/index.js";
+import type { LegacyBridge } from "./legacy/index.js";
+import { routeLegacyMethod } from "./legacy/index.js";
 
 export interface RunBridgeOptions {
   readonly context: Context;
@@ -59,6 +63,13 @@ interface ProtocolErrorBody {
   readonly data?: unknown;
 }
 
+/** 客户端对反向请求的应答（已通过结构与 id 判定）。 */
+interface ClientReply {
+  readonly id: string | number;
+  readonly result?: unknown;
+  readonly error?: unknown;
+}
+
 /** 启动 NDJSON 读写循环并立即返回句柄。 */
 export function runBridge(options: RunBridgeOptions): RunningBridge {
   const logger = options.logger;
@@ -88,6 +99,13 @@ export function runBridge(options: RunBridgeOptions): RunningBridge {
   // 让错误冒泡到 process.ts 的启动失败路径（退出码 1），不在这里降级成只剩命令面。
   engine.start();
 
+  // 旧协议桥（kernel-bridge-legacy）：会话登记表、workspace 偏好、反向请求登记表都在这里。
+  // stdout 写入口交给它 → 反向请求与 CLI→Host 通知能直接落协议面。
+  const legacy: LegacyBridge = createLegacyBridge(options.context, {
+    ...(logger !== undefined ? { logger } : {}),
+  });
+  legacy.attach({ write: (message) => writeMessage(message) });
+
   reader.on("line", onLine);
   reader.on("close", onReaderClose);
   options.input.on("error", onInputError);
@@ -96,6 +114,15 @@ export function runBridge(options: RunBridgeOptions): RunningBridge {
   return { done, stop };
 
   function onLine(line: string): void {
+    // 反向请求的应答必须**绕开**串行链：它解的是链上正在等待的那次 `execute`。
+    // 若把它排进 chain，create 会等应答、应答又在等 create —— 必然自死锁（实测为 15s 超时）。
+    // 旧运行时同样是独立分派应答行，这里保持一致。
+    const reply = parseClientReply(line);
+    if (reply !== undefined) {
+      handleClientReply(reply);
+      return;
+    }
+
     inflight += 1;
     chain = chain
       .then(() => handleLine(line))
@@ -109,6 +136,62 @@ export function runBridge(options: RunBridgeOptions): RunningBridge {
         for (const wake of idleWaiters) wake();
         idleWaiters.clear();
       });
+  }
+
+  /**
+   * 单行结构判定：有顶层 `id`、**顶层没有** `method`、且 id 是 string|number
+   * → 客户端对反向请求的应答。
+   *
+   * 为什么必须先 JSON.parse 再判 `"method" in decoded`，而不能用子串判断：
+   * 应答的 `result` 里完全可能含字符串 `"method"`，例如
+   * `{"id":"server-1","result":{"tool":{"method":"bash"}}}`。用 `line.includes('"method"')`
+   * 会把这条**合法应答**判成 request，于是它进了串行链，而链上正在等它的那次 `execute`
+   * 永远等不到结算 → create 挂到 15s 超时。这是串行链死锁的另一种触发形态。
+   * 代价是应答行多 parse 一次，但应答是低频路径，正确性优先。
+   *
+   * `id: null` 的应答（JSON-RPC 解析错误回执）在这里被丢弃：本服务的反向请求 id 恒为
+   * `server-<n>`，`null` 不可能匹配任何在途请求，故丢弃是正确的，不是漏判。
+   */
+  function parseClientReply(line: string): ClientReply | undefined {
+    // 便宜的预筛：连 "id" 都没有的行不可能是应答。保留它是为了不 parse 每一条大帧。
+    if (!line.includes('"id"')) return undefined;
+    let decoded: unknown;
+    try {
+      decoded = JSON.parse(line);
+    } catch {
+      // 非法 JSON 交给 handleLine 走 -32700 的正式路径，这里不抢答。
+      return undefined;
+    }
+    if (typeof decoded !== "object" || decoded === null) return undefined;
+    const candidate = decoded as {
+      id?: unknown;
+      method?: unknown;
+      result?: unknown;
+      error?: unknown;
+    };
+    // 顶层有 method = request 或 notification，不是应答。
+    if ("method" in candidate) return undefined;
+    if (typeof candidate.id !== "string" && typeof candidate.id !== "number") return undefined;
+    return {
+      id: candidate.id,
+      ...("result" in candidate ? { result: candidate.result } : {}),
+      ...("error" in candidate ? { error: candidate.error } : {}),
+    };
+  }
+
+  /**
+   * 结算在途反向请求。
+   *
+   * 未命中时只记 debug、不写 stdout、不抛错——包括 `legacy.detach()` 之后到达的迟到应答
+   * （此时在途表已清空，`settleHostRequest` 返回 false）。回错误会污染客户端的 stdout 断言。
+   */
+  function handleClientReply(reply: ClientReply): void {
+    const settled = legacy.settleHostRequest(reply.id, reply);
+    if (settled) {
+      log("debug", "kernel.bridge.client-reply.settled");
+      return;
+    }
+    log("debug", "kernel.bridge.client-reply.ignored");
   }
 
   async function handleLine(line: string): Promise<void> {
@@ -141,14 +224,14 @@ export function runBridge(options: RunBridgeOptions): RunningBridge {
       log("debug", "kernel.bridge.notification.ignored", { method: message.method });
       return;
     }
-    // 反向 request 的应答（例如 session/requestRuntimePreferences）：桥不发起反向请求，
-    // 这里只消费回执。回错误会污染客户端的 stdout 断言。
+    // 走到这里的客户端应答（反向请求的回执）已由 onLine 的快速路径处理；
+    // 兜底丢弃并记 debug——回错误会污染客户端的 stdout 断言。
     log("debug", "kernel.bridge.client-reply.ignored");
   }
 
   async function handleRequest(request: KnorviaProtocolRequest): Promise<void> {
     try {
-      const result = await route(request.method, request.params);
+      const result = await route(request.method, request.params, request.trace);
       writeMessage({ id: request.id, result });
       if (GATED_DELIVERY_METHODS.has(request.method)) await nextImmediate();
     } catch (error) {
@@ -156,7 +239,11 @@ export function runBridge(options: RunBridgeOptions): RunningBridge {
     }
   }
 
-  async function route(method: string, params: unknown): Promise<unknown> {
+  async function route(
+    method: string,
+    params: unknown,
+    trace?: Readonly<Record<string, unknown>>,
+  ): Promise<unknown> {
     switch (method) {
       case V4_METHODS.command:
         return await engine.handleCommand(params);
@@ -206,8 +293,22 @@ export function runBridge(options: RunBridgeOptions): RunningBridge {
         return {};
       }
 
-      default:
+      default: {
+        // 旧协议方法由 legacy 路由器处理；不是旧协议方法时返回 undefined 继续原逻辑。
+        // 该 hunk 归 kernel-bridge-legacy（Lead 2026-10-20 裁决），02/03 只扩自己的方法注册表。
+        const legacyOutcome = await routeLegacyMethod(options.context, method, params, trace);
+        if (legacyOutcome !== undefined) {
+          if (legacyOutcome.kind === "error") {
+            throw new BridgeProtocolError(
+              legacyOutcome.code,
+              legacyOutcome.message,
+              legacyOutcome.data,
+            );
+          }
+          return legacyOutcome.result;
+        }
         throw new BridgeProtocolError(JSONRPC_METHOD_NOT_FOUND, `Method not found: ${method}`);
+      }
     }
   }
 
@@ -225,11 +326,14 @@ export function runBridge(options: RunBridgeOptions): RunningBridge {
     }
     // EOF 之后仍可能有在途请求：先让它们把 ACK/帧写完，再释放投影层。
     await waitForIdle();
+    // 反向请求先收口：它们等的客户端不会再说话了，留着会泄漏定时器（B11 资源释放）。
+    legacy.detach();
     try {
       await engine.stop();
     } catch (error) {
       log("warn", "kernel.bridge.stop.failed", { error: messageOf(error) });
     }
+    legacy.dispose();
     resolveDone();
   }
 
