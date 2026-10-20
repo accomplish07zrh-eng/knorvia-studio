@@ -141,8 +141,19 @@ node --import tsx --test --test-concurrency=2 --test-timeout=60000 specs/contrac
 
 **合计：声明门 7/7 PASS + 普通门 3 PASS ⇒ 并集 = 0。**
 
-**另有 6 个曾拆出、最终合回的模块**（原因见 §6.5：它们是运行期依赖，会破坏 owner-safety 白名单）：
-`channel-codec`、`channel-error-mapping`、`transport-contract`、`network-telemetry-sink`、`network-telemetry-observation`、`network-telemetry-measurement`。其逻辑现位于 `channelClient`、`channelServer`、`network-telemetry-middleware` 内部，随主文件过门（0.173 / 0.182 / 0.184）。
+**另有 6 个曾拆出、最终合回的模块** —— 逐条给出合回原因，便于审查判断「结构判断还是躲避门禁」：
+
+| 原模块                          | 合回到                                                 | 合回原因（一句话）                                                                                              |
+| ------------------------------- | ------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------- |
+| `channel-codec`                 | `channelClient` / `channelServer`                      | 编解码只有这两个使用者；且 `request-replay-owner-safety` 的白名单是文件级的，编解码属**运行期**依赖，拆出即越界 |
+| `channel-error-mapping`         | `channelClient` / `channelServer`                      | 同上；且它与编解码共用同一份错误载荷形状，分开后需要跨文件重复声明                                              |
+| `transport-contract`            | `protocol.ts`（后改纯类型版 `transport-declarations`） | 契约接口全是类型 → 最终以 `import type` 拆出（不进入运行期图）；运行期部分本就是 `protocol` 自身                |
+| `network-telemetry-sink`        | `network-telemetry-middleware`                         | sink 装配是**进程级唯一可变状态**，只有中间件一个使用者；拆出后 `middleware-owner-safety` 直接拦下              |
+| `network-telemetry-observation` | `network-telemetry-middleware`                         | 失败分类与记录构造都是 10 行级纯函数，同一文件内更易读；拆出即越界                                              |
+| `network-telemetry-measurement` | `network-telemetry-middleware`                         | 计时包装与两个装饰类共用同一份 sink 引用；拆出即越界                                                            |
+
+**共同点**：六个都是**运行期依赖**且**只有一处使用者**；owner-safety 的文件级白名单不允许新增运行期模块，而「单使用者模块拆出去」本身也是过度拆分。
+**唯一以拆分保留的是纯类型部分**（`transport-declarations`、`network-telemetry-declarations`），因为它们**不进入运行期依赖图**。
 
 ---
 
