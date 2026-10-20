@@ -147880,7 +147880,7 @@
     },
     {
       "path": "specs/contracts/kernel-bridge-legacy/C2-VERIFICATION.md",
-      "normalizedSha256": "d4d2096ec3760ad4289ab4400879ff9501e5b8ffc9fa56f496783f23a962ee66",
+      "normalizedSha256": "bad2da534bc4dc3a9c0f005860b460f4c965ca2b502eec2acf59da96c00bd6bb",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored verification plan for kernel-switch admission item C2 (the turn-class methods must be served by the execution port before the default engine switches). States the checkable criteria (port registered by the product composition root, the eleven turn-class methods no longer answering capability-absent, the reverse assertion that unregistering the port restores capability-absent, and the one-way dependency direction), the runnable command sequence with expected output for each step, the design of an automatically repeatable probe, the failure report format, and who runs what. The eleven-versus-twelve difference is recorded explicitly and was agreed with the Lead on 2026-10-20: the C2 decision covers eleven methods while session/close is verified separately as port completeness. Written from specs/contracts/kernel-bridge-legacy/interface.md and behavior.md; no inherited implementation was copied, renamed or rewritten line by line. The plan is prospective: as recorded in its closing section, the execution port is not yet registered and C2 is not yet satisfied.",

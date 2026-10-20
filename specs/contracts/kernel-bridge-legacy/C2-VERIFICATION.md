@@ -33,9 +33,9 @@ C2 的要求是：**`kernel-switch` 合并（默认引擎切到 DSH）之前，�
 - [ ] 只有一个所有者：第二次注册抛错（`interface.md` §四 注册面约束 1）。
 - [ ] 判定方式：在 `dsh` 引擎下启动 app-server，对任一回合方法发请求，**不应**收到 `-32031`。
 
-### C2-2 11 个回合方法逐个从 `-32031` 转为正常结果
+### C2-2 12 个回合方法逐个从 `-32031` 转为正常结果
 
-对以下 11 个方法（**旧协议字面量，不是 v4 命令名**），在**活会话**上逐个断言不再回 `-32031`：
+对以下 12 个方法（**旧协议字面量，不是 v4 命令名**），在**活会话**上逐个断言不再回 `-32031`：
 
 | #   | 方法                           | 期望（端口实装后）                                                |
 | --- | ------------------------------ | ----------------------------------------------------------------- |
@@ -50,15 +50,16 @@ C2 的要求是：**`kernel-switch` 合并（默认引擎切到 DSH）之前，�
 | 9   | `session/setMode`              | 结果或既有业务错误                                                |
 | 10  | `session/resume`               | 结果（完整快照）或既有业务错误                                    |
 | 11  | `session/subscribe`            | 结果（含 eventSeq/events）或既有业务错误                          |
+| 12  | `session/close`                | 结果（`{closed:true}`）或既有业务错误                             |
 
-> **11 与 12 的差异已与 lead 确认（2026-10-20）**：C2 判定清单 = **11 个**（lead 从旧协议回合方法
-> 划定的归属）；执行端口表实际有 **12 个**方法（多一个 `session/close`）。判定用 11 个；
-> `session/close` 单列为**端口完整性验证**——它必须一并验证「已注册且可用」，但不计入 C2-2 的 11 个
-> 判定项。差异显式记录，不隐藏、也不悄悄按某一侧写死。
+> **C2 分母 = 12（2026-10-20 修正）**：实测 `legacy/method-table.ts` 的 `PORT_BACKED_METHODS`
+> 是 **12 个**方法（上表全部，含 `session/close`），不是 11 个。此前的「11 与 12 的差异」表述已作废。
+>
+> **归属分工（Lead 2026-10-20）**：`kernel-bridge-02` 交付其中 **4/12**，其余 **8 个归
+> `kernel-bridge-03`**。`session/close` 在 bridge-02 与 legacy 侧均无 handler，**必须由 03 实现**——
+> 因此 03 未落地时 C2 不可能满 12，这是**已知的、有归属的**未完成项，不是本包的缺陷。
 
-**附加：端口完整性验证（`session/close`）**
-
-- [ ] `session/close` 端口已注册且可用（在活会话上调用应返回结果或既有业务错误，不回 `-32031`）。
+**端口完整性（`session/close`）**：它不单列，已计入上表第 12 项判定。
 
 ### C2-3 未注册时仍必须回 `-32031`（能力缺席语义未退化）
 
@@ -120,7 +121,7 @@ node specs/contracts/kernel-bridge-legacy/tests/c2-port-registered.test.mjs
 
 ```text
 ok 1 - C2-1 端口已注册（产品路径）
-ok 2 - C2-2 11 个回合方法不再回 -32031
+ok 2 - C2-2 12 个回合方法不再回 -32031
 ok 3 - C2-3 注销端口后重新回 -32031（能力缺席语义未退化）
 ok 4 - C2-4 依赖方向单向（legacy 不 import 02/03）
 ok 5 - 端口完整性：session/close 已注册且可用
@@ -161,8 +162,8 @@ git grep -n "kernel-bridge-02\|kernel-bridge-03" -- apps/cli/packages/bootstrap/
 ### 设计要点
 
 1. **两态断言**：同一份用例在「端口已注册」与「端口已注销」两种状态下各跑一遍。
-   - 注册态：11 方法不再回 `-32031`（+ `session/close` 端口完整性）。
-   - 注销态：11 方法回 `-32031` + `fault.command.capabilityUnsupported`。
+   - 注册态：12 方法不再回 `-32031`。
+   - 注销态：12 方法回 `-32031` + `fault.command.capabilityUnsupported`。
 2. **注册态的驱动方式**：产品路径注册由 02/03 完成，测试**不能**假设它一定存在。因此：
    - 若产品路径已注册（探测：对 `session/send` 发请求，不回 `-32031`）→ 断言转绿；
    - 若尚未注册 → 该用例**失败并给出明确信息**「端口未注册，C2 未完成」，
@@ -176,7 +177,7 @@ git grep -n "kernel-bridge-02\|kernel-bridge-03" -- apps/cli/packages/bootstrap/
 ### 骨架（供 bridge-02 落地时填充参数）
 
 ```js
-// 注册态：产品路径已注册 → 11 方法必须转绿
+// 注册态：产品路径已注册 → 12 方法必须转绿
 for (const method of C2_METHODS) {
   const response = await app.request(method, paramsFor(method, sessionId));
   assert.ok(
