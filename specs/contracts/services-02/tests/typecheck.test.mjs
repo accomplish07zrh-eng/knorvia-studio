@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
 // B14：契约类型自洽。
 //
 // `contract.example.ts` 用契约类型构造了一组示例值（review 草稿 → 命令、kernel 事件、
@@ -18,7 +18,9 @@ import { describe, it } from "node:test";
 
 import pkg from "typescript";
 
-import { entryLabel, repoRoot } from "./entry.mjs";
+import { entryLabel, importModule, repoRoot } from "./entry.mjs";
+import { loadDeclaredExports } from "./runtime-guard.mjs";
+import { classifyStub, probeModule } from "./stub-probe.mjs";
 import { examples, SR_DIR, srcPrefix } from "./scope.mjs";
 
 const ts = pkg;
@@ -88,19 +90,15 @@ describe(`B14 契约类型自洽（${entryLabel}）`, () => {
     assert.ok(exampleRow !== undefined);
 
     // 桩是「合法的 TS 类型声明」，所以单看 tsc 诊断无法区分真实实现与桩。
-    // 因此先验证示例的导出**是真实值**（桩文件顶层 throw，且导出为 undefined），
+    // 因此先用**行为特征**判定是不是桩（见 stub-probe.mjs，不依赖桩的错误文案），
     // 再做类型检查 —— 这样这条断言才对实现有约束力（旧门的 allFail 要求）。
-    const loaded = await import(
-      pathToFileURL(join(repoRoot, srcPrefix, SR_DIR, `${exampleRow.modulePath}.ts`)).href
+    const probe = await probeModule(importModule, exampleRow);
+    const verdict = classifyStub(probe, (await loadDeclaredExports(exampleRow)).exports.length);
+    assert.equal(verdict.isStub, false, `示例文件不应是桩：${verdict.reason}`);
+    assert.ok(
+      Object.keys(probe.loaded ?? {}).length > 0,
+      "示例文件应有运行时导出（纯类型文件不适用本断言）",
     );
-    const stubShadowed = /not implemented: services-02/u.test(
-      readFileSync(join(repoRoot, srcPrefix, SR_DIR, `${exampleRow.modulePath}.ts`), "utf8"),
-    );
-    assert.equal(stubShadowed, false, "示例文件不应是桩");
-    assert.ok(Object.keys(loaded).length > 0, "示例文件应有运行时导出");
-    for (const [name, value] of Object.entries(loaded)) {
-      assert.notEqual(value, undefined, `示例导出 ${name} 不应为 undefined`);
-    }
 
     const exampleMarker = `${srcPrefix}${SR_DIR}${examples[0].modulePath}.ts`;
     const errors = checkExample().filter((diagnostic) => diagnostic.file.includes(exampleMarker));

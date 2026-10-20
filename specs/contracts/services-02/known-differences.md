@@ -1,4 +1,4 @@
-# services-02 已知差异（`studio-runtime` 契约层）
+﻿# services-02 已知差异（`studio-runtime` 契约层）
 
 ## K1 端口下沉：位置变更，签名不变
 
@@ -79,7 +79,21 @@ import type { StudioOutputRef } from "./domain/outputRef.js";
 **`import type` 在编译期被完全擦除**，不产生运行期依赖边，因此不违反 B11。
 `kernelTypes.ts:221-222` 的两处 `export *`（指向 `adapters/`、`domain/`）属聚合转发，同 K4 口径。
 
-## K7 上游归属
+## K7 桩检测不依赖桩的错误文案
+
+`tests/typecheck.test.mjs` 的 B14 需要区分「当前加载的是真实实现还是合同桩」。
+**最初用 `not implemented: services-02` 字符串匹配**，但那耦合了桩生成器的错误文案——
+文案一改检测就失效而测试仍绿。
+
+**现改为行为特征判定**（`tests/stub-probe.mjs`），三条信号任一命中即认定为桩：
+
+1. **模块导入时直接抛错**（桩在顶层 `throw`）—— 真实模块不会；
+2. **导出值全部为 `undefined`**（桩生成的 `const X: unknown = undefined`）；
+3. **声明面非 0 但运行期导出为 0**（交由调用方结合 `role` 判断，因为纯类型模块本身运行期为空）。
+
+这三条都是**实现行为**，与桩的文案无关。桩生成器将来改文案，这条断言仍然有效。
+
+## K8 上游归属
 
 `upstream-baseline.json`（6,973 个上游文件）在 `packages/services/src/studio-runtime` 下**零文件**；
 `contract.example.ts` 在上游仅有同名但无关的 `.agents/skills/.../golden-module/contract.example.ts`（141 字节 vs 本文件 3,808 字节）。

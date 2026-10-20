@@ -1,4 +1,4 @@
-# services-02 验收报告
+﻿# services-02 验收报告
 
 ## 一、交付清单
 
@@ -48,6 +48,7 @@ node --import tsx --test --test-concurrency=2 --test-timeout=180000 specs/contra
 
 ```
 源码入口：            tests=31 pass=31 fail=0  exit=0
+dist 入口：           tests=31 pass=31 fail=0  exit=0
 桩替换 17 个目标文件： tests=31 pass=0  fail=31 allFail=true  exit=0
 ```
 
@@ -55,6 +56,7 @@ node --import tsx --test --test-concurrency=2 --test-timeout=180000 specs/contra
 
 ```powershell
 node scripts/contract-gate.mjs --contract "specs/contracts/services-02" --tests "*.test.mjs" \
+  --dist-env "KNORVIA_SVC02_ENTRY=dist" \
   --stub-targets "specs/contracts/services-02/stubs/targets.txt" \
   --stub-root "specs/contracts/services-02/stubs" \
   --json "specs/contracts/services-02/gate-old.json"
@@ -104,8 +106,8 @@ export async function loadDeclaredExports(row) {
 | 第三轮（B14 加「示例导出非 undefined」检查） |  **31 / 31**  | **0**                             |
 
 **`B14` 的特殊处理**：`contract.example.ts` 的 tsc 检查在桩下也通过（因为桩是合法的 TS 类型声明）。
-所以额外断言「示例的每个运行时导出都不是 `undefined`」且「文件不含 `not implemented: services-02`」——
-桩文件顶层 `throw` 时导入就失败，导出也全是 `undefined`，这两条都会红。
+所以额外用**行为特征**判定当前加载的是不是桩（`tests/stub-probe.mjs`）：① 导入即抛；② 导出全为 `undefined`。
+**不依赖桩的错误文案**（最初用 `not implemented: services-02` 字符串匹配，但那会把测试耦合到桩生成器的文案上，见 `known-differences.md` K7）。
 
 **结论**：契约包**不能只靠静态断言**。这是本包给后续契约包的通用经验（`known-differences.md` K4 之外的补充）。
 
