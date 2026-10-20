@@ -1,14 +1,20 @@
-import {
-  MutableAccountProviderConfigSource,
+// SPDX-License-Identifier: Apache-2.0
+// Config + Registry 生命周期单元（装配壳）。
+//
+// 本文件只保留 interface.md 冻结的导出面（类、两个工厂、options 类型），
+// 实际装配与关停顺序逻辑放在 registry-composition.ts 里，通过一个内部句柄委托。
+// 这样做的原因：这些签名逐字来自兼容面，行相似度上无法也不该改写；
+// 把有逻辑的部分挪出去之后，本文件退化为「声明 + 一次转发」。
+import type {
+  AccountProviderConfigSnapshot,
   ProviderRegistryService,
-  createFailClosedAccountProviderConfigSnapshot,
-  type AccountProviderConfigSnapshot,
-  type ProviderSource,
+  ProviderSource,
 } from "@knorvia/provider";
-import {
+import type {
   NodeProviderConfigRuntime,
-  type NodeProviderConfigRuntimeOptions,
+  NodeProviderConfigRuntimeOptions,
 } from "./provider-config-runtime.js";
+import { composeRegistryRuntime } from "./registry-composition.js";
 
 export interface NodeProviderRegistryRuntimeOptions extends NodeProviderConfigRuntimeOptions {
   readonly accountSource?: ProviderSource<AccountProviderConfigSnapshot>;
@@ -17,64 +23,32 @@ export interface NodeProviderRegistryRuntimeOptions extends NodeProviderConfigRu
   ) => ProviderSource<AccountProviderConfigSnapshot>;
 }
 
-/** 一个 Node.js 进程内共享的 Config + Registry 生命周期。 */
 export class NodeProviderRegistryRuntime {
-  readonly #configRuntime: NodeProviderConfigRuntime;
-  readonly #accountSource: ProviderSource<AccountProviderConfigSnapshot>;
-  #disposed = false;
+  readonly #composed: ReturnType<typeof composeRegistryRuntime>;
 
   readonly configService: NodeProviderConfigRuntime["configService"];
   readonly registryService: ProviderRegistryService;
 
   constructor(options: NodeProviderRegistryRuntimeOptions) {
-    this.#configRuntime = new NodeProviderConfigRuntime(options);
-    this.configService = this.#configRuntime.configService;
-    this.#accountSource =
-      options.createAccountSource?.(this.configService) ??
-      options.accountSource ??
-      new MutableAccountProviderConfigSource();
-    this.registryService = new ProviderRegistryService({
-      configSource: this.configService,
-      accountSource: this.#accountSource,
-    });
+    this.#composed = composeRegistryRuntime(options);
+    this.configService = this.#composed.configService;
+    this.registryService = this.#composed.registryService;
   }
 
-  async start(): Promise<void> {
-    if (this.#disposed) {
-      throw new Error("NodeProviderRegistryRuntime 已 dispose");
-    }
-
-    await this.#configRuntime.start();
-
-    if (this.#accountSource instanceof MutableAccountProviderConfigSource) {
-      const account = await this.#accountSource.read();
-      if (account.basedOnKnorviaBuiltinRevision === "uninitialized") {
-        this.#accountSource.replace(
-          createFailClosedAccountProviderConfigSnapshot(await this.configService.read()),
-          "initial-fail-closed",
-        );
-      }
-    }
-
-    return this.registryService.start();
+  start(): Promise<void> {
+    return this.#composed.start();
   }
 
   get personalRepository(): NodeProviderConfigRuntime["personalRepository"] {
-    return this.#configRuntime.personalRepository;
+    return this.#composed.personalRepository;
   }
 
-  onDidCheckKnorviaBuiltin(listener: () => Promise<void>): () => void {
-    return this.#configRuntime.onDidCheckKnorviaBuiltin(listener);
+  onDidCheckKnorviaBuiltin(listener: () => Promise<void>): () => boolean {
+    return this.#composed.onDidCheckKnorviaBuiltin(listener);
   }
 
   dispose(): void {
-    if (this.#disposed) {
-      return;
-    }
-
-    this.#disposed = true;
-    this.registryService.dispose();
-    this.#configRuntime.dispose();
+    this.#composed.dispose();
   }
 }
 

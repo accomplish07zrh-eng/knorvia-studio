@@ -153,15 +153,16 @@ export class ProtocolMessage {
 export function writeProtocolMessage(source: ProtocolMessage): VSBuffer {
   const body = source.data;
   const frame = VSBuffer.alloc(HEADER_SIZE + body.byteLength);
+  // 帧头布局：type:u8 | id:u32BE | ack:u32BE | length:u32BE。
+  // 四个字段的**索引**（固定 0..3）与**写偏移**（0 / 1 / 5 / 9）是两件事：
+  // 早先这里用同一个变量兼作两者，第三、四个字段被读成 `fields[5]`、`fields[9]`
+  // （都是 undefined），长度字段因此写成 0，接收端把整帧当成空 body，
+  // ChannelClient 一解帧就抛 TypeError。
   const fields: readonly number[] = [source.type, source.id, source.ack, body.byteLength];
-  let cursor = 0;
-  frame.writeUInt8(fields[cursor], cursor);
-  cursor += 1;
-  frame.writeUInt32BE(fields[cursor], cursor);
-  cursor += 4;
-  frame.writeUInt32BE(fields[cursor], cursor);
-  cursor += 4;
-  frame.writeUInt32BE(fields[cursor], cursor);
+  frame.writeUInt8(fields[0], 0);
+  frame.writeUInt32BE(fields[1], 1);
+  frame.writeUInt32BE(fields[2], 5);
+  frame.writeUInt32BE(fields[3], 9);
   frame.set(body, HEADER_SIZE);
   return frame;
 }

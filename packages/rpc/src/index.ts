@@ -67,7 +67,11 @@ export {
 
 export { ProxyChannel } from "./proxy-channel.js";
 
-export { type RPCLogger, LoggingChannelServer, LoggingChannelClient } from "./logging-middleware.js";
+export {
+  type RPCLogger,
+  LoggingChannelServer,
+  LoggingChannelClient,
+} from "./logging-middleware.js";
 
 export {
   type NetworkTransportKind,

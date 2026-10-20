@@ -32,9 +32,7 @@ const usablyTrimmed = (value: string | undefined): string | undefined => {
   return trimmed !== undefined && trimmed !== "" ? trimmed : undefined;
 };
 
-export function createNodeProviderRuntimePathEnv(
-  paths: NodeProviderRuntimePaths,
-): ProviderPathEnv {
+export function createNodeProviderRuntimePathEnv(paths: NodeProviderRuntimePaths): ProviderPathEnv {
   const env: ProviderPathEnv = {};
   env[ENV_KEYS.builtin] = paths.knorviaBuiltinFilePath;
   env[ENV_KEYS.personal] = paths.personalFilePath;
@@ -46,6 +44,7 @@ export function resolveNodeProviderRuntimePaths(env: RuntimeEnv): NodeProviderRu
   const personalPath = usablyTrimmed(env[ENV_KEYS.personal]);
   const provided = [builtinPath, personalPath].filter((path) => path !== undefined);
   if (provided.length === 0) return null;
-  if (builtinPath === undefined || personalPath === undefined) throw new Error(PAIR_REQUIRED_MESSAGE);
+  if (builtinPath === undefined || personalPath === undefined)
+    throw new Error(PAIR_REQUIRED_MESSAGE);
   return Object.freeze({ knorviaBuiltinFilePath: builtinPath, personalFilePath: personalPath });
 }
