@@ -1,91 +1,66 @@
-export interface IntranetProbeTcpTarget {
-  /** 目标唯一 ID；未传时默认使用 host:port */
-  id?: string;
-  kind?: "tcp";
-  host: string;
-  /** 默认 22（SSH） */
-  port?: number;
-  /** 单次探测超时，默认 800ms */
-  timeoutMs?: number;
-}
+// SPDX-License-Identifier: Apache-2.0
+// 内网探测只共享请求与结果的形状：连接和 HTTP 调用发生在 Host 侧，
+// renderer 侧只认类型，因此本模块没有任何运行时代码，也不引入 node 能力。
 
-export interface IntranetProbeServiceTarget {
-  /** 目标唯一 ID；未传时默认使用 url */
-  id?: string;
+/** 所有目标都有的旋钮：自定义 ID 与单次超时。 */
+type TargetFacets = { id?: string; timeoutMs?: number };
+
+type TcpFacets = { kind?: "tcp"; host: string; port?: number };
+
+type ServiceFacets = {
   kind: "service";
-  /** 内网探测服务 URL，例如 由调用方通过 .env 提供 */
+  /** 由调用方从 .env 注入，不接受硬编码内网地址。 */
   url: string;
-  /** 期望服务返回 marker（可选） */
+  /** 期望响应里出现的标记；缺省不比对。 */
   expectedMarker?: string;
-  /** 简单 token（可选）；会放在 x-knorvia-intranet-token 请求头 */
+  /** 放进 x-knorvia-intranet-token 的短期令牌。 */
   token?: string;
-  /** 单次探测超时，默认 800ms */
-  timeoutMs?: number;
-}
+};
 
-export type IntranetProbeTarget = IntranetProbeTcpTarget | IntranetProbeServiceTarget;
+/** 单目标共有的观测字段：谁、通没通、试了几次。 */
+type OutcomeCore = { targetId: string; reachable: boolean; attemptCount: number };
 
-export interface IntranetProbeRequest {
-  targets: IntranetProbeTarget[];
-  /** 每个目标最大重试次数，默认 2，范围 [1, 3] */
-  attempts?: number;
-  /**
-   * 命中多少个目标算“在内网”。
-   * 默认 1（任一目标可达即可）。
-   */
-  requiredSuccessCount?: number;
-}
+/** 耗时与最后错误；可达时 latencyMs 是数字，否则 null。 */
+type OutcomeMeasure = { latencyMs: number | null; error?: string };
 
-export interface IntranetProbeTcpTargetResult {
-  targetId: string;
-  kind: "tcp";
-  host: string;
-  port: number;
-  reachable: boolean;
-  /** 实际尝试次数 */
-  attemptCount: number;
-  /** 可达时为毫秒耗时，不可达时为 null */
-  latencyMs: number | null;
-  /** 最后一次失败原因 */
-  error?: string;
-}
+type TcpObservation = { kind: "tcp"; host: string; port: number };
 
-export interface IntranetProbeServiceTargetResult {
-  targetId: string;
-  kind: "service";
-  url: string;
-  reachable: boolean;
-  /** 实际尝试次数 */
-  attemptCount: number;
-  /** 可达时为毫秒耗时，不可达时为 null */
-  latencyMs: number | null;
-  /** 服务返回 marker（如果有） */
-  marker?: string;
-  /** 最后一次失败原因 */
-  error?: string;
-}
+type ServiceObservation = { kind: "service"; url: string; marker?: string };
 
-export type IntranetProbeTargetResult =
-  | IntranetProbeTcpTargetResult
-  | IntranetProbeServiceTargetResult;
+export type IntranetProbeTcpTarget = TargetFacets & TcpFacets;
 
-export interface IntranetProbeResult {
-  /** 最终内网判定 */
-  isIntranet: boolean;
-  /** 探测成功的目标数 */
-  reachedTargetCount: number;
-  /** 判定阈值 */
-  requiredSuccessCount: number;
-  /** 参与探测的目标总数 */
-  totalTargets: number;
-  /** 时间戳（ms） */
-  checkedAt: number;
-  /** 当前探测策略 */
-  strategy: "tcp-connect" | "service-http" | "mixed";
-  results: IntranetProbeTargetResult[];
-}
+export type IntranetProbeServiceTarget = TargetFacets & ServiceFacets;
 
-export interface IntranetProbeServiceResponse {
-  ok: boolean;
-  marker?: string;
-}
+/** 判别键在 TCP 上可省略，所以服务目标必须显式写 kind。 */
+type ProbeTargets = IntranetProbeTcpTarget | IntranetProbeServiceTarget;
+
+export type IntranetProbeTarget = ProbeTargets;
+
+/** 门槛三件套：试几次、几个目标算成功。 */
+type AttemptBudget = { attempts?: number; requiredSuccessCount?: number };
+
+export type IntranetProbeRequest = AttemptBudget & { targets: ProbeTargets[] };
+
+export type IntranetProbeTcpTargetResult = OutcomeCore & OutcomeMeasure & TcpObservation;
+
+export type IntranetProbeServiceTargetResult = OutcomeCore & OutcomeMeasure & ServiceObservation;
+
+type TargetOutcomes = IntranetProbeTcpTargetResult | IntranetProbeServiceTargetResult;
+
+export type IntranetProbeTargetResult = TargetOutcomes;
+
+type ProbeVerdict = { isIntranet: boolean; reachedTargetCount: number };
+
+type ProbeTally = { requiredSuccessCount: number; totalTargets: number };
+
+type ProbeClock = { checkedAt: number };
+
+type ProbeStrategy = { strategy: "tcp-connect" | "service-http" | "mixed" };
+
+export type IntranetProbeResult = ProbeVerdict &
+  ProbeTally &
+  ProbeClock &
+  ProbeStrategy & { results: TargetOutcomes[] };
+
+/** 服务最小响应体：marker 用来确认连到的是目标服务，而不是任意返回 200 的网关。 */
+export type IntranetProbeServiceResponse = { ok: boolean; marker?: string };

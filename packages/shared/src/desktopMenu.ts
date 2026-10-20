@@ -1,188 +1,151 @@
+// SPDX-License-Identifier: Apache-2.0
+// 桌面菜单与托盘文案：主进程不能读 renderer 的 i18n 资源，因此这份表随 Electron 主进程打包。
+// 每项按 [消息 id, zh-CN, en-US] 登记，键名供 main 侧引用，id 才是 i18n 通道里的查找键。
 import { DEFAULT_LOCALE, type Locale } from "./protocol.js";
 
-export const desktopMenuMessageIds = {
-  file: "titleBar.menu.file",
-  edit: "titleBar.menu.edit",
-  view: "titleBar.menu.view",
-  window: "titleBar.menu.window",
-  help: "titleBar.menu.help",
-  fileNewTask: "titleBar.menu.file.newTask",
-  fileOpenWorkspace: "titleBar.menu.file.openWorkspace",
-  fileCloseWindow: "titleBar.menu.file.closeWindow",
-  editUndo: "titleBar.menu.edit.undo",
-  editRedo: "titleBar.menu.edit.redo",
-  editCut: "titleBar.menu.edit.cut",
-  editCopy: "titleBar.menu.edit.copy",
-  editPaste: "titleBar.menu.edit.paste",
-  editDelete: "titleBar.menu.edit.delete",
-  editSelectAll: "titleBar.menu.edit.selectAll",
-  viewToggleFullScreen: "titleBar.menu.view.toggleFullScreen",
-  viewActualSize: "titleBar.menu.view.actualSize",
-  viewZoomIn: "titleBar.menu.view.zoomIn",
-  viewZoomOut: "titleBar.menu.view.zoomOut",
-  windowMinimize: "titleBar.menu.window.minimize",
-  windowZoom: "titleBar.menu.window.zoom",
-  windowBringAllToFront: "titleBar.menu.window.bringAllToFront",
-  appServices: "titleBar.menu.app.services",
-  appHide: "titleBar.menu.app.hide",
-  appHideOthers: "titleBar.menu.app.hideOthers",
-  appShowAll: "titleBar.menu.app.showAll",
-  appQuit: "titleBar.menu.app.quit",
-  helpAbout: "titleBar.menu.help.about",
-  helpWhatsNew: "titleBar.menu.help.whatsNew",
-  helpCheckForUpdates: "titleBar.menu.help.checkForUpdates",
-  helpToggleDevTools: "titleBar.menu.help.toggleDevTools",
-  helpResourceManager: "titleBar.menu.help.resourceManager",
-  helpToggleKnorviaStdioTap: "titleBar.menu.help.toggleKnorviaStdioTap",
-  helpKnorviaEndpoint: "titleBar.menu.help.endpoint",
-  helpKnorviaEndpointProduction: "titleBar.menu.help.endpoint.production",
-  helpKnorviaEndpointTest: "titleBar.menu.help.endpoint.test",
-  helpKnorviaEndpointCustom: "titleBar.menu.help.endpoint.custom",
-  helpKnorviaEndpointReset: "titleBar.menu.help.endpoint.reset",
-  helpFeedback: "titleBar.menu.help.feedback",
-  helpExportLogs: "titleBar.menu.help.exportLogs",
-  helpClearAllData: "titleBar.menu.help.clearAllData",
-  helpCheckingForUpdates: "desktopMenu.help.checkingForUpdates",
-  helpUpdateAvailableVersion: "desktopMenu.help.updateAvailableVersion",
-  helpDownloadingUpdateVersion: "desktopMenu.help.downloadingUpdateVersion",
-  helpDownloadingUpdateProgress: "desktopMenu.help.downloadingUpdateProgress",
-  helpRestartToUpdate: "desktopMenu.help.restartToUpdate",
-  dockShowCurrentWindow: "dock.menu.showCurrentWindow",
-  trayTooltip: "tray.tooltip",
-  trayOpenKnorvia: "tray.menu.openKnorvia",
-  trayQuit: "tray.menu.quit",
+const MENU_MESSAGES = {
+  file: ["titleBar.menu.file", "文件", "File"],
+  edit: ["titleBar.menu.edit", "编辑", "Edit"],
+  view: ["titleBar.menu.view", "视图", "View"],
+  window: ["titleBar.menu.window", "窗口", "Window"],
+  help: ["titleBar.menu.help", "帮助", "Help"],
+  fileNewTask: ["titleBar.menu.file.newTask", "新建任务", "New task"],
+  fileOpenWorkspace: ["titleBar.menu.file.openWorkspace", "打开工作区", "Open workspace"],
+  fileCloseWindow: ["titleBar.menu.file.closeWindow", "关闭窗口", "Close window"],
+  editUndo: ["titleBar.menu.edit.undo", "撤销", "Undo"],
+  editRedo: ["titleBar.menu.edit.redo", "重做", "Redo"],
+  editCut: ["titleBar.menu.edit.cut", "剪切", "Cut"],
+  editCopy: ["titleBar.menu.edit.copy", "复制", "Copy"],
+  editPaste: ["titleBar.menu.edit.paste", "粘贴", "Paste"],
+  editDelete: ["titleBar.menu.edit.delete", "删除", "Delete"],
+  editSelectAll: ["titleBar.menu.edit.selectAll", "全选", "Select all"],
+  viewToggleFullScreen: ["titleBar.menu.view.toggleFullScreen", "切换全屏", "Toggle full screen"],
+  viewActualSize: ["titleBar.menu.view.actualSize", "实际大小", "Actual size"],
+  viewZoomIn: ["titleBar.menu.view.zoomIn", "放大", "Zoom in"],
+  viewZoomOut: ["titleBar.menu.view.zoomOut", "缩小", "Zoom out"],
+  windowMinimize: ["titleBar.menu.window.minimize", "最小化", "Minimize"],
+  windowZoom: ["titleBar.menu.window.zoom", "缩放", "Zoom"],
+  windowBringAllToFront: [
+    "titleBar.menu.window.bringAllToFront",
+    "全部置于前台",
+    "Bring all to front",
+  ],
+  appServices: ["titleBar.menu.app.services", "服务", "Services"],
+  appHide: ["titleBar.menu.app.hide", "隐藏 {appName}", "Hide {appName}"],
+  appHideOthers: ["titleBar.menu.app.hideOthers", "隐藏其他", "Hide others"],
+  appShowAll: ["titleBar.menu.app.showAll", "全部显示", "Show all"],
+  appQuit: ["titleBar.menu.app.quit", "退出 {appName}", "Quit {appName}"],
+  helpAbout: ["titleBar.menu.help.about", "关于 Knorvia Studio", "About Knorvia Studio"],
+  helpWhatsNew: ["titleBar.menu.help.whatsNew", "更新日志", "What's new"],
+  helpCheckForUpdates: ["titleBar.menu.help.checkForUpdates", "检查更新", "Check for updates"],
+  helpToggleDevTools: [
+    "titleBar.menu.help.toggleDevTools",
+    "切换开发者工具",
+    "Toggle developer tools",
+  ],
+  helpResourceManager: ["titleBar.menu.help.resourceManager", "资源管理器", "Resource manager"],
+  helpToggleKnorviaStdioTap: [
+    "titleBar.menu.help.toggleKnorviaStdioTap",
+    "抓取 Agent stdio 通信",
+    "Capture agent stdio traffic",
+  ],
+  helpKnorviaEndpoint: [
+    "titleBar.menu.help.endpoint",
+    "Knorvia Studio Endpoint",
+    "Knorvia Studio Endpoint",
+  ],
+  helpKnorviaEndpointProduction: [
+    "titleBar.menu.help.endpoint.production",
+    "Production（默认）",
+    "Production (default)",
+  ],
+  helpKnorviaEndpointTest: ["titleBar.menu.help.endpoint.test", "Test", "Test"],
+  helpKnorviaEndpointCustom: ["titleBar.menu.help.endpoint.custom", "自定义...", "Custom..."],
+  helpKnorviaEndpointReset: ["titleBar.menu.help.endpoint.reset", "恢复默认", "Reset to default"],
+  helpFeedback: ["titleBar.menu.help.feedback", "问题上报", "Feedback"],
+  helpExportLogs: ["titleBar.menu.help.exportLogs", "导出日志", "Export logs"],
+  helpClearAllData: ["titleBar.menu.help.clearAllData", "清除所有数据", "Clear all data"],
+  helpCheckingForUpdates: [
+    "desktopMenu.help.checkingForUpdates",
+    "正在检查更新...",
+    "Checking for updates...",
+  ],
+  helpUpdateAvailableVersion: [
+    "desktopMenu.help.updateAvailableVersion",
+    "发现新版本 {version}",
+    "Update available {version}",
+  ],
+  helpDownloadingUpdateVersion: [
+    "desktopMenu.help.downloadingUpdateVersion",
+    "正在下载更新 {version}...",
+    "Downloading update {version}...",
+  ],
+  helpDownloadingUpdateProgress: [
+    "desktopMenu.help.downloadingUpdateProgress",
+    "正在下载更新... {progress}",
+    "Downloading update... {progress}",
+  ],
+  helpRestartToUpdate: [
+    "desktopMenu.help.restartToUpdate",
+    "重启以更新（{version}）",
+    "Restart to update ({version})",
+  ],
+  dockShowCurrentWindow: ["dock.menu.showCurrentWindow", "显示当前窗口", "Show current window"],
+  trayTooltip: ["tray.tooltip", "Knorvia Studio", "Knorvia Studio"],
+  trayOpenKnorvia: ["tray.menu.openKnorvia", "打开 Knorvia Studio", "Open Knorvia Studio"],
+  trayQuit: ["tray.menu.quit", "退出", "Quit"],
 } as const;
 
-export type DesktopMenuMessageId =
-  (typeof desktopMenuMessageIds)[keyof typeof desktopMenuMessageIds];
+type MenuEntry = (typeof MENU_MESSAGES)[keyof typeof MENU_MESSAGES];
 
-type DesktopMenuLocaleMessages = Record<DesktopMenuMessageId, string>;
+type EntryKey = keyof typeof MENU_MESSAGES;
 
-export const desktopMenuMessages: Record<Locale, DesktopMenuLocaleMessages> = {
-  "zh-CN": {
-    "titleBar.menu.file": "文件",
-    "titleBar.menu.edit": "编辑",
-    "titleBar.menu.view": "视图",
-    "titleBar.menu.window": "窗口",
-    "titleBar.menu.help": "帮助",
-    "titleBar.menu.file.newTask": "新建任务",
-    "titleBar.menu.file.openWorkspace": "打开工作区",
-    "titleBar.menu.file.closeWindow": "关闭窗口",
-    "titleBar.menu.edit.undo": "撤销",
-    "titleBar.menu.edit.redo": "重做",
-    "titleBar.menu.edit.cut": "剪切",
-    "titleBar.menu.edit.copy": "复制",
-    "titleBar.menu.edit.paste": "粘贴",
-    "titleBar.menu.edit.delete": "删除",
-    "titleBar.menu.edit.selectAll": "全选",
-    "titleBar.menu.view.toggleFullScreen": "切换全屏",
-    "titleBar.menu.view.actualSize": "实际大小",
-    "titleBar.menu.view.zoomIn": "放大",
-    "titleBar.menu.view.zoomOut": "缩小",
-    "titleBar.menu.window.minimize": "最小化",
-    "titleBar.menu.window.zoom": "缩放",
-    "titleBar.menu.window.bringAllToFront": "全部置于前台",
-    "titleBar.menu.app.services": "服务",
-    "titleBar.menu.app.hide": "隐藏 {appName}",
-    "titleBar.menu.app.hideOthers": "隐藏其他",
-    "titleBar.menu.app.showAll": "全部显示",
-    "titleBar.menu.app.quit": "退出 {appName}",
-    "titleBar.menu.help.about": "关于 Knorvia Studio",
-    "titleBar.menu.help.whatsNew": "更新日志",
-    "titleBar.menu.help.checkForUpdates": "检查更新",
-    "titleBar.menu.help.toggleDevTools": "切换开发者工具",
-    "titleBar.menu.help.resourceManager": "资源管理器",
-    "titleBar.menu.help.toggleKnorviaStdioTap": "抓取 Agent stdio 通信",
-    "titleBar.menu.help.endpoint": "Knorvia Studio Endpoint",
-    "titleBar.menu.help.endpoint.production": "Production（默认）",
-    "titleBar.menu.help.endpoint.test": "Test",
-    "titleBar.menu.help.endpoint.custom": "自定义...",
-    "titleBar.menu.help.endpoint.reset": "恢复默认",
-    "titleBar.menu.help.feedback": "问题上报",
-    "titleBar.menu.help.exportLogs": "导出日志",
-    "titleBar.menu.help.clearAllData": "清除所有数据",
-    "desktopMenu.help.checkingForUpdates": "正在检查更新...",
-    "desktopMenu.help.updateAvailableVersion": "发现新版本 {version}",
-    "desktopMenu.help.downloadingUpdateVersion": "正在下载更新 {version}...",
-    "desktopMenu.help.downloadingUpdateProgress": "正在下载更新... {progress}",
-    "desktopMenu.help.restartToUpdate": "重启以更新（{version}）",
-    "dock.menu.showCurrentWindow": "显示当前窗口",
-    "tray.tooltip": "Knorvia Studio",
-    "tray.menu.openKnorvia": "打开 Knorvia Studio",
-    "tray.menu.quit": "退出",
-  },
-  "en-US": {
-    "titleBar.menu.file": "File",
-    "titleBar.menu.edit": "Edit",
-    "titleBar.menu.view": "View",
-    "titleBar.menu.window": "Window",
-    "titleBar.menu.help": "Help",
-    "titleBar.menu.file.newTask": "New task",
-    "titleBar.menu.file.openWorkspace": "Open workspace",
-    "titleBar.menu.file.closeWindow": "Close window",
-    "titleBar.menu.edit.undo": "Undo",
-    "titleBar.menu.edit.redo": "Redo",
-    "titleBar.menu.edit.cut": "Cut",
-    "titleBar.menu.edit.copy": "Copy",
-    "titleBar.menu.edit.paste": "Paste",
-    "titleBar.menu.edit.delete": "Delete",
-    "titleBar.menu.edit.selectAll": "Select all",
-    "titleBar.menu.view.toggleFullScreen": "Toggle full screen",
-    "titleBar.menu.view.actualSize": "Actual size",
-    "titleBar.menu.view.zoomIn": "Zoom in",
-    "titleBar.menu.view.zoomOut": "Zoom out",
-    "titleBar.menu.window.minimize": "Minimize",
-    "titleBar.menu.window.zoom": "Zoom",
-    "titleBar.menu.window.bringAllToFront": "Bring all to front",
-    "titleBar.menu.app.services": "Services",
-    "titleBar.menu.app.hide": "Hide {appName}",
-    "titleBar.menu.app.hideOthers": "Hide others",
-    "titleBar.menu.app.showAll": "Show all",
-    "titleBar.menu.app.quit": "Quit {appName}",
-    "titleBar.menu.help.about": "About Knorvia Studio",
-    "titleBar.menu.help.whatsNew": "What's new",
-    "titleBar.menu.help.checkForUpdates": "Check for updates",
-    "titleBar.menu.help.toggleDevTools": "Toggle developer tools",
-    "titleBar.menu.help.resourceManager": "Resource manager",
-    "titleBar.menu.help.toggleKnorviaStdioTap": "Capture agent stdio traffic",
-    "titleBar.menu.help.endpoint": "Knorvia Studio Endpoint",
-    "titleBar.menu.help.endpoint.production": "Production (default)",
-    "titleBar.menu.help.endpoint.test": "Test",
-    "titleBar.menu.help.endpoint.custom": "Custom...",
-    "titleBar.menu.help.endpoint.reset": "Reset to default",
-    "titleBar.menu.help.feedback": "Feedback",
-    "titleBar.menu.help.exportLogs": "Export logs",
-    "titleBar.menu.help.clearAllData": "Clear all data",
-    "desktopMenu.help.checkingForUpdates": "Checking for updates...",
-    "desktopMenu.help.updateAvailableVersion": "Update available {version}",
-    "desktopMenu.help.downloadingUpdateVersion": "Downloading update {version}...",
-    "desktopMenu.help.downloadingUpdateProgress": "Downloading update... {progress}",
-    "desktopMenu.help.restartToUpdate": "Restart to update ({version})",
-    "dock.menu.showCurrentWindow": "Show current window",
-    "tray.tooltip": "Knorvia Studio",
-    "tray.menu.openKnorvia": "Open Knorvia Studio",
-    "tray.menu.quit": "Quit",
-  },
+const LOCALE_COLUMN: Record<Locale, 1 | 2> = { "zh-CN": 1, "en-US": 2 };
+
+/** 键名 → 消息 id；main 侧以 `desktopMenuMessageIds.trayQuit` 形式取用。 */
+export const desktopMenuMessageIds = Object.fromEntries(
+  Object.entries(MENU_MESSAGES).map(([key, entry]) => [key, entry[0]]),
+) as { readonly [K in EntryKey]: (typeof MENU_MESSAGES)[K][0] };
+
+export type DesktopMenuMessageId = MenuEntry[0];
+
+type MessageBundle = Record<string, string>;
+
+/** 同一份三元组按 locale 列投影成两张查找表，避免两处手写重复文案。 */
+const buildMessages = (column: 1 | 2): MessageBundle =>
+  Object.fromEntries(Object.values(MENU_MESSAGES).map((entry) => [entry[0], entry[column]]));
+
+const messagesByLocale: Record<Locale, MessageBundle> = {
+  "zh-CN": buildMessages(LOCALE_COLUMN["zh-CN"]),
+  "en-US": buildMessages(LOCALE_COLUMN["en-US"]),
 };
 
+export const desktopMenuMessages = messagesByLocale as Record<
+  Locale,
+  Record<DesktopMenuMessageId, string>
+>;
+
+const fallbackMessages = (): MessageBundle => buildMessages(LOCALE_COLUMN[DEFAULT_LOCALE]);
+
+/** 未知 locale 回退默认语言；id 由类型保证存在。 */
 export function getDesktopMenuMessage(locale: Locale, id: DesktopMenuMessageId): string {
-  const messages = desktopMenuMessages[locale] ?? desktopMenuMessages[DEFAULT_LOCALE];
-  return messages[id];
+  const bundle = messagesByLocale[locale] ?? fallbackMessages();
+  const message = bundle[id];
+  return message ?? id;
 }
 
+/** `{name}` 占位符按调用方给的 values 逐项替换；未提供 values 时原样返回。 */
 export function formatDesktopMenuMessage(
   locale: Locale,
   id: DesktopMenuMessageId,
   values?: Record<string, string | number>,
 ): string {
-  let message = getDesktopMenuMessage(locale, id);
-  if (!values) {
-    return message;
-  }
+  const template = getDesktopMenuMessage(locale, id);
+  if (values === undefined) return template;
 
+  let rendered = template;
   for (const [key, value] of Object.entries(values)) {
-    message = message.replaceAll(`{${key}}`, String(value));
+    rendered = rendered.replaceAll(`{${key}}`, String(value));
   }
-
-  return message;
+  return rendered;
 }
