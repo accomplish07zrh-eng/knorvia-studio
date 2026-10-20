@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 // kernel-dsh-00 B11：系统提示使用 Knorvia 开场，且不包含 Harness 身份句。
 import assert from "node:assert/strict";
-import { renderPrompt } from "@deepseek-ai/dsh-system-prompt";
+import { renderContextSnapshot, renderPrompt } from "@deepseek-ai/dsh-system-prompt";
 import test from "node:test";
 import { loadKernel } from "./entry.mjs";
 import { withBoot } from "./_kernel.mjs";
@@ -34,6 +34,18 @@ test("B11 装配后的 prompt 以 Knorvia 开场，不含 Harness 身份句", as
         prompt.includes("powered by DeepSeek Harness"),
         false,
         "不得保留 Harness 身份句",
+      );
+      // kernel-dsh-builtins D2：本包打开 includeRuntimeContext 并补运行环境字段。
+      // 身份口径不变（本节上面的断言），只是模型现在能看到自己在哪、今天几号。
+      const contextNames = assembly.contexts.map((context) => context.name);
+      assert.ok(
+        contextNames.includes("knorvia:runtime-context"),
+        `必须注册运行环境上下文贡献；实际=${JSON.stringify(contextNames)}`,
+      );
+      assert.equal(
+        renderContextSnapshot(assembly).includes("Primary working directory:"),
+        true,
+        "运行上下文快照必须含主工作目录字段",
       );
     });
   } finally {

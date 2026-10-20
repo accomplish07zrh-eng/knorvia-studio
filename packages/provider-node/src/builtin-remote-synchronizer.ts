@@ -49,7 +49,7 @@ interface RefreshControl {
 export class KnorviaBuiltinRemoteSynchronizer {
   readonly #options: KnorviaBuiltinRemoteSynchronizerOptions;
   readonly #now: () => number;
-  #inflight: Promise<KnorviaBuiltinRefreshResult> | null = null;
+  #inflight: { force: boolean; promise: Promise<KnorviaBuiltinRefreshResult> } | null = null;
   #disposed = false;
   #abortController: AbortController | null = null;
 
@@ -62,20 +62,28 @@ export class KnorviaBuiltinRemoteSynchronizer {
     if (this.#disposed) {
       return Promise.resolve("disposed");
     }
-    if (this.#inflight) {
-      return this.#inflight;
+    const force = options.force === true;
+    const current = this.#inflight;
+    if (current) {
+      // Non-force (and force-vs-force) keep sharing one in-flight round.
+      // force must not join a non-force round: that round may still return
+      // "updated" after active is already written, which would lie to callers
+      // that asked for a fresh check against the current endpoint.
+      if (!force || current.force) {
+        return current.promise;
+      }
+      return current.promise.then(() => this.refresh({ force: true }));
     }
 
     const controller = new AbortController();
     this.#abortController = controller;
-    const force = options.force === true;
     const promise = this.#refreshInternal(force, controller.signal).finally(() => {
-      if (this.#inflight === promise) {
+      if (this.#inflight?.promise === promise) {
         this.#inflight = null;
         this.#abortController = null;
       }
     });
-    this.#inflight = promise;
+    this.#inflight = { force, promise };
     return promise;
   }
 

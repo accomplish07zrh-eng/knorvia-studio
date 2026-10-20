@@ -9614,17 +9614,14 @@
     },
     {
       "path": "apps/cli/packages/bootstrap/src/kernel/composition.ts",
-      "normalizedSha256": "38ce2f9f45e5ebe263ba39cceaac9aabcfa442f00ecfbca78d45cf9807f3197d",
+      "normalizedSha256": "b15e563ce120fc53ed74bca66d3655ef228a4ddb74ba4915119e73ed172c4de8",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored kernel-dsh-00 runtime for the DSH-backed built-in kernel. 固定 v1 组合蓝图与 entry 物化；会话持久化根目录由 dshHome 注入。 Written from specs/knorvia-builtin-kernel-dsh.md, the kernel-dsh-00 contract and the public @deepseek-ai/dsh 0.2.0-rc.2 package surface. The author read the replaced apps/cli/packages/bootstrap/src/app/create-app.ts, apps/cli/packages/bootstrap/src/protocol-entrypoint.ts and apps/cli/packages/core/src/runtime/** to understand existing behavior only; no DSH source and no inherited implementation was copied, renamed or line-rewritten. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.068, longest identical run 2, structural similarity 0.107.",
+      "basis": "Knorvia-authored kernel-dsh-builtins implementation for the DSH-backed built-in kernel (M2 accessor package). Updated in place to mount and configure the existing DSH capabilities; the author read the replaced core/src/context, core/src/compact and core/src/tool files to understand behavior only, no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.125, longest identical run 2, structural similarity 0.167; declaration mode 4/4 with containment 0.000.",
       "evidence": [
-        "specs/knorvia-builtin-kernel-dsh.md",
-        "specs/contracts/kernel-dsh-00/README.md",
-        "specs/contracts/kernel-dsh-00/behavior.md",
-        "specs/contracts/kernel-dsh-00/interface.md",
-        "specs/contracts/kernel-dsh-00/acceptance.md",
-        "docs/knorvia-kernel-dsh-00-acceptance.md"
+        "specs/contracts/kernel-dsh-builtins/README.md",
+        "specs/contracts/kernel-dsh-builtins/behavior.md",
+        "docs/knorvia-kernel-dsh-builtins-acceptance.md"
       ]
     },
     {
@@ -9659,17 +9656,14 @@
     },
     {
       "path": "apps/cli/packages/bootstrap/src/kernel/environment.ts",
-      "normalizedSha256": "49b6129f09babbd99111a95fc1b7d523b3709fe09cb255e0796596d9df92f387",
+      "normalizedSha256": "bb5e131853457638c632c9dff2970a72fde7ce126c30b315f0a1e892ac0bb813",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored kernel-dsh-00 runtime for the DSH-backed built-in kernel. 清理 DSH 与供应商凭据变量、设置 DSH_HOME 与遥测关闭标记，并创建数据目录。 Written from specs/knorvia-builtin-kernel-dsh.md, the kernel-dsh-00 contract and the public @deepseek-ai/dsh 0.2.0-rc.2 package surface. The author read the replaced apps/cli/packages/bootstrap/src/app/create-app.ts, apps/cli/packages/bootstrap/src/protocol-entrypoint.ts and apps/cli/packages/core/src/runtime/** to understand existing behavior only; no DSH source and no inherited implementation was copied, renamed or line-rewritten. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.075, longest identical run 1, structural similarity 0.194.",
+      "basis": "Knorvia-authored kernel-dsh-builtins implementation for the DSH-backed built-in kernel (M2 accessor package). Updated in place to mount and configure the existing DSH capabilities; the author read the replaced core/src/context, core/src/compact and core/src/tool files to understand behavior only, no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.125, longest identical run 2, structural similarity 0.167; declaration mode 4/4 with containment 0.000.",
       "evidence": [
-        "specs/knorvia-builtin-kernel-dsh.md",
-        "specs/contracts/kernel-dsh-00/README.md",
-        "specs/contracts/kernel-dsh-00/behavior.md",
-        "specs/contracts/kernel-dsh-00/interface.md",
-        "specs/contracts/kernel-dsh-00/acceptance.md",
-        "docs/knorvia-kernel-dsh-00-acceptance.md"
+        "specs/contracts/kernel-dsh-builtins/README.md",
+        "specs/contracts/kernel-dsh-builtins/behavior.md",
+        "docs/knorvia-kernel-dsh-builtins-acceptance.md"
       ]
     },
     {
@@ -9689,32 +9683,26 @@
     },
     {
       "path": "apps/cli/packages/bootstrap/src/kernel/host.ts",
-      "normalizedSha256": "3f2702ded7eafade6d3857007bc4b00da75fea9f7fd1658d8dffb79dce00cddb",
+      "normalizedSha256": "1542d034359903d49862dc928671e2ca1f33dad3d0af27dc4857b332279c5045",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored kernel-dsh-00 runtime for the DSH-backed built-in kernel. 调用 @deepseek-ai/dsh-app-boot 的 boot() 启动进程内宿主，并实现 5 秒有界释放。 Written from specs/knorvia-builtin-kernel-dsh.md, the kernel-dsh-00 contract and the public @deepseek-ai/dsh 0.2.0-rc.2 package surface. The author read the replaced apps/cli/packages/bootstrap/src/app/create-app.ts, apps/cli/packages/bootstrap/src/protocol-entrypoint.ts and apps/cli/packages/core/src/runtime/** to understand existing behavior only; no DSH source and no inherited implementation was copied, renamed or line-rewritten. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.140, longest identical run 3, structural similarity 0.043.",
+      "basis": "Knorvia-authored kernel-dsh-builtins implementation for the DSH-backed built-in kernel (M2 accessor package). Updated in place to mount and configure the existing DSH capabilities; the author read the replaced core/src/context, core/src/compact and core/src/tool files to understand behavior only, no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.125, longest identical run 2, structural similarity 0.167; declaration mode 4/4 with containment 0.000.",
       "evidence": [
-        "specs/knorvia-builtin-kernel-dsh.md",
-        "specs/contracts/kernel-dsh-00/README.md",
-        "specs/contracts/kernel-dsh-00/behavior.md",
-        "specs/contracts/kernel-dsh-00/interface.md",
-        "specs/contracts/kernel-dsh-00/acceptance.md",
-        "docs/knorvia-kernel-dsh-00-acceptance.md"
+        "specs/contracts/kernel-dsh-builtins/README.md",
+        "specs/contracts/kernel-dsh-builtins/behavior.md",
+        "docs/knorvia-kernel-dsh-builtins-acceptance.md"
       ]
     },
     {
       "path": "apps/cli/packages/bootstrap/src/kernel/index.ts",
-      "normalizedSha256": "0ceb06e0786562e908cb15b3fdb7181190e95b3c005b3f0b3ee666158d2da1f7",
+      "normalizedSha256": "d0553169de1cabafe102c403dbba22064c1826d6136b79849493d75ec5070402",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored kernel-dsh-00 runtime for the DSH-backed built-in kernel. kernel 公共入口的单一导出面。 Written from specs/knorvia-builtin-kernel-dsh.md, the kernel-dsh-00 contract and the public @deepseek-ai/dsh 0.2.0-rc.2 package surface. The author read the replaced apps/cli/packages/bootstrap/src/app/create-app.ts, apps/cli/packages/bootstrap/src/protocol-entrypoint.ts and apps/cli/packages/core/src/runtime/** to understand existing behavior only; no DSH source and no inherited implementation was copied, renamed or line-rewritten. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.000, longest identical run 0, structural similarity 0.000.",
+      "basis": "Knorvia-authored kernel-dsh-builtins implementation for the DSH-backed built-in kernel (M2 accessor package). Updated in place to mount and configure the existing DSH capabilities; the author read the replaced core/src/context, core/src/compact and core/src/tool files to understand behavior only, no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.125, longest identical run 2, structural similarity 0.167; declaration mode 4/4 with containment 0.000.",
       "evidence": [
-        "specs/knorvia-builtin-kernel-dsh.md",
-        "specs/contracts/kernel-dsh-00/README.md",
-        "specs/contracts/kernel-dsh-00/behavior.md",
-        "specs/contracts/kernel-dsh-00/interface.md",
-        "specs/contracts/kernel-dsh-00/acceptance.md",
-        "docs/knorvia-kernel-dsh-00-acceptance.md"
+        "specs/contracts/kernel-dsh-builtins/README.md",
+        "specs/contracts/kernel-dsh-builtins/behavior.md",
+        "docs/knorvia-kernel-dsh-builtins-acceptance.md"
       ]
     },
     {
@@ -9734,22 +9722,19 @@
     },
     {
       "path": "apps/cli/packages/bootstrap/src/kernel/module-url.ts",
-      "normalizedSha256": "611d09ac869f112364df2b3437876ae8281de2eadd89365761f4bcc8a6cfe2ab",
+      "normalizedSha256": "e1694ff6916202eabd276a77b65c6c4f36a30952b7cf36d5d38e70dda7871345",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored kernel-dsh-00 runtime for the DSH-backed built-in kernel. ESM/CJS 构建下解析模块基址的辅助函数。 Written from specs/knorvia-builtin-kernel-dsh.md, the kernel-dsh-00 contract and the public @deepseek-ai/dsh 0.2.0-rc.2 package surface. The author read the replaced apps/cli/packages/bootstrap/src/app/create-app.ts, apps/cli/packages/bootstrap/src/protocol-entrypoint.ts and apps/cli/packages/core/src/runtime/** to understand existing behavior only; no DSH source and no inherited implementation was copied, renamed or line-rewritten. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.000, longest identical run 0, structural similarity 0.000.",
+      "basis": "Knorvia-authored kernel-dsh-builtins implementation for the DSH-backed built-in kernel (M2 accessor package). Updated in place to mount and configure the existing DSH capabilities; the author read the replaced core/src/context, core/src/compact and core/src/tool files to understand behavior only, no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.125, longest identical run 2, structural similarity 0.167; declaration mode 4/4 with containment 0.000.",
       "evidence": [
-        "specs/knorvia-builtin-kernel-dsh.md",
-        "specs/contracts/kernel-dsh-00/README.md",
-        "specs/contracts/kernel-dsh-00/behavior.md",
-        "specs/contracts/kernel-dsh-00/interface.md",
-        "specs/contracts/kernel-dsh-00/acceptance.md",
-        "docs/knorvia-kernel-dsh-00-acceptance.md"
+        "specs/contracts/kernel-dsh-builtins/README.md",
+        "specs/contracts/kernel-dsh-builtins/behavior.md",
+        "docs/knorvia-kernel-dsh-builtins-acceptance.md"
       ]
     },
     {
       "path": "apps/cli/packages/bootstrap/src/kernel/process.ts",
-      "normalizedSha256": "11a8c9f5d14bbae7ae199a601c7556f793ee4205753122bb3e7d0c99b2511126",
+      "normalizedSha256": "d4658750b2d606a4ee281b80f2f4148a1ded716449697dc2eeb70499d9635dd3",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored kernel-dsh-00 runtime for the DSH-backed built-in kernel. runKernelProcess：就绪/失败标记、stdin EOF 与信号关闭、退出码映射。 Written from specs/knorvia-builtin-kernel-dsh.md, the kernel-dsh-00 contract and the public @deepseek-ai/dsh 0.2.0-rc.2 package surface. The author read the replaced apps/cli/packages/bootstrap/src/app/create-app.ts, apps/cli/packages/bootstrap/src/protocol-entrypoint.ts and apps/cli/packages/core/src/runtime/** to understand existing behavior only; no DSH source and no inherited implementation was copied, renamed or line-rewritten. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.173, longest identical run 2, structural similarity 0.000.",
@@ -64695,7 +64680,7 @@
     },
     {
       "path": "docs/knorvia-independent-replacement-plan.md",
-      "normalizedSha256": "5a2696a721a0cf65a2ac7c30304a5794501f95c523384e64f0a0ef9a37ab15d8",
+      "normalizedSha256": "346c04e3f67fc4417d3f0891f8a4f3be299d8c4d8c255842e16213880eafe638",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored planning document: the synchronized copy of the independent-replacement plan that this work executes. Written by the Knorvia team; it lists scope, decisions, milestones and acceptance criteria and reproduces no upstream source text. Registered as original so the plan copy itself carries its own provenance record.",
@@ -66238,10 +66223,10 @@
     },
     {
       "path": "docs/knorvia-similarity-calibration-20261011.md",
-      "normalizedSha256": "b09da52bc2439e64eaf65eb9bb847334111928a0f171789df07a0c89e80675f7",
+      "normalizedSha256": "b0fbcccdb24a9fd3483d9005e691c0e7d7128685a7e28e2668e611647064c0cf",
       "decision": "original",
       "license": "MIT",
-      "basis": "New Knorvia calibration report for the M0-8 similarity tool: upstream tree provenance and full verification, threshold derivation, the 439-file rerun and the renamed-copy validation. Prior sources were read for the algorithm and the pinned upstream tree; no upstream text was copied into the report.",
+      "basis": "New Knorvia calibration report for the M0-8 similarity tool: upstream tree provenance and full verification, threshold derivation, the 439-file rerun and the renamed-copy validation. Prior sources were read for the algorithm and the pinned upstream tree; no upstream text was copied into the report. Section 12 records the 2026-10-19 packed-literal-split gate: whitespace-delimited literals split at runtime are an independent FAIL reason, runtime data is not flagged, and thresholds are unchanged; it also records that the four new cases pass while the pre-existing declaration case fails under the concurrent pure-data tightening, without claiming a fully green suite.",
       "evidence": [
         "docs/knorvia-similarity-calibration-20261011.md",
         "docs/knorvia-independent-replacement-plan.md"
@@ -130828,11 +130813,23 @@
       "normalizedSha256": "4922c8135670e4462fa36a8f315d1c67af20f5e30d33179e77a25ac448c50694"
     },
     {
-      "path": "scripts/provenance/similarity-declarations.mjs",
-      "normalizedSha256": "995cbe9d3f69c2d71e820cf868923d231e67334cd28d04a04eba3f955e6dc9ab",
+      "path": "scripts/provenance/similarity-declarations-purity.test.mjs",
+      "normalizedSha256": "fad10003a2ed9daaf33faceac975639fc917e4e9779fa40e66217430258f2323",
       "decision": "original",
       "license": "MIT",
-      "basis": "Knorvia-authored provenance tooling for M0-8 (line and structural similarity checker). The author read docs/knorvia-provenance-bookkeeping-20261010.md section 4 for the bookkeeping line algorithm and the task plan's tool requirements; no upstream or replaced implementation code was copied, renamed or rewritten line by line. Calibration on the 439 registered independent-replacement files: observed structural maximum 1.000, threshold 0.4 (23 files over the cap are queued for replacement); four renamed copies of real upstream-modified files were all blocked. License follows licensing/README.md for new scripts/provenance tools. Declaration compatibility-line stripping driven by interface.md names.",
+      "basis": "New Knorvia regression tests for the declaration-mode purity guard: a named const block is only exempt from scoring when it is pure data (literal arrays/objects, z.enum, Object.freeze), while functions, conditions, arithmetic, spreads, interpolated templates and computed calls keep their lines scored. Node built-ins only; no upstream test was copied or adapted. License follows licensing/README.md for new scripts/provenance tools.",
+      "evidence": [
+        "licensing/README.md",
+        "docs/knorvia-similarity-calibration-20261011.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
+      "path": "scripts/provenance/similarity-declarations.mjs",
+      "normalizedSha256": "fbeaabff67515116947a4e9fbb553d4ea1602d97f1e833ce8fc76e678ec987ce",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored provenance tooling for M0-8 (line and structural similarity checker). The author read docs/knorvia-provenance-bookkeeping-20261010.md section 4 for the bookkeeping line algorithm and the task plan's tool requirements; no upstream or replaced implementation code was copied, renamed or rewritten line by line. Calibration on the 439 registered independent-replacement files: observed structural maximum 1.000, threshold 0.4 (23 files over the cap are queued for replacement); four renamed copies of real upstream-modified files were all blocked. License follows licensing/README.md for new scripts/provenance tools. Declaration compatibility-line stripping driven by interface.md names; named const blocks are only stripped when they are pure data, so functions, conditions and computed values inside a listed const keep scoring.",
       "evidence": [
         "licensing/README.md",
         "docs/knorvia-similarity-calibration-20261011.md",
@@ -130876,6 +130873,18 @@
       ]
     },
     {
+      "path": "scripts/provenance/similarity-packed-literal.mjs",
+      "normalizedSha256": "4dffece869c166f981da49f8d054ce5afe4ca9c865833075c692759932e94325",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored anti-gaming extension for the M0-8 similarity checker: flag candidates that pack wording into whitespace-delimited string/template literals and split them into a list at runtime (direct split, const-bound literal/array/join result, flatMap over a literal array, or a literal argument to a wrapper that splits its parameter). Runtime data such as parameters, file/process output and parsed git/ps rows is deliberately not flagged. Lightweight AST literal propagation only, no constant evaluator. No upstream or replaced implementation was copied. License follows licensing/README.md for new scripts/provenance tools.",
+      "evidence": [
+        "licensing/README.md",
+        "docs/knorvia-similarity-calibration-20261011.md",
+        "docs/knorvia-independent-replacement-plan.md"
+      ]
+    },
+    {
       "path": "scripts/provenance/similarity-reexport.mjs",
       "normalizedSha256": "816660a9eb0ccd5fe5bf97a16800b3bed6249278286641ba11b29854958447f7",
       "decision": "original",
@@ -130901,10 +130910,10 @@
     },
     {
       "path": "scripts/provenance/similarity.mjs",
-      "normalizedSha256": "626ffc05ce58812edc6d75f0f3abc633906e123b972f71ba943a42cc26dd836c",
+      "normalizedSha256": "186693bb5c0b48431df63ce2d52077ab712c64234c3d9516a0eaf01a1cf953cc",
       "decision": "original",
       "license": "MIT",
-      "basis": "Knorvia-authored provenance tooling for M0-8 (line and structural similarity checker). The author read docs/knorvia-provenance-bookkeeping-20261010.md section 4 for the bookkeeping line algorithm and the task plan's tool requirements; no upstream or replaced implementation code was copied, renamed or rewritten line by line. Calibration on the 439 registered independent-replacement files: observed structural maximum 1.000, threshold 0.4 (23 files over the cap are queued for replacement); four renamed copies of real upstream-modified files were all blocked. License follows licensing/README.md for new scripts/provenance tools. Entry point: candidate/old/upstream resolution, gate evaluation, JSON report and exit code.",
+      "basis": "Knorvia-authored provenance tooling for M0-8 (line and structural similarity checker). The author read docs/knorvia-provenance-bookkeeping-20261010.md section 4 for the bookkeeping line algorithm and the task plan's tool requirements; no upstream or replaced implementation code was copied, renamed or rewritten line by line. Calibration on the 439 registered independent-replacement files: observed structural maximum 1.000, threshold 0.4 (23 files over the cap are queued for replacement); four renamed copies of real upstream-modified files were all blocked. License follows licensing/README.md for new scripts/provenance tools. Entry point: candidate/old/upstream resolution, gate evaluation, JSON report and exit code. Packed-literal gate: flag whitespace-delimited string/template literals split at runtime (direct, const/array/join-bound, or via a literal-argument helper), while leaving runtime data (parameters, file/process output, git/ps row parsing) alone.",
       "evidence": [
         "licensing/README.md",
         "docs/knorvia-similarity-calibration-20261011.md",
@@ -130913,10 +130922,10 @@
     },
     {
       "path": "scripts/provenance/similarity.test.mjs",
-      "normalizedSha256": "8f25673e7f16e09e2815d0c036b6b070843170cdc68841017e6af4fdb74c8a94",
+      "normalizedSha256": "f3a7439a6c08e3027068ab4aed974c6b04fe0922e9d20a80d1d4458ea75f3867",
       "decision": "original",
       "license": "MIT",
-      "basis": "Knorvia-authored provenance tooling for M0-8 (line and structural similarity checker). The author read docs/knorvia-provenance-bookkeeping-20261010.md section 4 for the bookkeeping line algorithm and the task plan's tool requirements; no upstream or replaced implementation code was copied, renamed or rewritten line by line. Calibration on the 439 registered independent-replacement files: observed structural maximum 1.000, threshold 0.4 (23 files over the cap are queued for replacement); four renamed copies of real upstream-modified files were all blocked. License follows licensing/README.md for new scripts/provenance tools. Contract tests: line boundaries (exactly ten lines, run 7 vs 8, containment 0.19 vs 0.2), renamed copy blocked, independently structured implementation passing, declaration line stripping, binary skip, Windows newlines, JSON fields and exit codes.",
+      "basis": "Knorvia-authored provenance tooling for M0-8 (line and structural similarity checker). The author read docs/knorvia-provenance-bookkeeping-20261010.md section 4 for the bookkeeping line algorithm and the task plan's tool requirements; no upstream or replaced implementation code was copied, renamed or rewritten line by line. Calibration on the 439 registered independent-replacement files: observed structural maximum 1.000, threshold 0.4 (23 files over the cap are queued for replacement); four renamed copies of real upstream-modified files were all blocked. License follows licensing/README.md for new scripts/provenance tools. Contract tests: line boundaries (exactly ten lines, run 7 vs 8, containment 0.19 vs 0.2), renamed copy blocked, independently structured implementation passing, declaration line stripping, binary skip, Windows newlines, JSON fields and exit codes. Packed-literal split positives (literal, const/array/join, helper call) and runtime-data negatives.",
       "evidence": [
         "licensing/README.md",
         "docs/knorvia-similarity-calibration-20261011.md",
@@ -135061,7 +135070,7 @@
     },
     {
       "path": "specs/contracts/core-tool-01/interface.md",
-      "normalizedSha256": "c599000bcb55a4307e51f1b07a89a938d61b437ccc68e758179187188f066191",
+      "normalizedSha256": "bef8ea8a08bb51648a93aa7af71f3bc9b035748ae65c70e3d1129f7c41454cd4",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "New core-tool-01 contract documents (scope, behavior B1-B88, interface signatures, callers, known differences, acceptance) authored for the Knorvia independent-replacement plan. Behavior and signatures were extracted by reading the replaced implementation and running it, as the plan allows; no code was copied, renamed or rewritten line by line, and the documents describe behavior in the authors' own words. The old gate results recorded in these documents are measurements on the unmodified implementation.",
@@ -137366,30 +137375,26 @@
     },
     {
       "path": "specs/contracts/kernel-dsh-00/tests/boot-contract.test.mjs",
-      "normalizedSha256": "058280759881b21fcce86748d74c9bc4e127295a0d50b503b5aa23341f20b595",
+      "normalizedSha256": "83a1bfee2d74dd39798c550e086827ff50c2d50b3d087603872dad803035e5ca",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored kernel-dsh-00 contract test/support artifact for the DSH-backed built-in kernel (M2). Assertions are written from the kernel-dsh-00 contract and exercise black-box CLI or public host behavior; no DSH source and no inherited runtime implementation was copied. Similarity against create-app.ts, protocol-entrypoint.ts, core/src/runtime/** and zai-org/ZCode@872ad960: max line containment 0.129, longest identical run 2, structural similarity 0.038.",
+      "basis": "Knorvia-authored kernel-dsh-00 contract test/support artifact for the DSH-backed built-in kernel (M2). Expectation values upgraded by kernel-dsh-builtins known-differences D1/D2 so the base-19-row slice stays field-by-field identical while the appended rows get their own assertions; assertion strength is preserved and extended, not relaxed. Assertions exercise black-box CLI or public host behavior; no DSH source and no inherited runtime implementation was copied. Similarity against create-app.ts, protocol-entrypoint.ts, core/src/runtime/** and zai-org/ZCode@872ad960: max line containment 0.125, longest identical run 2, structural similarity 0.167.",
       "evidence": [
-        "specs/contracts/kernel-dsh-00/README.md",
-        "specs/contracts/kernel-dsh-00/behavior.md",
-        "specs/contracts/kernel-dsh-00/interface.md",
-        "specs/contracts/kernel-dsh-00/acceptance.md",
-        "docs/knorvia-kernel-dsh-00-acceptance.md"
+        "specs/contracts/kernel-dsh-builtins/README.md",
+        "specs/contracts/kernel-dsh-builtins/known-differences.md",
+        "docs/knorvia-kernel-dsh-builtins-acceptance.md"
       ]
     },
     {
       "path": "specs/contracts/kernel-dsh-00/tests/composition.test.mjs",
-      "normalizedSha256": "ad5e7566d2a9702423b47e0a79ea867c4a706712c70362773fa143671720bdbb",
+      "normalizedSha256": "27093ef2e76584c4926dd132788119b9362e4ac5d1b7b7ae50556895ae723c26",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored kernel-dsh-00 contract test/support artifact for the DSH-backed built-in kernel (M2). Assertions are written from the kernel-dsh-00 contract and exercise black-box CLI or public host behavior; no DSH source and no inherited runtime implementation was copied. Similarity against create-app.ts, protocol-entrypoint.ts, core/src/runtime/** and zai-org/ZCode@872ad960: max line containment 0.049, longest identical run 1, structural similarity 0.038.",
+      "basis": "Knorvia-authored kernel-dsh-00 contract test/support artifact for the DSH-backed built-in kernel (M2). Expectation values upgraded by kernel-dsh-builtins known-differences D1/D2 so the base-19-row slice stays field-by-field identical while the appended rows get their own assertions; assertion strength is preserved and extended, not relaxed. Assertions exercise black-box CLI or public host behavior; no DSH source and no inherited runtime implementation was copied. Similarity against create-app.ts, protocol-entrypoint.ts, core/src/runtime/** and zai-org/ZCode@872ad960: max line containment 0.125, longest identical run 2, structural similarity 0.167.",
       "evidence": [
-        "specs/contracts/kernel-dsh-00/README.md",
-        "specs/contracts/kernel-dsh-00/behavior.md",
-        "specs/contracts/kernel-dsh-00/interface.md",
-        "specs/contracts/kernel-dsh-00/acceptance.md",
-        "docs/knorvia-kernel-dsh-00-acceptance.md"
+        "specs/contracts/kernel-dsh-builtins/README.md",
+        "specs/contracts/kernel-dsh-builtins/known-differences.md",
+        "docs/knorvia-kernel-dsh-builtins-acceptance.md"
       ]
     },
     {
@@ -137430,44 +137435,38 @@
     },
     {
       "path": "specs/contracts/kernel-dsh-00/tests/identity.test.mjs",
-      "normalizedSha256": "6e3738a245714c36aabc2cb7c6aaff68dbbe08f065aa73b6034309937608fe4c",
+      "normalizedSha256": "eabda2234c8bed2124c8cf5fbd3d24302aaaa3ece8a2fcadaa789ec78837117a",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored kernel-dsh-00 contract test/support artifact for the DSH-backed built-in kernel (M2). Assertions are written from the kernel-dsh-00 contract and exercise black-box CLI or public host behavior; no DSH source and no inherited runtime implementation was copied. Similarity against create-app.ts, protocol-entrypoint.ts, core/src/runtime/** and zai-org/ZCode@872ad960: max line containment 0.111, longest identical run 1, structural similarity 0.045.",
+      "basis": "Knorvia-authored kernel-dsh-00 contract test/support artifact for the DSH-backed built-in kernel (M2). Expectation values upgraded by kernel-dsh-builtins known-differences D1/D2 so the base-19-row slice stays field-by-field identical while the appended rows get their own assertions; assertion strength is preserved and extended, not relaxed. Assertions exercise black-box CLI or public host behavior; no DSH source and no inherited runtime implementation was copied. Similarity against create-app.ts, protocol-entrypoint.ts, core/src/runtime/** and zai-org/ZCode@872ad960: max line containment 0.125, longest identical run 2, structural similarity 0.167.",
       "evidence": [
-        "specs/contracts/kernel-dsh-00/README.md",
-        "specs/contracts/kernel-dsh-00/behavior.md",
-        "specs/contracts/kernel-dsh-00/interface.md",
-        "specs/contracts/kernel-dsh-00/acceptance.md",
-        "docs/knorvia-kernel-dsh-00-acceptance.md"
+        "specs/contracts/kernel-dsh-builtins/README.md",
+        "specs/contracts/kernel-dsh-builtins/known-differences.md",
+        "docs/knorvia-kernel-dsh-builtins-acceptance.md"
       ]
     },
     {
       "path": "specs/contracts/kernel-dsh-00/tests/isolation.test.mjs",
-      "normalizedSha256": "00dec8839dc5ee0d432b395aecead5175f061916de4b77041a98a883e44fd160",
+      "normalizedSha256": "e109a266a89519c483c797fd47c7960ba527dfc945993196f5fbb46c0f50fed3",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored kernel-dsh-00 contract test/support artifact for the DSH-backed built-in kernel (M2). Assertions are written from the kernel-dsh-00 contract and exercise black-box CLI or public host behavior; no DSH source and no inherited runtime implementation was copied. Similarity against create-app.ts, protocol-entrypoint.ts, core/src/runtime/** and zai-org/ZCode@872ad960: max line containment 0.108, longest identical run 1, structural similarity 0.016.",
+      "basis": "Knorvia-authored kernel-dsh-00 contract test/support artifact for the DSH-backed built-in kernel (M2). Expectation values upgraded by kernel-dsh-builtins known-differences D1/D2 so the base-19-row slice stays field-by-field identical while the appended rows get their own assertions; assertion strength is preserved and extended, not relaxed. Assertions exercise black-box CLI or public host behavior; no DSH source and no inherited runtime implementation was copied. Similarity against create-app.ts, protocol-entrypoint.ts, core/src/runtime/** and zai-org/ZCode@872ad960: max line containment 0.125, longest identical run 2, structural similarity 0.167.",
       "evidence": [
-        "specs/contracts/kernel-dsh-00/README.md",
-        "specs/contracts/kernel-dsh-00/behavior.md",
-        "specs/contracts/kernel-dsh-00/interface.md",
-        "specs/contracts/kernel-dsh-00/acceptance.md",
-        "docs/knorvia-kernel-dsh-00-acceptance.md"
+        "specs/contracts/kernel-dsh-builtins/README.md",
+        "specs/contracts/kernel-dsh-builtins/known-differences.md",
+        "docs/knorvia-kernel-dsh-builtins-acceptance.md"
       ]
     },
     {
       "path": "specs/contracts/kernel-dsh-00/tests/paths.test.mjs",
-      "normalizedSha256": "4b43ca6bba3746c2c92f2d95a48de06d4f037a33d8f171a7f601275407c6f1ce",
+      "normalizedSha256": "647d565e2c716a42a4110d15f60869ec0557341e250ff25c68fed4453a50e0c1",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored kernel-dsh-00 contract test/support artifact for the DSH-backed built-in kernel (M2). Assertions are written from the kernel-dsh-00 contract and exercise black-box CLI or public host behavior; no DSH source and no inherited runtime implementation was copied. Similarity against create-app.ts, protocol-entrypoint.ts, core/src/runtime/** and zai-org/ZCode@872ad960: max line containment 0.154, longest identical run 1, structural similarity 0.000.",
+      "basis": "Knorvia-authored kernel-dsh-00 contract test/support artifact for the DSH-backed built-in kernel (M2). Expectation values upgraded by kernel-dsh-builtins known-differences D1/D2 so the base-19-row slice stays field-by-field identical while the appended rows get their own assertions; assertion strength is preserved and extended, not relaxed. Assertions exercise black-box CLI or public host behavior; no DSH source and no inherited runtime implementation was copied. Similarity against create-app.ts, protocol-entrypoint.ts, core/src/runtime/** and zai-org/ZCode@872ad960: max line containment 0.125, longest identical run 2, structural similarity 0.167.",
       "evidence": [
-        "specs/contracts/kernel-dsh-00/README.md",
-        "specs/contracts/kernel-dsh-00/behavior.md",
-        "specs/contracts/kernel-dsh-00/interface.md",
-        "specs/contracts/kernel-dsh-00/acceptance.md",
-        "docs/knorvia-kernel-dsh-00-acceptance.md"
+        "specs/contracts/kernel-dsh-builtins/README.md",
+        "specs/contracts/kernel-dsh-builtins/known-differences.md",
+        "docs/knorvia-kernel-dsh-builtins-acceptance.md"
       ]
     },
     {
@@ -138130,7 +138129,7 @@
     },
     {
       "path": "specs/contracts/packages-02/tests/rpc-channels.test.mjs",
-      "normalizedSha256": "bb7d7360455032cb54821a838aab9753dab8fa6bfc5d8b4f56768926d39c2134",
+      "normalizedSha256": "ab9b7cdaaddf8f6f9e4f4e8003e68ecbd194927b33d8b4144db64782a527f7a8",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored packages-02 contract v1 black-box test: exercises the frozen public behavior of the inherited rpc and provider-node modules through public entries on both source and dist entries, recorded against the unmodified implementation. No implementation code copied into the contract.",
@@ -138689,7 +138688,7 @@
     },
     {
       "path": "specs/contracts/shared-02/interface.md",
-      "normalizedSha256": "c412e44aa1c113b4149af31f57c491c9c52e29bdccf13d36aaebb718f46e334f",
+      "normalizedSha256": "eb4c4f8434c98b8ee729997b66cac3282fa1cf8067415b3e974366a122056d30",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored shared-02 contract artifact for @knorvia/shared (M3: shared types and protocol constants, 58 inherited files in packages/shared/src excluding node/ and protocol-v4/ which belong to the merged shared-01). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through the public entries (the root barrel @knorvia/shared plus the four subpath entries runtime-env, model-selection, account-provider-state, config-schema) in both source and dist modes, the fixtures are synthetic goldens (constant tables, test-ids snapshot and old-write app-settings) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-02. Old gate: source 81/81, dist 81/81, stub replacement of 58 module paths made all 8 test files fail (allFail=true).",
@@ -139206,7 +139205,7 @@
     },
     {
       "path": "specs/contracts/shared-04/interface.md",
-      "normalizedSha256": "47ccb35bbbdf77cb783bf835de0277375bc40fc4f07c42eadb9966ab178cc5bf",
+      "normalizedSha256": "ee297e5f2a58aa6e160a6f76b8bc67b72527cafc130d670fb68c9651f73ebc55",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored shared-04 contract artifact for @knorvia/shared (M3: remote/network, plugins/mcp, config/UI, feedback/onboarding, diagnostics/telemetry, auth/model/provider; 44 inherited files in packages/shared/src excluding node/, protocol-v4/ and the deferred index.ts root barrel). Written from the package public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries and module paths in both source and dist modes, the fixtures are synthetic goldens (remote identity, plugins, config, feedback, diagnostics, auth/model) recorded from the old implementation, and the stubs keep only interface names with bodies that throw not implemented: shared-04. Old gate: source 51/51, dist 51/51, stub replacement of 44 module paths made all 8 test files fail (allFail=true).",
@@ -140230,7 +140229,7 @@
     },
     {
       "path": "specs/knorvia-builtin-kernel-dsh.md",
-      "normalizedSha256": "b172fd65af743cb68303cc49c60786ae380d40f2c7b870fb0468ce31c59e0e05",
+      "normalizedSha256": "74b0b90e0e5d4d1b838880f54236786b9226e5c02c66f447e003cb1ce08dcc3e",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored product specification written on 2026-10-17 for the decision to build the built-in kernel on DeepSeek Harness as a pinned dependency and to restructure the project into internal plugins. It describes Knorvia rules, ownership and acceptance in its own words and reproduces no upstream source text.",
@@ -146761,6 +146760,644 @@
       "evidence": [
         "third-party/upstream/f29b60ea39a2132e3baa98927c2d473b349a54143da44a0c6762b243e6459452.txt",
         "https://registry.npmjs.org/quickjs-wasi/2.2.0"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-bridge/interface.ts",
+      "normalizedSha256": "2cb6c68b3b7845024ead15cec147ae2f13e376951be0d068dc03ccc0b2be6195",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-bridge-01 interface definition between segment A (wiring, command-inbox, lifecycle) and segment B (projection, sequence, snapshot, links). Type declarations only. Written from specs/contracts/kernel-bridge-01/interface.md, behavior.md and acceptance.md; no DSH source and no inherited implementation was copied. Similarity against old core and zai-org/ZCode@872ad960: max line containment 0.062, longest identical run 1, structural similarity 0.019.",
+      "evidence": [
+        "specs/knorvia-builtin-kernel-dsh.md",
+        "specs/contracts/kernel-bridge-01/README.md",
+        "specs/contracts/kernel-bridge-01/behavior.md",
+        "specs/contracts/kernel-bridge-01/interface.md",
+        "specs/contracts/kernel-bridge-01/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-dsh-builtins/acceptance.md",
+      "normalizedSha256": "69a5567c4b18a5247de1d63f954c5e014dd79d7b0f9e3c835c8d3dc9d81699e8",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-dsh-builtins contract artifact for the M2 built-in kernel (DSH-backed). Written from specs/knorvia-builtin-kernel-dsh.md, the plan's kernel-direction adjustment (including the 2026-10-20 kernel-bridge-01 review conclusion), the DSH 0.2.0-rc.2 published type declarations, and runtime probes run outside the repo; no DSH source, no inherited runtime implementation and no upstream text was copied. Similarity against core/src/context/**, core/src/compact/**, core/src/tool/** and zai-org/ZCode@872ad960: max line containment 0.097, longest identical run 3, structural similarity 0.026; 12/12 candidates passed both gates.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-builtins/README.md",
+        "specs/contracts/kernel-dsh-builtins/behavior.md",
+        "specs/contracts/kernel-dsh-builtins/interface.md",
+        "specs/contracts/kernel-dsh-builtins/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-dsh-builtins/behavior.md",
+      "normalizedSha256": "64240a8c565ed520b55946818dbb61a1e35d52d65420afa2b62292fdc03ae61c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-dsh-builtins contract artifact for the M2 built-in kernel (DSH-backed). Written from specs/knorvia-builtin-kernel-dsh.md, the plan's kernel-direction adjustment (including the 2026-10-20 kernel-bridge-01 review conclusion), the DSH 0.2.0-rc.2 published type declarations, and runtime probes run outside the repo; no DSH source, no inherited runtime implementation and no upstream text was copied. Similarity against core/src/context/**, core/src/compact/**, core/src/tool/** and zai-org/ZCode@872ad960: max line containment 0.097, longest identical run 3, structural similarity 0.026; 12/12 candidates passed both gates.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-builtins/README.md",
+        "specs/contracts/kernel-dsh-builtins/behavior.md",
+        "specs/contracts/kernel-dsh-builtins/interface.md",
+        "specs/contracts/kernel-dsh-builtins/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-dsh-builtins/callers.md",
+      "normalizedSha256": "fc9b61f98c4540ae5612fcfecdb37d84e4544803960d14947bdce3dd1dc49afd",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-dsh-builtins contract artifact for the M2 built-in kernel (DSH-backed). Written from specs/knorvia-builtin-kernel-dsh.md, the plan's kernel-direction adjustment (including the 2026-10-20 kernel-bridge-01 review conclusion), the DSH 0.2.0-rc.2 published type declarations, and runtime probes run outside the repo; no DSH source, no inherited runtime implementation and no upstream text was copied. Similarity against core/src/context/**, core/src/compact/**, core/src/tool/** and zai-org/ZCode@872ad960: max line containment 0.097, longest identical run 3, structural similarity 0.026; 12/12 candidates passed both gates.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-builtins/README.md",
+        "specs/contracts/kernel-dsh-builtins/behavior.md",
+        "specs/contracts/kernel-dsh-builtins/interface.md",
+        "specs/contracts/kernel-dsh-builtins/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-dsh-builtins/interface.md",
+      "normalizedSha256": "9e0723053e58201b6e7d5ccc338ad333bd9de25ff0397a692c5f28593dc623aa",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-dsh-builtins contract artifact for the M2 built-in kernel (DSH-backed). Written from specs/knorvia-builtin-kernel-dsh.md, the plan's kernel-direction adjustment (including the 2026-10-20 kernel-bridge-01 review conclusion), the DSH 0.2.0-rc.2 published type declarations, and runtime probes run outside the repo; no DSH source, no inherited runtime implementation and no upstream text was copied. Similarity against core/src/context/**, core/src/compact/**, core/src/tool/** and zai-org/ZCode@872ad960: max line containment 0.097, longest identical run 3, structural similarity 0.026; 12/12 candidates passed both gates.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-builtins/README.md",
+        "specs/contracts/kernel-dsh-builtins/behavior.md",
+        "specs/contracts/kernel-dsh-builtins/interface.md",
+        "specs/contracts/kernel-dsh-builtins/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-dsh-builtins/known-differences.md",
+      "normalizedSha256": "b0b5e9d222c870d295a9aa2a7a63bc76415fa657ce20b8581dbee755539d4e32",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-dsh-builtins contract artifact for the DSH-backed built-in kernel (M2 accessor package). Edited in place to record the two mandated corrections, the small-window divergence D4b and the isolation assertions; written from the plan, the DSH public package surface and a read-only review of the replaced core behavior. No code was copied, renamed or rewritten line by line. Similarity against the replaced core files and zai-org/ZCode@872ad960: max line containment 0.125, longest identical run 2, structural similarity 0.167.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-builtins/README.md",
+        "docs/knorvia-kernel-dsh-builtins-acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-dsh-builtins/README.md",
+      "normalizedSha256": "27011d9483182c0247e89b5bac6a925697e6192c0ae40189f54d4e8018309839",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-dsh-builtins contract artifact for the DSH-backed built-in kernel (M2 accessor package). Edited in place to record the two mandated corrections, the small-window divergence D4b and the isolation assertions; written from the plan, the DSH public package surface and a read-only review of the replaced core behavior. No code was copied, renamed or rewritten line by line. Similarity against the replaced core files and zai-org/ZCode@872ad960: max line containment 0.125, longest identical run 2, structural similarity 0.167.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-builtins/README.md",
+        "docs/knorvia-kernel-dsh-builtins-acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-dsh-builtins/fixtures/child-environment.json",
+      "normalizedSha256": "40105a6760f1c6df13cfa2fbbf0f041d4eb079f35b1cb0db937016079a72b2b9",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-dsh-builtins contract artifact for the M2 built-in kernel (DSH-backed). Written from specs/knorvia-builtin-kernel-dsh.md, the plan's kernel-direction adjustment (including the 2026-10-20 kernel-bridge-01 review conclusion), the DSH 0.2.0-rc.2 published type declarations, and runtime probes run outside the repo; no DSH source, no inherited runtime implementation and no upstream text was copied. Similarity against core/src/context/**, core/src/compact/**, core/src/tool/** and zai-org/ZCode@872ad960: max line containment 0.097, longest identical run 3, structural similarity 0.026; 12/12 candidates passed both gates.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-builtins/README.md",
+        "specs/contracts/kernel-dsh-builtins/behavior.md",
+        "specs/contracts/kernel-dsh-builtins/interface.md",
+        "specs/contracts/kernel-dsh-builtins/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-dsh-builtins/fixtures/mcp-servers.json",
+      "normalizedSha256": "96fa5d591ccdcbdf70b47ffc4727be7ad97273990665fdaee58246c4f21dfc24",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-dsh-builtins contract artifact for the M2 built-in kernel (DSH-backed). Written from specs/knorvia-builtin-kernel-dsh.md, the plan's kernel-direction adjustment (including the 2026-10-20 kernel-bridge-01 review conclusion), the DSH 0.2.0-rc.2 published type declarations, and runtime probes run outside the repo; no DSH source, no inherited runtime implementation and no upstream text was copied. Similarity against core/src/context/**, core/src/compact/**, core/src/tool/** and zai-org/ZCode@872ad960: max line containment 0.097, longest identical run 3, structural similarity 0.026; 12/12 candidates passed both gates.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-builtins/README.md",
+        "specs/contracts/kernel-dsh-builtins/behavior.md",
+        "specs/contracts/kernel-dsh-builtins/interface.md",
+        "specs/contracts/kernel-dsh-builtins/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-dsh-builtins/fixtures/README.md",
+      "normalizedSha256": "aa426c8dc471dac9811b8d91a87c4ed1e244e1414087b3a26d1ef2809ddf1028",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-dsh-builtins contract artifact for the M2 built-in kernel (DSH-backed). Written from specs/knorvia-builtin-kernel-dsh.md, the plan's kernel-direction adjustment (including the 2026-10-20 kernel-bridge-01 review conclusion), the DSH 0.2.0-rc.2 published type declarations, and runtime probes run outside the repo; no DSH source, no inherited runtime implementation and no upstream text was copied. Similarity against core/src/context/**, core/src/compact/**, core/src/tool/** and zai-org/ZCode@872ad960: max line containment 0.097, longest identical run 3, structural similarity 0.026; 12/12 candidates passed both gates.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-builtins/README.md",
+        "specs/contracts/kernel-dsh-builtins/behavior.md",
+        "specs/contracts/kernel-dsh-builtins/interface.md",
+        "specs/contracts/kernel-dsh-builtins/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-dsh-builtins/fixtures/runtime-context.json",
+      "normalizedSha256": "3f8c3a18dad1cd08d47b5e4346f519b8b45f1671e7729db70235e8b42d56bd7d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-dsh-builtins contract artifact for the M2 built-in kernel (DSH-backed). Written from specs/knorvia-builtin-kernel-dsh.md, the plan's kernel-direction adjustment (including the 2026-10-20 kernel-bridge-01 review conclusion), the DSH 0.2.0-rc.2 published type declarations, and runtime probes run outside the repo; no DSH source, no inherited runtime implementation and no upstream text was copied. Similarity against core/src/context/**, core/src/compact/**, core/src/tool/** and zai-org/ZCode@872ad960: max line containment 0.097, longest identical run 3, structural similarity 0.026; 12/12 candidates passed both gates.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-builtins/README.md",
+        "specs/contracts/kernel-dsh-builtins/behavior.md",
+        "specs/contracts/kernel-dsh-builtins/interface.md",
+        "specs/contracts/kernel-dsh-builtins/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-dsh-builtins/tests/default-engine.test.mjs",
+      "normalizedSha256": "68648928ad1297b463e32f731f7ce7aa3ee36e1ff4f037b31dbe6da07c1b5534",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-dsh-builtins contract artifact for the M2 built-in kernel (DSH-backed). Written from specs/knorvia-builtin-kernel-dsh.md, the plan's kernel-direction adjustment (including the 2026-10-20 kernel-bridge-01 review conclusion), the DSH 0.2.0-rc.2 published type declarations, and runtime probes run outside the repo; no DSH source, no inherited runtime implementation and no upstream text was copied. Similarity against core/src/context/**, core/src/compact/**, core/src/tool/** and zai-org/ZCode@872ad960: max line containment 0.097, longest identical run 3, structural similarity 0.026; 12/12 candidates passed both gates.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-builtins/README.md",
+        "specs/contracts/kernel-dsh-builtins/behavior.md",
+        "specs/contracts/kernel-dsh-builtins/interface.md",
+        "specs/contracts/kernel-dsh-builtins/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-dsh-builtins/tests/entry.mjs",
+      "normalizedSha256": "eb07222979f4cf5157460907d28a83b2f4309c089c2ccd55337a302f22c4cfd7",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-dsh-builtins contract artifact for the M2 built-in kernel (DSH-backed). Written from specs/knorvia-builtin-kernel-dsh.md, the plan's kernel-direction adjustment (including the 2026-10-20 kernel-bridge-01 review conclusion), the DSH 0.2.0-rc.2 published type declarations, and runtime probes run outside the repo; no DSH source, no inherited runtime implementation and no upstream text was copied. Similarity against core/src/context/**, core/src/compact/**, core/src/tool/** and zai-org/ZCode@872ad960: max line containment 0.097, longest identical run 3, structural similarity 0.026; 12/12 candidates passed both gates.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-builtins/README.md",
+        "specs/contracts/kernel-dsh-builtins/behavior.md",
+        "specs/contracts/kernel-dsh-builtins/interface.md",
+        "specs/contracts/kernel-dsh-builtins/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-legacy/acceptance.md",
+      "normalizedSha256": "f0bf8a10e031e56f2855a7707f02589d17462f39712c197da1d360ea8d83c92d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contract for the kernel-bridge-legacy M2 integration package: the legacy Knorvia Protocol surface (74 methods, 7 notifications) reimplemented on the DSH-backed kernel. Written from specs/knorvia-builtin-kernel-dsh.md, specs/knorvia-internal-plugins.md, the plan's kernel-adjustment and integration-package sections, the kernel-dsh-00 and kernel-bridge-01 contracts, and black-box measurement of the default engine at 526825db (method/notification inventory, host-side call sites, wire responses). The author read the replaced apps/cli/packages/bootstrap/src/protocol/** and protocol-v4/** to understand behavior only; no inherited implementation was copied, renamed or line-rewritten. Old gate 10/10 pass; stub gate 0/10 pass (10 fail); new-runtime baseline recorded in gate-dsh.json.",
+      "evidence": [
+        "specs/knorvia-builtin-kernel-dsh.md",
+        "specs/knorvia-internal-plugins.md",
+        "specs/contracts/kernel-bridge-legacy/README.md",
+        "specs/contracts/kernel-bridge-legacy/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-legacy/behavior.md",
+      "normalizedSha256": "5f53ed703155b12f7d72af83edc9ecb8dbf0ecd401af4aa48997f7da39b59433",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contract for the kernel-bridge-legacy M2 integration package: the legacy Knorvia Protocol surface (74 methods, 7 notifications) reimplemented on the DSH-backed kernel. Written from specs/knorvia-builtin-kernel-dsh.md, specs/knorvia-internal-plugins.md, the plan's kernel-adjustment and integration-package sections, the kernel-dsh-00 and kernel-bridge-01 contracts, and black-box measurement of the default engine at 526825db (method/notification inventory, host-side call sites, wire responses). The author read the replaced apps/cli/packages/bootstrap/src/protocol/** and protocol-v4/** to understand behavior only; no inherited implementation was copied, renamed or line-rewritten. Old gate 10/10 pass; stub gate 0/10 pass (10 fail); new-runtime baseline recorded in gate-dsh.json.",
+      "evidence": [
+        "specs/knorvia-builtin-kernel-dsh.md",
+        "specs/knorvia-internal-plugins.md",
+        "specs/contracts/kernel-bridge-legacy/README.md",
+        "specs/contracts/kernel-bridge-legacy/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-legacy/callers.md",
+      "normalizedSha256": "6887a55ff79f309d727e6fa778c8d32d3c1076f2d04b7a3dcb65d77b2afff4d5",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contract for the kernel-bridge-legacy M2 integration package: the legacy Knorvia Protocol surface (74 methods, 7 notifications) reimplemented on the DSH-backed kernel. Written from specs/knorvia-builtin-kernel-dsh.md, specs/knorvia-internal-plugins.md, the plan's kernel-adjustment and integration-package sections, the kernel-dsh-00 and kernel-bridge-01 contracts, and black-box measurement of the default engine at 526825db (method/notification inventory, host-side call sites, wire responses). The author read the replaced apps/cli/packages/bootstrap/src/protocol/** and protocol-v4/** to understand behavior only; no inherited implementation was copied, renamed or line-rewritten. Old gate 10/10 pass; stub gate 0/10 pass (10 fail); new-runtime baseline recorded in gate-dsh.json.",
+      "evidence": [
+        "specs/knorvia-builtin-kernel-dsh.md",
+        "specs/knorvia-internal-plugins.md",
+        "specs/contracts/kernel-bridge-legacy/README.md",
+        "specs/contracts/kernel-bridge-legacy/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-legacy/gate-dsh.json",
+      "normalizedSha256": "7200a9cd74141c3d12bc2a6c3fe00316216f3b194fc438a79b5c89e34d3e7e6a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contract for the kernel-bridge-legacy M2 integration package: the legacy Knorvia Protocol surface (74 methods, 7 notifications) reimplemented on the DSH-backed kernel. Written from specs/knorvia-builtin-kernel-dsh.md, specs/knorvia-internal-plugins.md, the plan's kernel-adjustment and integration-package sections, the kernel-dsh-00 and kernel-bridge-01 contracts, and black-box measurement of the default engine at 526825db (method/notification inventory, host-side call sites, wire responses). The author read the replaced apps/cli/packages/bootstrap/src/protocol/** and protocol-v4/** to understand behavior only; no inherited implementation was copied, renamed or line-rewritten. Old gate 10/10 pass; stub gate 0/10 pass (10 fail); new-runtime baseline recorded in gate-dsh.json.",
+      "evidence": [
+        "specs/knorvia-builtin-kernel-dsh.md",
+        "specs/knorvia-internal-plugins.md",
+        "specs/contracts/kernel-bridge-legacy/README.md",
+        "specs/contracts/kernel-bridge-legacy/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-legacy/gate-old.json",
+      "normalizedSha256": "d70c797a73f88ee154609982529826d92f1f3fe7fa8833e23921fa01dcb908f8",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contract for the kernel-bridge-legacy M2 integration package: the legacy Knorvia Protocol surface (74 methods, 7 notifications) reimplemented on the DSH-backed kernel. Written from specs/knorvia-builtin-kernel-dsh.md, specs/knorvia-internal-plugins.md, the plan's kernel-adjustment and integration-package sections, the kernel-dsh-00 and kernel-bridge-01 contracts, and black-box measurement of the default engine at 526825db (method/notification inventory, host-side call sites, wire responses). The author read the replaced apps/cli/packages/bootstrap/src/protocol/** and protocol-v4/** to understand behavior only; no inherited implementation was copied, renamed or line-rewritten. Old gate 10/10 pass; stub gate 0/10 pass (10 fail); new-runtime baseline recorded in gate-dsh.json.",
+      "evidence": [
+        "specs/knorvia-builtin-kernel-dsh.md",
+        "specs/knorvia-internal-plugins.md",
+        "specs/contracts/kernel-bridge-legacy/README.md",
+        "specs/contracts/kernel-bridge-legacy/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-legacy/interface.md",
+      "normalizedSha256": "9516d9dc0b1d5bffb00cdfe06262b6b14ae4f016f9ea5d26990b2a10174b02e4",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contract for the kernel-bridge-legacy M2 integration package: the legacy Knorvia Protocol surface (74 methods, 7 notifications) reimplemented on the DSH-backed kernel. Written from specs/knorvia-builtin-kernel-dsh.md, specs/knorvia-internal-plugins.md, the plan's kernel-adjustment and integration-package sections, the kernel-dsh-00 and kernel-bridge-01 contracts, and black-box measurement of the default engine at 526825db (method/notification inventory, host-side call sites, wire responses). The author read the replaced apps/cli/packages/bootstrap/src/protocol/** and protocol-v4/** to understand behavior only; no inherited implementation was copied, renamed or line-rewritten. Old gate 10/10 pass; stub gate 0/10 pass (10 fail); new-runtime baseline recorded in gate-dsh.json.",
+      "evidence": [
+        "specs/knorvia-builtin-kernel-dsh.md",
+        "specs/knorvia-internal-plugins.md",
+        "specs/contracts/kernel-bridge-legacy/README.md",
+        "specs/contracts/kernel-bridge-legacy/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-legacy/known-differences.md",
+      "normalizedSha256": "4a0a1b88719c34f46e24fd7f5f536088c1bf079a91158f6cdf2bacaf7ccb0437",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contract for the kernel-bridge-legacy M2 integration package: the legacy Knorvia Protocol surface (74 methods, 7 notifications) reimplemented on the DSH-backed kernel. Written from specs/knorvia-builtin-kernel-dsh.md, specs/knorvia-internal-plugins.md, the plan's kernel-adjustment and integration-package sections, the kernel-dsh-00 and kernel-bridge-01 contracts, and black-box measurement of the default engine at 526825db (method/notification inventory, host-side call sites, wire responses). The author read the replaced apps/cli/packages/bootstrap/src/protocol/** and protocol-v4/** to understand behavior only; no inherited implementation was copied, renamed or line-rewritten. Old gate 10/10 pass; stub gate 0/10 pass (10 fail); new-runtime baseline recorded in gate-dsh.json.",
+      "evidence": [
+        "specs/knorvia-builtin-kernel-dsh.md",
+        "specs/knorvia-internal-plugins.md",
+        "specs/contracts/kernel-bridge-legacy/README.md",
+        "specs/contracts/kernel-bridge-legacy/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-legacy/README.md",
+      "normalizedSha256": "33bd38014b77cfb253ab8099de7755deb784c7db6909f58f4d5c5e76561cfa14",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contract for the kernel-bridge-legacy M2 integration package: the legacy Knorvia Protocol surface (74 methods, 7 notifications) reimplemented on the DSH-backed kernel. Written from specs/knorvia-builtin-kernel-dsh.md, specs/knorvia-internal-plugins.md, the plan's kernel-adjustment and integration-package sections, the kernel-dsh-00 and kernel-bridge-01 contracts, and black-box measurement of the default engine at 526825db (method/notification inventory, host-side call sites, wire responses). The author read the replaced apps/cli/packages/bootstrap/src/protocol/** and protocol-v4/** to understand behavior only; no inherited implementation was copied, renamed or line-rewritten. Old gate 10/10 pass; stub gate 0/10 pass (10 fail); new-runtime baseline recorded in gate-dsh.json.",
+      "evidence": [
+        "specs/knorvia-builtin-kernel-dsh.md",
+        "specs/knorvia-internal-plugins.md",
+        "specs/contracts/kernel-bridge-legacy/README.md",
+        "specs/contracts/kernel-bridge-legacy/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-legacy/stub-gate.json",
+      "normalizedSha256": "694dd80c2bff823148a2c4d5764814659827ec7818509103981bcf57f3f6dc74",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contract for the kernel-bridge-legacy M2 integration package: the legacy Knorvia Protocol surface (74 methods, 7 notifications) reimplemented on the DSH-backed kernel. Written from specs/knorvia-builtin-kernel-dsh.md, specs/knorvia-internal-plugins.md, the plan's kernel-adjustment and integration-package sections, the kernel-dsh-00 and kernel-bridge-01 contracts, and black-box measurement of the default engine at 526825db (method/notification inventory, host-side call sites, wire responses). The author read the replaced apps/cli/packages/bootstrap/src/protocol/** and protocol-v4/** to understand behavior only; no inherited implementation was copied, renamed or line-rewritten. Old gate 10/10 pass; stub gate 0/10 pass (10 fail); new-runtime baseline recorded in gate-dsh.json.",
+      "evidence": [
+        "specs/knorvia-builtin-kernel-dsh.md",
+        "specs/knorvia-internal-plugins.md",
+        "specs/contracts/kernel-bridge-legacy/README.md",
+        "specs/contracts/kernel-bridge-legacy/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-legacy/fixtures/request-script.mjs",
+      "normalizedSha256": "6d62826d447856f4baf1605690589da81a2888601122e1b24e92abd6da92d147",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contract for the kernel-bridge-legacy M2 integration package: the legacy Knorvia Protocol surface (74 methods, 7 notifications) reimplemented on the DSH-backed kernel. Written from specs/knorvia-builtin-kernel-dsh.md, specs/knorvia-internal-plugins.md, the plan's kernel-adjustment and integration-package sections, the kernel-dsh-00 and kernel-bridge-01 contracts, and black-box measurement of the default engine at 526825db (method/notification inventory, host-side call sites, wire responses). The author read the replaced apps/cli/packages/bootstrap/src/protocol/** and protocol-v4/** to understand behavior only; no inherited implementation was copied, renamed or line-rewritten. Old gate 10/10 pass; stub gate 0/10 pass (10 fail); new-runtime baseline recorded in gate-dsh.json.",
+      "evidence": [
+        "specs/knorvia-builtin-kernel-dsh.md",
+        "specs/knorvia-internal-plugins.md",
+        "specs/contracts/kernel-bridge-legacy/README.md",
+        "specs/contracts/kernel-bridge-legacy/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-legacy/stubs/app-server-stub.mjs",
+      "normalizedSha256": "ee8973e0e3574c2d3407c5577717fea5a43313cdfdfc7300df7dabd917e5a206",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contract for the kernel-bridge-legacy M2 integration package: the legacy Knorvia Protocol surface (74 methods, 7 notifications) reimplemented on the DSH-backed kernel. Written from specs/knorvia-builtin-kernel-dsh.md, specs/knorvia-internal-plugins.md, the plan's kernel-adjustment and integration-package sections, the kernel-dsh-00 and kernel-bridge-01 contracts, and black-box measurement of the default engine at 526825db (method/notification inventory, host-side call sites, wire responses). The author read the replaced apps/cli/packages/bootstrap/src/protocol/** and protocol-v4/** to understand behavior only; no inherited implementation was copied, renamed or line-rewritten. Old gate 10/10 pass; stub gate 0/10 pass (10 fail); new-runtime baseline recorded in gate-dsh.json.",
+      "evidence": [
+        "specs/knorvia-builtin-kernel-dsh.md",
+        "specs/knorvia-internal-plugins.md",
+        "specs/contracts/kernel-bridge-legacy/README.md",
+        "specs/contracts/kernel-bridge-legacy/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-legacy/tests/_protocol.mjs",
+      "normalizedSha256": "6cfb139d36271ce4507080e9b11b6878dc9180e0212fc3f6e98c8fafc095a02b",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contract for the kernel-bridge-legacy M2 integration package: the legacy Knorvia Protocol surface (74 methods, 7 notifications) reimplemented on the DSH-backed kernel. Written from specs/knorvia-builtin-kernel-dsh.md, specs/knorvia-internal-plugins.md, the plan's kernel-adjustment and integration-package sections, the kernel-dsh-00 and kernel-bridge-01 contracts, and black-box measurement of the default engine at 526825db (method/notification inventory, host-side call sites, wire responses). The author read the replaced apps/cli/packages/bootstrap/src/protocol/** and protocol-v4/** to understand behavior only; no inherited implementation was copied, renamed or line-rewritten. Old gate 10/10 pass; stub gate 0/10 pass (10 fail); new-runtime baseline recorded in gate-dsh.json.",
+      "evidence": [
+        "specs/knorvia-builtin-kernel-dsh.md",
+        "specs/knorvia-internal-plugins.md",
+        "specs/contracts/kernel-bridge-legacy/README.md",
+        "specs/contracts/kernel-bridge-legacy/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-legacy/tests/entry.mjs",
+      "normalizedSha256": "3c194e141bfcc40489792c1169c580f96dbd2a234548685fdff5b84af2745e69",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contract for the kernel-bridge-legacy M2 integration package: the legacy Knorvia Protocol surface (74 methods, 7 notifications) reimplemented on the DSH-backed kernel. Written from specs/knorvia-builtin-kernel-dsh.md, specs/knorvia-internal-plugins.md, the plan's kernel-adjustment and integration-package sections, the kernel-dsh-00 and kernel-bridge-01 contracts, and black-box measurement of the default engine at 526825db (method/notification inventory, host-side call sites, wire responses). The author read the replaced apps/cli/packages/bootstrap/src/protocol/** and protocol-v4/** to understand behavior only; no inherited implementation was copied, renamed or line-rewritten. Old gate 10/10 pass; stub gate 0/10 pass (10 fail); new-runtime baseline recorded in gate-dsh.json.",
+      "evidence": [
+        "specs/knorvia-builtin-kernel-dsh.md",
+        "specs/knorvia-internal-plugins.md",
+        "specs/contracts/kernel-bridge-legacy/README.md",
+        "specs/contracts/kernel-bridge-legacy/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-legacy/tests/legacy-methods.test.mjs",
+      "normalizedSha256": "638ba047985eb90aa3b155e65ae3d54bb11665d8a30ba7d324fa6e6563f5ad5a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contract for the kernel-bridge-legacy M2 integration package: the legacy Knorvia Protocol surface (74 methods, 7 notifications) reimplemented on the DSH-backed kernel. Written from specs/knorvia-builtin-kernel-dsh.md, specs/knorvia-internal-plugins.md, the plan's kernel-adjustment and integration-package sections, the kernel-dsh-00 and kernel-bridge-01 contracts, and black-box measurement of the default engine at 526825db (method/notification inventory, host-side call sites, wire responses). The author read the replaced apps/cli/packages/bootstrap/src/protocol/** and protocol-v4/** to understand behavior only; no inherited implementation was copied, renamed or line-rewritten. Old gate 10/10 pass; stub gate 0/10 pass (10 fail); new-runtime baseline recorded in gate-dsh.json.",
+      "evidence": [
+        "specs/knorvia-builtin-kernel-dsh.md",
+        "specs/knorvia-internal-plugins.md",
+        "specs/contracts/kernel-bridge-legacy/README.md",
+        "specs/contracts/kernel-bridge-legacy/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-legacy/tests/protocol-surface.test.mjs",
+      "normalizedSha256": "8e59955ed05e0d7cb151f811097f2279cef1056dea5acd918cc408c3be748dfd",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contract for the kernel-bridge-legacy M2 integration package: the legacy Knorvia Protocol surface (74 methods, 7 notifications) reimplemented on the DSH-backed kernel. Written from specs/knorvia-builtin-kernel-dsh.md, specs/knorvia-internal-plugins.md, the plan's kernel-adjustment and integration-package sections, the kernel-dsh-00 and kernel-bridge-01 contracts, and black-box measurement of the default engine at 526825db (method/notification inventory, host-side call sites, wire responses). The author read the replaced apps/cli/packages/bootstrap/src/protocol/** and protocol-v4/** to understand behavior only; no inherited implementation was copied, renamed or line-rewritten. Old gate 10/10 pass; stub gate 0/10 pass (10 fail); new-runtime baseline recorded in gate-dsh.json.",
+      "evidence": [
+        "specs/knorvia-builtin-kernel-dsh.md",
+        "specs/knorvia-internal-plugins.md",
+        "specs/contracts/kernel-bridge-legacy/README.md",
+        "specs/contracts/kernel-bridge-legacy/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-legacy/tests/run-gate.mjs",
+      "normalizedSha256": "1809af534c9628873df0a50f705ce826e15b95fcd9f4af81debad5face7f791e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contract for the kernel-bridge-legacy M2 integration package: the legacy Knorvia Protocol surface (74 methods, 7 notifications) reimplemented on the DSH-backed kernel. Written from specs/knorvia-builtin-kernel-dsh.md, specs/knorvia-internal-plugins.md, the plan's kernel-adjustment and integration-package sections, the kernel-dsh-00 and kernel-bridge-01 contracts, and black-box measurement of the default engine at 526825db (method/notification inventory, host-side call sites, wire responses). The author read the replaced apps/cli/packages/bootstrap/src/protocol/** and protocol-v4/** to understand behavior only; no inherited implementation was copied, renamed or line-rewritten. Old gate 10/10 pass; stub gate 0/10 pass (10 fail); new-runtime baseline recorded in gate-dsh.json.",
+      "evidence": [
+        "specs/knorvia-builtin-kernel-dsh.md",
+        "specs/knorvia-internal-plugins.md",
+        "specs/contracts/kernel-bridge-legacy/README.md",
+        "specs/contracts/kernel-bridge-legacy/acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel/builtins-context.ts",
+      "normalizedSha256": "23abfbd21fb3d79d6d9bf215e7e281a2e83816516f9155405992094f88cbca9a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of kernel-dsh-builtins against contract v1 (behavior B1-B24, interface and black-box tests). The author read the replaced core implementation only to understand behavior; no code was copied, renamed or rewritten line by line. No old gate applies to this accessor package; new implementation 51/51 on both source and dist entries, 0 skipped. Max line containment 0.125, longest identical run 2, structural similarity 0.167 against the replaced core files and the upstream baseline 872ad960; declaration mode 4/4 with containment 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-builtins/README.md",
+        "docs/knorvia-kernel-dsh-builtins-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel/builtins-modules.ts",
+      "normalizedSha256": "398370d153992254e0662e0b0ac18edc2af141c26a80c60e4dc3c650fe755242",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of kernel-dsh-builtins against contract v1 (behavior B1-B24, interface and black-box tests). The author read the replaced core implementation only to understand behavior; no code was copied, renamed or rewritten line by line. No old gate applies to this accessor package; new implementation 51/51 on both source and dist entries, 0 skipped. Max line containment 0.125, longest identical run 2, structural similarity 0.167 against the replaced core files and the upstream baseline 872ad960; declaration mode 4/4 with containment 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-builtins/README.md",
+        "docs/knorvia-kernel-dsh-builtins-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel/builtins-rows.ts",
+      "normalizedSha256": "c55ff0b9a98de2cde027b5aae3d9beff8ee245be2288bab5e923985c4b4cdc8f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of kernel-dsh-builtins against contract v1 (behavior B1-B24, interface and black-box tests). The author read the replaced core implementation only to understand behavior; no code was copied, renamed or rewritten line by line. No old gate applies to this accessor package; new implementation 51/51 on both source and dist entries, 0 skipped. Max line containment 0.125, longest identical run 2, structural similarity 0.167 against the replaced core files and the upstream baseline 872ad960; declaration mode 4/4 with containment 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-builtins/README.md",
+        "docs/knorvia-kernel-dsh-builtins-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel/compression.ts",
+      "normalizedSha256": "171c25ec3e18d8701e9cb3e99ab11b47539867ca6627cb1d8bc12152bc8d6ace",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of kernel-dsh-builtins against contract v1 (behavior B1-B24, interface and black-box tests). The author read the replaced core implementation only to understand behavior; no code was copied, renamed or rewritten line by line. No old gate applies to this accessor package; new implementation 51/51 on both source and dist entries, 0 skipped. Max line containment 0.125, longest identical run 2, structural similarity 0.167 against the replaced core files and the upstream baseline 872ad960; declaration mode 4/4 with containment 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-builtins/README.md",
+        "docs/knorvia-kernel-dsh-builtins-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel/runtime-context.ts",
+      "normalizedSha256": "86880a9ffd5e1c930da1d11469cb752ff35ce546bdb3ed498272ec93d0c31201",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of kernel-dsh-builtins against contract v1 (behavior B1-B24, interface and black-box tests). The author read the replaced core implementation only to understand behavior; no code was copied, renamed or rewritten line by line. No old gate applies to this accessor package; new implementation 51/51 on both source and dist entries, 0 skipped. Max line containment 0.125, longest identical run 2, structural similarity 0.167 against the replaced core files and the upstream baseline 872ad960; declaration mode 4/4 with containment 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-builtins/README.md",
+        "docs/knorvia-kernel-dsh-builtins-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel/shell-environment.ts",
+      "normalizedSha256": "b053c0deaf53b1260feb9a0e2b4779294026eb46003864cd525e2bd14b4b0032",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of kernel-dsh-builtins against contract v1 (behavior B1-B24, interface and black-box tests). The author read the replaced core implementation only to understand behavior; no code was copied, renamed or rewritten line by line. No old gate applies to this accessor package; new implementation 51/51 on both source and dist entries, 0 skipped. Max line containment 0.125, longest identical run 2, structural similarity 0.167 against the replaced core files and the upstream baseline 872ad960; declaration mode 4/4 with containment 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-builtins/README.md",
+        "docs/knorvia-kernel-dsh-builtins-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel/shell-environment-bash.ts",
+      "normalizedSha256": "e5e4f0ae066bb8776e78dd78153288877fcd9f70ea5dfa8b528294a7560ae27c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of kernel-dsh-builtins against contract v1 (behavior B1-B24, interface and black-box tests). The author read the replaced core implementation only to understand behavior; no code was copied, renamed or rewritten line by line. No old gate applies to this accessor package; new implementation 51/51 on both source and dist entries, 0 skipped. Max line containment 0.125, longest identical run 2, structural similarity 0.167 against the replaced core files and the upstream baseline 872ad960; declaration mode 4/4 with containment 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-builtins/README.md",
+        "docs/knorvia-kernel-dsh-builtins-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel/shell-environment-pwsh.ts",
+      "normalizedSha256": "ea83e5991b3a4fe23031a0da396bc6239a34ef2a80bdf291384ebcf951a2d82c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of kernel-dsh-builtins against contract v1 (behavior B1-B24, interface and black-box tests). The author read the replaced core implementation only to understand behavior; no code was copied, renamed or rewritten line by line. No old gate applies to this accessor package; new implementation 51/51 on both source and dist entries, 0 skipped. Max line containment 0.125, longest identical run 2, structural similarity 0.167 against the replaced core files and the upstream baseline 872ad960; declaration mode 4/4 with containment 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-builtins/README.md",
+        "docs/knorvia-kernel-dsh-builtins-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel/user-environment.ts",
+      "normalizedSha256": "f358de871064a44772b2d2c9973fc39238292ced799461c953d713ef8e7fdc01",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of kernel-dsh-builtins against contract v1 (behavior B1-B24, interface and black-box tests). The author read the replaced core implementation only to understand behavior; no code was copied, renamed or rewritten line by line. No old gate applies to this accessor package; new implementation 51/51 on both source and dist entries, 0 skipped. Max line containment 0.125, longest identical run 2, structural similarity 0.167 against the replaced core files and the upstream baseline 872ad960; declaration mode 4/4 with containment 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-builtins/README.md",
+        "docs/knorvia-kernel-dsh-builtins-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel/user-environment-service.ts",
+      "normalizedSha256": "2a956b53ae4e07a96ba94aa8052c1939dbdbf9650afbaf18fd8f9e6e4ab81a1f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of kernel-dsh-builtins against contract v1 (behavior B1-B24, interface and black-box tests). The author read the replaced core implementation only to understand behavior; no code was copied, renamed or rewritten line by line. No old gate applies to this accessor package; new implementation 51/51 on both source and dist entries, 0 skipped. Max line containment 0.125, longest identical run 2, structural similarity 0.167 against the replaced core files and the upstream baseline 872ad960; declaration mode 4/4 with containment 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-builtins/README.md",
+        "docs/knorvia-kernel-dsh-builtins-acceptance.md"
+      ]
+    },
+    {
+      "path": "scripts/kernel-context-probe.mjs",
+      "normalizedSha256": "e4bbeb3871f15cdf1a7db1b0a6135451271f927fb92757786646d1c61702a2cd",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of kernel-dsh-builtins against contract v1 (behavior B1-B24, interface and black-box tests). The author read the replaced core implementation only to understand behavior; no code was copied, renamed or rewritten line by line. No old gate applies to this accessor package; new implementation 51/51 on both source and dist entries, 0 skipped. Max line containment 0.125, longest identical run 2, structural similarity 0.167 against the replaced core files and the upstream baseline 872ad960; declaration mode 4/4 with containment 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-builtins/README.md",
+        "docs/knorvia-kernel-dsh-builtins-acceptance.md"
+      ]
+    },
+    {
+      "path": "scripts/kernel-shell-probe.mjs",
+      "normalizedSha256": "49a218b129190d5305fee838507d21ec3c0b3b2f4300bb8cfbc65ec4402b13a7",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of kernel-dsh-builtins against contract v1 (behavior B1-B24, interface and black-box tests). The author read the replaced core implementation only to understand behavior; no code was copied, renamed or rewritten line by line. No old gate applies to this accessor package; new implementation 51/51 on both source and dist entries, 0 skipped. Max line containment 0.125, longest identical run 2, structural similarity 0.167 against the replaced core files and the upstream baseline 872ad960; declaration mode 4/4 with containment 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-builtins/README.md",
+        "docs/knorvia-kernel-dsh-builtins-acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-dsh-builtins/tests/_harness.mjs",
+      "normalizedSha256": "1d9d2dfbd20ca777b1e947437e7a561400662392a2f0b8134c2e60084a4d9eb9",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of kernel-dsh-builtins against contract v1 (behavior B1-B24, interface and black-box tests). The author read the replaced core implementation only to understand behavior; no code was copied, renamed or rewritten line by line. No old gate applies to this accessor package; new implementation 51/51 on both source and dist entries, 0 skipped. Max line containment 0.125, longest identical run 2, structural similarity 0.167 against the replaced core files and the upstream baseline 872ad960; declaration mode 4/4 with containment 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-builtins/README.md",
+        "docs/knorvia-kernel-dsh-builtins-acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-dsh-builtins/tests/_kernel-entry.mjs",
+      "normalizedSha256": "04d2b12818d5d5fe10cc287927c6290224c4fa2c77b283f51c383da4cc117458",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of kernel-dsh-builtins against contract v1 (behavior B1-B24, interface and black-box tests). The author read the replaced core implementation only to understand behavior; no code was copied, renamed or rewritten line by line. No old gate applies to this accessor package; new implementation 51/51 on both source and dist entries, 0 skipped. Max line containment 0.125, longest identical run 2, structural similarity 0.167 against the replaced core files and the upstream baseline 872ad960; declaration mode 4/4 with containment 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-builtins/README.md",
+        "docs/knorvia-kernel-dsh-builtins-acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-dsh-builtins/tests/composition-builtins.test.mjs",
+      "normalizedSha256": "80976dd77ad5239f8f74e7a11c2f2c0eab5d670ae13879f6830875ca9cb3bd50",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of kernel-dsh-builtins against contract v1 (behavior B1-B24, interface and black-box tests). The author read the replaced core implementation only to understand behavior; no code was copied, renamed or rewritten line by line. No old gate applies to this accessor package; new implementation 51/51 on both source and dist entries, 0 skipped. Max line containment 0.125, longest identical run 2, structural similarity 0.167 against the replaced core files and the upstream baseline 872ad960; declaration mode 4/4 with containment 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-builtins/README.md",
+        "docs/knorvia-kernel-dsh-builtins-acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-dsh-builtins/tests/tools-mount.test.mjs",
+      "normalizedSha256": "c755f79e98b563b01953b4b53ec0bc29d4c424e6748c9a86215c6c48cdb94ae9",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of kernel-dsh-builtins against contract v1 (behavior B1-B24, interface and black-box tests). The author read the replaced core implementation only to understand behavior; no code was copied, renamed or rewritten line by line. No old gate applies to this accessor package; new implementation 51/51 on both source and dist entries, 0 skipped. Max line containment 0.125, longest identical run 2, structural similarity 0.167 against the replaced core files and the upstream baseline 872ad960; declaration mode 4/4 with containment 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-builtins/README.md",
+        "docs/knorvia-kernel-dsh-builtins-acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-dsh-builtins/tests/policy-approval.test.mjs",
+      "normalizedSha256": "122b409109e458f3913946ad4f7d300c1c86f16e12552bc56e82855767e37114",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of kernel-dsh-builtins against contract v1 (behavior B1-B24, interface and black-box tests). The author read the replaced core implementation only to understand behavior; no code was copied, renamed or rewritten line by line. No old gate applies to this accessor package; new implementation 51/51 on both source and dist entries, 0 skipped. Max line containment 0.125, longest identical run 2, structural similarity 0.167 against the replaced core files and the upstream baseline 872ad960; declaration mode 4/4 with containment 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-builtins/README.md",
+        "docs/knorvia-kernel-dsh-builtins-acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-dsh-builtins/tests/child-env.test.mjs",
+      "normalizedSha256": "9ca59ed451cd55f5382e2da279c7881be9bad121abee8d03e8d6d2bfb4a4d039",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of kernel-dsh-builtins against contract v1 (behavior B1-B24, interface and black-box tests). The author read the replaced core implementation only to understand behavior; no code was copied, renamed or rewritten line by line. No old gate applies to this accessor package; new implementation 51/51 on both source and dist entries, 0 skipped. Max line containment 0.125, longest identical run 2, structural similarity 0.167 against the replaced core files and the upstream baseline 872ad960; declaration mode 4/4 with containment 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-builtins/README.md",
+        "docs/knorvia-kernel-dsh-builtins-acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-dsh-builtins/tests/runtime-context.test.mjs",
+      "normalizedSha256": "4d3659015ff2fd5dd6f9f7c4800554eb1fe79d577416af3708555e645ff7806a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of kernel-dsh-builtins against contract v1 (behavior B1-B24, interface and black-box tests). The author read the replaced core implementation only to understand behavior; no code was copied, renamed or rewritten line by line. No old gate applies to this accessor package; new implementation 51/51 on both source and dist entries, 0 skipped. Max line containment 0.125, longest identical run 2, structural similarity 0.167 against the replaced core files and the upstream baseline 872ad960; declaration mode 4/4 with containment 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-builtins/README.md",
+        "docs/knorvia-kernel-dsh-builtins-acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-dsh-builtins/tests/compaction-mount.test.mjs",
+      "normalizedSha256": "106fba228212ebbf1e78e4794266729f0a6911a8811acf82910895497d557c07",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of kernel-dsh-builtins against contract v1 (behavior B1-B24, interface and black-box tests). The author read the replaced core implementation only to understand behavior; no code was copied, renamed or rewritten line by line. No old gate applies to this accessor package; new implementation 51/51 on both source and dist entries, 0 skipped. Max line containment 0.125, longest identical run 2, structural similarity 0.167 against the replaced core files and the upstream baseline 872ad960; declaration mode 4/4 with containment 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-builtins/README.md",
+        "docs/knorvia-kernel-dsh-builtins-acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-dsh-builtins/tests/goal-plan.test.mjs",
+      "normalizedSha256": "da4209eed5ac0f38d06f6ad2a5e5c36c5b17a59feecbecd2eca034a193505afe",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of kernel-dsh-builtins against contract v1 (behavior B1-B24, interface and black-box tests). The author read the replaced core implementation only to understand behavior; no code was copied, renamed or rewritten line by line. No old gate applies to this accessor package; new implementation 51/51 on both source and dist entries, 0 skipped. Max line containment 0.125, longest identical run 2, structural similarity 0.167 against the replaced core files and the upstream baseline 872ad960; declaration mode 4/4 with containment 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-builtins/README.md",
+        "docs/knorvia-kernel-dsh-builtins-acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-dsh-builtins/tests/subagent-mcp.test.mjs",
+      "normalizedSha256": "e6e79151cd253b50e53e2c6bc2af69afbd4e11c78cb79e97eb07aaa744616bb2",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of kernel-dsh-builtins against contract v1 (behavior B1-B24, interface and black-box tests). The author read the replaced core implementation only to understand behavior; no code was copied, renamed or rewritten line by line. No old gate applies to this accessor package; new implementation 51/51 on both source and dist entries, 0 skipped. Max line containment 0.125, longest identical run 2, structural similarity 0.167 against the replaced core files and the upstream baseline 872ad960; declaration mode 4/4 with containment 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-builtins/README.md",
+        "docs/knorvia-kernel-dsh-builtins-acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-dsh-builtins/tests/isolation-mount.test.mjs",
+      "normalizedSha256": "11479879a01771002ad362a5941251ffac6425c6b48f42b04c447a9c8230f56d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of kernel-dsh-builtins against contract v1 (behavior B1-B24, interface and black-box tests). The author read the replaced core implementation only to understand behavior; no code was copied, renamed or rewritten line by line. No old gate applies to this accessor package; new implementation 51/51 on both source and dist entries, 0 skipped. Max line containment 0.125, longest identical run 2, structural similarity 0.167 against the replaced core files and the upstream baseline 872ad960; declaration mode 4/4 with containment 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-builtins/README.md",
+        "docs/knorvia-kernel-dsh-builtins-acceptance.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-kernel-dsh-builtins-acceptance.md",
+      "normalizedSha256": "10f1e640aa9c2bd12323197550bc405161fa06a4c900d3a0dd3ca40e15cab0c2",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of kernel-dsh-builtins against contract v1 (behavior B1-B24, interface and black-box tests). The author read the replaced core implementation only to understand behavior; no code was copied, renamed or rewritten line by line. No old gate applies to this accessor package; new implementation 51/51 on both source and dist entries, 0 skipped. Max line containment 0.125, longest identical run 2, structural similarity 0.167 against the replaced core files and the upstream baseline 872ad960; declaration mode 4/4 with containment 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-builtins/README.md",
+        "docs/knorvia-kernel-dsh-builtins-acceptance.md"
       ]
     }
   ]

@@ -1,0 +1,15 @@
+{
+  "_comment": "kernel-dsh-builtins 子进程环境断言的占位值；全部虚构，不含真实凭据。",
+  "visibleInChildProcess": {
+    "KNORVIA_TEST_PLAIN_MARKER": "fixture-plain-marker-value",
+    "MY_SERVICE_API_KEY": "fixture-user-credential-placeholder",
+    "ANTHROPIC_API_KEY": "fixture-cleansed-in-host-placeholder"
+  },
+  "hiddenInChildProcess": {
+    "DSH_KNORVIA_INHERITED": "fixture-dsh-inherited-placeholder"
+  },
+  "hiddenAfterBoot": {
+    "KNORVIA_TEST_AFTER_BOOT": "fixture-after-boot-placeholder"
+  },
+  "managedByDshShellEnv": ["DSH_HOME", "DSH_SHELL"]
+}
