@@ -1,0 +1,12 @@
+{
+  "_comment": "kernel-bridge-02 离线回合驱动的假 provider 脚本；全部虚构占位值。",
+  "providerId": "knorvia-fake",
+  "providerName": "Knorvia Fake Provider",
+  "replyText": "fixture reply placeholder",
+  "toolCall": {
+    "toolName": "todo_write",
+    "arguments": {
+      "todos": [{ "content": "fixture todo item", "status": "in_progress" }]
+    }
+  }
+}

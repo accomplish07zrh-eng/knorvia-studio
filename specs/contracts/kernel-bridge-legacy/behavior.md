@@ -89,10 +89,25 @@
 
 - **输入**：CLI 需要会话运行时偏好时发起 `{ sessionId, scope }`，`scope ∈ {runtime-materialization, user-execution}`。
 - **输出**：Host 应答 `sessionRuntimePreferencesResultSchema`；结果形状不变。
-- **错误语义**：无客户端连接 → `-32020`；取消 → `-32021`；超时 → `-32022` + `data.timeoutMs`；重发现有间隔由实现侧决定，但语义是「同一业务 requestId 可重复发出」。
-- **时序**：反向请求必须在同一 stdout 流上，且 id 不与客户端请求 id 冲突（旧实现用 `server-<n>` 前缀）。
+- **错误语义（逐码冻结，Lead 2026-10-20 裁决）**：本表是回归依据，实现与测试都按它对齐。
+
+  | 错误码                       | 行为                                                | 日志    |
+  | ---------------------------- | --------------------------------------------------- | ------- |
+  | `-32601`（宿主不认识该方法） | **退化**：用本地默认值继续，不阻断 `session/create` | `debug` |
+  | `-32020`（无客户端连接）     | **退化**：同上                                      | `debug` |
+  | `-32022`（超时）             | **抛出让 create 失败**（不得退化成「用默认偏好」）  | `warn`  |
+  | 其它错误                     | **抛出**                                            | 默认    |
+
+  超时必须阻断的理由：若把超时也退化，Host 侧真实超时就会从「失败」静默变成「用默认偏好」，
+  属于放宽行为。退化默认值：`nativeSearchEnhancementsEnabled: true`、`memoryEnabled: false`、
+  `askUserQuestionAutoResolutionEnabled: true`、`modelContextBudgetStrategy` 取共享默认。
+
+- **时序**：反向请求必须在同一 stdout 流上，且 id 不与客户端请求 id 冲突（`server-<n>` 前缀）；
+  `session/create` 触发 1 次（scope=`runtime-materialization`），`session/resume` 另触发 1 次（执行偏好）。
 - **资源释放**：超时/取消/连接关闭都必须清掉 pending，不得泄漏定时器。
 - **状态所有者**：反向请求登记表（唯一写入者）。
+- **实测（2026-10-20，dsh 引擎）**：create 期间每次都拿到了 Host 应答并继续，**未观察到超时分支**；
+  即 dsh 路径的常态是「有应答」或「退化」，create 不受阻。
 
 ## B12 `interaction/*` 六方法（实现阶段）
 
@@ -135,6 +150,34 @@
 - **正向对照**：EOF 断言必须建立在「协议面真的应答过」之上（先调 `runtime/capabilities` 并断言不是 `-32601`），否则桩也能通过。
 - **资源释放**：EOF 后先在途请求收口、再释放投影与 DSH host、最后退出。
 - **平台差异**：Windows 上子进程句柄释放有延迟，测试夹具必须自己保证自然退出 —— 清理统一用 `app.registerCleanup(t, [home])`（收子进程与删临时目录在同一钩子内各自 try/catch，见 known-differences D7），删目录带 `maxRetries`。门禁运行器**不用** `--test-force-exit`。
+
+---
+
+## B17 反向请求应答行的判定与迟到应答的处置（实现阶段补齐）
+
+编号规则同 B1、B2：B17 是族编号，子项 a/b/c 各自独立断言，发布后不重用。
+
+### B17a 应答的 `result` 含 `method` 键时仍按应答处理
+
+- **输入**：客户端对反向请求的应答，其 `result` 里带有字符串键 `method`（例如工具参数 `{"tool":{"method":"bash"}}`）。
+- **输出**：仍被识别为应答并结算在途请求。
+- **为什么必须单独测**：实现阶段首版用 `line.includes('"method"')` 判断方向，这条**合法应答**会被判成 request 塞进串行链，而链上等它的 `execute` 永远等不到结算 → `session/create` 挂到 15 s 超时。这是串行链死锁的第二种触发形态。
+- **判定规则**：先 `JSON.parse`，再看**顶层**是否有 `method` 键；`"id"` 子串只作便宜的预筛。
+- **状态所有者**：传输层（应答分派）。
+
+### B17b 顶层带 `method` 的行是 request/notification，不是应答
+
+- **输入**：顶层含 `method` 的行（有 `id` 是 request，无 `id` 是 notification）。
+- **输出**：request 正常应答；notification 不发响应行、不报错。
+- **正向对照**：同连接上随后的请求必须仍被正常应答，证明判定没有把请求吃掉。
+
+### B17c 无法匹配的在途应答被安全处置
+
+- **输入**：`id: null` 的回执，与从未发出过的 `server-<n>` id。
+- **输出**：`id: null` 不是合法信封（协议 id 只接受 `string|number`）→ 回 `-32600 invalid-message`（B1 既有行为）；合法 response 但匹配不到在途请求 → 静默丢弃。
+- **实测事实（两引擎一致）**：`id: null` 更早被信封校验拦下，**不会**走到「丢弃」分支；「丢弃」只对「合法 response 但无匹配」生效。
+- **不变量**：两种处置之后连接都必须继续可用，且不产生额外错误行。
+- **日志**：`debug`。
 
 ---
 
