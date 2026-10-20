@@ -19,29 +19,15 @@
   "groups": {
     "deliveredBy01": {
       "description": "kernel-bridge-01 已实现的配置类命令；03 不重复实现，但收口断言包含它们",
-      "commands": [
-        "createSession",
-        "setFollowupMode",
-        "switchCollaborationMode"
-      ]
+      "commands": ["createSession", "setFollowupMode", "switchCollaborationMode"]
     },
     "deliveredBy02": {
       "description": "kernel-bridge-02 已实现（含 createSession.firstInput，不重复计 createSession）",
-      "commands": [
-        "sendText",
-        "stop",
-        "compact",
-        "resolveInteraction"
-      ]
+      "commands": ["sendText", "stop", "compact", "resolveInteraction"]
     },
     "aProjectionOrConfig": {
       "description": "A 组：纯投影/配置，走 projection.applyConfigMutation，不触发模型轮",
-      "commands": [
-        "renameSession",
-        "setAssistantFeedback",
-        "switchModelConfig",
-        "deleteSession"
-      ],
+      "commands": ["renameSession", "setAssistantFeedback", "switchModelConfig", "deleteSession"],
       "expectedReasonCode": null
     },
     "bQueue": {
@@ -70,9 +56,7 @@
     },
     "dOtherExecutable": {
       "description": "D 组里可执行的一条",
-      "commands": [
-        "cancelBackgroundWork"
-      ],
+      "commands": ["cancelBackgroundWork"],
       "expectedReasonCode": null
     },
     "dCapabilityGap": {
@@ -104,9 +88,7 @@
           "requestWorkspaceHookReview",
           "snoozeInteractionAutoResolution"
         ],
-        "kernel-plugin-rewind": [
-          "applyFileRewind"
-        ]
+        "kernel-plugin-rewind": ["applyFileRewind"]
       },
       "$comment": "reasonCode 已由 Lead 核准并冻结（interface.md §3.1）。owners 是「归属包 → 缺口命令」的唯一事实源。discardSharedContext 归 kernel-plugin-workflow（与工作流同属跨会话数据传递），由 Lead 2026-10-20 裁决并入，计划书未单独登记该包。kernel-switch 硬前置要求这三个包在切换前全部合并。"
     }

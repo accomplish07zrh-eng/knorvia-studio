@@ -16,10 +16,7 @@ export const repoRootPath = resolve(dirname(fileURLToPath(import.meta.url)), "..
 export const cliEntryPath = join(repoRootPath, "apps/cli/packages/cli/dist/knorvia.cjs");
 
 /** 本包要读的协议事实源（34 条命令的唯一来源）。 */
-export const commandSchemaPath = join(
-  repoRootPath,
-  "packages/shared/src/protocol-v4/command.ts",
-);
+export const commandSchemaPath = join(repoRootPath, "packages/shared/src/protocol-v4/command.ts");
 
 /** legacy 端口方法表的唯一事实源（12 个方法）。 */
 export const legacyMethodTablePath = join(

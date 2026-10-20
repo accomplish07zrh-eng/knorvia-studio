@@ -139,7 +139,11 @@ caseTest("B20–B23 缺口命令的归属包必须明确（switch 硬前置）",
   // 包名（哪怕加了「尚未登记」的免责声明），覆盖断言依然会绿，但 switch 时那个包
   // 永远不会被建出来：**合同通过、事实缺失**。
   const registered = fixture.registeredPackages;
-  strictAssert.notEqual(registered, undefined, "夹具必须声明 registeredPackages（计划书已登记清单）");
+  strictAssert.notEqual(
+    registered,
+    undefined,
+    "夹具必须声明 registeredPackages（计划书已登记清单）",
+  );
   strictAssert.notEqual(
     registered.packages.length,
     0,

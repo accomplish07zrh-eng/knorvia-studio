@@ -5,22 +5,22 @@
 
 ## 一、对外可见面：零新增导出
 
-| 项 | 结论 |
-| --- | --- |
+| 项                          | 结论   |
+| --------------------------- | ------ |
 | 新增 `package.json` exports | **无** |
-| 新增对外函数 / 类 | **无** |
-| 修改既有导出签名 | **无** |
+| 新增对外函数 / 类           | **无** |
+| 修改既有导出签名            | **无** |
 
 本包的实现**全部落在既有模块内部**：
 
-| 文件（既有） | 本包对它做什么 |
-| --- | --- |
-| `kernel-bridge/bridge-engine.ts` | `execute()` 的 `default` 分支清零：26 条命令各接一条真实路径 |
-| `kernel-bridge/turn-commands.ts` | 扩 `TURN_COMMAND_TYPES`，新增分组 C（回合栈）与 D（其余）的分派 |
-| `kernel-bridge/legacy-port/index.ts` | `HANDLED_METHODS` 从 4 行扩到 **12 行**（C2 完整） |
-| `kernel-bridge/command-inbox.ts` | 队列 5 条命令的 admission 层实现（`queueItemId` 发号与映射） |
-| `kernel-bridge/turn-executor.ts` | 新增 fork / edit / retry / goal 等执行方法 |
-| `kernel-bridge/projection-layer.ts` | 新增行派生（`modelChange`、`goalSet` 等既有行类型） |
+| 文件（既有）                         | 本包对它做什么                                                  |
+| ------------------------------------ | --------------------------------------------------------------- |
+| `kernel-bridge/bridge-engine.ts`     | `execute()` 的 `default` 分支清零：26 条命令各接一条真实路径    |
+| `kernel-bridge/turn-commands.ts`     | 扩 `TURN_COMMAND_TYPES`，新增分组 C（回合栈）与 D（其余）的分派 |
+| `kernel-bridge/legacy-port/index.ts` | `HANDLED_METHODS` 从 4 行扩到 **12 行**（C2 完整）              |
+| `kernel-bridge/command-inbox.ts`     | 队列 5 条命令的 admission 层实现（`queueItemId` 发号与映射）    |
+| `kernel-bridge/turn-executor.ts`     | 新增 fork / edit / retry / goal 等执行方法                      |
+| `kernel-bridge/projection-layer.ts`  | 新增行派生（`modelChange`、`goalSet` 等既有行类型）             |
 
 **`entry.ts` 不动**（`route()` 与 `RunBridgeOptions` 归 legacy 边界）。
 
@@ -43,6 +43,7 @@ interface QueueEntry {
 ```
 
 **不变量**：
+
 - `queueItemId` 只由 `CommandInbox` 发号；
 - 任何队列变更都必须**同时**更新这份映射与 DSH `Inbox`；
 - 映射缺失 = 该项已不在队列（drain/删除）→ 队列命令按拒绝处理。
@@ -80,11 +81,11 @@ const CAPABILITY_ABSENT = "fault.command.capabilityAbsent";
 
 ### 3.2 三个 reasonCode 的语义各不相同（不得混用）
 
-| reasonCode | 语义 | 谁产生 | 客户端应如何显示 |
-| --- | --- | --- | --- |
-| `unsupported` | **实现进度**语义：段 A 尚未接入这条命令 | 01/02 的骨架 | 「未知命令」（不该再出现） |
-| `fault.command.capabilityUnsupported` | **设计如此**：该能力**永不支持**（既有先例） | 更早的层 | 「不支持此功能」（终态） |
-| **`fault.command.capabilityAbsent`** | **当前缺失**：能力**待补**，有明确归属包 | 本包（缺口 10 条） | 「当前内核暂不支持，后续版本提供」（过渡态） |
+| reasonCode                            | 语义                                         | 谁产生             | 客户端应如何显示                             |
+| ------------------------------------- | -------------------------------------------- | ------------------ | -------------------------------------------- |
+| `unsupported`                         | **实现进度**语义：段 A 尚未接入这条命令      | 01/02 的骨架       | 「未知命令」（不该再出现）                   |
+| `fault.command.capabilityUnsupported` | **设计如此**：该能力**永不支持**（既有先例） | 更早的层           | 「不支持此功能」（终态）                     |
+| **`fault.command.capabilityAbsent`**  | **当前缺失**：能力**待补**，有明确归属包     | 本包（缺口 10 条） | 「当前内核暂不支持，后续版本提供」（过渡态） |
 
 **为什么必须三分**：客户端据此给出的用户提示完全不同——
 「未知命令」是 bug 信号，「不支持」是产品边界，「暂不支持」是进度承诺。混用会让用户误解。
@@ -103,11 +104,11 @@ const CAPABILITY_ABSENT = "fault.command.capabilityAbsent";
 
 ### 3.4 适用命令（10 条缺口）
 
-| 分组 | 命令 |
-| --- | --- |
-| 工作流 **4** | `resumeWorkflowRun`、`startSavedWorkflow`、`amendWorkflowRunSettings`、**`discardSharedContext`**（与工作流同属跨会话数据传递） |
+| 分组         | 命令                                                                                                                                                       |
+| ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 工作流 **4** | `resumeWorkflowRun`、`startSavedWorkflow`、`amendWorkflowRunSettings`、**`discardSharedContext`**（与工作流同属跨会话数据传递）                            |
 | 工作区钩子 5 | `respondWorkspaceHookReview`、`toggleWorkspaceHookReviewItem`、`revokeWorkspaceHookTrust`、`requestWorkspaceHookReview`、`snoozeInteractionAutoResolution` |
-| 文件回退 1 | `applyFileRewind`（待 `kernel-plugin-rewind`） |
+| 文件回退 1   | `applyFileRewind`（待 `kernel-plugin-rewind`）                                                                                                             |
 
 **归属包**（`kernel-switch` 硬前置，三包合并前不得切换）：
 `kernel-plugin-workflow`（4 条）、`kernel-plugin-hooks`（5 条）、`kernel-plugin-rewind`（1 条）。
@@ -151,12 +152,12 @@ flowchart LR
 
 ## 六、冻结面（不得改动）
 
-| # | 冻结项 | 事实源 |
-| --- | --- | --- |
-| 1 | 34 个命令字面量 | `packages/shared/src/protocol-v4/command.ts` 的 `commandPayloadSchemas` |
-| 2 | 每条的 payload 形状 | 同上 |
-| 3 | ACK 结果形状 | `commandResultSchema`（`command.ts` L367 起） |
-| 4 | 帧结构与序号规则 | `kernel-bridge-01` |
-| 5 | legacy 端口接口 | `kernel-bridge-legacy/interface.md` §四 |
-| 6 | 错误码族 | `-32004` / `-32031` / `-32601` / `-32602` / `-32603`（不新增） |
-| 7 | `entry.ts` | 本包不改 |
+| #   | 冻结项              | 事实源                                                                  |
+| --- | ------------------- | ----------------------------------------------------------------------- |
+| 1   | 34 个命令字面量     | `packages/shared/src/protocol-v4/command.ts` 的 `commandPayloadSchemas` |
+| 2   | 每条的 payload 形状 | 同上                                                                    |
+| 3   | ACK 结果形状        | `commandResultSchema`（`command.ts` L367 起）                           |
+| 4   | 帧结构与序号规则    | `kernel-bridge-01`                                                      |
+| 5   | legacy 端口接口     | `kernel-bridge-legacy/interface.md` §四                                 |
+| 6   | 错误码族            | `-32004` / `-32031` / `-32601` / `-32602` / `-32603`（不新增）          |
+| 7   | `entry.ts`          | 本包不改                                                                |
