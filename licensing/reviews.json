@@ -13602,10 +13602,10 @@
     },
     {
       "path": "apps/cli/packages/core/src/runtime/methods/support/append-summary.ts",
-      "normalizedSha256": "2f1f6a67346fabf545e1b9a83262ab71f14945315f73b7ef9f4f3ef771045f85",
+      "normalizedSha256": "1267c74d236379813db55ae942f3ce72b9ebc1015ae43112675ddda925ec19d8",
       "decision": "independent-replacement",
       "license": "Apache-2.0",
-      "basis": "Independent replacement implementation for core-runtime-methods-01: rewritten support kernels and replacement design authored from behavior contract B1-B31; no upstream code copied.",
+      "basis": "Knorvia independent replacement of core-runtime-methods modules and the tool input-validation model content against their contracts. The author read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Packed string literals that were split on spaces are now plain array literals, the transient-error families are a single table with derived sets and three-way matchers, and the input-validation entry takes a named sources object while still accepting the positional form. Measured after rework against upstream zcode-872ad960 at rev 872ad960 with old-rev origin/main: append-summary containment 0.068 with longest run 2, event-pipeline 0.196 with longest run 3, recovery-emit 0.177 with longest run 3, recovery-plan 0.051 with longest run 1, input-validation-model-content 0.091 with longest run 1 and structural 0.000. Contract tests core-runtime-methods-01 35/35, validation-display 21/21.",
       "evidence": [
         "specs/contracts/core-runtime-methods-01/behavior.md",
         "specs/contracts/core-runtime-methods-01/README.md"
@@ -13657,11 +13657,14 @@
     },
     {
       "path": "apps/cli/packages/core/src/runtime/methods/support/event-pipeline.ts",
-      "normalizedSha256": "5cd916ee8dae4ca1d100d94b243222a52e48b25c9978dfd973a298b5150f5947",
+      "normalizedSha256": "fbff8934529f772dbc88283cdf84ea5aa5e2eb1e6d405bce57169401f9aa727d",
       "decision": "independent-replacement",
       "license": "Apache-2.0",
-      "basis": "Independent replacement implementation for core-runtime-methods-01: rewritten support kernels and replacement design authored from behavior contract B1-B31; no upstream code copied.",
-      "evidence": ["specs/contracts/core-runtime-methods-01/behavior.md"]
+      "basis": "Knorvia independent replacement of core-runtime-methods modules and the tool input-validation model content against their contracts. The author read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Packed string literals that were split on spaces are now plain array literals, the transient-error families are a single table with derived sets and three-way matchers, and the input-validation entry takes a named sources object while still accepting the positional form. Measured after rework against upstream zcode-872ad960 at rev 872ad960 with old-rev origin/main: append-summary containment 0.068 with longest run 2, event-pipeline 0.196 with longest run 3, recovery-emit 0.177 with longest run 3, recovery-plan 0.051 with longest run 1, input-validation-model-content 0.091 with longest run 1 and structural 0.000. Contract tests core-runtime-methods-01 35/35, validation-display 21/21.",
+      "evidence": [
+        "specs/contracts/core-runtime-methods-01/behavior.md",
+        "specs/contracts/core-runtime-methods-01/README.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/src/runtime/methods/support/header-refresh.ts",
@@ -13896,11 +13899,14 @@
     },
     {
       "path": "apps/cli/packages/core/src/runtime/methods/support/recovery-emit.ts",
-      "normalizedSha256": "abd166a619ff254bd500462f332a368b6ff7d17d773eec5d214014b3f3e5db98",
+      "normalizedSha256": "320b28078b0800c4b827827394cfe33b59a7e4823f1bc2ed72af7a29abc1d741",
       "decision": "independent-replacement",
       "license": "Apache-2.0",
-      "basis": "Independent replacement implementation for core-runtime-methods-01: rewritten support kernels and replacement design authored from behavior contract B1-B31; no upstream code copied.",
-      "evidence": ["specs/contracts/core-runtime-methods-01/behavior.md"]
+      "basis": "Knorvia independent replacement of core-runtime-methods modules and the tool input-validation model content against their contracts. The author read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Packed string literals that were split on spaces are now plain array literals, the transient-error families are a single table with derived sets and three-way matchers, and the input-validation entry takes a named sources object while still accepting the positional form. Measured after rework against upstream zcode-872ad960 at rev 872ad960 with old-rev origin/main: append-summary containment 0.068 with longest run 2, event-pipeline 0.196 with longest run 3, recovery-emit 0.177 with longest run 3, recovery-plan 0.051 with longest run 1, input-validation-model-content 0.091 with longest run 1 and structural 0.000. Contract tests core-runtime-methods-01 35/35, validation-display 21/21.",
+      "evidence": [
+        "specs/contracts/core-runtime-methods-01/behavior.md",
+        "specs/contracts/core-runtime-methods-01/README.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/src/runtime/methods/support/recovery-orchestration.ts",
@@ -13915,10 +13921,10 @@
     },
     {
       "path": "apps/cli/packages/core/src/runtime/methods/support/recovery-plan.ts",
-      "normalizedSha256": "b0307ca2c4f4adbf0121b93162d3511b4efab813f57e1ae329214a62a36e78be",
+      "normalizedSha256": "1a756c4010924c7606a183a9ed8ec1eb4ed19932f9df1e2270025cd5fa6968b5",
       "decision": "independent-replacement",
       "license": "Apache-2.0",
-      "basis": "Independent replacement implementation for core-runtime-methods-01: rewritten support kernels and replacement design authored from behavior contract B1-B31; no upstream code copied.",
+      "basis": "Knorvia independent replacement of core-runtime-methods modules and the tool input-validation model content against their contracts. The author read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Packed string literals that were split on spaces are now plain array literals, the transient-error families are a single table with derived sets and three-way matchers, and the input-validation entry takes a named sources object while still accepting the positional form. Measured after rework against upstream zcode-872ad960 at rev 872ad960 with old-rev origin/main: append-summary containment 0.068 with longest run 2, event-pipeline 0.196 with longest run 3, recovery-emit 0.177 with longest run 3, recovery-plan 0.051 with longest run 1, input-validation-model-content 0.091 with longest run 1 and structural 0.000. Contract tests core-runtime-methods-01 35/35, validation-display 21/21.",
       "evidence": [
         "specs/contracts/core-runtime-methods-01/behavior.md",
         "specs/contracts/core-runtime-methods-01/README.md"
@@ -15748,13 +15754,13 @@
     },
     {
       "path": "apps/cli/packages/core/src/tool/input-validation-model-content.ts",
-      "normalizedSha256": "b12c14c45ffa31137739d876d1ddae9cc27292495a92652f623ff4a09c4c606b",
+      "normalizedSha256": "c7199860cf0e4dc5a24b85a2107d67d157747b47a07b8d04925f811c035a26d8",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "The old monolithic recursive presentation implementation is removed. A stable public entry now composes invocation-owned issue projection and text rendering while retaining the model wrapper and initial-call API. Prior implementation source was accessed; this is not a no-access clean-room claim. Public signatures, parser issue names, model-visible text, ordering and JSON wire fields are compatibility requirements, not independent-authorship evidence. Existing issue factories, input normalization and the remainder of the executor are explicitly outside this decision.",
+      "basis": "Knorvia independent replacement of core-runtime-methods modules and the tool input-validation model content against their contracts. The author read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Packed string literals that were split on spaces are now plain array literals, the transient-error families are a single table with derived sets and three-way matchers, and the input-validation entry takes a named sources object while still accepting the positional form. Measured after rework against upstream zcode-872ad960 at rev 872ad960 with old-rev origin/main: append-summary containment 0.068 with longest run 2, event-pipeline 0.196 with longest run 3, recovery-emit 0.177 with longest run 3, recovery-plan 0.051 with longest run 1, input-validation-model-content 0.091 with longest run 1 and structural 0.000. Contract tests core-runtime-methods-01 35/35, validation-display 21/21.",
       "evidence": [
-        "specs/knorvia-validation-display.md",
-        "docs/knorvia-independence-progress-20260927.md"
+        "specs/contracts/core-runtime-methods-01/behavior.md",
+        "specs/contracts/core-runtime-methods-01/README.md"
       ]
     },
     {
