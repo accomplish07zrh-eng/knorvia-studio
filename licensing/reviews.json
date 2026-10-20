@@ -9614,14 +9614,15 @@
     },
     {
       "path": "apps/cli/packages/bootstrap/src/kernel/composition.ts",
-      "normalizedSha256": "b15e563ce120fc53ed74bca66d3655ef228a4ddb74ba4915119e73ed172c4de8",
+      "normalizedSha256": "e4d6ff55362de539930caaccd2c63f25a82ccd508c41979346599aaf7c2fb3c2",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored kernel-dsh-builtins implementation for the DSH-backed built-in kernel (M2 accessor package). Updated in place to mount and configure the existing DSH capabilities; the author read the replaced core/src/context, core/src/compact and core/src/tool files to understand behavior only, no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.125, longest identical run 2, structural similarity 0.167; declaration mode 4/4 with containment 0.000.",
+      "basis": "Knorvia-authored kernel-bridge-02 implementation for the DSH-backed built-in kernel (M2 accessor package: input and turns), plus the composition row position for a credential provider plugin and the C2 execution-port registration. The executor is materialized by the bridge engine and registered to the legacy execution registry at start and released at dispose; entry.ts is untouched. The author read the replaced core runtime, legacy bridge and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.183, longest identical run 2, structural similarity 0.071; declaration mode passes for all candidates.",
       "evidence": [
-        "specs/contracts/kernel-dsh-builtins/README.md",
-        "specs/contracts/kernel-dsh-builtins/behavior.md",
-        "docs/knorvia-kernel-dsh-builtins-acceptance.md"
+        "specs/contracts/kernel-bridge-02/README.md",
+        "specs/contracts/kernel-bridge-02/design.md",
+        "specs/contracts/kernel-bridge-02/known-differences.md",
+        "docs/knorvia-kernel-bridge-02-acceptance.md"
       ]
     },
     {
@@ -147461,13 +147462,13 @@
     },
     {
       "path": "specs/contracts/kernel-bridge-02/known-differences.md",
-      "normalizedSha256": "a9b3260424e8b6a2adf613b90c38b2a8fa1d24beb1563e4f34759bf09c4e7c88",
+      "normalizedSha256": "c8afd777f694e0765884a0b1be47ab0a992cc98d0b296bb1ebb5ef4c51717fb0",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored kernel-bridge-02 implementation for the DSH-backed built-in kernel (M2 accessor package: input and turns). This existing kernel-bridge-01 skeleton file is extended in place to complete the extension point kernel-bridge-01 reserved: an optional turn executor, the three turn command delegations, the approval registry and its shutdown settlement. entry.ts is untouched and the kernel-bridge-01 contract suite still passes 20/20, so the segment-A invariants are preserved. No code was copied, renamed or rewritten line by line. Similarity against the replaced core files and zai-org/ZCode@872ad960: max line containment 0.183, longest identical run 2, structural similarity 0.071.",
+      "basis": "Knorvia-authored kernel-bridge-02 tests and acceptance record for the DSH-backed built-in kernel accessor package (input and turns): C2 execution-port registration, turn delivery verdicts, fail-closed approvals, turn frame derivation, and the credential provider composition row position. The author read the replaced core runtime, legacy bridge and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.183, longest identical run 2, structural similarity 0.071; declaration mode passes for all candidates.",
       "evidence": [
         "specs/contracts/kernel-bridge-02/README.md",
-        "specs/contracts/kernel-bridge-02/known-differences.md",
+        "specs/contracts/kernel-bridge-02/acceptance.md",
         "docs/knorvia-kernel-bridge-02-acceptance.md"
       ]
     },
@@ -147592,13 +147593,13 @@
     },
     {
       "path": "specs/contracts/kernel-bridge-02/design.md",
-      "normalizedSha256": "14fe3cb91a9582ae6641a3009c14d3b8053181aa83cf070b1bb47591652b7c58",
+      "normalizedSha256": "ce9a85842de855512b7fb4e1d4093c1060473a0ef5f0c84d9d63c37b0b986874",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored kernel-bridge-02 implementation for the DSH-backed built-in kernel (M2 accessor package: input and turns). This existing kernel-bridge-01 skeleton file is extended in place to complete the extension point kernel-bridge-01 reserved: an optional turn executor, the three turn command delegations, the approval registry and its shutdown settlement. entry.ts is untouched and the kernel-bridge-01 contract suite still passes 20/20, so the segment-A invariants are preserved. No code was copied, renamed or rewritten line by line. Similarity against the replaced core files and zai-org/ZCode@872ad960: max line containment 0.183, longest identical run 2, structural similarity 0.071.",
+      "basis": "Knorvia-authored kernel-bridge-02 tests and acceptance record for the DSH-backed built-in kernel accessor package (input and turns): C2 execution-port registration, turn delivery verdicts, fail-closed approvals, turn frame derivation, and the credential provider composition row position. The author read the replaced core runtime, legacy bridge and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.183, longest identical run 2, structural similarity 0.071; declaration mode passes for all candidates.",
       "evidence": [
         "specs/contracts/kernel-bridge-02/README.md",
-        "specs/contracts/kernel-bridge-02/known-differences.md",
+        "specs/contracts/kernel-bridge-02/acceptance.md",
         "docs/knorvia-kernel-bridge-02-acceptance.md"
       ]
     },
@@ -147607,22 +147608,24 @@
       "normalizedSha256": "84699a430e991382a2ac22fc047d2c1a242aa3476eacf5e788943cf8b878f19a",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored kernel-bridge-02 implementation for the DSH-backed built-in kernel (M2 accessor package: input and turns). Maps v4 input/turn commands onto DSH session operations and derives turn frames from DSH events; the KernelTurnExecutor is the single implementation shared by the v4 command path and the legacy execution port (kernel-switch entry item C2). The author read the replaced core runtime and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.183, longest identical run 2, structural similarity 0.071; declaration mode 11/11 with containment 0.000 for the residual-only module.",
+      "basis": "Knorvia-authored kernel-bridge-02 implementation for the DSH-backed built-in kernel (M2 accessor package: input and turns), plus the composition row position for a credential provider plugin and the C2 execution-port registration. The executor is materialized by the bridge engine and registered to the legacy execution registry at start and released at dispose; entry.ts is untouched. The author read the replaced core runtime, legacy bridge and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.183, longest identical run 2, structural similarity 0.071; declaration mode passes for all candidates.",
       "evidence": [
         "specs/contracts/kernel-bridge-02/README.md",
         "specs/contracts/kernel-bridge-02/design.md",
+        "specs/contracts/kernel-bridge-02/known-differences.md",
         "docs/knorvia-kernel-bridge-02-acceptance.md"
       ]
     },
     {
       "path": "apps/cli/packages/bootstrap/src/kernel-bridge/turn-commands.ts",
-      "normalizedSha256": "f9c57bad5f0c38c94b87526f43c86b7fe73cd8772cc479b9115bcb85dc5d416a",
+      "normalizedSha256": "2c480dcce7cc5a3816835e41afde8bb614d0fc0c465378b616f11011be05adee",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored kernel-bridge-02 implementation for the DSH-backed built-in kernel (M2 accessor package: input and turns). Maps v4 input/turn commands onto DSH session operations and derives turn frames from DSH events; the KernelTurnExecutor is the single implementation shared by the v4 command path and the legacy execution port (kernel-switch entry item C2). The author read the replaced core runtime and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.183, longest identical run 2, structural similarity 0.071; declaration mode 11/11 with containment 0.000 for the residual-only module.",
+      "basis": "Knorvia-authored kernel-bridge-02 implementation for the DSH-backed built-in kernel (M2 accessor package: input and turns), plus the composition row position for a credential provider plugin and the C2 execution-port registration. The executor is materialized by the bridge engine and registered to the legacy execution registry at start and released at dispose; entry.ts is untouched. The author read the replaced core runtime, legacy bridge and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.183, longest identical run 2, structural similarity 0.071; declaration mode passes for all candidates.",
       "evidence": [
         "specs/contracts/kernel-bridge-02/README.md",
         "specs/contracts/kernel-bridge-02/design.md",
+        "specs/contracts/kernel-bridge-02/known-differences.md",
         "docs/knorvia-kernel-bridge-02-acceptance.md"
       ]
     },
@@ -147631,10 +147634,11 @@
       "normalizedSha256": "d857ab2039d8a8da82b841e6896c88c897a27771ee3e7f534fe6a5dd848e87a7",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored kernel-bridge-02 implementation for the DSH-backed built-in kernel (M2 accessor package: input and turns). Maps v4 input/turn commands onto DSH session operations and derives turn frames from DSH events; the KernelTurnExecutor is the single implementation shared by the v4 command path and the legacy execution port (kernel-switch entry item C2). The author read the replaced core runtime and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.183, longest identical run 2, structural similarity 0.071; declaration mode 11/11 with containment 0.000 for the residual-only module.",
+      "basis": "Knorvia-authored kernel-bridge-02 implementation for the DSH-backed built-in kernel (M2 accessor package: input and turns), plus the composition row position for a credential provider plugin and the C2 execution-port registration. The executor is materialized by the bridge engine and registered to the legacy execution registry at start and released at dispose; entry.ts is untouched. The author read the replaced core runtime, legacy bridge and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.183, longest identical run 2, structural similarity 0.071; declaration mode passes for all candidates.",
       "evidence": [
         "specs/contracts/kernel-bridge-02/README.md",
         "specs/contracts/kernel-bridge-02/design.md",
+        "specs/contracts/kernel-bridge-02/known-differences.md",
         "docs/knorvia-kernel-bridge-02-acceptance.md"
       ]
     },
@@ -147643,10 +147647,11 @@
       "normalizedSha256": "ebec8b2cf69e404ad3343c2224846c43c50ee3ce9addafbea0c3f6a606b82beb",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored kernel-bridge-02 implementation for the DSH-backed built-in kernel (M2 accessor package: input and turns). Maps v4 input/turn commands onto DSH session operations and derives turn frames from DSH events; the KernelTurnExecutor is the single implementation shared by the v4 command path and the legacy execution port (kernel-switch entry item C2). The author read the replaced core runtime and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.183, longest identical run 2, structural similarity 0.071; declaration mode 11/11 with containment 0.000 for the residual-only module.",
+      "basis": "Knorvia-authored kernel-bridge-02 implementation for the DSH-backed built-in kernel (M2 accessor package: input and turns), plus the composition row position for a credential provider plugin and the C2 execution-port registration. The executor is materialized by the bridge engine and registered to the legacy execution registry at start and released at dispose; entry.ts is untouched. The author read the replaced core runtime, legacy bridge and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.183, longest identical run 2, structural similarity 0.071; declaration mode passes for all candidates.",
       "evidence": [
         "specs/contracts/kernel-bridge-02/README.md",
         "specs/contracts/kernel-bridge-02/design.md",
+        "specs/contracts/kernel-bridge-02/known-differences.md",
         "docs/knorvia-kernel-bridge-02-acceptance.md"
       ]
     },
@@ -147655,10 +147660,11 @@
       "normalizedSha256": "4e4110d8007ead5690002e58e6199936b6eb5c1282d921bcc78fa0baa2a1d815",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored kernel-bridge-02 implementation for the DSH-backed built-in kernel (M2 accessor package: input and turns). Maps v4 input/turn commands onto DSH session operations and derives turn frames from DSH events; the KernelTurnExecutor is the single implementation shared by the v4 command path and the legacy execution port (kernel-switch entry item C2). The author read the replaced core runtime and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.183, longest identical run 2, structural similarity 0.071; declaration mode 11/11 with containment 0.000 for the residual-only module.",
+      "basis": "Knorvia-authored kernel-bridge-02 implementation for the DSH-backed built-in kernel (M2 accessor package: input and turns), plus the composition row position for a credential provider plugin and the C2 execution-port registration. The executor is materialized by the bridge engine and registered to the legacy execution registry at start and released at dispose; entry.ts is untouched. The author read the replaced core runtime, legacy bridge and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.183, longest identical run 2, structural similarity 0.071; declaration mode passes for all candidates.",
       "evidence": [
         "specs/contracts/kernel-bridge-02/README.md",
         "specs/contracts/kernel-bridge-02/design.md",
+        "specs/contracts/kernel-bridge-02/known-differences.md",
         "docs/knorvia-kernel-bridge-02-acceptance.md"
       ]
     },
@@ -147667,10 +147673,10 @@
       "normalizedSha256": "13832f45f0b37e617e5e40898569f5c8a58fe58723ccfb1680e19b320cb74029",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored kernel-bridge-02 implementation for the DSH-backed built-in kernel (M2 accessor package: input and turns). Maps v4 input/turn commands onto DSH session operations and derives turn frames from DSH events; the KernelTurnExecutor is the single implementation shared by the v4 command path and the legacy execution port (kernel-switch entry item C2). The author read the replaced core runtime and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.183, longest identical run 2, structural similarity 0.071; declaration mode 11/11 with containment 0.000 for the residual-only module.",
+      "basis": "Knorvia-authored kernel-bridge-02 tests and acceptance record for the DSH-backed built-in kernel accessor package (input and turns): C2 execution-port registration, turn delivery verdicts, fail-closed approvals, turn frame derivation, and the credential provider composition row position. The author read the replaced core runtime, legacy bridge and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.183, longest identical run 2, structural similarity 0.071; declaration mode passes for all candidates.",
       "evidence": [
         "specs/contracts/kernel-bridge-02/README.md",
-        "specs/contracts/kernel-bridge-02/design.md",
+        "specs/contracts/kernel-bridge-02/acceptance.md",
         "docs/knorvia-kernel-bridge-02-acceptance.md"
       ]
     },
@@ -147679,10 +147685,10 @@
       "normalizedSha256": "2af2c816e8ce9960e98a906b1a5a3c64e582504f866798aa1bc874cadc48e828",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored kernel-bridge-02 implementation for the DSH-backed built-in kernel (M2 accessor package: input and turns). Maps v4 input/turn commands onto DSH session operations and derives turn frames from DSH events; the KernelTurnExecutor is the single implementation shared by the v4 command path and the legacy execution port (kernel-switch entry item C2). The author read the replaced core runtime and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.183, longest identical run 2, structural similarity 0.071; declaration mode 11/11 with containment 0.000 for the residual-only module.",
+      "basis": "Knorvia-authored kernel-bridge-02 tests and acceptance record for the DSH-backed built-in kernel accessor package (input and turns): C2 execution-port registration, turn delivery verdicts, fail-closed approvals, turn frame derivation, and the credential provider composition row position. The author read the replaced core runtime, legacy bridge and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.183, longest identical run 2, structural similarity 0.071; declaration mode passes for all candidates.",
       "evidence": [
         "specs/contracts/kernel-bridge-02/README.md",
-        "specs/contracts/kernel-bridge-02/design.md",
+        "specs/contracts/kernel-bridge-02/acceptance.md",
         "docs/knorvia-kernel-bridge-02-acceptance.md"
       ]
     },
@@ -147691,10 +147697,10 @@
       "normalizedSha256": "9727ff1bbdd1a9ff7cc345a6f08446d947c1fc749cefa98598b0cd290c4704e8",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored kernel-bridge-02 implementation for the DSH-backed built-in kernel (M2 accessor package: input and turns). Maps v4 input/turn commands onto DSH session operations and derives turn frames from DSH events; the KernelTurnExecutor is the single implementation shared by the v4 command path and the legacy execution port (kernel-switch entry item C2). The author read the replaced core runtime and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.183, longest identical run 2, structural similarity 0.071; declaration mode 11/11 with containment 0.000 for the residual-only module.",
+      "basis": "Knorvia-authored kernel-bridge-02 tests and acceptance record for the DSH-backed built-in kernel accessor package (input and turns): C2 execution-port registration, turn delivery verdicts, fail-closed approvals, turn frame derivation, and the credential provider composition row position. The author read the replaced core runtime, legacy bridge and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.183, longest identical run 2, structural similarity 0.071; declaration mode passes for all candidates.",
       "evidence": [
         "specs/contracts/kernel-bridge-02/README.md",
-        "specs/contracts/kernel-bridge-02/design.md",
+        "specs/contracts/kernel-bridge-02/acceptance.md",
         "docs/knorvia-kernel-bridge-02-acceptance.md"
       ]
     },
@@ -147703,10 +147709,10 @@
       "normalizedSha256": "9f775e47d53769d8fc9ac97375b9d426911ddaa35a151f3146f00aeb8ad86c8e",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored kernel-bridge-02 implementation for the DSH-backed built-in kernel (M2 accessor package: input and turns). Maps v4 input/turn commands onto DSH session operations and derives turn frames from DSH events; the KernelTurnExecutor is the single implementation shared by the v4 command path and the legacy execution port (kernel-switch entry item C2). The author read the replaced core runtime and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.183, longest identical run 2, structural similarity 0.071; declaration mode 11/11 with containment 0.000 for the residual-only module.",
+      "basis": "Knorvia-authored kernel-bridge-02 tests and acceptance record for the DSH-backed built-in kernel accessor package (input and turns): C2 execution-port registration, turn delivery verdicts, fail-closed approvals, turn frame derivation, and the credential provider composition row position. The author read the replaced core runtime, legacy bridge and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.183, longest identical run 2, structural similarity 0.071; declaration mode passes for all candidates.",
       "evidence": [
         "specs/contracts/kernel-bridge-02/README.md",
-        "specs/contracts/kernel-bridge-02/design.md",
+        "specs/contracts/kernel-bridge-02/acceptance.md",
         "docs/knorvia-kernel-bridge-02-acceptance.md"
       ]
     },
@@ -147715,21 +147721,22 @@
       "normalizedSha256": "357323a00ee15efab7a72d92d0e52978b7dbcc9c90b6e9c3078749083b222013",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored kernel-bridge-02 implementation for the DSH-backed built-in kernel (M2 accessor package: input and turns). Maps v4 input/turn commands onto DSH session operations and derives turn frames from DSH events; the KernelTurnExecutor is the single implementation shared by the v4 command path and the legacy execution port (kernel-switch entry item C2). The author read the replaced core runtime and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.183, longest identical run 2, structural similarity 0.071; declaration mode 11/11 with containment 0.000 for the residual-only module.",
+      "basis": "Knorvia-authored kernel-bridge-02 tests and acceptance record for the DSH-backed built-in kernel accessor package (input and turns): C2 execution-port registration, turn delivery verdicts, fail-closed approvals, turn frame derivation, and the credential provider composition row position. The author read the replaced core runtime, legacy bridge and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.183, longest identical run 2, structural similarity 0.071; declaration mode passes for all candidates.",
       "evidence": [
         "specs/contracts/kernel-bridge-02/README.md",
-        "specs/contracts/kernel-bridge-02/design.md",
+        "specs/contracts/kernel-bridge-02/acceptance.md",
         "docs/knorvia-kernel-bridge-02-acceptance.md"
       ]
     },
     {
       "path": "apps/cli/packages/bootstrap/src/kernel-bridge/bridge-engine.ts",
-      "normalizedSha256": "69778317736980e981a818e9769029e3f129bde4e984e605a025d833c3eb2b83",
+      "normalizedSha256": "a062767d5899f0b5ce404259d596246e914d104b1758b2c3c8913cc7b245a246",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored kernel-bridge-02 implementation for the DSH-backed built-in kernel (M2 accessor package: input and turns). This existing kernel-bridge-01 skeleton file is extended in place to complete the extension point kernel-bridge-01 reserved: an optional turn executor, the three turn command delegations, the approval registry and its shutdown settlement. entry.ts is untouched and the kernel-bridge-01 contract suite still passes 20/20, so the segment-A invariants are preserved. No code was copied, renamed or rewritten line by line. Similarity against the replaced core files and zai-org/ZCode@872ad960: max line containment 0.183, longest identical run 2, structural similarity 0.071.",
+      "basis": "Knorvia-authored kernel-bridge-02 implementation for the DSH-backed built-in kernel (M2 accessor package: input and turns), plus the composition row position for a credential provider plugin and the C2 execution-port registration. The executor is materialized by the bridge engine and registered to the legacy execution registry at start and released at dispose; entry.ts is untouched. The author read the replaced core runtime, legacy bridge and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.183, longest identical run 2, structural similarity 0.071; declaration mode passes for all candidates.",
       "evidence": [
         "specs/contracts/kernel-bridge-02/README.md",
+        "specs/contracts/kernel-bridge-02/design.md",
         "specs/contracts/kernel-bridge-02/known-differences.md",
         "docs/knorvia-kernel-bridge-02-acceptance.md"
       ]
@@ -148009,6 +148016,56 @@
         "specs/contracts/kernel-bridge-legacy/README.md",
         "specs/contracts/kernel-bridge-legacy/behavior.md",
         "licensing/current-files.json"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-bridge/legacy-port/register.ts",
+      "normalizedSha256": "235bffb067150c3c221a41195d5ab8e9e921399098d6870f485e7c67656b6712",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-bridge-02 implementation for the DSH-backed built-in kernel (M2 accessor package: input and turns), plus the composition row position for a credential provider plugin and the C2 execution-port registration. The executor is materialized by the bridge engine and registered to the legacy execution registry at start and released at dispose; entry.ts is untouched. The author read the replaced core runtime, legacy bridge and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.183, longest identical run 2, structural similarity 0.071; declaration mode passes for all candidates.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-02/README.md",
+        "specs/contracts/kernel-bridge-02/design.md",
+        "specs/contracts/kernel-bridge-02/known-differences.md",
+        "docs/knorvia-kernel-bridge-02-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel/credential-provider.ts",
+      "normalizedSha256": "5a0d993ba7db1db8ebe0338cfd0043f4cbfc4562a394f6049e255a583800deb1",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-bridge-02 implementation for the DSH-backed built-in kernel (M2 accessor package: input and turns), plus the composition row position for a credential provider plugin and the C2 execution-port registration. The executor is materialized by the bridge engine and registered to the legacy execution registry at start and released at dispose; entry.ts is untouched. The author read the replaced core runtime, legacy bridge and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.183, longest identical run 2, structural similarity 0.071; declaration mode passes for all candidates.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-02/README.md",
+        "specs/contracts/kernel-bridge-02/design.md",
+        "specs/contracts/kernel-bridge-02/known-differences.md",
+        "docs/knorvia-kernel-bridge-02-acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-02/tests/turn-c2-registration.test.mjs",
+      "normalizedSha256": "c5a0bfddce139f491bba1e8ae34c2fe66c94d2ba80d3c1047f5d1a8c23d0d177",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-bridge-02 tests and acceptance record for the DSH-backed built-in kernel accessor package (input and turns): C2 execution-port registration, turn delivery verdicts, fail-closed approvals, turn frame derivation, and the credential provider composition row position. The author read the replaced core runtime, legacy bridge and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.183, longest identical run 2, structural similarity 0.071; declaration mode passes for all candidates.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-02/README.md",
+        "specs/contracts/kernel-bridge-02/acceptance.md",
+        "docs/knorvia-kernel-bridge-02-acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-dsh-builtins/tests/credential-provider-row.test.mjs",
+      "normalizedSha256": "b94879d54c4d6d589f94e80b16710d4c5911f5274d378634e05ab83724e6338c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-bridge-02 tests and acceptance record for the DSH-backed built-in kernel accessor package (input and turns): C2 execution-port registration, turn delivery verdicts, fail-closed approvals, turn frame derivation, and the credential provider composition row position. The author read the replaced core runtime, legacy bridge and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.183, longest identical run 2, structural similarity 0.071; declaration mode passes for all candidates.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-02/README.md",
+        "specs/contracts/kernel-bridge-02/acceptance.md",
+        "docs/knorvia-kernel-bridge-02-acceptance.md"
       ]
     }
   ]

@@ -1,12 +1,15 @@
 // SPDX-License-Identifier: Apache-2.0
 // Copyright (c) 2026 Knorvia Studio contributors
-// kernel-bridge-02：回合类命令的分派（合同 behavior.md B1–B7）。
+// kernel-bridge-02：回合类命令的分派（合同 behavior.md B1–B7，含 B3 首输入）。
 //
 // 从 `bridge-engine.ts` 抽出来单独成模块，有两个理由：
 //   1. 引擎只该负责「按类型路由」，回合命令的入参映射与失败翻译属于本包；
 //   2. 引擎是 `kernel-bridge-01` 的骨架文件，本包改它越少越好（合并冲突面更小）。
 //
 // 本模块**不持状态**：执行器由调用方注入，会话存在性由 `CommandInbox` 先裁决。
+//
+// B3 与 B1–B7 同处一模块：它们共用「调执行器 → 翻成冻结 ACK 形状 → 按语义翻译失败」
+// 这条唯一路径；拆成两个文件会让 try/catch 与 outcome 构造各写一遍。
 
 import type { CommandAck, CommandEnvelope, CommandPayloadMap } from "@knorvia/shared/protocol-v4";
 import type { CommandExecutionOutcome } from "./command-inbox.js";
@@ -22,6 +25,9 @@ const SESSION_NOT_FOUND_REASON = "proto.sessionNotFound";
 /** 未支持能力的 reasonCode。 */
 const UNSUPPORTED_REASON = "unsupported";
 
+/** 交付档位的冻结取值（`conversationInputDeliverySchema.admitted`）。 */
+type AdmittedDelivery = "startNow" | "queue" | "guide";
+
 /**
  * 本包接管的回合类命令字面量。
  *
@@ -35,8 +41,8 @@ const TURN_COMMAND_TYPES: ReadonlySet<string> = new Set(["sendText", "stop", "co
 /**
  * 把一条回合类命令翻译成执行层终态。
  *
- * 失败只有三个来源，各有固定语义：
- *   - 执行器未注入 → `unsupported`（只跑骨架的场景）；
+ * 失败只有四个来源，各有固定语义：
+ *   - 执行器缺席 → `unsupported`（只跑骨架的场景）；
  *   - 会话为空 → `proto.sessionNotFound`（协议违例，`createSession` 之外必须有会话）；
  *   - 执行器报会话无活动 agent → 同 `proto.sessionNotFound`；
  *   - 能力缺席（例如压缩服务没挂）→ `unsupported`。
@@ -68,6 +74,57 @@ export async function dispatchTurnCommand(
     }
     if (error instanceof TurnCapabilityUnavailableError) {
       return failedOutcome(UNSUPPORTED_REASON, error.message);
+    }
+    throw error;
+  }
+}
+
+/**
+ * 投递 `createSession` 的首输入（B3）。
+ *
+ * B3 的可判定要求：**建会话与首输入在同一个 ACK 之前完成**——Host 依赖
+ * 「创建成功即认为首输入已被接受」，所以两者不能拆成两次往返。
+ *
+ * 冻结形状：`{ type: "createSession", sessionId, input?: { delivery, inputId } }`——
+ * **没有 `turnId` 字段**（见 design.md §10.2）。
+ *
+ * @param envelope - 已通过准入的 `createSession` 信封。
+ * @param executor - 回合执行器（与 v4/legacy 共用的同一个实例）。
+ * @param forgetSession - 失败回滚用：把半建的会话摘出桥的登记表。
+ * @returns 执行层终态；无首输入时返回 undefined（交回调用方走「只建会话」路径）。
+ */
+export async function deliverFirstInput(
+  envelope: CommandEnvelope,
+  executor: KernelTurnExecutor | undefined,
+  forgetSession: (sessionId: string) => void,
+): Promise<CommandExecutionOutcome | undefined> {
+  const payload = envelope.payload as CommandPayloadMap["createSession"];
+  // 没有首输入就没什么可投递的：交回调用方走原来的「只建会话」路径。
+  if (payload.firstInput === undefined) return undefined;
+  // 有首输入却没有执行器：不能建出「吞掉用户输入」的会话（段 A 的旧保护）。
+  if (executor === undefined) return failedOutcome(UNSUPPORTED_REASON, undefined);
+
+  const sessionId = envelope.sessionId ?? "";
+  try {
+    const turn = await executor.createSession({
+      sessionId,
+      workspacePath: payload.workspaceId,
+      // `firstInput.mode` 是**提交模式**（build/edit/plan/yolo 一类），不是交付意愿；
+      // 首输入没有 requestedDelivery 字段，按空闲会话的首个回合处理。
+      firstInput: { text: payload.firstInput.text },
+    });
+    const result: NonNullable<CommandAck["result"]> = {
+      type: "createSession",
+      sessionId,
+      input: { delivery: turn.admitted ?? "startNow", inputId: envelope.commandId },
+    };
+    return { status: "accepted", result };
+  } catch (error) {
+    // 首输入被拒时不能留下「半建的会话」：DSH 侧会话已由引擎建好，
+    // 这里把它摘出登记表，再如实回失败（不伪造成功）。
+    forgetSession(sessionId);
+    if (error instanceof TurnSessionUnavailableError) {
+      return failedOutcome(SESSION_NOT_FOUND_REASON, `Session is not active: ${sessionId}`);
     }
     throw error;
   }
@@ -114,7 +171,7 @@ async function runTurn(
     return turnResult({ shape: "disposition", delivery: stopped.stopped ? "startNow" : "queue" });
   }
   // compact：输入型维护，无专属 ACK 形状。
-  await executor.compact({ sessionId, sourceCommandId: envelope.commandId });
+  await executor.compact({ sessionId, sourceCommandId: idempotencyKey });
   return turnResult({ shape: "disposition", delivery: "startNow" });
 }
 
@@ -130,7 +187,7 @@ async function runTurn(
  */
 function turnResult(request: {
   readonly shape: "accepted" | "disposition";
-  readonly delivery: "startNow" | "queue" | "guide";
+  readonly delivery: AdmittedDelivery;
   readonly commandId?: string;
 }): NonNullable<CommandAck["result"]> {
   if (request.shape === "disposition") {
