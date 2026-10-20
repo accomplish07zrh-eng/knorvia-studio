@@ -126,7 +126,7 @@ node --import tsx --test --test-concurrency=2 "specs/contracts/kernel-bridge-02/
 
 **门禁纪律**：只改 import 别名与脚手架变量名，**未改任何断言内容或测试语义**；门槛一次未调。
 
-## 七、两条值得全队复用的经验
+## 七、值得全队复用的经验
 
 ### 7.1 改既有文件前，先测干净 main 的基线
 
@@ -139,6 +139,51 @@ node --import tsx --test --test-concurrency=2 "specs/contracts/kernel-bridge-02/
 `appendSiblingOldFiles` 会把 `old-rev` 上**同一路径**的文件加入比较集。同一合同下多个测试文件常常共享 import 块与脚手架（`mkdtemp`/`join`/`assert`/`test` 六行一模一样），于是互相命中。
 **做法**：让各测试文件的 import 别名与脚手架变量名**有区分度**（例如 `tmpdir as systemTempRoot`）。
 **边界**：只改别名与变量名，不改断言。
+
+### 7.3 处理生成文件冲突：`--theirs` 会丢掉自己的登记，应「以 main 为基线 + 补自己的条目」
+
+`licensing/reviews.json` 在 merge 时冲突，`git checkout --theirs` **只保留 main 的版本**——
+我 19 条自建登记里只剩 3 条，`provenance:check` 立刻报出问题。
+
+**正确做法**（可直接复用）：
+
+```js
+// 以 main 为基线，把自己独有的条目追加进去，再按 path 排序
+const main = JSON.parse(execFileSync("git", ["show", "origin/main:licensing/reviews.json"]));
+const mine = JSON.parse(readFileSync("licensing/reviews.json", "utf8"));
+const mainPaths = new Set(main.files.map((f) => f.path));
+const mineOnly = mine.files.filter((f) => !mainPaths.has(f.path));
+const merged = [...main.files, ...mineOnly].sort((a, b) => a.path.localeCompare(b.path));
+writeFileSync("licensing/reviews.json", JSON.stringify({ ...main, files: merged }, null, 2) + "\n");
+// current-files.json 一律由 `pnpm provenance:report` 重生成，不手改
+```
+
+**为什么以 main 为基线**：main 侧的条目摘要与 main 侧文件一致；以它为基线能一次性消除
+「main 的文件在我这边被判 stale」这一类假问题（本次有 8 条）。剩下的只有**我自己改过的文件**，
+逐个重新登记即可。
+
+**顺序仍是**：`fmt` → `fmt:check` → 登记 → `fmt` → `fmt:check` → `provenance:report` → `provenance:check`。
+
+### 7.4 worktree 的两条操作纪律（我踩过的坑）
+
+| 坑                                             | 正确做法                                                                                                                                                                                                                  |
+| ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **`git reset --hard` 冲掉未提交工作**          | 处理生成文件冲突时不要 reset。用 `stash`（**确认成功**）→ 解冲突 → 提交 merge → `stash pop`。若确实 reset 了，**立刻自查关键改动是否还在**（本次靠 `grep resolveInteraction \| Measure-Object` → `Count 0` 当场发现丢失） |
+| **`Test-Path .git/MERGE_HEAD` 判断合并态无效** | worktree 的 `.git` 是**文件**不是目录，git-dir 在 `repo/.git/worktrees/<name>`。用 `git rev-parse --git-path MERGE_HEAD`                                                                                                  |
+
+**丢失后的处置**：按自己记录的设计**重写**同一批改动，而不是从 stash/历史里捞半成品。
+重写后必须验证**与丢失前结果一致**（本次 50/50 + 20/20 + 56/56 完全一致，证明是等价实现）。
+
+### 7.5 「能力模块完成」≠「协议面可达」
+
+`turn-approval.ts` 的审批能力实现完整、9 条 fail-closed 测试真通过——但
+`bridge-engine.ts` 没有 `case "resolveInteraction"`，从 v4 协议面看这条命令**仍回 `unsupported`**。
+
+**判定标准**：合同条目写「命令 X 有实现」，验收必须断言**从协议入口可达**，而不是「内部有对应能力」。
+**可判定的断言组合**（缺一不可）：
+
+1. `reasonCode !== "unsupported"`（证明不是走 default 分支）；
+2. 底层真的被调用（证明不是「接了但没到底」）。
 
 ## 八、knip（条目级自查）
 

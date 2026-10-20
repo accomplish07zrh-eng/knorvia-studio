@@ -65183,14 +65183,14 @@
     },
     {
       "path": "docs/knorvia-kernel-bridge-02-acceptance.md",
-      "normalizedSha256": "357323a00ee15efab7a72d92d0e52978b7dbcc9c90b6e9c3078749083b222013",
+      "normalizedSha256": "9d167477d3f3c6b2fd0ba278527d276073059155a6039df5ce24f5d65fd2769a",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored kernel-bridge-02 tests and acceptance record for the DSH-backed built-in kernel accessor package (input and turns): C2 execution-port registration, turn delivery verdicts, fail-closed approvals, turn frame derivation, and the credential provider composition row position. The author read the replaced core runtime, legacy bridge and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.183, longest identical run 2, structural similarity 0.071; declaration mode passes for all candidates.",
+      "basis": "Knorvia-authored acceptance record for the kernel-bridge-02 accessor package, including the reusable engineering lessons from this package: measuring a clean baseline before changing an existing file, sibling test files entering the declaration similarity comparison, merging generated provenance files from the main baseline, worktree operation discipline, and the distinction between a capability module being complete and the protocol surface being reachable. No external material was copied.",
       "evidence": [
         "specs/contracts/kernel-bridge-02/README.md",
         "specs/contracts/kernel-bridge-02/acceptance.md",
-        "docs/knorvia-kernel-bridge-02-acceptance.md"
+        "specs/contracts/kernel-bridge-02/known-differences.md"
       ]
     },
     {
