@@ -147582,13 +147582,12 @@
     },
     {
       "path": "specs/contracts/kernel-bridge-02/design.md",
-      "normalizedSha256": "71e33d687274b082e9167c45f3a0ac88e6c6e1d8fd020d9731035c90c667647e",
+      "normalizedSha256": "69ded4a3ee7cb27f8d4b95041bc9dd185fb8c40c835eb15dc6711e09e0db43ca",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored kernel-bridge-02 contract artifact for the DSH-backed built-in kernel (M2 accessor package: input and turns). Behavior, interface and black-box tests are written from the plan, the frozen v4 command schemas in packages/shared/src/protocol-v4, the kernel-bridge-legacy registration surface and the public @deepseek-ai/dsh 0.2.0-rc.2 package surface. The author read the replaced core runtime and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.138, longest identical run 3, structural similarity 0.042; declaration mode 2/2 with containment 0.000.",
       "evidence": [
         "specs/contracts/kernel-bridge-02/README.md",
-        "specs/contracts/kernel-bridge-02/behavior.md",
         "specs/contracts/kernel-bridge-02/acceptance.md"
       ]
     }

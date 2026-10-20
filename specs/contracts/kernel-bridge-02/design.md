@@ -125,10 +125,95 @@ sequenceDiagram
 | B15 单一 admission         | `CommandInbox`（既有，不改）                              |
 | B16 bridge-01 回归         | 无新代码，靠既有用例                                      |
 
-## 八、待实现阶段确认
+## 八、C2 接缝：与 legacy 注册面的逐字对照表
 
-| #   | 事项                                                  | 说明                                                               |
-| --- | ----------------------------------------------------- | ------------------------------------------------------------------ |
-| 1   | 旧协议 `session/send` 参数到 `TurnSendRequest` 的映射 | 以 `@knorvia/shared` 的旧协议 schema 为准                          |
-| 2   | `firstInput` 失败时的回滚粒度                         | 二选一：整条拒绝（不留半建会话）或先建后投递；在实现 PR 说明并登记 |
-| 3   | 假 provider 驱动回合时是否需要 `modelSelection`       | 侦察后定；不影响帧断言本身                                         |
+> 来源：`specs/contracts/kernel-bridge-legacy/interface.md` §四（该文件已合并到 main，本表为**原文抄录**）。
+> 用途：C2 是 `kernel-switch` 的准入项，审查时两侧必须能一眼比对；实现阶段任何一处签名不符，都说明接缝没对上。
+
+### 8.1 三个签名（原文）
+
+```ts
+/** 旧协议方法的执行结果：result 或既有协议错误。 */
+export type LegacyMethodOutcome =
+  | { readonly kind: "result"; readonly result: unknown }
+  | {
+      readonly kind: "error";
+      /** 既有错误码族；不得新增。 */
+      readonly code: number;
+      readonly message: string;
+      readonly data?: unknown;
+    };
+
+/** 执行端口收到的请求（已通过参数 schema 校验）。 */
+export interface LegacyExecutionRequest {
+  readonly method: string;
+  readonly params: unknown;
+  /** 调用方 trace（客户端 request.trace 原样透传）。 */
+  readonly trace?: Readonly<Record<string, unknown>>;
+}
+
+/**
+ * 回合类方法的执行端口。由 kernel-bridge-02/03 在组合根注册。
+ * 未注册的方法由本包按 capability 缺席语义返回（behavior B10）。
+ */
+export interface LegacyExecutionPort {
+  /**
+   * 执行一个回合类方法。抛错表示内部失败（桥折叠为 -32603），
+   * 返回 {kind:"error"} 表示业务错误（桥原样透传）。
+   */
+  execute(request: LegacyExecutionRequest): Promise<LegacyMethodOutcome>;
+}
+
+/** 注册执行端口；返回解绑函数。重复注册抛错（唯一所有者）。 */
+export function registerLegacyExecutionPort(port: LegacyExecutionPort): () => void;
+```
+
+**本包的义务（对照检查）**：
+
+| 检查项                               | 本包必须做到                                                                                                  | 落点                   |
+| ------------------------------------ | ------------------------------------------------------------------------------------------------------------- | ---------------------- |
+| `LegacyExecutionPort.execute` 的入参 | 只接受 `LegacyExecutionRequest`（`method` / `params` / `trace?`），**不扩字段**                               | `legacy-port/index.ts` |
+| 返回值                               | 只能是 `LegacyMethodOutcome` 的两个分支；内部失败**抛错**（由桥折叠 `-32603`），业务错误返回 `{kind:"error"}` | `legacy-port/index.ts` |
+| 注册                                 | 调用 `registerLegacyExecutionPort(port)`，且**只调一次**（启动期）；重复注册会抛错                            | 组合根                 |
+| 解绑                                 | 保存返回的解绑函数，桥关闭时调用                                                                              | 组合根                 |
+| 方向                                 | **本包 → legacy**；legacy 不得 import 本包                                                                    | 全包                   |
+
+### 8.2 legacy 侧收口的 11 个回合类旧协议方法（原文抄录）
+
+`kernel-bridge-legacy` 的 `interface.md` §四 与 README §二 列明：回合类旧协议方法在旧协议侧由 legacy 路由器收口，但**执行落到本包注册的端口**。这 11 个是：
+
+| #   | 旧协议方法                     | 本包对应实现                              | 备注                                               |
+| --- | ------------------------------ | ----------------------------------------- | -------------------------------------------------- |
+| 1   | `session/send`                 | `KernelTurnExecutor.sendText`             | 与 v4 `sendText` 同一实现（B14）                   |
+| 2   | `session/stop`                 | `KernelTurnExecutor.stop`                 | 与 v4 `stop` 同一实现                              |
+| 3   | `session/cancelBackgroundTask` | `KernelTurnExecutor.stop`（后台作业分支） | 取消后台作业，不杀进程                             |
+| 4   | `session/compact`              | `KernelTurnExecutor.compact`              | 与 v4 `compact` 同一实现                           |
+| 5   | `session/fork`                 | 待定                                      | 若属 `kernel-bridge-03` 则本包返回 capability 缺席 |
+| 6   | `session/goal`                 | 待定                                      | 同上                                               |
+| 7   | `session/setModel`             | 待定                                      | 同上                                               |
+| 8   | `session/setThoughtLevel`      | 待定                                      | 同上                                               |
+| 9   | `session/setMode`              | 待定                                      | 同上                                               |
+| 10  | `session/resume`               | 待定                                      | 同上                                               |
+| 11  | `session/subscribe`            | 待定                                      | 同上                                               |
+
+**口径**：本包只实现「输入与回合」四个（`send`/`stop`/`cancelBackgroundTask`/`compact`）。其余七个若归 `kernel-bridge-03`，本包在端口里对它们返回 capability 缺席（`kernel-bridge-legacy` behavior B10 的合法形态），并在实现 PR 的 `known-differences.md` 里逐条列明归属——**不得**为了让 legacy 侧看起来「全通」而伪造成功。
+
+### 8.3 与 v4 协议面的名字对照（防止两侧用不同的词）
+
+| 概念     | v4 侧（本包实现）                         | 旧协议侧（legacy 收口）                    | 共同实现                      |
+| -------- | ----------------------------------------- | ------------------------------------------ | ----------------------------- |
+| 投递输入 | `sendText`（`requestedDelivery`）         | `session/send`                             | `KernelTurnExecutor.sendText` |
+| 停止回合 | `stop`（`expectedForegroundExecutionId`） | `session/stop`                             | `KernelTurnExecutor.stop`     |
+| 压缩     | `compact`                                 | `session/compact`                          | `KernelTurnExecutor.compact`  |
+| 审批应答 | `resolveInteraction`                      | `interaction/requestPermission` 的反向应答 | `turn-approval.ts`            |
+
+**禁止出现的自造名**（两侧都不得使用）：`cancelTurn`、`steer`。v4 侧已在 `command-surface.test.mjs` 里做反向断言；旧协议侧由 legacy 自己的方法清单约束。
+
+## 九、待实现阶段确认
+
+| #   | 事项                                                  | 说明                                                                         |
+| --- | ----------------------------------------------------- | ---------------------------------------------------------------------------- |
+| 1   | 旧协议 `session/send` 参数到 `TurnSendRequest` 的映射 | 以 `@knorvia/shared` 的旧协议 schema 为准                                    |
+| 2   | `firstInput` 失败时的回滚粒度                         | 二选一：整条拒绝（不留半建会话）或先建后投递；在实现 PR 说明并登记           |
+| 3   | 假 provider 驱动回合时是否需要 `modelSelection`       | 侦察后定；不影响帧断言本身                                                   |
+| 4   | 8.2 表里 7 个「待定」方法的归属（02 还是 03）         | 实现阶段按 `kernel-bridge-03` 的合同范围定；未定的先回 capability 缺席并登记 |
