@@ -14702,13 +14702,13 @@
     },
     {
       "path": "apps/cli/packages/core/src/tool/executor/permission-grants.ts",
-      "normalizedSha256": "83cff083b06d1137e8dc15f2f861de8c60a4fbf52ed6f3796c1527ff0aaae24b",
+      "normalizedSha256": "c0e7dafc6edec050591eba85ff53260d9e51be15757503bd9bba2e0f1b7c12ae",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "New ordered phase descriptors and lazy phase selection preserve per-stage reply reads. Entry references are captured once; the project phase uses one await and synchronous failure projection, followed by the existing session owner and logging boundary. Prior source was accessed; no no-access claim is made. Scope is limited to the new lazy suggestion projection, project access result and explicit ordered grant phases. Required signatures, fields/order, diagnostic text, ownership, JavaScript timing and conventional operations are compatibility constraints, not claimed inventions. Renaming, extraction and passing tests alone do not establish independent provenance. Storage implementation, public contracts, Hook recheck, capability/memory/path helpers and adjacent UI retain applicable licensing. This is not a whole-product MIT determination; concurrent stored grants still require an atomic owner operation in a later migration.",
+      "basis": "Knorvia independent replacement of the core tool executor permission grants. The author read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. The two grant destinations now live in one phase table instead of a branch, the identity triple shared by the log fields and the error context comes from one helper, and the input is a named exported GrantContext. Measured after rework against upstream zcode-872ad960 at rev 872ad960 with old-rev origin/main: containment 0.170 with longest run 3. Contract tests core-tool-01 81/81.",
       "evidence": [
-        "specs/knorvia-permission-grants.md",
-        "docs/knorvia-permission-grants-acceptance.md"
+        "specs/contracts/core-tool-01/README.md",
+        "specs/contracts/core-tool-01/interface.md"
       ]
     },
     {
