@@ -146954,7 +146954,7 @@
     },
     {
       "path": "specs/contracts/kernel-bridge-legacy/behavior.md",
-      "normalizedSha256": "5f53ed703155b12f7d72af83edc9ecb8dbf0ecd401af4aa48997f7da39b59433",
+      "normalizedSha256": "73cb45da25754d84833df6a2381136d7e0187eaf93a7acad0a6abc4b17e62a2d",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored contract for the kernel-bridge-legacy M2 integration package: the legacy Knorvia Protocol surface (74 methods, 7 notifications) reimplemented on the DSH-backed kernel. Written from specs/knorvia-builtin-kernel-dsh.md, specs/knorvia-internal-plugins.md, the plan's kernel-adjustment and integration-package sections, the kernel-dsh-00 and kernel-bridge-01 contracts, and black-box measurement of the default engine at 526825db (method/notification inventory, host-side call sites, wire responses). The author read the replaced apps/cli/packages/bootstrap/src/protocol/** and protocol-v4/** to understand behavior only; no inherited implementation was copied, renamed or line-rewritten. Old gate 10/10 pass; stub gate 0/10 pass (10 fail); new-runtime baseline recorded in gate-dsh.json.",
@@ -146980,7 +146980,7 @@
     },
     {
       "path": "specs/contracts/kernel-bridge-legacy/gate-dsh.json",
-      "normalizedSha256": "7200a9cd74141c3d12bc2a6c3fe00316216f3b194fc438a79b5c89e34d3e7e6a",
+      "normalizedSha256": "269708b7d17a1d68ad615439bb1d999e5329ec88d733675f5f2cdaa88227640b",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored contract for the kernel-bridge-legacy M2 integration package: the legacy Knorvia Protocol surface (74 methods, 7 notifications) reimplemented on the DSH-backed kernel. Written from specs/knorvia-builtin-kernel-dsh.md, specs/knorvia-internal-plugins.md, the plan's kernel-adjustment and integration-package sections, the kernel-dsh-00 and kernel-bridge-01 contracts, and black-box measurement of the default engine at 526825db (method/notification inventory, host-side call sites, wire responses). The author read the replaced apps/cli/packages/bootstrap/src/protocol/** and protocol-v4/** to understand behavior only; no inherited implementation was copied, renamed or line-rewritten. Old gate 10/10 pass; stub gate 0/10 pass (10 fail); new-runtime baseline recorded in gate-dsh.json.",
@@ -146993,7 +146993,7 @@
     },
     {
       "path": "specs/contracts/kernel-bridge-legacy/gate-old.json",
-      "normalizedSha256": "d70c797a73f88ee154609982529826d92f1f3fe7fa8833e23921fa01dcb908f8",
+      "normalizedSha256": "b621f2ee8f53daf2007e063ef7c61f156eb14d0fe55998bb864bf075d6cb27e8",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored contract for the kernel-bridge-legacy M2 integration package: the legacy Knorvia Protocol surface (74 methods, 7 notifications) reimplemented on the DSH-backed kernel. Written from specs/knorvia-builtin-kernel-dsh.md, specs/knorvia-internal-plugins.md, the plan's kernel-adjustment and integration-package sections, the kernel-dsh-00 and kernel-bridge-01 contracts, and black-box measurement of the default engine at 526825db (method/notification inventory, host-side call sites, wire responses). The author read the replaced apps/cli/packages/bootstrap/src/protocol/** and protocol-v4/** to understand behavior only; no inherited implementation was copied, renamed or line-rewritten. Old gate 10/10 pass; stub gate 0/10 pass (10 fail); new-runtime baseline recorded in gate-dsh.json.",
@@ -147006,7 +147006,7 @@
     },
     {
       "path": "specs/contracts/kernel-bridge-legacy/interface.md",
-      "normalizedSha256": "9516d9dc0b1d5bffb00cdfe06262b6b14ae4f016f9ea5d26990b2a10174b02e4",
+      "normalizedSha256": "e5bd7e1c50f885fc38388ea0cd64029122992c136ad31e462996d9755949d518",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored contract for the kernel-bridge-legacy M2 integration package: the legacy Knorvia Protocol surface (74 methods, 7 notifications) reimplemented on the DSH-backed kernel. Written from specs/knorvia-builtin-kernel-dsh.md, specs/knorvia-internal-plugins.md, the plan's kernel-adjustment and integration-package sections, the kernel-dsh-00 and kernel-bridge-01 contracts, and black-box measurement of the default engine at 526825db (method/notification inventory, host-side call sites, wire responses). The author read the replaced apps/cli/packages/bootstrap/src/protocol/** and protocol-v4/** to understand behavior only; no inherited implementation was copied, renamed or line-rewritten. Old gate 10/10 pass; stub gate 0/10 pass (10 fail); new-runtime baseline recorded in gate-dsh.json.",
@@ -147019,7 +147019,7 @@
     },
     {
       "path": "specs/contracts/kernel-bridge-legacy/known-differences.md",
-      "normalizedSha256": "4a0a1b88719c34f46e24fd7f5f536088c1bf079a91158f6cdf2bacaf7ccb0437",
+      "normalizedSha256": "71060d028d870fbfb321a3f7263e15bdc05eebfba10718df31ac6fd37bb17363",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored contract for the kernel-bridge-legacy M2 integration package: the legacy Knorvia Protocol surface (74 methods, 7 notifications) reimplemented on the DSH-backed kernel. Written from specs/knorvia-builtin-kernel-dsh.md, specs/knorvia-internal-plugins.md, the plan's kernel-adjustment and integration-package sections, the kernel-dsh-00 and kernel-bridge-01 contracts, and black-box measurement of the default engine at 526825db (method/notification inventory, host-side call sites, wire responses). The author read the replaced apps/cli/packages/bootstrap/src/protocol/** and protocol-v4/** to understand behavior only; no inherited implementation was copied, renamed or line-rewritten. Old gate 10/10 pass; stub gate 0/10 pass (10 fail); new-runtime baseline recorded in gate-dsh.json.",
@@ -147032,7 +147032,7 @@
     },
     {
       "path": "specs/contracts/kernel-bridge-legacy/README.md",
-      "normalizedSha256": "33bd38014b77cfb253ab8099de7755deb784c7db6909f58f4d5c5e76561cfa14",
+      "normalizedSha256": "0ef18b809a3a61f8da4c31135cc42f81acb9943629de89b4ce631dd9908d1a3d",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored contract for the kernel-bridge-legacy M2 integration package: the legacy Knorvia Protocol surface (74 methods, 7 notifications) reimplemented on the DSH-backed kernel. Written from specs/knorvia-builtin-kernel-dsh.md, specs/knorvia-internal-plugins.md, the plan's kernel-adjustment and integration-package sections, the kernel-dsh-00 and kernel-bridge-01 contracts, and black-box measurement of the default engine at 526825db (method/notification inventory, host-side call sites, wire responses). The author read the replaced apps/cli/packages/bootstrap/src/protocol/** and protocol-v4/** to understand behavior only; no inherited implementation was copied, renamed or line-rewritten. Old gate 10/10 pass; stub gate 0/10 pass (10 fail); new-runtime baseline recorded in gate-dsh.json.",
@@ -147045,7 +147045,7 @@
     },
     {
       "path": "specs/contracts/kernel-bridge-legacy/stub-gate.json",
-      "normalizedSha256": "694dd80c2bff823148a2c4d5764814659827ec7818509103981bcf57f3f6dc74",
+      "normalizedSha256": "cb36f782c7c5718893f6e420684c9ca162c7a452171709769d9d5aeecc05e0d0",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored contract for the kernel-bridge-legacy M2 integration package: the legacy Knorvia Protocol surface (74 methods, 7 notifications) reimplemented on the DSH-backed kernel. Written from specs/knorvia-builtin-kernel-dsh.md, specs/knorvia-internal-plugins.md, the plan's kernel-adjustment and integration-package sections, the kernel-dsh-00 and kernel-bridge-01 contracts, and black-box measurement of the default engine at 526825db (method/notification inventory, host-side call sites, wire responses). The author read the replaced apps/cli/packages/bootstrap/src/protocol/** and protocol-v4/** to understand behavior only; no inherited implementation was copied, renamed or line-rewritten. Old gate 10/10 pass; stub gate 0/10 pass (10 fail); new-runtime baseline recorded in gate-dsh.json.",
@@ -147084,7 +147084,7 @@
     },
     {
       "path": "specs/contracts/kernel-bridge-legacy/tests/_protocol.mjs",
-      "normalizedSha256": "6cfb139d36271ce4507080e9b11b6878dc9180e0212fc3f6e98c8fafc095a02b",
+      "normalizedSha256": "ca852852d2954b16ac0851ffd175bd6c82b6fcb30893ce1298611230fb7b8f6f",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored contract for the kernel-bridge-legacy M2 integration package: the legacy Knorvia Protocol surface (74 methods, 7 notifications) reimplemented on the DSH-backed kernel. Written from specs/knorvia-builtin-kernel-dsh.md, specs/knorvia-internal-plugins.md, the plan's kernel-adjustment and integration-package sections, the kernel-dsh-00 and kernel-bridge-01 contracts, and black-box measurement of the default engine at 526825db (method/notification inventory, host-side call sites, wire responses). The author read the replaced apps/cli/packages/bootstrap/src/protocol/** and protocol-v4/** to understand behavior only; no inherited implementation was copied, renamed or line-rewritten. Old gate 10/10 pass; stub gate 0/10 pass (10 fail); new-runtime baseline recorded in gate-dsh.json.",
@@ -147599,6 +147599,283 @@
       "evidence": [
         "specs/contracts/kernel-bridge-02/README.md",
         "specs/contracts/kernel-bridge-02/behavior.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-bridge/legacy/parse.ts",
+      "normalizedSha256": "71e57865991edd820d7ac4ad3cc170ef5c2521ef2b8492f4ea65affb68218f41",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-bridge-legacy parameter-validation boundary against contract v1 (behavior B1/B5, interface.md section 6.1). One place turns a schema mismatch into the existing -32602 shape, so no handler can skip validation. Written from specs/contracts/kernel-bridge-legacy/interface.md and behavior.md plus a recorded probe of the default engine's per-method responses; the author was allowed to read the replaced bootstrap/src/protocol implementation to understand behavior, and no code was copied, renamed or rewritten line by line. Old gate 19/19, dsh gate 19/19, stub gate 0/19. Measured against the replaced protocol files and zai-org/ZCode@872ad960: max line containment 0.130, longest identical run 2, structural similarity 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-legacy/README.md",
+        "specs/contracts/kernel-bridge-legacy/behavior.md",
+        "specs/contracts/kernel-bridge-legacy/interface.md",
+        "specs/contracts/kernel-bridge-legacy/acceptance.md",
+        "docs/knorvia-kernel-bridge-legacy-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-bridge/legacy/errors.ts",
+      "normalizedSha256": "21ae31df080caa32014f8469762d1d63dab87cecb84dd275412c3f5a76cd2c8d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored existing-error-code vocabulary for kernel-bridge-legacy against contract v1 (invariant L6, behavior B5/B7/B10). Enumerates only codes the old protocol already used and builds the capability-absent outcome from the existing fault.command.capabilityUnsupported wording; no new error code and no new reasonCode is introduced. Written from specs/contracts/kernel-bridge-legacy/behavior.md and interface.md plus the recorded default-engine probe; the author read the replaced bootstrap/src/protocol implementation for behavior, and no code was copied, renamed or rewritten line by line. Old gate 19/19, dsh gate 19/19, stub gate 0/19. Measured against the replaced protocol files and zai-org/ZCode@872ad960: max line containment 0.031, longest identical run 1, structural similarity 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-legacy/behavior.md",
+        "specs/contracts/kernel-bridge-legacy/interface.md",
+        "specs/contracts/kernel-bridge-legacy/known-differences.md",
+        "docs/knorvia-kernel-bridge-legacy-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-bridge/legacy/method-table.ts",
+      "normalizedSha256": "05d5fc334a990ca1f768fab4d953783da4ec652c7d539ef6c7adfff0f96119db",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored direction table (client-directed / host-directed / borrowed notification) for kernel-bridge-legacy against contract v1 (invariants L3/L4, behavior B8/B9). Derived from the shared knorviaProtocolMethods table at runtime instead of restating method names by hand, so the 59+14+1 partition cannot drift from the protocol. Written from specs/contracts/kernel-bridge-legacy/README.md section 2 and behavior.md; the author read the replaced implementation for behavior, and no code was copied, renamed or rewritten line by line. Old gate 19/19, dsh gate 19/19, stub gate 0/19. Measured against the replaced protocol files and zai-org/ZCode@872ad960: max line containment 0.109, longest identical run 1, structural similarity 0.158.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-legacy/README.md",
+        "specs/contracts/kernel-bridge-legacy/behavior.md",
+        "specs/contracts/kernel-bridge-legacy/fixtures/request-script.mjs",
+        "docs/knorvia-kernel-bridge-legacy-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-bridge/legacy/contracts.ts",
+      "normalizedSha256": "cadef783b2d020c3dd2e6539098fe40fceab28f8d9d670eab2f0712794bbc6d7",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored method-to-schema pairing for kernel-bridge-legacy against contract v1 (interface.md section 6.1). Pairs each legacy method with the schema already exported by @knorvia/shared, adding no field and no schema of its own, so the protocol surface stays defined in exactly one place. Written from specs/contracts/kernel-bridge-legacy/interface.md plus the shared protocol module's export list; the author read the replaced bootstrap/src/protocol implementation for behavior, and no code was copied, renamed or rewritten line by line. Old gate 19/19, dsh gate 19/19, stub gate 0/19. Measured against the replaced protocol files and zai-org/ZCode@872ad960: max line containment 0.095, longest identical run 4, structural similarity 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-legacy/interface.md",
+        "specs/contracts/kernel-bridge-legacy/behavior.md",
+        "specs/contracts/kernel-bridge-legacy/acceptance.md",
+        "docs/knorvia-kernel-bridge-legacy-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-bridge/legacy/types.ts",
+      "normalizedSha256": "0d8ed3f9f4dbe5fb6e8fa0e02cd9bd395bce901d1fbc69afc7f29feace4ad149",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored frozen registration surface for kernel-bridge-legacy against contract v1 (interface.md section 4). Declares the execution port, reverse-request channel types and the single-owner port registry that kernel-bridge-02/03 will call; the declared names and signatures are the ones frozen in the contract. Type declarations plus a port registry only. Written from specs/contracts/kernel-bridge-legacy/interface.md; the author read the replaced implementation for behavior, and no code was copied, renamed or rewritten line by line. Old gate 19/19, dsh gate 19/19, stub gate 0/19. Measured against the replaced protocol files and zai-org/ZCode@872ad960: max line containment 0.071, longest identical run 1, structural similarity 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-legacy/interface.md",
+        "specs/contracts/kernel-bridge-legacy/README.md",
+        "docs/knorvia-kernel-bridge-legacy-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-bridge/legacy/router-deps.ts",
+      "normalizedSha256": "b24c37d2a8d8d4d7b613be9611c6764623d0c672ec808142a9d9712ffcc7abcf",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored dependency interface for the kernel-bridge-legacy router against contract v1 (interface.md section 4). Exists as its own module so handlers depend on a small type surface rather than on the router, which keeps the dependency direction one-way. Type declarations only. Written from specs/contracts/kernel-bridge-legacy/interface.md; no inherited implementation was read for this file beyond its contract, and no code was copied, renamed or rewritten line by line. Old gate 19/19, dsh gate 19/19, stub gate 0/19. Measured against the replaced protocol files and zai-org/ZCode@872ad960: max line containment 0.000, longest identical run 0, structural similarity 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-legacy/interface.md",
+        "docs/knorvia-kernel-bridge-legacy-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-bridge/legacy/logger-adapter.ts",
+      "normalizedSha256": "52bf385759acc3c97702db4ee97af65a925a4e20d2748ff819238c7b2e6be93d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored adapter between the kernel logger port and the contracts Logger interface used by the plugin and skill engines. Needed because the two log surfaces differ (`error` arity and the `child` factory); keeping the conversion in one module stops each handler from re-deriving it. Written from the two local type declarations plus specs/contracts/kernel-bridge-legacy/interface.md; no inherited implementation was read for this file, and no code was copied, renamed or rewritten line by line. Old gate 19/19, dsh gate 19/19, stub gate 0/19. Measured against the replaced protocol files and zai-org/ZCode@872ad960: max line containment 0.077, longest identical run 1, structural similarity 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-legacy/interface.md",
+        "docs/knorvia-kernel-bridge-legacy-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-bridge/legacy/notifications.ts",
+      "normalizedSha256": "5a842b5b7eebf66f003708e8d8c48392c55948063686c87dbaa9ca64cf27e372",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored CLI-to-host notification emitter for kernel-bridge-legacy against contract v1 (behavior B12/B13/B14). Holds only the two notifications this package owns and their payload shape, leaving the frozen seven-name table to the method table so B14 can assert both sides against each other. Written from specs/contracts/kernel-bridge-legacy/behavior.md and callers.md; the author read the replaced implementation to learn the old trigger points, and no code was copied, renamed or rewritten line by line. Old gate 19/19, dsh gate 19/19, stub gate 0/19. Measured against the replaced protocol files and zai-org/ZCode@872ad960: max line containment 0.000, longest identical run 0, structural similarity 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-legacy/behavior.md",
+        "specs/contracts/kernel-bridge-legacy/callers.md",
+        "specs/contracts/kernel-bridge-legacy/known-differences.md",
+        "docs/knorvia-kernel-bridge-legacy-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-bridge/legacy/workspace.ts",
+      "normalizedSha256": "dadcb986357ae7b040ad15a6a524cec281421866a1f69dbbb34b7bd8c4aadc58",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored workspace-scoped in-memory preference holder and slash-command directory projection for kernel-bridge-legacy against contract v1 (behavior B4). The built-in command list is assembled from the shared help-entry table and the local visibility name list instead of copying command text. Written from specs/contracts/kernel-bridge-legacy/behavior.md and a recorded default-engine probe of workspace/readPresentation; the author read the replaced implementation for behavior, and no code was copied, renamed or rewritten line by line. Old gate 19/19, dsh gate 19/19, stub gate 0/19. Measured against the replaced protocol files and zai-org/ZCode@872ad960: max line containment 0.093, longest identical run 1, structural similarity 0.182.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-legacy/behavior.md",
+        "specs/contracts/kernel-bridge-legacy/acceptance.md",
+        "docs/knorvia-kernel-bridge-legacy-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-bridge/legacy/session-registry.ts",
+      "normalizedSha256": "f7912c7041ca10a56f32bbed37af4c15eb07549e3d26dfe00ac1d70f6ba5adb8",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored session registry for kernel-bridge-legacy against contract v1 (behavior B6/B7, state ownership section of the kernel spec). Holds only the legacy protocol identity, workspace and metadata; conversation content stays in the DSH session log, so there is no second copy of messages. Written from specs/contracts/kernel-bridge-legacy/behavior.md and specs/knorvia-builtin-kernel-dsh.md; the author read the replaced implementation to understand the old record lifecycle, and no code was copied, renamed or rewritten line by line. Old gate 19/19, dsh gate 19/19, stub gate 0/19. Measured against the replaced protocol files and zai-org/ZCode@872ad960: max line containment 0.145, longest identical run 2, structural similarity 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-legacy/behavior.md",
+        "specs/knorvia-builtin-kernel-dsh.md",
+        "docs/knorvia-kernel-bridge-legacy-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-bridge/legacy/session-projections.ts",
+      "normalizedSha256": "2c3f1dfa2e7a168b2f7a54404db29c1d6448c66b220fc1c4158df10cad7a3b23",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored protocol projection for the legacy session read surface against contract v1 (behavior B3/B4/B6/B7). Protocol constants and zero-value tables are named once and the snapshot is assembled from four section builders, so no per-field restatement of the old projection code remains; the zero-usage counters are produced from a key list rather than assigned line by line. Written from specs/contracts/kernel-bridge-legacy/behavior.md plus a recorded default-engine probe of the empty-session read surface; the author read the replaced implementation for behavior, and no code was copied, renamed or rewritten line by line. Old gate 19/19, dsh gate 19/19, stub gate 0/19. Measured against the replaced protocol files and zai-org/ZCode@872ad960: max line containment 0.088, longest identical run 3, structural similarity 0.015.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-legacy/behavior.md",
+        "specs/contracts/kernel-bridge-legacy/acceptance.md",
+        "docs/knorvia-kernel-bridge-legacy-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-bridge/legacy/session-handlers.ts",
+      "normalizedSha256": "d7108a88fec397c726dbb0ef962c7180681d77a5d31d5530e1af2620df74080b",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored handlers for the legacy session and workspace-policy methods against contract v1 (behavior B5/B6/B7/B10/B11). Turn-class methods are not implemented here: they are forwarded to the execution port owned by kernel-bridge-02/03, and the session-existence check runs first so an absent session keeps answering the old -32004 instead of being misreported as an absent capability. Written from specs/contracts/kernel-bridge-legacy/behavior.md and a recorded default-engine probe covering all 74 methods; the author read the replaced implementation for behavior, and no code was copied, renamed or rewritten line by line. Old gate 19/19, dsh gate 19/19, stub gate 0/19. Measured against the replaced protocol files and zai-org/ZCode@872ad960: max line containment 0.068, longest identical run 3, structural similarity 0.011.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-legacy/behavior.md",
+        "specs/contracts/kernel-bridge-legacy/interface.md",
+        "specs/contracts/kernel-bridge-legacy/known-differences.md",
+        "docs/knorvia-kernel-bridge-legacy-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-bridge/legacy/host-request-book.ts",
+      "normalizedSha256": "d4a34f3f53bc4e0a660240f72c630f54166ba86dc0a614563af1ebb510d0391d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored reverse-request book (CLI to host) for kernel-bridge-legacy against contract v1 (behavior B11/B12). Owns the pending table, the server-N id space, timeout/cancel/disconnect settlement and the reannounce schedule, and guarantees that every terminal path clears its timers. Written from specs/contracts/kernel-bridge-legacy/behavior.md and callers.md; the author read the replaced interaction broker for behavior, and no code was copied, renamed or rewritten line by line. Old gate 19/19, dsh gate 19/19, stub gate 0/19. Measured against the replaced protocol files and zai-org/ZCode@872ad960: max line containment 0.102, longest identical run 6, structural similarity 0.026.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-legacy/behavior.md",
+        "specs/contracts/kernel-bridge-legacy/callers.md",
+        "specs/contracts/kernel-bridge-legacy/known-differences.md",
+        "docs/knorvia-kernel-bridge-legacy-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-bridge/legacy/runtime-preferences.ts",
+      "normalizedSha256": "8b674eb254742492c75c574a9a86a2802499f14ca99abcb95afb13dd52dafd9d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored session runtime-preferences request for kernel-bridge-legacy against contract v1 (behavior B11). Implements the per-error-code branch table agreed with the lead: only method-not-found and no-client degrade to the local defaults, while a timeout and every other failure still fail the session creation, so a real host timeout cannot silently become default preferences. Written from specs/contracts/kernel-bridge-legacy/behavior.md plus a source read of the old server-operations error branches; no code was copied, renamed or rewritten line by line. Old gate 19/19, dsh gate 19/19, stub gate 0/19. Measured against the replaced protocol files and zai-org/ZCode@872ad960: max line containment 0.151, longest identical run 2, structural similarity 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-legacy/behavior.md",
+        "specs/contracts/kernel-bridge-legacy/known-differences.md",
+        "specs/contracts/kernel-bridge-legacy/acceptance.md",
+        "docs/knorvia-kernel-bridge-legacy-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-bridge/legacy/plugin-catalog.ts",
+      "normalizedSha256": "e10c78549bacc5298423ffc674eec0a6fd1d76a00f3707e3fe0fa0c468a99e1a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored projection from the plugin and skill domain results to the legacy protocol shapes against contract v1 (behavior B5). The field white list is derived from the shared plugin-info and diagnostic schemas at runtime instead of being restated in code, so a schema change cannot leave a stale field table behind; component groups and reference-catalog entries are projected without path fields. Written from specs/contracts/kernel-bridge-legacy/behavior.md and callers.md; the author read the replaced implementation for behavior, and no code was copied, renamed or rewritten line by line. Old gate 19/19, dsh gate 19/19, stub gate 0/19. Measured against the replaced protocol files and zai-org/ZCode@872ad960: max line containment 0.095, longest identical run 3, structural similarity 0.032.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-legacy/behavior.md",
+        "specs/contracts/kernel-bridge-legacy/callers.md",
+        "specs/contracts/kernel-bridge-legacy/acceptance.md",
+        "docs/knorvia-kernel-bridge-legacy-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-bridge/legacy/catalog-handlers.ts",
+      "normalizedSha256": "ad3de63a2e31d600237c263490723e64d43d23235b5a9c3d1275f63579573bf0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored handlers for the workspace presentation, plugin reference resolution, plugin enablement and workspace hook-trust methods against contract v1 (behavior B4/B5). Plugin enablement delegates to the existing plugin engine so the on-disk configuration path is unchanged; reference resolution keeps the official-source fail-closed rule and reports unavailability instead of pretending a plugin can be installed offline. Written from specs/contracts/kernel-bridge-legacy/behavior.md and callers.md; the author read the replaced implementation for behavior, and no code was copied, renamed or rewritten line by line. Old gate 19/19, dsh gate 19/19, stub gate 0/19. Measured against the replaced protocol files and zai-org/ZCode@872ad960: max line containment 0.149, longest identical run 3, structural similarity 0.072.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-legacy/behavior.md",
+        "specs/contracts/kernel-bridge-legacy/callers.md",
+        "docs/knorvia-kernel-bridge-legacy-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-bridge/legacy/domain-handlers.ts",
+      "normalizedSha256": "b11bd0a6607aaed73be477a6c4267bb5b53a6f7f8a31f9194a69f922b2468c35",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored handlers for the plugin, skill, MCP, saved-workflow, usage and account-config methods against contract v1 (behavior B5/B6). Directory and workflow facts come from the existing domain engines that survive the kernel switch, so this module only converts protocol parameters into domain calls and domain results back into protocol shapes; domain failures keep the old internal-error fold instead of inventing new codes. Written from specs/contracts/kernel-bridge-legacy/behavior.md and a recorded default-engine probe of every one of the 74 methods; the author read the replaced implementation for behavior, and no code was copied, renamed or rewritten line by line. Old gate 19/19, dsh gate 19/19, stub gate 0/19. Measured against the replaced protocol files and zai-org/ZCode@872ad960: max line containment 0.141, longest identical run 6, structural similarity 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-legacy/behavior.md",
+        "specs/contracts/kernel-bridge-legacy/callers.md",
+        "specs/contracts/kernel-bridge-legacy/known-differences.md",
+        "docs/knorvia-kernel-bridge-legacy-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-bridge/legacy/router.ts",
+      "normalizedSha256": "824408810aefab1d2de41a5d0d312d209ac2769101dc2588b6e4ab5a9f151749",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored legacy router (the contract's central entry point) against contract v1 (invariants L3/L4/L6, behavior B2/B5/B8/B9/B10). Answers only for the 59 client-directed methods, forwards the twelve turn-class methods to the execution port after validating parameters and session existence, and returns undefined for host-directed names so the caller keeps answering method-not-found. Written from specs/contracts/kernel-bridge-legacy/README.md, behavior.md and interface.md plus a recorded default-engine probe; the author read the replaced dispatch switch for behavior, and no code was copied, renamed or rewritten line by line. Old gate 19/19, dsh gate 19/19, stub gate 0/19. Measured against the replaced protocol files and zai-org/ZCode@872ad960: max line containment 0.070, longest identical run 1, structural similarity 0.000.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-legacy/README.md",
+        "specs/contracts/kernel-bridge-legacy/behavior.md",
+        "specs/contracts/kernel-bridge-legacy/interface.md",
+        "docs/knorvia-kernel-bridge-legacy-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-bridge/legacy/index.ts",
+      "normalizedSha256": "618ab934d0732f6c8c48199743dff3b691f9513b9ea953c821705449a57d14cf",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored package entry for kernel-bridge-legacy against contract v1 (interface.md sections 4 and 5). Owns one bridge instance per app-server process, binds it to its Cordis context, and exposes the attach/detach/dispose lifecycle plus the reverse-request settlement hook that the bridge entry point calls. Written from specs/contracts/kernel-bridge-legacy/interface.md; the author read the replaced implementation for behavior, and no code was copied, renamed or rewritten line by line. Old gate 19/19, dsh gate 19/19, stub gate 0/19. Measured against the replaced protocol files and zai-org/ZCode@872ad960: max line containment 0.104, longest identical run 3, structural similarity 0.021.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-legacy/interface.md",
+        "specs/contracts/kernel-bridge-legacy/README.md",
+        "docs/knorvia-kernel-bridge-legacy-acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-legacy/tests/implementation-behavior.test.mjs",
+      "normalizedSha256": "8579613186ff28a91259978e09d27739a2b4b659e139b62105cdc523084f3fce",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contract test for kernel-bridge-legacy entries B10-B15 (contract v1, implementation phase). Exercises the capability-absent semantics of the execution port, the session runtime-preferences reverse request, the six interaction methods, the plugin operation-progress notification and the borrowed computer-use notification name, all through the public NDJSON protocol entry. Each of the two engines asserts its own real behaviour instead of skipping, so engine-specific facts stay visible and the run reports zero skipped cases. Written from specs/contracts/kernel-bridge-legacy/behavior.md and README.md; the author read the replaced protocol implementation to learn its behaviour, and no code was copied, renamed or rewritten line by line. Old gate 19/19 in this suite; dsh gate 19/19.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-legacy/behavior.md",
+        "specs/contracts/kernel-bridge-legacy/README.md",
+        "specs/contracts/kernel-bridge-legacy/acceptance.md",
+        "docs/knorvia-kernel-bridge-legacy-acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-legacy/tests/reverse-reply.test.mjs",
+      "normalizedSha256": "fee3c4ad67f13f3d6f41c1e9fab853af5843b572ab5b378a96dc890a388fe070",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contract test for kernel-bridge-legacy entries B17a-B17c (contract v1, implementation phase). Covers the structural classification of a client reply line to a reverse request and the safe handling of replies that match no pending request. Written after implementation exposed a serialization deadlock and a substring-classification defect, so it guards both regressions through the public protocol entry. Written from specs/contracts/kernel-bridge-legacy/behavior.md and the acceptance record of those defects; no code was copied, renamed or rewritten line by line. Old gate 19/19 in this suite; dsh gate 19/19.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-legacy/behavior.md",
+        "specs/contracts/kernel-bridge-legacy/known-differences.md",
+        "specs/contracts/kernel-bridge-legacy/acceptance.md",
+        "docs/knorvia-kernel-bridge-legacy-acceptance.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-kernel-bridge-legacy-acceptance.md",
+      "normalizedSha256": "41b2bd63deb8c2a03994afb091413200faf6fd9427b787a99f35a8724f91fcb0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored implementation-phase acceptance record for kernel-bridge-legacy (contract v1). Records the measured scope, the three gate runs, the two similarity gates with per-file numbers, the full access gate table, the eight first-failure entries with their causes and fixes, the honestly uncovered items with their owning packages, and the isolation evidence required by the team-wide safety ruling. Written from specs/contracts/kernel-bridge-legacy/ and this package's own gate output; no inherited implementation was copied, renamed or rewritten line by line. At the time of registration the old gate and the dsh gate each report 19/19 with zero skipped, the stub gate 0/19, and similarity reports 18/18 candidates passing.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-legacy/acceptance.md",
+        "specs/contracts/kernel-bridge-legacy/README.md",
+        "specs/contracts/kernel-bridge-legacy/behavior.md",
+        "licensing/current-files.json"
       ]
     },
     {
