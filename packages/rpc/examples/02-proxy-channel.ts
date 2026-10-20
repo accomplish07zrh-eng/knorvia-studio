@@ -1,126 +1,112 @@
+// SPDX-License-Identifier: Apache-2.0
+// Copyright (c) 2026 Knorvia Studio contributors
+
 /**
- * 示例 2: ProxyChannel —— 零样板代码的服务代理
+ * 示例 2：ProxyChannel。
  *
- * 对比示例 1 中手写的 CalculatorChannel，这里用 ProxyChannel
- * 一行代码就能把 service 暴露为 channel，再一行恢复为 service。
- *
- * 这就是 VS Code 里几百个 service 能轻松跨进程通信的秘密。
+ * 普通的内存文件服务经 fromService 原样暴露成 channel，客户端再用
+ * toService 拿回一个 Proxy：远程调用从调用方看和本地方法没有区别，
+ * 事件订阅也照旧返回 Event。
  */
 
+import { toDisposable } from "../src/index.js";
 import {
+  ChannelClient,
+  ChannelServer,
+  DisposableStore,
   Emitter,
   Event,
-  DisposableStore,
-  ChannelServer,
-  ChannelClient,
   ProxyChannel,
   createQueuePair,
+  type IChannel,
 } from "../src/index.js";
 
-// ============================================================================
-// 定义 service 接口和实现
-// ============================================================================
+type FileChange = { path: string; type: "created" | "changed" };
 
-/** 文件系统服务接口 */
-interface IFileService {
-  onDidChangeFile: Event<{ path: string; type: string }>;
+interface FileService {
+  onDidChangeFile: Event<FileChange>;
   readFile(path: string): Promise<string>;
   writeFile(path: string, content: string): Promise<void>;
-  listFiles(dir: string): Promise<string[]>;
+  listFiles(directory: string): Promise<string[]>;
 }
 
-/** 模拟的文件系统实现 */
-class InMemoryFileService implements IFileService {
-  private files = new Map<string, string>();
-  private readonly _onDidChangeFile = new Emitter<{ path: string; type: string }>();
-  readonly onDidChangeFile = this._onDidChangeFile.event;
+const SEED: ReadonlyArray<readonly [string, string]> = [
+  ["/src/index.ts", 'export * from "./main.js";\n'],
+  ["/src/util.ts", "export const add = (a: number, b: number) => a + b;\n"],
+];
 
-  async readFile(path: string): Promise<string> {
-    const content = this.files.get(path);
-    if (content === undefined) {
-      throw new Error(`File not found: ${path}`);
-    }
-    return content;
+class FileStore implements FileService {
+  private readonly entries = new Map<string, string>(SEED);
+  private readonly changes = new Emitter<FileChange>();
+  readonly onDidChangeFile = this.changes.event;
+
+  readFile(path: string): Promise<string> {
+    const content = this.entries.get(path);
+    return content === undefined
+      ? Promise.reject(new Error(`File not found: ${path}`))
+      : Promise.resolve(content);
   }
 
-  async writeFile(path: string, content: string): Promise<void> {
-    const isNew = !this.files.has(path);
-    this.files.set(path, content);
-    this._onDidChangeFile.fire({
-      path,
-      type: isNew ? "created" : "changed",
-    });
+  writeFile(path: string, content: string): Promise<void> {
+    const existed = this.entries.has(path);
+    this.entries.set(path, content);
+    this.changes.fire({ path, type: existed ? "changed" : "created" });
+    return Promise.resolve();
   }
 
-  async listFiles(dir: string): Promise<string[]> {
-    return [...this.files.keys()].filter((p) => p.startsWith(dir));
+  listFiles(directory: string): Promise<string[]> {
+    const prefix = directory.endsWith("/") ? directory : `${directory}/`;
+    const matches = [...this.entries.keys()].filter((path) => path.startsWith(prefix));
+    return Promise.resolve(matches);
+  }
+
+  dispose(): void {
+    this.changes.dispose();
   }
 }
 
-// ============================================================================
-// 演示 ProxyChannel
-// ============================================================================
+function describeChange(change: FileChange): string {
+  return `  [watch] ${change.type.padEnd(7)} ${change.path}`;
+}
 
-async function main() {
-  const [protocolA, protocolB] = createQueuePair();
-  const disposables = new DisposableStore();
+async function demo(): Promise<void> {
+  console.log("--- ProxyChannel Demo ---");
 
-  // ========== 服务端 ==========
-  const fileService = new InMemoryFileService();
+  const owned = new DisposableStore();
+  const store = new FileStore();
+  owned.add(toDisposable(() => store.dispose()));
 
-  // 一行代码：把 service 变成 channel！
-  // ProxyChannel.fromService 会自动：
-  // - 把 readFile, writeFile, listFiles 映射为 call
-  // - 把 onDidChangeFile 映射为 listen
-  const channel = ProxyChannel.fromService<string>(fileService, disposables);
+  const [callerEnd, calleeEnd] = createQueuePair();
+  const server = new ChannelServer(calleeEnd, "file-host");
+  server.registerChannel("files", ProxyChannel.fromService<string>(store, owned));
+  owned.add(toDisposable(() => server.dispose()));
 
-  const server = new ChannelServer(protocolB, "server");
-  server.registerChannel("fileService", channel);
-
-  // ========== 客户端 ==========
-  const client = new ChannelClient(protocolA);
+  const client = new ChannelClient(callerEnd);
+  owned.add(toDisposable(() => client.dispose()));
   await Event.toPromise(client.onDidInitialize);
 
-  // 一行代码：把 channel 恢复为类型安全的 service！
-  // 利用 ES6 Proxy，调用 remoteFS.readFile(...) 会自动变成 channel.call('readFile', [...])
-  const remoteFS = ProxyChannel.toService<IFileService>(client.getChannel("fileService"));
+  const files = ProxyChannel.toService<FileService>(client.getChannel<IChannel>("files"));
+  owned.add(files.onDidChangeFile((change) => console.log(describeChange(change))));
 
-  // ========== 使用远程服务（就像调本地方法一样！）==========
-  console.log("--- ProxyChannel Demo ---");
-  console.log("（注意：所有调用都经过了序列化 → 传输 → 反序列化）\n");
+  await files.writeFile("/src/main.ts", 'console.log("hello")');
+  await files.writeFile("/src/main.ts", 'console.log("hello world")');
 
-  // 监听文件变更事件
-  const eventDisposable = remoteFS.onDidChangeFile((e) => {
-    console.log(`  [file event] ${e.type}: ${e.path}`);
-  });
-
-  // 写入文件
-  await remoteFS.writeFile("/src/main.ts", 'console.log("hello")');
-  await remoteFS.writeFile("/src/util.ts", "export function add(a, b) { return a + b; }");
-  await remoteFS.writeFile("/src/main.ts", 'console.log("hello world")'); // 修改
-
-  // 读取文件
-  const content = await remoteFS.readFile("/src/main.ts");
+  const content = await files.readFile("/src/main.ts");
+  const listing = await files.listFiles("/src");
   console.log(`\nreadFile('/src/main.ts') = "${content}"`);
+  console.log(`listFiles('/src') = ${JSON.stringify(listing)}`);
 
-  // 列出文件
-  const files = await remoteFS.listFiles("/src");
-  console.log(`listFiles('/src') = ${JSON.stringify(files)}`);
-
-  // 测试错误传播
   try {
-    await remoteFS.readFile("/nonexistent");
-  } catch (err: any) {
-    console.log(`readFile('/nonexistent') → Error: ${err.message}`);
+    await files.readFile("/nonexistent");
+  } catch (error) {
+    console.log(`readFile('/nonexistent') → Error: ${(error as Error).message}`);
   }
 
-  // 清理
-  eventDisposable.dispose();
-  client.dispose();
-  server.dispose();
-  disposables.dispose();
-
+  owned.dispose();
   console.log("\nDone!");
 }
 
-main().catch(console.error);
+demo().catch((error: unknown) => {
+  console.error(error);
+  process.exitCode = 1;
+});
