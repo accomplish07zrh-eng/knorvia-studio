@@ -14,7 +14,7 @@ import {
   type ResolvedSpawnCommand,
 } from "./execution-command.js";
 import type { InternalExecutionRunOptions, PreparedExecution } from "./execution-adapter-types.js";
-import { ExecutionCoordinator } from "./node-execution-adapter-base.js";
+import type { ExecutionCoordinator } from "./node-execution-adapter-base.js";
 import {
   createExecutionOutputStreamDecoder,
   resolveLegacyExecutionOutputEncoding,
@@ -53,10 +53,11 @@ function mergeEnv(
   return overlay ? { ...base, ...overlay } : base;
 }
 
-export async function prepareChildSpawn(
-  coordinator: ExecutionCoordinator,
-  original: ExecutionRequest,
-): Promise<PreparedExecution> {
+export async function prepareChildSpawn(ask: {
+  coordinator: ExecutionCoordinator;
+  original: ExecutionRequest;
+}): Promise<PreparedExecution> {
+  const { coordinator, original } = ask;
   const env = buildExecutionEnv(original.env, {
     network: coordinator.options.network,
     platform: coordinator.platform,
@@ -136,13 +137,14 @@ export async function prepareChildSpawn(
   };
 }
 
-export function attachPipedOutput(
-  child: ChildProcess,
-  stdout: OutputCollector,
-  stderr: OutputCollector,
-  encoding: string | null,
-  options: InternalExecutionRunOptions,
-): /* 无返回值 */ void {
+export function attachPipedOutput(ask: {
+  child: ChildProcess;
+  stdout: OutputCollector;
+  stderr: OutputCollector;
+  encoding: string | null;
+  options: InternalExecutionRunOptions;
+}): void {
+  const { child, stdout, stderr, encoding, options } = ask;
   const stdoutDecoder = createExecutionOutputStreamDecoder(encoding);
   const stderrDecoder = createExecutionOutputStreamDecoder(encoding);
   child.stdout?.on("data", (value: Buffer | Uint8Array) => {
@@ -157,14 +159,15 @@ export function attachPipedOutput(
   });
 }
 
-export function startGenericProgress(
-  coordinator: ExecutionCoordinator,
-  options: InternalExecutionRunOptions,
-  startedAt: Date,
-  child: ChildProcess,
-  stdout: OutputCollector,
-  stderr: OutputCollector,
-): () => void {
+export function startGenericProgress(ask: {
+  coordinator: ExecutionCoordinator;
+  options: InternalExecutionRunOptions;
+  startedAt: Date;
+  child: ChildProcess;
+  stdout: OutputCollector;
+  stderr: OutputCollector;
+}): () => void {
+  const { coordinator, options, startedAt, child, stdout, stderr } = ask;
   let interval: NodeJS.Timeout | undefined;
   const delay = setTimeout(() => {
     interval = setInterval(() => {

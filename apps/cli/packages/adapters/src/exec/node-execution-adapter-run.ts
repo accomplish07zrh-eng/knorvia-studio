@@ -10,7 +10,7 @@ import type {
   OutputPersistenceMode,
   StopReason,
 } from "./execution-adapter-types.js";
-import { ExecutionCoordinator } from "./node-execution-adapter-base.js";
+import type { ExecutionCoordinator } from "./node-execution-adapter-base.js";
 import {
   attachPipedOutput,
   drainChildOutput,
@@ -158,7 +158,7 @@ export async function runExecution(
       if (!options.suppressTerminalEvent) emitResult(options, result);
       return result;
     }
-    const prepared = await prepareChildSpawn(coordinator, request);
+    const prepared = await prepareChildSpawn({ coordinator, original: request });
     preparedCwdFile = prepared.cwdFilePath;
     legacyEncoding = prepared.legacyOutputEncoding;
     options.onOutputEncodingResolved?.(legacyEncoding);
@@ -289,8 +289,15 @@ export async function runExecution(
         );
       }
     } else if (stdout && stderr) {
-      attachPipedOutput(child, stdout, stderr, legacyEncoding, options);
-      stopProgress = startGenericProgress(coordinator, options, startedAt, child, stdout, stderr);
+      attachPipedOutput({ child, stdout, stderr, encoding: legacyEncoding, options });
+      stopProgress = startGenericProgress({
+        coordinator,
+        options,
+        startedAt,
+        child,
+        stdout,
+        stderr,
+      });
     }
 
     if (prepared.isBash) {

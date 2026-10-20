@@ -19,8 +19,14 @@ import type {
   BashBackgroundLifecycleResult,
   NodeExecutionAdapterOptions,
 } from "./execution-adapter-types.js";
-import { ExecutionCoordinator } from "./node-execution-adapter-base.js";
-import { ExecutionLifecycle } from "./node-execution-adapter-lifecycle.js";
+import {
+  createExecutionCoordinator,
+  type ExecutionCoordinator,
+} from "./node-execution-adapter-base.js";
+import {
+  createExecutionLifecycle,
+  type ExecutionLifecycle,
+} from "./node-execution-adapter-lifecycle.js";
 import { runExecution } from "./node-execution-adapter-run.js";
 
 // 缩短签名里的类型拼写，让每个方法签名都能落在一行，同时不改任何对外类型。
@@ -34,8 +40,8 @@ type LifecycleAsk = { mode: BashBackgroundLifecycleMode };
 type Ports = { runner: ExecutionCoordinator; background: ExecutionLifecycle };
 
 function composePorts(options: NodeExecutionAdapterOptions): Ports {
-  const runner = new ExecutionCoordinator(options);
-  return { runner, background: new ExecutionLifecycle(runner) };
+  const runner = createExecutionCoordinator(options);
+  return { runner, background: createExecutionLifecycle(runner) };
 }
 
 export class NodeExecutionAdapter implements ExecutionPort {
