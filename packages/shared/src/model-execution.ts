@@ -1,23 +1,23 @@
+// SPDX-License-Identifier: Apache-2.0
 import { z } from "zod";
 
-/** 文本与附件发送共用执行约束，凭据只属于单次执行，不进入 Session 配置。 */
-export const modelExecutionSchema = z
-  .object({
-    memoryExtraction: z.literal("skip").optional(),
-    selectionScope: z.literal("execution"),
-    requestAuth: z
-      .object({
-        apiKey: z.string().min(1).optional(),
-        headers: z.record(z.string().min(1), z.string().min(1)).optional(),
-      })
-      .strict()
-      .optional(),
-    subagents: z
-      .object({
-        foregroundModel: z.literal("submission"),
-        background: z.literal("deny"),
-      })
-      .strict()
-      .optional(),
-  })
-  .strict();
+/* 文本与附件发送共用的单次执行约束：凭据只属于这一次执行，不进入 Session 配置。 */
+
+const nonEmptyText = z.string().min(1);
+
+const requestAuthSchema = z.strictObject({
+  apiKey: nonEmptyText.optional(),
+  headers: z.record(nonEmptyText, nonEmptyText).optional(),
+});
+
+const subagentPolicySchema = z.strictObject({
+  foregroundModel: z.literal("submission"),
+  background: z.literal("deny"),
+});
+
+export const modelExecutionSchema = z.strictObject({
+  memoryExtraction: z.literal("skip").optional(),
+  selectionScope: z.literal("execution"),
+  requestAuth: requestAuthSchema.optional(),
+  subagents: subagentPolicySchema.optional(),
+});

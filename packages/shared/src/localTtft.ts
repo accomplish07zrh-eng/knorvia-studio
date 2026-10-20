@@ -1,192 +1,241 @@
+// SPDX-License-Identifier: Apache-2.0
 import { z } from "zod";
+import {
+  ALIGNED_SOURCES,
+  DETAIL_OUTCOMES,
+  DETAIL_ROLES,
+  EXCLUSION_REASONS,
+  LOCAL_TTFT_BUCKETS_MS,
+  LOCAL_TTFT_CLOCK_MAX_ERROR_MS,
+  LOCAL_TTFT_CLOCK_TTL_MS,
+  LOCAL_TTFT_DETAIL_EXTRA_STAGES,
+  LOCAL_TTFT_MAX_DETAILS,
+  LOCAL_TTFT_MAX_PENDING,
+  LOCAL_TTFT_PREPARATION_STAGES,
+  LOCAL_TTFT_STAGES,
+  LOCAL_TTFT_TTL_MS,
+  NORMALIZED_ID_FIELDS,
+  OBSERVATION_SOURCES,
+  OUTPUT_KINDS,
+  RECORD_KINDS,
+  RECORD_OUTCOMES,
+  RECORD_QUALITIES,
+  SEND_MODES,
+  TERMINAL_OUTCOMES,
+  VISIBILITY_STATES,
+} from "./localTtft-data.js";
 
-export const LOCAL_TTFT_STAGES = [
-  "renderer_prepare",
-  "command_admission",
-  "execution_wait",
-  "request_prepare",
-  "model_request",
-  "output_return",
-] as const;
-export const LOCAL_TTFT_BUCKETS_MS = [
-  1, 5, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000, 30000, 60000, 300000,
-];
-export const LOCAL_TTFT_MAX_DETAILS = 64;
-export const LOCAL_TTFT_PREPARATION_STAGES = [
-  "context",
-  "hooks",
-  "persistence",
-  "compaction",
-  "mcp",
-  "tools",
-  "request_assembly",
-] as const;
-const diagnosticTime = z.number().finite().nonnegative();
-export const localTtftDetailSchema = z
-  .object({
-    id: z.string().min(1).max(128),
-    stage: z.enum([...LOCAL_TTFT_PREPARATION_STAGES, "attempt", "retry_wait", "user_confirmation"]),
-    start: diagnosticTime,
-    end: diagnosticTime.optional(),
-    outcome: z.enum(["completed", "failed", "cancelled", "first_output"]).optional(),
-    requestId: z.string().min(1).max(128).optional(),
-    logicalCallId: z.string().min(1).max(128).optional(),
-    role: z.enum(["response", "preparation"]).optional(),
-    source: z.enum(["renderer", "cli"]),
-  })
-  .strict()
-  .refine((value) => value.end === undefined || value.end >= value.start);
-export type LocalTtftDetail = z.infer<typeof localTtftDetailSchema>;
-export const LOCAL_TTFT_MAX_PENDING = 128;
-export const LOCAL_TTFT_TTL_MS = 300_000;
-export const LOCAL_TTFT_CLOCK_MAX_ERROR_MS = 10;
-export const LOCAL_TTFT_CLOCK_TTL_MS = 60_000;
-const time = z.number().finite().nonnegative();
-const identifier = z.string().min(1).max(128);
-export const localTtftContextSchema = z
-  .object({ version: z.literal(1), observationId: z.string().uuid() })
-  .strict();
-export type LocalTtftContext = z.infer<typeof localTtftContextSchema>;
+/*
+ * 本地 TTFT 观测的线格式：桌面 renderer 采样、主进程聚合、CLI 侧对齐共用一套 schema。
+ * 阶段序、上限与枚举取值集中在 ./localTtft-data.js，这里只写构造与校验。
+ * 同一批字段在 facts / record / batch 里反复出现，因此先做一层小构造器再拼形状，
+ * 既保证三处校验强度一致，也避免「改了一处忘了另一处」。
+ */
+
+export {
+  LOCAL_TTFT_BUCKETS_MS,
+  LOCAL_TTFT_CLOCK_MAX_ERROR_MS,
+  LOCAL_TTFT_CLOCK_TTL_MS,
+  LOCAL_TTFT_MAX_DETAILS,
+  LOCAL_TTFT_MAX_PENDING,
+  LOCAL_TTFT_PREPARATION_STAGES,
+  LOCAL_TTFT_STAGES,
+  LOCAL_TTFT_TTL_MS,
+};
+
+/** 把登记表的取值投影成 z.enum 需要的非空元组。 */
+const enumValues = <Value extends string>(table: Readonly<Record<string, Value>>) =>
+  Object.values(table) as [Value, ...Value[]];
+
+const strictShape = <S extends z.ZodRawShape>(shape: S) => z.object(shape).strict();
+
+/** 非负有限的时间点。 */
+const timestamp = () => z.number().finite().nonnegative();
+const optionalTimestamp = () => timestamp().optional();
+
+/** 1–128 字符的标识文案。 */
+const label = () => z.string().min(1).max(128);
+
+const optionalLabel = () => label().optional();
+const optionalFlag = () => z.boolean().optional();
+const optionalInteger = () => z.number().int().nonnegative().optional();
+const optionalEnum = <Values extends readonly [string, ...string[]]>(values: Values) =>
+  z.enum(values).optional();
+
+/** facts 与 record 共用的归一化标识字段：都可缺省，缺省即不参与聚合。 */
+type OptionalLabels<Fields extends readonly string[]> = {
+  [Field in Fields[number]]: z.ZodOptional<z.ZodString>;
+};
+
+const normalizedOptional = (): OptionalLabels<typeof NORMALIZED_ID_FIELDS> =>
+  Object.fromEntries(
+    NORMALIZED_ID_FIELDS.map((field) => [field, optionalLabel()]),
+  ) as OptionalLabels<typeof NORMALIZED_ID_FIELDS>;
+
+/** 每条观测记录都以「协议版本 + 观测 id」开头，context / facts / record 三处共用。 */
+const OBSERVATION_HEAD = { version: z.literal(1), observationId: z.string().uuid() };
+
+const outputKindField = () => z.enum(enumValues(OUTPUT_KINDS)).optional();
+const sendModeField = () => optionalEnum(enumValues(SEND_MODES));
+
+const detailWindowOk = (value: { start: number; end?: number }): boolean =>
+  value.end === undefined || value.end >= value.start;
+
+const detailShape = () => ({
+  id: label(),
+  stage: z.enum([...LOCAL_TTFT_PREPARATION_STAGES, ...LOCAL_TTFT_DETAIL_EXTRA_STAGES]),
+  start: timestamp(),
+  end: optionalTimestamp(),
+  outcome: optionalEnum(enumValues(DETAIL_OUTCOMES)),
+  requestId: optionalLabel(),
+  logicalCallId: optionalLabel(),
+  role: optionalEnum(enumValues(DETAIL_ROLES)),
+  source: z.enum(enumValues(OBSERVATION_SOURCES)),
+});
+
+export const localTtftDetailSchema = strictShape(detailShape()).refine((value) =>
+  detailWindowOk(value as { start: number; end?: number }),
+);
+
+export type LocalTtftDetail = z.output<typeof localTtftDetailSchema>;
+
+export const localTtftContextSchema = z.object(OBSERVATION_HEAD).strict();
+
+export type LocalTtftContext = z.output<typeof localTtftContextSchema>;
+
 export const localTtftClockSchema = z
-  .object({ instanceId: identifier, receivedAt: time, sentAt: time })
+  .object({ instanceId: label(), receivedAt: timestamp(), sentAt: timestamp() })
   .strict();
-export type LocalTtftClock = z.infer<typeof localTtftClockSchema>;
+
+export type LocalTtftClock = z.output<typeof localTtftClockSchema>;
+
 export interface LocalTtftCalibration {
   instanceId: string;
   offsetMs: number;
   errorMs: number;
   measuredAt: number;
 }
-export function calibrateLocalTtftClock(
+
+const everyFinite = (values: readonly number[]): boolean => values.every(Number.isFinite);
+
+/**
+ * 时钟校准：往返时延对称假设下，网络时延是「墙钟区间」与「对端区间」之差。
+ * 只有四个时间点都有限、区间不倒挂且估算网络误差不超过阈值时才产出校准值——
+ * 否则宁可不校准，也不让错误的偏移污染后续所有 TTFT 数字。
+ */
+export const calibrateLocalTtftClock = (
   start: number,
   end: number,
   clock: LocalTtftClock,
-): LocalTtftCalibration | undefined {
-  const networkMs = end - start - (clock.sentAt - clock.receivedAt);
-  if (
-    ![start, end, clock.receivedAt, clock.sentAt].every(Number.isFinite) ||
-    end < start ||
-    clock.sentAt < clock.receivedAt ||
-    networkMs < 0 ||
-    networkMs / 2 > LOCAL_TTFT_CLOCK_MAX_ERROR_MS
-  )
-    return undefined;
+): LocalTtftCalibration | undefined => {
+  const samples = [start, end, clock.receivedAt, clock.sentAt];
+  if (!everyFinite(samples)) return undefined;
+
+  const wallClock = end - start;
+  const peerClock = clock.sentAt - clock.receivedAt;
+  if (wallClock < 0 || peerClock < 0) return undefined;
+
+  const asymmetry = wallClock - peerClock;
+  if (asymmetry < 0) return undefined;
+
+  const errorMs = asymmetry / 2;
+  if (errorMs > LOCAL_TTFT_CLOCK_MAX_ERROR_MS) return undefined;
+
+  const offsetMs = (start + end - clock.receivedAt - clock.sentAt) / 2;
   return {
     instanceId: clock.instanceId,
-    offsetMs: (start + end - clock.receivedAt - clock.sentAt) / 2,
-    errorMs: networkMs / 2,
+    offsetMs: Math.round(offsetMs),
+    errorMs: Math.round(errorMs),
     measuredAt: end,
   };
-}
-export const localTtftOutputKindSchema = z.enum(["text", "reasoning", "tool"]);
-export type LocalTtftOutputKind = z.infer<typeof localTtftOutputKindSchema>;
-export const localTtftFactsSchema = z
-  .object({
-    ...localTtftContextSchema.shape,
-    instanceId: identifier,
-    commandId: identifier,
-    sessionId: identifier.optional(),
-    turnId: identifier.optional(),
-    productTurnId: identifier.optional(),
-    queryId: identifier.optional(),
-    requestId: identifier.optional(),
-    logicalCallId: identifier.optional(),
-    cliVersion: identifier.optional(),
-    provider: identifier.optional(),
-    model: identifier.optional(),
-    details: z.array(localTtftDetailSchema).max(LOCAL_TTFT_MAX_DETAILS).optional(),
-    truncated: z.boolean().optional(),
-    revision: z.number().int().nonnegative().optional(),
-    sendMode: z.enum(["idle", "queued", "guided"]).optional(),
-    clockInvalid: z.boolean().optional(),
-    receivedAt: time,
-    admittedAt: time.optional(),
-    executionAt: time.optional(),
-    requestAt: time.optional(),
-    outputAt: time.optional(),
-    outputKind: localTtftOutputKindSchema.optional(),
-    terminal: z.enum(["completed", "failed", "cancelled", "rejected", "interrupted"]).optional(),
-    excluded: z.enum(["busy", "retry", "unsupported", "failed", "capacity"]).optional(),
-  })
-  .strict();
-export type LocalTtftFacts = z.infer<typeof localTtftFactsSchema>;
-export const localTtftIntervalSchema = z
-  .object({
-    stage: z.enum(LOCAL_TTFT_STAGES),
-    start: time,
-    end: time,
-    source: z.enum(["renderer", "cli", "aligned"]),
-  })
-  .strict()
-  .refine((interval) => interval.end >= interval.start);
-export const localTtftRecordSchema = z
-  .object({
-    version: z.literal(1),
-    observationId: z.string().uuid(),
-    commandId: identifier.optional(),
-    sessionId: identifier.optional(),
-    turnId: identifier.optional(),
-    productTurnId: identifier.optional(),
-    queryId: identifier.optional(),
-    requestId: identifier.optional(),
-    logicalCallId: identifier.optional(),
-    cliVersion: identifier.optional(),
-    cliInstanceId: identifier.optional(),
-    kind: z.enum(["start", "first_output", "first_text", "no_text", "excluded", "checkpoint"]),
-    outcome: z.enum([
-      "success",
-      "busy",
-      "retry",
-      "unsupported",
-      "failed",
-      "cancelled",
-      "background",
-      "expired",
-      "capacity",
-      "recovery",
-      // 桌面 continuous 缓冲溢出/投影重建后的 online snapshot；不是手机 replayable 恢复。
-      "resync",
-      "clock_invalid",
-      "rejected",
-      "interrupted",
-      "guided",
-      "unclosed",
-    ]),
-    start: time,
-    end: time,
-    firstOutputKind: localTtftOutputKindSchema.optional(),
-    quality: z.enum(["complete", "missing", "clock_invalid"]),
-    clockErrorMs: time.optional(),
-    intervals: z.array(localTtftIntervalSchema).max(6),
-    checkpointId: identifier.optional(),
-    details: z.array(localTtftDetailSchema).max(LOCAL_TTFT_MAX_DETAILS).optional(),
-    truncated: z.boolean().optional(),
-    sendMode: z.enum(["idle", "queued", "guided"]).optional(),
-    visibility: z.enum(["foreground", "background", "background_returned"]).optional(),
-    visibilityChanges: z
-      .array(z.object({ at: time, foreground: z.boolean() }).strict())
-      .max(32)
-      .optional(),
-    userWaitMs: time.optional(),
-    executionMs: time.optional(),
-    timingReliable: z.boolean().optional(),
-    cliTimingReliable: z.boolean().optional(),
-    provider: identifier.optional(),
-    model: identifier.optional(),
-  })
-  .strict()
-  .refine((record) => record.end >= record.start);
-export type LocalTtftRecord = z.infer<typeof localTtftRecordSchema>;
-export const localTtftBatchSchema = z
-  .object({
-    version: z.literal(1),
-    rendererInstanceId: identifier,
-    sequence: z.number().int().nonnegative(),
-    records: z.array(localTtftRecordSchema).max(32),
-    dropped: z.number().int().nonnegative(),
-  })
-  .strict();
-export type LocalTtftBatch = z.infer<typeof localTtftBatchSchema>;
-export function localTtftNow(): number {
-  return performance.timeOrigin + performance.now();
-}
+};
+
+export const localTtftOutputKindSchema = z.enum(enumValues(OUTPUT_KINDS));
+
+export type LocalTtftOutputKind = z.output<typeof localTtftOutputKindSchema>;
+
+const detailsField = () => z.array(localTtftDetailSchema).max(LOCAL_TTFT_MAX_DETAILS).optional();
+
+const factsShape = () => ({
+  ...OBSERVATION_HEAD,
+  instanceId: label(),
+  commandId: label(),
+  ...normalizedOptional(),
+  details: detailsField(),
+  truncated: optionalFlag(),
+  revision: optionalInteger(),
+  sendMode: sendModeField(),
+  clockInvalid: optionalFlag(),
+  receivedAt: timestamp(),
+  admittedAt: optionalTimestamp(),
+  executionAt: optionalTimestamp(),
+  requestAt: optionalTimestamp(),
+  outputAt: optionalTimestamp(),
+  outputKind: outputKindField(),
+  terminal: optionalEnum(enumValues(TERMINAL_OUTCOMES)),
+  excluded: optionalEnum(enumValues(EXCLUSION_REASONS)),
+});
+
+export const localTtftFactsSchema = strictShape(factsShape());
+
+export type LocalTtftFacts = z.output<typeof localTtftFactsSchema>;
+
+const intervalWindowOk = (value: { start: number; end: number }): boolean =>
+  value.end >= value.start;
+
+export const localTtftIntervalSchema = strictShape({
+  stage: z.enum(LOCAL_TTFT_STAGES),
+  start: timestamp(),
+  end: timestamp(),
+  source: z.enum(enumValues(ALIGNED_SOURCES)),
+}).refine((value) => intervalWindowOk(value as { start: number; end: number }));
+
+const recordWindowOk = (value: { start: number; end: number }): boolean => value.end >= value.start;
+
+const visibilityChangeSchema = strictShape({ at: timestamp(), foreground: z.boolean() });
+
+const recordShape = () => ({
+  ...OBSERVATION_HEAD,
+  commandId: optionalLabel(),
+  ...normalizedOptional(),
+  cliInstanceId: optionalLabel(),
+  checkpointId: optionalLabel(),
+  kind: z.enum(enumValues(RECORD_KINDS)),
+  outcome: z.enum(enumValues(RECORD_OUTCOMES)),
+  start: timestamp(),
+  end: timestamp(),
+  firstOutputKind: outputKindField(),
+  quality: z.enum(enumValues(RECORD_QUALITIES)),
+  clockErrorMs: optionalTimestamp(),
+  intervals: z.array(localTtftIntervalSchema).max(6),
+  details: detailsField(),
+  truncated: optionalFlag(),
+  sendMode: sendModeField(),
+  visibility: optionalEnum(enumValues(VISIBILITY_STATES)),
+  visibilityChanges: z.array(visibilityChangeSchema).max(32).optional(),
+  userWaitMs: optionalTimestamp(),
+  executionMs: optionalTimestamp(),
+  timingReliable: optionalFlag(),
+  cliTimingReliable: optionalFlag(),
+});
+
+export const localTtftRecordSchema = strictShape(recordShape()).refine((value) =>
+  recordWindowOk(value as { start: number; end: number }),
+);
+
+export type LocalTtftRecord = z.output<typeof localTtftRecordSchema>;
+
+const sequenceNumber = () => z.number().int().nonnegative();
+
+export const localTtftBatchSchema = strictShape({
+  version: z.literal(1),
+  rendererInstanceId: label(),
+  sequence: sequenceNumber(),
+  records: z.array(localTtftRecordSchema).max(32),
+  dropped: sequenceNumber(),
+});
+
+export type LocalTtftBatch = z.output<typeof localTtftBatchSchema>;
+
+/** 渲染器时间基准：与 performance.now() 同源，但可跨进程比较。 */
+export const localTtftNow = (): number => performance.timeOrigin + performance.now();
