@@ -185,6 +185,22 @@ writeFileSync("licensing/reviews.json", JSON.stringify({ ...main, files: merged 
 1. `reasonCode !== "unsupported"`（证明不是走 default 分支）；
 2. 底层真的被调用（证明不是「接了但没到底」）。
 
+### 7.6 CI 拥堵期：按合并队列串行，不要每次 main 前进就 merge
+
+多 PR 在途时，任何一个 PR 合并都会让 main 前进，而每个在途 PR 的 `licensing/*.json` 都会冲突，
+于是形成循环：
+
+```
+main 前进 → PR CONFLICTING → 有人 merge main → head 变 → CI 重新排队（约 30 分钟）
+   → 这期间又有别的 PR 合并 → 再次 CONFLICTING → ...
+```
+
+**这个循环无法靠「更勤快地 merge main」解决**——每次 merge 都消耗一轮 CI，而 CI 拥堵又让
+下一轮更慢。**正确做法**：由 Lead 维护一个明确的合并队列，**只有排到位的 PR 才 merge main + 跑 CI**；
+其余 PR 保持 CONFLICTING 不动，等排到再一次性 merge → push → 跑绿 → 合并。
+
+**这条与 7.3 不矛盾**：7.3 讲「冲突时怎么正确解」，7.6 讲「**什么时候才该去解**」。
+
 ## 八、knip（条目级自查）
 
 （实现 PR 填写实测；要求：本包零新增未使用文件/导出。）

@@ -65183,14 +65183,13 @@
     },
     {
       "path": "docs/knorvia-kernel-bridge-02-acceptance.md",
-      "normalizedSha256": "9d167477d3f3c6b2fd0ba278527d276073059155a6039df5ce24f5d65fd2769a",
+      "normalizedSha256": "6385d2436fe2359cc8113be8a53265b945ea4f62dcca0a505fe148561b3d6919",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored acceptance record for the kernel-bridge-02 accessor package, including the reusable engineering lessons from this package: measuring a clean baseline before changing an existing file, sibling test files entering the declaration similarity comparison, merging generated provenance files from the main baseline, worktree operation discipline, and the distinction between a capability module being complete and the protocol surface being reachable. No external material was copied.",
+      "basis": "Knorvia-authored acceptance record for the kernel-bridge-02 accessor package, including the reusable engineering lessons from this package: measuring a clean baseline before changing an existing file, sibling test files entering the declaration similarity comparison, merging generated provenance files from the main baseline, worktree operation discipline, the distinction between a capability module being complete and the protocol surface being reachable, and serializing merges against the CI queue during congestion. No external material was copied.",
       "evidence": [
         "specs/contracts/kernel-bridge-02/README.md",
-        "specs/contracts/kernel-bridge-02/acceptance.md",
-        "specs/contracts/kernel-bridge-02/known-differences.md"
+        "specs/contracts/kernel-bridge-02/acceptance.md"
       ]
     },
     {
