@@ -149888,6 +149888,17 @@
         "third-party/upstream/f29b60ea39a2132e3baa98927c2d473b349a54143da44a0c6762b243e6459452.txt",
         "https://registry.npmjs.org/quickjs-wasi/2.2.0"
       ]
+    },
+    {
+      "path": "docs/knorvia-kernel-bridge-03-acceptance.md",
+      "normalizedSha256": "56ecec3075f9a181de28174c36a008458bc1b49270a199afe633b0076cc8182d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored acceptance record for the kernel-bridge-03 implementation, covering the remaining v4 commands and legacy port methods, the C2 completion from four to twelve, the six schema corrections found while implementing, the runtime defect found by reading semantics rather than types, and the two declaration-gate improvements measured against the main baseline. No external material was copied.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-03/README.md",
+        "specs/contracts/kernel-bridge-03/acceptance.md"
+      ]
     }
   ]
 }
