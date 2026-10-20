@@ -36,6 +36,45 @@
 - **`allFail=true` 说明**：桩替换 58 个目标源码后，19 个测试套件在文件加载或执行阶段 100% 抛出 `not implemented: services-01`，证明全部 19 个测试套件均真实依赖本包公开导出面，防刷与空测验证完全达标。
 - **环境隔离说明**：遵循 shared-03 复盘经验，dist 入口通过 `--dist-env` 注入环境变量，确保桩替换在源码环境下真实执行并全部拦截。
 
+### 3.1 Windows 挂死修复（2026-10-20）
+
+首次 PR CI 的 `windows / quality` 撞 60 分钟 job 上限被判 cancelled（linux 正常，18m42s）。根因不在用例体内，`--test-timeout` 救不了：
+
+- node:test 的 `after` 钩子按注册顺序 **FIFO** 执行，且**某个钩子抛错后，后续钩子不再执行**；
+- 本包用例普遍先 `makeTempRoot(t)`（注册「删临时目录」）、再注册 agent 子进程的 `disposeAllAndWait`；
+- Windows 上子进程退出前仍把临时目录当 cwd → 立刻 `rm -r` 抛 `EBUSY` → **dispose 钩子被顶掉** → 子进程常驻 → runner 等不到事件循环清空 → 永久挂死。
+
+修法（`tests/helpers.mjs`，全包统一）：同一用例的全部清理走**一个** after 钩子（WeakMap 保证），
+释放步骤**逆序**执行（后建立的先释放）→ 再删目录；每步独立 `try/catch`，全跑完再合并抛出；
+`rm` 带 `maxRetries: 20 / retryDelay: 100` 吸收 Windows 句柄延迟释放；`releaseLast` 把「还原全局数据根」
+放到最后（提前指空会让被测对象收尾时读目录抛错、掩盖真实清理问题）。钩子在**首次登记**时挂好，
+因此清理不依赖「用例体是否走到最后一步」——这正是「应然失败」的用例最容易漏清理的场景。
+
+实测（Windows，Node 24.14.0，`--test-concurrency=2` 与 `test:studio` 同 flags）：
+
+| 运行范围                                        | 修复前 |              修复后 | 结果         |
+| :---------------------------------------------- | :----: | ------------------: | :----------- |
+| `agent-process.test.mjs` 单文件（35 用例）      | > 180s | 37.0 / 38.1 / 53.8s | 35/35 全过   |
+| 全部 19 个测试文件（349 用例）                  |  挂死  |               68.2s | 349/349 全过 |
+| 旧门（源 + dist + 桩替换，`contract-gate.mjs`） |  挂死  |              351.6s | 三段全绿     |
+
+门禁运行器 `scripts/contract-gate.mjs` 同时补了兜底墙钟超时（默认 1800000ms，可用
+`KNORVIA_CONTRACT_GATE_TIMEOUT_MS` 覆盖）并**把超时判为失败**；不使用 `--test-force-exit`
+（能自然退出就不该强杀）。报告里 `timedOut`（`spawnSync` 的 `ETIMEDOUT`）与 `signaled`
+（被外部信号终止，如 CI 取消）**分开记**，两者都判失败，但便于区分「夹具挂死」与「外部取消」。
+
+### 3.2 隔离实测（无进程级清理、无真实主目录访问）
+
+- **无进程级清理**：全部夹具中 `taskkill / pkill / killall / Stop-Process / Get-Process` **零命中**。
+  仅有的杀进程都是自己 `spawn` 的句柄：`credential-broadcast.test.mjs` 的 lock-holder 子进程用
+  `child.kill("SIGKILL")` 收口（已登记进统一清理钩子）；`agent-process.test.mjs` 的两处
+  `process.kill(pid, 0)` 是**信号 0 探测**（只查存在性、不杀），且位于 `process.platform !== "win32"` 分支。
+- **无真实主目录访问**：测试代码对 `DSH_HOME` / `.dsh` / `DSH_SESSION` / `DSH_WEB` **零引用**。
+  数据根一律走 `mkdtemp(tmpdir()/svc01-)` + 公开的 `setDataBaseDir(root)`；需要家目录语义的
+  命令/插件用例用 `withEnv(t, "HOME"|"USERPROFILE", <临时根>)` 显式改写，且 `withEnv` 的恢复步骤
+  同样登记进统一清理钩子。
+- **临时目录**：全部 `mkdtemp` 产物都登记为 `cleanup.directory(...)`，用例结束自动删除。
+
 ## 4. 首败与修正（代表性调试与行为判定）
 
 在黑盒契约编写与双入口实跑过程中，发现并对齐了以下代表性实现细节（回写测试与 behavior.md）：

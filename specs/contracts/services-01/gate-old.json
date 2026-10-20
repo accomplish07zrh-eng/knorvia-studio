@@ -1,8 +1,8 @@
 {
   "contract": "services-01",
-  "commit": "831e564e08e60a2db746d3f3e4248fc32d836596",
+  "commit": "30181fd8bfee78a22f60c3af26794eacec418dd6",
   "node": "v24.14.0",
-  "generatedAt": "2026-10-20T06:14:30.679Z",
+  "generatedAt": "2026-10-20T06:34:25.001Z",
   "runner": "scripts/contract-gate.mjs",
   "testFiles": [
     "specs/contracts/services-01/tests/agent-connection-scope.test.mjs",
@@ -30,24 +30,26 @@
     "source": {
       "exitCode": 0,
       "timedOut": false,
+      "signaled": false,
       "signal": null,
       "tests": 349,
       "pass": 349,
       "fail": 0,
       "skipped": 0,
       "todo": 0,
-      "outputTail": "  ✔ accepted/duplicate/noop 原样返回；rejected/stale/failed 抛结构化错误并携带 ack (0.329ms)\n  ✔ CAS 首发 baseRevision=0 探测，stale 用 revisionAtDecision 收敛并换新 commandId (0.3564ms)\n  ✔ 非 stale 的拒绝立即抛出，不再重试 (0.2404ms)\n  ✔ 连续 stale 用尽 maxAttempts 后抛出，并带上「放弃重试」与最后一次 ack (0.228ms)\n  ✔ duplicate 与 noop 视为幂等成功，不触发重试 (0.184ms)\n✔ A66 ACK 六态映射与 CAS 收敛 (1.5587ms)\nℹ tests 349\nℹ suites 116\nℹ pass 349\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 147338.0742"
+      "outputTail": "  ✔ accepted/duplicate/noop 原样返回；rejected/stale/failed 抛结构化错误并携带 ack (0.333ms)\n  ✔ CAS 首发 baseRevision=0 探测，stale 用 revisionAtDecision 收敛并换新 commandId (0.3205ms)\n  ✔ 非 stale 的拒绝立即抛出，不再重试 (0.2309ms)\n  ✔ 连续 stale 用尽 maxAttempts 后抛出，并带上「放弃重试」与最后一次 ack (0.2288ms)\n  ✔ duplicate 与 noop 视为幂等成功，不触发重试 (0.188ms)\n✔ A66 ACK 六态映射与 CAS 收敛 (1.5251ms)\nℹ tests 349\nℹ suites 116\nℹ pass 349\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 150181.3589"
     },
     "dist": {
       "exitCode": 0,
       "timedOut": false,
+      "signaled": false,
       "signal": null,
       "tests": 349,
       "pass": 349,
       "fail": 0,
       "skipped": 0,
       "todo": 0,
-      "outputTail": "  ✔ accepted/duplicate/noop 原样返回；rejected/stale/failed 抛结构化错误并携带 ack (0.6153ms)\n  ✔ CAS 首发 baseRevision=0 探测，stale 用 revisionAtDecision 收敛并换新 commandId (0.5995ms)\n  ✔ 非 stale 的拒绝立即抛出，不再重试 (0.345ms)\n  ✔ 连续 stale 用尽 maxAttempts 后抛出，并带上「放弃重试」与最后一次 ack (0.3535ms)\n  ✔ duplicate 与 noop 视为幂等成功，不触发重试 (0.4104ms)\n✔ A66 ACK 六态映射与 CAS 收敛 (2.7293ms)\nℹ tests 349\nℹ suites 116\nℹ pass 349\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 134597.6298",
+      "outputTail": "  ✔ accepted/duplicate/noop 原样返回；rejected/stale/failed 抛结构化错误并携带 ack (0.6798ms)\n  ✔ CAS 首发 baseRevision=0 探测，stale 用 revisionAtDecision 收敛并换新 commandId (0.5262ms)\n  ✔ 非 stale 的拒绝立即抛出，不再重试 (0.4984ms)\n  ✔ 连续 stale 用尽 maxAttempts 后抛出，并带上「放弃重试」与最后一次 ack (0.3689ms)\n  ✔ duplicate 与 noop 视为幂等成功，不触发重试 (0.387ms)\n✔ A66 ACK 六态映射与 CAS 收敛 (2.8378ms)\nℹ tests 349\nℹ suites 116\nℹ pass 349\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 137083.3803",
       "environment": {
         "KNORVIA_SVC01_ENTRY": "dist"
       },
@@ -61,7 +63,7 @@
     "fail": 19,
     "allFail": true,
     "exitCode": 1,
-    "outputTail": "✖ D:\\knorvia studio开发\\wt\\exec-m3\\specs\\contracts\\services-01\\tests\\surface.test.mjs (2590.5694ms)\n  'test failed'\n\ntest at specs\\contracts\\services-01\\tests\\task-index-syncer.test.mjs:1:1\n✖ D:\\knorvia studio开发\\wt\\exec-m3\\specs\\contracts\\services-01\\tests\\task-index-syncer.test.mjs (2199.4734ms)\n  'test failed'\n\ntest at specs\\contracts\\services-01\\tests\\task-service-adapter.test.mjs:1:1\n✖ D:\\knorvia studio开发\\wt\\exec-m3\\specs\\contracts\\services-01\\tests\\task-service-adapter.test.mjs (2487.5377ms)\n  'test failed'\n\ntest at specs\\contracts\\services-01\\tests\\v4-host-command.test.mjs:1:1\n✖ D:\\knorvia studio开发\\wt\\exec-m3\\specs\\contracts\\services-01\\tests\\v4-host-command.test.mjs (2161.1822ms)\n  'test failed'"
+    "outputTail": "✖ D:\\knorvia studio开发\\wt\\exec-m3\\specs\\contracts\\services-01\\tests\\surface.test.mjs (3202.0505ms)\n  'test failed'\n\ntest at specs\\contracts\\services-01\\tests\\task-index-syncer.test.mjs:1:1\n✖ D:\\knorvia studio开发\\wt\\exec-m3\\specs\\contracts\\services-01\\tests\\task-index-syncer.test.mjs (2678.0935ms)\n  'test failed'\n\ntest at specs\\contracts\\services-01\\tests\\task-service-adapter.test.mjs:1:1\n✖ D:\\knorvia studio开发\\wt\\exec-m3\\specs\\contracts\\services-01\\tests\\task-service-adapter.test.mjs (2499.699ms)\n  'test failed'\n\ntest at specs\\contracts\\services-01\\tests\\v4-host-command.test.mjs:1:1\n✖ D:\\knorvia studio开发\\wt\\exec-m3\\specs\\contracts\\services-01\\tests\\v4-host-command.test.mjs (2099.9706ms)\n  'test failed'"
   },
   "pass": true
 }
