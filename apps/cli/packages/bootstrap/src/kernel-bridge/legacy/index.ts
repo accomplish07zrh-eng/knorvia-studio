@@ -19,8 +19,9 @@ import { WorkspacePreferences } from "./workspace.js";
 import { routeWithDeps } from "./router.js";
 import { domainLoggerOf } from "./logger-adapter.js";
 import { createLegacyNotifier, type LegacyNotifier } from "./notifications.js";
+import { createHostChannel } from "./host-channel.js";
 import type { LegacyRouterDeps } from "./router-deps.js";
-import type { LegacyMethodOutcome } from "./types.js";
+import type { LegacyHostChannel, LegacyMethodOutcome } from "./types.js";
 import { bindLegacyBridge, unbindLegacyBridge, type LegacyBridgeHandle } from "./types.js";
 
 /** stdout 写入口：桥持有 stdio，本包不直接触碰。 */
@@ -45,6 +46,8 @@ export class LegacyBridge implements LegacyBridgeHandle {
   private readonly hostRequests = new HostRequestBook();
   private disposed = false;
   private notifier: LegacyNotifier | undefined;
+  /** 窄反向请求通道，`attach()` 建、`detach()` 清（见 `host-channel.ts`）。 */
+  private hostChannel: LegacyHostChannel | undefined;
   /** 路由器依赖集合（`routeWithDeps` 与测试直驱用）。 */
   readonly deps: LegacyRouterDeps;
 
@@ -85,6 +88,9 @@ export class LegacyBridge implements LegacyBridgeHandle {
       write: (message) => sink.write(message),
     });
     this.refreshNotifierDeps();
+    this.hostChannel = createHostChannel(this.hostRequests, {
+      write: (message) => sink.write(message),
+    });
     this.hostRequests.setChannel({
       connected,
       write: (message) => sink.write(message),
@@ -94,8 +100,20 @@ export class LegacyBridge implements LegacyBridgeHandle {
   /** stdin 结束：反向请求全部按「无客户端」失败并清定时器（B11 资源释放）。 */
   detach(): void {
     this.hostRequests.setChannel(undefined);
+    this.hostChannel = undefined;
     this.notifier = undefined;
     this.refreshNotifierDeps();
+  }
+
+  /**
+   * 反向请求通道：供后续包（`kernel-plugin-credentials` 等）向 Host 发起反向请求。
+   *
+   * 返回的是**窄接口**（只有 `request` / `notify`），桥的内部管理方法（`setChannel`、
+   * `settleFromClient`、`dispose`）不外露，通道状态仍归桥唯一所有。
+   * 未 attach（或已 detach）时返回 `undefined`：此时没有 stdout，不可能反问 Host。
+   */
+  channelForHostRequests(): LegacyHostChannel | undefined {
+    return this.hostChannel;
   }
 
   /** 通知发射器（B13/B14）；未 attach 时为 undefined（无输出面可写）。 */
