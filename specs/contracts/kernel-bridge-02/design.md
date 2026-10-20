@@ -245,3 +245,144 @@ flowchart LR
 | 2   | `firstInput` 失败时的回滚粒度                         | 二选一：整条拒绝（不留半建会话）或先建后投递；在实现 PR 说明并登记                                                                                                             |
 | 3   | 假 provider 驱动回合时是否需要 `modelSelection`       | 侦察后定；不影响帧断言本身                                                                                                                                                     |
 | 4   | 8.2 表里 7 个归 03 的方法                             | **已裁决**（Lead 2026-10-20，按计划书原文）：fork/goal/setModel/setThoughtLevel/setMode/resume/subscribe 归 03；本包对它们返回 capability 缺席（`-32031`）并在实现 PR 逐条登记 |
+
+## 十、冻结形状原文（「不许自造 ACK」的依据）
+
+实现阶段被 `tsc` 与协议 schema 纠正过三次，每次都证明「先查冻结面、不发明」。以下是原文摘录，供审查时一眼比对。
+
+### 10.1 `conversationInputDeliverySchema`：请求档位与接纳档位本就可以不同
+
+`packages/shared/src/protocol-v4/input-intent.ts` L11–L17：
+
+```ts
+export const conversationInputDeliverySchema = z
+  .object({
+    requested: z.enum(["auto", "startNow", "queue", "guide"]),
+    admitted: z.enum(["startNow", "queue", "guide"]),
+    fallbackReasonCode: z.string().optional(),
+  })
+  .strict();
+```
+
+**这就是「`startNow` 忙碌时可以退化为 `queue`」的依据**：`requested` 有 4 档（含 `auto`），`admitted` 只有 3 档，且协议自带 `fallbackReasonCode`。因此本包回 `admitted: "queue"` + `fallbackReasonCode: "input.start_now_busy"` 不是自造语义，而是使用协议留好的表达能力。
+
+`order.queuePosition` 在 `conversationInputOrderSchema`（同文件 L19–L24）：排队位置取自这里，不自造字段。
+
+### 10.2 `commandResultSchema` 的三个冻结形状（不许自造 result type）
+
+`packages/shared/src/protocol-v4/command.ts` L367–L424。本包相关的三条：
+
+```ts
+// createSession（含首输入）：注意 input.delivery 而不是 turnId
+z.object({
+  type: z.enum(["createSession", "createSelectionSideSession", "forkAssistant"]),
+  sessionId: z.string(),
+  input: z
+    .object({
+      delivery: z.enum(["startNow", "queue", "guide"]),
+      inputId: z.string(),
+      messageId: z.string().optional(),
+    })
+    .optional(),
+}),
+// sendText 的 ACK：inputAccepted
+z.object({
+  type: z.literal("inputAccepted"),
+  delivery: z.enum(["startNow", "queue", "guide"]),
+  inputId: z.string(),
+  messageId: z.string().optional(),
+}),
+// 处置类（无专属形状时用它表达「维护意图已受理」）
+z.object({
+  type: z.literal("inputDisposition"),
+  delivery: z.enum(["startNow", "queue", "guide"]),
+}),
+```
+
+**两条约束**：
+
+1. **没有 `turnId` 字段**——首输入的 ACK 用 `input: { delivery, inputId }` 表达，自造 `turnId` 会被 `tsc` 拒绝（实现阶段实测）；
+2. **没有 `type: "sendText"` / `type: "stop"` / `type: "compact"`** 这类与命令同名的 result——`sendText` 用 `inputAccepted`，`stop`/`compact` 用 `inputDisposition`。
+
+### 10.3 `compactNow` 的三参数与 `sourceCommandId` 语义
+
+`node_modules/@deepseek-ai/dsh-compaction/lib/types/index.d.ts` L137：
+
+```ts
+abstract compactNow(
+  agent: ManualCompactAgentContext,
+  signal: AbortSignal,
+  sourceCommandId?: CommandId,
+): Promise<CompactionResult | null>;
+```
+
+`sourceCommandId` 是**可选**的「发起手动命令」标记（`lib/index.js` L113–L120 的 `compactCheckpointSource`：`...sourceCommandId === void 0 ? {} : { sourceCommandId }`）。
+
+**本包的取值口径**：
+
+- v4 的 `compact` 命令有 `commandId` → **传** `envelope.commandId`；
+- 旧协议 `session/compact` 没有 v4 commandId → **省略**（DSH 检查点不带该字段），登记在 `known-differences.md`，不是漏传。
+
+## 十一、审批判定的顺序即安全性（不得重排）
+
+`turn-approval.ts` 的 `requestTurnApproval` 按下列顺序判定。**每一步的顺序都有安全性理由，重排即开口子**：
+
+| 序  | 判定                                                                  | 安全性理由                                                                                                                               |
+| --- | --------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | 通道缺席 → `unavailable`                                              | Host 通道（legacy 的 `LegacyHostChannel`）尚未接通时，唯一安全的答案是「不批准」；默认放行等于取消审批                                   |
+| 2   | 取消信号已触发 → **不发请求**，直接 `unavailable`                     | 已取消的调用不该再去打扰用户；测试断言 `called === false`，证明不是「发了再拒」                                                          |
+| 3   | 通道抛错/超时/**应答非法** → `unavailable`                            | 通道是跨进程/跨实现边界，**类型签名是编译期承诺，运行期不成立**。安全判定层必须自己校验（实现阶段测试用返回 `"yes"` 的通道打穿过第一版） |
+| 4   | 明确 `action: "accept"` → `allowed-once`                              | 唯一的授权路径                                                                                                                           |
+| 5   | `decline` / `cancel` → `rejected`                                     | 用户明确表态，归拒绝而不是通道故障                                                                                                       |
+| 6   | 只有 `optionId` 无 `action` → **不授权**                              | 无法判断是否同意时宁可多拒；兼容路径不得成为绕过授权的入口                                                                               |
+| 7   | `interactionId` 先到先得；回合结束与**进程关闭**都 `failAllPending()` | 晚到 noop 保证决定不可被改写；关闭时结算保证 Host 不会挂着一个永不返回的反向请求                                                         |
+
+**关闭顺序**（`BridgeEngine.dispose()`）：先 `approvals.failAllPending()`，再 `detach` 事件，最后释放投影层。理由：投影层释放后就没有通道可以回执，未决请求会永久挂起。
+
+## 十二、顺序依赖（本包暂不能完成的接线）
+
+| 项                                 | 依赖                                                               | 现状与处置                                                                                                                                                                        |
+| ---------------------------------- | ------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `registerLegacyExecutionPort` 注册 | `kernel-bridge-legacy` 的实现（`kernel-bridge/legacy/**`）尚未合并 | 本包只提供 `createLegacyTurnPort(executor)` 造端口；**注册由组合根在 legacy 合并后完成**。这是 legacy `interface.md` §四 明文规定的顺序（「端口注册是启动期动作，由组合根完成」） |
+| 审批的反向请求通道                 | 同上（legacy 的 `LegacyHostChannel`）                              | 通道未接通时 `requestTurnApproval` 走**通道缺席 → `unavailable`** 的 fail-closed 分支，行为已可判定                                                                               |
+| `resolveInteraction` 的回执路径    | 同上                                                               | 端口的 `settle(interactionId, answer)` 与注册表已实现并测试；Host 通道接通后即可用                                                                                                |
+
+## 十三、执行器物化点与端口注册（D25）
+
+Lead 2026-10-20 裁决：**`entry.ts` 零改动是硬边界**。因此执行器的物化点与注册点是引擎，不是组合根。
+
+```mermaid
+flowchart TD
+  A["runBridge(entry.ts)<br/>唯一 new BridgeEngine 处"] --> B[BridgeEngine.constructor]
+  B -->|无外部注入时| C["物化 DefaultKernelTurnExecutor<br/>（宿主 = createAgentLookupHost(ctx)）"]
+  A --> D[BridgeEngine.start]
+  D --> E["attachLegacyTurnPort()<br/>registerLegacyExecutionPort(createLegacyTurnPort(executor))"]
+  F[v4 命令路径] --> G[dispatchTurnCommand] --> C
+  H[旧协议路径] --> I[legacy router] --> E --> C
+  B --> J[BridgeEngine.dispose]
+  J --> K["approvals.failAllPending()"]
+  J --> L["turnPort.release()"]
+  J --> M["projection.dispose()"]
+```
+
+**为什么不改 `entry.ts`**：
+
+1. 本包合同 `interface.md` §五 与 `callers.md` 明写「`entry.ts` 不改（`route()` default 分支归 legacy）」；
+2. `runBridge` 是唯一 `new BridgeEngine` 的地方；引擎在 `start()` 里物化执行器并注册端口，**语义上仍是「启动期一次动作」**，符合 `registerLegacyExecutionPort` 的约束（「启动期一次动作，运行期不动态增删」）；
+3. 改 `entry.ts` 会让 bridge-03 与 legacy 的 `route()` default 委派 hunk 在同一文件上叠加冲突风险。
+
+**关闭顺序**（`dispose()`）：`failAllPending()` → `turnPort.release()` → `detach` 事件 → `projection.dispose()`。
+理由：审批未决请求必须先结算（否则 Host 永久挂起）；端口必须在引擎释放前解绑（否则留下指向废对象的悬挂端口）；投影层最后释放。
+
+**注册失败不致命**：legacy 的注册面是「单所有者、重复注册抛错」。若同进程已有别的所有者（例如测试先注册过），本包记 `debug` 后跳过，此时旧协议回合方法由那个所有者处理——capability 缺席仍是合法的临时态。
+
+## 十四、凭据 provider 的扩展点（不在本包实现）
+
+见 `apps/cli/packages/bootstrap/src/kernel/credential-provider.ts`。要点：
+
+- `@deepseek-ai/dsh-credentials` 只导出**抽象基类** `CredentialProvider`（自身静态属性只有 `length`/`name`/`prototype`，**无 `Config`、无自定义 `apply`**），**不能作为组合行挂载**；
+- 锁定的 DSH 版本里**没有任何具体 provider**（`grep "extends CredentialProvider"` 零命中），`ctx.credentials` 是纯接缝；
+- `llm-pi-ai` 的 `apiKeyEnv` 解析是 `ctx.get("credentials")?.resolve(...)` **可选调用** + 回退 `launchEnvironmentOf(ctx)`；
+- 但 `kernel-dsh-00` 的进程级清洗**删掉了所有 `*_API_KEY`**，所以「启动环境」回退在 dsh 引擎下拿不到 key ⇒ **必须有 `ctx.credentials` 提供者**。
+
+**分工**：本包只给「行位置 + 约定」（`KERNEL_CREDENTIAL_PROVIDER_ROW_ID = "knorvia-credentials"`、`createKernelCredentialProviderRow(moduleId)`）；具体 provider 由 `kernel-plugin-credentials`（#235）提供，在它的 `apply(ctx)` 里供出 `credentials` 服务。
