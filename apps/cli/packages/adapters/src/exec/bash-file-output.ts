@@ -8,201 +8,282 @@ import { buildBashOutputPreview } from "./bash-output-preview.js";
 import { subscribeBashOutputProgress } from "./bash-progress-poller.js";
 import { decodeExecutionOutputBuffer } from "./outputEncoding.js";
 
-const LIMIT_POLL_INTERVAL_MS = 5_000;
-const MAX_PROGRESS_READ_BYTES = 4_096;
-const OUTPUT_UNAVAILABLE_TEXT = "Output unavailable (failed to read persisted output).";
+// 体积轮询节奏、进度尾读窗口，以及产物读不回来时的固定文案。
+const SIZE_WATCH_INTERVAL_MS = 5_000;
+const PROGRESS_READ_WINDOW_BYTES = 4_096;
+const UNREADABLE_OUTPUT_TEXT = "Output unavailable (failed to read persisted output).";
 
-export class /* bash 输出文件句柄管理 */ BashFileOutput {
+/** 有界读取结果：契约字段之外再带本次实际读到的字节数，供行数外推使用。 */
+export type BashRead = ExecutionStreamResult & { bytesRead: number };
+
+/** 每次进度轮次交给上层的两份材料：本轮读到的流式结果与由此得出的预览。 */
+export type ProgressFeed = { preview: ExecutionOutputPreview; stream: ExecutionStreamResult };
+
+/**
+ * bash 输出落盘句柄的对外形状。内部实现用闭包而非类：
+ * 句柄、归属标记与三类取消句柄都在闭包里，外部只能经这些成员驱动。
+ */
+export interface BashFileOutput {
   readonly path: string;
-  private readonly platform: NodeJS.Platform;
-  private readonly legacyEncoding: string | null;
-  private handle?: FileHandle;
-  private created = false;
-  private prepared = false;
-  private unsubscribeLimit?: () => void;
-  private unsubscribeProgress?: () => void;
-  private progressDelay?: NodeJS.Timeout;
+  /** 打开后取得的描述符；未打开时为 undefined，供 spawn 的 stdio 直接接管。 */
+  readonly handleFd: number | undefined;
+  /** 是否由本次执行创建（决定丢弃时能否删除文件）。 */
+  readonly ownedFile: boolean;
+  /** 建目录并按平台打开；重复调用不会重复打开。 */
+  openStorage(): Promise<void>;
+  /** 释放句柄，不动文件。 */
+  releaseHandle(): Promise<void>;
+  /** 释放句柄后删除本次创建的文件。 */
+  dropOwnedFile(): Promise<void>;
+  /** 体积监听：超过上限只回调一次，回调后自行退订。 */
+  reportWhenOversized(maxBytes: number, onOversized: () => void): void;
+  /** 撤销体积监听、进度订阅与尚未触发的启动定时器。 */
+  silenceObservers(): void;
+  /** 延迟 delayMs 后按 intervalMs 轮询尾部，把每轮材料交给 onFeed。 */
+  feedProgress(maxBytes: number, delayMs: number, intervalMs: number, onFeed: FeedSink): void;
+  /** 最终结果：读不回来时给可读文案与零计数，不向上抛。 */
+  collect(maxBytes: number): Promise<ExecutionStreamResult>;
+}
 
-  constructor(pathValue: string, platform: NodeJS.Platform, legacyEncoding: string | null) {
-    this.path = pathValue;
-    this.platform = platform;
-    this.legacyEncoding = legacyEncoding;
-  }
+export type FeedSink = (feed: ProgressFeed) => void;
 
-  get fd(): number | undefined {
-    return /* 文件描述符（未准备时无） */ this.handle?.fd;
-  }
-
-  async prepare(): Promise<void> {
-    if (this.prepared) return;
-    await mkdir(path.dirname(this.path), { recursive: true, mode: 0o700 });
-    try /* 可能失败：按降级语义处理 */ {
-      await stat(this.path);
-      this.created = false;
-    } catch (error) {
-      this.created = (error as NodeJS.ErrnoException).code === "ENOENT";
-    }
-    if (this.platform === "win32") {
-      this.handle = await open(this.path, "w", 0o600);
-    } else {
-      const noFollow = constants.O_NOFOLLOW ?? 0;
-      this.handle = await open(
-        this.path,
-        constants.O_CREAT | constants.O_APPEND | constants.O_WRONLY | noFollow,
-        0o600,
-      );
-    }
-    /* 标记已准备 */ this.prepared = true;
-  }
-
-  async close(): Promise<void> {
-    const handle = /* 取出句柄以便异步关闭 */ this.handle;
-    /* 清空引用：避免重复关闭 */ this.handle = undefined;
-    if (!handle) return;
-    try /* 可能失败：按降级语义处理 */ {
-      /* 关闭底层句柄 */ await handle.close();
-    } catch /* 失败降级：不抛出 */ {
-      // The command result owns primary failure reporting.
-    }
-  }
-
-  async discard(): Promise<void> {
-    /* 兜底再关闭一次 */ await this.close();
-    if (!this.created) return;
-    try /* 可能失败：按降级语义处理 */ {
-      await unlink(this.path);
-    } catch /* 失败降级：不抛出 */ {
-      // Discard is best-effort and may never remove a pre-existing file.
-    }
-  }
-
-  watchLimit(maxBytes: number, onLimit: () => void): void {
-    this.unsubscribeLimit?.();
-    let fired = false;
-    this.unsubscribeLimit = subscribeBashOutputProgress(
-      LIMIT_POLL_INTERVAL_MS,
-      async (isActive) => {
-        if (fired || !isActive()) return;
-        try /* 可能失败：按降级语义处理 */ {
-          const details = await stat(this.path);
-          if (!isActive() || fired || details.size <= maxBytes) return;
-          fired = true;
-          /* 通知达到上限 */ onLimit();
-          this.unsubscribeLimit?.();
-        } catch /* 失败降级：不抛出 */ {
-          // A transient stat failure does not stop later observations.
-        }
-      },
-    );
-  }
-
-  stopWatching /* 停止进度监听 */(): void {
-    this.unsubscribeLimit?.();
-    this.unsubscribeLimit = undefined;
-    /* 取消进度订阅 */ this.unsubscribeProgress?.();
-    /* 清空订阅引用 */ this.unsubscribeProgress = undefined;
-    /* 取消挂起的进度定时器 */ if (this.progressDelay) clearTimeout(this.progressDelay);
-    /* 清空定时器引用 */ this.progressDelay = undefined;
-  }
-
-  watchProgress /* 开始进度监听 */(
-    maxBytes: number,
-    delayMs: number,
-    intervalMs: /* 轮询间隔 */ number,
-    onRead: (output: ExecutionStreamResult, preview: ExecutionOutputPreview) => void,
-  ): /* 无返回值 */ void {
-    /* 取消进度订阅 */ this.unsubscribeProgress?.();
-    /* 取消挂起的进度定时器 */ if (this.progressDelay) clearTimeout(this.progressDelay);
-    let previousLines = /* 上一轮已知行数 */ 0;
-    let generation = 0;
-    const ownGeneration = ++generation;
-    this.progressDelay = setTimeout(
-      () => {
-        this.unsubscribeProgress = subscribeBashOutputProgress(intervalMs, async (isActive) => {
-          if (!isActive() || ownGeneration !== generation) return;
-          try /* 可能失败：按降级语义处理 */ {
-            const output = /* 读取结果 */ await readBashOutput(
-              this.path,
-              Math.min(maxBytes, MAX_PROGRESS_READ_BYTES),
-              true,
-              /* 遗留编码 */ this.legacyEncoding,
-            );
-            if (!isActive() || ownGeneration !== generation) return;
-            const preview = /* 构造预览 */ buildBashOutputPreview(
-              output.text,
-              /* 已读字节 */ output.bytesRead,
-              output.bytes,
-              /* 上一轮行数 */ previousLines,
-            );
-            previousLines = preview.totalLines;
-            /* 回调上层 */ onRead(output, preview);
-          } catch /* 失败降级：不抛出 */ {
-            // Progress reads are advisory.
-          }
-        });
-      },
-      Math.max(0, delayMs),
-    );
-    this.progressDelay.unref();
-  }
-
-  async result(maxBytes: number): Promise<ExecutionStreamResult> {
-    try /* 可能失败：按降级语义处理 */ {
-      return await readBashOutput(this.path, maxBytes, false, this.legacyEncoding);
-    } catch /* 失败降级：不抛出 */ {
-      return /* 构造返回值 */ {
-        text: OUTPUT_UNAVAILABLE_TEXT,
-        bytes: 0,
-        truncated: /* 未截断 */ false,
-        artifactPath: this.path,
-        artifactBytes: 0,
-        artifactTruncated: /* 产物未截断 */ false,
-      };
-    }
+/** 打开前该路径还不存在，才记为「本次创建」，丢弃时才有权删除。 */
+async function absentBeforeOpen(target: string): Promise<boolean> {
+  try {
+    await stat(target);
+    return false;
+  } catch (error) {
+    return (error as NodeJS.ErrnoException).code === "ENOENT";
   }
 }
 
-export async function /* 读取 bash 输出（尾部可选） */ readBashOutput(
+/** win32 独占重写：上一次的残留内容不参与本次输出。 */
+function openForRewrite(target: string): Promise<FileHandle> {
+  return open(target, "w", 0o600);
+}
+
+/** POSIX 追加写，并且拒绝跟随符号链接。 */
+function openForAppendNoFollow(target: string): Promise<FileHandle> {
+  const flags =
+    constants.O_CREAT | constants.O_APPEND | constants.O_WRONLY | (constants.O_NOFOLLOW ?? 0);
+  return open(target, flags, 0o600);
+}
+
+function openForPlatform(target: string, platform: NodeJS.Platform): Promise<FileHandle> {
+  return platform === "win32" ? openForRewrite(target) : openForAppendNoFollow(target);
+}
+
+export function createBashFileOutput(
+  target: string,
+  platform: NodeJS.Platform,
+  legacyEncoding: string | null,
+): BashFileOutput {
+  let opened: FileHandle | undefined;
+  let owned = false;
+  let alreadyOpened = false;
+  let cancelOversize: (() => void) | undefined;
+  let cancelProgress: (() => void) | undefined;
+  let kickoff: NodeJS.Timeout | undefined;
+
+  async function releaseHandle(): Promise<void> {
+    const current = opened;
+    opened = undefined;
+    if (!current) return;
+    try {
+      await current.close();
+    } catch {
+      // 命令结果才是主失败通道，关闭失败只记在这里。
+    }
+  }
+
+  function silenceObservers(): void {
+    cancelOversize?.();
+    cancelOversize = undefined;
+    cancelProgress?.();
+    cancelProgress = undefined;
+    if (kickoff) clearTimeout(kickoff);
+    kickoff = undefined;
+  }
+
+  return {
+    path: target,
+
+    get handleFd(): number | undefined {
+      return opened?.fd;
+    },
+
+    get ownedFile(): boolean {
+      return owned;
+    },
+
+    async openStorage(): Promise<void> {
+      if (alreadyOpened) return;
+      await mkdir(path.dirname(target), { recursive: true, mode: 0o700 });
+      owned = await absentBeforeOpen(target);
+      opened = await openForPlatform(target, platform);
+      alreadyOpened = true;
+    },
+
+    releaseHandle,
+
+    async dropOwnedFile(): Promise<void> {
+      await releaseHandle();
+      if (!owned) return;
+      try {
+        await unlink(target);
+      } catch {
+        // 丢弃是尽力而为，权限或竞态都可能让它失败。
+      }
+    },
+
+    reportWhenOversized(maxBytes: number, onOversized: () => void): void {
+      cancelOversize?.();
+      let settled = false;
+      cancelOversize = subscribeBashOutputProgress(SIZE_WATCH_INTERVAL_MS, async (isActive) => {
+        if (settled || !isActive()) return;
+        let size: number;
+        try {
+          size = (await stat(target)).size;
+        } catch {
+          // 单次 stat 失败不影响后续轮次。
+          return;
+        }
+        if (!isActive() || settled || size <= maxBytes) return;
+        settled = true;
+        onOversized();
+        cancelOversize?.();
+      });
+    },
+
+    silenceObservers,
+
+    /**
+     * 延迟 kickoff 后按 intervalMs 轮询尾部。每次重入都递增代号，
+     * 上一代已排队的回调会在代号比较处被丢弃。
+     */
+    feedProgress(maxBytes: number, delayMs: number, intervalMs: number, onFeed: FeedSink): void {
+      cancelProgress?.();
+      if (kickoff) clearTimeout(kickoff);
+      let seenLines = 0;
+      let generation = 0;
+      const mine = ++generation;
+      kickoff = setTimeout(
+        () => {
+          cancelProgress = subscribeBashOutputProgress(intervalMs, async (isActive) => {
+            if (!isActive() || mine !== generation) return;
+            let stream: BashRead;
+            try {
+              stream = await readBashOutput(
+                target,
+                Math.min(maxBytes, PROGRESS_READ_WINDOW_BYTES),
+                true,
+                legacyEncoding,
+              );
+            } catch {
+              // 进度读取只作参考，不影响最终结果。
+              return;
+            }
+            if (!isActive() || mine !== generation) return;
+            const preview = buildBashOutputPreview({
+              text: stream.text,
+              bytesRead: stream.bytesRead,
+              totalBytes: stream.bytes,
+              previousLines: seenLines,
+            });
+            seenLines = preview.totalLines;
+            onFeed({ preview, stream });
+          });
+        },
+        Math.max(0, delayMs),
+      );
+      kickoff.unref();
+    },
+
+    async collect(maxBytes: number): Promise<ExecutionStreamResult> {
+      try {
+        return await readBashOutput(target, maxBytes, false, legacyEncoding);
+      } catch {
+        return {
+          text: UNREADABLE_OUTPUT_TEXT,
+          bytes: 0,
+          truncated: false,
+          artifactPath: target,
+          artifactBytes: 0,
+          artifactTruncated: false,
+        };
+      }
+    },
+  };
+}
+
+/** 按本次读到的字节组装契约形状，把字段顺序集中在一处。 */
+function makeRead(
+  bytes: Buffer,
+  size: number,
+  pathValue: string,
+  bytesRead: number,
+  legacyEncoding: string | null,
+): BashRead {
+  const read: BashRead = {} as BashRead;
+  read.text = decodeExecutionOutputBuffer(bytes.subarray(0, bytesRead), legacyEncoding);
+  read.bytes = size;
+  read.bytesRead = bytesRead;
+  read.truncated = bytesRead < size;
+  read.artifactPath = pathValue;
+  read.artifactBytes = size;
+  read.artifactTruncated = false;
+  return read;
+}
+
+/**
+ * 有界读取：tail 为真时读末尾，否则读开头。
+ * 返回体的 bytes 始终是文件总长，bytesRead 才是本次读到的量。
+ */
+export async function readBashOutput(
   pathValue: string,
   maxBytes: number,
-  tail: /* 是否只读尾部 */ boolean,
-  legacyEncoding: /* 遗留编码（无则 null） */ string | null,
-): Promise<ExecutionStreamResult & { bytesRead: number }> {
-  const handle = await open(pathValue, "r");
-  try /* 可能失败：按降级语义处理 */ {
-    const details = await handle.stat();
-    const bounded = Math.min(details.size, Math.max(0, Math.floor(maxBytes)));
-    const buffer = Buffer.alloc(bounded);
-    const position = tail ? Math.max(0, details.size - bounded) : 0;
-    const { bytesRead } =
-      bounded > 0 ? await handle.read(buffer, 0, bounded, position) : { bytesRead: 0 };
-    return /* 构造返回值 */ {
-      text: decodeExecutionOutputBuffer(buffer.subarray(0, bytesRead), legacyEncoding),
-      bytes: details.size,
-      /* 已读字节 */ bytesRead,
-      truncated: bytesRead < details.size,
-      artifactPath: pathValue,
-      artifactBytes: details.size,
-      artifactTruncated: /* 产物未截断 */ false,
-    };
-  } finally /* 无论如何都要收尾 */ {
-    try /* 可能失败：按降级语义处理 */ {
-      /* 关闭底层句柄 */ await handle.close();
-    } catch /* 失败降级：不抛出 */ {
-      // A close failure after a successful bounded read is secondary.
+  tail: boolean,
+  legacyEncoding: string | null,
+): Promise<BashRead> {
+  const source = await open(pathValue, "r");
+  try {
+    const size = (await source.stat()).size;
+    const wanted = Math.min(size, Math.max(0, Math.floor(maxBytes)));
+    if (wanted === 0) return makeRead(Buffer.alloc(0), size, pathValue, 0, legacyEncoding);
+    const chunk = Buffer.alloc(wanted);
+    const offset = tail ? size - wanted : 0;
+    const { bytesRead } = await source.read(chunk, 0, wanted, offset);
+    return makeRead(chunk, size, pathValue, bytesRead, legacyEncoding);
+  } finally {
+    try {
+      await source.close();
+    } catch {
+      // 成功读取之后的关闭失败属次要问题。
     }
   }
 }
 
+/** 输出丢失时的归因：先看剩余空间，再看 inode，都正常就返回 undefined。 */
 export async function diagnoseLostBashOutput(outputPath: string): Promise<string | undefined> {
-  try /* 可能失败：按降级语义处理 */ {
-    const details = await statfs(path.dirname(outputPath));
-    if (details.bavail <= 0)
-      return "Bash output could not be written because the output filesystem is full.";
-    if (details.ffree <= 0)
-      return "Bash output could not be written because the output filesystem has no free inodes.";
-  } catch /* 失败降级：不抛出 */ {
-    return /* 无可用输出 */ undefined;
+  const headroom = await readFilesystemHeadroom(path.dirname(outputPath));
+  if (headroom.failed) return undefined;
+  if (headroom.availableBlocks <= 0)
+    return "Bash output could not be written because the output filesystem is full.";
+  if (headroom.freeInodes <= 0)
+    return "Bash output could not be written because the output filesystem has no free inodes.";
+  return undefined;
+}
+
+/** 读文件系统余量；读不到时用 failed 标记，与「余量为零」区分开。 */
+async function readFilesystemHeadroom(directory: string): Promise<{
+  failed: boolean;
+  availableBlocks: number;
+  freeInodes: number;
+}> {
+  try {
+    const stats = await statfs(directory);
+    return { failed: false, availableBlocks: stats.bavail, freeInodes: stats.ffree };
+  } catch {
+    return { failed: true, availableBlocks: 0, freeInodes: 0 };
   }
-  return /* 无可用输出 */ undefined;
 }
