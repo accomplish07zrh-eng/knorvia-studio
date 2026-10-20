@@ -66,8 +66,14 @@ export function workspaceRef(workspacePath) {
   return { workspacePath, workspaceKey: workspacePath };
 }
 
-/** 启动一个 app-server 子进程并返回可观测句柄。 */
-export async function spawnAppServer({ workspace, home, engine }) {
+/**
+ * 启动一个 app-server 子进程并返回可观测句柄。
+ *
+ * `replyBody` 只给「反向请求应答结构」类用例用（B17）：默认用上面的
+ * RUNTIME_PREFERENCES；传入自定义对象可让应答的 result 里带上特定字段
+ * （例如含 "method" 键的对象，用于验证桥的结构判定不看子串）。
+ */
+export async function spawnAppServer({ workspace, home, engine, replyBody = RUNTIME_PREFERENCES }) {
   const entry = resolveBridgeEntry();
   assertBridgeEntry(entry);
   const child = spawn(process.execPath, [entry, "app-server", "--stdio"], {
@@ -80,6 +86,7 @@ export async function spawnAppServer({ workspace, home, engine }) {
   const state = { stdoutLines: [], stderrText: "", exit: undefined, invalidLines: [] };
   const messages = [];
   const reverseRequests = [];
+  const reverseScopes = [];
   const waiters = new Set();
   let nextId = 0;
 
@@ -102,7 +109,10 @@ export async function spawnAppServer({ workspace, home, engine }) {
     // 服务端反向请求必须应答，否则 CLI 侧等待会一直挂到超时。
     if (message.method !== undefined && message.id !== undefined) {
       reverseRequests.push(message.method);
-      child.stdin.write(`${JSON.stringify({ id: message.id, result: RUNTIME_PREFERENCES })}\n`);
+      // 记录 scope（session/requestRuntimePreferences 的两档之一），供 B11 断言。
+      const scope = message.params?.scope;
+      if (typeof scope === "string") reverseScopes.push(scope);
+      child.stdin.write(`${JSON.stringify({ id: message.id, result: replyBody })}\n`);
     }
     for (const waiter of [...waiters]) {
       if (waiter.predicate(message)) {
@@ -202,6 +212,7 @@ export async function spawnAppServer({ workspace, home, engine }) {
     state,
     messages,
     reverseRequests,
+    reverseScopes,
     request,
     writeRaw,
     waitFor,
