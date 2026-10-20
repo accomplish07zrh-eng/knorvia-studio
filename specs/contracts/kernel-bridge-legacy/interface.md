@@ -153,6 +153,31 @@ session/close
 **调用顺序也是冻结面**：参数校验（`-32602`）→ 会话存在性（`-32004`）→ 端口注册检查（`-32031`）→ 交端口执行。
 理由见 [known-differences.md](known-differences.md) D9：顺序颠倒会让 Host 把「会话不存在」误读成「功能永久缺失」。
 
+### 反向请求通道的访问器（2026-10-20 补充，供后续包作为调用方接入）
+
+§四 冻结的 `LegacyHostChannel`（`request` / `notify`）在 #230 交付时**只有类型**——当时唯一的使用者
+是本包自己（`runtime-preferences.ts` 发 `session/requestRuntimePreferences`）。`kernel-plugin-credentials`
+作为**调用方**要发 `interaction/requestProviderRuntimeHeaders` 时，需要一条公开路径，因此补：
+
+```ts
+// apps/cli/packages/bootstrap/src/kernel-bridge/legacy/index.ts
+/** 反向请求通道；未 attach（或已 detach）时返回 undefined。 */
+channelForHostRequests(): LegacyHostChannel | undefined;
+```
+
+**四条约束（冻结）**：
+
+1. **只暴露窄接口**：返回对象**只含** `request` / `notify`。桥的内部管理方法（`setChannel`、
+   `settleFromClient`、`dispose`、`pendingCount`）**不得**外露——否则调用方能改通道状态或伪造应答结算。
+2. **未 attach 时返回 `undefined`，不抛错**：与桥内部「未 attach 时反向请求按无客户端失败」的语义一致，
+   调用方用 `channel?` 判断即可。
+3. **不复制 pending 表**：`request` 直接转给桥的唯一 `HostRequestBook`，因此 `server-<n>` id 计数、
+   超时（`-32022`）、取消（`-32021`）、无客户端（`-32020`）与重发现语义全部不变（单一所有者）。
+4. **detach 之后旧引用仍可用但明确失败**：调用 `request` 得到既有 `-32020`，不崩溃、不静默成功
+   （安全口径：拿不到必须失败明确）。
+
+对应测试：`tests/host-channel.test.ts` 的 B18a–B18e。
+
 ## 五、`entry.ts` 的唯一改动点
 
 实现阶段在 `apps/cli/packages/bootstrap/src/kernel-bridge/entry.ts` 的 `route()` **default 分支**加一处委派：
