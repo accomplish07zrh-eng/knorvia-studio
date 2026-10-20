@@ -30,7 +30,7 @@ flowchart TB
 ```
 
 - Host 仍是任务、会话目录、群聊与工作流的唯一业务所有者；Main 与 relay 不承载业务状态（AGENTS.md）。
-- `CommandInbox` 仍在 `apps/cli/packages/bootstrap/src/protocol-v4/` 做串行 admission，DSH 的会话收件箱只接收已被 admission 的输入，不另开一条写入路径。
+- 新引擎下由协议桥（`apps/cli/packages/bootstrap/src/kernel-bridge/`）的 `CommandInbox` 做串行 admission，DSH 的会话收件箱只接收已被 admission 的输入，不另开一条写入路径。旧引擎仍用 `protocol-v4/` 的实现；两者按引擎互斥，`kernel-switch` 时删除旧实现，任何时刻同一进程只有一个 admission 所有者（2026-10-20 审查确认）。
 - **对话正文的唯一所有者是 DSH 会话日志**（模型上下文、消息、工具调用与结果、压缩检查点）。协议桥从 DSH 事件派生 v4 projection 与帧，不在 Knorvia SQLite 里再存一份正文。Knorvia 仍保存对话级元数据（标题、workspace identity、内核、目标外的产品字段）及旧会话库。
 - `desktop-continuous` 与 `web-remote-replayable` 两条链路语义不变：协议桥为每条 v4 帧保留现有序号与快照语义，重连与回放从 DSH 事件序号重建。
 
@@ -38,17 +38,18 @@ flowchart TB
 
 自带内核不得读写用户自己安装的 DSH，也不得被它影响。内核进程启动 DSH 前必须全部满足：
 
-| 来源        | 要求                                                                                                                                              |
-| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 主目录      | 设置 `DSH_HOME=<Knorvia 数据根>/dsh`（数据根遵守 `KNORVIA_DATA_BASE_DIR` 与便携目录）。用户的 `~/.dsh` 不读不写                                   |
-| 启动方式    | 用 `dsh-app-boot` 的直接配置入口加载 Knorvia 自己的固定插件组合；不使用 DSH 自带 profile，不叠加 `$DSH_HOME/cordis.patch.yml` 或任何用户 patch 层 |
-| `.env` 层   | 不加载工作区目录与 DSH 主目录下的 `.env`（DSH 默认会读启动目录的 `.env`，而启动目录可能是用户项目）                                               |
-| 环境变量    | 清除继承的 `DSH_*` 与各供应商 key 变量（如 `DEEPSEEK_API_KEY`），只注入 Knorvia 凭据服务提供的值                                                  |
-| 技能        | 不加载项目内 `.dsh/skills`；Knorvia 已有的 `.agents/skills` 与插件技能照旧，由 Knorvia 插件提供给 DSH                                             |
-| 指令文件    | 项目 `AGENTS.md` 照旧注入；用户全局指令只读 `DSH_HOME` 下的位置（默认为空）                                                                       |
-| Hook 兼容层 | 不挂载 `dsh-hooks-claude-code`、`dsh-hooks-codex`；Hook 由 Knorvia 插件按现有 7 种事件实现                                                        |
-| 遥测        | 组合中不挂载任何遥测行（含默认发往 DeepSeek 采集端的 OTel 导出），并设置 `DSH_TELEMETRY_DISABLED=1`                                               |
-| 程序版本    | 只用安装包内锁定版本，进程内加载；不在 PATH 中查找 `dsh`                                                                                          |
+| 来源           | 要求                                                                                                                                                                               |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 主目录         | 设置 `DSH_HOME=<Knorvia 数据根>/dsh`（数据根遵守 `KNORVIA_DATA_BASE_DIR` 与便携目录）。用户的 `~/.dsh` 不读不写                                                                    |
+| 启动方式       | 用 `dsh-app-boot` 的直接配置入口加载 Knorvia 自己的固定插件组合；不使用 DSH 自带 profile，不叠加 `$DSH_HOME/cordis.patch.yml` 或任何用户 patch 层                                  |
+| `.env` 层      | 不加载工作区目录与 DSH 主目录下的 `.env`（DSH 默认会读启动目录的 `.env`，而启动目录可能是用户项目）                                                                                |
+| 环境变量       | 清除继承的 `DSH_*` 与各供应商 key 变量（如 `DEEPSEEK_API_KEY`），只注入 Knorvia 凭据服务提供的值                                                                                   |
+| 工具子进程环境 | 启动时先保存用户环境快照；bash 等工具子进程使用该快照（只去掉 `DSH_*`），与旧内核“命令继承用户环境”的行为一致。凭据清理只约束 DSH 与模型适配，不得让用户项目脚本失去自己的环境变量 |
+| 技能           | 不加载项目内 `.dsh/skills`；Knorvia 已有的 `.agents/skills` 与插件技能照旧，由 Knorvia 插件提供给 DSH                                                                              |
+| 指令文件       | 项目 `AGENTS.md` 照旧注入；用户全局指令只读 `DSH_HOME` 下的位置（默认为空）                                                                                                        |
+| Hook 兼容层    | 不挂载 `dsh-hooks-claude-code`、`dsh-hooks-codex`；Hook 由 Knorvia 插件按现有 7 种事件实现                                                                                         |
+| 遥测           | 组合中不挂载任何遥测行（含默认发往 DeepSeek 采集端的 OTel 导出），并设置 `DSH_TELEMETRY_DISABLED=1`                                                                                |
+| 程序版本       | 只用安装包内锁定版本，进程内加载；不在 PATH 中查找 `dsh`                                                                                                                           |
 
 预置的外部内核 `deepseek-harness`（`acpCatalog.ts`）保持不变：它有意使用用户自己安装的 DSH 与 `~/.dsh`，与自带内核互不干扰。
 
@@ -82,16 +83,16 @@ flowchart TB
 
 ## 现有包的去向
 
-| 包（继承文件数）                                                                     | 去向                                                                                                                   |
-| ------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------- |
-| `core`（417）                                                                        | 运行时、工具调度、权限、压缩、上下文等由 DSH 与 Knorvia 插件取代；切换完成后整包删除。已合并的重写代码在切换前继续服役 |
-| `bootstrap`（125）                                                                   | 保留 app-server、v4 gateway、`CommandInbox`、projection；`createKnorviaApp` 组合根改为组装 DSH 与 Knorvia 插件         |
-| `contracts`（60，已重写）                                                            | 保留协议与产品类型；只服务于旧运行时的端口随 `core` 删除                                                               |
-| `adapters`（53，已重写）                                                             | 模型适配由 pi-ai 取代后删除；存储保留旧会话库读取；其余按需保留                                                        |
-| `cli`（93）、`tui`（93）                                                             | 入口与终端交互模式保留，按原计划重写，改接新运行时                                                                     |
-| `dynamic-workflow`（96）、`dynamic-workflow-runtime`（8）                            | 保留，按原计划重写                                                                                                     |
-| `telemetry`（12）                                                                    | 无上游遥测去向时删除；本地诊断指标如需保留，改由 Knorvia 插件提供                                                      |
-| `i18n`、`shared-types`、`node-repl-host`、`browser-use-plugin`、`superpowers-plugin` | 按原计划处理                                                                                                           |
+| 包（继承文件数）                                                                     | 去向                                                                                                                                                                                                                  |
+| ------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `core`（417）                                                                        | 运行时、工具调度、权限、压缩、上下文等由 DSH 与 Knorvia 插件取代；切换完成后整包删除。已合并的重写代码在切换前继续服役                                                                                                |
+| `bootstrap`（125）                                                                   | 保留 app-server 入口；新引擎的 v4 gateway、`CommandInbox`、projection 与旧协议方法由协议桥重新实现，旧 `protocol/`、`protocol-v4/` 实现随 `kernel-switch` 删除；`createKnorviaApp` 组合根改为组装 DSH 与 Knorvia 插件 |
+| `contracts`（60，已重写）                                                            | 保留协议与产品类型；只服务于旧运行时的端口随 `core` 删除                                                                                                                                                              |
+| `adapters`（53，已重写）                                                             | 模型适配由 pi-ai 取代后删除；存储保留旧会话库读取；其余按需保留                                                                                                                                                       |
+| `cli`（93）、`tui`（93）                                                             | 入口与终端交互模式保留，按原计划重写，改接新运行时                                                                                                                                                                    |
+| `dynamic-workflow`（96）、`dynamic-workflow-runtime`（8）                            | 保留，按原计划重写                                                                                                                                                                                                    |
+| `telemetry`（12）                                                                    | 无上游遥测去向时删除；本地诊断指标如需保留，改由 Knorvia 插件提供                                                                                                                                                     |
+| `i18n`、`shared-types`、`node-repl-host`、`browser-use-plugin`、`superpowers-plugin` | 按原计划处理                                                                                                                                                                                                          |
 
 ## 旧数据
 

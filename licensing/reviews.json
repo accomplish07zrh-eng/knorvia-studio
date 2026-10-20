@@ -64695,7 +64695,7 @@
     },
     {
       "path": "docs/knorvia-independent-replacement-plan.md",
-      "normalizedSha256": "5a2696a721a0cf65a2ac7c30304a5794501f95c523384e64f0a0ef9a37ab15d8",
+      "normalizedSha256": "346c04e3f67fc4417d3f0891f8a4f3be299d8c4d8c255842e16213880eafe638",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored planning document: the synchronized copy of the independent-replacement plan that this work executes. Written by the Knorvia team; it lists scope, decisions, milestones and acceptance criteria and reproduces no upstream source text. Registered as original so the plan copy itself carries its own provenance record.",
@@ -140254,7 +140254,7 @@
     },
     {
       "path": "specs/knorvia-builtin-kernel-dsh.md",
-      "normalizedSha256": "b172fd65af743cb68303cc49c60786ae380d40f2c7b870fb0468ce31c59e0e05",
+      "normalizedSha256": "74b0b90e0e5d4d1b838880f54236786b9226e5c02c66f447e003cb1ce08dcc3e",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored product specification written on 2026-10-17 for the decision to build the built-in kernel on DeepSeek Harness as a pinned dependency and to restructure the project into internal plugins. It describes Knorvia rules, ownership and acceptance in its own words and reproduces no upstream source text.",
