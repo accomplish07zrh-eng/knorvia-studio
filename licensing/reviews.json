@@ -146800,6 +146800,162 @@
         "specs/contracts/kernel-bridge-01/interface.md",
         "specs/contracts/kernel-bridge-01/acceptance.md"
       ]
+    },
+    {
+      "path": "specs/contracts/kernel-dsh-builtins/acceptance.md",
+      "normalizedSha256": "69a5567c4b18a5247de1d63f954c5e014dd79d7b0f9e3c835c8d3dc9d81699e8",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-dsh-builtins contract artifact for the M2 built-in kernel (DSH-backed). Written from specs/knorvia-builtin-kernel-dsh.md, the plan's kernel-direction adjustment (including the 2026-10-20 kernel-bridge-01 review conclusion), the DSH 0.2.0-rc.2 published type declarations, and runtime probes run outside the repo; no DSH source, no inherited runtime implementation and no upstream text was copied. Similarity against core/src/context/**, core/src/compact/**, core/src/tool/** and zai-org/ZCode@872ad960: max line containment 0.097, longest identical run 3, structural similarity 0.026; 12/12 candidates passed both gates.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-builtins/README.md",
+        "specs/contracts/kernel-dsh-builtins/behavior.md",
+        "specs/contracts/kernel-dsh-builtins/interface.md",
+        "specs/contracts/kernel-dsh-builtins/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-dsh-builtins/behavior.md",
+      "normalizedSha256": "64240a8c565ed520b55946818dbb61a1e35d52d65420afa2b62292fdc03ae61c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-dsh-builtins contract artifact for the M2 built-in kernel (DSH-backed). Written from specs/knorvia-builtin-kernel-dsh.md, the plan's kernel-direction adjustment (including the 2026-10-20 kernel-bridge-01 review conclusion), the DSH 0.2.0-rc.2 published type declarations, and runtime probes run outside the repo; no DSH source, no inherited runtime implementation and no upstream text was copied. Similarity against core/src/context/**, core/src/compact/**, core/src/tool/** and zai-org/ZCode@872ad960: max line containment 0.097, longest identical run 3, structural similarity 0.026; 12/12 candidates passed both gates.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-builtins/README.md",
+        "specs/contracts/kernel-dsh-builtins/behavior.md",
+        "specs/contracts/kernel-dsh-builtins/interface.md",
+        "specs/contracts/kernel-dsh-builtins/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-dsh-builtins/callers.md",
+      "normalizedSha256": "fc9b61f98c4540ae5612fcfecdb37d84e4544803960d14947bdce3dd1dc49afd",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-dsh-builtins contract artifact for the M2 built-in kernel (DSH-backed). Written from specs/knorvia-builtin-kernel-dsh.md, the plan's kernel-direction adjustment (including the 2026-10-20 kernel-bridge-01 review conclusion), the DSH 0.2.0-rc.2 published type declarations, and runtime probes run outside the repo; no DSH source, no inherited runtime implementation and no upstream text was copied. Similarity against core/src/context/**, core/src/compact/**, core/src/tool/** and zai-org/ZCode@872ad960: max line containment 0.097, longest identical run 3, structural similarity 0.026; 12/12 candidates passed both gates.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-builtins/README.md",
+        "specs/contracts/kernel-dsh-builtins/behavior.md",
+        "specs/contracts/kernel-dsh-builtins/interface.md",
+        "specs/contracts/kernel-dsh-builtins/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-dsh-builtins/interface.md",
+      "normalizedSha256": "9e0723053e58201b6e7d5ccc338ad333bd9de25ff0397a692c5f28593dc623aa",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-dsh-builtins contract artifact for the M2 built-in kernel (DSH-backed). Written from specs/knorvia-builtin-kernel-dsh.md, the plan's kernel-direction adjustment (including the 2026-10-20 kernel-bridge-01 review conclusion), the DSH 0.2.0-rc.2 published type declarations, and runtime probes run outside the repo; no DSH source, no inherited runtime implementation and no upstream text was copied. Similarity against core/src/context/**, core/src/compact/**, core/src/tool/** and zai-org/ZCode@872ad960: max line containment 0.097, longest identical run 3, structural similarity 0.026; 12/12 candidates passed both gates.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-builtins/README.md",
+        "specs/contracts/kernel-dsh-builtins/behavior.md",
+        "specs/contracts/kernel-dsh-builtins/interface.md",
+        "specs/contracts/kernel-dsh-builtins/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-dsh-builtins/known-differences.md",
+      "normalizedSha256": "f6aa5d305d03262aab5e0d755299f1d29e0d47bd9cbe55207a89450c654d17dc",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-dsh-builtins contract artifact for the M2 built-in kernel (DSH-backed). Written from specs/knorvia-builtin-kernel-dsh.md, the plan's kernel-direction adjustment (including the 2026-10-20 kernel-bridge-01 review conclusion), the DSH 0.2.0-rc.2 published type declarations, and runtime probes run outside the repo; no DSH source, no inherited runtime implementation and no upstream text was copied. Similarity against core/src/context/**, core/src/compact/**, core/src/tool/** and zai-org/ZCode@872ad960: max line containment 0.097, longest identical run 3, structural similarity 0.026; 12/12 candidates passed both gates.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-builtins/README.md",
+        "specs/contracts/kernel-dsh-builtins/behavior.md",
+        "specs/contracts/kernel-dsh-builtins/interface.md",
+        "specs/contracts/kernel-dsh-builtins/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-dsh-builtins/README.md",
+      "normalizedSha256": "2e0960b795b693d7a5797ad47a09cb4df2c5e0ca490651b6e152773922947c42",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-dsh-builtins contract artifact for the M2 built-in kernel (DSH-backed). Written from specs/knorvia-builtin-kernel-dsh.md, the plan's kernel-direction adjustment (including the 2026-10-20 kernel-bridge-01 review conclusion), the DSH 0.2.0-rc.2 published type declarations, and runtime probes run outside the repo; no DSH source, no inherited runtime implementation and no upstream text was copied. Similarity against core/src/context/**, core/src/compact/**, core/src/tool/** and zai-org/ZCode@872ad960: max line containment 0.097, longest identical run 3, structural similarity 0.026; 12/12 candidates passed both gates.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-builtins/README.md",
+        "specs/contracts/kernel-dsh-builtins/behavior.md",
+        "specs/contracts/kernel-dsh-builtins/interface.md",
+        "specs/contracts/kernel-dsh-builtins/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-dsh-builtins/fixtures/child-environment.json",
+      "normalizedSha256": "40105a6760f1c6df13cfa2fbbf0f041d4eb079f35b1cb0db937016079a72b2b9",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-dsh-builtins contract artifact for the M2 built-in kernel (DSH-backed). Written from specs/knorvia-builtin-kernel-dsh.md, the plan's kernel-direction adjustment (including the 2026-10-20 kernel-bridge-01 review conclusion), the DSH 0.2.0-rc.2 published type declarations, and runtime probes run outside the repo; no DSH source, no inherited runtime implementation and no upstream text was copied. Similarity against core/src/context/**, core/src/compact/**, core/src/tool/** and zai-org/ZCode@872ad960: max line containment 0.097, longest identical run 3, structural similarity 0.026; 12/12 candidates passed both gates.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-builtins/README.md",
+        "specs/contracts/kernel-dsh-builtins/behavior.md",
+        "specs/contracts/kernel-dsh-builtins/interface.md",
+        "specs/contracts/kernel-dsh-builtins/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-dsh-builtins/fixtures/mcp-servers.json",
+      "normalizedSha256": "96fa5d591ccdcbdf70b47ffc4727be7ad97273990665fdaee58246c4f21dfc24",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-dsh-builtins contract artifact for the M2 built-in kernel (DSH-backed). Written from specs/knorvia-builtin-kernel-dsh.md, the plan's kernel-direction adjustment (including the 2026-10-20 kernel-bridge-01 review conclusion), the DSH 0.2.0-rc.2 published type declarations, and runtime probes run outside the repo; no DSH source, no inherited runtime implementation and no upstream text was copied. Similarity against core/src/context/**, core/src/compact/**, core/src/tool/** and zai-org/ZCode@872ad960: max line containment 0.097, longest identical run 3, structural similarity 0.026; 12/12 candidates passed both gates.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-builtins/README.md",
+        "specs/contracts/kernel-dsh-builtins/behavior.md",
+        "specs/contracts/kernel-dsh-builtins/interface.md",
+        "specs/contracts/kernel-dsh-builtins/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-dsh-builtins/fixtures/README.md",
+      "normalizedSha256": "aa426c8dc471dac9811b8d91a87c4ed1e244e1414087b3a26d1ef2809ddf1028",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-dsh-builtins contract artifact for the M2 built-in kernel (DSH-backed). Written from specs/knorvia-builtin-kernel-dsh.md, the plan's kernel-direction adjustment (including the 2026-10-20 kernel-bridge-01 review conclusion), the DSH 0.2.0-rc.2 published type declarations, and runtime probes run outside the repo; no DSH source, no inherited runtime implementation and no upstream text was copied. Similarity against core/src/context/**, core/src/compact/**, core/src/tool/** and zai-org/ZCode@872ad960: max line containment 0.097, longest identical run 3, structural similarity 0.026; 12/12 candidates passed both gates.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-builtins/README.md",
+        "specs/contracts/kernel-dsh-builtins/behavior.md",
+        "specs/contracts/kernel-dsh-builtins/interface.md",
+        "specs/contracts/kernel-dsh-builtins/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-dsh-builtins/fixtures/runtime-context.json",
+      "normalizedSha256": "3f8c3a18dad1cd08d47b5e4346f519b8b45f1671e7729db70235e8b42d56bd7d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-dsh-builtins contract artifact for the M2 built-in kernel (DSH-backed). Written from specs/knorvia-builtin-kernel-dsh.md, the plan's kernel-direction adjustment (including the 2026-10-20 kernel-bridge-01 review conclusion), the DSH 0.2.0-rc.2 published type declarations, and runtime probes run outside the repo; no DSH source, no inherited runtime implementation and no upstream text was copied. Similarity against core/src/context/**, core/src/compact/**, core/src/tool/** and zai-org/ZCode@872ad960: max line containment 0.097, longest identical run 3, structural similarity 0.026; 12/12 candidates passed both gates.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-builtins/README.md",
+        "specs/contracts/kernel-dsh-builtins/behavior.md",
+        "specs/contracts/kernel-dsh-builtins/interface.md",
+        "specs/contracts/kernel-dsh-builtins/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-dsh-builtins/tests/default-engine.test.mjs",
+      "normalizedSha256": "68648928ad1297b463e32f731f7ce7aa3ee36e1ff4f037b31dbe6da07c1b5534",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-dsh-builtins contract artifact for the M2 built-in kernel (DSH-backed). Written from specs/knorvia-builtin-kernel-dsh.md, the plan's kernel-direction adjustment (including the 2026-10-20 kernel-bridge-01 review conclusion), the DSH 0.2.0-rc.2 published type declarations, and runtime probes run outside the repo; no DSH source, no inherited runtime implementation and no upstream text was copied. Similarity against core/src/context/**, core/src/compact/**, core/src/tool/** and zai-org/ZCode@872ad960: max line containment 0.097, longest identical run 3, structural similarity 0.026; 12/12 candidates passed both gates.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-builtins/README.md",
+        "specs/contracts/kernel-dsh-builtins/behavior.md",
+        "specs/contracts/kernel-dsh-builtins/interface.md",
+        "specs/contracts/kernel-dsh-builtins/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-dsh-builtins/tests/entry.mjs",
+      "normalizedSha256": "eb07222979f4cf5157460907d28a83b2f4309c089c2ccd55337a302f22c4cfd7",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored kernel-dsh-builtins contract artifact for the M2 built-in kernel (DSH-backed). Written from specs/knorvia-builtin-kernel-dsh.md, the plan's kernel-direction adjustment (including the 2026-10-20 kernel-bridge-01 review conclusion), the DSH 0.2.0-rc.2 published type declarations, and runtime probes run outside the repo; no DSH source, no inherited runtime implementation and no upstream text was copied. Similarity against core/src/context/**, core/src/compact/**, core/src/tool/** and zai-org/ZCode@872ad960: max line containment 0.097, longest identical run 3, structural similarity 0.026; 12/12 candidates passed both gates.",
+      "evidence": [
+        "specs/contracts/kernel-dsh-builtins/README.md",
+        "specs/contracts/kernel-dsh-builtins/behavior.md",
+        "specs/contracts/kernel-dsh-builtins/interface.md",
+        "specs/contracts/kernel-dsh-builtins/acceptance.md"
+      ]
     }
   ]
 }
