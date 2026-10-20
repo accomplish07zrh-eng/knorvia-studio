@@ -63673,7 +63673,7 @@
     },
     {
       "path": "docs/knorvia-adapters-similarity-rework-acceptance.md",
-      "normalizedSha256": "ca411939f2bc5f119f0aacb5f8f5cf0efef814606c13a5381021f284d039416c",
+      "normalizedSha256": "7e16c741eed73f1cd6647c64e4348d0eecbffcc46443ded242dc0969a8446efe",
       "decision": "original",
       "license": "MIT",
       "basis": "Root-authored acceptance record for the adapters anti-gaming similarity rework (#124 (c) class plus (d) class attribution, issue #224). Records per-file scoring mode (normal mode for private implementation modules not listed in interface.md, declaration mode for pure declaration and barrel files), old-to-new containment/longest-run/structural measurements, the eight (a) class files deleted with kernel-switch and their deletion basis, the seven (b) class files already reworked by PR #210 and #203, the ten (d) class attribution decisions with pnpm dep:refs evidence, and the gate results. No implementation code: documentation evidence only. Updated 2026-10-20 to add the isolation and process-safety self-check section: the full tree was scanned for process-level bulk termination (taskkill /IM, pkill, killall and executable-name or port matching), real DSH home access (DSH_HOME, .dsh, DSH_SESSION_ID, DSH_WEB_URL), hardcoded user directories and fixture temporary roots; every process termination found is PID-directed, the Unix descendant enumeration follows pgrep -P and ppid layers from the owned root pid, all fixtures use mkdtemp under tmpdir(), and cross-entry interface checks avoid instanceof. It also records the batch roster reconciliation (77 = adapters 63 + core 7 + shared 6 + node-repl-host 1) and the per-file attribution table. Documentation evidence only; no implementation code.",
