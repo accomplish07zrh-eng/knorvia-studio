@@ -30,9 +30,18 @@ import type {
 
 const DEFAULT_PORT_SCHEMES = new Set(["http:", "https:", "ws:", "wss:", "ftp:"]);
 
-/** 工具透传环境里按序尝试的代理变量名（大写在前，小写随后）。 */
-const CAPTURED_PROXY_KEYS =
-  "https_proxy HTTPS_PROXY http_proxy HTTP_PROXY all_proxy ALL_PROXY".split(" ");
+/**
+ * 工具透传环境里按序尝试的代理变量名（大写在前，小写随后）。
+ * 空格分隔的字面量再拆分属压行写法，这里按组声明；运行时顺序不变。
+ */
+const CAPTURED_HTTPS_KEYS = ["https_proxy", "HTTPS_PROXY"] as const;
+const CAPTURED_HTTP_KEYS = ["http_proxy", "HTTP_PROXY"] as const;
+const CAPTURED_ALL_KEYS = ["all_proxy", "ALL_PROXY"] as const;
+const CAPTURED_PROXY_KEYS: readonly string[] = [
+  ...CAPTURED_HTTPS_KEYS,
+  ...CAPTURED_HTTP_KEYS,
+  ...CAPTURED_ALL_KEYS,
+];
 
 function nonblank(value: string | undefined): string | undefined {
   const text = value?.trim();
@@ -41,17 +50,11 @@ function nonblank(value: string | undefined): string | undefined {
 
 /** 目标 URL：非 string/URL 或非 http(s) 协议一律视为不可代理。 */
 function requestTarget(input: string | URL): URL | undefined {
-  let url: URL;
-  if (typeof input === "string") {
-    try {
-      url = new URL(input);
-    } catch {
-      return undefined;
-    }
-  } else {
-    url = input;
-  }
-  return url.protocol === "http:" || url.protocol === "https:" ? url : undefined;
+  // URL.parse 不抛异常，非法输入直接返回 null，省掉 try/catch 这一层。
+  const url = typeof input === "string" ? URL.parse(input) : input;
+  if (url === null) return undefined;
+  if (url.protocol === "http:" || url.protocol === "https:") return url;
+  return undefined;
 }
 
 /** 主机名规范化：去空白、小写、剥掉 IPv6 方括号与结尾的点。 */
@@ -61,22 +64,21 @@ function normalizedHost(input: string): string {
   return host.endsWith(".") ? host.slice(0, -1) : host;
 }
 
-/** 带 scheme 的 no_proxy 条目：解析成 host + 端口。 */
+/** 带 scheme 的 no_proxy 条目：解析成 host + 端口。解析不了就跳过该条。 */
 function urlRule(token: string): BypassRule | undefined {
-  try {
-    const url = new URL(token);
-    const explicitPort = url.port;
-    if (explicitPort || !DEFAULT_PORT_SCHEMES.has(url.protocol)) {
-      return { host: normalizedHost(url.hostname), port: explicitPort || undefined };
-    }
-    // native URL 会隐藏显式默认端口；换另一个 special scheme 只恢复端口存在性。
-    // authority/control/slash 的解析仍交原生 URL，避免把 path/userinfo 的冒号当端口。
-    const scheme = url.protocol === "https:" || url.protocol === "wss:" ? "http:" : "https:";
-    const recovered = new URL(scheme + token.slice(token.indexOf(":") + 1)).port;
-    return { host: normalizedHost(url.hostname), port: recovered || undefined };
-  } catch {
-    return undefined;
+  // URL.parse 返回 null 而非抛错，省掉外层 try/catch。
+  const url = URL.parse(token);
+  if (url === null) return undefined;
+
+  const explicitPort = url.port;
+  if (explicitPort || !DEFAULT_PORT_SCHEMES.has(url.protocol)) {
+    return { host: normalizedHost(url.hostname), port: explicitPort || undefined };
   }
+  // native URL 会隐藏显式默认端口；换另一个 special scheme 只恢复端口存在性。
+  // authority/control/slash 的解析仍交原生 URL，避免把 path/userinfo 的冒号当端口。
+  const scheme = url.protocol === "https:" || url.protocol === "wss:" ? "http:" : "https:";
+  const recovered = URL.parse(scheme + token.slice(token.indexOf(":") + 1));
+  return { host: normalizedHost(url.hostname), port: recovered?.port || undefined };
 }
 
 /** 不带 scheme 的条目：支持 [v6]:port、host:port 与裸主机。 */
@@ -135,35 +137,51 @@ function bypasses(url: URL, list: string | undefined): boolean {
 function normalizedProxy(value: string | undefined): string | undefined {
   const text = nonblank(value);
   if (!text) return undefined;
-  try {
-    const hasScheme = /^[a-z][a-z\d+.-]*:\/\//i.test(text);
-    return new URL(hasScheme ? text : `http://${text}`).href;
-  } catch {
-    return undefined;
-  }
+  // 缺 scheme 时补 http://，再交给 URL.parse（不抛异常，失败返回 null）。
+  const hasScheme = /^[a-z][a-z\d+.-]*:\/\//i.test(text);
+  const parsed = URL.parse(hasScheme ? text : `http://${text}`);
+  return parsed?.href;
+}
+
+/**
+ * 直连结论（未命中绕过、也没有可用代理）。
+ * 每次都要新建对象：调用方可能就地记录或改写，共享同一实例会互相污染。
+ */
+function directResolution(): NetworkProxyResolution {
+  return { noProxyMatched: false };
+}
+
+/** 命中 no_proxy 的结论。同样每次新建。 */
+function bypassResolution(): NetworkProxyResolution {
+  return { noProxyMatched: true };
+}
+
+/** 组装「经某个代理出去」的结论。 */
+function viaProxy(proxySource: string, proxyUrl: string): NetworkProxyResolution {
+  const resolution = {} as NetworkProxyResolution;
+  resolution.noProxyMatched = false;
+  resolution.proxySource = proxySource;
+  resolution.proxyUrl = proxyUrl;
+  return resolution;
 }
 
 function explicitProxy(settings: NetworkProxyOptions): NetworkProxyResolution | undefined {
   const source = normalizedProxy(settings.httpProxy);
   if (source === undefined) return undefined;
-  return { noProxyMatched: false, proxySource: "network.httpProxy", proxyUrl: source };
+  return viaProxy("network.httpProxy", source);
 }
 
 function environmentProxy(settings: NetworkProxyOptions): NetworkProxyResolution | undefined {
   const source = normalizedProxy(settings.env?.[KNORVIA_HTTP_PROXY_ENV_KEY]);
   if (source === undefined) return undefined;
-  return {
-    noProxyMatched: false,
-    proxySource: `env:${KNORVIA_HTTP_PROXY_ENV_KEY}`,
-    proxyUrl: source,
-  };
+  return viaProxy(`env:${KNORVIA_HTTP_PROXY_ENV_KEY}`, source);
 }
 
 /** 产品自身配置的解析：绕过 → 显式 → 环境变量。 */
 function productSelection(url: URL, settings: NetworkProxyOptions): NetworkProxyResolution {
   const list = nonblank(settings.noProxy) ?? nonblank(settings.env?.[KNORVIA_NO_PROXY_ENV_KEY]);
-  if (bypasses(url, list)) return { noProxyMatched: true };
-  return explicitProxy(settings) ?? environmentProxy(settings) ?? { noProxyMatched: false };
+  if (bypasses(url, list)) return bypassResolution();
+  return explicitProxy(settings) ?? environmentProxy(settings) ?? directResolution();
 }
 
 /** 工具透传环境：no_proxy 先判绕过，再按变量顺序取第一个可用代理。 */
@@ -173,15 +191,12 @@ function capturedSelection(
 ): NetworkProxyResolution | undefined {
   const captured = readKnorviaToolEnvPassthroughEnv(settings.env ?? {});
   const list = nonblank(captured.no_proxy) ?? nonblank(captured.NO_PROXY);
-  if (bypasses(url, list)) return { noProxyMatched: true };
+  if (bypasses(url, list)) return bypassResolution();
   for (const key of CAPTURED_PROXY_KEYS) {
     const source = normalizedProxy(captured[key]);
-    if (source === undefined) continue;
-    return {
-      noProxyMatched: false,
-      proxySource: `env:${KNORVIA_TOOL_ENV_PASSTHROUGH_ENV_KEY}.${key}`,
-      proxyUrl: source,
-    };
+    if (source !== undefined) {
+      return viaProxy(`env:${KNORVIA_TOOL_ENV_PASSTHROUGH_ENV_KEY}.${key}`, source);
+    }
   }
   return undefined;
 }
@@ -202,8 +217,7 @@ export function resolveProxyForRequest(
   options: NetworkProxyOptions,
 ): NetworkProxyResolution {
   const url = requestTarget(requestUrl);
-  if (!url) return { noProxyMatched: false };
-  return productSelection(url, options);
+  return url === undefined ? directResolution() : productSelection(url, options);
 }
 
 export function resolveWebFetchProxyForRequest(
@@ -211,10 +225,10 @@ export function resolveWebFetchProxyForRequest(
   options: NetworkProxyOptions,
 ): NetworkProxyResolution {
   const url = requestTarget(requestUrl);
-  if (!url) return { noProxyMatched: false };
+  if (url === undefined) return directResolution();
   const selected = productSelection(url, options);
   if (selected.noProxyMatched || selected.proxyUrl !== undefined) return selected;
-  return capturedSelection(url, options) ?? { noProxyMatched: false };
+  return capturedSelection(url, options) ?? directResolution();
 }
 
 export function resolveTlsCaCertFile(options: NetworkTlsOptions): string | undefined {
