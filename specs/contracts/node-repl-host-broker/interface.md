@@ -46,10 +46,13 @@ export function brokerCall(
 > 表格内**只放文件名与契约名**：`--contract-lines` 会提取整份 `interface.md` 表格行里的全部标识符，
 > 混入实现细节会让剔除范围失真（实测：说明列里的实现名会被误剔，多剔 3 行）。
 
-| 文件                           | 兼容名                                                                                                                                                                              |
-| ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `runtime-bridge.ts`            | `NodeReplBrowserRuntimeBridge` `documentationRoot` `assertAvailable` `readNodeReplBrowserRuntimeBridge` `NODE_REPL_BROWSER_BRIDGE_SYMBOL` `BROWSER_UNAVAILABLE_IN_SUBAGENT_MESSAGE` |
-| `browser-broker-connection.ts` | `sessionId` `turnId` `browserId` `browserGeneration` `command` `id` `ok`                                                                                                            |
+| 文件                           | 兼容名                                                                                                                                                                                                      |
+| ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `runtime-bridge.ts`            | `NodeReplBrowserRuntimeBridge` `documentationRoot` `assertAvailable` `readNodeReplBrowserRuntimeBridge` `NODE_REPL_BROWSER_BRIDGE_SYMBOL` `BROWSER_UNAVAILABLE_IN_SUBAGENT_MESSAGE`                         |
+| `browser-broker-connection.ts` | `sessionId` `turnId` `browserId` `browserGeneration` `command` `id` `ok`                                                                                                                                    |
+| `browser-control-broker.ts`    | `createProtocolBrowserControlBroker` `BrowserControlPort`                                                                                                                                                   |
+| `executor.ts`                  | `NodeReplExecuteInput` `NodeReplExecutor` `WORKER_KIND` `createInProcessNodeReplExecutor` `NodeReplRunResult` `NodeReplRequestMeta` `NodeReplCuaBrokerConnection` `requestMeta` `syncTimeoutMs` `cuaBroker` |
+| `mcp-runtime.ts`               | `NodeReplMcpRuntime` `NodeReplRuntimeOptions` `createMcpRuntime` `executeJs` `cuaRuntime` `windowsRuntime`                                                                                                  |
 
 ### 为什么这些名字不能改名（证据，不属于剔除依据）
 
