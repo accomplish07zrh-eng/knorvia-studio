@@ -15,12 +15,41 @@ import { emitStreamRecoveryRetryEvents, emitStreamRecoveryStarted } from "./reco
 import { beginStreamRecoveryAttempt } from "./recovery-plan.js";
 import { buildSyntheticStreamedToolResult } from "./synthetic-results.js";
 
-/** 补执行编排的输入面。 */
-export interface ModelFailureRecoveryRequest {
+/** 恢复事件的公共入参（三项标识 + 模型 + 追踪）。 */
+export type RecoveryEventOptions = {
+  assistantMessageId: MessageId;
+  failedRequestId?: string;
+  model: Model;
+  traceContext: TraceContext;
+};
+
+/**
+ * 合成补执行结果时的「未执行原因」判定。
+ *
+ * 两种原因必须区分：执行表里有过登记但没出结果 → `unknown_execution_state`；
+ * 压根没登记 → `not_executed`。两者在账本里是可分辨的事实，不能合并。
+ */
+function unexecutedReason(
+  executions: ExecutionTable,
+  toolCall: ModelToolCall,
+): "unknown_execution_state" | "not_executed" {
+  return executions.has(toolCall.id) ? "unknown_execution_state" : "not_executed";
+}
+
+/** 恢复所需的表与端口（声明表、执行表、运行时端口面、回合状态）。 */
+export type RecoveryTablesAndPorts = {
   /** 声明副本表（登记序）。 */
   declarations: ModelToolCall[];
   /** 已启动的执行表。 */
   executions: ExecutionTable;
+  /** 运行时端口面。 */
+  runtime: AgentRuntimeInternal;
+  /** 回合状态。 */
+  state: RegularTurnLoopState;
+};
+
+/** 恢复所需的放弃计数与触发原因（错误本体、助手时刻、崩溃前已丢弃的字节）。 */
+export type RecoveryFailureFacts = {
   /** 触发恢复的错误。 */
   error: unknown;
   /** 助手消息创建时刻。 */
@@ -29,19 +58,42 @@ export interface ModelFailureRecoveryRequest {
   discardedReasoningBytes: number;
   /** 已丢弃的文本字节数。 */
   discardedTextBytes: number;
-  /** 恢复事件的公共入参 + 模型。 */
-  options: {
-    assistantMessageId: MessageId;
-    failedRequestId?: string;
-    model: Model;
-    traceContext: TraceContext;
-  };
-  /** 运行时端口面。 */
-  runtime: AgentRuntimeInternal;
-  /** 回合状态。 */
-  state: RegularTurnLoopState;
+};
+
+/** 编排收尾需要摘除的监听。 */
+export type RecoveryAbortTeardown = {
   /** 回合 abort 监听（编排收尾时摘除）。 */
   turnAbortListener: () => void;
+};
+
+/**
+ * 补执行编排的输入面。
+ *
+ * 按语义分成四组（表与端口 / 失败事实 / 事件入参 / 收尾），而不是摊平成十个同质字段：
+ * 分组让「哪些是外部状态、哪些是这次失败的观测值」在类型上就分开，
+ * 也避免一长串 `字段: 类型;` 的机械重复。
+ */
+export interface ModelFailureRecoveryRequest
+  extends RecoveryTablesAndPorts, RecoveryFailureFacts, RecoveryAbortTeardown {
+  /** 恢复事件的公共入参 + 模型。 */
+  options: RecoveryEventOptions;
+}
+
+/**
+ * 补执行的「合成模型响应」。
+ *
+ * 为什么是一个显式构造器而不是内联字面量：这个对象是**伪造的模型响应**（真实响应因流失败
+ * 而不可得），把它单独命名能让审查者一眼看到「这里在补一个不存在的东西」，
+ * 也让 `finishReason` / `providerMetadata` 这两个关键标记有明确的归属。
+ */
+function syntheticModelResponse(declarations: readonly ModelToolCall[]): Record<string, unknown> {
+  return {
+    finishReason: "tool-calls",
+    providerMetadata: { recoveredFromStreamFailure: true },
+    text: "",
+    toolCalls: declarations,
+    usage: {},
+  };
 }
 
 /** 有声明的补执行编排：返回恒真（调用方已做短路判定）。 */
@@ -58,13 +110,10 @@ export async function recoverWithDeclaredTools(
   const completedById = new Map<string, StreamedToolExecutionResult>(
     completed.map((result) => [String(result.toolCallId), result]),
   );
-  const streamedToolResults = declarations.map(
+  const streamedToolResults: StreamedToolExecutionResult[] = declarations.map(
     (toolCall) =>
       completedById.get(toolCall.id) ??
-      buildSyntheticStreamedToolResult(
-        toolCall,
-        executions.has(toolCall.id) ? "unknown_execution_state" : "not_executed",
-      ),
+      buildSyntheticStreamedToolResult(toolCall, unexecutedReason(executions, toolCall)),
   );
 
   // 步骤三：恢复 Started 事件先于补执行的任何持久化。
@@ -93,13 +142,7 @@ export async function recoverWithDeclaredTools(
     assistantCreatedAt: request.assistantCreatedAt,
     assistantMessageId: request.options.assistantMessageId,
     modelTraceContext: request.options.traceContext,
-    result: {
-      finishReason: "tool-calls",
-      providerMetadata: { recoveredFromStreamFailure: true },
-      text: "",
-      toolCalls: declarations,
-      usage: {},
-    } as never,
+    result: syntheticModelResponse(declarations) as never,
     streamedToolResults,
     toolCalls: declarations,
   });
