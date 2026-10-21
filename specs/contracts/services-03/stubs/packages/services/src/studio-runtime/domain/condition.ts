@@ -4,6 +4,12 @@
 throw new Error("not implemented: services-03");
 
 export type StudioConditionScope = unknown;
-export function parseStudioCondition(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
-export function studioConditionReferences(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
-export function evaluateStudioCondition(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
+export function parseStudioCondition(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}
+export function studioConditionReferences(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}
+export function evaluateStudioCondition(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}

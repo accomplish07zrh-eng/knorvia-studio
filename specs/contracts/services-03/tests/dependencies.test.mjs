@@ -114,7 +114,9 @@ describe(`dependencies（${isDist ? "dist" : "source"} 入口）`, () => {
     assert.equal(inDegree.get("kernelPolicy"), 4, "kernelPolicy 应被 4 个层内模块依赖");
 
     // 叶子 = 不依赖任何层内模块的节点。实测 17 个（本层耦合很松）。
-    const leaves = [...outDegree.entries()].filter(([, count]) => count === 0).map(([name]) => name);
+    const leaves = [...outDegree.entries()]
+      .filter(([, count]) => count === 0)
+      .map(([name]) => name);
     assert.equal(leaves.length, 17, `叶子应为 17 个，实际 ${leaves.length}`);
     // 其中 4 个最值得注意：2 个是纯规则叶子（referencePath / staticPng），
     // capabilityMatrix 与 canonicalValue 也完全没有层内依赖。

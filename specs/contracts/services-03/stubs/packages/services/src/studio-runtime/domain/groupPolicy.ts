@@ -7,7 +7,15 @@ export const STUDIO_GROUP_LIMITS: unknown = undefined;
 export type StudioGroupTask = unknown;
 export type StudioGroupPlan = unknown;
 export type StudioGroupReview = unknown;
-export function validateStudioGroup(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
-export function routeStudioGroupMembers(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
-export function parseStudioGroupPlan(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
-export function parseStudioGroupReview(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
+export function validateStudioGroup(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}
+export function routeStudioGroupMembers(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}
+export function parseStudioGroupPlan(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}
+export function parseStudioGroupReview(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}

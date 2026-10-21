@@ -23,7 +23,9 @@ function importedSpecifiers(source) {
   for (const match of source.matchAll(/(?:^|\n)\s*(?:import|export)[^;]*?from\s+"([^"]+)"/gu)) {
     specifiers.push(match[1]);
   }
-  for (const match of source.matchAll(/(?:^|\n)\s*(?:const|let|var)\s+[^=]*=\s*require\s*\(\s*"([^"]+)"/gu)) {
+  for (const match of source.matchAll(
+    /(?:^|\n)\s*(?:const|let|var)\s+[^=]*=\s*require\s*\(\s*"([^"]+)"/gu,
+  )) {
     specifiers.push(match[1]);
   }
   return specifiers;
@@ -147,6 +149,10 @@ describe(`purity（${isDist ? "dist" : "source"} 入口）`, () => {
       "referencePath 不得反向 import reference",
     );
     // referencePath 更应保持无层内依赖（纯规则叶子）
-    assert.doesNotMatch(referencePath, /from\s+"\.\/[A-Za-z0-9_$]+\.js"/u, "referencePath 应是叶子");
+    assert.doesNotMatch(
+      referencePath,
+      /from\s+"\.\/[A-Za-z0-9_$]+\.js"/u,
+      "referencePath 应是叶子",
+    );
   });
 });

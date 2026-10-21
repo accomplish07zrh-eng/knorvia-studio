@@ -10,18 +10,46 @@ export type KnownExternalKernel = unknown;
 export type ExternalKernel = unknown;
 export const RETIRED_KERNELS: unknown = undefined;
 export type RetiredKernelId = unknown;
-export function isRetiredKernel(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
+export function isRetiredKernel(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}
 export const RETIRED_KERNEL_MESSAGE: unknown = undefined;
-export function assertKernelNotRetired(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
-export function isManagedKernel(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
-export function kernelCapabilities(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
-export function capabilityAssessment(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
-export function assertKernelPermission(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
-export function record(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
-export function text(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
-export function list(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
-export function number(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
-export function safeDetail(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
-export function errorText(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
-export function versionFrom(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
-export function validVersion(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
+export function assertKernelNotRetired(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}
+export function isManagedKernel(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}
+export function kernelCapabilities(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}
+export function capabilityAssessment(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}
+export function assertKernelPermission(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}
+export function record(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}
+export function text(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}
+export function list(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}
+export function number(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}
+export function safeDetail(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}
+export function errorText(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}
+export function versionFrom(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}
+export function validVersion(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}

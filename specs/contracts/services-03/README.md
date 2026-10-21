@@ -31,25 +31,25 @@ node --import tsx specs/contracts/services-03/stubs/build-stubs.mjs
 
 ## 文件导航
 
-| 文件 | 用途 |
-| :--- | :--- |
-| **`interface.md`** | 17→31 个模块的导出签名（**机器生成，不要手改**） |
-| **`behavior.md`** | B1–B15 行为规格 + 条目 → 测试对照表 |
-| **`known-differences.md`** | K1–K8 已知差异 + **桩下失效的完整技术复盘** |
-| **`acceptance.md`** | 验收判据（旧门三段 + 两入口 + 桩 `allFail`） |
-| **`design.md`** | 替换阶段的分工与顺序 |
-| **`callers.md`** | 176 处外部引用清单 |
-| `scope-files.json` | 31 个文件的冻结快照（行数/字节/导出数/分类） |
-| `gate-old.json` | 旧门三段实测结果 |
+| 文件                       | 用途                                             |
+| :------------------------- | :----------------------------------------------- |
+| **`interface.md`**         | 17→31 个模块的导出签名（**机器生成，不要手改**） |
+| **`behavior.md`**          | B1–B15 行为规格 + 条目 → 测试对照表              |
+| **`known-differences.md`** | K1–K8 已知差异 + **桩下失效的完整技术复盘**      |
+| **`acceptance.md`**        | 验收判据（旧门三段 + 两入口 + 桩 `allFail`）     |
+| **`design.md`**            | 替换阶段的分工与顺序                             |
+| **`callers.md`**           | 176 处外部引用清单                               |
+| `scope-files.json`         | 31 个文件的冻结快照（行数/字节/导出数/分类）     |
+| `gate-old.json`            | 旧门三段实测结果                                 |
 
 ## 测试构成（4 套件 / 25 用例）
 
-| 套件 | 用例 | 覆盖 | 文件 |
-| :--- | :-: | :--- | :--- |
-| surface | 6 | 范围清单 · 功能簇 · 导出面 · 端口 3 模块 | `tests/surface.test.mjs` |
-| purity | 7 | 无 I/O · 无 env · 无子进程 · 无顶层 let/var · 两模块非死代码 | `tests/purity.test.mjs` |
-| dependencies | 7 | 不向上依赖 · 层内 21 条边 · 176 处外部引用 · import type 边界 | `tests/dependencies.test.mjs` |
-| typecheck | 5 | **桩检测** · tsc 项目引用构建 · 31 个 `.d.ts` · 统计自洽 | `tests/typecheck.test.mjs` |
+| 套件         | 用例 | 覆盖                                                          | 文件                          |
+| :----------- | :--: | :------------------------------------------------------------ | :---------------------------- |
+| surface      |  6   | 范围清单 · 功能簇 · 导出面 · 端口 3 模块                      | `tests/surface.test.mjs`      |
+| purity       |  7   | 无 I/O · 无 env · 无子进程 · 无顶层 let/var · 两模块非死代码  | `tests/purity.test.mjs`       |
+| dependencies |  7   | 不向上依赖 · 层内 21 条边 · 176 处外部引用 · import type 边界 | `tests/dependencies.test.mjs` |
+| typecheck    |  5   | **桩检测** · tsc 项目引用构建 · 31 个 `.d.ts` · 统计自洽      | `tests/typecheck.test.mjs`    |
 
 ## ⚠️ 本包最重要的教训
 

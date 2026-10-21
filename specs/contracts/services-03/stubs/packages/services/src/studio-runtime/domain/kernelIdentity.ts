@@ -4,5 +4,9 @@
 throw new Error("not implemented: services-03");
 
 export const STUDIO_KERNEL_IDS: unknown = undefined;
-export function isLocalStudioKernelId(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
-export function isStudioKernelId(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
+export function isLocalStudioKernelId(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}
+export function isStudioKernelId(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}

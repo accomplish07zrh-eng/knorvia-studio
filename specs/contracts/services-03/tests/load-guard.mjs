@@ -27,6 +27,10 @@ export async function ensureLoadable() {
       failures.push(`${row.modulePath}: ${String(error.message).split("\n")[0]}`);
     }
   }
-  assert.deepEqual(failures, [], `以下模块无法加载（静态断言不能替代运行期可用性）：\n${failures.join("\n")}`);
+  assert.deepEqual(
+    failures,
+    [],
+    `以下模块无法加载（静态断言不能替代运行期可用性）：\n${failures.join("\n")}`,
+  );
   loaded = true;
 }

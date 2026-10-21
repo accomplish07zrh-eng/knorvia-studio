@@ -10,10 +10,10 @@ node scripts/contract-gate.mjs --contract "specs/contracts/services-03" --tests 
   --json "specs/contracts/services-03/gate-old.json"
 ```
 
-| 段 | 判据 | 实测 |
-| :--- | :--- | :--- |
-| **源码入口** | 全部通过 | `tests=25 pass=25 fail=0 exit=0` ✅ |
-| **dist 入口** | 全部通过 | `tests=25 pass=25 fail=0 exit=0` ✅ |
+| 段                       | 判据                           | 实测                                             |
+| :----------------------- | :----------------------------- | :----------------------------------------------- |
+| **源码入口**             | 全部通过                       | `tests=25 pass=25 fail=0 exit=0` ✅              |
+| **dist 入口**            | 全部通过                       | `tests=25 pass=25 fail=0 exit=0` ✅              |
 | **桩替换 31 个目标文件** | **全部失败**（`allFail=true`） | `tests=25 pass=0 fail=25 allFail=true exit=0` ✅ |
 
 **⚠️ 第三段是关键**：它验证「契约测试对实现有真实约束力」。
@@ -21,12 +21,12 @@ node scripts/contract-gate.mjs --contract "specs/contracts/services-03" --tests 
 
 ## 二、本包的「首轮桩下通过数」记录（验收时必须报告）
 
-| 轮次 | 桩下通过 / 总 | 改动 | 提交前须为 0 |
-| :--- | :-: | :--- | :-: |
-| 首次 | 16 / 25 | （基线） | ❌ |
-| 第 2 轮 | 5 / 24 | 加 `B0` 全模块可加载前置 | ❌ |
-| 第 3 轮 | 4 / 25 | purity/dependencies/surface 接 `ensureLoadable()`；加 `C0` 桩检测 | ❌ |
-| **第 4 轮** | **0 / 25** | C1–C4 也接 `ensureLoadable()` | ✅ |
+| 轮次        | 桩下通过 / 总 | 改动                                                              | 提交前须为 0 |
+| :---------- | :-----------: | :---------------------------------------------------------------- | :----------: |
+| 首次        |    16 / 25    | （基线）                                                          |      ❌      |
+| 第 2 轮     |    5 / 24     | 加 `B0` 全模块可加载前置                                          |      ❌      |
+| 第 3 轮     |    4 / 25     | purity/dependencies/surface 接 `ensureLoadable()`；加 `C0` 桩检测 |      ❌      |
+| **第 4 轮** |  **0 / 25**   | C1–C4 也接 `ensureLoadable()`                                     |      ✅      |
 
 **后续契约包请沿用这个表格** —— 「首轮桩下通过数」是衡量合同质量的直接指标。
 
@@ -55,22 +55,24 @@ pnpm --filter "@knorvia/services" exec tsc -b
 
 ## 四、范围与统计冻结
 
-| 项 | 冻结值 | 断言 |
-| :--- | ---: | :--- |
-| 文件数 | **31** | B1 |
-| 行数 | **3,835** | B1 |
-| 字节 | **154,293** | B1 |
-| 导出 | **192**（运行时 **161** / 纯类型 **31**） | B3 |
-| 分类 | `original 17` / `unreviewed 14` | B1 |
-| 层内依赖边 | **21** | B9 |
-| 外部引用 | **176**（app 71 / adapters 61 / test 35 / root 9） | B10 |
+| 项         |                                             冻结值 | 断言 |
+| :--------- | -------------------------------------------------: | :--- |
+| 文件数     |                                             **31** | B1   |
+| 行数       |                                          **3,835** | B1   |
+| 字节       |                                        **154,293** | B1   |
+| 导出       |          **192**（运行时 **161** / 纯类型 **31**） | B3   |
+| 分类       |                    `original 17` / `unreviewed 14` | B1   |
+| 层内依赖边 |                                             **21** | B9   |
+| 外部引用   | **176**（app 71 / adapters 61 / test 35 / root 9） | B10  |
 
 ## 五、`interface.md` 与源码一致
 
 **`interface.md` 是机器生成的**：
+
 ```powershell
 node --import tsx specs/contracts/services-03/tests/gen-interface.mjs
 ```
+
 **改任何源码导出后必须重跑**，否则 B3 会失败（导出面比对）。
 
 ## 六、provenance（提交前）
@@ -91,6 +93,7 @@ console.log('自引用一致:', e.sha256===a);"
 ```
 
 **⚠️ 两个已知陷阱**：
+
 1. `provenance:report` 会把**磁盘上实际存在的文件**算进 inventory（含未提交改动）→ 必须在干净树跑；
 2. `licensing/current-files.json` 记录了 `reviews.json` **自己的 sha** → 改了 reviews.json 后必须最后重新生成。
 

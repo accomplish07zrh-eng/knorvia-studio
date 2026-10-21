@@ -65,11 +65,11 @@ describe(`typecheck（${isDist ? "dist" : "source"} 入口）`, () => {
 
     let output = "";
     try {
-      output = execFileSync(
-        process.execPath,
-        [tscBin, "-b", ...projects, "--pretty", "false"],
-        { cwd: repoRoot, encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] },
-      );
+      output = execFileSync(process.execPath, [tscBin, "-b", ...projects, "--pretty", "false"], {
+        cwd: repoRoot,
+        encoding: "utf8",
+        stdio: ["ignore", "pipe", "pipe"],
+      });
     } catch (error) {
       output = `${error.stdout ?? ""}${error.stderr ?? ""}`;
       assert.fail(`tsc -b 失败：\n${output.slice(0, 4000)}`);

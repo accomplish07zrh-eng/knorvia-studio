@@ -7,8 +7,18 @@ export const STUDIO_IMAGE_PREVIEW_BYTES: unknown = undefined;
 export const STUDIO_IMAGE_PREVIEW_MAX_PIXELS: unknown = undefined;
 export const STUDIO_IMAGE_PREVIEW_MAX_DIMENSION: unknown = undefined;
 export const studioImagePath: unknown = undefined;
-export function sameImageVersion(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
-export function validateImageRequest(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
-export function validateReviewedVersions(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
-export function workspaceImageFormat(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
-export function workspaceJpegDimensions(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
+export function sameImageVersion(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}
+export function validateImageRequest(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}
+export function validateReviewedVersions(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}
+export function workspaceImageFormat(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}
+export function workspaceJpegDimensions(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}

@@ -4,6 +4,12 @@
 throw new Error("not implemented: services-03");
 
 export type StudioReferenceReason = unknown;
-export function studioReferenceIdentity(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
-export function studioReferencePathReason(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
-export function studioReferencePathDetail(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
+export function studioReferenceIdentity(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}
+export function studioReferencePathReason(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}
+export function studioReferencePathDetail(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}

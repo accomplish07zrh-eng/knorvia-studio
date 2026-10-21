@@ -1,38 +1,22 @@
 # services-03 接口（interface.md）
 
-
-
 本文件只列**兼容所需的模块路径、导出名、参数与返回类型**：替换包必须让这些模块路径与导出在编译产物中保持可用，签名不变。行为见 `behavior.md`，调用方见 `callers.md`。
-
-
 
 机器生成：`node --import tsx specs/contracts/services-03/tests/gen-interface.mjs`（抽取器 `tests/exports-ast.mjs`，范围真源 `tests/scope.mjs` / `scope-files.json`）。**不要手改**；导出面测试的 oracle 是本文件的导出声明块。
 
-
-
 覆盖范围：`packages/services/src/studio-runtime/domain/` 的 **31 个文件**（按功能簇分组，不按字母序）。
 
-
-
 ## 本包的定位
-
-
 
 `studio-runtime/domain/` 是**纯逻辑层**：类型、校验、解析、策略计算，**不含 I/O、不含子进程**。
 
 它被 `app/`（71 处）与 `adapters/`（61 处）向下依赖，自身**只依赖 `services-02` 的契约声明**。
 
-
-
 **层内耦合极低**：31 个文件里只有 10 条层内依赖边（见 `scope.mjs` 的 `INTERNAL_EDGES`），
 
 27 个文件互不引用 —— 说明这是一个「聚合包」而非「强内聚功能包」。
 
-
-
 ## 不在兼容面上
-
-
 
 - `contract.ts`（聚合桶）对 `domain/imageInput`、`domain/outputRef`、`domain/reference` 的 `export *`：
 
@@ -40,7 +24,7 @@
 
 - `app/`（45 件）、`adapters/`（60 件）：分属 `services-04`～`services-08`。
 
-## 内核策略与能力（kernel*，5 件）
+## 内核策略与能力（kernel\*，5 件）
 
 ### `packages/services/src/studio-runtime/domain/kernelPolicy.ts`
 
@@ -352,7 +336,7 @@ export function studioConditionReferences(source: string): string[];
 export function evaluateStudioCondition(source: string, scope: StudioConditionScope): boolean;
 ```
 
-## 输出与产物（output*，2 件）
+## 输出与产物（output\*，2 件）
 
 ### `packages/services/src/studio-runtime/domain/outputRef.ts`
 
@@ -592,10 +576,7 @@ export const STUDIO_IMAGE_PREVIEW_MAX_DIMENSION = 16_384;
 export const studioImagePath = (path: string) => /\.(png|jpe?g)$/i.test(path);
 export function sameImageVersion(a: StudioReviewFileVersion, b: StudioReviewFileVersion);
 export function validateImageRequest(request: StudioWorkspaceImageRequest);
-export function validateReviewedVersions(
-  paths: string[],
-  versions?: StudioWorkspaceImageRequest[],
-);
+export function validateReviewedVersions(paths: string[], versions?: StudioWorkspaceImageRequest[]);
 export function workspaceImageFormat(path: string, bytes: Uint8Array): Format;
 export function workspaceJpegDimensions(bytes: Uint8Array);
 ```

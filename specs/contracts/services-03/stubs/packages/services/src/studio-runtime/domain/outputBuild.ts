@@ -4,5 +4,9 @@
 throw new Error("not implemented: services-03");
 
 export type StudioBuiltOutput = unknown;
-export function buildStudioStepOutputs(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
-export function buildStudioCreationOutputs(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
+export function buildStudioStepOutputs(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}
+export function buildStudioCreationOutputs(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}

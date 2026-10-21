@@ -89,14 +89,14 @@ describe(`surface（${isDist ? "dist" : "source"} 入口）`, () => {
   test("B2 功能簇：8 个簇覆盖全部 31 文件，无遗漏无重复", async () => {
     await ensureLoadable();
     const headers = [...interfaceText.matchAll(/^## (.+)$/gmu)].map((match) => match[1]);
-    const clusters = headers.filter(
-      (title) => title !== "本包的定位" && title !== "不在兼容面上",
-    );
+    const clusters = headers.filter((title) => title !== "本包的定位" && title !== "不在兼容面上");
     assert.equal(clusters.length, 8, `应有 8 个功能簇，实际 ${clusters.length}`);
 
-    const moduleHeaders = [...interfaceText.matchAll(/^### `packages\/services\/src\/studio-runtime\/domain\/([A-Za-z0-9_$]+)\.ts`$/gmu)].map(
-      (match) => match[1],
-    );
+    const moduleHeaders = [
+      ...interfaceText.matchAll(
+        /^### `packages\/services\/src\/studio-runtime\/domain\/([A-Za-z0-9_$]+)\.ts`$/gmu,
+      ),
+    ].map((match) => match[1]);
     assert.equal(moduleHeaders.length, 31, "interface.md 应恰好列出 31 个模块");
     assert.equal(new Set(moduleHeaders).size, 31, "模块不得重复");
     assert.deepEqual(
@@ -114,7 +114,11 @@ describe(`surface（${isDist ? "dist" : "source"} 入口）`, () => {
       const actual = extractExports(repoRoot, sourcePathOf(row)).map((entry) => entry.name);
       const declared = declaredExportsOf(name);
       assert(declared !== undefined, `${name} 未出现在 interface.md`);
-      assert.deepEqual(actual.sort(), declared.slice().sort(), `${name} 的导出面与 interface.md 不一致`);
+      assert.deepEqual(
+        actual.sort(),
+        declared.slice().sort(),
+        `${name} 的导出面与 interface.md 不一致`,
+      );
       total += actual.length;
       assert.equal(row.exportCount, actual.length, `${name} 的 scope 记录导出数应等于实测`);
     }

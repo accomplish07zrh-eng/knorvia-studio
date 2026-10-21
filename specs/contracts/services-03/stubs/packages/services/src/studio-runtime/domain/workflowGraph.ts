@@ -11,7 +11,15 @@ export const studioWorkflowOutputNames: unknown = undefined;
 export const studioWorkflowParams: unknown = undefined;
 export const validateStudioWorkflowPermissions: unknown = undefined;
 export type StudioWorkflowGraph = unknown;
-export function studioWorkflowGraph(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
-export function workflowAncestors(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
-export function validateStudioWorkflow(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
-export function workflowAnyLosers(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
+export function studioWorkflowGraph(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}
+export function workflowAncestors(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}
+export function validateStudioWorkflow(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}
+export function workflowAnyLosers(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}

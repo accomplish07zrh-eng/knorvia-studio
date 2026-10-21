@@ -92,13 +92,16 @@ export function classificationCounts() {
 
 /** 合同基线时 licensing 仍把这 31 个路径记为继承文件；返回不匹配项。 */
 export function licensingDrift() {
-  const licensing = JSON.parse(readFileSync(join(repoRoot, "licensing/current-files.json"), "utf8"));
+  const licensing = JSON.parse(
+    readFileSync(join(repoRoot, "licensing/current-files.json"), "utf8"),
+  );
   const byPath = new Map(licensing.files.map((row) => [row.path, row]));
   const drift = [];
   for (const row of scope) {
     const current = byPath.get(row.path);
     if (!current) drift.push({ path: row.path, reason: "missing" });
-    else if (current.classification === "original") drift.push({ path: row.path, reason: "original" });
+    else if (current.classification === "original")
+      drift.push({ path: row.path, reason: "original" });
   }
   return drift;
 }

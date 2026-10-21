@@ -15,13 +15,7 @@ const NL = "\n";
 const CLUSTERS = [
   {
     title: "## 内核策略与能力（kernel*，5 件）",
-    files: [
-      "kernelPolicy",
-      "kernelIdentity",
-      "kernelMedia",
-      "kernelPresentation",
-      "kernelUsage",
-    ],
+    files: ["kernelPolicy", "kernelIdentity", "kernelMedia", "kernelPresentation", "kernelUsage"],
   },
   {
     title: "## 工作流与引用解析（workflow*/reference*，6 件）",
@@ -57,7 +51,8 @@ const CLUSTERS = [
     files: ["validation", "canonicalValue", "staticPng"],
   },
   {
-    title: "## 身份与权限（projectIdentity / remoteAgentIdentity / acpPermission / workspaceSecrets / retiredKernels / attentionVersion，6 件）",
+    title:
+      "## 身份与权限（projectIdentity / remoteAgentIdentity / acpPermission / workspaceSecrets / retiredKernels / attentionVersion，6 件）",
     files: [
       "projectIdentity",
       "remoteAgentIdentity",
@@ -73,9 +68,7 @@ const CLUSTERS = [
   },
 ];
 
-const byName = new Map(
-  scope.map((row) => [row.modulePath.replace(/^domain\//u, ""), row]),
-);
+const byName = new Map(scope.map((row) => [row.modulePath.replace(/^domain\//u, ""), row]));
 
 let total = 0;
 
@@ -141,4 +134,6 @@ const headerLines = [
 ];
 
 writeFileSync(join(contractDir, "interface.md"), [...headerLines, ...sections].join(NL + NL) + NL);
-console.log(`wrote specs/contracts/services-03/interface.md (${scope.length} modules, ${total} exports)`);
+console.log(
+  `wrote specs/contracts/services-03/interface.md (${scope.length} modules, ${total} exports)`,
+);

@@ -4,10 +4,18 @@
 throw new Error("not implemented: services-03");
 
 export const DEFAULT_STUDIO_AGENT_POLICY: unknown = undefined;
-export function studioAgentPolicy(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
-export function studioAgentState(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
-export function studioAgentTaskState(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
-export function studioAgentArtifactReferences(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
+export function studioAgentPolicy(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}
+export function studioAgentState(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}
+export function studioAgentTaskState(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}
+export function studioAgentArtifactReferences(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}
 export const studioAgentToolSchemas: unknown = undefined;
 export type StudioAgentToolName = unknown;
 export const studioAgentToolOutputSchemas: unknown = undefined;

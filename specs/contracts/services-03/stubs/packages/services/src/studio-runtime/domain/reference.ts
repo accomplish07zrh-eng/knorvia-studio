@@ -10,16 +10,32 @@ export const STUDIO_REFERENCE_VERSION: unknown = undefined;
 export type StudioReferenceContext = unknown;
 export type StudioReferenceFileEvidence = unknown;
 export type StudioReferenceVerdict = unknown;
-export function studioReferenceOrigin(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
-export function studioReferenceOwnership(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
-export function studioReferenceWorkspace(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
-export function studioReferenceVersionVerdict(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
-export function studioReferenceEvidence(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
-export function studioReferenceResolve(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
+export function studioReferenceOrigin(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}
+export function studioReferenceOwnership(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}
+export function studioReferenceWorkspace(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}
+export function studioReferenceVersionVerdict(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}
+export function studioReferenceEvidence(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}
+export function studioReferenceResolve(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}
 export type StudioWorkflowOutcomeView = unknown;
 export type StudioWorkflowReferenceHost = unknown;
 export const STUDIO_REFERENCE_PLACEHOLDER: unknown = undefined;
 export type StudioResolvedReferenceInput = unknown;
 export type StudioWorkflowBindings = unknown;
-export function studioRequestedOutputs(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
-export function resolveStudioWorkflowBindings(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
+export function studioRequestedOutputs(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}
+export function resolveStudioWorkflowBindings(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}

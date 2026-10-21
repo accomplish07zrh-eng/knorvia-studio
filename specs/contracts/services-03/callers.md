@@ -4,64 +4,68 @@
 
 ## 一、按引用方分层
 
-| 引用方 | 处数 | 说明 |
-| :--- | ---: | :--- |
-| `packages/services/src/studio-runtime/app/`（45 文件） | **71** | 运行时编排层 |
-| `packages/services/src/studio-runtime/adapters/`（60 文件） | **61** | I/O 适配层 |
-| `packages/services/test/` | **35** | 测试夹具与断言 |
-| `packages/services/src/`（根级，9 处） | **9** | 契约聚合与入口 |
-| **合计** | **176** | |
+| 引用方                                                      |    处数 | 说明           |
+| :---------------------------------------------------------- | ------: | :------------- |
+| `packages/services/src/studio-runtime/app/`（45 文件）      |  **71** | 运行时编排层   |
+| `packages/services/src/studio-runtime/adapters/`（60 文件） |  **61** | I/O 适配层     |
+| `packages/services/test/`                                   |  **35** | 测试夹具与断言 |
+| `packages/services/src/`（根级，9 处）                      |   **9** | 契约聚合与入口 |
+| **合计**                                                    | **176** |                |
 
 ## 二、按被引用模块（降序）
 
-| 模块 | 总引用 | app | adapters | test | root |
-| :--- | ---: | ---: | ---: | ---: | ---: |
-| `kernelPolicy` | **33** | 3 | **26** | 4 | 0 |
-| `validation` | **14** | 12 | 0 | 2 | 0 |
-| `projectIdentity` | **13** | 8 | 1 | 4 | 0 |
-| `remoteAgentIdentity` | **10** | 4 | 5 | 1 | 0 |
-| `workflowGraph` | **10** | 4 | 0 | 4 | 2 |
-| `outputRef` | **9** | 6 | 0 | 1 | 2 |
-| `groupPolicy` | **8** | 4 | 0 | 4 | 0 |
-| `agentToolPolicy` | **7** | 5 | 1 | 1 | 0 |
-| `imageInput` | **7** | 3 | 2 | 1 | 1 |
-| `workspaceImage` | **7** | 1 | 4 | 1 | 1 |
-| `canonicalValue` | **6** | 5 | 0 | 1 | 0 |
-| `kernelMedia` | **6** | 1 | 4 | 1 | 0 |
-| `kernelPresentation` | **5** | 0 | 5 | 0 | 0 |
-| `capabilityMatrix` | **4** | 0 | 2 | 1 | 1 |
-| `workspaceRuntime` | **4** | 2 | 2 | 0 | 0 |
-| `workspaceRuntimeEnvironment` | **4** | 0 | 2 | 2 | 0 |
-| `acpPermission` | **3** | 0 | 2 | 1 | 0 |
-| `condition` | **3** | 1 | 0 | 1 | 1 |
-| `kernelIdentity` | **3** | 0 | 1 | 2 | 0 |
-| `kernelUsage` | **3** | 1 | 1 | 1 | 0 |
-| `reference` | **3** | 1 | 0 | 1 | 1 |
-| `workspaceSecrets` | **3** | 0 | 3 | 0 | 0 |
-| `groupPrompts` | **2** | 2 | 0 | 0 | 0 |
-| `outputBuild` | **2** | 2 | 0 | 0 | 0 |
-| `stepReference` | **2** | 2 | 0 | 0 | 0 |
-| `workspaceReviewPolicy` | **2** | 1 | 0 | 1 | 0 |
-| `attentionVersion` | **1** | 1 | 0 | 0 | 0 |
-| `retiredKernels` | **1** | 1 | 0 | 0 | 0 |
-| `workflowParams` | **1** | 1 | 0 | 0 | 0 |
+| 模块                          | 总引用 | app | adapters | test | root |
+| :---------------------------- | -----: | --: | -------: | ---: | ---: |
+| `kernelPolicy`                | **33** |   3 |   **26** |    4 |    0 |
+| `validation`                  | **14** |  12 |        0 |    2 |    0 |
+| `projectIdentity`             | **13** |   8 |        1 |    4 |    0 |
+| `remoteAgentIdentity`         | **10** |   4 |        5 |    1 |    0 |
+| `workflowGraph`               | **10** |   4 |        0 |    4 |    2 |
+| `outputRef`                   |  **9** |   6 |        0 |    1 |    2 |
+| `groupPolicy`                 |  **8** |   4 |        0 |    4 |    0 |
+| `agentToolPolicy`             |  **7** |   5 |        1 |    1 |    0 |
+| `imageInput`                  |  **7** |   3 |        2 |    1 |    1 |
+| `workspaceImage`              |  **7** |   1 |        4 |    1 |    1 |
+| `canonicalValue`              |  **6** |   5 |        0 |    1 |    0 |
+| `kernelMedia`                 |  **6** |   1 |        4 |    1 |    0 |
+| `kernelPresentation`          |  **5** |   0 |        5 |    0 |    0 |
+| `capabilityMatrix`            |  **4** |   0 |        2 |    1 |    1 |
+| `workspaceRuntime`            |  **4** |   2 |        2 |    0 |    0 |
+| `workspaceRuntimeEnvironment` |  **4** |   0 |        2 |    2 |    0 |
+| `acpPermission`               |  **3** |   0 |        2 |    1 |    0 |
+| `condition`                   |  **3** |   1 |        0 |    1 |    1 |
+| `kernelIdentity`              |  **3** |   0 |        1 |    2 |    0 |
+| `kernelUsage`                 |  **3** |   1 |        1 |    1 |    0 |
+| `reference`                   |  **3** |   1 |        0 |    1 |    1 |
+| `workspaceSecrets`            |  **3** |   0 |        3 |    0 |    0 |
+| `groupPrompts`                |  **2** |   2 |        0 |    0 |    0 |
+| `outputBuild`                 |  **2** |   2 |        0 |    0 |    0 |
+| `stepReference`               |  **2** |   2 |        0 |    0 |    0 |
+| `workspaceReviewPolicy`       |  **2** |   1 |        0 |    1 |    0 |
+| `attentionVersion`            |  **1** |   1 |        0 |    0 |    0 |
+| `retiredKernels`              |  **1** |   1 |        0 |    0 |    0 |
+| `workflowParams`              |  **1** |   1 |        0 |    0 |    0 |
 
 **零外部引用（2 个）**：`referencePath`、`staticPng` —— **但都有层内使用者，不是死代码**（见 K3）。
 
 ## 三、最需要小心的 3 个模块
 
 ### 1. `kernelPolicy`（33 处，其中 adapters 26 处）
+
 **本层被依赖最多**。`adapters/` 里有 26 个文件直接 import 它 —— 说明它承担了「内核策略的查询接口」职责。
 **替换时若改签名，会同时打断 26 个 adapter。**
 
 ### 2. `projectIdentity`（13 处，但**仅 7 行**）
+
 ```ts
-export function studioProjectKey(path: string): string   // 大致形态
+export function studioProjectKey(path: string): string; // 大致形态
 ```
+
 **7 行代码被 13 处引用** —— 典型的「小而关键」工具。
 **替换时容易觉得「这么简单，重写一下无所谓」→ 但签名一变就是 13 处编译失败。**
 
 ### 3. `remoteAgentIdentity`（10 处，但**仅 14 行**）
+
 同 `projectIdentity`，是「小但被广泛依赖」的形态。
 
 ## 四、层内依赖（21 条边，不是外部引用）

@@ -1,8 +1,8 @@
 {
   "contract": "services-03",
-  "commit": "7ddb1ce995c4e12c5f580cf65d24fec50ded55c0",
+  "commit": "3820b87c110e170e8b16cebf5af0ec457f34b70f",
   "node": "v26.3.0",
-  "generatedAt": "2026-10-21T11:33:10.153Z",
+  "generatedAt": "2026-10-21T11:44:03.028Z",
   "runner": "scripts/contract-gate.mjs",
   "testFiles": [
     "specs/contracts/services-03/tests/dependencies.test.mjs",
@@ -22,7 +22,7 @@
       "fail": 0,
       "skipped": 0,
       "todo": 0,
-      "outputTail": "  ✔ C0 桩检测：31 个模块必须是真实实现，不能是 import-and-throw 桩 (2790.2677ms)\n  ✔ C1 tsc 可执行文件存在 (20.4326ms)\n  ✔ C2 domain 层 31 个文件通过 tsc（项目引用构建） (330.8714ms)\n  ✔ C3 domain 层 31 个文件都有编译产物（.d.ts） (6.9127ms)\n  ✔ C4 冻结统计自洽（行数/字节/导出） (0.3957ms)\n✔ typecheck（source 入口） (3150.6265ms)\nℹ tests 25\nℹ suites 4\nℹ pass 25\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 32188.2941"
+      "outputTail": "  ✔ C0 桩检测：31 个模块必须是真实实现，不能是 import-and-throw 桩 (3046.3212ms)\n  ✔ C1 tsc 可执行文件存在 (23.4743ms)\n  ✔ C2 domain 层 31 个文件通过 tsc（项目引用构建） (420.5937ms)\n  ✔ C3 domain 层 31 个文件都有编译产物（.d.ts） (12.334ms)\n  ✔ C4 冻结统计自洽（行数/字节/导出） (0.6494ms)\n✔ typecheck（source 入口） (3505.8179ms)\nℹ tests 25\nℹ suites 4\nℹ pass 25\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 18114.5914"
     },
     "dist": {
       "exitCode": 0,
@@ -34,7 +34,7 @@
       "fail": 0,
       "skipped": 0,
       "todo": 0,
-      "outputTail": "  ✔ C0 桩检测：31 个模块必须是真实实现，不能是 import-and-throw 桩 (2200.1722ms)\n  ✔ C1 tsc 可执行文件存在 (16.9672ms)\n  ✔ C2 domain 层 31 个文件通过 tsc（项目引用构建） (321.2086ms)\n  ✔ C3 domain 层 31 个文件都有编译产物（.d.ts） (6.4398ms)\n  ✔ C4 冻结统计自洽（行数/字节/导出） (0.4314ms)\n✔ typecheck（dist 入口） (2546.8298ms)\nℹ tests 25\nℹ suites 4\nℹ pass 25\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 16215.969",
+      "outputTail": "  ✔ C0 桩检测：31 个模块必须是真实实现，不能是 import-and-throw 桩 (2375.1809ms)\n  ✔ C1 tsc 可执行文件存在 (18.2732ms)\n  ✔ C2 domain 层 31 个文件通过 tsc（项目引用构建） (313.7586ms)\n  ✔ C3 domain 层 31 个文件都有编译产物（.d.ts） (7.1901ms)\n  ✔ C4 冻结统计自洽（行数/字节/导出） (0.394ms)\n✔ typecheck（dist 入口） (2716.368ms)\nℹ tests 25\nℹ suites 4\nℹ pass 25\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 18080.5186",
       "environment": {
         "KNORVIA_SVC03_ENTRY": "dist"
       },

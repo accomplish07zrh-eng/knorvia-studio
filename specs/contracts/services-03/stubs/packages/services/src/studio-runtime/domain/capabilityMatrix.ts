@@ -10,7 +10,15 @@ export type StudioCapabilityEvidence = unknown;
 export type StudioCapabilityDecision = unknown;
 export type StudioCapabilityAssessment = unknown;
 export const STUDIO_CAPABILITY_MATRIX_VERSION: unknown = undefined;
-export function versionSatisfies(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
-export function assessKernelCapabilities(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
-export function capabilityAdvertisable(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
-export function mergeAdvertisedCapabilities(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
+export function versionSatisfies(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}
+export function assessKernelCapabilities(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}
+export function capabilityAdvertisable(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}
+export function mergeAdvertisedCapabilities(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}

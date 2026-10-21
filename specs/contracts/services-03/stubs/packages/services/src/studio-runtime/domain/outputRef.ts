@@ -10,18 +10,50 @@ export type StudioOutputRef = unknown;
 export type StudioOutputRefStatus = unknown;
 export type StudioOutputRefsDecodeResult = unknown;
 export type StudioOutputRefErrorCode = unknown;
-export class StudioOutputRefError { constructor(..._args: unknown[]) { throw new Error("not implemented: services-03"); } }
-export class StudioUnsupportedCheckpointVersionError { constructor(..._args: unknown[]) { throw new Error("not implemented: services-03"); } }
-export function isStudioOutputName(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
-export function isStudioOutputId(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
-export function isStudioOutputFileName(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
-export function studioCreationInputPath(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
-export function isJsonValue(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
-export function studioJsonBytes(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
-export function isStudioOutputRelativePath(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
-export function assertStudioOutputRefs(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
-export function assertStudioOutputsForResult(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
-export function decodeStudioOutputRefs(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
-export function isStudioOutputRefs(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
+export class StudioOutputRefError {
+  constructor(..._args: unknown[]) {
+    throw new Error("not implemented: services-03");
+  }
+}
+export class StudioUnsupportedCheckpointVersionError {
+  constructor(..._args: unknown[]) {
+    throw new Error("not implemented: services-03");
+  }
+}
+export function isStudioOutputName(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}
+export function isStudioOutputId(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}
+export function isStudioOutputFileName(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}
+export function studioCreationInputPath(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}
+export function isJsonValue(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}
+export function studioJsonBytes(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}
+export function isStudioOutputRelativePath(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}
+export function assertStudioOutputRefs(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}
+export function assertStudioOutputsForResult(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}
+export function decodeStudioOutputRefs(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}
+export function isStudioOutputRefs(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}
 export type StudioStepOutputsVerdict = unknown;
-export function decodeStepOutputs(..._args: unknown[]): unknown { throw new Error("not implemented: services-03"); }
+export function decodeStepOutputs(..._args: unknown[]): unknown {
+  throw new Error("not implemented: services-03");
+}
