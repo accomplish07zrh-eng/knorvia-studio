@@ -12,6 +12,9 @@ const REVIEW_DECISIONS = new Set([
   "independent-replacement",
   "third-party",
   RETAINED_DECISION,
+  // 待返工：相似度门实测超标、尚未重写达标的文件。保留登记条目与其真实实测值，
+  // 但不作为已完成的独立替换计入分类，避免「账上达标、实测超标」的虚假结项。
+  "pending-rework",
 ]);
 const VERIFIED_PATH_ALIASES = new Map([
   ["packages/zcode-cua/package.json", "packages/cua/package.json"],

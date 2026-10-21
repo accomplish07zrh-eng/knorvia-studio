@@ -17,17 +17,43 @@ const PREVIOUS_MESSAGE_ANCHOR_SUFFIX = "previous-message-anchor";
 /** 重试事件里的流模式取值（逐字常量）。 */
 const STREAM_MODE = "sse";
 
-/** 瞬变错误码集合（命中即可重试；单行化仅为排版）。 */
-const TRANSIENT_CODES = new Set(
-  "model_request_timeout model_rate_limited model_server_error model_network_error MODEL_REQUEST_TIMEOUT MODEL_RATE_LIMITED MODEL_SERVER_ERROR MODEL_NETWORK_ERROR".split(
-    " ",
-  ),
+/**
+ * 瞬变错误的族表：每个族声明自己的错误码、原因串与消息特征。
+ * 集合与判定都从这张表派生，避免同一批字面量在多处重复出现。
+ */
+const TRANSIENT_FAMILIES = {
+  timeout: {
+    codes: ["model_request_timeout", "MODEL_REQUEST_TIMEOUT"],
+    message: /\btimeout|timed out|stalled\b/i,
+    reasons: ["stream_idle_timeout"],
+  },
+  network: {
+    codes: ["model_network_error", "MODEL_NETWORK_ERROR"],
+    message: /\bECONNRESET|EPIPE|ETIMEDOUT\b/i,
+    reasons: ["network_error"],
+  },
+  retryable: {
+    codes: ["model_rate_limited", "MODEL_RATE_LIMITED"],
+    message: /\b(stream idle|stream stalled|timeout|timed out|ECONNRESET|EPIPE|ETIMEDOUT)\b/i,
+    reasons: ["rate_limited"],
+  },
+  server: {
+    codes: ["model_server_error", "MODEL_SERVER_ERROR"],
+    message: undefined,
+    reasons: ["server_error"],
+  },
+} as const;
+
+/** 族的全部错误码（去重后的并集）。 */
+const TRANSIENT_CODES = new Set<string>(
+  Object.values(TRANSIENT_FAMILIES).flatMap((family) => [...family.codes]),
 );
 
-/** 瞬变原因串集合（命中即可重试；单行化仅为排版）。 */
-const TRANSIENT_REASONS = new Set(
-  "stream_idle_timeout rate_limited server_error network_error timeout".split(" "),
-);
+/** 族的全部原因串（去重后的并集）。 */
+const TRANSIENT_REASONS = new Set<string>([
+  ...Object.values(TRANSIENT_FAMILIES).flatMap((family) => [...family.reasons]),
+  "timeout",
+]);
 
 /** 超时类错误名（逐字常量）。 */
 const TIMEOUT_ERROR_NAME = "ModelStreamIdleTimeoutError";
@@ -39,19 +65,31 @@ type FailureKind =
   | "provider_stream_error"
   | "unknown";
 
-/** 超时族判定表：原因串与错误码各一张集合，消息特征一条模式。 */
-const TIMEOUT_REASONS = new Set("stream_idle_timeout".split(" "));
-const TIMEOUT_CODES = new Set("model_request_timeout MODEL_REQUEST_TIMEOUT".split(" "));
-const TIMEOUT_MESSAGE_PATTERN = /\btimeout|timed out|stalled\b/i;
+/** 三个族的判定入口：都从 `TRANSIENT_FAMILIES` 取，不再重复声明字面量。 */
+const familyMatchers = {
+  timeout: matcherFor(TRANSIENT_FAMILIES.timeout),
+  network: matcherFor(TRANSIENT_FAMILIES.network),
+  retryable: matcherFor(TRANSIENT_FAMILIES.retryable),
+};
 
-/** 网络族判定表：同超时族口径。 */
-const NETWORK_REASONS = new Set("network_error".split(" "));
-const NETWORK_CODES = new Set("model_network_error MODEL_NETWORK_ERROR".split(" "));
-const NETWORK_MESSAGE_PATTERN = /\bECONNRESET|EPIPE|ETIMEDOUT\b/i;
-
-/** 可重试消息特征（忽略大小写）。 */
-const RETRYABLE_MESSAGE_PATTERN =
-  /\b(stream idle|stream stalled|timeout|timed out|ECONNRESET|EPIPE|ETIMEDOUT)\b/i;
+/**
+ * 按单个族生成三路判定（原因串 / 错误码 / 消息特征）。
+ * 族里没有消息特征时，第三路恒为 false —— 与「不设该判据」等价。
+ */
+function matcherFor(family: {
+  readonly codes: readonly string[];
+  readonly message: RegExp | undefined;
+  readonly reasons: readonly string[];
+}) {
+  const reasons = new Set<string>(family.reasons);
+  const codes = new Set<string>(family.codes);
+  return {
+    byCode: (code: string | undefined) => code !== undefined && codes.has(code),
+    byMessage: (message: string | undefined) =>
+      message !== undefined && family.message !== undefined && family.message.test(message),
+    byReason: (reason: string | undefined) => reason !== undefined && reasons.has(reason),
+  };
+}
 
 type ErrorFields = Record<string, unknown>;
 type EventSink = SessionEvent[];
@@ -85,18 +123,18 @@ export function classifyFailureKind(error: unknown): FailureKind {
     const name = readableString(record.name);
     const message = readableString(record.message);
     // 超时族：原因串、错误码、错误名、消息特征任一命中。
-    const timeoutHit =
-      (reason !== undefined && TIMEOUT_REASONS.has(reason)) ||
-      (code !== undefined && TIMEOUT_CODES.has(code)) ||
+    const timeout = familyMatchers.timeout;
+    if (
+      timeout.byReason(reason) ||
+      timeout.byCode(code) ||
       name === TIMEOUT_ERROR_NAME ||
-      (message !== undefined && TIMEOUT_MESSAGE_PATTERN.test(message));
-    if (timeoutHit) return "provider_timeout";
+      timeout.byMessage(message)
+    )
+      return "provider_timeout";
     // 网络族：原因串、错误码、消息特征任一命中。
-    const networkHit =
-      (reason !== undefined && NETWORK_REASONS.has(reason)) ||
-      (code !== undefined && NETWORK_CODES.has(code)) ||
-      (message !== undefined && NETWORK_MESSAGE_PATTERN.test(message));
-    if (networkHit) return "provider_network_error";
+    const network = familyMatchers.network;
+    if (network.byReason(reason) || network.byCode(code) || network.byMessage(message))
+      return "provider_network_error";
   }
   return error instanceof Error ? "provider_stream_error" : "unknown";
 }
@@ -113,7 +151,7 @@ export function isRetryableFailure(error: unknown): boolean {
     if (reason !== undefined && TRANSIENT_REASONS.has(reason)) return true;
     if (record.name === TIMEOUT_ERROR_NAME) return true;
     const message = readableString(record.message);
-    if (message !== undefined && RETRYABLE_MESSAGE_PATTERN.test(message)) return true;
+    if (familyMatchers.retryable.byMessage(message)) return true;
   }
   return false;
 }
