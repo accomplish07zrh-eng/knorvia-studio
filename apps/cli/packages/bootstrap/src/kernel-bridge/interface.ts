@@ -56,6 +56,13 @@ export interface BridgeIngestDshEventInput {
 
 /**
  * 段 A 将已通过 CommandInbox 校验的配置变更输入投影层。
+ *
+ * kernel-bridge-03 扩了四个字段（`title` / `titleSource` / `assistantFeedback` /
+ * `modelSelection`），因为它们与既有三项同属「**改快照、不跑回合**」的配置类语义：
+ * - `title` + `titleSource`：`renameSession` 改标题，且必须把来源标成 `custom`
+ *   （否则模型自动生成标题会把用户显式重命名覆盖掉）；
+ * - `assistantFeedback`：`setAssistantFeedback` 的行级点赞/点踩；
+ * - `modelSelection`：`switchModelConfig` 切换模型（**只改配置，不触发模型轮**）。
  */
 export interface BridgeConfigMutationInput {
   readonly sessionId: string;
@@ -65,6 +72,24 @@ export interface BridgeConfigMutationInput {
     readonly followupMode?: "queue" | "guide";
     readonly planEnabled?: boolean;
     readonly mode?: string;
+    /** `renameSession` 的新标题。 */
+    readonly title?: string;
+    /** 标题来源；`renameSession` 必须传 `custom`，避免被自动标题覆盖。 */
+    readonly titleSource?: "default" | "generated" | "custom";
+    /** `setAssistantFeedback` 的反馈；`null` 表示清除。 */
+    readonly assistantFeedback?: "like" | "dislike" | null;
+    /** 反馈目标行的 `rowId`（反馈属于行，不是快照级字段）。 */
+    readonly assistantFeedbackRowId?: number;
+    /**
+     * `switchModelConfig` 的模型选择；只改配置，不触发模型轮。
+     * 形状取自 `packages/shared/src/model-selection.ts` 的 `modelSelectionSchema`：
+     * `{ providerId, modelId, options?: { reasoningLevel } }`——**不是** `{ provider, model, thought }`。
+     */
+    readonly modelSelection?: {
+      readonly providerId: string;
+      readonly modelId: string;
+      readonly options?: { readonly reasoningLevel?: string | undefined } | undefined;
+    };
   };
   readonly baseRevision: number;
 }

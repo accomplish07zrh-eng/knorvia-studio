@@ -240,7 +240,44 @@ export class SnapshotMaterializer {
       }
     }
 
-    if (!followupChanged && !executionChanged) {
+    // kernel-bridge-03 的三个新增配置类变更（都只改快照、不跑回合）。
+    //
+    // `renameSession`：标题 + 来源一起改。**必须**把 `titleSource` 设为 `custom`——
+    // 否则模型自动生成的标题会把用户显式重命名覆盖掉（`sessionMetaStateSchema` 的
+    // 注释写明：custom = 用户显式重命名，不再被自动标题覆盖）。
+    const titleChanged =
+      mutation.title !== undefined &&
+      (mutation.title !== currentSnapshot.meta.title ||
+        (mutation.titleSource !== undefined &&
+          mutation.titleSource !== currentSnapshot.meta.titleSource));
+
+    // `switchModelConfig`：只更新配置里的模型选择，**不触发模型轮**。
+    // 与「发一条消息」的区别就在于此：这里没有任何 executor 调用。
+    const nextModelSelection =
+      mutation.modelSelection === undefined
+        ? currentConfig.modelSelection
+        : mutation.modelSelection;
+    const modelChanged =
+      mutation.modelSelection !== undefined &&
+      (currentConfig.modelSelection === undefined ||
+        currentConfig.modelSelection.providerId !== mutation.modelSelection.providerId ||
+        currentConfig.modelSelection.modelId !== mutation.modelSelection.modelId ||
+        currentConfig.modelSelection.options?.reasoningLevel !==
+          mutation.modelSelection.options?.reasoningLevel);
+
+    // `setAssistantFeedback`：**反馈属于行**（`rows.ts` L164 的 `assistantText.feedback`），
+    // 不是快照级字段——所以这里不写快照，而是产出一条 `row.upserted` 更新那一行。
+    // `null` 表示清除：行上没有 `feedback` 键（而不是 `feedback: null`，schema 是 optional 不是 nullable）。
+    const feedbackRequested = mutation.assistantFeedback !== undefined;
+    const feedbackRowId = mutation.assistantFeedbackRowId;
+
+    if (
+      !followupChanged &&
+      !executionChanged &&
+      !titleChanged &&
+      !modelChanged &&
+      !feedbackRequested
+    ) {
       return { changed: false, revision: currentRevision, deltas: [], nextConfig: currentConfig };
     }
 
@@ -250,18 +287,49 @@ export class SnapshotMaterializer {
       followupMode,
       mode,
       planEnabled,
+      ...(mutation.modelSelection === undefined ? {} : { modelSelection: nextModelSelection }),
     };
     const patch: StatePatch = {
       revision: nextRevision,
       config: nextConfig,
       // 运行中切换 followupMode 会改变输入路由，客户端据此决定入队还是引导。
       inputRouting: deriveInputRouting(currentSnapshot.control.phase, followupMode),
+      // 标题只在真的改了时才进 patch，避免把「没改」也写成一次状态更新。
+      ...(titleChanged
+        ? {
+            meta: {
+              title: mutation.title ?? currentSnapshot.meta.title,
+              titleSource: mutation.titleSource ?? currentSnapshot.meta.titleSource,
+            },
+          }
+        : {}),
     };
+
+    // 反馈走行操作而不是状态补丁：它更新的是某一行的呈现，与快照配置无关。
+    // 行在快照里的位置是 `rows.window`（分页窗口），不是顶层数组。
+    // `deltas` 是 readonly 数组，所以先算出额外的行操作再拼接，而不是 push。
+    const patchDelta: ConfigMutationOutcome["deltas"][number] = { op: "state.updated", patch };
+    const feedbackDelta = (() => {
+      const extra: ConfigMutationOutcome["deltas"][number][] = [];
+      if (!feedbackRequested || feedbackRowId === undefined) return extra;
+      const target = currentSnapshot.rows.window.find((row) => row.rowId === feedbackRowId);
+      if (target === undefined || target.kind !== "assistantText") return extra;
+      const { feedback: _previous, ...withoutFeedback } = target;
+      extra.push({
+        op: "row.upserted",
+        row:
+          mutation.assistantFeedback === null
+            ? { ...withoutFeedback }
+            : { ...withoutFeedback, feedback: mutation.assistantFeedback },
+      } as ConfigMutationOutcome["deltas"][number]);
+      return extra;
+    })();
+    const deltas: ConfigMutationOutcome["deltas"] = [patchDelta, ...feedbackDelta];
 
     return {
       changed: true,
       revision: nextRevision,
-      deltas: [{ op: "state.updated", patch }],
+      deltas,
       nextConfig,
     };
   }

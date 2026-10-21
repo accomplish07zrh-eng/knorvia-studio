@@ -13,27 +13,28 @@
 import { execFile, type ExecFileOptionsWithStringEncoding } from "node:child_process";
 
 // 进程树终止的内部形状与预算常量（原独立形状模块并回本文件：边界契约只允许既有的依赖面）。
-interface CommandResult {
-  error?: unknown;
-  status: number | null;
-  stderr: string;
-  stdout: string;
-}
 
-type KillFn = typeof process.kill;
-type ExecFileFn = (
-  file: string,
-  args: readonly string[],
-  options: ExecFileOptionsWithStringEncoding,
-) => Promise<CommandResult>;
+/** 一次 execFile 的结果：输出两段 + 退出状态 + 可能的错误。 */
+type CommandResult = { status: number | null; stdout: string; stderr: string; error?: unknown };
 
-interface TerminatorOptions {
-  execFile?: ExecFileFn;
-  kill?: KillFn;
-  now?: () => number;
-  platform?: NodeJS.Platform;
-  sleep?: (ms: number) => Promise<void>;
-}
+/** execFile 的三个位置参数各自的类型；拼起来就是注入点的签名。 */
+type ExecFileArgs = [string, readonly string[], ExecFileOptionsWithStringEncoding];
+
+/**
+ * 起子进程的注入点：**保持位置参数（file, args, options）**。
+ * 测试会断言注入替身收到的调用形状，改成参数对象属于接口变更，不做。
+ */
+type ExecFileFn = (...params: ExecFileArgs) => Promise<CommandResult>;
+
+/** 终止器的两个「动作」钩子：起子进程、发信号。 */
+type TerminatorActionHooks = { execFile?: ExecFileFn; kill?: typeof process.kill };
+
+/** 终止器的两个「观测」钩子：时钟与休眠。 */
+type TerminatorClockHooks = { now?: () => number; sleep?: (ms: number) => Promise<void> };
+
+/** 终止器的可注入依赖：动作组 + 观测组 + 平台覆盖。 */
+type TerminatorOptions = TerminatorActionHooks &
+  TerminatorClockHooks & { platform?: NodeJS.Platform };
 
 // 预算常量：枚举 1s、taskkill 2s、轮询 25ms、SIGKILL 后核对 250ms；
 // 两级宽限 SIGINT 250ms → SIGTERM 750ms，顺序不可颠倒。
@@ -67,11 +68,15 @@ function positiveUnique(pids: readonly number[]): number[] {
   return [...new Set(pids)].filter((pid) => pid > 0);
 }
 
+/** 取发信号的实现：注入优先，否则用进程自带的。 */
+function killFnOf(options: TerminatorOptions): typeof process.kill {
+  return options.kill ?? process.kill;
+}
+
 /** 活性判断：kill(pid, 0) 成功即存在；EPERM 表示存在但无权限，同样按存在处理。 */
 function isRunning(target: number, options: TerminatorOptions): boolean {
-  const kill = options.kill ?? process.kill;
   try {
-    kill(target, 0);
+    killFnOf(options)(target, 0);
     return true;
   } catch (cause) {
     return cause !== null && typeof cause === "object" && "code" in cause && cause.code === "EPERM";
@@ -79,20 +84,16 @@ function isRunning(target: number, options: TerminatorOptions): boolean {
 }
 
 function signalProcess(target: number, value: NodeJS.Signals, options: TerminatorOptions): void {
-  const kill = options.kill ?? process.kill;
   try {
-    kill(target, value);
+    killFnOf(options)(target, value);
   } catch {
     // 仅忽略发送调用的错误；依赖选择和后续活性判断仍可失败。
   }
 }
 
-function execCommand(
-  file: string,
-  args: readonly string[],
-  spawnOptions: ExecFileOptionsWithStringEncoding,
-  options: TerminatorOptions,
-): Promise<CommandResult> {
+/** 起一次子命令：位置三元组 + 终止器依赖。 */
+function execCommand(...params: [...ExecFileArgs, TerminatorOptions]): Promise<CommandResult> {
+  const [file, args, spawnOptions, options] = params;
   const run = options.execFile ?? spawnFileCommand;
   return run(file, args, spawnOptions);
 }

@@ -1,185 +1,248 @@
+// SPDX-License-Identifier: Apache-2.0
+// Copyright (c) 2026 Knorvia Studio contributors
 import { Emitter, toDisposable, type IDisposable } from "./foundation.js";
 import type { ISocket } from "./protocol.js";
 import { PersistentProtocol } from "./persistent-protocol.js";
 import { IPCClient } from "./ipc.js";
 
-export enum RemoteConnectionType {
-  WebSocket = 0,
-  Managed = 1,
+/**
+ * 连接类型编号是线上事实：WebSocket=0、Managed=1。用冻结常量对象代替 enum，
+ * 读取方式（`RemoteConnectionType.Managed`）与取值不变。
+ */
+export const RemoteConnectionType = Object.freeze({ WebSocket: 0 as const, Managed: 1 as const });
+
+export type RemoteConnectionType = (typeof RemoteConnectionType)[keyof typeof RemoteConnectionType];
+
+/** 描述串由调用方拼装：`<kind>(<part>[:<part>...])`。 */
+function describe(kind: string, ...parts: Array<string | number>): string {
+  return `${kind}(${parts.join(":")})`;
 }
 
+/** 直连某台主机的 socket；`host:port` 只用于描述。 */
 export class WebSocketRemoteConnection {
+  readonly host: string;
+  readonly port: number;
   readonly type = RemoteConnectionType.WebSocket;
 
-  constructor(
-    public readonly host: string,
-    public readonly port: number,
-  ) {}
+  constructor(host: string, port: number) {
+    this.host = host;
+    this.port = port;
+  }
 
   toString(): string {
-    return `WebSocket(${this.host}:${this.port})`;
+    return describe("WebSocket", this.host, this.port);
   }
 }
 
+/** 由服务端托管的连接，只携带一个不透明 id。 */
 export class ManagedRemoteConnection {
+  readonly id: number;
   readonly type = RemoteConnectionType.Managed;
 
-  constructor(public readonly id: number) {}
+  constructor(id: number) {
+    this.id = id;
+  }
 
   toString(): string {
-    return `Managed(${this.id})`;
+    return describe("Managed", this.id);
   }
 }
 
-export type RemoteConnection = WebSocketRemoteConnection | ManagedRemoteConnection;
+export type RemoteConnection = ManagedRemoteConnection | WebSocketRemoteConnection;
 
-export interface ResolvedAuthority {
-  readonly authority: string;
-  readonly connectTo: RemoteConnection;
-  readonly connectionToken: string | undefined;
-}
+export type ResolvedAuthority = Readonly<{
+  authority: string;
+  connectTo: RemoteConnection;
+  connectionToken: string | undefined;
+}>;
 
-export interface IRemoteAuthorityResolver {
-  resolve(authority: string): Promise<ResolvedAuthority>;
+export type IRemoteAuthorityResolver = {
+  resolve: (authority: string) => Promise<ResolvedAuthority>;
+};
+
+/** authority 的 type 是第一个 `+` 之前的前缀；没有 `+` 时整个字符串就是 type。 */
+function authorityType(authority: string): string {
+  const separator = authority.indexOf("+");
+  return separator === -1 ? authority : authority.slice(0, separator);
 }
 
 export class RemoteAuthorityResolverService {
-  private readonly resolvers = new Map<string, IRemoteAuthorityResolver>();
+  readonly #resolvers = new Map<string, IRemoteAuthorityResolver>();
 
   registerResolver(type: string, resolver: IRemoteAuthorityResolver): IDisposable {
-    this.resolvers.set(type, resolver);
-    return toDisposable(() => this.resolvers.delete(type));
+    this.#resolvers.set(type, resolver);
+    return toDisposable(() => {
+      this.#resolvers.delete(type);
+    });
   }
 
-  async resolveAuthority(authority: string): Promise<ResolvedAuthority> {
-    const separator = authority.indexOf("+");
-    const type = separator >= 0 ? authority.substring(0, separator) : authority;
-    const resolver = this.resolvers.get(type);
-    if (!resolver) {
-      throw new Error(`No resolver registered for remote type: ${type}`);
+  resolveAuthority(authority: string): Promise<ResolvedAuthority> {
+    const type = authorityType(authority);
+    const resolver = this.#resolvers.get(type);
+    if (resolver === undefined) {
+      return Promise.reject(new Error(`No resolver registered for remote type: ${type}`));
     }
     return resolver.resolve(authority);
   }
 }
 
-export interface ISocketFactory<T extends RemoteConnectionType = RemoteConnectionType> {
-  supports(connectTo: RemoteConnection & { type: T }): boolean;
-  connect(connectTo: RemoteConnection & { type: T }, path: string, query: string): Promise<ISocket>;
-}
+export type ISocketFactory<T extends RemoteConnectionType = RemoteConnectionType> = {
+  supports: (connectTo: RemoteConnection & { type: T }) => boolean;
+  connect: (
+    connectTo: RemoteConnection & { type: T },
+    path: string,
+    query: string,
+  ) => Promise<ISocket>;
+};
+
+/** 注册表里保存的是擦掉类型参数后的统一视图，按 type 分派时不需要再判断具体连接子类。 */
+type Registration = {
+  readonly type: RemoteConnectionType;
+  readonly accepts: (connectTo: RemoteConnection) => boolean;
+  readonly open: (connectTo: RemoteConnection, path: string, query: string) => Promise<ISocket>;
+};
 
 export class RemoteSocketFactoryService {
-  private readonly factories = new Map<RemoteConnectionType, ISocketFactory[]>();
+  readonly #registrations: Registration[] = [];
 
   register<T extends RemoteConnectionType>(type: T, factory: ISocketFactory<T>): IDisposable {
-    if (!this.factories.has(type)) {
-      this.factories.set(type, []);
-    }
-    this.factories.get(type)!.push(factory as ISocketFactory);
+    const registration: Registration = {
+      type,
+      accepts: (connectTo) => factory.supports(connectTo as RemoteConnection & { type: T }),
+      open: (connectTo, path, query) =>
+        factory.connect(connectTo as RemoteConnection & { type: T }, path, query),
+    };
+    this.#registrations.push(registration);
     return toDisposable(() => {
-      const current = this.factories.get(type);
-      if (current) {
-        const index = current.indexOf(factory as ISocketFactory);
-        if (index >= 0) {
-          current.splice(index, 1);
-        }
-      }
+      const index = this.#registrations.indexOf(registration);
+      if (index !== -1) this.#registrations.splice(index, 1);
     });
   }
 
-  async connect(connectTo: RemoteConnection, path: string, query: string): Promise<ISocket> {
-    const candidates = this.factories.get(connectTo.type) || [];
-    const factory = candidates.find((candidate) => candidate.supports(connectTo as any));
-    if (!factory) {
-      throw new Error(`No socket factory found for ${connectTo}`);
-    }
-    return factory.connect(connectTo as any, path, query);
+  connect(connectTo: RemoteConnection, path: string, query: string): Promise<ISocket> {
+    const registration = this.#registrations.find(
+      (candidate) => candidate.type === connectTo.type && candidate.accepts(connectTo),
+    );
+    return registration
+      ? registration.open(connectTo, path, query)
+      : Promise.reject(new Error(`No socket factory found for ${connectTo.toString()}`));
   }
 }
 
-export interface SimpleURI {
-  scheme: string;
-  authority: string;
-  path: string;
-}
+export type SimpleURI = { scheme: string; authority: string; path: string };
 
-export interface IURITransformer {
-  transformIncoming(uri: SimpleURI): SimpleURI;
-  transformOutgoing(uri: SimpleURI): SimpleURI;
+export type IURITransformer = {
+  transformIncoming: (uri: SimpleURI) => SimpleURI;
+  transformOutgoing: (uri: SimpleURI) => SimpleURI;
+};
+
+const FILE_SCHEME = "file";
+const REMOTE_SCHEME = "vscode-remote";
+const LOOPBACK_SCHEME = "vscode-local";
+
+function asLocal(uri: SimpleURI): SimpleURI {
+  return { scheme: FILE_SCHEME, authority: "", path: uri.path };
 }
 
 export function createURITransformer(remoteAuthority: string): IURITransformer {
   return {
-    transformIncoming(uri: SimpleURI): SimpleURI {
-      if (uri.scheme === "vscode-remote" && uri.authority === remoteAuthority) {
-        return { scheme: "file", authority: "", path: uri.path };
-      } else if (uri.scheme === "file") {
-        return { scheme: "vscode-local", authority: "", path: uri.path };
+    transformIncoming: (uri) => {
+      switch (uri.scheme) {
+        case REMOTE_SCHEME:
+          return uri.authority === remoteAuthority ? asLocal(uri) : uri;
+        case FILE_SCHEME:
+          return { scheme: LOOPBACK_SCHEME, authority: "", path: uri.path };
+        default:
+          return uri;
       }
-      return uri;
     },
-    transformOutgoing(uri: SimpleURI): SimpleURI {
-      if (uri.scheme === "file") {
-        return { scheme: "vscode-remote", authority: remoteAuthority, path: uri.path };
-      } else if (uri.scheme === "vscode-local") {
-        return { scheme: "file", authority: "", path: uri.path };
+    transformOutgoing: (uri) => {
+      switch (uri.scheme) {
+        case FILE_SCHEME:
+          return { scheme: REMOTE_SCHEME, authority: remoteAuthority, path: uri.path };
+        case LOOPBACK_SCHEME:
+          return asLocal(uri);
+        default:
+          return uri;
       }
-      return uri;
     },
   };
 }
 
 const RECONNECT_DELAYS = [0, 5, 5, 10, 10, 10, 10, 10, 30];
 
-export interface RemoteConnectionState {
-  type: "connected" | "reconnecting" | "disconnected";
+export type RemoteConnectionState = { type: "connected" | "reconnecting" | "disconnected" };
+
+function queryFor(resolved: ResolvedAuthority): string {
+  return resolved.connectionToken ? `token=${resolved.connectionToken}` : "";
+}
+
+function pause(seconds: number): Promise<void> {
+  return new Promise((resolve) => {
+    setTimeout(resolve, seconds * 1000);
+  });
 }
 
 export class RemoteAgentConnection implements IDisposable {
-  private protocol: PersistentProtocol | null = null;
-  private client: IPCClient<string> | null = null;
-  private readonly stateEmitter = new Emitter<RemoteConnectionState>();
-  readonly onDidStateChange = this.stateEmitter.event;
+  readonly #authority: string;
+  readonly #resolverService: RemoteAuthorityResolverService;
+  readonly #socketFactory: RemoteSocketFactoryService;
+  readonly #stateEmitter = new Emitter<RemoteConnectionState>();
+  #protocol: PersistentProtocol | undefined;
+  #client: IPCClient<string> | undefined;
+
+  readonly onDidStateChange = this.#stateEmitter.event;
 
   constructor(
-    private readonly authority: string,
-    private readonly resolverService: RemoteAuthorityResolverService,
-    private readonly socketFactory: RemoteSocketFactoryService,
-  ) {}
-
-  async connect(): Promise<IPCClient<string>> {
-    const resolved = await this.resolverService.resolveAuthority(this.authority);
-    const query = resolved.connectionToken ? `token=${resolved.connectionToken}` : "";
-    const socket = await this.socketFactory.connect(resolved.connectTo, "/", query);
-    this.protocol = new PersistentProtocol(socket);
-    this.client = new IPCClient(this.protocol, this.authority);
-    this.protocol.onSocketClose(() => {
-      this.stateEmitter.fire({ type: "reconnecting" });
-      this.reconnect(resolved, 0);
-    });
-    this.stateEmitter.fire({ type: "connected" });
-    return this.client;
+    authority: string,
+    resolverService: RemoteAuthorityResolverService,
+    socketFactory: RemoteSocketFactoryService,
+  ) {
+    this.#authority = authority;
+    this.#resolverService = resolverService;
+    this.#socketFactory = socketFactory;
   }
 
-  private async reconnect(resolved: ResolvedAuthority, attempt: number): Promise<void> {
-    if (attempt >= RECONNECT_DELAYS.length) {
-      this.stateEmitter.fire({ type: "disconnected" });
-      return;
+  async connect(): Promise<IPCClient<string>> {
+    const resolved = await this.#resolverService.resolveAuthority(this.#authority);
+    const socket = await this.#socketFactory.connect(resolved.connectTo, "/", queryFor(resolved));
+
+    const protocol = new PersistentProtocol(socket);
+    const client = new IPCClient(protocol, this.#authority);
+    this.#protocol = protocol;
+    this.#client = client;
+
+    protocol.onSocketClose(() => {
+      this.#stateEmitter.fire({ type: "reconnecting" });
+      void this.#reconnect(resolved);
+    });
+    this.#stateEmitter.fire({ type: "connected" });
+    return client;
+  }
+
+  /** 按 RECONNECT_DELAYS 逐次尝试；全部失败才宣告 disconnected。 */
+  async #reconnect(resolved: ResolvedAuthority): Promise<void> {
+    for (const seconds of RECONNECT_DELAYS) {
+      await pause(seconds);
+      try {
+        const socket = await this.#socketFactory.connect(
+          resolved.connectTo,
+          "/",
+          queryFor(resolved),
+        );
+        this.#protocol?.replaceSocket(socket);
+        this.#stateEmitter.fire({ type: "connected" });
+        return;
+      } catch {
+        // 单次重连失败不改变整体状态：继续按数组里的下一档等待。
+      }
     }
-    const delay = RECONNECT_DELAYS[attempt] * 1000;
-    await new Promise<void>((resolve) => setTimeout(resolve, delay));
-    try {
-      const query = resolved.connectionToken ? `token=${resolved.connectionToken}` : "";
-      const newSocket = await this.socketFactory.connect(resolved.connectTo, "/", query);
-      this.protocol!.replaceSocket(newSocket);
-      this.stateEmitter.fire({ type: "connected" });
-    } catch {
-      this.reconnect(resolved, attempt + 1);
-    }
+    this.#stateEmitter.fire({ type: "disconnected" });
   }
 
   dispose(): void {
-    this.client?.dispose();
-    this.protocol?.dispose();
-    this.stateEmitter.dispose();
+    this.#client?.dispose();
+    this.#protocol?.dispose();
+    this.#stateEmitter.dispose();
   }
 }
