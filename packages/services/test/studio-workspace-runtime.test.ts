@@ -27,7 +27,9 @@ test("parallel non-git snapshots own distinct loopback ports and stop independen
   assert.match(one.previewUrl!, /^http:\/\/127\.0\.0\.1:/);
   assert.equal(await (await fetch(one.previewUrl!)).text(), "runtime fixture");
   await a.request({ action: "stop" });
-  assert.equal((await a.request()).phase, "stopped");
+  // 停止是异步收尾：`phase` 会先进入 stopping/cleanup 之类中间态再落到 stopped。
+  // 用 wait() 轮询到终态，而不是取停止请求返回后某一刻的快照——后者在慢机器上会抓到中间态。
+  await a.wait("stopped");
   assert.equal((await a.request()).previewUrl, undefined);
   assert.equal((await b.request()).phase, "ready");
   assert.equal(await (await fetch(two.previewUrl!)).text(), "runtime fixture");
@@ -106,7 +108,7 @@ test("cancel an owned setup, reject repeated window admission, and keep source a
   );
   assert.equal((await other.request({ runId: "cancel", stepId: "step" })).canControl, false);
   await a.request({ action: "stop" });
-  assert.equal((await a.request()).phase, "stopped");
+  await a.wait("stopped");
   assert.equal((await a.request()).prepared, false);
   await writeFile(join(a.working, "dirty.txt"), "runtime project edit");
   await writeFile(join(f.source, "dirty.txt"), "user changed source");
@@ -206,10 +208,13 @@ test("cleanup failure remains cleanup-required and explicit retry can recover", 
   const failure = await a.wait("cleanup-required");
   assert.equal(failure.errorCode, "cleanup-required");
   await a.request({ action: "stop" });
-  assert.equal((await a.request()).phase, "cleanup-required");
+  // `cleanup-required` 是「还需清理」的合法中间态：停止请求不会把它推到 stopped，
+  // 只能等到该状态本身稳定出现。这里用 wait() 确认收敛，而不是取某一刻的快照。
+  await a.wait("cleanup-required");
   recovered = true;
   await a.request({ action: "recover" });
-  assert.equal((await a.request()).phase, "stopped");
+  // recover 成功后应当落到终态 stopped —— 同样等待收敛，不取瞬时值。
+  await a.wait("stopped");
 });
 
 test("known secrets are neither seeded nor published, including credential entries in old baselines", async (t) => {

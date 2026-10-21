@@ -4,9 +4,9 @@
   "scope": "Production dependency union across current workspace projects, copied source/assets and native tools; not a per-installer SBOM or a certification of all licensing obligations.",
   "noticesSha256": "c3579bd1f7f3cef223882fc8b632f086c25d3d66c66f2cb9e6f941fea7eee25b",
   "inputs": {
-    "apps/cli/package.json": "5fc11f689b02e1d50fe3e05139b61bcacd203e92e77557521254459137036fb2",
+    "apps/cli/package.json": "5f53bd25ca7bf10010829c76faaaa30cc088f99b4b6116132602206468d6c56a",
     "apps/cli/packages/adapters/package.json": "4503a9c39646b5dd9a7db7ed7758e647f01d629d45d2840244bc7099822842b8",
-    "apps/cli/packages/bootstrap/package.json": "eecb05483929b40a2648114537097955b2ce6612a85ad7a9e33da254853a6072",
+    "apps/cli/packages/bootstrap/package.json": "4d894f0cf5090ab89c34793475193f0c7a8877e03e9c7b73fe2bdbada497a945",
     "apps/cli/packages/browser-use-plugin/package.json": "bf6c3e0458209355aa3800297752e34eed045e942eb03d6e29b68fbb2d1a22ab",
     "apps/cli/packages/cli/package.json": "b0f0b9dd355805873d203a0a3fae9241a282036bfaed5a6b7cf05faf427fe0f6",
     "apps/cli/packages/contracts/package.json": "23b1d441b649af674cd8752ef54241abf9e68a0041c3d12f423faaddef9b25a6",

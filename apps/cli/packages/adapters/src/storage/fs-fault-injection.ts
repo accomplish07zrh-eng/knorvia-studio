@@ -40,10 +40,22 @@ interface FaultSite {
   path: string;
 }
 
-/** 合法操作名：与规则 JSON 的 operation 取值一致，空格分隔一次声明。 */
-const OPERATIONS = new Set<Operation>(
-  "appendFile any mkdir rename rm sqliteOpen sqliteRun writeFile".split(" ") as Operation[],
-);
+/**
+ * 合法操作名与「是否为写操作」的对照表。
+ * 用映射而非数组：既表达合法性，也把「只读操作（any）不参与写故障」这一语义写进数据。
+ */
+const OPERATION_KINDS = {
+  appendFile: "write",
+  any: "wildcard",
+  mkdir: "write",
+  rename: "write",
+  rm: "write",
+  sqliteOpen: "write",
+  sqliteRun: "write",
+  writeFile: "write",
+} as const satisfies Record<Operation, "write" | "wildcard">;
+
+const OPERATIONS = new Set<Operation>(Object.keys(OPERATION_KINDS) as Operation[]);
 
 let cachedRules: Rule[] | undefined;
 

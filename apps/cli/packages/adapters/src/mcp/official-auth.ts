@@ -32,37 +32,51 @@ export class OfficialMcpAuthError extends Error {
   }
 }
 
-export interface OfficialMcpServerResponseInfo {
+/** 一次服务端响应里与「RPC 语义」有关的三项（都能从正文解析出来时才有）。 */
+type ResponseRpcPart = {
+  rpcMethod?: string;
+  rpcToolName?: string;
   failureKind?: McpServerFailureKind;
-  httpStatus: number; // 服务端返回的 HTTP 状态码。
-  rpcMethod?: string; // JSON-RPC 方法名（能从正文解析出来时才有）。
-  rpcToolName?: string; // JSON-RPC 工具名（能从正文解析出来时才有）。
-  serverRequestId?: string; // 服务端请求 id（响应头带回来时才有）。
-  spanId?: string; // 本次请求的 span id。
-  traceId?: string; // 本次请求的 trace id。
-}
+};
 
-interface /* 创建鉴权 fetch 的入参 */ CreateOfficialMcpAuthFetchInput {
-  authHeadersPort?: OfficialMcpAuthHeadersPort; // 鉴权头端口；缺席时不做官方鉴权。
-  baseFetch: typeof globalThis.fetch; // 底层 fetch（注入以便测试与代理）。
+/** 一次服务端响应里与「链路追踪」有关的三项。 */
+type ResponseTracePart = { spanId?: string; traceId?: string; serverRequestId?: string };
+
+/** 观测到的一次服务端响应：HTTP 状态码 + 上面两段。 */
+export type OfficialMcpServerResponseInfo = { httpStatus: number } & ResponseRpcPart &
+  ResponseTracePart;
+
+/** 鉴权 fetch 入参里与「凭据解析」有关的三项。 */
+type AuthFetchCredentialPart = {
+  authHeadersPort?: OfficialMcpAuthHeadersPort;
+  official: McpOfficialProvenance;
+  trustedOrigins: OfficialMcpTrustedOriginRegistry;
+};
+
+/** 鉴权 fetch 入参里与「请求目标」有关的三项。 */
+type AuthFetchTargetPart = { baseFetch: typeof globalThis.fetch; url: string; serverName: string };
+
+/** 鉴权 fetch 入参里与「可观测 / 工作区」有关的五项。 */
+type AuthFetchObserverPart = {
   logger?: Logger;
   onAuthFailure?: (kind: OfficialMcpAuthFailureKind) => void;
-  onServerResponse?: (response: OfficialMcpServerResponseInfo) => void; // 服务端响应观察回调。
-  official: McpOfficialProvenance;
-  serverName: string; // 服务端名字，用于鉴权与可信来源判定。
-  trustedOrigins: OfficialMcpTrustedOriginRegistry; // 可信来源登记表。
-  url: string; // 目标请求地址。
+  onServerResponse?: (response: OfficialMcpServerResponseInfo) => void;
   workspaceIdentity?: string;
-  workspacePath?: string; // 工作区路径（鉴权头端口可能需要）。
-}
+  workspacePath?: string;
+};
 
-interface RpcSummary {
-  id?: string | number;
-  method?: /* JSON-RPC 方法名（可从正文解析时才有） */ string;
-  spanId?: string; // 本次请求的 span id。
-  toolName?: /* JSON-RPC 工具名（可从正文解析时才有） */ string;
-  traceId?: string; // 本次请求的 trace id。
-}
+/** 创建鉴权 fetch 的入参：由上面三段合成。 */
+type CreateOfficialMcpAuthFetchInput = AuthFetchCredentialPart &
+  AuthFetchTargetPart &
+  AuthFetchObserverPart;
+
+/** 从 JSON-RPC 正文里抽出的摘要：标识 + RPC 名 + 追踪 id。 */
+type RpcSummary = { id?: string | number } & {
+  method?: string;
+  toolName?: string;
+  spanId?: string;
+  traceId?: string;
+};
 
 /** 可选 RPC 字段表：仅保留有值的字段；键名与上游逐字一致（契约面）。 */
 function optionalRpcFields(
@@ -103,29 +117,59 @@ function objectFields(value: unknown): value is Record<string, unknown> {
   return value !== null && typeof value === "object" && !Array.isArray(value);
 }
 
+/**
+ * 把「有值才出现的字段」拼进目标对象。
+ *
+ * 判定口径是 **truthy**（`if (!value) continue`），这与原实现的
+ * `...(cond ? { k: cond } : {})` 完全一致：空串、`undefined`、`0`、`null`
+ * 都不会被写入。**不要改成 `!== undefined`** —— 那会让空串字段出现在请求参数与日志里，
+ * 破坏「缺席即不适用」的观测约定（`mcp-official-auth-request` 有断言守这条）。
+ */
+function withPresent(
+  target: Record<string, unknown>,
+  entries: readonly (readonly [string, unknown])[],
+): Record<string, unknown> {
+  for (const [key, value] of entries) {
+    if (!value) continue;
+    target[key] = value;
+  }
+  return target;
+}
+
+/** 拼一条鉴权相关日志：基底 + 本次增量 + 有值才出现的补充字段。 */
+function authLog(
+  base: Record<string, unknown>,
+  delta: Record<string, unknown>,
+  extra?: readonly (readonly [string, unknown])[],
+): Record<string, unknown> {
+  const fields: Record<string, unknown> = {};
+  Object.assign(fields, base);
+  Object.assign(fields, delta);
+  if (extra !== undefined) withPresent(fields, extra);
+  return fields;
+}
+
+/** 从 JSON-RPC 正文里抽摘要；正文非字符串或非 JSON 时返回空摘要。 */
 function summarizeRpc(body: unknown): RpcSummary {
   if (typeof body !== "string" || !body) return {};
-  try /* 解析可能失败，失败由 catch 给出降级值 */ {
-    const payload: unknown = JSON.parse(body);
-    if (!objectFields(payload)) return {};
-    const params = objectFields(payload.params) ? payload.params : undefined;
-    const meta = objectFields(params?._meta) ? params._meta : undefined;
-    const id =
-      typeof payload.id === "number" || typeof payload.id === "string" ? payload.id : undefined;
-    const method = typeof payload.method === "string" ? payload.method : undefined;
-    const spanId = typeof meta?.span_id === "string" ? meta.span_id : undefined;
-    const toolName = typeof params?.name === "string" ? params.name : undefined;
-    const traceId = typeof meta?.trace_id === "string" ? meta.trace_id : undefined;
-    return /* 摘要视图 */ {
-      ...(id !== undefined ? { id } : {}),
-      ...(method ? /* 方法名：仅在有值时展开 */ { method } : {}),
-      ...(spanId ? /* span：仅在有值时展开 */ { spanId } : {}),
-      ...(toolName ? /* 工具名：仅在有值时展开 */ { toolName } : {}),
-      ...(traceId ? /* trace：仅在有值时展开 */ { traceId } : {}),
-    };
-  } catch /* 输入非法：按降级语义返回 */ {
-    return /* 摘要为空：正文非 JSON */ {};
+  let payload: unknown;
+  try {
+    payload = JSON.parse(body);
+  } catch {
+    // 输入非法：按降级语义返回空摘要。
+    return {};
   }
+  if (!objectFields(payload)) return {};
+
+  const params = objectFields(payload.params) ? payload.params : undefined;
+  const meta = objectFields(params?._meta) ? params._meta : undefined;
+  const summary = {} as RpcSummary;
+  if (typeof payload.id === "number" || typeof payload.id === "string") summary.id = payload.id;
+  if (typeof payload.method === "string") summary.method = payload.method;
+  if (typeof meta?.span_id === "string") summary.spanId = meta.span_id;
+  if (typeof params?.name === "string") summary.toolName = params.name;
+  if (typeof meta?.trace_id === "string") summary.traceId = meta.trace_id;
+  return summary;
 }
 
 function requestBodyBytes(body: unknown): number | undefined {
@@ -202,113 +246,136 @@ export function /* 入口：包装 fetch 并注入鉴权头 */ createOfficialMcp
     }
 
     const rpc = summarizeRpc(init?.body);
-    const logBase = /* 日志公共字段：一次算好复用 */ {
+    // 日志公共字段：一次算好，整条请求复用。
+    const logBase: Record<string, unknown> = {
       event: "mcp.official_auth.request",
       mcpKey: input.official.mcpKey,
       mcpServerName: input.serverName,
       module: "adapters.mcp.official_auth",
       requestBodyBytes: requestBodyBytes(init?.body),
       urlPath: requestPath(requestUrl),
-      ...(rpc.method ? /* 上报方法名：键名 rpcMethod 为契约面 */ { rpcMethod: rpc.method } : {}),
-      ...(rpc.id !== undefined ? { rpcId: rpc.id } : {}),
-      ...(rpc.toolName
-        ? /* 上报工具名：键名 rpcToolName 为契约面 */ { rpcToolName: rpc.toolName }
-        : {}),
-      ...(rpc.traceId ? /* 契约键 mcpTraceId 为对外名 */ { mcpTraceId: rpc.traceId } : {}),
     };
+    // 键名 rpcMethod / rpcId / rpcToolName / mcpTraceId 都是观测契约，**插入顺序也要保持**
+    // （日志字段顺序有断言守）。原顺序：method → id → toolName → traceId。
+    if (rpc.method) logBase.rpcMethod = rpc.method;
+    if (rpc.id !== undefined) logBase.rpcId = rpc.id;
+    if (rpc.toolName) logBase.rpcToolName = rpc.toolName;
+    if (rpc.traceId) logBase.mcpTraceId = rpc.traceId;
 
     async function send(attempt: number): Promise<{ response: Response; authApplied: boolean }> {
       let authHeaders: Record<string, string> = {};
-      let resolveDurationMs: /* 解析耗时：失败路径保持 undefined */ number | undefined;
+      let resolveDurationMs: number | undefined;
+
       if (input.authHeadersPort) {
         const startedAt = Date.now();
-        const resolved = await input.authHeadersPort.resolveHeaders({
+        const ask: Record<string, unknown> = {
           mcpKey: input.official.mcpKey,
           pluginId: input.official.pluginId,
           targetOrigin: origin as string,
-          ...(input.workspaceIdentity ? { workspaceIdentity: input.workspaceIdentity } : {}),
-          ...(input.workspacePath ? { workspacePath: input.workspacePath } : {}),
-          ...(init?.signal ? { signal: init.signal } : {}),
-        });
+        };
+        withPresent(ask, [
+          ["workspaceIdentity", input.workspaceIdentity],
+          ["workspacePath", input.workspacePath],
+          ["signal", init?.signal],
+        ]);
+        const resolved = await input.authHeadersPort.resolveHeaders(
+          ask as Parameters<typeof input.authHeadersPort.resolveHeaders>[0],
+        );
         resolveDurationMs = Date.now() - startedAt;
-        if (/* 解析成功：带上鉴权头 */ resolved.ok) {
-          authHeaders = /* 已解析出的鉴权头 */ resolved.headers;
-        } else /* 失败分支：按原因走匿名回退 */ {
-          input.logger?.warn("Official MCP auth headers unavailable for request", {
-            /* 公共字段 */ ...logBase,
-            /* 第几次尝试 */ attempt,
-            event: "mcp.official_auth.resolve",
-            fallback: /* 回退模式：匿名 */ "anonymous",
-            reason: /* 解析器给出的具体原因 */ resolved.reason,
-            /* 解析耗时 */ resolveDurationMs,
-            status: "failed",
-          });
+        if (resolved.ok) {
+          authHeaders = resolved.headers;
+          // 成功时不记日志，保持既有「只在失败时报 warn」的观测口径。
+        } else {
+          input.logger?.warn(
+            "Official MCP auth headers unavailable for request",
+            authLog(logBase, {
+              attempt,
+              event: "mcp.official_auth.resolve",
+              fallback: "anonymous",
+              reason: resolved.reason,
+              resolveDurationMs,
+              status: "failed",
+            }),
+          );
         }
-      } else /* 失败分支：按原因走匿名回退 */ {
-        input.logger?.warn("Official MCP auth port unavailable for request", {
-          /* 公共字段 */ ...logBase,
-          /* 第几次尝试 */ attempt,
-          event: "mcp.official_auth.resolve",
-          fallback: /* 回退模式：匿名 */ "anonymous",
-          reason: /* 固定原因：鉴权不可用 */ "official_auth_unavailable",
-          status: "failed",
-        });
+      } else {
+        // 端口缺席：固定原因 official_auth_unavailable，不带 resolveDurationMs。
+        input.logger?.warn(
+          "Official MCP auth port unavailable for request",
+          authLog(logBase, {
+            attempt,
+            event: "mcp.official_auth.resolve",
+            fallback: "anonymous",
+            reason: "official_auth_unavailable",
+            status: "failed",
+          }),
+        );
       }
-      const identity =
-        /* 身份头摘要：随日志上报 */ summarizeOfficialMcpIdentityHeaders(authHeaders);
+
+      const identity = summarizeOfficialMcpIdentityHeaders(authHeaders);
       const headers = mergeHeaders(init?.headers, authHeaders);
-      input.logger?.debug("Official MCP request sending", {
-        /* 公共字段 */ ...logBase,
-        /* 第几次尝试 */ attempt,
-        /* 解析耗时 */ resolveDurationMs,
-        status: "started",
-        timeoutHint: timeoutHint(init?.signal),
-        /* 身份头摘要字段 */ ...identity,
-      });
+      input.logger?.debug(
+        "Official MCP request sending",
+        authLog(
+          logBase,
+          {
+            attempt,
+            resolveDurationMs,
+            status: "started",
+            timeoutHint: timeoutHint(init?.signal),
+          },
+          Object.entries(identity),
+        ),
+      );
       const sendStartedAt = Date.now();
-      // 凭据解析和准备错误不属于发送失败；只在此处开始网络/响应处理的 catch。
-      try /* 解析可能失败，失败由 catch 给出降级值 */ {
+      // 凭据解析和准备错误不属于发送失败；只在此处开始网络/响应处理的 try。
+      try {
         const response = await input.baseFetch(resource, { ...init, headers, redirect: "manual" });
         const serverRequestId = responseRequestId(response);
-        const failureKind =
-          /* tools/call 视为正常，其余按响应分类 */
-          rpc.method === "tools/call" ? undefined : await classifyResponse(response);
-        if (/* 有服务端标识或失败分类才上报 */ serverRequestId || failureKind) {
-          input.onServerResponse?.({
-            httpStatus: response.status,
-            ...optionalRpcFields(rpc, failureKind, serverRequestId),
-          });
+        // tools/call 的失败由工具层归类，这里不再分类。
+        const needsClassify = rpc.method !== "tools/call";
+        const failureKind = needsClassify ? await classifyResponse(response) : undefined;
+
+        if (serverRequestId || failureKind) {
+          const info: Record<string, unknown> = { httpStatus: response.status };
+          Object.assign(info, optionalRpcFields(rpc, failureKind, serverRequestId));
+          input.onServerResponse?.(
+            info as unknown as Parameters<NonNullable<typeof input.onServerResponse>>[0],
+          );
         }
-        const outcome = /* 归一化调用结果 */ {
-          /* 公共字段 */ ...logBase,
-          /* 第几次尝试 */ attempt,
-          httpStatus: response.status,
-          responseBodyBytes: numericHeader(response.headers.get("content-length")),
-          sendDurationMs: Date.now() - sendStartedAt,
-          ...(serverRequestId ? { serverRequestId } : {}),
-        };
+
+        const outcome: Record<string, unknown> = {};
+        Object.assign(outcome, logBase);
+        outcome.attempt = attempt;
+        outcome.httpStatus = response.status;
+        outcome.responseBodyBytes = numericHeader(response.headers.get("content-length"));
+        outcome.sendDurationMs = Date.now() - sendStartedAt;
+        withPresent(outcome, [["serverRequestId", serverRequestId]]);
+
         if (response.ok) {
           input.logger?.debug("Official MCP response received", {
             ...outcome,
             status: "completed",
           });
-        } else /* 失败分支：按原因走匿名回退 */ {
+        } else {
           input.logger?.warn("Official MCP response failed", { ...outcome, status: "failed" });
         }
         return { response, authApplied: Object.keys(authHeaders).length > 0 };
       } catch (error) {
         const sendDurationMs = Date.now() - sendStartedAt;
-        input.logger?.warn("Official MCP request did not complete", {
-          /* 公共字段 */ ...logBase,
-          aborted:
-            error instanceof Error &&
-            (error.name === "AbortError" || error.name === "TimeoutError"),
-          /* 第几次尝试 */ attempt,
-          error: error instanceof Error ? error.message : String(error),
-          errorName: error instanceof Error ? error.name : "unknown",
-          sendDurationMs,
-          status: "failed",
-        });
+        const aborted =
+          error instanceof Error && (error.name === "AbortError" || error.name === "TimeoutError");
+        input.logger?.warn(
+          "Official MCP request did not complete",
+          authLog(logBase, {
+            aborted,
+            attempt,
+            error: error instanceof Error ? error.message : String(error),
+            errorName: error instanceof Error ? error.name : "unknown",
+            sendDurationMs,
+            status: "failed",
+          }),
+        );
         throw error;
       }
     }

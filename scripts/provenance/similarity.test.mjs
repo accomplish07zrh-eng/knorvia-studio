@@ -60,10 +60,13 @@ function runTool(args) {
   try {
     return {
       status: 0,
+      stderr: "",
       stdout: execFileSync(process.execPath, [tool, ...args], { encoding: "utf8" }),
     };
   } catch (error) {
-    return { status: error.status, stdout: error.stdout ?? "" };
+    // usageError 把原因写到 stderr；契约行剔除的「跳过通用名」告警也在 stderr，
+    // 因此这里一并返回，供断言检查。
+    return { status: error.status, stderr: error.stderr ?? "", stdout: error.stdout ?? "" };
   }
 }
 
@@ -340,6 +343,455 @@ test("declaration compatibility lines are stripped using interface.md names", ()
       assert.equal(stillFailing.status, 1, stillFailing.stdout);
       assert.match(stillFailing.stdout, /declaration-lines=\d+/);
       assert.match(stillFailing.stdout, /lines=1/);
+    },
+  );
+});
+
+test("contract-lines strips only rows named in the interface table", () => {
+  // 契约行剔除认的是 interface.md 表格里逐条列出的名字；这里构造一个实现文件，
+  // 前半是与上游同形的契约行（导出、字段、事件名），后半是实现噪声。
+  const upstream = [
+    "export const TOOL_ERROR_MESSAGE = 'tool failed';",
+    "export function reportToolError(kind, detail) {",
+    "  return { kind, detail, message: TOOL_ERROR_MESSAGE };",
+    "}",
+    "export function unrelated(value) {",
+    "  return value + 1;",
+    "}",
+  ].join("\n");
+  const candidateText = [
+    "const UNRELATED_LOCAL = 1;",
+    "export const TOOL_ERROR_MESSAGE = 'tool failed';",
+    "export function reportToolError(kind, detail) {",
+    "  return { kind, detail, message: TOOL_ERROR_MESSAGE };",
+    "}",
+    "export function totallyDifferent(payload) {",
+    "  const scaled = payload * 2;",
+    "  return scaled - UNRELATED_LOCAL;",
+    "}",
+  ].join("\n");
+  withTree(
+    {
+      "upstream/errors.ts": upstream,
+      "contract/interface.md": [
+        "# interface",
+        "",
+        "| 模块 | 导出名 | 种类 |",
+        "| --- | --- | --- |",
+        "| `errors.ts` | `TOOL_ERROR_MESSAGE` | const |",
+        "| `errors.ts` | `reportToolError` | function |",
+      ].join("\n"),
+    },
+    (root) => {
+      const upstreamDir = join(root, "upstream");
+      const candidate = writeCandidate(root, "errors.ts", candidateText);
+      const plain = runTool(["--upstream-dir", upstreamDir, "--candidate", candidate]);
+      assert.equal(plain.status, 1, plain.stdout);
+      const stripped = runTool([
+        "--upstream-dir",
+        upstreamDir,
+        "--candidate",
+        candidate,
+        "--contract-lines",
+        "--interface",
+        join(root, "contract/interface.md"),
+      ]);
+      assert.equal(stripped.status, 0, stripped.stdout);
+      // 剔除前后两组行数都要在报告里可见。
+      assert.match(stripped.stdout, /contract-lines=\d+/);
+      assert.match(stripped.stdout, /residual-lines=\d+->\d+/);
+      // 名字清单是审查重点项，必须完整打印。
+      assert.match(stripped.stdout, /contract-names=\[.*TOOL_ERROR_MESSAGE.*\]/);
+      assert.match(stripped.stdout, /contract-names=\[.*reportToolError.*\]/);
+      // 未列名的实现行仍参与比较，剔除不是万能的。
+      const stillFailing = writeCandidate(
+        root,
+        "still.ts",
+        [
+          "export const TOOL_ERROR_MESSAGE = 'tool failed';",
+          "export function reportToolError(kind, detail) {",
+          "  return { kind, detail, message: TOOL_ERROR_MESSAGE };",
+          "}",
+          "export function sameAsUpstreamToo(value) {",
+          "  return value + 1;",
+          "}",
+        ].join("\n"),
+      );
+      const failing = runTool([
+        "--upstream-dir",
+        upstreamDir,
+        "--candidate",
+        stillFailing,
+        "--contract-lines",
+        "--interface",
+        join(root, "contract/interface.md"),
+      ]);
+      assert.equal(failing.status, 1, failing.stdout);
+    },
+  );
+});
+
+test("contract-lines keeps dotted event names whole instead of splitting them", () => {
+  // `mcp.server.reconnect.failed` 必须整体匹配：拆成 `mcp` 会剔掉所有含 mcp 的行。
+  const upstream = [
+    "const MCP_KEEP = 'must stay';",
+    "export function mcpHelper() {",
+    "  return MCP_KEEP;",
+    "}",
+    "export const event = 'mcp.server.reconnect.failed';",
+  ].join("\n");
+  withTree(
+    {
+      "upstream/events.ts": upstream,
+      "contract/interface.md": [
+        "# interface",
+        "",
+        "| 模块 | 事件名 |",
+        "| --- | --- |",
+        "| `events.ts` | `mcp.server.reconnect.failed` |",
+      ].join("\n"),
+    },
+    (root) => {
+      const upstreamDir = join(root, "upstream");
+      const candidate = writeCandidate(root, "events.ts", upstream);
+      const result = runTool([
+        "--upstream-dir",
+        upstreamDir,
+        "--candidate",
+        candidate,
+        "--contract-lines",
+        "--interface",
+        join(root, "contract/interface.md"),
+      ]);
+      // 整体名字只剔除含该事件名的那一行；含 `mcp` 的其它行必须留下。
+      assert.match(result.stdout, /contract-lines=1/);
+      assert.match(result.stdout, /contract-names=\[[^\]]*mcp\.server\.reconnect\.failed[^\]]*\]/);
+      // 关键：含 `mcp` 的其它行没有被连带剔除（若按 `mcp` 拆分会把 mcpHelper 也剔掉）。
+      assert.match(result.stdout, /lines=3/);
+    },
+  );
+});
+
+test("contract-lines skips over-generic names instead of stripping the file away", () => {
+  withTree(
+    {
+      "upstream/t.ts": upstreamLines(20),
+      "contract/interface.md": [
+        "# interface",
+        "",
+        "| 模块 | 导出名 |",
+        "| --- | --- |",
+        "| `t.ts` | `event` |",
+        "| `t.ts` | `code` |",
+        "| `t.ts` | `collectWorkspaceSnapshot` |",
+      ].join("\n"),
+    },
+    (root) => {
+      const candidate = writeCandidate(root, "t.ts", upstreamLines(20));
+      const result = runTool([
+        "--upstream-dir",
+        join(root, "upstream"),
+        "--candidate",
+        candidate,
+        "--contract-lines",
+        "--interface",
+        join(root, "contract/interface.md"),
+      ]);
+      // 通用短名被跳过并告警，而不是把文件剔空。
+      assert.match(result.stderr, /skips over-generic names/);
+      assert.match(result.stderr, /event/);
+    },
+  );
+});
+
+test("contract-lines and declaration are mutually exclusive", () => {
+  withTree({ "upstream/a.ts": upstreamLines(12) }, (root) => {
+    const candidate = writeCandidate(root, "a.ts", upstreamLines(12));
+    const result = runTool([
+      "--upstream-dir",
+      join(root, "upstream"),
+      "--candidate",
+      candidate,
+      "--declaration",
+      "--contract-lines",
+      "--interface",
+      join(root, "contract/interface.md"),
+    ]);
+    assert.equal(result.status, 2, result.stdout);
+    assert.match(result.stderr, /mutually exclusive/);
+  });
+});
+
+test("contract-module narrows the names to one module row", () => {
+  // 整包 interface.md 有数百条导出名；不按模块过滤会剔掉邻居文件的契约行。
+  const upstream = [
+    "export function alphaFromThisModule() {",
+    "  return 1;",
+    "}",
+    "export function betaFromOtherModule() {",
+    "  return 2;",
+    "}",
+    "export function unrelatedImpl(value) {",
+    "  return value * 3;",
+    "}",
+  ].join("\n");
+  withTree(
+    {
+      "upstream/a.ts": upstream,
+      "contract/interface.md": [
+        "# interface",
+        "",
+        "| 模块 | 导出名 | 类型 | 是否公开 |",
+        "| --- | --- | --- | --- |",
+        "| `alpha.ts` | `alphaFromThisModule` | function | 是 |",
+        "| `beta.ts` | `betaFromOtherModule` | function | 是 |",
+      ].join("\n"),
+    },
+    (root) => {
+      const candidate = writeCandidate(root, "alpha.ts", upstream);
+      const scoped = runTool([
+        "--upstream-dir",
+        join(root, "upstream"),
+        "--candidate",
+        candidate,
+        "--contract-lines",
+        "--contract-module",
+        "alpha.ts",
+        "--interface",
+        join(root, "contract/interface.md"),
+      ]);
+      // 只取 alpha.ts 那一行：betaFromOtherModule 不应出现在名字清单里。
+      assert.match(scoped.stdout, /contract-names=\[[^\]]*alphaFromThisModule[^\]]*\]/);
+      assert.doesNotMatch(scoped.stdout, /betaFromOtherModule/);
+    },
+  );
+});
+
+test("contract-module fails loudly when the table has no matching row", () => {
+  withTree(
+    {
+      "upstream/a.ts": upstreamLines(12),
+      "contract/interface.md": [
+        "# interface",
+        "",
+        "| 模块 | 导出名 |",
+        "| --- | --- |",
+        "| `other.ts` | `someName` |",
+      ].join("\n"),
+    },
+    (root) => {
+      const candidate = writeCandidate(root, "a.ts", upstreamLines(12));
+      const result = runTool([
+        "--upstream-dir",
+        join(root, "upstream"),
+        "--candidate",
+        candidate,
+        "--contract-lines",
+        "--contract-module",
+        "missing.ts",
+        "--interface",
+        join(root, "contract/interface.md"),
+      ]);
+      // 匹配不到就报错，不退化成整包清单。
+      assert.equal(result.status, 2, result.stdout);
+      assert.match(result.stderr, /matched no row/);
+    },
+  );
+});
+
+test("contract-lines reads only the export column and ignores module paths", () => {
+  // 模块列里的 `src/workflow/definition.ts` 若被当成名字，`src` 会剔掉大量无关行。
+  const upstream = [
+    "export function keepThisWorkingFunction() {",
+    "  return 1;",
+    "}",
+    "const src = 1;",
+    "const workflow = 2;",
+    "const definition = 3;",
+  ].join("\n");
+  withTree(
+    {
+      "upstream/a.ts": upstream,
+      "contract/interface.md": [
+        "# interface",
+        "",
+        "| 模块 | 导出名 | 说明 |",
+        "| --- | --- | --- |",
+        "| `src/workflow/definition.ts` | `keepThisWorkingFunction` | — |",
+      ].join("\n"),
+    },
+    (root) => {
+      const candidate = writeCandidate(root, "definition.ts", upstream);
+      const result = runTool([
+        "--upstream-dir",
+        join(root, "upstream"),
+        "--candidate",
+        candidate,
+        "--contract-lines",
+        "--interface",
+        join(root, "contract/interface.md"),
+      ]);
+      assert.match(result.stdout, /contract-names=\[keepThisWorkingFunction\]/);
+    },
+  );
+});
+
+test("contract-lines ignores backticked module paths when extracting", () => {
+  // 反引号里的路径必须先整段丢弃：否则 `apps/cli/core` 会被切成三个合法标识符般的碎片。
+  withTree(
+    {
+      "upstream/a.ts": "export interface RealContractName {\n  id: string;\n}\n",
+      "contract/interface.md": [
+        "# interface",
+        "",
+        "- 模块：`apps/cli/packages/core/src/hooks/runner-plan.ts`",
+        "",
+        "| 模块 | 导出名 |",
+        "| --- | --- |",
+        "| `runner-plan.ts` | `apps` |",
+        "| `runner-plan.ts` | `RealContractName` |",
+      ].join("\n"),
+    },
+    (root) => {
+      const candidate = writeCandidate(
+        root,
+        "runner-plan.ts",
+        "export interface RealContractName {\n  id: string;\n}\n",
+      );
+      const result = runTool([
+        "--upstream-dir",
+        join(root, "upstream"),
+        "--candidate",
+        candidate,
+        "--contract-lines",
+        "--interface",
+        join(root, "contract/interface.md"),
+      ]);
+      // 表格导出名列里真写了 `apps` 也照常提取（那是逐条列出的，责任在合同），
+      // 但正文里的路径不得被切成碎片名。
+      assert.doesNotMatch(result.stderr, /apps,|, apps/);
+    },
+  );
+});
+
+test("contract-lines ignores paths inside prose cells of two-column tables", () => {
+  // core-hooks 是 2 列表：第 2 列是散文（"必须保留：`@knorvia/core` 的 `src/index.ts` …"），
+  // 里面的反引号路径若不整段跳过，会被切成 src / index / hooks 等碎片名并误剔。
+  const upstream = [
+    "export interface WorkspaceHookRuntimeAdmissionPort {",
+    "  admit(): void;",
+    "}",
+    "const src = 1;",
+    "const runtime = 2;",
+    "const agent = 3;",
+  ].join("\n");
+  withTree(
+    {
+      "upstream/a.ts": upstream,
+      "contract/interface.md": [
+        "# interface",
+        "",
+        "| 模块 | 说明 |",
+        "| --- | --- |",
+        '| `apps/cli/packages/core/src/hooks/runner-plan.ts` | **必须**保留：`@knorvia/core` 的 `src/index.ts` 以 `export * from "./hooks/index.js"` 引出，另有 `WorkspaceHookRuntimeAdmissionPort` |',
+      ].join("\n"),
+    },
+    (root) => {
+      const candidate = writeCandidate(root, "runner-plan.ts", upstream);
+      const result = runTool([
+        "--upstream-dir",
+        join(root, "upstream"),
+        "--candidate",
+        candidate,
+        "--contract-lines",
+        "--interface",
+        join(root, "contract/interface.md"),
+      ]);
+      // 只应提取到真名字，散文里的路径不得变成 src / index / hooks 等碎片。
+      assert.match(result.stdout, /contract-names=\[WorkspaceHookRuntimeAdmissionPort\]/);
+    },
+  );
+});
+
+test("no-upstream-counterpart marks a pass that had nothing to compare against", () => {
+  // 上游完全没有可比的同类文件时，containment=0.000 只代表「没得比」，不代表「不雷同」。
+  // 这里只放一个 .d.ts 上游（kind 与候选 .ts 不同）→ 候选找不到比较对象。
+  const candidateText = [
+    "export interface OnlyHereContract {",
+    "  value: string;",
+    "}",
+    "export declare function onlyHere(): void;",
+  ].join("\n");
+  withTree(
+    {
+      "upstream/other.d.ts": "export declare const unrelated: number;\n",
+      "contract/interface.md": [
+        "# interface",
+        "",
+        "| 模块 | 导出名 |",
+        "| --- | --- |",
+        "| `only-here.ts` | `OnlyHereContract` |",
+      ].join("\n"),
+    },
+    (root) => {
+      const candidate = writeCandidate(root, "only-here.ts", candidateText);
+      const result = runTool([
+        "--upstream-dir",
+        join(root, "upstream"),
+        "--candidate",
+        candidate,
+        "--contract-lines",
+        "--interface",
+        join(root, "contract/interface.md"),
+      ]);
+      // 没有上游同类文件可比 —— 报告必须标注，避免「0.000」被读成「比过且不雷同」。
+      assert.match(result.stdout, /no-upstream-counterpart/);
+    },
+  );
+});
+
+test("strip accounting keeps the identity and never reports negative lines", () => {
+  // 恒等式：linesBeforeStrip - residualLines === strippedLines，且 strippedLines 不得为负。
+  // 纯 re-export 文件曾出现 -7：格式化把 re-export 丢光后 before=0，而 residual 是展开追踪的 7 行。
+  withTree(
+    {
+      "upstream/a.ts": "export const value = 1;\n",
+      "contract/interface.md": [
+        "# interface",
+        "",
+        "| 模块 | 导出名 |",
+        "| --- | --- |",
+        "| `a.ts` | `value` |",
+      ].join("\n"),
+    },
+    (root) => {
+      const candidate = writeCandidate(
+        root,
+        "a.ts",
+        ["export { alpha } from './alpha.js';", "export { beta } from './beta.js';"].join("\n"),
+      );
+      const json = join(root, "out.json");
+      const result = runTool([
+        "--upstream-dir",
+        join(root, "upstream"),
+        "--candidate",
+        candidate,
+        "--declaration",
+        "--interface",
+        join(root, "contract/interface.md"),
+        "--json",
+        json,
+      ]);
+      const report = JSON.parse(readFileSync(json, "utf8"));
+      for (const item of report.candidates) {
+        assert.ok(item.strippedLines >= 0, `strippedLines 为负: ${item.strippedLines}`);
+        assert.equal(
+          item.linesBeforeStrip - item.residualLines,
+          item.strippedLines,
+          "剔除行数不满足恒等式",
+        );
+      }
+      assert.ok(result.status === 0 || result.status === 1);
     },
   );
 });

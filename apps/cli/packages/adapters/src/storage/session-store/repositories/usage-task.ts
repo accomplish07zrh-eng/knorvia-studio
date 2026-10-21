@@ -17,6 +17,25 @@ import { usageCount } from "./usage-values.js";
 
 type UsageRow = Record<string, unknown>;
 
+/** 需要按「一行记录 → 一个增量」累加的计数字段。 */
+const TOKEN_COUNTERS = [
+  "inputTokens",
+  "outputTokens",
+  "reasoningTokens",
+  "cacheCreationTokens",
+  "cacheReadTokens",
+] as const;
+
+type TokenCounter = (typeof TOKEN_COUNTERS)[number];
+
+/** 每条记录贡献的各字段增量；未列出的字段不参与逐行累加。 */
+type TokenDelta = Record<TokenCounter, number>;
+
+/** 全零的计数器骨架：用一条映射生成，避免把 5 个字段逐行写一遍。 */
+function emptyCounters(): Record<TokenCounter, number> {
+  return Object.fromEntries(TOKEN_COUNTERS.map((key) => [key, 0])) as Record<TokenCounter, number>;
+}
+
 function inputSide(record: UsageRow, total: number): number {
   const request = usageCount(record.input_tokens);
   const cache =
@@ -31,6 +50,36 @@ function inputSide(record: UsageRow, total: number): number {
   return excludedDistance < includedDistance ? request + cache : request;
 }
 
+/**
+ * 单条记录贡献的增量。
+ *
+ * 增量来源（incremental）只计「新增输入」：按来源记录基线，本行减去基线即为本次消耗；
+ * 非增量来源（历史口径）则把缓存读写也计入。
+ */
+function deltaOf(
+  record: UsageRow,
+  baselines: Record<string, number>,
+): TokenDelta & { inputSide: number; total: number } {
+  const total = Number(record.provider_total_tokens ?? record.computed_total_tokens ?? 0);
+  const currentInput = inputSide(record, total);
+  const source = String(record.query_source);
+  const incremental =
+    source === "main_turn" || source === "subagent" || source === "workflow_child";
+  const delta = emptyCounters();
+  let consumedInput = currentInput;
+  if (incremental) {
+    consumedInput = Math.max(0, currentInput - (baselines[source] ?? 0));
+    baselines[source] = currentInput;
+  } else {
+    delta.cacheCreationTokens = Number(record.cache_creation_input_tokens ?? 0);
+    delta.cacheReadTokens = Number(record.cache_read_input_tokens ?? 0);
+  }
+  delta.inputTokens = consumedInput;
+  delta.outputTokens = Number(record.output_tokens ?? 0);
+  delta.reasoningTokens = Number(record.reasoning_tokens ?? 0);
+  return { ...delta, inputSide: currentInput, total };
+}
+
 export async function queryTaskUsage(
   database: DatabaseSync,
   request: TaskUsageQueryInput,
@@ -40,38 +89,31 @@ export async function queryTaskUsage(
       `\n    SELECT query_source, status, provider_total_tokens, computed_total_tokens,\n      input_tokens, output_tokens, reasoning_tokens, cache_creation_input_tokens, cache_read_input_tokens\n    FROM model_usage WHERE session_id = ? ORDER BY started_at ASC, id ASC\n  `,
     )
     .all(request.sessionID);
-  const result: TaskUsageQueryResult = {
-    sessionID: request.sessionID,
-    totalTokens: 0,
-    inputTokens: 0,
-    outputTokens: 0,
-    reasoningTokens: 0,
-    cacheCreationTokens: 0,
-    cacheReadTokens: 0,
-    modelRequestCount: 0,
-    modelErrorCount: 0,
-    inputBaselineBySource: {},
-  };
+  const counters = emptyCounters();
+  const baselines: Record<string, number> = {};
+  let totalTokens = 0;
+  let modelRequestCount = 0;
+  let modelErrorCount = 0;
   for (const record of records) {
-    const total = Number(record.provider_total_tokens ?? record.computed_total_tokens ?? 0);
-    const currentInput = inputSide(record, total);
-    const source = record.query_source;
-    const incremental =
-      source === "main_turn" || source === "subagent" || source === "workflow_child";
-    let consumedInput = currentInput;
-    if (incremental) {
-      consumedInput = Math.max(0, currentInput - (result.inputBaselineBySource[source] ?? 0));
-      result.inputBaselineBySource[source] = currentInput;
-    } else {
-      result.cacheCreationTokens += Number(record.cache_creation_input_tokens ?? 0);
-      result.cacheReadTokens += Number(record.cache_read_input_tokens ?? 0);
-    }
-    result.totalTokens += consumedInput + Math.max(0, total - currentInput);
-    result.inputTokens += consumedInput;
-    result.outputTokens += Number(record.output_tokens ?? 0);
-    result.reasoningTokens += Number(record.reasoning_tokens ?? 0);
-    result.modelRequestCount += 1;
-    if (record.status === "error") result.modelErrorCount += 1;
+    const delta = deltaOf(record, baselines);
+    for (const key of TOKEN_COUNTERS) counters[key] += delta[key];
+    // 总量 = 本次消耗的输入 + 该行「总数减去输入侧」（避免缓存被重复计一次）。
+    totalTokens += delta.inputTokens + Math.max(0, delta.total - delta.inputSide);
+    modelRequestCount += 1;
+    if (record.status === "error") modelErrorCount += 1;
   }
-  return result;
+  // 键序与契约对象一致（sessionID 在前，token 计数器按 TOKEN_COUNTERS 顺序，
+  // 再是计数与基线）。测试会按此顺序断言，序列化结果也依赖它。
+  return {
+    sessionID: request.sessionID,
+    totalTokens,
+    inputTokens: counters.inputTokens,
+    outputTokens: counters.outputTokens,
+    reasoningTokens: counters.reasoningTokens,
+    cacheCreationTokens: counters.cacheCreationTokens,
+    cacheReadTokens: counters.cacheReadTokens,
+    modelRequestCount,
+    modelErrorCount,
+    inputBaselineBySource: baselines,
+  };
 }
