@@ -55,7 +55,6 @@
 - **协议字段、数据格式、环境变量、数据目录**：严禁借重构之名进行任何非兼容性改造；
 - **黑盒测试与金样**：替换阶段测试断言只增不减，已有断言与测试用例严格只读。
 
-
 ---
 
 ## KD-x：recover 的 bare-proof 路径无法终止「root 已退出但子进程仍活」的场景
@@ -85,10 +84,10 @@ f.io.recover(proof) → false（耗时 9150ms），调用后两个 pid 仍然存
 
 ### 两条路径的行为差异
 
-| 路径 | 结果 |
-| :--- | :--- |
+| 路径                                               | 结果                                                         |
+| :------------------------------------------------- | :----------------------------------------------------------- |
 | **owner stop**（`owner.request({action:"stop"})`） | 带真实 `ownedProcessGroupId` 等上下文 → 终止成功 → `stopped` |
-| **bare-proof**（`io.recover(proof)` 直调） | 可能跳过终止 → 返回 `false` → 运行时进入 `cleanup-required` |
+| **bare-proof**（`io.recover(proof)` 直调）         | 可能跳过终止 → 返回 `false` → 运行时进入 `cleanup-required`  |
 
 ### 影响
 
@@ -110,5 +109,6 @@ f.io.recover(proof) → false（耗时 9150ms），调用后两个 pid 仍然存
 可能超过测试 `wait()` 的 12 秒预算，表现为 `phase` 停在 `starting`。**
 
 **那是测量环境问题，不是本文档记录的产品缺陷** —— 两者的区别是：
+
 - **KD-x 缺陷**：recover 返回 `false` 且进程未死（直接观测，与负载无关）；
 - **负载假象**：`wait()` 超时、`phase` 停在 `starting`（换到低负载即消失）。
