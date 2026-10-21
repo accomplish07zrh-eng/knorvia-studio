@@ -1,0 +1,1535 @@
+[
+  {
+    "module": "kernelTypes",
+    "role": "declaration",
+    "total": 81,
+    "byScope": {
+      "services/src": 58,
+      "services/test": 23
+    },
+    "entries": [
+      {
+        "from": "packages/services/src/studio-runtime/adapters/builtinEvents.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/adapters/builtinKernel.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/adapters/creationAgentBridge.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/adapters/kernels/acpCommands.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/adapters/kernels/acpManifest.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/adapters/kernels/acpMcp.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/adapters/kernels/acpOptions.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/adapters/kernels/antigravityProtocol.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/adapters/kernels/claudeCommands.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/adapters/kernels/claudeProtocol.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/adapters/kernels/codexProtocol.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/adapters/kernels/grokProtocol.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/adapters/kernels/isolatedInspection.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/adapters/kernels/kernelInspection.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/adapters/kernels/kernelRegistry.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/adapters/kernels/kernelRun.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/adapters/kernels/mediaSink.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/adapters/kernels/modelOptions.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/adapters/kernels/protocolBindings.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/adapters/kernels/remoteAgentIdentity.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/adapters/kernels/remoteKernelBridge.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/adapters/kernels/remoteKernelCatalog.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/adapters/pluginMcpProjection.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/adapters/sharedCapabilities.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/adapters/studioAgentBridge.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/agentToolTypes.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/agentDispatch.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/agentToolContext.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/attentionProjection.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/commandAdmission.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/groupMetricsProjection.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/kernelOperations.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/ports.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/runtimeInteractions.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/runtimeProjections.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/storePort.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/studioRuntimeService.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/turnEvents.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/turnEvents.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/turnExecutor.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/workflowSteps.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/workspaceReviewTarget.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/attentionTypes.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/contract.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/contract.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/domain/groupPolicy.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/domain/imageInput.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/domain/kernelIdentity.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/domain/kernelMedia.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/domain/kernelPolicy.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/domain/kernelPresentation.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/domain/kernelUsage.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/domain/remoteAgentIdentity.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/domain/validation.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/domain/workflowParams.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/types.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/workflowTypes.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/workspaceReviewTypes.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/test/external-state-rebuild.fixture.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/kernel-probe-stages.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-acp-discovery.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-agent-provider.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-agent-tools.fixture.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-antigravity-protocol.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-builtin.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-feedback-admission-review.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-group-metrics.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-kernel-native-media-20261010.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-kernel-usage.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-kernels-model.fixture.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-kernels-protocol.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-kernels-versions.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-remote-admission.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-runtime-barriers.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-runtime-lifecycle.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-runtime-sequencing.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-shared-capabilities.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-workflow-delivery-path.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-workflow-file-handoff.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-workflow-media-loopback.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-workflow-output-production.test.ts",
+        "scope": "services/test"
+      }
+    ]
+  },
+  {
+    "module": "storePort",
+    "role": "port",
+    "total": 55,
+    "byScope": {
+      "services/src": 32,
+      "services/test": 23
+    },
+    "entries": [
+      {
+        "from": "packages/services/src/studio-runtime/adapters/studioDatabase.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/agentDispatch.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/agentOutbox.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/agentToolContext.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/agentToolRuntime.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/attentionProjection.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/checkpointStorage.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/commandAdmission.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/commandReceipts.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/groupMetricsProjection.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/groupWorkspaceIdentity.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/imageAdmission.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/imageStore.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/kernelOperations.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/pendingInbox.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/remoteAdmission.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/runExecutor.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/runOutcomeProjection.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/runQueries.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/runtimeDependencies.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/runtimeInteractions.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/runtimeProjections.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/turnEvents.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/turnExecutor.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/turnSession.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/workspaceArtifacts.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/workspaceReview.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/workspaceReviewDraft.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/workspaceReviewProjection.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/workspaceReviewTarget.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/workspaceRuntime.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/workspaceRuntimeTarget.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/test/external-state-projection.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/fixtures/studio-attention-browser.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-agent-outbox.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-agent-provider.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-agent-tools.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-attention-inbox.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-chat-selection.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-delivery-summary.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-feedback-admission-review.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-kernel-native-media-20261010.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-runtime-barriers.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-runtime-continuity.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-runtime-polish.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-runtime-sequencing.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-runtime.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-ssh-local-regression.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-workbench-artifacts.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-workflow-delivery-path.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-workflow-file-handoff.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-workflow-media-loopback.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-workflow-outcomes.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-workflow-output-production.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-workspace-runtime-fixture.ts",
+        "scope": "services/test"
+      }
+    ]
+  },
+  {
+    "module": "workflowTypes",
+    "role": "declaration",
+    "total": 44,
+    "byScope": {
+      "services/src": 33,
+      "services/test": 11
+    },
+    "entries": [
+      {
+        "from": "packages/services/src/studio-runtime/agentToolTypes.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/agentOutbox.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/agentToolRuntime.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/attentionProjection.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/checkpointStorage.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/commandAdmission.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/commandAdmission.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/groupExecutor.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/groupSteering.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/groupSteps.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/groupWorkspaceIdentity.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/ports.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/remoteAdmission.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/runExecutor.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/runOutcomeProjection.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/stepOutputProduction.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/turnExecutor.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/workflowExecutor.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/workflowSteps.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/workflowSteps.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/workspaceRuntimeTarget.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/workspaceRuntimeTarget.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/contract.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/contract.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/domain/groupPolicy.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/domain/groupPrompts.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/domain/retiredKernels.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/domain/stepReference.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/domain/workflowGraph.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/domain/workflowGraph.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/domain/workflowParams.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/domain/workflowParams.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/types.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/test/studio-cli-catalog-20261006.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-host-references.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-orchestration-continuous.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-orchestration-steering.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-orchestration-support.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-runtime-barriers.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-runtime-sequencing.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-ssh-local-regression.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-workflow-delivery-path.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-workflow-file-handoff.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-workflow-output-production.test.ts",
+        "scope": "services/test"
+      }
+    ]
+  },
+  {
+    "module": "types",
+    "role": "declaration",
+    "total": 40,
+    "byScope": {
+      "services/src": 34,
+      "services/test": 6
+    },
+    "entries": [
+      {
+        "from": "packages/services/src/studio-runtime/adapters/workspaceApply.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/adapters/workspaceImage.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/adapters/workspaceManager.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/agentOutbox.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/attentionProjection.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/commandAdmission.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/groupMetricsProjection.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/imageAdmission.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/imageStore.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/ports.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/remoteAdmission.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/runExecutor.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/runOutcomeProjection.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/runtimeProjections.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/storePort.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/studioRuntimeService.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/turnEvents.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/turnExecutor.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/turnSession.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/workspaceArtifacts.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/workspaceReview.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/workspaceReviewDraft.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/workspaceReviewProjection.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/workspaceReviewTarget.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/workspaceRuntimeTarget.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/attentionTypes.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/contract.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/contract.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/domain/agentToolPolicy.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/domain/agentToolPolicy.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/domain/attentionVersion.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/domain/retiredKernels.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/domain/workspaceReviewPolicy.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/workspaceReviewTypes.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/test/studio-attention-inbox.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-delivery-summary.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-feedback-admission-review.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-group-metrics.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-kernel-native-media-20261010.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-runtime-barriers.test.ts",
+        "scope": "services/test"
+      }
+    ]
+  },
+  {
+    "module": "contract",
+    "role": "declaration",
+    "total": 37,
+    "byScope": {
+      "services/src": 19,
+      "services/test": 18
+    },
+    "entries": [
+      {
+        "from": "packages/services/src/accessor.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/index.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/node.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/adapters/kernels/remoteKernelBridge.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/commandAdmission.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/commandReceipts.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/imageAdmission.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/ports.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/remoteAdmission.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/studioRuntimeService.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/workspaceReviewDraft.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/contract.example.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/contract.example.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/contract.example.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/contract.example.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/contract.example.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/contract.example.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/contract.example.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/domain/validation.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/test/external-state-projection.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/fixtures/studio-image-data.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/fixtures/studio-rpc.integration.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-adapter-image-integration.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-agent-tools.fixture.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-chat-selection.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-cli-catalog-20261006.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-image-admission-rpc.integration.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-image-input.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-native-image-combination.integration.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-remote-kernel-bridge.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-review-attention-integration.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-runtime-continuity.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-runtime-polish.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-runtime-polish.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-runtime.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-workspace-feedback-fixture.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-workspace-feedback.test.ts",
+        "scope": "services/test"
+      }
+    ]
+  },
+  {
+    "module": "ports",
+    "role": "port",
+    "total": 29,
+    "byScope": {
+      "services/src": 20,
+      "services/test": 9
+    },
+    "entries": [
+      {
+        "from": "packages/services/src/studio-runtime/adapters/kernels/kernelRegistry.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/adapters/sharedCapabilities.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/adapters/workspaceManager.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/agentToolContext.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/groupExecutor.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/groupSteering.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/groupSteps.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/imageAdmission.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/kernelOperations.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/remoteAdmission.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/runExecutor.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/runtimeDependencies.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/stepInputs.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/stepOutputProduction.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/turnExecutor.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/workflowExecutor.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/workflowSteps.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/workspaceArtifacts.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/workspaceReview.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/workspaceReviewDraft.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/test/studio-agent-provider.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-delivery-summary.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-orchestration-steering.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-orchestration-support.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-remote-admission.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-runtime-lifecycle.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-runtime-polish.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-shared-capabilities.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-ssh-local-regression.test.ts",
+        "scope": "services/test"
+      }
+    ]
+  },
+  {
+    "module": "agentToolTypes",
+    "role": "declaration",
+    "total": 15,
+    "byScope": {
+      "services/src": 12,
+      "services/test": 3
+    },
+    "entries": [
+      {
+        "from": "packages/services/src/studio-runtime/adapters/studioAgentBridge.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/agentDispatch.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/agentOutbox.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/agentToolContext.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/agentToolRuntime.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/runtimeDependencies.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/studioRuntimeService.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/turnExecutor.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/contract.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/domain/agentToolPolicy.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/domain/agentToolPolicy.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/node.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/test/studio-agent-outbox.test.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-agent-tools.fixture.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-agent-tools.test.ts",
+        "scope": "services/test"
+      }
+    ]
+  },
+  {
+    "module": "workspaceReviewTypes",
+    "role": "declaration",
+    "total": 7,
+    "byScope": {
+      "services/src": 7
+    },
+    "entries": [
+      {
+        "from": "packages/services/src/studio-runtime/app/runtimeProjections.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/workspaceReviewDraft.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/workspaceReviewProjection.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/contract.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/domain/workspaceImage.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/domain/workspaceReviewPolicy.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/workspaceImageTypes.ts",
+        "scope": "services/src"
+      }
+    ]
+  },
+  {
+    "module": "workspaceRuntimeTypes",
+    "role": "declaration",
+    "total": 6,
+    "byScope": {
+      "services/src": 4,
+      "services/test": 2
+    },
+    "entries": [
+      {
+        "from": "packages/services/src/studio-runtime/app/workspaceRuntime.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/workspaceRuntimePort.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/contract.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/domain/workspaceRuntime.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/test/studio-workspace-runtime-fixture.ts",
+        "scope": "services/test"
+      },
+      {
+        "from": "packages/services/test/studio-workspace-runtime.test.ts",
+        "scope": "services/test"
+      }
+    ]
+  },
+  {
+    "module": "imagePort",
+    "role": "port",
+    "total": 5,
+    "byScope": {
+      "services/src": 5
+    },
+    "entries": [
+      {
+        "from": "packages/services/src/studio-runtime/adapters/imageCodec.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/imageAdmission.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/imageStore.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/runtimeDependencies.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/turnExecutor.ts",
+        "scope": "services/src"
+      }
+    ]
+  },
+  {
+    "module": "workspaceRuntimePort",
+    "role": "port",
+    "total": 5,
+    "byScope": {
+      "services/src": 4,
+      "services/test": 1
+    },
+    "entries": [
+      {
+        "from": "packages/services/src/studio-runtime/adapters/workspaceRuntimeNetwork.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/adapters/workspaceRuntimeProcess.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/runtimeDependencies.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/workspaceRuntime.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/test/studio-workspace-runtime-fixture.ts",
+        "scope": "services/test"
+      }
+    ]
+  },
+  {
+    "module": "workspaceImageTypes",
+    "role": "declaration",
+    "total": 5,
+    "byScope": {
+      "services/src": 5
+    },
+    "entries": [
+      {
+        "from": "packages/services/src/studio-runtime/adapters/workspaceApply.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/adapters/workspaceImage.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/workspaceReview.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/contract.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/domain/workspaceImage.ts",
+        "scope": "services/src"
+      }
+    ]
+  },
+  {
+    "module": "imageTypes",
+    "role": "declaration",
+    "total": 4,
+    "byScope": {
+      "services/src": 4
+    },
+    "entries": [
+      {
+        "from": "packages/services/src/studio-runtime/app/imagePort.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/app/imageStore.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/contract.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/domain/imageInput.ts",
+        "scope": "services/src"
+      }
+    ]
+  },
+  {
+    "module": "node",
+    "role": "entry",
+    "total": 3,
+    "byScope": {
+      "services/src": 2,
+      "services/test": 1
+    },
+    "entries": [
+      {
+        "from": "packages/services/src/node.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/node.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/test/studio-integrated-runtime.test.ts",
+        "scope": "services/test"
+      }
+    ]
+  },
+  {
+    "module": "attentionTypes",
+    "role": "declaration",
+    "total": 2,
+    "byScope": {
+      "services/src": 2
+    },
+    "entries": [
+      {
+        "from": "packages/services/src/studio-runtime/app/attentionProjection.ts",
+        "scope": "services/src"
+      },
+      {
+        "from": "packages/services/src/studio-runtime/contract.ts",
+        "scope": "services/src"
+      }
+    ]
+  },
+  {
+    "module": "contract.example",
+    "role": "example",
+    "total": 1,
+    "byScope": {
+      "services/test": 1
+    },
+    "entries": [
+      {
+        "from": "packages/services/test/studio-review-attention-integration.test.ts",
+        "scope": "services/test"
+      }
+    ]
+  },
+  {
+    "module": "module",
+    "role": "entry",
+    "total": 0,
+    "byScope": {},
+    "entries": []
+  }
+]

@@ -49,6 +49,11 @@ const HELP = `用法: node scripts/provenance/similarity.mjs [选项]
   --old <path>              被替换的旧文件，可重复；相对路径按 --repo（或 --old-rev）解析
   --old-list <file>         每行一个旧文件路径
   --old-rev <rev>           旧文件取自该 git 提交，而不是工作区
+  --dump-residual           打印剔除契约行后残留的行原文（含原始行号），供验收文档逐字贴出
+  --dump-residual-limit <n> 限制每次打印的行数，默认 50；超出时提示总行数
+  --dump-stripped           打印被剔掉的契约行原文，便于核对「是否剔得过宽」
+  --allow-upstream-only     显式接受「只与上游比较」。默认不给 --old 会报错：
+                            计划书要求同时对被替换的旧文件与上游检查，少一侧结果会偏低。
   --upstream-dir <dir>      上游固定提交的完整树（仓库外缓存目录，必需）
   --upstream-rev <rev>      上游固定提交号，只用于报告
 
@@ -58,6 +63,9 @@ const HELP = `用法: node scripts/provenance/similarity.mjs [选项]
   --contract-lines          契约行剔除：只剔除含 interface.md 逐条列出的完整名字（含带点号的
                             事件名/错误码）的行，再按原门槛计分；与 --declaration 互斥。
                             报告同时给出剔除前后两组行数与完整名字清单。
+  --contract-module <path>  配合 --contract-lines：只取 interface.md 表格中模块列匹配该路径的
+                            行。整包 interface.md 有数百条导出名，不过滤会剔掉邻居文件的契约行；
+                            匹配不到时直接报错，不退化成整包清单。
 
 其他：
   --repo <dir>              仓库根，默认当前目录
@@ -83,11 +91,16 @@ const { values } = parseArgs({
     old: { type: "string", multiple: true },
     "old-list": { type: "string" },
     "old-rev": { type: "string" },
+    "allow-upstream-only": { type: "boolean" },
+    "dump-residual": { type: "boolean" },
+    "dump-residual-limit": { type: "string" },
+    "dump-stripped": { type: "boolean" },
     "upstream-dir": { type: "string" },
     "upstream-rev": { type: "string" },
     interface: { type: "string", multiple: true },
     declaration: { type: "boolean" },
     "contract-lines": { type: "boolean" },
+    "contract-module": { type: "string" },
     gates: { type: "string" },
     json: { type: "string" },
     calibrate: { type: "boolean" },
@@ -130,19 +143,28 @@ const declarationNames = (values.interface ?? []).flatMap((file) =>
 if (values.declaration && declarationNames.length === 0)
   usageError("--declaration requires --interface with at least one name");
 
-// 契约行剔除：只认 interface.md 表格里逐条列出的完整名字（含带点号的事件名/错误码）。
+// 契约行剔除：只认 interface.md 表格「导出名列」里逐条列出的名字（含带点号的事件名/错误码）。
+// --contract-module 进一步把范围限到某一个模块行：整包 interface.md 有数百条导出名，
+// 不按模块过滤会剔掉邻居文件的契约行。
+const contractModule = values["contract-module"] ?? null;
+if (contractModule && !values["contract-lines"])
+  usageError("--contract-module requires --contract-lines");
 const contractNames = values["contract-lines"]
   ? [
       ...new Set(
         (values.interface ?? []).flatMap((file) =>
-          extractContractNames(readFileSync(resolve(file), "utf8")),
+          extractContractNames(readFileSync(resolve(file), "utf8"), contractModule),
         ),
       ),
     ]
   : [];
 if (values["contract-lines"]) {
   if (contractNames.length === 0)
-    usageError("--contract-lines requires --interface with at least one name");
+    usageError(
+      contractModule
+        ? `--contract-module ${contractModule} matched no row in the given --interface; add a row for this module or drop the flag`
+        : "--contract-lines requires --interface with at least one name",
+    );
   // 通用短名会把几乎每一行都剔掉，剔除将失去意义。这里跳过它们并显式告警：
   // interface.md 里出现 `event` / `code` 这类词是正常的，整体报错会让该模式无法使用。
   const generic = contractNames.filter((name) => isTooGenericName(name));
@@ -157,15 +179,54 @@ if (values["contract-lines"]) {
 }
 
 const oxfmtOptions = loadOxfmtOptions(repo);
-const oldPathArgs = [
+const givenOldPaths = [
   ...(values.old ?? []),
   ...(values["old-list"] ? readPathList(values["old-list"]) : []),
-].filter((givenPath) => pathExistsInRev(repo, values["old-rev"], givenPath));
+];
+// 静默过滤是危险的：全部 `--old` 都失效时，门禁会退化成「只比上游」，
+// 而计划书 L509 要求「对被替换的旧文件与上游固定提交都通过」——
+// 少了旧文件那一侧，报出的数字会偏低，看起来更容易达标。
+// 因此这里把「给了但解析不到」变成显式错误。
+const oldPathArgs = givenOldPaths.filter((givenPath) =>
+  pathExistsInRev(repo, values["old-rev"], givenPath),
+);
+const missingOldPaths = givenOldPaths.filter((givenPath) => !oldPathArgs.includes(givenPath));
+if (missingOldPaths.length > 0) {
+  usageError(
+    `--old path(s) not found in ${values["old-rev"] ?? "the worktree"}: ${missingOldPaths.join(", ")}\n` +
+      "  拒绝静默退化为「只比上游」：旧文件那一侧缺席会让结果偏低。\n" +
+      "  请确认路径与 --old-rev（例如旧文件所在的历史提交）。",
+  );
+}
+if (givenOldPaths.length === 0 && !values["allow-upstream-only"]) {
+  usageError(
+    "no --old given: the gate requires comparing against the replaced old file as well as upstream " +
+      "(plan L509).\n" +
+      "  Pass --old/--old-list, or --allow-upstream-only to explicitly accept a upstream-only measurement.",
+  );
+}
 const oldFiles = await Promise.all(
   oldPathArgs.map((givenPath) =>
-    readOldFile({ repo, givenPath, revision: values["old-rev"], oxfmtOptions }),
+    readOldFile({
+      repo,
+      givenPath,
+      oxfmtOptions,
+      revision: values["old-rev"],
+      // 两侧对称剔除：旧文件用与候选相同的清单
+      // （--contract-lines 用契约名，--declaration 用声明名）。
+      stripNames: values["contract-lines"]
+        ? contractNames
+        : values.declaration
+          ? declarationNames
+          : [],
+    }),
   ),
 );
+if (values["allow-upstream-only"] && givenOldPaths.length === 0) {
+  process.stdout.write(
+    "similarity: --allow-upstream-only — 只与上游比较；结果不含「与旧文件」那一侧，不能作为 L509 的达标依据\n",
+  );
+}
 
 const upstream = await loadUpstream(upstreamRoot, { oxfmtOptions });
 const candidates = await Promise.all(
@@ -188,6 +249,8 @@ for (const result of results) result.pass = result.violations.length === 0;
 const failed = results.filter((result) => !result.pass);
 for (const result of results) process.stdout.write(`${describe(result)}\n`);
 if (values.explain) explainResults(candidates, results);
+// 验收文档要求「逐字贴出残留代码」—— 「剔除多少行」不够，还要知道「剩下哪几行」。
+if (values["dump-residual"] || values["dump-stripped"]) dumpContractLines(candidates, results);
 const summary = {
   candidates: results.length,
   passed: results.length - failed.length,
@@ -237,7 +300,13 @@ process.exit(failed.length === 0 ? 0 : 1);
 async function evaluateLines(candidate) {
   const structuralSkipped = !candidate.binary && candidate.kind !== "script";
   const residualLines = candidate.binary ? 0 : candidate.lines.length;
-  const linesBeforeStrip = candidate.binary ? 0 : candidate.linesBeforeStrip;
+  // 剔除行数由两个口径不同的量相减得来，必须夹住下界：
+  //   linesBeforeStrip 取自格式化文本的归一化行数，residualLines 取自候选 lines；
+  //   纯 re-export 文件格式化后 import/re-export 全被丢弃 → 前者为 0，而后者是展开追踪得到的名字行，
+  //   相减就成了负数（实测 result-content-projection.ts 得到 -7）。这不是真实剔除，是口径差。
+  const linesBeforeStrip = candidate.binary
+    ? 0
+    : Math.max(candidate.linesBeforeStrip, residualLines);
   const base = {
     path: candidate.givenPath,
     kind: candidate.kind,
@@ -251,6 +320,12 @@ async function evaluateLines(candidate) {
           strippedLines: candidate.contractBaseline.strippedLines,
           suspiciousRatio: candidate.contractBaseline.suspiciousRatio,
           tooManyNames: candidate.contractBaseline.tooManyNames,
+          ...(values["dump-residual"]
+            ? { residualLines: candidate.contractBaseline.residual }
+            : {}),
+          ...(values["dump-stripped"]
+            ? { strippedLinesText: candidate.contractBaseline.stripped }
+            : {}),
           before: { residualLines: candidate.contractBaseline.totalLines },
           after: { residualLines },
         }
@@ -258,6 +333,13 @@ async function evaluateLines(candidate) {
     linesBeforeStrip,
     strippedLines: linesBeforeStrip - residualLines,
     residualLines,
+    // 剩余行为 0 表示「没有可比对的实现行」，与「比出来的 0.000」是两件事：
+    // 前者不构成达标依据（纯 re-export / 全剥空的纯声明），下游不得据此判为已完成。
+    noComparableLines: residualLines === 0,
+    // 没有任何上游文件参与比较（lineMetrics 的 maxContainment.file 为 null）：
+    // 此时 PASS 只说明「没超标」，不说明「与上游对比后不雷同」—— 因为根本没得比。
+    // 上游无同名文件（拆分产物/新增文件）或同目录无兄弟文件时会落到这一档。
+    noUpstreamCounterpart: false,
     strippedBlocks: candidate.strippedBlocks ?? 0,
     formatted: candidate.formatted,
     formatError: candidate.formatError,
@@ -316,6 +398,8 @@ async function evaluateLines(candidate) {
   return {
     ...base,
     tracedFrom: candidate.tracedFrom ?? null,
+    // 没有任何上游文件参与比较：PASS 只说明「没超标」，不说明「不雷同」。
+    noUpstreamCounterpart: metrics.maxContainment.file === null && candidate.lines.length > 0,
     maxContainment: metrics.maxContainment,
     longestRun: metrics.longestRun,
     checks: { ...base.checks, line: violations.length === 0 },
@@ -509,8 +593,47 @@ function describe(result) {
   const exclusion = result.contractExclusion
     ? ` contract-lines=${result.contractExclusion.strippedLines} contract-names=[${result.contractExclusion.names.join(",")}] residual-lines=${result.contractExclusion.before.residualLines}->${result.contractExclusion.after.residualLines}${result.contractExclusion.suspiciousRatio ? " contract-exclusion-suspicious=residual-below-20%" : ""}${result.contractExclusion.tooManyNames ? " contract-exclusion-suspicious=too-many-names" : ""}`
     : "";
+  // 剩余行为 0 时并没有「比出来的低相似度」：那是一份没有可比对实现的文件（纯 re-export 等）。
+  // 不标注的话，`containment=0.000` 会被读成「完美达标」，让归零判定失真。
+  const noComparableNote = result.residualLines === 0 ? " no-comparable-lines" : "";
+  // 没有上游文件参与比较时，containment=0.000 不代表「比过了不雷同」，只代表「没得比」。
+  // 上游无同名文件（拆分产物/新增）会落到这一档，审查者必须能一眼看出。
+  const counterpartNote = result.noUpstreamCounterpart ? " no-upstream-counterpart" : "";
   const verdict = result.violations.length ? ` -> ${result.violations.join("; ")}` : "";
-  return `${result.pass ? "PASS " : "FAIL "} ${result.path} lines=${result.lines}${declaration}${exclusion}${formatNote}${line}${structural}${verdict}${traced}`;
+  return `${result.pass ? "PASS " : "FAIL "} ${result.path} lines=${result.lines}${declaration}${exclusion}${noComparableNote}${counterpartNote}${formatNote}${line}${structural}${verdict}${traced}`;
+}
+
+/**
+ * 打印契约行剔除的残留行与被剔行原文。
+ *
+ * `residual` 是剔除后剩下的行（用户验收要求逐字贴出，用于判断「剩余是否还需返工」）；
+ * `stripped` 是被剔掉的行（用于人工核对「是否剔得过宽」）。
+ * 行号是原始文本里的 1-based 行号，便于回到源码定位。
+ */
+function dumpContractLines(candidates, results) {
+  const limit = Number(values["dump-residual-limit"] ?? 50);
+  for (const [index, result] of results.entries()) {
+    const baseline = candidates[index]?.contractBaseline;
+    if (!baseline) continue;
+    if (values["dump-residual"]) {
+      const all = baseline.residual ?? [];
+      process.stdout.write(`\n--- residual: ${result.path} (${all.length} 行) ---\n`);
+      for (const entry of all.slice(0, limit))
+        process.stdout.write(`  L${entry.line}  ${entry.text}\n`);
+      if (all.length > limit)
+        process.stdout.write(
+          `  … 共 ${all.length} 行，仅显示前 ${limit} 行（--dump-residual-limit 可调）\n`,
+        );
+    }
+    if (values["dump-stripped"]) {
+      const all = baseline.stripped ?? [];
+      process.stdout.write(`\n--- stripped: ${result.path} (${all.length} 行) ---\n`);
+      for (const entry of all.slice(0, limit))
+        process.stdout.write(`  L${entry.line}  ${entry.text}\n`);
+      if (all.length > limit)
+        process.stdout.write(`  … 共 ${all.length} 行，仅显示前 ${limit} 行\n`);
+    }
+  }
 }
 
 function calibrate(results) {

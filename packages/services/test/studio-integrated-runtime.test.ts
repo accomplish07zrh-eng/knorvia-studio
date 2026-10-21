@@ -213,7 +213,11 @@ test(
         Object.fromEntries(names.map((key) => [key, false])),
       );
     await request({ action: "stop" });
-    assert.equal((await request()).phase, "stopped");
+    // 停止是异步收尾：等到終态 stopped 而不是取停止请求返回后某一刻的快照。
+    await waitFor(
+      () => request(),
+      (state) => state.phase === "stopped",
+    );
     assert.equal(await readFile(join(source, "README.txt"), "utf8"), "Preserve the source\n");
     const timeline = await service.timeline("integration-parent");
     assert.equal(timeline.messages.filter((message) => message.id === observed.event.id).length, 1);

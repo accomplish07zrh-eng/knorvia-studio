@@ -9,6 +9,7 @@ import { isPureReExport, traceAllImplementations } from "./similarity-reexport.m
 import { join, relative, resolve } from "node:path";
 import {
   stripContractLines,
+  stripContractOnlyLines,
   stripDeclarationBlocks,
   stripDeclarationLines,
 } from "./similarity-declarations.mjs";
@@ -143,6 +144,9 @@ export async function loadCandidate({
       suspiciousRatio: stripped.suspiciousRatio,
       tooManyNames: stripped.tooManyNames,
       totalLines: stripped.total,
+      // 残留行与剔除行的原文（含行号），供验收文档逐字贴出与人工核对剔除是否过宽。
+      residual: numberedLines(stripped.text),
+      stripped: stripped.removedLines,
     };
     lines = normalizeLines(stripped.text);
     text = structuralStripped.text;
@@ -218,6 +222,20 @@ export async function loadCandidate({
   };
 }
 
+/**
+ * 把文本按行编号，空行与纯空白行跳过。
+ *
+ * 行号是**原始文本里的 1-based 行号**，便于在源码里定位；
+ * 归一化后的行数另由 `residual-lines` 给出，两者口径不同、不能混用。
+ */
+function numberedLines(text) {
+  if (!text) return [];
+  return text
+    .split(/\r?\n/u)
+    .map((line, index) => ({ line: index + 1, text: line }))
+    .filter((entry) => entry.text.trim().length > 0);
+}
+
 function stripDeclarations(text, names) {
   const blocks = stripDeclarationBlocks(text, names);
   return {
@@ -226,8 +244,17 @@ function stripDeclarations(text, names) {
   };
 }
 
-/** 被替换的旧文件：默认取工作区，给了 --old-rev 就取该提交。 */
-export async function readOldFile({ repo, givenPath, revision, oxfmtOptions = {} }) {
+/**
+ * 被替换的旧文件：默认取工作区，给了 `--old-rev` 就取该提交。
+ *
+ * `stripNames` 给出时，对旧文件这一侧执行**与候选侧同一份清单**的契约行剔除。
+ *
+ * 为什么必须对称：剔除只做在候选侧会让两边口径不同 ——
+ * 候选剔掉了契约行、旧文件没剔，同一个契约字段就成了「只有旧文件有」的行，
+ * 反而抬高相似度；反过来若不剔候选只剔旧文件，则会压低相似度。
+ * 用户裁决（2026-10-21）明确要求两侧用同一份清单、同一套剔除规则。
+ */
+export async function readOldFile({ repo, givenPath, revision, oxfmtOptions = {}, stripNames }) {
   const bytes = revision
     ? execFileSync("git", ["-C", repo, "show", `${revision}:${givenPath}`], {
         maxBuffer: 64 * 1024 * 1024,
@@ -250,13 +277,15 @@ export async function readOldFile({ repo, givenPath, revision, oxfmtOptions = {}
     text: source,
     oxfmtOptions,
   });
+  // 两侧对称剔除：旧文件这一侧用与候选相同的清单、相同的「仅清单名与标点才剔除」规则。
+  const lineText = stripNames?.length ? stripContractOnlyLines(prepared.text, stripNames) : null;
   return {
     path: givenPath,
     kind,
     binary: false,
     // 与上游树一致：结构相似度看原文，行门槛看格式化、去注释后的代码行。
-    text: source,
-    lines: normalizeLines(prepared.text),
+    text: stripNames?.length ? stripContractOnlyLines(source, stripNames).text : source,
+    lines: normalizeLines(lineText?.text ?? prepared.text),
     formatted: prepared.formatted,
     formatError: prepared.formatError,
   };

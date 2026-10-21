@@ -61,16 +61,61 @@ const KEYWORDS = new Set([
   "yield",
 ]);
 
-/** 从 interface.md 提取兼容名字：反引号片段与代码块里的标识符，排除语言关键字。 */
+/**
+ * 路径形态的反引号内容是「模块路径」而不是「声明名」。
+ * 必须在**提取之前**整段丢弃：一旦按标识符切分，`apps/cli/core` 会变成
+ * `apps` / `cli` / `core` 三个看起来完全合法的标识符，路径信息就丢失了。
+ */
+const PATH_LIKE =
+  /^[\w./-]+\.(?:ts|tsx|js|jsx|mjs|cjs|json|md|yaml|yml)$|^[\w-]+(?:\/[\w.-]+)+$|^[\w.-]+\.(?:ts|tsx|js|jsx|mjs|cjs)$/u;
+
+/**
+ * 路径词黑名单：这些词只会由「路径被切开」产生，本身不是任何声明名。
+ * 放在提取后统一兜底 —— 因为 fence 里的路径形态太多（`core/src/runtime/{a,b}.ts`、
+ * `export * from "./x/index.js"`），逐形态写正则必然漏。
+ *
+ * 刻意**不含 `index`**：实测 `contracts-02` 里有 `index?: number | undefined` 这样的真实字段名，
+ * 拦截它会漏掉合法契约字段。带 `.ts` 后缀的 `index.ts` 已由 PATH_LIKE 在前一步整段丢弃。
+ */
+const PATH_FRAGMENT = new Set([
+  "apps",
+  "cjs",
+  "cli",
+  "contracts",
+  "core",
+  "dist",
+  "js",
+  "jsx",
+  "mjs",
+  "node",
+  "packages",
+  "specs",
+  "src",
+  "test",
+  "tests",
+  "ts",
+  "tsx",
+]);
+
+/** 从 interface.md 提取兼容名字：反引号片段与代码块里的标识符，排除语言关键字与模块路径。 */
 export function extractDeclarationNames(text) {
   const names = new Set();
   const collect = (span) => {
     for (const match of span.matchAll(/[A-Za-z_$][\w$]*/gu))
       if (!KEYWORDS.has(match[0])) names.add(match[0]);
   };
-  for (const match of text.matchAll(/`([^`\n]+)`/gu)) collect(match[1]);
-  for (const match of text.matchAll(/```[A-Za-z]*\n([\s\S]*?)```/gu)) collect(match[1]);
-  return [...names];
+  // 模块路径整段丢弃，不让它被切成 `apps` / `cli` / `core` 这类碎片名。
+  for (const match of text.matchAll(/`([^`\n]+)`/gu))
+    if (!PATH_LIKE.test(match[1].trim())) collect(match[1]);
+  for (const match of text.matchAll(/```[A-Za-z]*\n([\s\S]*?)```/gu)) {
+    // 代码块内的路径字面量（如 import 说明）同样跳过，其余照常提取。
+    for (const line of match[1].split(/\r?\n/u)) {
+      const quoted = /^\s*[`'"]?[\w./-]+\.(?:ts|tsx|js|jsx|mjs|cjs)[`'"]?\s*$/u;
+      if (!quoted.test(line)) collect(line);
+    }
+  }
+  // 兜底：路径碎片一律剔除。它们不是声明名，留着会剥错声明块。
+  return [...names].filter((name) => !PATH_FRAGMENT.has(name));
 }
 
 /** 兼容行 = 含 interface.md 所列名字（按标识符边界匹配）的行。 */
@@ -97,32 +142,95 @@ function linePattern(name) {
   return new RegExp(`(^|[^\\w$])${escaped}([^\\w$]|$)`, "u");
 }
 
+/** 形如 `name.ts` / `src/x/name.ts` 的模块单元格；用来定位表格的模块列。 */
+const MODULE_CELL = /^`([^`]*\.ts)`$/u;
+
+/** 把表格行拆成单元格（去掉源自行首/行尾 `|` 产生的空串）。 */
+function tableCells(line) {
+  const cells = line.split("|").map((cell) => cell.trim());
+  return cells.slice(1, cells.length - 1);
+}
+
 /**
- * 契约行剔除专用的名字提取：**只认表格行里的反引号片段**。
+ * 解析 interface.md 的「模块 × 导出名」表格，返回每行的 { module, exportCell }。
  *
- * 用户约束是「只认合同 `interface.md` 里逐条列出的导出名、事件名、错误码、字段名」——
- * 这些逐条清单在本仓库的 `interface.md` 里正是「模块路径 × 导出名」表格。
- * 因此不扫描正文段落（正文里的 `src/`、`apps/`、`legacy` 会把整份文件剔空），
- * 也不扫描 code fence（那里常含完整签名，会带出参数名与类型名）。
- *
- * 与 `extractDeclarationNames` 的第二个区别是**保留带点号的路径名**：
- * `` `mcp.server.reconnect.failed` `` 必须整体保留，否则拆成 `mcp` 后会剔掉所有含该词的行。
+ * 本仓库的表格有三/四种列数（第一列都是模块名），所以不能写死「第 2 列」：
+ *   4 列：| 模块 | 导出名 | 类型 | 是否公开 |   ← core-runtime-helpers-01 / methods-01 / methods-02
+ *   3 列：| 模块 | 导出名 | 说明 |               ← core-03
+ *   2 列：| 模块 | 说明（散文） |                ← core-hooks，第二列不是导出名
+ * 做法：先定位模块列，再取它右边那一列；只有 2 列时那一列是说明文字，仍按反引号过滤。
  */
-export function extractContractNames(text) {
-  const names = new Set();
+function tableRows(text) {
+  const rows = [];
   for (const line of text.split(/\r?\n/u)) {
     if (!line.trimStart().startsWith("|")) continue;
-    for (const match of line.matchAll(/`([^`\n]+)`/gu)) {
-      for (const token of match[1].matchAll(
-        /[A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*)+|[A-Za-z_$][\w$]*/gu,
-      )) {
-        const value = token[0];
-        if (value.includes(".")) names.add(value);
-        else if (!KEYWORDS.has(value)) names.add(value);
-      }
+    const cells = tableCells(line);
+    const moduleIndex = cells.findIndex((cell) => MODULE_CELL.test(cell));
+    if (moduleIndex < 0) continue;
+    rows.push({
+      exportCell: cells[moduleIndex + 1] ?? "",
+      module: MODULE_CELL.exec(cells[moduleIndex])[1],
+    });
+  }
+  return rows;
+}
+
+/**
+ * 从一个单元格里取出名字：带点号的整体保留，排除语言关键字与路径片段。
+ *
+ * 单元格不一定只列名字：`core-hooks/interface.md` 是 2 列表，第 2 列是散文
+ * （`**必须**保留：`@knorvia/core` 的 `src/index.ts` 以 `export * from "./hooks/index.js"` 引出`），
+ * 里面的反引号路径若不整段跳过，会被切成 `src` / `index` / `hooks` 等碎片名。
+ */
+function namesInCell(cell, names) {
+  for (const match of cell.matchAll(/`([^`\n]+)`/gu)) {
+    const span = match[1].trim();
+    // 路径形态（含 / 或带 .ts/.js 后缀）整段丢弃，只留真正的标识符。
+    if (span.includes("/") || /\.(?:ts|tsx|js|jsx|mjs|cjs)$/u.test(span)) continue;
+    for (const token of span.matchAll(
+      /[A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*)+|[A-Za-z_$][\w$]*/gu,
+    )) {
+      const value = token[0];
+      if (value.includes(".")) names.add(value);
+      else if (!KEYWORDS.has(value)) names.add(value);
     }
   }
+}
+
+/**
+ * 契约行剔除专用的名字提取：只取表格**导出名列**里的反引号名字。
+ *
+ * 为什么不扫整张表格：模块列里的 `attachment-artifacts.ts`、`src/workflow/definition.ts`
+ * 会被切成 `attachment`/`src`/`workflow` 等词，随后 `src`、`core` 这类路径词会剔掉
+ * 大量无关实现行。只取导出名列可以自然排除这些路径词。
+ *
+ * 也不扫描正文与 code fence（那里常含完整签名，会带出参数名与类型名）。
+ * 带点号的路径名（`mcp.server.reconnect.failed`）整体保留，否则拆成 `mcp` 会误剔。
+ *
+ * `moduleFilter` 给出时只保留模块名匹配的行 —— 整包 interface.md 有数百条导出名，
+ * 不过滤会剔掉邻居文件的契约行。
+ */
+export function extractContractNames(text, moduleFilter) {
+  const names = new Set();
+  for (const row of tableRows(text)) {
+    if (moduleFilter && !moduleMatches(row.module, moduleFilter)) continue;
+    namesInCell(row.exportCell, names);
+  }
   return [...names];
+}
+
+/**
+ * 模块匹配：精确相等，或一方是另一方的路径后缀，或 basename 相同。
+ * 双向都试 —— 表格可能写全路径而命令行给 basename，反之亦然。
+ */
+function moduleMatches(moduleName, filter) {
+  const normalize = (value) => value.replaceAll("\\", "/");
+  const left = normalize(moduleName);
+  const right = normalize(filter);
+  if (left === right) return true;
+  if (left.endsWith(`/${right}`) || right.endsWith(`/${left}`)) return true;
+  const baseOf = (value) => value.slice(value.lastIndexOf("/") + 1);
+  return baseOf(left) === baseOf(right) && baseOf(left).length > 0;
 }
 
 /**
@@ -169,17 +277,68 @@ const MIN_RESIDUAL_RATIO = 0.2;
 const MAX_CONTRACT_NAMES = 100;
 
 /**
+ * 一行是否「仅由契约名与标点组成」。
+ *
+ * 用户裁决（2026-10-21）：**只有整行仅由清单名与标点组成才剔除**；
+ * zod schema 等含构造代码的行属于实现，照常计分。
+ *
+ * 判据：把该行里所有清单名挖掉后，剩下的只能是标点与空白。于是：
+ *   `  entry: ToolEntry;`             → 挖掉 entry/ToolEntry → `  : ;`      → 剔除
+ *   `  code: z.string(),`             → 挖掉 code          → `: z.string()` → 含 z.string，不剔除
+ *   `  sessionId: request.sessionId,` → 挖掉 sessionId     → `: request.`   → 含 request，不剔除
+ *
+ * `names` 须按长度降序使用，避免短名先命中破坏长名（先挖 `Tool` 会让 `ToolEntry` 对不上）。
+ */
+function isContractOnlyLine(line, names) {
+  if (!line.trim()) return false;
+  let rest = line;
+  for (const name of names) {
+    if (!rest.includes(name)) continue;
+    rest = rest.split(name).join(" ");
+  }
+  // 剩下只能是标点与空白；否则说明还有构造代码或未列名的标识符。
+  if (!/^[\s{}()[\]<>;:,|&?=.!*'"`/\\#@+-]*$/u.test(rest)) return false;
+  // 必须真的挖掉过东西，否则「空行/纯标点行」也会被误判为契约行。
+  return rest.length < line.length;
+}
+
+/**
+ * 契约行剔除（严格版）：只剔除「仅由契约名与标点组成」的整行。
+ *
+ * 与 `stripDeclarationLines` 的区别：后者只要行内出现契约名就剔除，
+ * 会把 `code: z.string(),` 这类含 zod 构造的实现行也剔掉。
+ * 本函数按用户裁决收紧为「整行仅由清单名与标点组成」，实现行照常计分。
+ */
+export function stripContractOnlyLines(text, names) {
+  const ordered = [...names].sort((a, b) => b.length - a.length);
+  const kept = [];
+  const removedLines = [];
+  const raw = text.split(/\r?\n/u);
+  for (let index = 0; index < raw.length; index += 1) {
+    const line = raw[index];
+    if (isContractOnlyLine(line, ordered)) {
+      // 记录被剔掉的行与其原始行号，供 --dump-stripped 逐字展示。
+      removedLines.push({ line: index + 1, text: line });
+    } else kept.push(line);
+  }
+  return { removed: removedLines.length, removedLines, text: kept.join("\n") };
+}
+
+/**
  * 契约行剔除：返回剔除结果与两个质量信号。
  * `suspiciousRatio`：剩余行不足原行数 20%（剔过头）；
  * `tooManyNames`：名字数超过上限（提取偏宽）。
  * 两者都只作为报告里的可疑标记，不改变门槛判定。
+ *
+ * 同时返回 `removedText`（被剔掉的行拼回文本），供 `--dump-stripped` 逐字展示。
  */
 export function stripContractLines(text, names) {
   const total = text.split(/\r?\n/u).length;
-  const { text: stripped, removed } = stripDeclarationLines(text, names);
+  const { text: stripped, removed, removedLines } = stripContractOnlyLines(text, names);
   const residual = stripped.split(/\r?\n/u).length;
   return {
     removed,
+    removedLines,
     residual,
     suspiciousRatio: total > 0 && residual / total < MIN_RESIDUAL_RATIO,
     text: stripped,
