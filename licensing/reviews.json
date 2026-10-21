@@ -150071,6 +150071,22 @@
         "third-party/upstream/f29b60ea39a2132e3baa98927c2d473b349a54143da44a0c6762b243e6459452.txt",
         "https://registry.npmjs.org/quickjs-wasi/2.2.0"
       ]
+    },
+    {
+      "path": "scripts/provenance/similarity-check.mjs",
+      "normalizedSha256": "e30a50ba0db305675d58589297d9da1fa5836b0ec62357b45e5ebb4bfcd4b07e",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored provenance tooling. This adds a dual-comparison wrapper around the similarity gate. The plan requires both thresholds to pass against the replaced old file and against the upstream pinned commit, so containment is the maximum of the two comparisons and neither may be missing. The tool currently degrades silently when the old file cannot be resolved: a path that does not exist at the given revision drops out of the comparison set, and a revision where the file is unchanged makes the comparison compare the file with itself and report 1.000. This wrapper turns both silent failures into explicit errors before any measurement runs, requires the caller to name the pre-rework revision instead of guessing one, and prints the resolved base revision with its date so the choice can be checked. Verified with three guard tests covering self-comparison, a missing base revision, and a candidate absent from the base revision.",
+      "evidence": ["scripts/provenance/similarity-check.test.mjs"]
+    },
+    {
+      "path": "scripts/provenance/similarity-check.test.mjs",
+      "normalizedSha256": "df978d945b4aa9448dbf12c5415cf9312449586d3e629662392d2f3c9dbfc4ab",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored provenance tooling. This adds a dual-comparison wrapper around the similarity gate. The plan requires both thresholds to pass against the replaced old file and against the upstream pinned commit, so containment is the maximum of the two comparisons and neither may be missing. The tool currently degrades silently when the old file cannot be resolved: a path that does not exist at the given revision drops out of the comparison set, and a revision where the file is unchanged makes the comparison compare the file with itself and report 1.000. This wrapper turns both silent failures into explicit errors before any measurement runs, requires the caller to name the pre-rework revision instead of guessing one, and prints the resolved base revision with its date so the choice can be checked. Verified with three guard tests covering self-comparison, a missing base revision, and a candidate absent from the base revision.",
+      "evidence": ["scripts/provenance/similarity-check.test.mjs"]
     }
   ]
 }
