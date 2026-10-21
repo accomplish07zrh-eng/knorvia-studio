@@ -132272,26 +132272,24 @@
     },
     {
       "path": "scripts/provenance/similarity-declarations.mjs",
-      "normalizedSha256": "fbeaabff67515116947a4e9fbb553d4ea1602d97f1e833ce8fc76e678ec987ce",
+      "normalizedSha256": "21516a490daa6c81ce46db573cdbce3bea10c2d2febe39d79182d11df1efad1b",
       "decision": "original",
       "license": "MIT",
-      "basis": "Knorvia-authored provenance tooling for M0-8 (line and structural similarity checker). The author read docs/knorvia-provenance-bookkeeping-20261010.md section 4 for the bookkeeping line algorithm and the task plan's tool requirements; no upstream or replaced implementation code was copied, renamed or rewritten line by line. Calibration on the 439 registered independent-replacement files: observed structural maximum 1.000, threshold 0.4 (23 files over the cap are queued for replacement); four renamed copies of real upstream-modified files were all blocked. License follows licensing/README.md for new scripts/provenance tools. Declaration compatibility-line stripping driven by interface.md names; named const blocks are only stripped when they are pure data, so functions, conditions and computed values inside a listed const keep scoring.",
+      "basis": "Knorvia-authored provenance similarity tooling. This change adds the contract-line exclusion mode requested by the user ruling: contract names are taken only from the enumerated lists in interface.md, extraction keeps dotted names whole so that a path such as mcp.server.reconnect.failed is not split into its segments, over-generic short names are skipped with a warning, and the report prints the full name list plus the residual line count before and after stripping while the line and structural thresholds stay at 0.20. Three quality signals guard against over-stripping: skipped generic names, more than one hundred extracted names, and a residual below twenty percent of the original lines. The mode is mutually exclusive with declaration mode. Verified with scripts/provenance/similarity.test.mjs 49/49 including five new cases, with declaration mode and normal mode measurements unchanged on session-contract (0.962, run 8) and handler-settlement (0.139, run 3).",
       "evidence": [
-        "licensing/README.md",
-        "docs/knorvia-similarity-calibration-20261011.md",
-        "docs/knorvia-independent-replacement-plan.md"
+        "specs/contracts/core-runtime-methods-01/interface.md",
+        "scripts/provenance/similarity.test.mjs"
       ]
     },
     {
       "path": "scripts/provenance/similarity-inputs.mjs",
-      "normalizedSha256": "6357af2ba1e1f5c2af8b865d1e89c88b20a258f686126e6322357560f7ddd33d",
+      "normalizedSha256": "e555304218b5ab30f75ae7462aa75b8ac8c7802f2d34b3f2a0c0ae2527b2d8bf",
       "decision": "original",
       "license": "MIT",
-      "basis": "Knorvia-authored provenance tooling for M0-8 (line and structural similarity checker). The author read docs/knorvia-provenance-bookkeeping-20261010.md section 4 for the bookkeeping line algorithm and the task plan's tool requirements; no upstream or replaced implementation code was copied, renamed or rewritten line by line. Calibration on the 439 registered independent-replacement files: observed structural maximum 1.000, threshold 0.4 (23 files over the cap are queued for replacement); four renamed copies of real upstream-modified files were all blocked. License follows licensing/README.md for new scripts/provenance tools. Input loading for the upstream tree, candidates and replaced old files.",
+      "basis": "Knorvia-authored provenance similarity tooling. This change adds the contract-line exclusion mode requested by the user ruling: contract names are taken only from the enumerated lists in interface.md, extraction keeps dotted names whole so that a path such as mcp.server.reconnect.failed is not split into its segments, over-generic short names are skipped with a warning, and the report prints the full name list plus the residual line count before and after stripping while the line and structural thresholds stay at 0.20. Three quality signals guard against over-stripping: skipped generic names, more than one hundred extracted names, and a residual below twenty percent of the original lines. The mode is mutually exclusive with declaration mode. Verified with scripts/provenance/similarity.test.mjs 49/49 including five new cases, with declaration mode and normal mode measurements unchanged on session-contract (0.962, run 8) and handler-settlement (0.139, run 3).",
       "evidence": [
-        "licensing/README.md",
-        "docs/knorvia-similarity-calibration-20261011.md",
-        "docs/knorvia-independent-replacement-plan.md"
+        "specs/contracts/core-runtime-methods-01/interface.md",
+        "scripts/provenance/similarity.test.mjs"
       ]
     },
     {
@@ -132356,26 +132354,24 @@
     },
     {
       "path": "scripts/provenance/similarity.mjs",
-      "normalizedSha256": "186693bb5c0b48431df63ce2d52077ab712c64234c3d9516a0eaf01a1cf953cc",
+      "normalizedSha256": "df9ede5fe14663f590f297c0330663e24ac5da5eac433178d539f22558f0aa96",
       "decision": "original",
       "license": "MIT",
-      "basis": "Knorvia-authored provenance tooling for M0-8 (line and structural similarity checker). The author read docs/knorvia-provenance-bookkeeping-20261010.md section 4 for the bookkeeping line algorithm and the task plan's tool requirements; no upstream or replaced implementation code was copied, renamed or rewritten line by line. Calibration on the 439 registered independent-replacement files: observed structural maximum 1.000, threshold 0.4 (23 files over the cap are queued for replacement); four renamed copies of real upstream-modified files were all blocked. License follows licensing/README.md for new scripts/provenance tools. Entry point: candidate/old/upstream resolution, gate evaluation, JSON report and exit code. Packed-literal gate: flag whitespace-delimited string/template literals split at runtime (direct, const/array/join-bound, or via a literal-argument helper), while leaving runtime data (parameters, file/process output, git/ps row parsing) alone.",
+      "basis": "Knorvia-authored provenance similarity tooling. This change adds the contract-line exclusion mode requested by the user ruling: contract names are taken only from the enumerated lists in interface.md, extraction keeps dotted names whole so that a path such as mcp.server.reconnect.failed is not split into its segments, over-generic short names are skipped with a warning, and the report prints the full name list plus the residual line count before and after stripping while the line and structural thresholds stay at 0.20. Three quality signals guard against over-stripping: skipped generic names, more than one hundred extracted names, and a residual below twenty percent of the original lines. The mode is mutually exclusive with declaration mode. Verified with scripts/provenance/similarity.test.mjs 49/49 including five new cases, with declaration mode and normal mode measurements unchanged on session-contract (0.962, run 8) and handler-settlement (0.139, run 3).",
       "evidence": [
-        "licensing/README.md",
-        "docs/knorvia-similarity-calibration-20261011.md",
-        "docs/knorvia-independent-replacement-plan.md"
+        "specs/contracts/core-runtime-methods-01/interface.md",
+        "scripts/provenance/similarity.test.mjs"
       ]
     },
     {
       "path": "scripts/provenance/similarity.test.mjs",
-      "normalizedSha256": "f3a7439a6c08e3027068ab4aed974c6b04fe0922e9d20a80d1d4458ea75f3867",
+      "normalizedSha256": "529153a84cb7de62b266ce2a2692b8d4bd56096a17114570bc9c9da7053df0cb",
       "decision": "original",
       "license": "MIT",
-      "basis": "Knorvia-authored provenance tooling for M0-8 (line and structural similarity checker). The author read docs/knorvia-provenance-bookkeeping-20261010.md section 4 for the bookkeeping line algorithm and the task plan's tool requirements; no upstream or replaced implementation code was copied, renamed or rewritten line by line. Calibration on the 439 registered independent-replacement files: observed structural maximum 1.000, threshold 0.4 (23 files over the cap are queued for replacement); four renamed copies of real upstream-modified files were all blocked. License follows licensing/README.md for new scripts/provenance tools. Contract tests: line boundaries (exactly ten lines, run 7 vs 8, containment 0.19 vs 0.2), renamed copy blocked, independently structured implementation passing, declaration line stripping, binary skip, Windows newlines, JSON fields and exit codes. Packed-literal split positives (literal, const/array/join, helper call) and runtime-data negatives.",
+      "basis": "Knorvia-authored provenance similarity tooling. This change adds the contract-line exclusion mode requested by the user ruling: contract names are taken only from the enumerated lists in interface.md (module-by-export tables in this repository), extraction keeps dotted names whole so that a path such as mcp.server.reconnect.failed is not split into its segments, over-generic short names are skipped with a warning instead of failing the run, and the report prints the full name list plus the residual line count before and after stripping while the line and structural thresholds stay unchanged at 0.20. The mode is mutually exclusive with declaration mode. Verified with scripts/provenance/similarity.test.mjs 49/49 including five new cases, with declaration mode and normal mode measurements unchanged on session-contract (0.962, run 8) and handler-settlement (0.139, run 3).",
       "evidence": [
-        "licensing/README.md",
-        "docs/knorvia-similarity-calibration-20261011.md",
-        "docs/knorvia-independent-replacement-plan.md"
+        "specs/contracts/core-runtime-methods-01/interface.md",
+        "scripts/provenance/similarity.test.mjs"
       ]
     },
     {

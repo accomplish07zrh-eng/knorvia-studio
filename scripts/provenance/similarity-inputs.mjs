@@ -7,7 +7,11 @@ import { execFileSync } from "node:child_process";
 import { readdirSync, readFileSync } from "node:fs";
 import { isPureReExport, traceAllImplementations } from "./similarity-reexport.mjs";
 import { join, relative, resolve } from "node:path";
-import { stripDeclarationBlocks, stripDeclarationLines } from "./similarity-declarations.mjs";
+import {
+  stripContractLines,
+  stripDeclarationBlocks,
+  stripDeclarationLines,
+} from "./similarity-declarations.mjs";
 import { fileKind, isBinary, normalizeLines } from "./similarity-lines.mjs";
 import { FORMAT_CONCURRENCY, mapConcurrent, prepareGateText } from "./similarity-normalize.mjs";
 
@@ -95,7 +99,13 @@ export async function loadUpstream(root, { oxfmtOptions = {} } = {}) {
  * lines 用格式化、去注释后的文本，供防刷行门槛使用。声明剔除分别对两份文本执行，
  * 避免注释里的兼容名字误删代码行。
  */
-export async function loadCandidate({ repo, givenPath, declarationNames, oxfmtOptions = {} }) {
+export async function loadCandidate({
+  repo,
+  givenPath,
+  declarationNames,
+  contractNames = [],
+  oxfmtOptions = {},
+}) {
   const path = resolve(repo, givenPath);
   const bytes = readFileSync(path);
   const kind = fileKind(path);
@@ -122,11 +132,26 @@ export async function loadCandidate({ repo, givenPath, declarationNames, oxfmtOp
   const lineText = declaration ? stripDeclarations(prepared.text, declarationNames) : null;
   let lines = normalizeLines(lineText?.text ?? prepared.text);
   let text = structuralText;
+  // 契约行剔除（与声明模式互斥）：先记下未剔除的行数，供报告输出剔除前后两组值。
+  let contractBaseline = null;
+  if (contractNames.length > 0 && !declaration) {
+    const stripped = stripContractLines(prepared.text, contractNames);
+    const structuralStripped = stripContractLines(original, contractNames);
+    contractBaseline = {
+      names: [...contractNames],
+      strippedLines: stripped.removed,
+      suspiciousRatio: stripped.suspiciousRatio,
+      tooManyNames: stripped.tooManyNames,
+      totalLines: stripped.total,
+    };
+    lines = normalizeLines(stripped.text);
+    text = structuralStripped.text;
+  }
   let tracedFrom = null;
   let reexportUnresolved = null;
   // 纯再导出桩：丢弃 re-export 后 lines 常为 0 会误过门禁；顺着追到实现再计分。
   let tracedLeaves = null;
-  if (!declaration && isPureReExport(original)) {
+  if (!declaration && !contractBaseline && isPureReExport(original)) {
     const traced = traceAllImplementations(repo, givenPath, original);
     if (traced.leaves.length === 0) {
       reexportUnresolved = traced.unresolved[0]?.reason ?? "纯再导出无法展开";
@@ -178,7 +203,12 @@ export async function loadCandidate({ repo, givenPath, declarationNames, oxfmtOp
     text,
     lines,
     declaration,
-    linesBeforeStrip: declaration ? normalizeLines(prepared.text).length : lines.length,
+    contractBaseline,
+    linesBeforeStrip: declaration
+      ? normalizeLines(prepared.text).length
+      : contractBaseline
+        ? normalizeLines(prepared.text).length
+        : lines.length,
     strippedBlocks: lineText?.strippedBlocks ?? 0,
     formatted: prepared.formatted,
     formatError: prepared.formatError,
