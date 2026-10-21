@@ -1,0 +1,54 @@
+{
+  "contract": "services-02",
+  "commit": "452370de004165ecdaad4e6904ff87ce9b593176",
+  "node": "v24.14.0",
+  "generatedAt": "2026-10-20T16:54:52.486Z",
+  "runner": "scripts/contract-gate.mjs",
+  "testFiles": [
+    "specs/contracts/services-02/tests/dependencies.test.mjs",
+    "specs/contracts/services-02/tests/ports.test.mjs",
+    "specs/contracts/services-02/tests/surface.test.mjs",
+    "specs/contracts/services-02/tests/typecheck.test.mjs"
+  ],
+  "sourceFrom": "src",
+  "entries": {
+    "source": {
+      "exitCode": 0,
+      "timedOut": false,
+      "signaled": false,
+      "signal": null,
+      "tests": 31,
+      "pass": 31,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0,
+      "outputTail": "  ✔ 示例文件的 9 项导出实现齐全，但不在兼容入口清单里 (1.8002ms)\n✔ B6 示例不属于公开 API（source） (3.6693ms)\n▶ B14 契约类型自洽（source）\n  ✔ 示例文件存在、非空，且能作为模块真实加载（非桩） (2180.0837ms)\n  ✔ 示例文件在工程 tsconfig 下无类型错误（契约类型互相兼容） (12238.3382ms)\n✔ B14 契约类型自洽（source） (14419.5709ms)\nℹ tests 31\nℹ suites 15\nℹ pass 31\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 28484.7138"
+    },
+    "dist": {
+      "exitCode": 0,
+      "timedOut": false,
+      "signaled": false,
+      "signal": null,
+      "tests": 31,
+      "pass": 31,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0,
+      "outputTail": "  ✔ 示例文件的 9 项导出实现齐全，但不在兼容入口清单里 (2.0132ms)\n✔ B6 示例不属于公开 API（dist） (4.2022ms)\n▶ B14 契约类型自洽（dist）\n  ✔ 示例文件存在、非空，且能作为模块真实加载（非桩） (2085.8309ms)\n  ✔ 示例文件在工程 tsconfig 下无类型错误（契约类型互相兼容） (12377.4348ms)\n✔ B14 契约类型自洽（dist） (14464.4908ms)\nℹ tests 31\nℹ suites 15\nℹ pass 31\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 26756.8892",
+      "environment": {
+        "KNORVIA_SVC02_ENTRY": "dist"
+      },
+      "loader": null
+    }
+  },
+  "stubReplacement": {
+    "replacedFiles": 17,
+    "tests": 31,
+    "pass": 0,
+    "fail": 31,
+    "allFail": true,
+    "exitCode": 1,
+    "outputTail": "      at async Suite.run (node:internal/test_runner/test:1533:7)\n      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3)\n\ntest at specs\\contracts\\services-02\\tests\\typecheck.test.mjs:88:3\n✖ 示例文件在工程 tsconfig 下无类型错误（契约类型互相兼容） (3.498ms)\n  Error: not implemented: services-02\n      at <anonymous> (D:\\knorvia studio开发\\wt\\exec-m3-svc02\\packages\\services\\src\\studio-runtime\\contract.example.ts:4:7)\n      at ModuleJob.run (node:internal/modules/esm/module_job:430:25)\n      at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:661:26)\n      at async TestContext.<anonymous> (D:\\knorvia studio开发\\wt\\exec-m3-svc02\\specs\\contracts\\services-02\\tests\\typecheck.test.mjs:77:20)\n      at async Test.run (node:internal/test_runner/test:1125:7)\n      at async Promise.all (index 0)\n      at async Suite.run (node:internal/test_runner/test:1533:7)\n      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3)"
+  },
+  "pass": true
+}

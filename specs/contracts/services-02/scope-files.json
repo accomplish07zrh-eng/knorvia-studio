@@ -1,0 +1,172 @@
+[
+  {
+    "path": "packages/services/src/studio-runtime/agentToolTypes.ts",
+    "modulePath": "agentToolTypes",
+    "dir": "(root)",
+    "role": "declaration",
+    "classification": "unreviewed",
+    "upstream": null,
+    "bytes": 2198,
+    "lines": 78
+  },
+  {
+    "path": "packages/services/src/studio-runtime/app/imagePort.ts",
+    "modulePath": "imagePort",
+    "dir": "app",
+    "role": "port",
+    "classification": "original",
+    "upstream": null,
+    "bytes": 577,
+    "lines": 16
+  },
+  {
+    "path": "packages/services/src/studio-runtime/app/ports.ts",
+    "modulePath": "ports",
+    "dir": "app",
+    "role": "port",
+    "classification": "unreviewed",
+    "upstream": null,
+    "bytes": 8354,
+    "lines": 204
+  },
+  {
+    "path": "packages/services/src/studio-runtime/app/storePort.ts",
+    "modulePath": "storePort",
+    "dir": "app",
+    "role": "port",
+    "classification": "unreviewed",
+    "upstream": null,
+    "bytes": 1898,
+    "lines": 58
+  },
+  {
+    "path": "packages/services/src/studio-runtime/app/workspaceRuntimePort.ts",
+    "modulePath": "workspaceRuntimePort",
+    "dir": "app",
+    "role": "port",
+    "classification": "original",
+    "upstream": null,
+    "bytes": 1102,
+    "lines": 30
+  },
+  {
+    "path": "packages/services/src/studio-runtime/attentionTypes.ts",
+    "modulePath": "attentionTypes",
+    "dir": "(root)",
+    "role": "declaration",
+    "classification": "unreviewed",
+    "upstream": null,
+    "bytes": 903,
+    "lines": 31
+  },
+  {
+    "path": "packages/services/src/studio-runtime/contract.example.ts",
+    "modulePath": "contract.example",
+    "dir": "(root)",
+    "role": "example",
+    "classification": "unreviewed",
+    "upstream": null,
+    "bytes": 3808,
+    "lines": 113
+  },
+  {
+    "path": "packages/services/src/studio-runtime/contract.ts",
+    "modulePath": "contract",
+    "dir": "(root)",
+    "role": "declaration",
+    "classification": "unreviewed",
+    "upstream": null,
+    "bytes": 6408,
+    "lines": 158
+  },
+  {
+    "path": "packages/services/src/studio-runtime/imageTypes.ts",
+    "modulePath": "imageTypes",
+    "dir": "(root)",
+    "role": "declaration",
+    "classification": "unreviewed",
+    "upstream": null,
+    "bytes": 598,
+    "lines": 24
+  },
+  {
+    "path": "packages/services/src/studio-runtime/kernelTypes.ts",
+    "modulePath": "kernelTypes",
+    "dir": "(root)",
+    "role": "declaration",
+    "classification": "unreviewed",
+    "upstream": null,
+    "bytes": 7043,
+    "lines": 222
+  },
+  {
+    "path": "packages/services/src/studio-runtime/module.ts",
+    "modulePath": "module",
+    "dir": "(root)",
+    "role": "entry",
+    "classification": "unreviewed",
+    "upstream": null,
+    "bytes": 228,
+    "lines": 6
+  },
+  {
+    "path": "packages/services/src/studio-runtime/node.ts",
+    "modulePath": "node",
+    "dir": "(root)",
+    "role": "entry",
+    "classification": "unreviewed",
+    "upstream": null,
+    "bytes": 4599,
+    "lines": 116
+  },
+  {
+    "path": "packages/services/src/studio-runtime/types.ts",
+    "modulePath": "types",
+    "dir": "(root)",
+    "role": "declaration",
+    "classification": "unreviewed",
+    "upstream": null,
+    "bytes": 8264,
+    "lines": 250
+  },
+  {
+    "path": "packages/services/src/studio-runtime/workflowTypes.ts",
+    "modulePath": "workflowTypes",
+    "dir": "(root)",
+    "role": "declaration",
+    "classification": "unreviewed",
+    "upstream": null,
+    "bytes": 5114,
+    "lines": 145
+  },
+  {
+    "path": "packages/services/src/studio-runtime/workspaceImageTypes.ts",
+    "modulePath": "workspaceImageTypes",
+    "dir": "(root)",
+    "role": "declaration",
+    "classification": "unreviewed",
+    "upstream": null,
+    "bytes": 1327,
+    "lines": 35
+  },
+  {
+    "path": "packages/services/src/studio-runtime/workspaceReviewTypes.ts",
+    "modulePath": "workspaceReviewTypes",
+    "dir": "(root)",
+    "role": "declaration",
+    "classification": "original",
+    "upstream": null,
+    "bytes": 1268,
+    "lines": 46
+  },
+  {
+    "path": "packages/services/src/studio-runtime/workspaceRuntimeTypes.ts",
+    "modulePath": "workspaceRuntimeTypes",
+    "dir": "(root)",
+    "role": "declaration",
+    "classification": "original",
+    "upstream": null,
+    "bytes": 1462,
+    "lines": 58
+  }
+]

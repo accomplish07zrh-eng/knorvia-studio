@@ -54,3 +54,61 @@
 
 - **协议字段、数据格式、环境变量、数据目录**：严禁借重构之名进行任何非兼容性改造；
 - **黑盒测试与金样**：替换阶段测试断言只增不减，已有断言与测试用例严格只读。
+
+---
+
+## KD-x：recover 的 bare-proof 路径无法终止「root 已退出但子进程仍活」的场景
+
+**这是产品侧的已知缺陷（不是测试问题）**，记录在此以免后续被误判为 flake。
+
+### 现象（本地直接观测，不是超时推断）
+
+```
+phase=ready, rootPid=34304, proof.identities 两个进程都活着
+f.io.recover(proof) → false（耗时 9150ms），调用后两个 pid 仍然存活
+重复调用 → 仍 false
+```
+
+**注意**：这是**直接观测到的返回值与进程存活状态**，与机器负载无关。
+
+### 根因（源码事实）
+
+1. `workspaceRuntimeProcess.ts` 的 `recover` 用 `processReference(proof.rootPid, true)`
+   合成一个 `exitCode = 0` 的 ChildProcess；
+2. `terminateProcessTreeAndWait` 对「已退出」child 走 `resolveCurrentOwnedIdentitiesAsync`，
+   该函数在 `hasExited(child)` 为真时返回 `childStillOwned: false`；
+3. 若 `filterCurrentProcessIdentitiesAsync` 因时序窗口返回空，则 `hasTargets` 为 false
+   → **跳过终止** → `remainingPids` 非空 → 返回 `false`。
+
+**这是逻辑上的自相矛盾**：把 root 伪装成「已退出」，终止逻辑却因此认为「没有要杀的目标」。
+
+### 两条路径的行为差异
+
+| 路径                                               | 结果                                                         |
+| :------------------------------------------------- | :----------------------------------------------------------- |
+| **owner stop**（`owner.request({action:"stop"})`） | 带真实 `ownedProcessGroupId` 等上下文 → 终止成功 → `stopped` |
+| **bare-proof**（`io.recover(proof)` 直调）         | 可能跳过终止 → 返回 `false` → 运行时进入 `cleanup-required`  |
+
+### 影响
+
+`workspaceRuntime` 在 stop 时因 `cleaned === false` 进入 `cleanup-required`。
+**这曾被误判为「测试取了中间态」，实际是 recover 失败后产品给出的正确报告。**
+
+### 处置
+
+- **集成交互测试走 owner 路径**；
+- `studio-workspace-runtime-health.test.ts:60` 的 `assert.equal(await f.io.recover(row.proof), true)`
+  因此**稳定失败**（3/3），**保持原状待产品修复**，不在时序测试 PR 里改动；
+- bare-proof 的终止逻辑待修（另开 PR；它影响所有 workspace runtime 清理，需谨慎）。
+
+### 附：一条与负载有关的边界（不要混淆）
+
+`workspaceRuntime` 的健康检查循环以 `active.process.alive()` 为唯一退出条件，
+而 `alive()` 只看 root 的 `ChildProcess` 字段。
+**在机器高负载时（实测并发 44–72 个 node 进程、CPU 达 100%），服务启动与 HTTP 就绪
+可能超过测试 `wait()` 的 12 秒预算，表现为 `phase` 停在 `starting`。**
+
+**那是测量环境问题，不是本文档记录的产品缺陷** —— 两者的区别是：
+
+- **KD-x 缺陷**：recover 返回 `false` 且进程未死（直接观测，与负载无关）；
+- **负载假象**：`wait()` 超时、`phase` 停在 `starting`（换到低负载即消失）。

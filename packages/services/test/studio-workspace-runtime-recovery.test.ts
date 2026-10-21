@@ -51,7 +51,8 @@ test("Host restart exposes interruption and recovers only persisted owned identi
     /interrupted/,
   );
   await a.request({ action: "recover" });
-  assert.equal((await a.request()).phase, "stopped");
+  // recover 的清理同样是异步的：等到终态 stopped 而不是取某一刻的快照。
+  await a.wait("stopped");
   await assert.rejects(fetch(ready.previewUrl, { signal: AbortSignal.timeout(1000) }));
 });
 

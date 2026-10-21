@@ -277,17 +277,68 @@ const MIN_RESIDUAL_RATIO = 0.2;
 const MAX_CONTRACT_NAMES = 100;
 
 /**
+ * 一行是否「仅由契约名与标点组成」。
+ *
+ * 用户裁决（2026-10-21）：**只有整行仅由清单名与标点组成才剔除**；
+ * zod schema 等含构造代码的行属于实现，照常计分。
+ *
+ * 判据：把该行里所有清单名挖掉后，剩下的只能是标点与空白。于是：
+ *   `  entry: ToolEntry;`             → 挖掉 entry/ToolEntry → `  : ;`      → 剔除
+ *   `  code: z.string(),`             → 挖掉 code          → `: z.string()` → 含 z.string，不剔除
+ *   `  sessionId: request.sessionId,` → 挖掉 sessionId     → `: request.`   → 含 request，不剔除
+ *
+ * `names` 须按长度降序使用，避免短名先命中破坏长名（先挖 `Tool` 会让 `ToolEntry` 对不上）。
+ */
+function isContractOnlyLine(line, names) {
+  if (!line.trim()) return false;
+  let rest = line;
+  for (const name of names) {
+    if (!rest.includes(name)) continue;
+    rest = rest.split(name).join(" ");
+  }
+  // 剩下只能是标点与空白；否则说明还有构造代码或未列名的标识符。
+  if (!/^[\s{}()[\]<>;:,|&?=.!*'"`/\\#@+-]*$/u.test(rest)) return false;
+  // 必须真的挖掉过东西，否则「空行/纯标点行」也会被误判为契约行。
+  return rest.length < line.length;
+}
+
+/**
+ * 契约行剔除（严格版）：只剔除「仅由契约名与标点组成」的整行。
+ *
+ * 与 `stripDeclarationLines` 的区别：后者只要行内出现契约名就剔除，
+ * 会把 `code: z.string(),` 这类含 zod 构造的实现行也剔掉。
+ * 本函数按用户裁决收紧为「整行仅由清单名与标点组成」，实现行照常计分。
+ */
+export function stripContractOnlyLines(text, names) {
+  const ordered = [...names].sort((a, b) => b.length - a.length);
+  const kept = [];
+  const removedLines = [];
+  const raw = text.split(/\r?\n/u);
+  for (let index = 0; index < raw.length; index += 1) {
+    const line = raw[index];
+    if (isContractOnlyLine(line, ordered)) {
+      // 记录被剔掉的行与其原始行号，供 --dump-stripped 逐字展示。
+      removedLines.push({ line: index + 1, text: line });
+    } else kept.push(line);
+  }
+  return { removed: removedLines.length, removedLines, text: kept.join("\n") };
+}
+
+/**
  * 契约行剔除：返回剔除结果与两个质量信号。
  * `suspiciousRatio`：剩余行不足原行数 20%（剔过头）；
  * `tooManyNames`：名字数超过上限（提取偏宽）。
  * 两者都只作为报告里的可疑标记，不改变门槛判定。
+ *
+ * 同时返回 `removedText`（被剔掉的行拼回文本），供 `--dump-stripped` 逐字展示。
  */
 export function stripContractLines(text, names) {
   const total = text.split(/\r?\n/u).length;
-  const { text: stripped, removed } = stripDeclarationLines(text, names);
+  const { text: stripped, removed, removedLines } = stripContractOnlyLines(text, names);
   const residual = stripped.split(/\r?\n/u).length;
   return {
     removed,
+    removedLines,
     residual,
     suspiciousRatio: total > 0 && residual / total < MIN_RESIDUAL_RATIO,
     text: stripped,
