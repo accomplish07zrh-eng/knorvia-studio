@@ -56,12 +56,23 @@ async function withTreeAsync(files, run) {
   }
 }
 
+/**
+ * 跑工具。
+ *
+ * 门禁默认要求同时比较「旧文件」与「上游」（计划书 L509），不传 `--old` 会报错。
+ * 这里的用例大多只验证**门槛算法本身**（描出恰好 0.19 / 0.20、run 7 / 8 这类边界），
+ * 并不关心「旧文件」那一侧，因此统一补上 `--allow-upstream-only` 显式声明；
+ * 想测双重口径的用例自己传 `--old` 时不会重复注入。
+ */
 function runTool(args) {
+  const withOld = args.includes("--old") || args.includes("--old-list");
+  const finalArgs =
+    withOld || args.includes("--allow-upstream-only") ? args : [...args, "--allow-upstream-only"];
   try {
     return {
       status: 0,
       stderr: "",
-      stdout: execFileSync(process.execPath, [tool, ...args], { encoding: "utf8" }),
+      stdout: execFileSync(process.execPath, [tool, ...finalArgs], { encoding: "utf8" }),
     };
   } catch (error) {
     // usageError 把原因写到 stderr；契约行剔除的「跳过通用名」告警也在 stderr，
@@ -1708,7 +1719,9 @@ test("反刷分：新增文件照抄同目录旧文件必须 FAIL（--old-rev �
       execFileSync("git", ["-C", repo, "config", "user.name", "t"]);
       execFileSync("git", ["-C", repo, "add", "packages/x/original.ts"]);
       execFileSync("git", ["-C", repo, "commit", "-qm", "base"]);
-      // moved.ts 仅在工作区，不在 base 提交
+      // moved.ts 仅在工作区，不在 base 提交 —— 于是「被替换的旧文件」不存在。
+      // 按用户裁决（2026-10-21），这类情形必须报错退出：既不得静默退化为「只比上游」，
+      // 也不得靠同目录兄弟文件兜底（那等于让新文件绕过与旧实现的比较）。
       const result = runTool([
         "--repo",
         repo,
@@ -1723,9 +1736,8 @@ test("反刷分：新增文件照抄同目录旧文件必须 FAIL（--old-rev �
         "--old-rev",
         "HEAD",
       ]);
-      // --old 指向新路径在 HEAD 不存在；兜底与同目录 original.ts 比对后必须 FAIL
-      assert.notEqual(result.status, 0, result.stdout);
-      assert.match(result.stdout, /FAIL/);
+      assert.equal(result.status, 2, result.stdout);
+      assert.match(result.stderr, /not found|拒绝静默/u);
     },
   );
 });
@@ -1899,4 +1911,120 @@ test("packed-literal-split：运行时数据（git/ps 行、文件输出、用�
     assert.match(result.stdout, /PASS/);
     assert.doesNotMatch(result.stdout, /packed-literal-split/);
   });
+});
+
+test("--old 指向不存在的路径时报错退出，不静默退化为只比上游", () => {
+  withTree({ "upstream/keep.ts": "export const keep = 1;\n" }, (root) => {
+    const candidate = writeCandidate(
+      root,
+      "candidate.ts",
+      Array.from({ length: 14 }, (_, i) => `export const v${i} = ${i};`).join("\n"),
+    );
+    const result = runTool([
+      "--upstream-dir",
+      join(root, "upstream"),
+      "--gates",
+      "line",
+      "--candidate",
+      candidate,
+      "--old",
+      "does/not/exist.ts",
+      "--old-rev",
+      "HEAD",
+    ]);
+    assert.equal(result.status, 2, result.stdout);
+    assert.match(result.stderr, /not found/u);
+    assert.match(result.stderr, /拒绝静默/u);
+  });
+});
+
+test("完全不传 --old 时报错，要求显式声明只比上游", () => {
+  withTree({ "upstream/keep.ts": "export const keep = 1;\n" }, (root) => {
+    const candidate = writeCandidate(
+      root,
+      "candidate.ts",
+      Array.from({ length: 14 }, (_, i) => `export const w${i} = ${i};`).join("\n"),
+    );
+    // runTool 会自动补 --allow-upstream-only，这里直接调工具本体绕过它。
+    let outcome;
+    try {
+      execFileSync(
+        process.execPath,
+        [
+          tool,
+          "--upstream-dir",
+          join(root, "upstream"),
+          "--gates",
+          "line",
+          "--candidate",
+          candidate,
+        ],
+        { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] },
+      );
+      outcome = { status: 0, stderr: "" };
+    } catch (error) {
+      outcome = { status: error.status, stderr: error.stderr ?? "" };
+    }
+    assert.equal(outcome.status, 2);
+    assert.match(outcome.stderr, /no --old given/u);
+    assert.match(outcome.stderr, /--allow-upstream-only/u);
+  });
+});
+
+test("--allow-upstream-only 显式声明后可以只比上游，并在 stderr 说明其局限", () => {
+  withTree({ "upstream/keep.ts": "export const keep = 1;\n" }, (root) => {
+    const candidate = writeCandidate(
+      root,
+      "candidate.ts",
+      Array.from({ length: 14 }, (_, i) => `export const u${i} = ${i * 2};`).join("\n"),
+    );
+    const result = runTool([
+      "--upstream-dir",
+      join(root, "upstream"),
+      "--gates",
+      "line",
+      "--candidate",
+      candidate,
+      "--allow-upstream-only",
+    ]);
+    assert.equal(result.status, 0, result.stdout);
+    assert.match(result.stdout, /allow-upstream-only/u);
+    assert.match(result.stdout, /不能作为 L509 的达标依据/u);
+  });
+});
+
+test("--old 指向本仓既有路径时正常做双重比较，不打 --allow-upstream-only 提示", () => {
+  const body = Array.from({ length: 16 }, (_, i) => `export const shared${i} = ${i};`).join("\n");
+  withTree(
+    {
+      "repo/packages/x/impl.ts": body,
+      "upstream/keep.ts": "export const keep = 1;\n",
+    },
+    (root) => {
+      const repo = join(root, "repo");
+      execFileSync("git", ["-C", repo, "init", "-q"]);
+      execFileSync("git", ["-C", repo, "config", "user.email", "t@t"]);
+      execFileSync("git", ["-C", repo, "config", "user.name", "t"]);
+      execFileSync("git", ["-C", repo, "add", "packages/x/impl.ts"]);
+      execFileSync("git", ["-C", repo, "commit", "-qm", "base"]);
+      const result = runTool([
+        "--repo",
+        repo,
+        "--upstream-dir",
+        join(root, "upstream"),
+        "--gates",
+        "line",
+        "--candidate",
+        "packages/x/impl.ts",
+        "--old",
+        "packages/x/impl.ts",
+        "--old-rev",
+        "HEAD",
+      ]);
+      // 与自己的旧版本完全相同 → 双重口径下必须 FAIL。
+      assert.equal(result.status, 1, result.stdout);
+      assert.match(result.stdout, /FAIL/u);
+      assert.doesNotMatch(result.stderr, /allow-upstream-only/u);
+    },
+  );
 });

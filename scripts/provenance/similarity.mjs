@@ -49,6 +49,8 @@ const HELP = `用法: node scripts/provenance/similarity.mjs [选项]
   --old <path>              被替换的旧文件，可重复；相对路径按 --repo（或 --old-rev）解析
   --old-list <file>         每行一个旧文件路径
   --old-rev <rev>           旧文件取自该 git 提交，而不是工作区
+  --allow-upstream-only     显式接受「只与上游比较」。默认不给 --old 会报错：
+                            计划书要求同时对被替换的旧文件与上游检查，少一侧结果会偏低。
   --upstream-dir <dir>      上游固定提交的完整树（仓库外缓存目录，必需）
   --upstream-rev <rev>      上游固定提交号，只用于报告
 
@@ -86,6 +88,7 @@ const { values } = parseArgs({
     old: { type: "string", multiple: true },
     "old-list": { type: "string" },
     "old-rev": { type: "string" },
+    "allow-upstream-only": { type: "boolean" },
     "upstream-dir": { type: "string" },
     "upstream-rev": { type: "string" },
     interface: { type: "string", multiple: true },
@@ -170,15 +173,42 @@ if (values["contract-lines"]) {
 }
 
 const oxfmtOptions = loadOxfmtOptions(repo);
-const oldPathArgs = [
+const givenOldPaths = [
   ...(values.old ?? []),
   ...(values["old-list"] ? readPathList(values["old-list"]) : []),
-].filter((givenPath) => pathExistsInRev(repo, values["old-rev"], givenPath));
+];
+// 静默过滤是危险的：全部 `--old` 都失效时，门禁会退化成「只比上游」，
+// 而计划书 L509 要求「对被替换的旧文件与上游固定提交都通过」——
+// 少了旧文件那一侧，报出的数字会偏低，看起来更容易达标。
+// 因此这里把「给了但解析不到」变成显式错误。
+const oldPathArgs = givenOldPaths.filter((givenPath) =>
+  pathExistsInRev(repo, values["old-rev"], givenPath),
+);
+const missingOldPaths = givenOldPaths.filter((givenPath) => !oldPathArgs.includes(givenPath));
+if (missingOldPaths.length > 0) {
+  usageError(
+    `--old path(s) not found in ${values["old-rev"] ?? "the worktree"}: ${missingOldPaths.join(", ")}\n` +
+      "  拒绝静默退化为「只比上游」：旧文件那一侧缺席会让结果偏低。\n" +
+      "  请确认路径与 --old-rev（例如旧文件所在的历史提交）。",
+  );
+}
+if (givenOldPaths.length === 0 && !values["allow-upstream-only"]) {
+  usageError(
+    "no --old given: the gate requires comparing against the replaced old file as well as upstream " +
+      "(plan L509).\n" +
+      "  Pass --old/--old-list, or --allow-upstream-only to explicitly accept a upstream-only measurement.",
+  );
+}
 const oldFiles = await Promise.all(
   oldPathArgs.map((givenPath) =>
     readOldFile({ repo, givenPath, revision: values["old-rev"], oxfmtOptions }),
   ),
 );
+if (values["allow-upstream-only"] && givenOldPaths.length === 0) {
+  process.stdout.write(
+    "similarity: --allow-upstream-only — 只与上游比较；结果不含「与旧文件」那一侧，不能作为 L509 的达标依据\n",
+  );
+}
 
 const upstream = await loadUpstream(upstreamRoot, { oxfmtOptions });
 const candidates = await Promise.all(

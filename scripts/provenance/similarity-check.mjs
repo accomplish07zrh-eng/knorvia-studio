@@ -122,12 +122,20 @@ function commitDate(rev) {
   }
 }
 
-// 先做全量前置校验：任何一项不成立就整体退出，避免「部分文件测了、部分静默退化」。
+// 先做全量前置校验：路径/提交层面不成立就整体退出，避免「部分文件测了、部分静默退化」。
 const resolvedBase = execFileSync("git", ["rev-parse", values["base-rev"]], {
   cwd: repo,
   encoding: "utf8",
 }).trim();
 const failures = [];
+/**
+ * 工作区内容与基线完全相同的候选。
+ *
+ * 这不是配置错误：它表示「该文件自基线以来未重写」。按计划书 L509，
+ * 此时「与旧文件的相似度」天然是 1.000 —— 正确结论是「不达标（未重写）」。
+ * 因此不阻断测量，只在报告里单独标出，并直接判 FAIL。
+ */
+const unchangedFromBaseline = new Set();
 for (const candidate of candidates) {
   if (!existsSync(resolve(repo, candidate))) {
     failures.push(`${candidate}: 候选文件在工作区不存在`);
@@ -140,13 +148,8 @@ for (const candidate of candidates) {
     );
     continue;
   }
-  const oldText = contentInRev(candidate, resolvedBase);
-  const currentText = readFileSync(resolve(repo, candidate), "utf8");
-  if (oldText === currentText) {
-    failures.push(
-      `${candidate}: 工作区内容与 base-rev 完全相同 —— ` +
-        `这是「自己比自己」，会恒得出 1.000，请确认 --base-rev 是否选在改动之前`,
-    );
+  if (contentInRev(candidate, resolvedBase) === readFileSync(resolve(repo, candidate), "utf8")) {
+    unchangedFromBaseline.add(candidate);
   }
 }
 if (failures.length > 0) {
@@ -159,8 +162,14 @@ process.stdout.write(
   `similarity-check: base-rev ${values["base-rev"]} (${resolvedBase.slice(0, 8)}, ${commitDate(resolvedBase)})\n`,
 );
 process.stdout.write(
-  `                 候选 ${candidates.length} 个；两个比较对象（旧文件 + 上游）均在位\n\n`,
+  `                 候选 ${candidates.length} 个；两个比较对象（旧文件 + 上游）均在位\n`,
 );
+if (unchangedFromBaseline.size > 0) {
+  process.stdout.write(
+    `                 ${unchangedFromBaseline.size} 个候选自基线未改动 → 与旧文件相似度恒为 1.000，判不达标\n`,
+  );
+}
+process.stdout.write("\n");
 
 /** 跑一次 similarity.mjs，返回其 stdout。 */
 function runSimilarity(extraArgs) {
@@ -208,8 +217,12 @@ function verdictFor(output, candidate) {
 
 const rows = [];
 for (const candidate of candidates) {
-  // 只比旧文件：把上游换成同一份旧文件树不可行，所以用 --old 单侧 + 空上游成本高；
-  // 这里改为两次调用：双重（旧+上游）与仅上游，差值即可看出旧文件的影响。
+  // 未改动的文件不必跑：它与旧文件的相似度恒为 1.000，结论直接是「未重写 → 不达标」。
+  if (unchangedFromBaseline.has(candidate)) {
+    rows.push({ candidate, dual: null, unchanged: true, upstreamOnly: null });
+    continue;
+  }
+  // 两次调用：双重（旧+上游）与仅上游 —— 差值即可看出「旧文件」这一侧的影响。
   const dual = runSimilarity([
     "--candidate",
     candidate,
@@ -226,11 +239,23 @@ for (const candidate of candidates) {
   ]);
   const dualVerdict = verdictFor(dual, candidate);
   const upstreamVerdict = verdictFor(upstreamOnly, candidate);
-  rows.push({ candidate, dual: dualVerdict, dualOutput: dual, upstreamOnly: upstreamVerdict });
+  rows.push({
+    candidate,
+    dual: dualVerdict,
+    dualOutput: dual,
+    unchanged: false,
+    upstreamOnly: upstreamVerdict,
+  });
 }
 
 process.stdout.write("=== 判定（双重口径 = max(旧文件, 上游)）===\n");
 for (const row of rows) {
+  if (row.unchanged) {
+    process.stdout.write(
+      `FAIL  ${row.candidate}\n` + `        自基线未改动 → 与旧文件相似度 1.000 → 未重写，不达标\n`,
+    );
+    continue;
+  }
   const dual = row.dual;
   const upstream = row.upstreamOnly;
   const verdict = dual?.verdict ?? "(no verdict)";
@@ -245,7 +270,7 @@ for (const row of rows) {
   );
 }
 
-const failed = rows.filter((row) => row.dual?.verdict !== "PASS");
+const failed = rows.filter((row) => row.unchanged || row.dual?.verdict !== "PASS");
 if (values.json) {
   writeFileSync(
     resolve(values.json),
@@ -255,6 +280,7 @@ if (values.json) {
         baseRevResolved: resolvedBase,
         failed: failed.length,
         passed: rows.length - failed.length,
+        unchangedFromBaseline: rows.filter((row) => row.unchanged).map((row) => row.candidate),
         rows: rows.map((row) => ({
           candidate: row.candidate,
           dual: row.dual
@@ -265,6 +291,7 @@ if (values.json) {
                 structural: row.dual.structural,
               }
             : null,
+          unchangedFromBaseline: row.unchanged,
           upstreamOnly: row.upstreamOnly
             ? {
                 containment: row.upstreamOnly.containment,

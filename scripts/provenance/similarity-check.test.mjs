@@ -42,7 +42,7 @@ test("拒绝「自己比自己」：--base-rev 里的内容与工作区完全相
     cwd: repoRoot,
     encoding: "utf8",
   }).trim();
-  // 工作区若已改动，就不再是「完全相同」，本用例无意义；直接跳过（CI 上是干净的）。
+  // 工作区若已改动，本用例的前提（未改动）不成立，跳过。
   if (dirty) return;
 
   const result = run([
@@ -55,9 +55,10 @@ test("拒绝「自己比自己」：--base-rev 里的内容与工作区完全相
     "--candidate",
     tracked,
   ]);
-  assert.equal(result.status, 2, result.stdout);
-  assert.match(result.stderr, /自己比自己|完全相同/u);
-  assert.match(result.stderr, /未执行任何测量/u);
+  // 「自基线未改动」不是配置错误：它表示该文件未重写 → 与旧文件相似度恒 1.000 → 不达标。
+  assert.equal(result.status, 1, result.stdout);
+  assert.match(result.stdout, /自基线未改动/u);
+  assert.match(result.stdout, /未重写，不达标/u);
 });
 
 test("缺少 --base-rev 时直接报错，不猜基点", () => {
