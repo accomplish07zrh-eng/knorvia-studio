@@ -79,7 +79,7 @@ export async function serveBrowserBrokerConnection(
     if (socket.writable && !socket.destroyed) socket.end(JSON.stringify(value) + "\n");
   };
   try {
-    const payload = await readBrowserBrokerFrame(socket, signal);
+    const payload = await readBrowserBrokerFrame({ socket, signal });
     id = responseId(payload, id);
     const request = nodeReplBrowserBrokerRequestSchema.parse(payload);
     authenticate(request, options.token);
