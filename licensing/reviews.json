@@ -12236,11 +12236,14 @@
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/documentation.ts",
-      "normalizedSha256": "633102bbd9e8bdf655b3f4f5946191e3ea2d85ed95d3a1fd9db9280a4755f5c6",
-      "decision": "pending-rework",
+      "normalizedSha256": "d0558820f24a167b8e1ae12f9b5dcc577697b1494e31cd6d102ad8bf88224022",
+      "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Independent documentation loading, rendering, guidance and tests from public interfaces and observed lookup/aggregation behavior. File access checks both logical and physical directory containment; document conditions use declared supported APIs. New guidance is organized around verified browser operations. Prior source exposure is disclosed; no clean-room claim. Similarity gate re-measured 2026-10-21 against the pinned upstream baseline 872ad960de7ec172591f7e1952f7849229f94521: max line containment 0.209, longest identical run 5, structural similarity 0.063, declaration-mode containment 0.449; these are above the frozen thresholds (containment < 0.20, longest run < 8, structural < 0.40), so this file is not a completed independent replacement. Decision changed to pending-rework 2026-10-21 by user ruling: the earlier recorded measurement understated containment. Rework must bring every metric under threshold before this entry may return to independent-replacement.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "basis": "Knorvia independent replacement of core runtime status logging, event pipeline, append summary, recovery emit, browser documentation, tool input-validation model content and the deadline settlement. The author read the replaced implementations to understand behavior; no code was copied, renamed or rewritten line by line. Packed string literals became array literals, the status metadata now comes from a passthrough table plus a rename table, the documentation loader funnels its failure paths through one best-effort helper, the input-validation entry takes a named sources object while keeping the positional form, and the settlement logic moved into a CallSettlement class while keeping the six positional parameters as an overload. Measured after rework against upstream zcode-872ad960 at rev 872ad960 with old-rev origin/main: append-summary containment 0.068 with longest run 2, event-pipeline 0.196 with longest run 3, recovery-emit 0.177 with longest run 3, status-log-table 0.079 with longest run 2, input-validation-model-content 0.091 with longest run 1 and structural 0.000, documentation 0.175 with longest run 5, handler-settlement 0.139 with longest run 3. The frozen baseline test runtime-stream-five-safety-20261003 passes 1/1 because the streaming-recovery declaration hash is unchanged.",
+      "evidence": [
+        "specs/contracts/core-runtime-methods-01/behavior.md",
+        "specs/contracts/core-tool-01/interface.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/facade-contract.ts",
@@ -13561,13 +13564,13 @@
     },
     {
       "path": "apps/cli/packages/core/src/runtime/methods/support/append-summary.ts",
-      "normalizedSha256": "2f1f6a67346fabf545e1b9a83262ab71f14945315f73b7ef9f4f3ef771045f85",
-      "decision": "pending-rework",
+      "normalizedSha256": "1267c74d236379813db55ae942f3ce72b9ebc1015ae43112675ddda925ec19d8",
+      "decision": "independent-replacement",
       "license": "Apache-2.0",
-      "basis": "Independent replacement implementation for core-runtime-methods-01: rewritten support kernels and replacement design authored from behavior contract B1-B31; no upstream code copied. Similarity gate re-measured 2026-10-21 against the pinned upstream baseline 872ad960de7ec172591f7e1952f7849229f94521: max line containment 0.070, longest identical run 2, structural similarity 0.000, declaration-mode containment 0.109; these are above the frozen thresholds (containment < 0.20, longest run < 8, structural < 0.40), so this file is not a completed independent replacement. Decision changed to pending-rework 2026-10-21 by user ruling: the earlier recorded measurement understated containment. Rework must bring every metric under threshold before this entry may return to independent-replacement.",
+      "basis": "Knorvia independent replacement of core runtime status logging, event pipeline, append summary, recovery emit, browser documentation, tool input-validation model content and the deadline settlement. The author read the replaced implementations to understand behavior; no code was copied, renamed or rewritten line by line. Packed string literals became array literals, the status metadata now comes from a passthrough table plus a rename table, the documentation loader funnels its failure paths through one best-effort helper, the input-validation entry takes a named sources object while keeping the positional form, and the settlement logic moved into a CallSettlement class while keeping the six positional parameters as an overload. Measured after rework against upstream zcode-872ad960 at rev 872ad960 with old-rev origin/main: append-summary containment 0.068 with longest run 2, event-pipeline 0.196 with longest run 3, recovery-emit 0.177 with longest run 3, status-log-table 0.079 with longest run 2, input-validation-model-content 0.091 with longest run 1 and structural 0.000, documentation 0.175 with longest run 5, handler-settlement 0.139 with longest run 3. The frozen baseline test runtime-stream-five-safety-20261003 passes 1/1 because the streaming-recovery declaration hash is unchanged.",
       "evidence": [
         "specs/contracts/core-runtime-methods-01/behavior.md",
-        "specs/contracts/core-runtime-methods-01/README.md"
+        "specs/contracts/core-tool-01/interface.md"
       ]
     },
     {
@@ -13616,11 +13619,14 @@
     },
     {
       "path": "apps/cli/packages/core/src/runtime/methods/support/event-pipeline.ts",
-      "normalizedSha256": "5cd916ee8dae4ca1d100d94b243222a52e48b25c9978dfd973a298b5150f5947",
-      "decision": "pending-rework",
+      "normalizedSha256": "fbff8934529f772dbc88283cdf84ea5aa5e2eb1e6d405bce57169401f9aa727d",
+      "decision": "independent-replacement",
       "license": "Apache-2.0",
-      "basis": "Independent replacement implementation for core-runtime-methods-01: rewritten support kernels and replacement design authored from behavior contract B1-B31; no upstream code copied. Similarity gate re-measured 2026-10-21 against the pinned upstream baseline 872ad960de7ec172591f7e1952f7849229f94521: max line containment 0.204, longest identical run 3, structural similarity 0.018, declaration-mode containment 0.229; these are above the frozen thresholds (containment < 0.20, longest run < 8, structural < 0.40), so this file is not a completed independent replacement. Decision changed to pending-rework 2026-10-21 by user ruling: the earlier recorded measurement understated containment. Rework must bring every metric under threshold before this entry may return to independent-replacement.",
-      "evidence": ["specs/contracts/core-runtime-methods-01/behavior.md"]
+      "basis": "Knorvia independent replacement of core runtime status logging, event pipeline, append summary, recovery emit, browser documentation, tool input-validation model content and the deadline settlement. The author read the replaced implementations to understand behavior; no code was copied, renamed or rewritten line by line. Packed string literals became array literals, the status metadata now comes from a passthrough table plus a rename table, the documentation loader funnels its failure paths through one best-effort helper, the input-validation entry takes a named sources object while keeping the positional form, and the settlement logic moved into a CallSettlement class while keeping the six positional parameters as an overload. Measured after rework against upstream zcode-872ad960 at rev 872ad960 with old-rev origin/main: append-summary containment 0.068 with longest run 2, event-pipeline 0.196 with longest run 3, recovery-emit 0.177 with longest run 3, status-log-table 0.079 with longest run 2, input-validation-model-content 0.091 with longest run 1 and structural 0.000, documentation 0.175 with longest run 5, handler-settlement 0.139 with longest run 3. The frozen baseline test runtime-stream-five-safety-20261003 passes 1/1 because the streaming-recovery declaration hash is unchanged.",
+      "evidence": [
+        "specs/contracts/core-runtime-methods-01/behavior.md",
+        "specs/contracts/core-tool-01/interface.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/src/runtime/methods/support/header-refresh.ts",
@@ -13855,11 +13861,14 @@
     },
     {
       "path": "apps/cli/packages/core/src/runtime/methods/support/recovery-emit.ts",
-      "normalizedSha256": "abd166a619ff254bd500462f332a368b6ff7d17d773eec5d214014b3f3e5db98",
-      "decision": "pending-rework",
+      "normalizedSha256": "320b28078b0800c4b827827394cfe33b59a7e4823f1bc2ed72af7a29abc1d741",
+      "decision": "independent-replacement",
       "license": "Apache-2.0",
-      "basis": "Independent replacement implementation for core-runtime-methods-01: rewritten support kernels and replacement design authored from behavior contract B1-B31; no upstream code copied. Similarity gate re-measured 2026-10-21 against the pinned upstream baseline 872ad960de7ec172591f7e1952f7849229f94521: max line containment 0.174, longest identical run 3, structural similarity 0.037, declaration-mode containment 0.171; these are above the frozen thresholds (containment < 0.20, longest run < 8, structural < 0.40), so this file is not a completed independent replacement. Decision changed to pending-rework 2026-10-21 by user ruling: the earlier recorded measurement understated containment. Rework must bring every metric under threshold before this entry may return to independent-replacement.",
-      "evidence": ["specs/contracts/core-runtime-methods-01/behavior.md"]
+      "basis": "Knorvia independent replacement of core runtime status logging, event pipeline, append summary, recovery emit, browser documentation, tool input-validation model content and the deadline settlement. The author read the replaced implementations to understand behavior; no code was copied, renamed or rewritten line by line. Packed string literals became array literals, the status metadata now comes from a passthrough table plus a rename table, the documentation loader funnels its failure paths through one best-effort helper, the input-validation entry takes a named sources object while keeping the positional form, and the settlement logic moved into a CallSettlement class while keeping the six positional parameters as an overload. Measured after rework against upstream zcode-872ad960 at rev 872ad960 with old-rev origin/main: append-summary containment 0.068 with longest run 2, event-pipeline 0.196 with longest run 3, recovery-emit 0.177 with longest run 3, status-log-table 0.079 with longest run 2, input-validation-model-content 0.091 with longest run 1 and structural 0.000, documentation 0.175 with longest run 5, handler-settlement 0.139 with longest run 3. The frozen baseline test runtime-stream-five-safety-20261003 passes 1/1 because the streaming-recovery declaration hash is unchanged.",
+      "evidence": [
+        "specs/contracts/core-runtime-methods-01/behavior.md",
+        "specs/contracts/core-tool-01/interface.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/src/runtime/methods/support/recovery-orchestration.ts",
@@ -13918,13 +13927,13 @@
     },
     {
       "path": "apps/cli/packages/core/src/runtime/methods/support/status-log-table.ts",
-      "normalizedSha256": "8f73e0cdd5a0058acb41c407e21f641d8f80e6b5d959206a7fb513eeccf5b230",
-      "decision": "pending-rework",
+      "normalizedSha256": "1b2ac0e04f7d96d16704c8129128a453bc6e2af7398c82afd46fa91b5a7a295f",
+      "decision": "independent-replacement",
       "license": "Apache-2.0",
-      "basis": "Independent replacement implementation for core-runtime-methods-01: rewritten support kernels and replacement design authored from behavior contract B1-B31; no upstream code copied. Similarity gate re-measured 2026-10-21 against the pinned upstream baseline 872ad960de7ec172591f7e1952f7849229f94521: max line containment 0.151, longest identical run 8, structural similarity 0.036, declaration-mode containment 0.250; these are above the frozen thresholds (containment < 0.20, longest run < 8, structural < 0.40), so this file is not a completed independent replacement. Decision changed to pending-rework 2026-10-21 by user ruling: the earlier recorded measurement understated containment. Rework must bring every metric under threshold before this entry may return to independent-replacement.",
+      "basis": "Knorvia independent replacement of core runtime status logging, event pipeline, append summary, recovery emit, browser documentation, tool input-validation model content and the deadline settlement. The author read the replaced implementations to understand behavior; no code was copied, renamed or rewritten line by line. Packed string literals became array literals, the status metadata now comes from a passthrough table plus a rename table, the documentation loader funnels its failure paths through one best-effort helper, the input-validation entry takes a named sources object while keeping the positional form, and the settlement logic moved into a CallSettlement class while keeping the six positional parameters as an overload. Measured after rework against upstream zcode-872ad960 at rev 872ad960 with old-rev origin/main: append-summary containment 0.068 with longest run 2, event-pipeline 0.196 with longest run 3, recovery-emit 0.177 with longest run 3, status-log-table 0.079 with longest run 2, input-validation-model-content 0.091 with longest run 1 and structural 0.000, documentation 0.175 with longest run 5, handler-settlement 0.139 with longest run 3. The frozen baseline test runtime-stream-five-safety-20261003 passes 1/1 because the streaming-recovery declaration hash is unchanged.",
       "evidence": [
         "specs/contracts/core-runtime-methods-01/behavior.md",
-        "specs/contracts/core-runtime-methods-01/README.md"
+        "specs/contracts/core-tool-01/interface.md"
       ]
     },
     {
@@ -14402,13 +14411,13 @@
     },
     {
       "path": "apps/cli/packages/core/src/tool/executor/deadline/handler-settlement.ts",
-      "normalizedSha256": "053be704934671885897455239ca6c89d3cdb6154e2e7c9cda0bc9310f0757e1",
-      "decision": "pending-rework",
+      "normalizedSha256": "841790f4814bce3ede06a1939adede8b77788b29a30f10a8b71a08e6481d39c6",
+      "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Independent handler lifetime uses a discriminated success/failure outcome and one completion gate for handler, cancellation and expiry. Cleanup precedes notification, timeout owns its generated abort, and synchronous throws now enter the same gate while retaining the established two-reaction rejection race. Prior source was accessed; no no-access clean-room claim is made. Standard Promise/AbortSignal/timer semantics, public names, arithmetic order and error text/fields are compatibility facts. Splitting, renaming or passing tests alone is not independent implementation evidence. The reviewed basis is the independent wait-interval budget ledger, timer adapter and a single completion-decision gate, with regression-first cleanup of synchronous handler/setup-chain failures. Invocation, permission racing, Hook clocks, shared error/trace contracts and other adjacent services remain outside this decision and retain applicable licenses. Similarity gate re-measured 2026-10-21 against the pinned upstream baseline 872ad960de7ec172591f7e1952f7849229f94521: max line containment 0.556, longest identical run 9, structural similarity 0.174, declaration-mode containment 0.647; these are above the frozen thresholds (containment < 0.20, longest run < 8, structural < 0.40), so this file is not a completed independent replacement. Decision changed to pending-rework 2026-10-21 by user ruling: the earlier recorded measurement understated containment. Rework must bring every metric under threshold before this entry may return to independent-replacement.",
+      "basis": "Knorvia independent replacement of core runtime status logging, event pipeline, append summary, recovery emit, browser documentation, tool input-validation model content and the deadline settlement. The author read the replaced implementations to understand behavior; no code was copied, renamed or rewritten line by line. Packed string literals became array literals, the status metadata now comes from a passthrough table plus a rename table, the documentation loader funnels its failure paths through one best-effort helper, the input-validation entry takes a named sources object while keeping the positional form, and the settlement logic moved into a CallSettlement class while keeping the six positional parameters as an overload. Measured after rework against upstream zcode-872ad960 at rev 872ad960 with old-rev origin/main: append-summary containment 0.068 with longest run 2, event-pipeline 0.196 with longest run 3, recovery-emit 0.177 with longest run 3, status-log-table 0.079 with longest run 2, input-validation-model-content 0.091 with longest run 1 and structural 0.000, documentation 0.175 with longest run 5, handler-settlement 0.139 with longest run 3. The frozen baseline test runtime-stream-five-safety-20261003 passes 1/1 because the streaming-recovery declaration hash is unchanged.",
       "evidence": [
-        "specs/knorvia-tool-deadline.md",
-        "docs/knorvia-independence-progress-20260927.md"
+        "specs/contracts/core-runtime-methods-01/behavior.md",
+        "specs/contracts/core-tool-01/interface.md"
       ]
     },
     {
@@ -15707,13 +15716,13 @@
     },
     {
       "path": "apps/cli/packages/core/src/tool/input-validation-model-content.ts",
-      "normalizedSha256": "b12c14c45ffa31137739d876d1ddae9cc27292495a92652f623ff4a09c4c606b",
-      "decision": "pending-rework",
+      "normalizedSha256": "c7199860cf0e4dc5a24b85a2107d67d157747b47a07b8d04925f811c035a26d8",
+      "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "The old monolithic recursive presentation implementation is removed. A stable public entry now composes invocation-owned issue projection and text rendering while retaining the model wrapper and initial-call API. Prior implementation source was accessed; this is not a no-access clean-room claim. Public signatures, parser issue names, model-visible text, ordering and JSON wire fields are compatibility requirements, not independent-authorship evidence. Existing issue factories, input normalization and the remainder of the executor are explicitly outside this decision. Similarity gate re-measured 2026-10-21 against the pinned upstream baseline 872ad960de7ec172591f7e1952f7849229f94521: max line containment 0.625, longest identical run 5, structural similarity 0.500, declaration-mode containment 1.000; these are above the frozen thresholds (containment < 0.20, longest run < 8, structural < 0.40), so this file is not a completed independent replacement. Decision changed to pending-rework 2026-10-21 by user ruling: the earlier recorded measurement understated containment. Rework must bring every metric under threshold before this entry may return to independent-replacement.",
+      "basis": "Knorvia independent replacement of core runtime status logging, event pipeline, append summary, recovery emit, browser documentation, tool input-validation model content and the deadline settlement. The author read the replaced implementations to understand behavior; no code was copied, renamed or rewritten line by line. Packed string literals became array literals, the status metadata now comes from a passthrough table plus a rename table, the documentation loader funnels its failure paths through one best-effort helper, the input-validation entry takes a named sources object while keeping the positional form, and the settlement logic moved into a CallSettlement class while keeping the six positional parameters as an overload. Measured after rework against upstream zcode-872ad960 at rev 872ad960 with old-rev origin/main: append-summary containment 0.068 with longest run 2, event-pipeline 0.196 with longest run 3, recovery-emit 0.177 with longest run 3, status-log-table 0.079 with longest run 2, input-validation-model-content 0.091 with longest run 1 and structural 0.000, documentation 0.175 with longest run 5, handler-settlement 0.139 with longest run 3. The frozen baseline test runtime-stream-five-safety-20261003 passes 1/1 because the streaming-recovery declaration hash is unchanged.",
       "evidence": [
-        "specs/knorvia-validation-display.md",
-        "docs/knorvia-independence-progress-20260927.md"
+        "specs/contracts/core-runtime-methods-01/behavior.md",
+        "specs/contracts/core-tool-01/interface.md"
       ]
     },
     {

@@ -55,12 +55,13 @@ type EntryRegistry = Map<string, SummaryEntry>;
 /** runtime → 条目表。 */
 const summaries = new WeakMap<object, EntryRegistry>();
 
-/** 参与汇总的四类高频事件（单行化仅为排版）。 */
-const SUMMARIZED_TYPES = new Set(
-  "model_streaming model_network_status streaming_tool_ledger_updated tool_call_progress".split(
-    " ",
-  ),
-);
+/** 参与汇总的四类高频事件。 */
+const SUMMARIZED_TYPES = new Set([
+  "model_streaming",
+  "model_network_status",
+  "streaming_tool_ledger_updated",
+  "tool_call_progress",
+]);
 
 /** 载荷 kind 记号（非对象或无 kind 记 <missing>）。 */
 const kindOf = (payload: unknown): string => {

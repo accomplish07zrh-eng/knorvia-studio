@@ -11,11 +11,14 @@ import { admitAppendSummary, flushAppendSummaries, type SummaryLogPort } from ".
 import { notifySessionEventSinks, type SessionEventSink } from "./sink-notify.js";
 
 /** 生命周期事件类型集（逐字；带 started/completed 日志序列）。 */
-const LIFECYCLE_TYPES = new Set(
-  "session_title_updated turn_started model_request model_complete turn_complete turn_error".split(
-    " ",
-  ),
-);
+const LIFECYCLE_TYPES = new Set([
+  "session_title_updated",
+  "turn_started",
+  "model_request",
+  "model_complete",
+  "turn_complete",
+  "turn_error",
+]);
 
 /** 管线日志文案与事件名（逐字常量）。 */
 const PIPELINE_LOG_TEXT = {
