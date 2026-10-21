@@ -49,6 +49,9 @@ const HELP = `用法: node scripts/provenance/similarity.mjs [选项]
   --old <path>              被替换的旧文件，可重复；相对路径按 --repo（或 --old-rev）解析
   --old-list <file>         每行一个旧文件路径
   --old-rev <rev>           旧文件取自该 git 提交，而不是工作区
+  --dump-residual           打印剔除契约行后残留的行原文（含原始行号），供验收文档逐字贴出
+  --dump-residual-limit <n> 限制每次打印的行数，默认 50；超出时提示总行数
+  --dump-stripped           打印被剔掉的契约行原文，便于核对「是否剔得过宽」
   --allow-upstream-only     显式接受「只与上游比较」。默认不给 --old 会报错：
                             计划书要求同时对被替换的旧文件与上游检查，少一侧结果会偏低。
   --upstream-dir <dir>      上游固定提交的完整树（仓库外缓存目录，必需）
@@ -89,6 +92,9 @@ const { values } = parseArgs({
     "old-list": { type: "string" },
     "old-rev": { type: "string" },
     "allow-upstream-only": { type: "boolean" },
+    "dump-residual": { type: "boolean" },
+    "dump-residual-limit": { type: "string" },
+    "dump-stripped": { type: "boolean" },
     "upstream-dir": { type: "string" },
     "upstream-rev": { type: "string" },
     interface: { type: "string", multiple: true },
@@ -243,6 +249,8 @@ for (const result of results) result.pass = result.violations.length === 0;
 const failed = results.filter((result) => !result.pass);
 for (const result of results) process.stdout.write(`${describe(result)}\n`);
 if (values.explain) explainResults(candidates, results);
+// 验收文档要求「逐字贴出残留代码」—— 「剔除多少行」不够，还要知道「剩下哪几行」。
+if (values["dump-residual"] || values["dump-stripped"]) dumpContractLines(candidates, results);
 const summary = {
   candidates: results.length,
   passed: results.length - failed.length,
@@ -312,6 +320,12 @@ async function evaluateLines(candidate) {
           strippedLines: candidate.contractBaseline.strippedLines,
           suspiciousRatio: candidate.contractBaseline.suspiciousRatio,
           tooManyNames: candidate.contractBaseline.tooManyNames,
+          ...(values["dump-residual"]
+            ? { residualLines: candidate.contractBaseline.residual }
+            : {}),
+          ...(values["dump-stripped"]
+            ? { strippedLinesText: candidate.contractBaseline.stripped }
+            : {}),
           before: { residualLines: candidate.contractBaseline.totalLines },
           after: { residualLines },
         }
@@ -587,6 +601,39 @@ function describe(result) {
   const counterpartNote = result.noUpstreamCounterpart ? " no-upstream-counterpart" : "";
   const verdict = result.violations.length ? ` -> ${result.violations.join("; ")}` : "";
   return `${result.pass ? "PASS " : "FAIL "} ${result.path} lines=${result.lines}${declaration}${exclusion}${noComparableNote}${counterpartNote}${formatNote}${line}${structural}${verdict}${traced}`;
+}
+
+/**
+ * 打印契约行剔除的残留行与被剔行原文。
+ *
+ * `residual` 是剔除后剩下的行（用户验收要求逐字贴出，用于判断「剩余是否还需返工」）；
+ * `stripped` 是被剔掉的行（用于人工核对「是否剔得过宽」）。
+ * 行号是原始文本里的 1-based 行号，便于回到源码定位。
+ */
+function dumpContractLines(candidates, results) {
+  const limit = Number(values["dump-residual-limit"] ?? 50);
+  for (const [index, result] of results.entries()) {
+    const baseline = candidates[index]?.contractBaseline;
+    if (!baseline) continue;
+    if (values["dump-residual"]) {
+      const all = baseline.residual ?? [];
+      process.stdout.write(`\n--- residual: ${result.path} (${all.length} 行) ---\n`);
+      for (const entry of all.slice(0, limit))
+        process.stdout.write(`  L${entry.line}  ${entry.text}\n`);
+      if (all.length > limit)
+        process.stdout.write(
+          `  … 共 ${all.length} 行，仅显示前 ${limit} 行（--dump-residual-limit 可调）\n`,
+        );
+    }
+    if (values["dump-stripped"]) {
+      const all = baseline.stripped ?? [];
+      process.stdout.write(`\n--- stripped: ${result.path} (${all.length} 行) ---\n`);
+      for (const entry of all.slice(0, limit))
+        process.stdout.write(`  L${entry.line}  ${entry.text}\n`);
+      if (all.length > limit)
+        process.stdout.write(`  … 共 ${all.length} 行，仅显示前 ${limit} 行\n`);
+    }
+  }
 }
 
 function calibrate(results) {
