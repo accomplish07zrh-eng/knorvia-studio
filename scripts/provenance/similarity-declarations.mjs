@@ -175,10 +175,19 @@ function tableRows(text) {
   return rows;
 }
 
-/** 从一个单元格里取出名字：带点号的整体保留，排除语言关键字。 */
+/**
+ * 从一个单元格里取出名字：带点号的整体保留，排除语言关键字与路径片段。
+ *
+ * 单元格不一定只列名字：`core-hooks/interface.md` 是 2 列表，第 2 列是散文
+ * （`**必须**保留：`@knorvia/core` 的 `src/index.ts` 以 `export * from "./hooks/index.js"` 引出`），
+ * 里面的反引号路径若不整段跳过，会被切成 `src` / `index` / `hooks` 等碎片名。
+ */
 function namesInCell(cell, names) {
   for (const match of cell.matchAll(/`([^`\n]+)`/gu)) {
-    for (const token of match[1].matchAll(
+    const span = match[1].trim();
+    // 路径形态（含 / 或带 .ts/.js 后缀）整段丢弃，只留真正的标识符。
+    if (span.includes("/") || /\.(?:ts|tsx|js|jsx|mjs|cjs)$/u.test(span)) continue;
+    for (const token of span.matchAll(
       /[A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*)+|[A-Za-z_$][\w$]*/gu,
     )) {
       const value = token[0];

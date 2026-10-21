@@ -674,6 +674,45 @@ test("contract-lines ignores backticked module paths when extracting", () => {
   );
 });
 
+test("contract-lines ignores paths inside prose cells of two-column tables", () => {
+  // core-hooks 是 2 列表：第 2 列是散文（"必须保留：`@knorvia/core` 的 `src/index.ts` …"），
+  // 里面的反引号路径若不整段跳过，会被切成 src / index / hooks 等碎片名并误剔。
+  const upstream = [
+    "export interface WorkspaceHookRuntimeAdmissionPort {",
+    "  admit(): void;",
+    "}",
+    "const src = 1;",
+    "const runtime = 2;",
+    "const agent = 3;",
+  ].join("\n");
+  withTree(
+    {
+      "upstream/a.ts": upstream,
+      "contract/interface.md": [
+        "# interface",
+        "",
+        "| 模块 | 说明 |",
+        "| --- | --- |",
+        '| `apps/cli/packages/core/src/hooks/runner-plan.ts` | **必须**保留：`@knorvia/core` 的 `src/index.ts` 以 `export * from "./hooks/index.js"` 引出，另有 `WorkspaceHookRuntimeAdmissionPort` |',
+      ].join("\n"),
+    },
+    (root) => {
+      const candidate = writeCandidate(root, "runner-plan.ts", upstream);
+      const result = runTool([
+        "--upstream-dir",
+        join(root, "upstream"),
+        "--candidate",
+        candidate,
+        "--contract-lines",
+        "--interface",
+        join(root, "contract/interface.md"),
+      ]);
+      // 只应提取到真名字，散文里的路径不得变成 src / index / hooks 等碎片。
+      assert.match(result.stdout, /contract-names=\[WorkspaceHookRuntimeAdmissionPort\]/);
+    },
+  );
+});
+
 test("strip accounting keeps the identity and never reports negative lines", () => {
   // 恒等式：linesBeforeStrip - residualLines === strippedLines，且 strippedLines 不得为负。
   // 纯 re-export 文件曾出现 -7：格式化把 re-export 丢光后 before=0，而 residual 是展开追踪的 7 行。
