@@ -132317,11 +132317,11 @@
     },
     {
       "path": "scripts/provenance/similarity.mjs",
-      "normalizedSha256": "321b67fe27d3beb205fcf54a00f5d659da5d4487e88c45be9e7de00c0db24b0a",
+      "normalizedSha256": "3da187b3187b95c06c5135d60042c0b3cec1611938e37c6ccc6df1889a4ecdbd",
       "decision": "original",
       "license": "MIT",
-      "basis": "Knorvia-authored provenance similarity tooling. The gate now prints the residual and removed contract lines verbatim, because the acceptance documents require quoting the remaining code rather than only reporting how many lines were removed. The residual output lists the kept lines with their one-based numbers in the original text, and the removed output does the same for the lines that were excluded, so a reviewer can both verify that the remaining part is what still needs rework and check that exclusion did not reach too far. A configurable limit defaults to fifty lines per section and reports the total when truncated. The removed-line records carry source line numbers now that they are surfaced, and the exclusion counter is derived from the same loop so the two cannot drift apart. Verified with sixty-four tests, including residual-and-removed dumping and the line-limit truncation notice.",
-      "evidence": ["scripts/provenance/similarity.test.mjs"]
+      "basis": "Knorvia-authored provenance similarity tooling. The dual-comparison wrapper accepts a classification name and reads that list straight from the licensing inventory rather than from a hand-prepared file, because package lists overlap and manual assembly invites double counting. The residual dumper no longer skips candidates silently: when a candidate has no contract baseline it now states on standard error that contract-line mode was not enabled or that no contract names applied, so a zero-line dump can be told apart from a genuine bug instead of being indistinguishable from one. Verified with the existing sixty-four similarity tests plus three wrapper guard tests, and by re-running a contract-line measurement whose residual section prints sixteen lines with their source line numbers.",
+      "evidence": ["scripts/provenance/similarity-check.test.mjs"]
     },
     {
       "path": "scripts/provenance/similarity.test.mjs",
@@ -150062,7 +150062,7 @@
       "normalizedSha256": "7b87377469c395fbc702d98b517754767bcea1d5a5460b2a99dbdbaab5269664",
       "decision": "original",
       "license": "MIT",
-      "basis": "Knorvia-authored provenance similarity tooling. The dual-comparison wrapper now accepts a classification name and reads that list straight from the licensing inventory instead of requiring a prepared file list. The inventory is the authority for what belongs to a classification, and hand-assembling per-package counts invites double counting because package lists overlap. This matters when a whole classification is re-measured after the tooling fixes: the candidate set must match exactly what the inventory says is still pending, and reporting must distinguish the three outcomes of unchanged from baseline, still above threshold, and now passing.",
+      "basis": "Knorvia-authored provenance similarity tooling. The dual-comparison wrapper accepts a classification name and reads that list straight from the licensing inventory rather than from a hand-prepared file, because package lists overlap and manual assembly invites double counting. The residual dumper no longer skips candidates silently: when a candidate has no contract baseline it now states on standard error that contract-line mode was not enabled or that no contract names applied, so a zero-line dump can be told apart from a genuine bug instead of being indistinguishable from one. Verified with the existing sixty-four similarity tests plus three wrapper guard tests, and by re-running a contract-line measurement whose residual section prints sixteen lines with their source line numbers.",
       "evidence": ["scripts/provenance/similarity-check.test.mjs"]
     },
     {
