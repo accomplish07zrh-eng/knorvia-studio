@@ -2,90 +2,113 @@
 // Copyright (c) 2026 Knorvia Studio contributors
 // MCP 运行时：把 `js` 工具与原生 Computer Use 工具挂到同一个 MCP 服务器上。
 //
-// 分层：本文件只做「协议面 ↔ 执行层」的翻译。真正的执行在 `executor.ts`（工作线程）、
-// 准入在 `session-admission.ts`、生命周期在 `runtime-lifetime.ts`。
+// 分层：本文件只做**装配**。真正的执行在 `executor.ts`（工作线程）、
+// 准入在 `session-admission.ts`、生命周期在 `runtime-lifetime.ts`、
+// 上下文解析在 `mcp-caller-context.ts`、参数准备在 `mcp-tool-dispatch.ts`、
+// 工具表与分派判定在 `mcp-tool-catalogue.ts`。
 // **不在这里做取消、排队或能力协商**——那些都有各自的所有者。
-import {
-  INVALID_PARAMS,
-  Server,
-  type Tool,
-  type CallToolResult,
-  type CallToolRequest,
-} from "@modelcontextprotocol/server";
-import { JsInputJsonSchema } from "@knorvia/contracts/tools/node-repl";
+import { Server, type CallToolResult } from "@modelcontextprotocol/server";
+import type { JsRuntimeInput } from "@knorvia/contracts/tools/node-repl";
 import type { ComputerUseRuntime } from "@knorvia/cua";
 import type { WindowsComputerRuntime } from "@knorvia/cua/windows";
-import { z } from "zod";
 import { createNodeReplCuaBroker } from "./cua-broker.js";
 import { executeInWorker, type NodeReplExecutor } from "./executor.js";
+import { CONTEXT_META_KEY, readCallerContext, sessionIdOf } from "./mcp-caller-context.js";
+import {
+  isNativeCall,
+  nativeInvocation,
+  requireJsArguments,
+  toolCatalogue,
+} from "./mcp-tool-catalogue.js";
+import {
+  budgetOf,
+  emptySourceResult,
+  executionSignal,
+  isEmptySource,
+  toExecutorInput,
+  withTitle,
+} from "./mcp-tool-dispatch.js";
 import { captureComputerUseRuntimeFromEnvironment } from "./runtime-environment.js";
 import { RuntimeLifetime } from "./runtime-lifetime.js";
 import { SessionAdmission } from "./session-admission.js";
 import { toMcpRunResult } from "./result.js";
-import { captureWindowsComputerRuntime, windowsComputerContext } from "./windows-computer.js";
-import {
-  JS_TOOL_DESCRIPTION,
-  NODE_REPL_DEFAULT_TIMEOUT_MS,
-  NODE_REPL_SERVER_INSTRUCTIONS,
-  NODE_REPL_SERVER_VERSION,
-} from "./tool-contract.js";
+import { captureWindowsComputerRuntime } from "./windows-computer.js";
+import { NODE_REPL_SERVER_INSTRUCTIONS, NODE_REPL_SERVER_VERSION } from "./tool-contract.js";
 
-/** 工具名：唯一由本包提供的工具。 */
-const JS_TOOL_NAME = "js";
+/** 服务器的自我描述（协议面可见，名称与版本不要改）。 */
+const SERVER_INFO = { name: "node_repl", version: NODE_REPL_SERVER_VERSION } as const;
 
-/** 标题长度上限（客户端展示用）。 */
-const MAX_TITLE_LENGTH = 120;
-
-/** 单次执行的时间预算上限（毫秒）。 */
-const MAX_TIMEOUT_MS = 120_000;
-
-/** 调用方上下文在 MCP 元数据里的键。 */
-const CONTEXT_META_KEY = "com.knorvia-studio/request-context";
-
-/** `js` 工具的参数形状。`.strict()`：多传字段直接判错，不静默忽略。 */
-const jsArgumentsSchema = z
-  .object({
-    code: z.string(),
-    title: z.string().min(1).max(MAX_TITLE_LENGTH).optional(),
-    timeout_ms: z.number().int().min(1).max(MAX_TIMEOUT_MS).optional(),
-  })
-  .strict();
+/** 服务器的能力声明与使用说明。 */
+const SERVER_CAPABILITIES = {
+  capabilities: { tools: {} },
+  instructions: NODE_REPL_SERVER_INSTRUCTIONS,
+} as const;
 
 /**
- * 调用方上下文的形状。
+ * MCP 运行时的对外句柄。
  *
- * `catchall(z.unknown())` 是刻意的：客户端可以带额外字段，
- * 本包只关心 `runtime_scope` 与 `session_id`，其余原样传给执行器做 requestMeta。
+ * 两个成员都是只读的：句柄一旦交出，调用方不该换掉它的服务器或释放函数 ——
+ * 那会让「谁负责关闭」变得不确定。用 `readonly` 把这一点写进类型。
  */
-const callerContextSchema = z
-  .object({
-    runtime_scope: z.enum(["main", "subagent"]).default("main"),
-    session_id: z.string().trim().min(1).optional(),
-  })
-  .catchall(z.unknown());
-
-/** MCP 运行时的对外句柄。 */
-export interface NodeReplMcpRuntime {
-  server: Server;
-  dispose(): Promise<void>;
-}
-
-/** 造运行时所需的注入点；全部可选，缺席时用环境捕获的默认实现。 */
-export interface NodeReplRuntimeOptions {
-  executeJs?: NodeReplExecutor;
-  cuaRuntime?: ComputerUseRuntime;
-  windowsRuntime?: WindowsComputerRuntime;
-}
+export type NodeReplMcpRuntime = {
+  readonly server: Server;
+  readonly dispose: () => Promise<void>;
+};
 
 /**
- * 把调用方元数据解析成 requestMeta（永不抛错：解析失败就用空对象）。
+ * 造运行时所需的注入点；全部可选。
  *
- * @param rawContext - MCP 请求里携带的原始上下文。
- * @returns 已归一化的元数据。
+ * 三个都是「替换某个协作者的实现」这一件事，所以并列放在一个类型里；
+ * 缺席时不写 `undefined` 而是走环境捕获的默认实现（见 `assemble`）。
  */
-function readCallerContext(rawContext: unknown): Record<string, unknown> {
-  const parsed = callerContextSchema.safeParse(rawContext);
-  return parsed.success ? parsed.data : {};
+export type NodeReplRuntimeOptions = {
+  readonly executeJs?: NodeReplExecutor;
+  readonly cuaRuntime?: ComputerUseRuntime;
+  readonly windowsRuntime?: WindowsComputerRuntime;
+};
+
+/**
+ * 解析出来的运行时协作者。
+ *
+ * 六个协作者一起穿过工厂函数，收成一个对象而不是六个局部变量：
+ * 后面每个 handler 都要用到其中几项，摊成局部变量会让闭包捕获一堆平行符号。
+ */
+type Parts = {
+  readonly lifetime: RuntimeLifetime;
+  readonly admission: SessionAdmission;
+  readonly execute: NodeReplExecutor;
+  readonly cua: ComputerUseRuntime | undefined;
+  readonly broker: ReturnType<typeof createNodeReplCuaBroker> | undefined;
+  readonly windowsReady: Promise<WindowsComputerRuntime | undefined>;
+};
+
+/**
+ * 装配协作者：注入优先，否则走环境捕获的默认实现。
+ *
+ * 集中在一处比较好核对「默认实现是什么」；分散到工厂正文里
+ * 会让这个问题的答案散落在多个分支中。
+ *
+ * @param entryUrl - 工作线程的可执行入口 URL。
+ * @param options - 可选注入点。
+ * @returns 六个协作者。
+ */
+function assemble(entryUrl: string, options: NodeReplRuntimeOptions): Parts {
+  const lifetime = new RuntimeLifetime();
+  const execute = options.executeJs ?? ((input) => executeInWorker(entryUrl, input));
+  const cua = options.cuaRuntime ?? captureComputerUseRuntimeFromEnvironment();
+  const windowsReady: Promise<WindowsComputerRuntime | undefined> =
+    options.windowsRuntime === undefined
+      ? captureWindowsComputerRuntime()
+      : Promise.resolve(options.windowsRuntime);
+  const broker = cua === undefined ? undefined : createNodeReplCuaBroker({ runtime: cua });
+  return {
+    lifetime,
+    admission: new SessionAdmission(lifetime.signal),
+    execute,
+    cua,
+    broker,
+    windowsReady,
+  };
 }
 
 /**
@@ -102,27 +125,12 @@ export function createMcpRuntime(
   entryUrl: string,
   options: NodeReplRuntimeOptions,
 ): NodeReplMcpRuntime {
-  const lifetime = new RuntimeLifetime();
-  const admission = new SessionAdmission(lifetime.signal);
-  const execute = options.executeJs ?? ((input) => executeInWorker(entryUrl, input));
-  const cua = options.cuaRuntime ?? captureComputerUseRuntimeFromEnvironment();
-  const broker = cua === undefined ? undefined : createNodeReplCuaBroker({ runtime: cua });
-  const windowsReady: Promise<WindowsComputerRuntime | undefined> =
-    options.windowsRuntime === undefined
-      ? captureWindowsComputerRuntime()
-      : Promise.resolve(options.windowsRuntime);
+  const parts = assemble(entryUrl, options);
 
-  const server = new Server(
-    { name: "node_repl", version: NODE_REPL_SERVER_VERSION },
-    { capabilities: { tools: {} }, instructions: NODE_REPL_SERVER_INSTRUCTIONS },
-  );
-
-  /**
-   * 取原生能力；能力加载可能晚于关闭，因此必须经过同一生命周期门槛。
-   */
+  /** 取原生能力：加载可能晚于关闭，所以必须经过同一生命周期门槛。 */
   const nativeTools = async (): Promise<WindowsComputerRuntime | undefined> => {
-    const resolved = await windowsReady;
-    lifetime.signal.throwIfAborted();
+    const resolved = await parts.windowsReady;
+    parts.lifetime.signal.throwIfAborted();
     return resolved;
   };
 
@@ -133,100 +141,68 @@ export function createMcpRuntime(
    * 阻止「迟到的成功」被发布 —— 客户端已经不等了，再发成功会错位。
    */
   const runJs = (
-    args: z.infer<typeof jsArgumentsSchema>,
+    args: JsRuntimeInput,
     rawContext: unknown,
     callerSignal: AbortSignal,
   ): Promise<CallToolResult> => {
     const meta = readCallerContext(rawContext);
-    const sessionId = typeof meta.session_id === "string" ? meta.session_id : undefined;
-    return admission.submit(sessionId, async (): Promise<CallToolResult> => {
-      const budget = args.timeout_ms ?? NODE_REPL_DEFAULT_TIMEOUT_MS;
-      const signal = AbortSignal.any([callerSignal, lifetime.signal, AbortSignal.timeout(budget)]);
+    const queueKey = sessionIdOf(meta);
+    return parts.admission.submit(queueKey, async (): Promise<CallToolResult> => {
+      const budget = budgetOf(args.timeout_ms);
+      const signal = executionSignal(callerSignal, parts.lifetime.signal, budget);
       signal.throwIfAborted();
-      if (args.code.trim() === "") {
-        return {
-          isError: true,
-          content: [{ type: "text", text: "js expects non-empty JavaScript source" }],
-        };
-      }
-      await broker?.ready;
+      if (isEmptySource(args.code)) return emptySourceResult();
+      await parts.broker?.ready;
       signal.throwIfAborted();
-      const result = await execute({
-        code: args.code,
+      const input = toExecutorInput(
+        args,
         signal,
-        syncTimeoutMs: budget,
-        cuaBroker: broker?.connection,
-        requestMeta: { ...meta, ...(args.title === undefined ? {} : { title: args.title }) },
-      });
-      const projected = toMcpRunResult(result);
+        budget,
+        parts.broker?.connection,
+        withTitle(meta, args.title),
+      );
+      const projected = toMcpRunResult(await parts.execute(input));
       // 已被取消的执行器不可发布迟到成功；已返回的诊断错误仍需交给调用方。
       if (!projected.isError) signal.throwIfAborted();
       return projected;
     });
   };
 
-  /**
-   * 把原生工具的描述转成 MCP 工具条目。
-   *
-   * 单独成函数是因为它的唯一职责是**形状转换**（原生 schema → MCP schema），
-   * 与能力加载、生命周期判断无关。
-   */
-  const nativeToolEntries = (native: WindowsComputerRuntime | undefined): Tool[] =>
-    native === undefined
-      ? []
-      : native
-          .listTools()
-          .map((tool) => ({ ...tool, inputSchema: tool.inputSchema as Tool["inputSchema"] }));
+  const server = new Server(SERVER_INFO, SERVER_CAPABILITIES);
 
   server.setRequestHandler("tools/list", () =>
-    lifetime.accept(async () => {
-      const native = await nativeTools();
-      const tools = nativeToolEntries(native);
-      tools.push({
-        name: JS_TOOL_NAME,
-        inputSchema: JsInputJsonSchema as Tool["inputSchema"],
-        description: JS_TOOL_DESCRIPTION,
-      });
-      return { tools };
-    }),
+    parts.lifetime.accept(async () => ({ tools: toolCatalogue(await nativeTools()) })),
   );
 
   /**
-   * 原生工具优先：只要能力存在且认识这个名字，就交给它执行；
-   * 否则按 `js` 处理。顺序不能反——原生工具名是动态的，先判 `js` 会漏掉同名原生工具。
+   * `tools/call` 的分派。
    *
-   * 这段逻辑**内联在 handler 里**而不是抽成独立函数：`extra` 的类型只能由
+   * 逻辑**内联在 handler 里**而不是抽成独立函数：`extra` 的类型只能由
    * `setRequestHandler` 的签名推导，抽出去就得手写类型（会漂移）。
+   * 但每一步的判定与参数准备都走上面的模块，这里只剩「读、判、转」三行。
    */
   server.setRequestHandler("tools/call", (request, extra) =>
-    lifetime.accept(async () => {
+    parts.lifetime.accept(async (): Promise<CallToolResult> => {
       const native = await nativeTools();
       const rawContext = extra.mcpReq._meta?.[CONTEXT_META_KEY];
-      const { name, arguments: args } = request.params;
-      const isNative = native?.listTools().some((tool) => tool.name === name) ?? false;
-      if (native !== undefined && isNative) {
-        return (await native.execute({
-          toolName: name,
-          arguments: args,
-          context: windowsComputerContext(rawContext),
-          signal: AbortSignal.any([extra.mcpReq.signal, lifetime.signal]),
-        })) as CallToolResult;
+      const signal = AbortSignal.any([extra.mcpReq.signal, parts.lifetime.signal]);
+      if (isNativeCall(native, request.params.name)) {
+        return (await native?.execute(
+          nativeInvocation(request, rawContext, signal),
+        )) as CallToolResult;
       }
-      const parsed = jsArgumentsSchema.safeParse(args);
-      if (name !== JS_TOOL_NAME || !parsed.success) {
-        throw Object.assign(new Error("Invalid js tool arguments"), { code: INVALID_PARAMS });
-      }
-      return runJs(parsed.data, rawContext, extra.mcpReq.signal);
+      const args = requireJsArguments(request.params.name, request.params.arguments);
+      return runJs(args, rawContext, extra.mcpReq.signal);
     }),
   );
 
-  return {
-    server,
-    dispose: () =>
-      lifetime.close([
-        () => broker?.close(),
-        () => cua?.dispose(),
-        async () => (await windowsReady)?.dispose(),
-      ]),
-  };
+  /** 关闭顺序：先停会话准入，再放 broker / CUA / 原生能力。 */
+  const closeAll = (): Promise<void> =>
+    parts.lifetime.close([
+      () => parts.broker?.close(),
+      () => parts.cua?.dispose(),
+      async () => (await parts.windowsReady)?.dispose(),
+    ]);
+
+  return { server, dispose: closeAll };
 }
