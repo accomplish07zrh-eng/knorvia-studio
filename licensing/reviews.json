@@ -132317,11 +132317,11 @@
     },
     {
       "path": "scripts/provenance/similarity.mjs",
-      "normalizedSha256": "321b67fe27d3beb205fcf54a00f5d659da5d4487e88c45be9e7de00c0db24b0a",
+      "normalizedSha256": "3da187b3187b95c06c5135d60042c0b3cec1611938e37c6ccc6df1889a4ecdbd",
       "decision": "original",
       "license": "MIT",
-      "basis": "Knorvia-authored provenance similarity tooling. The gate now prints the residual and removed contract lines verbatim, because the acceptance documents require quoting the remaining code rather than only reporting how many lines were removed. The residual output lists the kept lines with their one-based numbers in the original text, and the removed output does the same for the lines that were excluded, so a reviewer can both verify that the remaining part is what still needs rework and check that exclusion did not reach too far. A configurable limit defaults to fifty lines per section and reports the total when truncated. The removed-line records carry source line numbers now that they are surfaced, and the exclusion counter is derived from the same loop so the two cannot drift apart. Verified with sixty-four tests, including residual-and-removed dumping and the line-limit truncation notice.",
-      "evidence": ["scripts/provenance/similarity.test.mjs"]
+      "basis": "Knorvia-authored provenance similarity tooling. The dual-comparison wrapper accepts a classification name and reads that list straight from the licensing inventory rather than from a hand-prepared file, because package lists overlap and manual assembly invites double counting. The residual dumper no longer skips candidates silently: when a candidate has no contract baseline it now states on standard error that contract-line mode was not enabled or that no contract names applied, so a zero-line dump can be told apart from a genuine bug instead of being indistinguishable from one. Verified with the existing sixty-four similarity tests plus three wrapper guard tests, and by re-running a contract-line measurement whose residual section prints sixteen lines with their source line numbers.",
+      "evidence": ["scripts/provenance/similarity-check.test.mjs"]
     },
     {
       "path": "scripts/provenance/similarity.test.mjs",
@@ -150059,11 +150059,11 @@
     },
     {
       "path": "scripts/provenance/similarity-check.mjs",
-      "normalizedSha256": "89ec7777b4eb1f0b68f43fed4cfec8572f33079fd7181fe8860aabcdfa92f938",
+      "normalizedSha256": "e13375d619c855fad825dd0ea10544e6203c280dc901c7ba27d054b4847f5f1d",
       "decision": "original",
       "license": "MIT",
-      "basis": "Knorvia-authored provenance similarity tooling. The gate now refuses to degrade silently to an upstream-only comparison. The plan requires the two thresholds to pass against both the replaced old file and the fixed upstream commit, but the old-file side could previously vanish without a word: paths that did not resolve at the given revision were filtered out of the comparison set, and omitting the old file altogether was syntactically valid. Both situations now exit with an error that names the missing paths and explains why the silent fallback was rejected. A genuine upstream-only measurement remains possible by passing allow-upstream-only explicitly, in which case the run prints a note that the result is not a completion basis under the plan. The dual-comparison wrapper accepts that flag through to the tool, and a candidate whose worktree content equals the baseline revision is reported as unchanged-from-baseline and judged failing, because an unmodified file is by definition identical to its old version. Verified with sixty tests, including four new cases for a missing old path, an omitted old path, an explicit upstream-only run, and a normal dual comparison.",
-      "evidence": ["scripts/provenance/similarity.test.mjs"]
+      "basis": "Knorvia-authored provenance similarity tooling. The dual-comparison wrapper now measures the upstream side even for candidates that are unchanged from the baseline. Those candidates always score one against their own old version, but the upstream figure is still the only evidence for telling an inherited file apart from one that was rewritten, so reporting it keeps a whole class of files diagnosable. Both upstream-only invocations now declare allow-upstream-only explicitly, since the gate rejects a missing old file by design, and the unchanged branch prints the upstream containment and longest run alongside the unchanged verdict. Verified with the wrapper guard tests and by re-running an unchanged candidate, which reports upstream containment one point zero and a run of twenty-one.",
+      "evidence": ["scripts/provenance/similarity-check.test.mjs"]
     },
     {
       "path": "scripts/provenance/similarity-check.test.mjs",
