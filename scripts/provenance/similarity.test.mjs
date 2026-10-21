@@ -60,10 +60,13 @@ function runTool(args) {
   try {
     return {
       status: 0,
+      stderr: "",
       stdout: execFileSync(process.execPath, [tool, ...args], { encoding: "utf8" }),
     };
   } catch (error) {
-    return { status: error.status, stdout: error.stdout ?? "" };
+    // usageError 把原因写到 stderr；契约行剔除的「跳过通用名」告警也在 stderr，
+    // 因此这里一并返回，供断言检查。
+    return { status: error.status, stderr: error.stderr ?? "", stdout: error.stdout ?? "" };
   }
 }
 
@@ -342,6 +345,181 @@ test("declaration compatibility lines are stripped using interface.md names", ()
       assert.match(stillFailing.stdout, /lines=1/);
     },
   );
+});
+
+test("contract-lines strips only rows named in the interface table", () => {
+  // 契约行剔除认的是 interface.md 表格里逐条列出的名字；这里构造一个实现文件，
+  // 前半是与上游同形的契约行（导出、字段、事件名），后半是实现噪声。
+  const upstream = [
+    "export const TOOL_ERROR_MESSAGE = 'tool failed';",
+    "export function reportToolError(kind, detail) {",
+    "  return { kind, detail, message: TOOL_ERROR_MESSAGE };",
+    "}",
+    "export function unrelated(value) {",
+    "  return value + 1;",
+    "}",
+  ].join("\n");
+  const candidateText = [
+    "const UNRELATED_LOCAL = 1;",
+    "export const TOOL_ERROR_MESSAGE = 'tool failed';",
+    "export function reportToolError(kind, detail) {",
+    "  return { kind, detail, message: TOOL_ERROR_MESSAGE };",
+    "}",
+    "export function totallyDifferent(payload) {",
+    "  const scaled = payload * 2;",
+    "  return scaled - UNRELATED_LOCAL;",
+    "}",
+  ].join("\n");
+  withTree(
+    {
+      "upstream/errors.ts": upstream,
+      "contract/interface.md": [
+        "# interface",
+        "",
+        "| 模块 | 导出名 | 种类 |",
+        "| --- | --- | --- |",
+        "| `errors.ts` | `TOOL_ERROR_MESSAGE` | const |",
+        "| `errors.ts` | `reportToolError` | function |",
+      ].join("\n"),
+    },
+    (root) => {
+      const upstreamDir = join(root, "upstream");
+      const candidate = writeCandidate(root, "errors.ts", candidateText);
+      const plain = runTool(["--upstream-dir", upstreamDir, "--candidate", candidate]);
+      assert.equal(plain.status, 1, plain.stdout);
+      const stripped = runTool([
+        "--upstream-dir",
+        upstreamDir,
+        "--candidate",
+        candidate,
+        "--contract-lines",
+        "--interface",
+        join(root, "contract/interface.md"),
+      ]);
+      assert.equal(stripped.status, 0, stripped.stdout);
+      // 剔除前后两组行数都要在报告里可见。
+      assert.match(stripped.stdout, /contract-lines=\d+/);
+      assert.match(stripped.stdout, /residual-lines=\d+->\d+/);
+      // 名字清单是审查重点项，必须完整打印。
+      assert.match(stripped.stdout, /contract-names=\[.*TOOL_ERROR_MESSAGE.*\]/);
+      assert.match(stripped.stdout, /contract-names=\[.*reportToolError.*\]/);
+      // 未列名的实现行仍参与比较，剔除不是万能的。
+      const stillFailing = writeCandidate(
+        root,
+        "still.ts",
+        [
+          "export const TOOL_ERROR_MESSAGE = 'tool failed';",
+          "export function reportToolError(kind, detail) {",
+          "  return { kind, detail, message: TOOL_ERROR_MESSAGE };",
+          "}",
+          "export function sameAsUpstreamToo(value) {",
+          "  return value + 1;",
+          "}",
+        ].join("\n"),
+      );
+      const failing = runTool([
+        "--upstream-dir",
+        upstreamDir,
+        "--candidate",
+        stillFailing,
+        "--contract-lines",
+        "--interface",
+        join(root, "contract/interface.md"),
+      ]);
+      assert.equal(failing.status, 1, failing.stdout);
+    },
+  );
+});
+
+test("contract-lines keeps dotted event names whole instead of splitting them", () => {
+  // `mcp.server.reconnect.failed` 必须整体匹配：拆成 `mcp` 会剔掉所有含 mcp 的行。
+  const upstream = [
+    "const MCP_KEEP = 'must stay';",
+    "export function mcpHelper() {",
+    "  return MCP_KEEP;",
+    "}",
+    "export const event = 'mcp.server.reconnect.failed';",
+  ].join("\n");
+  withTree(
+    {
+      "upstream/events.ts": upstream,
+      "contract/interface.md": [
+        "# interface",
+        "",
+        "| 模块 | 事件名 |",
+        "| --- | --- |",
+        "| `events.ts` | `mcp.server.reconnect.failed` |",
+      ].join("\n"),
+    },
+    (root) => {
+      const upstreamDir = join(root, "upstream");
+      const candidate = writeCandidate(root, "events.ts", upstream);
+      const result = runTool([
+        "--upstream-dir",
+        upstreamDir,
+        "--candidate",
+        candidate,
+        "--contract-lines",
+        "--interface",
+        join(root, "contract/interface.md"),
+      ]);
+      // 整体名字只剔除含该事件名的那一行；含 `mcp` 的其它行必须留下。
+      assert.match(result.stdout, /contract-lines=1/);
+      assert.match(result.stdout, /contract-names=\[[^\]]*mcp\.server\.reconnect\.failed[^\]]*\]/);
+      // 关键：含 `mcp` 的其它行没有被连带剔除（若按 `mcp` 拆分会把 mcpHelper 也剔掉）。
+      assert.match(result.stdout, /lines=3/);
+    },
+  );
+});
+
+test("contract-lines skips over-generic names instead of stripping the file away", () => {
+  withTree(
+    {
+      "upstream/t.ts": upstreamLines(20),
+      "contract/interface.md": [
+        "# interface",
+        "",
+        "| 模块 | 导出名 |",
+        "| --- | --- |",
+        "| `t.ts` | `event` |",
+        "| `t.ts` | `code` |",
+        "| `t.ts` | `collectWorkspaceSnapshot` |",
+      ].join("\n"),
+    },
+    (root) => {
+      const candidate = writeCandidate(root, "t.ts", upstreamLines(20));
+      const result = runTool([
+        "--upstream-dir",
+        join(root, "upstream"),
+        "--candidate",
+        candidate,
+        "--contract-lines",
+        "--interface",
+        join(root, "contract/interface.md"),
+      ]);
+      // 通用短名被跳过并告警，而不是把文件剔空。
+      assert.match(result.stderr, /skips over-generic names/);
+      assert.match(result.stderr, /event/);
+    },
+  );
+});
+
+test("contract-lines and declaration are mutually exclusive", () => {
+  withTree({ "upstream/a.ts": upstreamLines(12) }, (root) => {
+    const candidate = writeCandidate(root, "a.ts", upstreamLines(12));
+    const result = runTool([
+      "--upstream-dir",
+      join(root, "upstream"),
+      "--candidate",
+      candidate,
+      "--declaration",
+      "--contract-lines",
+      "--interface",
+      join(root, "contract/interface.md"),
+    ]);
+    assert.equal(result.status, 2, result.stdout);
+    assert.match(result.stderr, /mutually exclusive/);
+  });
 });
 
 test("binary candidates are skipped instead of compared as text", () => {
