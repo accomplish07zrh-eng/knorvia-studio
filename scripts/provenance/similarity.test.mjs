@@ -1731,9 +1731,9 @@ test("反刷分：新增文件照抄同目录旧文件必须 FAIL（--old-rev �
       execFileSync("git", ["-C", repo, "config", "user.name", "t"]);
       execFileSync("git", ["-C", repo, "add", "packages/x/original.ts"]);
       execFileSync("git", ["-C", repo, "commit", "-qm", "base"]);
-      // moved.ts 仅在工作区（不在 base 提交）。显式 `--old` 未给 `--old-rev` 时按工作区解析，
-      // 于是比较对象就是它自己 —— containment 1.000 → FAIL。
-      // 这正是反刷分要的：新文件不能靠「基线里没有它」蒙过去。
+      // moved.ts 仅在工作区（不在 base 提交）。显式 `--old` 未给 `--old-rev` 时若指向同一文件，
+      // 会被自比守卫判为「测错了对象」（exit 2）——
+      // 新增文件必须与「真实的旧实现」比，不能拿自己当旧文件。
       const result = runTool([
         "--repo",
         repo,
@@ -1746,9 +1746,8 @@ test("反刷分：新增文件照抄同目录旧文件必须 FAIL（--old-rev �
         "--old",
         "packages/x/moved.ts",
       ]);
-      assert.equal(result.status, 1, result.stdout);
-      assert.match(result.stdout, /FAIL/u);
-      assert.match(result.stdout, /containment=1\.000/u);
+      assert.equal(result.status, 2, result.stderr);
+      assert.match(result.stderr, /测错了对象/u);
     },
   );
 });
@@ -2017,6 +2016,18 @@ test("--old 指向本仓既有路径时正常做双重比较，不打 --allow-up
       execFileSync("git", ["-C", repo, "config", "user.name", "t"]);
       execFileSync("git", ["-C", repo, "add", "packages/x/impl.ts"]);
       execFileSync("git", ["-C", repo, "commit", "-qm", "base"]);
+      // 旧版本先提交「与当前不同」的内容，再在工作区写入新版 —— 这样才是真正的双重比较。
+      writeFileSync(
+        join(repo, "packages/x/impl.ts"),
+        Array.from({ length: 16 }, function (_, i) {
+          return "export const legacy" + String(i) + " = " + String(i) + ";";
+        }).join("\n"),
+        "utf8",
+      );
+      execFileSync("git", ["-C", repo, "add", "packages/x/impl.ts"]);
+      execFileSync("git", ["-C", repo, "commit", "-qm", "legacy"]);
+      // 工作区改成新版（与提交里的旧版不同）。
+      writeFileSync(join(repo, "packages/x/impl.ts"), body, "utf8");
       const result = runTool([
         "--repo",
         repo,
@@ -2028,10 +2039,12 @@ test("--old 指向本仓既有路径时正常做双重比较，不打 --allow-up
         "packages/x/impl.ts",
         "--old",
         "packages/x/impl.ts",
+        "--old-rev",
+        "HEAD",
       ]);
-      // 与自己的旧版本完全相同 → 双重口径下必须 FAIL。
-      assert.equal(result.status, 1, result.stdout);
-      assert.match(result.stdout, /FAIL/u);
+      // 新版与旧版逐行不同 → 双重口径下应 PASS（不再与自己比）。
+      assert.equal(result.status, 0, result.stdout);
+      assert.match(result.stdout, /PASS/u);
       assert.doesNotMatch(result.stderr, /allow-upstream-only/u);
     },
   );
@@ -2141,11 +2154,15 @@ test("两侧对称剔除：候选与旧文件用同一份清单，剔除后相�
         "packages/x/probe.ts",
         "--old",
         "packages/x/probe.ts",
+        "--old-rev",
+        "HEAD",
         "--contract-lines",
         "--interface",
         join(root, "contract/interface.md"),
       ]);
-      // 两侧都剔契约行后，剩下的是完全相同的实现行 → 相似度接近 1。
+      // 两侧都剔契约行后，剩下的是完全相同的实现行 → 相似度 = 1。
+      // 用 --old-rev HEAD 取提交里的版本：内容与工作区相同，但不是同一实例，
+      // 因此不会被自比守卫拦下（守卫只针对「给了 --old 却没给 rev」）。
       const containment = /containment=([\d.]+)/u.exec(result.stdout);
       assert.ok(containment, "报告里应有 containment");
       assert.ok(
@@ -2480,6 +2497,81 @@ test("catch 带额外条件子句不算骨架行", () => {
       const [entry] = report.candidates;
       // 条件 catch 行属实现表达，必须计入。
       assert.ok(entry.lines >= 4, "条件 catch 行应计入，实际 lines=" + String(entry.lines));
+    },
+  );
+});
+
+test("自比守卫：--old 指向同一文件且未给 --old-rev 时报错", () => {
+  const body = Array.from({ length: 12 }, function (_, i) {
+    return "export const value" + String(i) + " = " + String(i) + ";";
+  }).join("\n");
+  withTree(
+    {
+      "repo/packages/x/self.ts": body,
+      "upstream/keep.ts": "export const keep = 1;\n",
+    },
+    (root) => {
+      const repo = join(root, "repo");
+      execFileSync("git", ["-C", repo, "init", "-q"]);
+      execFileSync("git", ["-C", repo, "config", "user.email", "t@t"]);
+      execFileSync("git", ["-C", repo, "config", "user.name", "t"]);
+      execFileSync("git", ["-C", repo, "add", "packages/x/self.ts"]);
+      execFileSync("git", ["-C", repo, "commit", "-qm", "base"]);
+      const result = runTool([
+        "--repo",
+        repo,
+        "--upstream-dir",
+        join(root, "upstream"),
+        "--gates",
+        "line",
+        "--candidate",
+        "packages/x/self.ts",
+        "--old",
+        "packages/x/self.ts",
+      ]);
+      assert.equal(result.status, 2, result.stdout);
+      // 文案要说明「这是测错了对象」而不是「未重写」，并给出两条出路。
+      assert.match(result.stderr, /测错了对象/u);
+      assert.match(result.stderr, /beff12b5/u);
+      assert.match(result.stderr, /--old-rev/u);
+    },
+  );
+});
+
+test("自比守卫不误伤：给了 --old-rev 时同内容照常计分", () => {
+  const body = Array.from({ length: 12 }, function (_, i) {
+    return "export const value" + String(i) + " = " + String(i) + ";";
+  }).join("\n");
+  withTree(
+    {
+      "repo/packages/x/same.ts": body,
+      "upstream/keep.ts": "export const keep = 1;\n",
+    },
+    (root) => {
+      const repo = join(root, "repo");
+      execFileSync("git", ["-C", repo, "init", "-q"]);
+      execFileSync("git", ["-C", repo, "config", "user.email", "t@t"]);
+      execFileSync("git", ["-C", repo, "config", "user.name", "t"]);
+      execFileSync("git", ["-C", repo, "add", "packages/x/same.ts"]);
+      execFileSync("git", ["-C", repo, "commit", "-qm", "base"]);
+      const result = runTool([
+        "--repo",
+        repo,
+        "--upstream-dir",
+        join(root, "upstream"),
+        "--gates",
+        "line",
+        "--candidate",
+        "packages/x/same.ts",
+        "--old",
+        "packages/x/same.ts",
+        "--old-rev",
+        "HEAD",
+      ]);
+      // 显式指定 rev 说明「我知道自己在比什么」，同内容就是 1.000（未重写）。
+      assert.equal(result.status, 1, result.stdout);
+      assert.match(result.stdout, /FAIL/u);
+      assert.match(result.stdout, /containment=1\.000/u);
     },
   );
 });
