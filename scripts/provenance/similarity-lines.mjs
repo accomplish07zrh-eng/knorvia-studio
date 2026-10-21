@@ -16,6 +16,37 @@ export const THRESHOLDS = {
 };
 
 const PUNCTUATION_ONLY = /^[{}()[\];,]+$/u;
+
+/**
+ * 纯语法骨架行：只由关键字与标点组成，至多含一个常规 catch 变量名。
+ *
+ * 用户裁决（2026-10-21）：这类行**两侧都不计**。
+ *
+ * 理由：`try {` / `} catch (error) {` / `} finally {` / `else {` / `return;` / `}`
+ * 是任何一份带异常处理的实现都会写出的形状，它们相同不构成「照搬」的证据；
+ * 把它们计入分母只会稀释判定，让真正相同的实现行占比看起来更低。
+ * 门槛 0.20 不变 —— 这里修正的是分子/分母的构成，不是放宽门槛。
+ *
+ * 边界：
+ * - `} catch (error) {` 与 `} catch {` 都算（一个常规变量名允许）；
+ * - `} catch (e) when (x) {` 不算（多出一个条件子句，属于实现表达）；
+ * - `return;` 算，`return value;` 不算（后者带返回值，是表达）；
+ * - 纯括号行沿用上面的 PUNCTUATION_ONLY。
+ */
+const SYNTAX_SKELETON = new RegExp(
+  "^(?:" +
+    [
+      "try\\s*\\{?", // try {
+      "\\}\\s*catch\\s*(?:\\(\\s*[A-Za-z_$][\\w$]*\\s*\\))?\\s*\\{?", // } catch { / } catch (error) {
+      "\\}\\s*finally\\s*\\{?", // } finally {
+      "else\\s*\\{?", // else {
+      "return\\s*;", // return;
+      "\\{\\s*\\}", // {}
+      "\\}", // }
+    ].join("|") +
+    ")$",
+  "u",
+);
 // 记账口径：丢弃 import 与 re-export 行；注释行保留。
 // 关键点：一条 import / re-export **语句**常常跨多行（`export type {` + 一串名字 + `} from "x";`），
 // 只丢首行会让名字列表与 `} from "…";` 留在比较集里，把包含率抬高。因此按语句整条丢弃。
@@ -55,6 +86,8 @@ function normalizeLine(raw) {
   const line = raw.trim();
   if (line === "") return null;
   if (PUNCTUATION_ONLY.test(line)) return null;
+  // 纯语法骨架行两侧都不计（用户裁决 2026-10-21）。
+  if (SYNTAX_SKELETON.test(line)) return null;
   if (DROPPED_PREFIXES.some((prefix) => line.startsWith(prefix))) return null;
   return line;
 }
