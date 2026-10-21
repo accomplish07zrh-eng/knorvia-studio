@@ -58,6 +58,9 @@ const HELP = `用法: node scripts/provenance/similarity.mjs [选项]
   --contract-lines          契约行剔除：只剔除含 interface.md 逐条列出的完整名字（含带点号的
                             事件名/错误码）的行，再按原门槛计分；与 --declaration 互斥。
                             报告同时给出剔除前后两组行数与完整名字清单。
+  --contract-module <path>  配合 --contract-lines：只取 interface.md 表格中模块列匹配该路径的
+                            行。整包 interface.md 有数百条导出名，不过滤会剔掉邻居文件的契约行；
+                            匹配不到时直接报错，不退化成整包清单。
 
 其他：
   --repo <dir>              仓库根，默认当前目录
@@ -88,6 +91,7 @@ const { values } = parseArgs({
     interface: { type: "string", multiple: true },
     declaration: { type: "boolean" },
     "contract-lines": { type: "boolean" },
+    "contract-module": { type: "string" },
     gates: { type: "string" },
     json: { type: "string" },
     calibrate: { type: "boolean" },
@@ -130,19 +134,28 @@ const declarationNames = (values.interface ?? []).flatMap((file) =>
 if (values.declaration && declarationNames.length === 0)
   usageError("--declaration requires --interface with at least one name");
 
-// 契约行剔除：只认 interface.md 表格里逐条列出的完整名字（含带点号的事件名/错误码）。
+// 契约行剔除：只认 interface.md 表格「导出名列」里逐条列出的名字（含带点号的事件名/错误码）。
+// --contract-module 进一步把范围限到某一个模块行：整包 interface.md 有数百条导出名，
+// 不按模块过滤会剔掉邻居文件的契约行。
+const contractModule = values["contract-module"] ?? null;
+if (contractModule && !values["contract-lines"])
+  usageError("--contract-module requires --contract-lines");
 const contractNames = values["contract-lines"]
   ? [
       ...new Set(
         (values.interface ?? []).flatMap((file) =>
-          extractContractNames(readFileSync(resolve(file), "utf8")),
+          extractContractNames(readFileSync(resolve(file), "utf8"), contractModule),
         ),
       ),
     ]
   : [];
 if (values["contract-lines"]) {
   if (contractNames.length === 0)
-    usageError("--contract-lines requires --interface with at least one name");
+    usageError(
+      contractModule
+        ? `--contract-module ${contractModule} matched no row in the given --interface; add a row for this module or drop the flag`
+        : "--contract-lines requires --interface with at least one name",
+    );
   // 通用短名会把几乎每一行都剔掉，剔除将失去意义。这里跳过它们并显式告警：
   // interface.md 里出现 `event` / `code` 这类词是正常的，整体报错会让该模式无法使用。
   const generic = contractNames.filter((name) => isTooGenericName(name));
@@ -237,7 +250,13 @@ process.exit(failed.length === 0 ? 0 : 1);
 async function evaluateLines(candidate) {
   const structuralSkipped = !candidate.binary && candidate.kind !== "script";
   const residualLines = candidate.binary ? 0 : candidate.lines.length;
-  const linesBeforeStrip = candidate.binary ? 0 : candidate.linesBeforeStrip;
+  // 剔除行数由两个口径不同的量相减得来，必须夹住下界：
+  //   linesBeforeStrip 取自格式化文本的归一化行数，residualLines 取自候选 lines；
+  //   纯 re-export 文件格式化后 import/re-export 全被丢弃 → 前者为 0，而后者是展开追踪得到的名字行，
+  //   相减就成了负数（实测 result-content-projection.ts 得到 -7）。这不是真实剔除，是口径差。
+  const linesBeforeStrip = candidate.binary
+    ? 0
+    : Math.max(candidate.linesBeforeStrip, residualLines);
   const base = {
     path: candidate.givenPath,
     kind: candidate.kind,
@@ -258,6 +277,9 @@ async function evaluateLines(candidate) {
     linesBeforeStrip,
     strippedLines: linesBeforeStrip - residualLines,
     residualLines,
+    // 剩余行为 0 表示「没有可比对的实现行」，与「比出来的 0.000」是两件事：
+    // 前者不构成达标依据（纯 re-export / 全剥空的纯声明），下游不得据此判为已完成。
+    noComparableLines: residualLines === 0,
     strippedBlocks: candidate.strippedBlocks ?? 0,
     formatted: candidate.formatted,
     formatError: candidate.formatError,
@@ -509,8 +531,11 @@ function describe(result) {
   const exclusion = result.contractExclusion
     ? ` contract-lines=${result.contractExclusion.strippedLines} contract-names=[${result.contractExclusion.names.join(",")}] residual-lines=${result.contractExclusion.before.residualLines}->${result.contractExclusion.after.residualLines}${result.contractExclusion.suspiciousRatio ? " contract-exclusion-suspicious=residual-below-20%" : ""}${result.contractExclusion.tooManyNames ? " contract-exclusion-suspicious=too-many-names" : ""}`
     : "";
+  // 剩余行为 0 时并没有「比出来的低相似度」：那是一份没有可比对实现的文件（纯 re-export 等）。
+  // 不标注的话，`containment=0.000` 会被读成「完美达标」，让归零判定失真。
+  const noComparableNote = result.residualLines === 0 ? " no-comparable-lines" : "";
   const verdict = result.violations.length ? ` -> ${result.violations.join("; ")}` : "";
-  return `${result.pass ? "PASS " : "FAIL "} ${result.path} lines=${result.lines}${declaration}${exclusion}${formatNote}${line}${structural}${verdict}${traced}`;
+  return `${result.pass ? "PASS " : "FAIL "} ${result.path} lines=${result.lines}${declaration}${exclusion}${noComparableNote}${formatNote}${line}${structural}${verdict}${traced}`;
 }
 
 function calibrate(results) {

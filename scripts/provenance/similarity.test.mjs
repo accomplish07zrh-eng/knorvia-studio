@@ -522,6 +522,204 @@ test("contract-lines and declaration are mutually exclusive", () => {
   });
 });
 
+test("contract-module narrows the names to one module row", () => {
+  // 整包 interface.md 有数百条导出名；不按模块过滤会剔掉邻居文件的契约行。
+  const upstream = [
+    "export function alphaFromThisModule() {",
+    "  return 1;",
+    "}",
+    "export function betaFromOtherModule() {",
+    "  return 2;",
+    "}",
+    "export function unrelatedImpl(value) {",
+    "  return value * 3;",
+    "}",
+  ].join("\n");
+  withTree(
+    {
+      "upstream/a.ts": upstream,
+      "contract/interface.md": [
+        "# interface",
+        "",
+        "| 模块 | 导出名 | 类型 | 是否公开 |",
+        "| --- | --- | --- | --- |",
+        "| `alpha.ts` | `alphaFromThisModule` | function | 是 |",
+        "| `beta.ts` | `betaFromOtherModule` | function | 是 |",
+      ].join("\n"),
+    },
+    (root) => {
+      const candidate = writeCandidate(root, "alpha.ts", upstream);
+      const scoped = runTool([
+        "--upstream-dir",
+        join(root, "upstream"),
+        "--candidate",
+        candidate,
+        "--contract-lines",
+        "--contract-module",
+        "alpha.ts",
+        "--interface",
+        join(root, "contract/interface.md"),
+      ]);
+      // 只取 alpha.ts 那一行：betaFromOtherModule 不应出现在名字清单里。
+      assert.match(scoped.stdout, /contract-names=\[[^\]]*alphaFromThisModule[^\]]*\]/);
+      assert.doesNotMatch(scoped.stdout, /betaFromOtherModule/);
+    },
+  );
+});
+
+test("contract-module fails loudly when the table has no matching row", () => {
+  withTree(
+    {
+      "upstream/a.ts": upstreamLines(12),
+      "contract/interface.md": [
+        "# interface",
+        "",
+        "| 模块 | 导出名 |",
+        "| --- | --- |",
+        "| `other.ts` | `someName` |",
+      ].join("\n"),
+    },
+    (root) => {
+      const candidate = writeCandidate(root, "a.ts", upstreamLines(12));
+      const result = runTool([
+        "--upstream-dir",
+        join(root, "upstream"),
+        "--candidate",
+        candidate,
+        "--contract-lines",
+        "--contract-module",
+        "missing.ts",
+        "--interface",
+        join(root, "contract/interface.md"),
+      ]);
+      // 匹配不到就报错，不退化成整包清单。
+      assert.equal(result.status, 2, result.stdout);
+      assert.match(result.stderr, /matched no row/);
+    },
+  );
+});
+
+test("contract-lines reads only the export column and ignores module paths", () => {
+  // 模块列里的 `src/workflow/definition.ts` 若被当成名字，`src` 会剔掉大量无关行。
+  const upstream = [
+    "export function keepThisWorkingFunction() {",
+    "  return 1;",
+    "}",
+    "const src = 1;",
+    "const workflow = 2;",
+    "const definition = 3;",
+  ].join("\n");
+  withTree(
+    {
+      "upstream/a.ts": upstream,
+      "contract/interface.md": [
+        "# interface",
+        "",
+        "| 模块 | 导出名 | 说明 |",
+        "| --- | --- | --- |",
+        "| `src/workflow/definition.ts` | `keepThisWorkingFunction` | — |",
+      ].join("\n"),
+    },
+    (root) => {
+      const candidate = writeCandidate(root, "definition.ts", upstream);
+      const result = runTool([
+        "--upstream-dir",
+        join(root, "upstream"),
+        "--candidate",
+        candidate,
+        "--contract-lines",
+        "--interface",
+        join(root, "contract/interface.md"),
+      ]);
+      assert.match(result.stdout, /contract-names=\[keepThisWorkingFunction\]/);
+    },
+  );
+});
+
+test("contract-lines ignores backticked module paths when extracting", () => {
+  // 反引号里的路径必须先整段丢弃：否则 `apps/cli/core` 会被切成三个合法标识符般的碎片。
+  withTree(
+    {
+      "upstream/a.ts": "export interface RealContractName {\n  id: string;\n}\n",
+      "contract/interface.md": [
+        "# interface",
+        "",
+        "- 模块：`apps/cli/packages/core/src/hooks/runner-plan.ts`",
+        "",
+        "| 模块 | 导出名 |",
+        "| --- | --- |",
+        "| `runner-plan.ts` | `apps` |",
+        "| `runner-plan.ts` | `RealContractName` |",
+      ].join("\n"),
+    },
+    (root) => {
+      const candidate = writeCandidate(
+        root,
+        "runner-plan.ts",
+        "export interface RealContractName {\n  id: string;\n}\n",
+      );
+      const result = runTool([
+        "--upstream-dir",
+        join(root, "upstream"),
+        "--candidate",
+        candidate,
+        "--contract-lines",
+        "--interface",
+        join(root, "contract/interface.md"),
+      ]);
+      // 表格导出名列里真写了 `apps` 也照常提取（那是逐条列出的，责任在合同），
+      // 但正文里的路径不得被切成碎片名。
+      assert.doesNotMatch(result.stderr, /apps,|, apps/);
+    },
+  );
+});
+
+test("strip accounting keeps the identity and never reports negative lines", () => {
+  // 恒等式：linesBeforeStrip - residualLines === strippedLines，且 strippedLines 不得为负。
+  // 纯 re-export 文件曾出现 -7：格式化把 re-export 丢光后 before=0，而 residual 是展开追踪的 7 行。
+  withTree(
+    {
+      "upstream/a.ts": "export const value = 1;\n",
+      "contract/interface.md": [
+        "# interface",
+        "",
+        "| 模块 | 导出名 |",
+        "| --- | --- |",
+        "| `a.ts` | `value` |",
+      ].join("\n"),
+    },
+    (root) => {
+      const candidate = writeCandidate(
+        root,
+        "a.ts",
+        ["export { alpha } from './alpha.js';", "export { beta } from './beta.js';"].join("\n"),
+      );
+      const json = join(root, "out.json");
+      const result = runTool([
+        "--upstream-dir",
+        join(root, "upstream"),
+        "--candidate",
+        candidate,
+        "--declaration",
+        "--interface",
+        join(root, "contract/interface.md"),
+        "--json",
+        json,
+      ]);
+      const report = JSON.parse(readFileSync(json, "utf8"));
+      for (const item of report.candidates) {
+        assert.ok(item.strippedLines >= 0, `strippedLines 为负: ${item.strippedLines}`);
+        assert.equal(
+          item.linesBeforeStrip - item.residualLines,
+          item.strippedLines,
+          "剔除行数不满足恒等式",
+        );
+      }
+      assert.ok(result.status === 0 || result.status === 1);
+    },
+  );
+});
+
 test("binary candidates are skipped instead of compared as text", () => {
   withTree({ "upstream/a.ts": upstreamLines(30) }, (root) => {
     const binary = join(root, "candidates", "logo.bin");
