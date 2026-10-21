@@ -23960,10 +23960,10 @@
     },
     {
       "path": "apps/cli/packages/node-repl-host/src/mcp-runtime.ts",
-      "normalizedSha256": "706b022994eeff9de68d2e03deba312dbc475ba315a3631838382f032164b196",
+      "normalizedSha256": "632db8cf51817d70c7acaae75260e1642b0ff43854fe9909c34dc9660eec88ad",
       "decision": "original",
       "license": "MIT",
-      "basis": "重写：为 tools/call 的分派划出明确职责边界；原生工具判定改用显式布尔量 isNative；参数 schema 与调用方上下文 schema 命名化。实测 containment 0.222 → 0.191。",
+      "basis": "Knorvia-authored rewrite of the MCP runtime that keeps only assembly: the js argument schema reuses the contract definition instead of a local copy, the collaborators are assembled in one place, and call preparation is delegated to a separate module. The public surface is unchanged.",
       "evidence": ["specs/contracts/node-repl-host-broker/interface.md"]
     },
     {
