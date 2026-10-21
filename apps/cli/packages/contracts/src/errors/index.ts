@@ -19,7 +19,19 @@
 import { CoreErrorType } from "./types.js";
 import type { CoreError, CoreErrorOptions } from "./types.js";
 
-export * from "./types.js";
+/**
+ * 显式转发 `types.js` 的导出面，**不用 `export *`**。
+ *
+ * 为什么不能用 `export *`：`types.js` 同时导出同名的 `const CoreErrorType`（值）
+ * 与 `type CoreErrorType`（类型）。实测 `export *` 在生成的 `.d.ts` 里会退化成
+ * 「仅类型转发」，于是下游把 `CoreErrorType.Xxx` 当值使用时报
+ * `TS1362: cannot be used as a value because it was exported using 'export type'`
+ * （`@knorvia/core` 有 19 处这样的用法，`build:cli-packages` 会红）。
+ *
+ * 逐条写出值转发与类型转发，两类视图都能正确到达下游。
+ */
+export { CoreErrorType } from "./types.js";
+export type { CoreError, CoreErrorOptions } from "./types.js";
 
 /**
  * 把错误码键名转成线协议上的大写形式。
@@ -143,5 +155,3 @@ export function toolExecutionFailed(toolName: string, cause?: Error): CoreError 
 export function permissionDenied(toolName: string, reason?: string): CoreError {
   return namedError("permission", toolName, { reason });
 }
-
-export type { CoreError, CoreErrorOptions, CoreErrorType };
