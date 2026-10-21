@@ -163,14 +163,14 @@ export class Invocation {
           this.skillMetadata = metadata;
         },
       });
-      const output = await executeWithTimeout({
+      const output = await executeWithTimeout(
+        entry.handler,
+        admission.input,
         context,
-        controller,
         deadline,
+        controller,
         entry,
-        handler: entry.handler,
-        input: admission.input,
-      });
+      );
       const duration = Date.now() - started;
       if (isToolHandlerFailure(output)) throw createToolHandlerFailureError(call, output);
       validateOutput(output, entry);
