@@ -150059,10 +150059,10 @@
     },
     {
       "path": "scripts/provenance/similarity-check.mjs",
-      "normalizedSha256": "7b87377469c395fbc702d98b517754767bcea1d5a5460b2a99dbdbaab5269664",
+      "normalizedSha256": "e13375d619c855fad825dd0ea10544e6203c280dc901c7ba27d054b4847f5f1d",
       "decision": "original",
       "license": "MIT",
-      "basis": "Knorvia-authored provenance similarity tooling. The dual-comparison wrapper accepts a classification name and reads that list straight from the licensing inventory rather than from a hand-prepared file, because package lists overlap and manual assembly invites double counting. The residual dumper no longer skips candidates silently: when a candidate has no contract baseline it now states on standard error that contract-line mode was not enabled or that no contract names applied, so a zero-line dump can be told apart from a genuine bug instead of being indistinguishable from one. Verified with the existing sixty-four similarity tests plus three wrapper guard tests, and by re-running a contract-line measurement whose residual section prints sixteen lines with their source line numbers.",
+      "basis": "Knorvia-authored provenance similarity tooling. The dual-comparison wrapper now measures the upstream side even for candidates that are unchanged from the baseline. Those candidates always score one against their own old version, but the upstream figure is still the only evidence for telling an inherited file apart from one that was rewritten, so reporting it keeps a whole class of files diagnosable. Both upstream-only invocations now declare allow-upstream-only explicitly, since the gate rejects a missing old file by design, and the unchanged branch prints the upstream containment and longest run alongside the unchanged verdict. Verified with the wrapper guard tests and by re-running an unchanged candidate, which reports upstream containment one point zero and a run of twenty-one.",
       "evidence": ["scripts/provenance/similarity-check.test.mjs"]
     },
     {

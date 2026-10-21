@@ -236,6 +236,7 @@ for (const candidate of candidates) {
     const upstreamOnly = runSimilarity([
       "--candidate",
       candidate,
+      "--allow-upstream-only",
       ...(values.explain ? ["--explain"] : []),
     ]);
     rows.push({
@@ -259,6 +260,7 @@ for (const candidate of candidates) {
   const upstreamOnly = runSimilarity([
     "--candidate",
     candidate,
+    "--allow-upstream-only",
     ...(values.explain ? ["--explain"] : []),
   ]);
   const dualVerdict = verdictFor(dual, candidate);
@@ -275,8 +277,12 @@ for (const candidate of candidates) {
 process.stdout.write("=== 判定（双重口径 = max(旧文件, 上游)）===\n");
 for (const row of rows) {
   if (row.unchanged) {
+    const up = row.upstreamOnly;
+    const upContainment = up?.containment == null ? "n/a" : up.containment.toFixed(3);
     process.stdout.write(
-      `FAIL  ${row.candidate}\n` + `        自基线未改动 → 与旧文件相似度 1.000 → 未重写，不达标\n`,
+      `FAIL  ${row.candidate}\n` +
+        `        自基线未改动 → 与旧文件 1.000 → 未重写，不达标` +
+        `   仅上游 containment=${upContainment} run=${up?.run ?? "n/a"}\n`,
     );
     continue;
   }
