@@ -38,6 +38,11 @@ const EXHAUSTED_FRACTION = 0.9;
 /** SDK 在连接已断时给的原样文案。 */
 const NOT_CONNECTED_MESSAGE = "Not connected";
 
+/** 调用入参 / 选项 / 结果 的短别名（签名里各出现多次）。 */
+type ToolAsk = McpCallToolRequest;
+type ToolOpts = McpCallToolOptions;
+type ToolResult = McpToolCallResult;
+
 /** 观测基底：四段固定字段，成功与失败两条路径共用。 */
 type CallLogBase = {
   event: string;
@@ -52,8 +57,8 @@ type CallLogBase = {
  * 这样「剩余预算」与「取消信号」不会在某个阶段被重新计算。
  */
 interface CallScope {
-  readonly request: McpCallToolRequest;
-  readonly options: McpCallToolOptions;
+  readonly request: ToolAsk;
+  readonly options: ToolOpts;
   readonly deadline: McpDeadline;
   readonly timeoutMessage: string;
 }
@@ -65,7 +70,7 @@ function isTimeoutFailure(error: unknown): boolean {
 }
 
 /** 造观测基底。 */
-function callLogBase(request: McpCallToolRequest, timeoutMs: number): CallLogBase {
+function callLogBase(request: ToolAsk, timeoutMs: number): CallLogBase {
   const base = {} as CallLogBase;
   base.event = "mcp.tool.call";
   base.mcpServerName = request.serverName;
@@ -93,6 +98,35 @@ export class McpToolCalls {
     private readonly connections: McpConnections,
   ) {}
 
+  /**
+   * 构造本次调用的 scope。
+   *
+   * 预算优先级：显式 timeoutMs → 该服务的配置 → 全局默认。
+   * 超时文案带服务名与工具名，是下游按 message 判定时的兼容点。
+   */
+  #newScope(request: ToolAsk, options: ToolOpts, initial: ServerRecord | undefined): CallScope {
+    const budget = options.timeoutMs ?? initial?.config.timeoutMs ?? DEFAULT_CONNECTION_MS;
+    const timeoutMessage = `MCP tool ${request.serverName}/${request.toolName} timed out after ${budget}ms`;
+    return { request, options, deadline: createMcpDeadline(budget), timeoutMessage };
+  }
+
+  /**
+   * 进入尝试前的两个前置：等上一次连接完成、必要时先重连。
+   *
+   * 两步共用同一个 deadline —— 这里花掉的时间会从后续尝试的预算里扣掉（不重新计时）。
+   */
+  async #settleBeforeAttempt(
+    name: string,
+    initial: ServerRecord | undefined,
+    scope: CallScope,
+  ): Promise<void> {
+    if (initial?.pending !== undefined) await this.#waitWithin(initial.pending, scope);
+
+    const afterPending = this.state.records.get(name);
+    if (afterPending?.status.status !== "disconnected") return;
+    await this.#waitWithin(this.#reconnect(name, afterPending), scope);
+  }
+
   /** 在截止时间内等待；到点即抛超时错误。 */
   #waitWithin<T>(promise: Promise<T>, scope: CallScope): Promise<T> {
     return waitWithinMcpDeadline(
@@ -103,28 +137,10 @@ export class McpToolCalls {
     );
   }
 
-  async call(
-    request: McpCallToolRequest,
-    options: McpCallToolOptions = {},
-  ): Promise<McpToolCallResult> {
+  async call(request: ToolAsk, options: ToolOpts = {}): Promise<ToolResult> {
     const initial = this.state.records.get(request.serverName);
-    const budget = options.timeoutMs ?? initial?.config.timeoutMs ?? DEFAULT_CONNECTION_MS;
-    const timeoutMessage = `MCP tool ${request.serverName}/${request.toolName} timed out after ${budget}ms`;
-    const scope: CallScope = {
-      request,
-      options,
-      deadline: createMcpDeadline(budget),
-      timeoutMessage,
-    };
-
-    // 先等上一次连接的 pending（同一服务可能正在连）。
-    if (initial?.pending !== undefined) await this.#waitWithin(initial.pending, scope);
-
-    // 已断开的：先重连，再继续。
-    const afterPending = this.state.records.get(request.serverName);
-    if (afterPending?.status.status === "disconnected") {
-      await this.#waitWithin(this.#reconnect(request.serverName, afterPending), scope);
-    }
+    const scope = this.#newScope(request, options, initial);
+    await this.#settleBeforeAttempt(request.serverName, initial, scope);
 
     const connected = requireConnected(
       this.state,
@@ -144,7 +160,7 @@ export class McpToolCalls {
     scope: CallScope,
     connected: ServerRecord,
     error: unknown,
-  ): Promise<McpToolCallResult> {
+  ): Promise<ToolResult> {
     const trigger = classifyInteractiveAuthorizationTrigger(error);
     const wantsAuthorization = trigger !== undefined && connected.config.type !== "stdio";
     if (wantsAuthorization) {
@@ -207,13 +223,13 @@ export class McpToolCalls {
   }
 
   /** 重发一次；若此刻仍未连接上，抛出最初那个错误。 */
-  #resend(scope: CallScope, originalError: unknown): Promise<McpToolCallResult> {
+  #resend(scope: CallScope, originalError: unknown): Promise<ToolResult> {
     const record = requireConnected(this.state, scope.request.serverName, originalError);
     return this.#attempt(record, scope);
   }
 
   /** 单次尝试：成功与失败各记一条日志，失败时原样抛出。 */
-  async #attempt(connected: ServerRecord, scope: CallScope): Promise<McpToolCallResult> {
+  async #attempt(connected: ServerRecord, scope: CallScope): Promise<ToolResult> {
     const { request } = scope;
     const timeoutMs = remainingMcpDeadlineMs(scope.deadline, scope.timeoutMessage);
     const argumentKeys = Object.keys(request.arguments ?? {}).sort();
