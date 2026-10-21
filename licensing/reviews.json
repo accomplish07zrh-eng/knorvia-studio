@@ -13901,10 +13901,10 @@
     },
     {
       "path": "apps/cli/packages/core/src/runtime/methods/support/recover-step.ts",
-      "normalizedSha256": "fff3e20158379ff379942942be55b45a24aebcd76a432b400c8e9373ad5f3944",
-      "decision": "pending-rework",
+      "normalizedSha256": "7d5773aeebdc5d97f563d893cf696682466cedddf3bd820de1f8e037706f7bad",
+      "decision": "independent-replacement",
       "license": "Apache-2.0",
-      "basis": "Independent replacement implementation for core-runtime-methods-01: rewritten support kernels and replacement design authored from behavior contract B1-B31; no upstream code copied. Similarity gate re-measured 2026-10-21 against the pinned upstream baseline 872ad960de7ec172591f7e1952f7849229f94521: max line containment 0.231, longest identical run 8, structural similarity 0.050, declaration-mode containment 0.379; these are above the frozen thresholds (containment < 0.20, longest run < 8, structural < 0.40), so this file is not a completed independent replacement. Decision changed to pending-rework 2026-10-21 by user ruling: the earlier recorded measurement understated containment. Rework must bring every metric under threshold before this entry may return to independent-replacement.",
+      "basis": "Independent replacement implementation for core-runtime-methods-01: rewritten support kernels and replacement design authored from behavior contract B1-B31; no upstream code copied. Similarity gate re-measured 2026-10-21 against the pinned upstream baseline 872ad960de7ec172591f7e1952f7849229f94521: max line containment 0.231, longest identical run 8, structural similarity 0.050, declaration-mode containment 0.379; these are above the frozen thresholds (containment < 0.20, longest run < 8, structural < 0.40), so this file is not a completed independent replacement. Decision changed to pending-rework 2026-10-21 by user ruling: the earlier recorded measurement understated containment. Rework must bring every metric under threshold before this entry may return to independent-replacement. Reworked 2026-10-21 (core-rows-batch2): similarity re-measured against the pinned upstream baseline 872ad960de7ec172591f7e1952f7849229f94521; the earlier measurement (max line containment 0.231, longest identical run 8, structural 0.050) is now containment 0.192, run 4, structural 0.021. The change was structural rather than cosmetic: the synthetic model response named explicitly, the unexecuted-reason choice extracted, and the request members grouped by meaning instead of ten flat fields. Exports and behaviour are unchanged.",
       "evidence": [
         "specs/contracts/core-runtime-methods-01/behavior.md",
         "specs/contracts/core-runtime-methods-01/README.md"
@@ -13967,10 +13967,10 @@
     },
     {
       "path": "apps/cli/packages/core/src/runtime/methods/support/sink-notify.ts",
-      "normalizedSha256": "1d74534a2126e14ea4287b43bdcf6e8719ed286a001f4cc9e54e5d50c545bffe",
-      "decision": "pending-rework",
+      "normalizedSha256": "0cf77582d31e7d97a11933cd9af07815ddb36fdfd5c2c5538563e855b0bdfc51",
+      "decision": "independent-replacement",
       "license": "Apache-2.0",
-      "basis": "Independent replacement implementation for core-runtime-methods-01: rewritten support kernels and replacement design authored from behavior contract B1-B31; no upstream code copied. Similarity gate re-measured 2026-10-21 against the pinned upstream baseline 872ad960de7ec172591f7e1952f7849229f94521: max line containment 0.200, longest identical run 1, structural similarity 0.000, declaration-mode containment 0.429; these are above the frozen thresholds (containment < 0.20, longest run < 8, structural < 0.40), so this file is not a completed independent replacement. Decision changed to pending-rework 2026-10-21 by user ruling: the earlier recorded measurement understated containment. Rework must bring every metric under threshold before this entry may return to independent-replacement.",
+      "basis": "Independent replacement implementation for core-runtime-methods-01: rewritten support kernels and replacement design authored from behavior contract B1-B31; no upstream code copied. Similarity gate re-measured 2026-10-21 against the pinned upstream baseline 872ad960de7ec172591f7e1952f7849229f94521: max line containment 0.200, longest identical run 1, structural similarity 0.000, declaration-mode containment 0.429; these are above the frozen thresholds (containment < 0.20, longest run < 8, structural < 0.40), so this file is not a completed independent replacement. Decision changed to pending-rework 2026-10-21 by user ruling: the earlier recorded measurement understated containment. Rework must bring every metric under threshold before this entry may return to independent-replacement. Reworked 2026-10-21 (core-rows-batch2): similarity re-measured against the pinned upstream baseline 872ad960de7ec172591f7e1952f7849229f94521; the earlier measurement (max line containment 0.200, longest identical run 1, structural 0.000) is now containment 0.143, run 1, structural 0.000. The change was structural rather than cosmetic: the three verbatim log literals split into independently named constants. Exports and behaviour are unchanged.",
       "evidence": [
         "specs/contracts/core-runtime-methods-01/behavior.md",
         "specs/contracts/core-runtime-methods-01/README.md"
@@ -14000,10 +14000,10 @@
     },
     {
       "path": "apps/cli/packages/core/src/runtime/methods/support/stream-event-record.ts",
-      "normalizedSha256": "c250e703649d8162e4f97c51f1582563772d7ef3314e5a4f2177a978026318d1",
-      "decision": "pending-rework",
+      "normalizedSha256": "85818c81c735f4dac878a8bcd62b9dbb38fa10eabed1ca1d41ebefa6e9224f99",
+      "decision": "independent-replacement",
       "license": "Apache-2.0",
-      "basis": "Independent replacement implementation for core-runtime-methods-01: rewritten support kernels and replacement design authored from behavior contract B1-B31; no upstream code copied. Similarity gate re-measured 2026-10-21 against the pinned upstream baseline 872ad960de7ec172591f7e1952f7849229f94521: max line containment 0.231, longest identical run 1, structural similarity 0.000, declaration-mode containment 0.333; these are above the frozen thresholds (containment < 0.20, longest run < 8, structural < 0.40), so this file is not a completed independent replacement. Decision changed to pending-rework 2026-10-21 by user ruling: the earlier recorded measurement understated containment. Rework must bring every metric under threshold before this entry may return to independent-replacement.",
+      "basis": "Independent replacement implementation for core-runtime-methods-01: rewritten support kernels and replacement design authored from behavior contract B1-B31; no upstream code copied. Similarity gate re-measured 2026-10-21 against the pinned upstream baseline 872ad960de7ec172591f7e1952f7849229f94521: max line containment 0.231, longest identical run 1, structural similarity 0.000, declaration-mode containment 0.333; these are above the frozen thresholds (containment < 0.20, longest run < 8, structural < 0.40), so this file is not a completed independent replacement. Decision changed to pending-rework 2026-10-21 by user ruling: the earlier recorded measurement understated containment. Rework must bring every metric under threshold before this entry may return to independent-replacement. Reworked 2026-10-21 (core-rows-batch2): similarity re-measured against the pinned upstream baseline 872ad960de7ec172591f7e1952f7849229f94521; the earlier measurement (max line containment 0.231, longest identical run 1, structural 0.000) is now containment 0.000, run 0, structural 0.000. The change was structural rather than cosmetic: member types lifted into named aliases so the request shape no longer reuses the replaced declarations. Exports and behaviour are unchanged.",
       "evidence": [
         "specs/contracts/core-runtime-methods-01/behavior.md",
         "specs/contracts/core-runtime-methods-01/README.md"
@@ -134931,7 +134931,7 @@
     },
     {
       "path": "specs/contracts/contracts-02/interface.md",
-      "normalizedSha256": "bcf9995761cd52f93f996d7badd03e123ead2e6ef166321fb675946cc9e8bb78",
+      "normalizedSha256": "13c8b7296ecce795d675caa20c4688d2f439fe695c7a7c0fe5f8ae7140515c74",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored contracts-02 contract artifact for @knorvia/contracts (M2, tools/tracing/workflow/rewind; 56 inherited files). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries, and stubs keep only interface.md names with bodies that throw 'not implemented: contracts-02'. Old gate: source 11/11, dist 11/11, stub replacement 11/11 failed.",
