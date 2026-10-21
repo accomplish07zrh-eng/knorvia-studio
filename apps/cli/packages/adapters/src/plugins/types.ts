@@ -1,5 +1,15 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2026 Knorvia Studio contributors
+//
+// 插件领域的内存视图类型。
+//
+// 分三层看：
+//   - **候选**（PluginCandidate）：扫描阶段发现的「可能是插件」的目录，此时只有来源与启用位；
+//   - **已加载**（LoadedPlugin）：清单解析通过后，带 id 与清单路径；
+//   - **组件**（PluginComponents）：从清单里物化出的可执行部件（命令、钩子、MCP、技能）。
+//
+// PluginAbortOptions 是各阶段共用的取消通道。
+
 import type {
   CustomCommandRoot,
   HookEventName,
@@ -11,28 +21,59 @@ import type {
   SkillRoot,
 } from "@knorvia/contracts";
 
-export interface /* 候选插件 */ PluginCandidate {
-  defaultEnabled: /* 默认是否启用 */ boolean;
-  marketplace: /* 所属市场标识 */ string;
+/** 插件从哪来、放在哪、默认开不开。 */
+type PluginOrigin = {
+  marketplace: string;
   rootPath: string;
-  source: /* 插件来源 */ PluginSource;
-}
-export interface /* 已加载插件 */ LoadedPlugin {
+  source: PluginSource;
+};
+
+/** 扫描阶段的候选插件：只有来源与启用位，还没有解析出清单。 */
+type PluginCandidate = PluginOrigin & { defaultEnabled: boolean };
+
+/** 插件身份：清单解析后才有。 */
+type PluginIdentity = {
   id: string;
-  manifest: /* 插件清单 */ PluginManifest;
-  manifestPath: /* 清单文件路径 */ string;
-  marketplace: /* 所属市场标识 */ string;
-  rootPath: string;
-  source: /* 插件来源 */ PluginSource;
-}
-export interface /* 插件组件集合 */ PluginComponents {
+  manifest: PluginManifest;
+  manifestPath: string;
+};
+
+/** 已加载插件：身份 + 来源。 */
+type LoadedPlugin = PluginIdentity & PluginOrigin;
+
+/** 清单里的命令与技能根目录。 */
+type PluginRoots = {
   commandRoots: CustomCommandRoot[];
-  hooks: Partial<Record<HookEventName, HookMatcherConfig[]>>;
-  hookDetails: /* 钩子明细 */ PluginHookDetail[];
-  mcpServers: Record<string, McpServerConfig>;
-  skillCount: /* 技能数量 */ number;
   skillRoots: SkillRoot[];
-}
-export interface /* 中止选项 */ PluginAbortOptions {
-  signal?: AbortSignal;
-}
+};
+
+/** 清单里的钩子：按事件名分组的匹配配置，外加一份供 UI 展示的明细。 */
+type PluginHooks = {
+  hooks: Partial<Record<HookEventName, HookMatcherConfig[]>>;
+  hookDetails: PluginHookDetail[];
+};
+
+/** 清单里的 MCP 服务：服务名 → 配置。 */
+type PluginMcp = { mcpServers: Record<string, McpServerConfig> };
+
+/** 技能数量（物化时统计，避免调用方反复算）。 */
+type PluginSkillTally = { skillCount: number };
+
+/** 从清单物化出的可执行部件。 */
+type PluginComponents = PluginRoots & PluginHooks & PluginMcp & PluginSkillTally;
+
+/** 各阶段共用的取消通道。 */
+type PluginAbortOptions = { signal?: AbortSignal };
+
+export type {
+  PluginOrigin,
+  PluginCandidate,
+  PluginIdentity,
+  LoadedPlugin,
+  PluginRoots,
+  PluginHooks,
+  PluginMcp,
+  PluginSkillTally,
+  PluginComponents,
+  PluginAbortOptions,
+};
