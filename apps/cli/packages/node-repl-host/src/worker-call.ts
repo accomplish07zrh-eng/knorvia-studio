@@ -3,7 +3,7 @@
 import { addAbortListener } from "node:events";
 import { Worker } from "node:worker_threads";
 import type { NodeReplRunResult } from "@knorvia/core/repl";
-import { WORKER_KIND, type NodeReplExecuteInput } from "./execution-contract.js";
+import { WORKER_KIND, type NodeReplExecuteInput } from "./executor.js";
 
 type Outcome = { ok: true; result: NodeReplRunResult } | { ok: false; error: unknown };
 
