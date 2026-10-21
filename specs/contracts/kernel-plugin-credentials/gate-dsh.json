@@ -1,0 +1,32 @@
+{
+  "contract": "kernel-plugin-credentials",
+  "contractVersion": "v1",
+  "node": "v24.14.0",
+  "command": "node --import tsx --test-reporter=spec --test --test-concurrency=1 --test-timeout=120000 <tests/*.test.mjs>",
+  "engine": "dsh",
+  "assertionsRelaxed": false,
+  "forcedExit": false,
+  "stubGate": "n/a（接入包不替换既有实现，无桩可放；非自证由失败路径断言承担）",
+  "phase": "implementation",
+  "baseline": null,
+  "target": {
+    "expected": "11/11 pass, 0 skip",
+    "assertionsRelaxed": false,
+    "forcedExit": false,
+    "skipped": 0
+  },
+  "runs": [
+    {
+      "engine": "dsh",
+      "exitCode": 0,
+      "timedOut": false,
+      "signaled": false,
+      "tests": 11,
+      "pass": 11,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0,
+      "outputTail": "✔ B3 供应商配置映射成 PiAiProviderProfile 字典，路由 key = providerId (2983.211ms)\n✔ B4 三种协议字面量与 dsh-llm-pi-ai 的 supportedProtocols() 一致 (1147.0606ms)\n✔ B5 凭据按请求获取：每次 resolve 都发一次请求，应答经运行时 schema 校验 (17.0686ms)\n✔ B5 四条映射分支：apiKey / apiKey+headers / headers-only / refused (6.8458ms)\n✔ B6 拿不到凭据必须明确失败（四种输入） (6.9033ms)\n✔ B7 写入面拒绝 + describe 报 writable:false；凭据不进日志 (10.2121ms)\n✔ B9 凭据不泄漏：日志字段与错误消息均不含凭据值 (5.3464ms)\n✔ B10 provider/testModelConnectivity：拿不到凭据时明确失败，不伪造 success (3.6583ms)\n✔ B2 组合行契约：moduleId 解析到的模块导出 apply (14.5108ms)\n✔ B11 夹具隔离：虚构值与保留域名 (0.8084ms)\n✔ B8 反向断言：本包源码内不存在收紧工具子进程环境的路径 (33.0841ms)\nℹ tests 11\nℹ suites 0\nℹ pass 11\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 5392.4164"
+    }
+  ]
+}

@@ -30,6 +30,10 @@
       "types": "./dist/kernel/runtime-context.d.ts",
       "import": "./dist/kernel/runtime-context.js"
     },
+    "./kernel-plugin-credentials": {
+      "types": "./dist/kernel-plugin-credentials/index.d.ts",
+      "import": "./dist/kernel-plugin-credentials/index.js"
+    },
     "./kernel/shell-environment-bash": {
       "types": "./dist/kernel/shell-environment-bash.d.ts",
       "import": "./dist/kernel/shell-environment-bash.js"
