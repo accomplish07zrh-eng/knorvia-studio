@@ -150059,11 +150059,11 @@
     },
     {
       "path": "scripts/provenance/similarity-check.mjs",
-      "normalizedSha256": "89ec7777b4eb1f0b68f43fed4cfec8572f33079fd7181fe8860aabcdfa92f938",
+      "normalizedSha256": "7b87377469c395fbc702d98b517754767bcea1d5a5460b2a99dbdbaab5269664",
       "decision": "original",
       "license": "MIT",
-      "basis": "Knorvia-authored provenance similarity tooling. The gate now refuses to degrade silently to an upstream-only comparison. The plan requires the two thresholds to pass against both the replaced old file and the fixed upstream commit, but the old-file side could previously vanish without a word: paths that did not resolve at the given revision were filtered out of the comparison set, and omitting the old file altogether was syntactically valid. Both situations now exit with an error that names the missing paths and explains why the silent fallback was rejected. A genuine upstream-only measurement remains possible by passing allow-upstream-only explicitly, in which case the run prints a note that the result is not a completion basis under the plan. The dual-comparison wrapper accepts that flag through to the tool, and a candidate whose worktree content equals the baseline revision is reported as unchanged-from-baseline and judged failing, because an unmodified file is by definition identical to its old version. Verified with sixty tests, including four new cases for a missing old path, an omitted old path, an explicit upstream-only run, and a normal dual comparison.",
-      "evidence": ["scripts/provenance/similarity.test.mjs"]
+      "basis": "Knorvia-authored provenance similarity tooling. The dual-comparison wrapper now accepts a classification name and reads that list straight from the licensing inventory instead of requiring a prepared file list. The inventory is the authority for what belongs to a classification, and hand-assembling per-package counts invites double counting because package lists overlap. This matters when a whole classification is re-measured after the tooling fixes: the candidate set must match exactly what the inventory says is still pending, and reporting must distinguish the three outcomes of unchanged from baseline, still above threshold, and now passing.",
+      "evidence": ["scripts/provenance/similarity-check.test.mjs"]
     },
     {
       "path": "scripts/provenance/similarity-check.test.mjs",

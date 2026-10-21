@@ -45,6 +45,7 @@ const { values } = parseArgs({
   options: {
     candidate: { type: "string", multiple: true },
     "candidate-list": { type: "string" },
+    classification: { type: "string" },
     "base-rev": { type: "string" },
     "upstream-dir": { type: "string" },
     "upstream-rev": { type: "string" },
@@ -66,6 +67,7 @@ if (values.help) {
       "  --upstream-rev <rev>      可选：上游提交号，仅用于报告",
       "  --candidate <path>        候选文件，可重复；相对路径按 --repo 解析",
       "  --candidate-list <file>   每行一个候选路径",
+      "  --classification <name>   取 licensing/current-files.json 中该分类的全部文件（如 pending-rework）",
       "  --repo <dir>              仓库根，默认当前目录",
       "  --gates <all|line|structural>",
       "  --json <file>             输出 JSON 报告",
@@ -93,7 +95,18 @@ if (values["candidate-list"]) {
       .filter(Boolean),
   );
 }
-if (candidates.length === 0) usageError("no candidates: pass --candidate or --candidate-list");
+// 直接按分类取清单：`licensing/current-files.json` 是分类的权威来源，
+// 手工相加「包数」容易重复计数（core 与包外清单会重叠）。
+if (values.classification) {
+  const inventory = JSON.parse(readFileSync(resolve(repo, "licensing/current-files.json"), "utf8"));
+  candidates.push(
+    ...inventory.files
+      .filter((file) => file.classification === values.classification)
+      .map((file) => file.path),
+  );
+}
+if (candidates.length === 0)
+  usageError("no candidates: pass --candidate, --candidate-list or --classification");
 
 /** 该路径在指定 rev 上是否存在。 */
 function existsInRev(path, rev) {
