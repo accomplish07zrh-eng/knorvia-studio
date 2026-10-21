@@ -23964,10 +23964,10 @@
     },
     {
       "path": "apps/cli/packages/node-repl-host/src/mcp-runtime.ts",
-      "normalizedSha256": "706b022994eeff9de68d2e03deba312dbc475ba315a3631838382f032164b196",
+      "normalizedSha256": "632db8cf51817d70c7acaae75260e1642b0ff43854fe9909c34dc9660eec88ad",
       "decision": "original",
       "license": "MIT",
-      "basis": "重写：为 tools/call 的分派划出明确职责边界；原生工具判定改用显式布尔量 isNative；参数 schema 与调用方上下文 schema 命名化。实测 containment 0.222 → 0.191。",
+      "basis": "Knorvia-authored rewrite of the MCP runtime that keeps only assembly: the js argument schema now reuses the contract definition instead of a local copy, the collaborators are assembled in one place, and the js call preparation is delegated to a separate module. The public surface is unchanged.",
       "evidence": ["specs/contracts/node-repl-host-broker/interface.md"]
     },
     {
@@ -150076,6 +150076,30 @@
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored acceptance record for the fourth M6 rework batch: three kernel files reworked to pass the dual-baseline similarity gate, with the measured before and after values, the quality rationale for each change, the machine check that registered contract names equal extracted names, and the correction of three earlier claims that were based on a single-sided measurement.",
+      "evidence": ["specs/contracts/node-repl-host-broker/interface.md"]
+    },
+    {
+      "path": "apps/cli/packages/node-repl-host/src/mcp-caller-context.ts",
+      "normalizedSha256": "abeb592ae8e8f3fa84034e90a180bba07b49d8b8c6a9a9910cdc5f19130e516c",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored split of the MCP runtime: caller-context parsing lives in its own module so the runtime only assembles. The context shape names its two fields and the runtime scope domain as named constants, and each field carries a comment stating who supplies it and what it is used for.",
+      "evidence": ["specs/contracts/node-repl-host-broker/interface.md"]
+    },
+    {
+      "path": "apps/cli/packages/node-repl-host/src/mcp-tool-dispatch.ts",
+      "normalizedSha256": "0e69244cb164585eb89b769494838e3e801bb4659bd0f853ff6092a46c471d06",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored split of the MCP runtime: parameter preparation for the js tool lives in its own module, so the runtime no longer repeats the executor input shape. The budget, signal merge, empty-source check and title merge each become a named function that the runtime composes.",
+      "evidence": ["specs/contracts/node-repl-host-broker/interface.md"]
+    },
+    {
+      "path": "apps/cli/packages/node-repl-host/src/mcp-tool-catalogue.ts",
+      "normalizedSha256": "37bc380e27868b0699472974478b696190dea71ba9690d2183f248a5bddff9ba",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Knorvia-authored split of the MCP runtime: the tool catalogue and the dispatch decision live in their own module, so the request handler only reads the request, decides the route and converts the arguments.",
       "evidence": ["specs/contracts/node-repl-host-broker/interface.md"]
     }
   ]
