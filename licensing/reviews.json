@@ -3885,15 +3885,11 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/usage-task.ts",
-      "normalizedSha256": "3ce0ce189fc0664902e642b71ae75af7b0d2602e5d1de1f6141576a8c60cb38a",
-      "decision": "pending-rework",
+      "normalizedSha256": "4bf4fae0f4087a398a7a4857ad105a82de1065cc80032a8fb457fdcdf08ed129",
+      "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Fresh session-ordered accounting fold with closed-source incremental baselines, cache-inclusion inference and separate raw totals; no shared generic engine with app aggregates. Root and reviewer inspected old implementation to extract a prior contract; no whole-process clean-room or whole-product MIT claim. Isolated author read only behavior policies, selected public declarations and dependency signatures with behavior-only corrections; old target/history/baseline/dist/maps/tests/other repository bodies were excluded. Fixed schema fields, standard SQL/aggregation and tiny generic expressions are compatibility constraints rather than novel algorithms. Existing facade/schema/migrations/helper and consumers retain their applicable licenses. Root Apache and preview identity remain; synthetic memory SQLite only. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.177, longest identical run 1, structural similarity 0.054 against the fixed upstream baseline (scored in normal mode). Similarity gate re-measured 2026-10-21 against the pinned upstream baseline 872ad960de7ec172591f7e1952f7849229f94521: max line containment 0.212, longest identical run 9, structural similarity 0.054, declaration-mode containment 0.407; these are above the frozen thresholds (containment < 0.20, longest run < 8, structural < 0.40), so this file is not a completed independent replacement. Decision changed to pending-rework 2026-10-21 by user ruling: the earlier recorded measurement understated containment. Rework must bring every metric under threshold before this entry may return to independent-replacement.",
-      "evidence": [
-        "specs/knorvia-usage-storage.md",
-        "docs/knorvia-usage-storage-acceptance.md",
-        "licensing/evidence/usage-storage.md"
-      ]
+      "basis": "Knorvia independent replacement of the task-level usage aggregation. The author read the replaced implementation to understand the historical token accounting conventions and then re-expressed the aggregation: the set of accumulated fields is now a named constant, the zero skeleton is derived from it once, per-row computation returns a delta object separate from accumulation, and the loop reduces to one line over the field list. Reading the value used to call the input-side inference twice per row; the delta now returns it once, removing a duplicated computation that could disagree if that helper ever became stateful. The return object keeps the contract key order explicitly, since the tests and the serialised shape depend on it. Measured after rework against upstream zcode-872ad960 at rev 872ad960 with old-rev origin/main: containment 0.107, longest run 1, structural 0.034, all within the 0.20 and 0.40 thresholds. usage-storage-task.test.ts 6/6.",
+      "evidence": ["specs/contracts/contracts-02/interface.md"]
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/usage-values.ts",
