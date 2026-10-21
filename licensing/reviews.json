@@ -150067,6 +150067,14 @@
       "license": "Apache-2.0",
       "basis": "Knorvia-authored licensing infrastructure. This file records the source relationships for files that the plan split or moved: each derived path maps to one or more baseline files it came from, and the similarity gate compares the derived file against every listed source and keeps the strictest result. An array value is what makes the multiple-source comparison possible without extra branch logic, and listing the same path as one of its own sources keeps the ordinary case and the derived case on one code path.",
       "evidence": ["licensing/README.md"]
+    },
+    {
+      "path": "docs/knorvia-m6-measurement-report.md",
+      "normalizedSha256": "69525afabd5f7dc9d4c163b15a95792ed2fb4dbb18cc503cc61453c58012ece4",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored measurement report. It records the full baseline for the pending-rework set under the current gate, the files that already pass and the pull requests carrying them, the three generations of comparison baseline and why the first two produced systematically low numbers, and the reachability criteria derived tonight. A warning section leads the criteria because the same mistake was made twice in one night: the share of contract-facing lines among matching lines was treated as a lower bound, when the lower bound is that count over all normalised lines, and the two differ enough to flip a reachability verdict. It also records nine kinds of implicit contract found by measurement, the thirteen tool capabilities now on main, and two open items: a shared licensing inventory that makes every concurrent pull request conflict, and the observation that files whose similarity comes from protocol-shaped names rather than implementation expression cannot cross the threshold at all. Numbers are attributed to the commit and time they were measured at, and three earlier misreported figures are recorded verbatim with who corrected them.",
+      "evidence": ["docs/knorvia-m6-measurement-report.md"]
     }
   ]
 }
