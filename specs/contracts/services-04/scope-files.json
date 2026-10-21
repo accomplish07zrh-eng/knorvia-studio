@@ -1,0 +1,650 @@
+[
+  {
+    "path": "packages/services/src/accessor.ts",
+    "group": ".",
+    "name": "accessor.ts",
+    "classification": "upstream-modified",
+    "upstream": {
+      "relation": "modified",
+      "path": "packages/services/src/accessor.ts",
+      "blob": "b38a521f14a24420c15d4d0af8fe80535db2f120",
+      "normalizedSha256": "9a04a181e7d7cc854882ee7ddce52101649b0504c05df43cb90fcbc51f5c9fab",
+      "contentMatchedPaths": []
+    },
+    "bytes": 4814,
+    "lines": 81,
+    "exportCount": 1,
+    "runtimeExports": 0
+  },
+  {
+    "path": "packages/services/src/collection.ts",
+    "group": ".",
+    "name": "collection.ts",
+    "classification": "upstream-modified",
+    "upstream": {
+      "relation": "modified",
+      "path": "packages/services/src/collection.ts",
+      "blob": "522fd8b47c9db9af87813657719c6a7fe7052800",
+      "normalizedSha256": "c7ecd059c7a898fd40e9799d328c06c20e67f140433bee8bd5fc8436d26b41b1",
+      "contentMatchedPaths": []
+    },
+    "bytes": 1166,
+    "lines": 36,
+    "exportCount": 1,
+    "runtimeExports": 1
+  },
+  {
+    "path": "packages/services/src/dataLocationOwner.ts",
+    "group": ".",
+    "name": "dataLocationOwner.ts",
+    "classification": "unreviewed",
+    "upstream": null,
+    "bytes": 1467,
+    "lines": 49,
+    "exportCount": 4,
+    "runtimeExports": 4
+  },
+  {
+    "path": "packages/services/src/descriptors.ts",
+    "group": ".",
+    "name": "descriptors.ts",
+    "classification": "upstream-unchanged",
+    "upstream": {
+      "relation": "unchanged",
+      "path": "packages/services/src/descriptors.ts",
+      "blob": "4ccf0b51c507b99dd96618bff354f2fbd6a7b26e",
+      "normalizedSha256": "5b2defea851b2ebd6d1b65d751bc6fda8a0e1252b41dabd38a4b61724e712a3c",
+      "contentMatchedPaths": [
+        "packages/services/src/descriptors.ts"
+      ]
+    },
+    "bytes": 560,
+    "lines": 16,
+    "exportCount": 2,
+    "runtimeExports": 1
+  },
+  {
+    "path": "packages/services/src/memoryDiagnostics.ts",
+    "group": ".",
+    "name": "memoryDiagnostics.ts",
+    "classification": "upstream-modified",
+    "upstream": {
+      "relation": "modified",
+      "path": "packages/services/src/memoryDiagnostics.ts",
+      "blob": "624bc02378e93d0f8a234ad1e15e149f5b577d41",
+      "normalizedSha256": "a6770b00da8179bba8b65054cd8c31be337aabac831e13b984559f1fb76e1f9c",
+      "contentMatchedPaths": []
+    },
+    "bytes": 885,
+    "lines": 26,
+    "exportCount": 3,
+    "runtimeExports": 3
+  },
+  {
+    "path": "packages/services/src/paths.ts",
+    "group": ".",
+    "name": "paths.ts",
+    "classification": "upstream-modified",
+    "upstream": {
+      "relation": "modified",
+      "path": "packages/services/src/paths.ts",
+      "blob": "e4328572e2b2dc84bc9fc3e92ad784eb187c7ec8",
+      "normalizedSha256": "e20fbeb4e88e9021bd099a50ce8b2bbc90ff823eefb57253d1f1ea11b6f7d1df",
+      "contentMatchedPaths": []
+    },
+    "bytes": 6479,
+    "lines": 205,
+    "exportCount": 18,
+    "runtimeExports": 18
+  },
+  {
+    "path": "packages/services/src/storage-startup.ts",
+    "group": ".",
+    "name": "storage-startup.ts",
+    "classification": "original",
+    "upstream": {
+      "relation": "modified",
+      "path": "packages/services/src/storage-startup.ts",
+      "blob": "e418e95a8e0c3a3f19015ebb446c74a1b684ec06",
+      "normalizedSha256": "f4e09ac3c773f25309ebacf087403c27b1c94dfd2989cf81067ed152cfda5226",
+      "contentMatchedPaths": []
+    },
+    "bytes": 386,
+    "lines": 5,
+    "exportCount": 5,
+    "runtimeExports": 5
+  },
+  {
+    "path": "packages/services/src/subagents/subagentMarkdown.ts",
+    "group": "subagents",
+    "name": "subagents/subagentMarkdown.ts",
+    "classification": "upstream-modified",
+    "upstream": {
+      "relation": "modified",
+      "path": "packages/services/src/subagents/subagentMarkdown.ts",
+      "blob": "2a94517067babfd856c7ff01fae38b43c69221ab",
+      "normalizedSha256": "53f5b5683eb3a90439f603b5f901d6c2bc396acabf330608c71d1b77f52b3813",
+      "contentMatchedPaths": []
+    },
+    "bytes": 11705,
+    "lines": 350,
+    "exportCount": 2,
+    "runtimeExports": 2
+  },
+  {
+    "path": "packages/services/src/subagents/subagentModelSelection.ts",
+    "group": "subagents",
+    "name": "subagents/subagentModelSelection.ts",
+    "classification": "upstream-modified",
+    "upstream": {
+      "relation": "modified",
+      "path": "packages/services/src/subagents/subagentModelSelection.ts",
+      "blob": "2d4768a2d3a8b218a0caa21f0c3cb6f4351f7031",
+      "normalizedSha256": "442e7fb00aa03c84ab3480bea459d8eda2170bb89efdf2778d6f927356645f55",
+      "contentMatchedPaths": []
+    },
+    "bytes": 486,
+    "lines": 13,
+    "exportCount": 1,
+    "runtimeExports": 1
+  },
+  {
+    "path": "packages/services/src/subagents/subagentServiceFiles.ts",
+    "group": "subagents",
+    "name": "subagents/subagentServiceFiles.ts",
+    "classification": "unreviewed",
+    "upstream": null,
+    "bytes": 3456,
+    "lines": 105,
+    "exportCount": 6,
+    "runtimeExports": 6
+  },
+  {
+    "path": "packages/services/src/subagents/subagentServicePlugins.ts",
+    "group": "subagents",
+    "name": "subagents/subagentServicePlugins.ts",
+    "classification": "unreviewed",
+    "upstream": null,
+    "bytes": 8064,
+    "lines": 227,
+    "exportCount": 1,
+    "runtimeExports": 1
+  },
+  {
+    "path": "packages/services/src/subagents/subagentServiceState.ts",
+    "group": "subagents",
+    "name": "subagents/subagentServiceState.ts",
+    "classification": "unreviewed",
+    "upstream": null,
+    "bytes": 2984,
+    "lines": 79,
+    "exportCount": 4,
+    "runtimeExports": 3
+  },
+  {
+    "path": "packages/services/src/subagents/subagentStorage.ts",
+    "group": "subagents",
+    "name": "subagents/subagentStorage.ts",
+    "classification": "upstream-modified",
+    "upstream": {
+      "relation": "modified",
+      "path": "packages/services/src/subagents/subagentStorage.ts",
+      "blob": "b735b16e1a0f7afb2ff0004a8a236099159ee27e",
+      "normalizedSha256": "87951e9d41dc92453e05eb6b950ce3779fda323e77b147472a70780904e2842a",
+      "contentMatchedPaths": []
+    },
+    "bytes": 2513,
+    "lines": 74,
+    "exportCount": 8,
+    "runtimeExports": 7
+  },
+  {
+    "path": "packages/services/src/subagents/subagents.ts",
+    "group": "subagents",
+    "name": "subagents/subagents.ts",
+    "classification": "upstream-modified",
+    "upstream": {
+      "relation": "modified",
+      "path": "packages/services/src/subagents/subagents.ts",
+      "blob": "55c8cecd52a77f4a0048ed98b2ca57af6eb55472",
+      "normalizedSha256": "ee32b9737d5f651581e98ec35366d27deca8bf30ac71121f7e31080fc92028a4",
+      "contentMatchedPaths": []
+    },
+    "bytes": 1552,
+    "lines": 45,
+    "exportCount": 2,
+    "runtimeExports": 1
+  },
+  {
+    "path": "packages/services/src/subagents/subagentsService.ts",
+    "group": "subagents",
+    "name": "subagents/subagentsService.ts",
+    "classification": "upstream-modified",
+    "upstream": {
+      "relation": "modified",
+      "path": "packages/services/src/subagents/subagentsService.ts",
+      "blob": "78684169d514507d55fb26ef00a6348445718137",
+      "normalizedSha256": "61d85c28d0961fb660c3fa0343badc84ac4c192566cf11e8cf37979291ee103f",
+      "contentMatchedPaths": []
+    },
+    "bytes": 9867,
+    "lines": 251,
+    "exportCount": 1,
+    "runtimeExports": 1
+  },
+  {
+    "path": "packages/services/src/system/integratedTerminalShells.ts",
+    "group": "system",
+    "name": "system/integratedTerminalShells.ts",
+    "classification": "upstream-modified",
+    "upstream": {
+      "relation": "modified",
+      "path": "packages/services/src/system/integratedTerminalShells.ts",
+      "blob": "cd6ce07a42c2dbaab1b8d1e89b21df3121fdc2b6",
+      "normalizedSha256": "fd6bec6ce553539ef599b0ddada97e1ec805cc0b414a94c2058ef6653ebd116b",
+      "contentMatchedPaths": []
+    },
+    "bytes": 3077,
+    "lines": 111,
+    "exportCount": 1,
+    "runtimeExports": 1
+  },
+  {
+    "path": "packages/services/src/system/ssh-alias/configuration.ts",
+    "group": "system",
+    "name": "system/ssh-alias/configuration.ts",
+    "classification": "original",
+    "upstream": null,
+    "bytes": 3237,
+    "lines": 108,
+    "exportCount": 4,
+    "runtimeExports": 2
+  },
+  {
+    "path": "packages/services/src/system/ssh-alias/fallback.ts",
+    "group": "system",
+    "name": "system/ssh-alias/fallback.ts",
+    "classification": "original",
+    "upstream": null,
+    "bytes": 3449,
+    "lines": 103,
+    "exportCount": 3,
+    "runtimeExports": 3
+  },
+  {
+    "path": "packages/services/src/system/ssh-alias/query.ts",
+    "group": "system",
+    "name": "system/ssh-alias/query.ts",
+    "classification": "unreviewed",
+    "upstream": null,
+    "bytes": 2844,
+    "lines": 93,
+    "exportCount": 3,
+    "runtimeExports": 3
+  },
+  {
+    "path": "packages/services/src/system/ssh-alias/tokens.ts",
+    "group": "system",
+    "name": "system/ssh-alias/tokens.ts",
+    "classification": "unreviewed",
+    "upstream": null,
+    "bytes": 2002,
+    "lines": 76,
+    "exportCount": 3,
+    "runtimeExports": 3
+  },
+  {
+    "path": "packages/services/src/system/sshConfigAlias.ts",
+    "group": "system",
+    "name": "system/sshConfigAlias.ts",
+    "classification": "upstream-modified",
+    "upstream": {
+      "relation": "modified",
+      "path": "packages/services/src/system/sshConfigAlias.ts",
+      "blob": "6e59d0ed971b9d10c9d424304ee59c512be0c5f5",
+      "normalizedSha256": "4ccedcd049fa2a608adfd3efb0b317c24dd8d03b1305d7f62b3cd520806912ed",
+      "contentMatchedPaths": []
+    },
+    "bytes": 1496,
+    "lines": 38,
+    "exportCount": 1,
+    "runtimeExports": 1
+  },
+  {
+    "path": "packages/services/src/system/system-probe/contracts.ts",
+    "group": "system",
+    "name": "system/system-probe/contracts.ts",
+    "classification": "unreviewed",
+    "upstream": null,
+    "bytes": 1314,
+    "lines": 41,
+    "exportCount": 8,
+    "runtimeExports": 0
+  },
+  {
+    "path": "packages/services/src/system/system-probe/defaultAdapters.ts",
+    "group": "system",
+    "name": "system/system-probe/defaultAdapters.ts",
+    "classification": "unreviewed",
+    "upstream": null,
+    "bytes": 1976,
+    "lines": 60,
+    "exportCount": 2,
+    "runtimeExports": 2
+  },
+  {
+    "path": "packages/services/src/system/system-probe/targetLifecycle.ts",
+    "group": "system",
+    "name": "system/system-probe/targetLifecycle.ts",
+    "classification": "unreviewed",
+    "upstream": null,
+    "bytes": 1944,
+    "lines": 72,
+    "exportCount": 1,
+    "runtimeExports": 1
+  },
+  {
+    "path": "packages/services/src/system/system.ts",
+    "group": "system",
+    "name": "system/system.ts",
+    "classification": "upstream-modified",
+    "upstream": {
+      "relation": "modified",
+      "path": "packages/services/src/system/system.ts",
+      "blob": "544d6e6379af979b16820125312b0830de34eeb5",
+      "normalizedSha256": "5f71d7097e2e85961c1875a5eed84dea4231e7c470d3c02085164d11851b328a",
+      "contentMatchedPaths": []
+    },
+    "bytes": 564,
+    "lines": 16,
+    "exportCount": 2,
+    "runtimeExports": 1
+  },
+  {
+    "path": "packages/services/src/system/systemService.ts",
+    "group": "system",
+    "name": "system/systemService.ts",
+    "classification": "upstream-modified",
+    "upstream": {
+      "relation": "modified",
+      "path": "packages/services/src/system/systemService.ts",
+      "blob": "1cdac14ee85c37f965c35950c0811cef4980b037",
+      "normalizedSha256": "48aae3d87901973218384ff4029a15cf7f69fbbddded5e4656197d6449401132",
+      "contentMatchedPaths": []
+    },
+    "bytes": 5327,
+    "lines": 200,
+    "exportCount": 1,
+    "runtimeExports": 1
+  },
+  {
+    "path": "packages/services/src/system/systemServiceOwner.ts",
+    "group": "system",
+    "name": "system/systemServiceOwner.ts",
+    "classification": "unreviewed",
+    "upstream": null,
+    "bytes": 1848,
+    "lines": 54,
+    "exportCount": 2,
+    "runtimeExports": 1
+  },
+  {
+    "path": "packages/services/src/terminal/terminal.ts",
+    "group": "terminal",
+    "name": "terminal/terminal.ts",
+    "classification": "upstream-modified",
+    "upstream": {
+      "relation": "modified",
+      "path": "packages/services/src/terminal/terminal.ts",
+      "blob": "e4a534c1a56bcfd9f7477f803a828da0972e57f5",
+      "normalizedSha256": "58827eb16d9db1b73095510e20c00e70b8c3aaf995f765b751fb9837158b0a9f",
+      "contentMatchedPaths": []
+    },
+    "bytes": 1051,
+    "lines": 28,
+    "exportCount": 3,
+    "runtimeExports": 1
+  },
+  {
+    "path": "packages/services/src/terminal/terminalProfile.ts",
+    "group": "terminal",
+    "name": "terminal/terminalProfile.ts",
+    "classification": "upstream-modified",
+    "upstream": {
+      "relation": "modified",
+      "path": "packages/services/src/terminal/terminalProfile.ts",
+      "blob": "156cfdc19749563b5d8380933e5687853c4afc64",
+      "normalizedSha256": "ac556a809665b088d2d2bb666b7981f56cedc5a0f5d2540e6e4707d418a54d4f",
+      "contentMatchedPaths": []
+    },
+    "bytes": 2739,
+    "lines": 76,
+    "exportCount": 3,
+    "runtimeExports": 1
+  },
+  {
+    "path": "packages/services/src/terminal/terminalProfileMacOs.ts",
+    "group": "terminal",
+    "name": "terminal/terminalProfileMacOs.ts",
+    "classification": "upstream-modified",
+    "upstream": {
+      "relation": "modified",
+      "path": "packages/services/src/terminal/terminalProfileMacOs.ts",
+      "blob": "153a19560f824d032421f60a7a5fe0150471bf6e",
+      "normalizedSha256": "e25ea5af453dcf05352f19f0e77452e3c02ddde44822a3059badaced50bf5c77",
+      "contentMatchedPaths": []
+    },
+    "bytes": 1694,
+    "lines": 46,
+    "exportCount": 1,
+    "runtimeExports": 1
+  },
+  {
+    "path": "packages/services/src/terminal/terminalProfileMacOsDecode.ts",
+    "group": "terminal",
+    "name": "terminal/terminalProfileMacOsDecode.ts",
+    "classification": "unreviewed",
+    "upstream": null,
+    "bytes": 6687,
+    "lines": 183,
+    "exportCount": 2,
+    "runtimeExports": 1
+  },
+  {
+    "path": "packages/services/src/terminal/terminalProfileMacOsPlist.ts",
+    "group": "terminal",
+    "name": "terminal/terminalProfileMacOsPlist.ts",
+    "classification": "unreviewed",
+    "upstream": null,
+    "bytes": 931,
+    "lines": 24,
+    "exportCount": 2,
+    "runtimeExports": 1
+  },
+  {
+    "path": "packages/services/src/terminal/terminalProfilePortableFormats.ts",
+    "group": "terminal",
+    "name": "terminal/terminalProfilePortableFormats.ts",
+    "classification": "original",
+    "upstream": null,
+    "bytes": 3850,
+    "lines": 109,
+    "exportCount": 1,
+    "runtimeExports": 1
+  },
+  {
+    "path": "packages/services/src/terminal/terminalProfilePortablePlan.ts",
+    "group": "terminal",
+    "name": "terminal/terminalProfilePortablePlan.ts",
+    "classification": "original",
+    "upstream": null,
+    "bytes": 3103,
+    "lines": 93,
+    "exportCount": 4,
+    "runtimeExports": 1
+  },
+  {
+    "path": "packages/services/src/terminal/terminalProfilePortableRead.ts",
+    "group": "terminal",
+    "name": "terminal/terminalProfilePortableRead.ts",
+    "classification": "unreviewed",
+    "upstream": null,
+    "bytes": 902,
+    "lines": 23,
+    "exportCount": 1,
+    "runtimeExports": 1
+  },
+  {
+    "path": "packages/services/src/terminal/terminalProfileTypes.ts",
+    "group": "terminal",
+    "name": "terminal/terminalProfileTypes.ts",
+    "classification": "upstream-unchanged",
+    "upstream": {
+      "relation": "unchanged",
+      "path": "packages/services/src/terminal/terminalProfileTypes.ts",
+      "blob": "c4218bf29ff3415c5e32d8863f1e6bf629fba607",
+      "normalizedSha256": "2b61bb42156542e062d6e786c580a9747b479e0f6b65d684503e3480e61eca0b",
+      "contentMatchedPaths": [
+        "packages/services/src/terminal/terminalProfileTypes.ts"
+      ]
+    },
+    "bytes": 734,
+    "lines": 32,
+    "exportCount": 3,
+    "runtimeExports": 0
+  },
+  {
+    "path": "packages/services/src/terminal/terminalService.ts",
+    "group": "terminal",
+    "name": "terminal/terminalService.ts",
+    "classification": "upstream-modified",
+    "upstream": {
+      "relation": "modified",
+      "path": "packages/services/src/terminal/terminalService.ts",
+      "blob": "882d78ac39d4033b29c8a6b48a05368ba93bec95",
+      "normalizedSha256": "7fba33e1a151e7e883c1e88510803468113cda9ec35a1993031624c6ce39f91f",
+      "contentMatchedPaths": []
+    },
+    "bytes": 8821,
+    "lines": 252,
+    "exportCount": 1,
+    "runtimeExports": 1
+  },
+  {
+    "path": "packages/services/src/terminal/terminalServiceInstanceOwner.ts",
+    "group": "terminal",
+    "name": "terminal/terminalServiceInstanceOwner.ts",
+    "classification": "original",
+    "upstream": null,
+    "bytes": 8978,
+    "lines": 289,
+    "exportCount": 1,
+    "runtimeExports": 1
+  },
+  {
+    "path": "packages/services/src/terminal/terminalServiceLaunchPlan.ts",
+    "group": "terminal",
+    "name": "terminal/terminalServiceLaunchPlan.ts",
+    "classification": "unreviewed",
+    "upstream": null,
+    "bytes": 4001,
+    "lines": 113,
+    "exportCount": 8,
+    "runtimeExports": 7
+  },
+  {
+    "path": "packages/services/src/usage-stats/usageStats.ts",
+    "group": "usage-stats",
+    "name": "usage-stats/usageStats.ts",
+    "classification": "upstream-modified",
+    "upstream": {
+      "relation": "modified",
+      "path": "packages/services/src/usage-stats/usageStats.ts",
+      "blob": "704b1fc27ecd46d8bc0bc3428abaaaf0a0595e12",
+      "normalizedSha256": "afb9d25ab876a1effdf0c3adb494beffb727c3a25556eccf70cbc9bdd6c98a7d",
+      "contentMatchedPaths": []
+    },
+    "bytes": 416,
+    "lines": 11,
+    "exportCount": 2,
+    "runtimeExports": 1
+  },
+  {
+    "path": "packages/services/src/usage-stats/usageStatsService.ts",
+    "group": "usage-stats",
+    "name": "usage-stats/usageStatsService.ts",
+    "classification": "upstream-modified",
+    "upstream": {
+      "relation": "modified",
+      "path": "packages/services/src/usage-stats/usageStatsService.ts",
+      "blob": "7e77fe74047063902c77b5bc65c9ac154ed60be8",
+      "normalizedSha256": "436abae7e33bf2cc3f29732d52e16a1bf6d30de130cdbde1c0853ef166c62392",
+      "contentMatchedPaths": []
+    },
+    "bytes": 679,
+    "lines": 17,
+    "exportCount": 1,
+    "runtimeExports": 1
+  },
+  {
+    "path": "packages/services/src/window-controller/node.ts",
+    "group": "window-controller",
+    "name": "window-controller/node.ts",
+    "classification": "unreviewed",
+    "upstream": null,
+    "bytes": 673,
+    "lines": 11,
+    "exportCount": 8,
+    "runtimeExports": 3
+  },
+  {
+    "path": "packages/services/src/window-controller/windowController.ts",
+    "group": "window-controller",
+    "name": "window-controller/windowController.ts",
+    "classification": "upstream-modified",
+    "upstream": {
+      "relation": "modified",
+      "path": "packages/services/src/window-controller/windowController.ts",
+      "blob": "6347856f168953ab21e756b421989289ef88ed0a",
+      "normalizedSha256": "198f5e456f633c2bc549badb32f61b3b2cc1ee106e8d14aa0f18a96d94279972",
+      "contentMatchedPaths": []
+    },
+    "bytes": 2697,
+    "lines": 71,
+    "exportCount": 6,
+    "runtimeExports": 1
+  },
+  {
+    "path": "packages/services/src/window-controller/windowHostControllerProjection.ts",
+    "group": "window-controller",
+    "name": "window-controller/windowHostControllerProjection.ts",
+    "classification": "unreviewed",
+    "upstream": null,
+    "bytes": 19620,
+    "lines": 556,
+    "exportCount": 5,
+    "runtimeExports": 1
+  },
+  {
+    "path": "packages/services/src/window-controller/windowHostControllerService.ts",
+    "group": "window-controller",
+    "name": "window-controller/windowHostControllerService.ts",
+    "classification": "unreviewed",
+    "upstream": null,
+    "bytes": 32532,
+    "lines": 805,
+    "exportCount": 1,
+    "runtimeExports": 1
+  },
+  {
+    "path": "packages/services/src/window-controller/windowHostSessionsIndexObserver.ts",
+    "group": "window-controller",
+    "name": "window-controller/windowHostSessionsIndexObserver.ts",
+    "classification": "unreviewed",
+    "upstream": null,
+    "bytes": 11888,
+    "lines": 362,
+    "exportCount": 2,
+    "runtimeExports": 1
+  }
+]

@@ -1,0 +1,378 @@
+{
+  "grandTotal": 18,
+  "byBucket": {
+    "services/test": 15,
+    "packages/desktop": 3
+  },
+  "perModule": [
+    {
+      "name": "paths",
+      "group": ".",
+      "total": 4,
+      "byBucket": {
+        "services/test": 4
+      },
+      "files": [
+        "packages/services/test/importedClaudeRecovery.test.ts",
+        "packages/services/test/knorviaAccountRemoval.test.ts",
+        "packages/services/test/nonCliAcpRetirement.test.ts",
+        "packages/services/test/providerConfigMigration.test.ts"
+      ]
+    },
+    {
+      "name": "terminal/terminal",
+      "group": "terminal",
+      "total": 4,
+      "byBucket": {
+        "services/test": 4
+      },
+      "files": [
+        "packages/services/test/terminal-lifecycle-admission-fast-20261001.test.ts",
+        "packages/services/test/terminal-lifecycle-corrective-fast-20261001.test.ts",
+        "packages/services/test/terminal-lifecycle-monitor-rpc-fast-20261001.test.ts",
+        "packages/services/test/terminal-lifecycle-rpc-fast-20261001.test.ts"
+      ]
+    },
+    {
+      "name": "storage-startup",
+      "group": ".",
+      "total": 3,
+      "byBucket": {
+        "packages/desktop": 3
+      },
+      "files": [
+        "packages/desktop/src/host/hostDatabaseStartup.ts",
+        "packages/desktop/src/host/storagePreparationProcesses.ts",
+        "packages/desktop/src/host/tasksStorageWorker.ts"
+      ]
+    },
+    {
+      "name": "terminal/terminalProfileTypes",
+      "group": "terminal",
+      "total": 3,
+      "byBucket": {
+        "services/test": 3
+      },
+      "files": [
+        "packages/services/test/terminal-profile-macos-contract-fast-20261001.test.ts",
+        "packages/services/test/terminal-profile-portable-consumer-fast-20261001.test.ts",
+        "packages/services/test/terminal-profile-portable-contract-fast-20261001.test.ts"
+      ]
+    },
+    {
+      "name": "descriptors",
+      "group": ".",
+      "total": 1,
+      "byBucket": {
+        "services/test": 1
+      },
+      "files": [
+        "packages/services/test/service-collection-fake-authority-20261003.test.ts"
+      ]
+    },
+    {
+      "name": "subagents/subagentStorage",
+      "group": "subagents",
+      "total": 1,
+      "byBucket": {
+        "services/test": 1
+      },
+      "files": [
+        "packages/services/test/knorviaStorageIsolation.test.ts"
+      ]
+    },
+    {
+      "name": "system/integratedTerminalShells",
+      "group": "system",
+      "total": 1,
+      "byBucket": {
+        "services/test": 1
+      },
+      "files": [
+        "packages/services/test/integrated-shell-fake-permission-20261002.test.ts"
+      ]
+    },
+    {
+      "name": "usage-stats/usageStatsService",
+      "group": "usage-stats",
+      "total": 1,
+      "byBucket": {
+        "services/test": 1
+      },
+      "files": [
+        "packages/services/test/knorviaAccountRemoval.test.ts"
+      ]
+    },
+    {
+      "name": "accessor",
+      "group": ".",
+      "total": 0,
+      "byBucket": {},
+      "files": []
+    },
+    {
+      "name": "collection",
+      "group": ".",
+      "total": 0,
+      "byBucket": {},
+      "files": []
+    },
+    {
+      "name": "dataLocationOwner",
+      "group": ".",
+      "total": 0,
+      "byBucket": {},
+      "files": []
+    },
+    {
+      "name": "memoryDiagnostics",
+      "group": ".",
+      "total": 0,
+      "byBucket": {},
+      "files": []
+    },
+    {
+      "name": "subagents/subagentMarkdown",
+      "group": "subagents",
+      "total": 0,
+      "byBucket": {},
+      "files": []
+    },
+    {
+      "name": "subagents/subagentModelSelection",
+      "group": "subagents",
+      "total": 0,
+      "byBucket": {},
+      "files": []
+    },
+    {
+      "name": "subagents/subagentServiceFiles",
+      "group": "subagents",
+      "total": 0,
+      "byBucket": {},
+      "files": []
+    },
+    {
+      "name": "subagents/subagentServicePlugins",
+      "group": "subagents",
+      "total": 0,
+      "byBucket": {},
+      "files": []
+    },
+    {
+      "name": "subagents/subagentServiceState",
+      "group": "subagents",
+      "total": 0,
+      "byBucket": {},
+      "files": []
+    },
+    {
+      "name": "subagents/subagents",
+      "group": "subagents",
+      "total": 0,
+      "byBucket": {},
+      "files": []
+    },
+    {
+      "name": "subagents/subagentsService",
+      "group": "subagents",
+      "total": 0,
+      "byBucket": {},
+      "files": []
+    },
+    {
+      "name": "system/ssh-alias/configuration",
+      "group": "system",
+      "total": 0,
+      "byBucket": {},
+      "files": []
+    },
+    {
+      "name": "system/ssh-alias/fallback",
+      "group": "system",
+      "total": 0,
+      "byBucket": {},
+      "files": []
+    },
+    {
+      "name": "system/ssh-alias/query",
+      "group": "system",
+      "total": 0,
+      "byBucket": {},
+      "files": []
+    },
+    {
+      "name": "system/ssh-alias/tokens",
+      "group": "system",
+      "total": 0,
+      "byBucket": {},
+      "files": []
+    },
+    {
+      "name": "system/sshConfigAlias",
+      "group": "system",
+      "total": 0,
+      "byBucket": {},
+      "files": []
+    },
+    {
+      "name": "system/system-probe/contracts",
+      "group": "system",
+      "total": 0,
+      "byBucket": {},
+      "files": []
+    },
+    {
+      "name": "system/system-probe/defaultAdapters",
+      "group": "system",
+      "total": 0,
+      "byBucket": {},
+      "files": []
+    },
+    {
+      "name": "system/system-probe/targetLifecycle",
+      "group": "system",
+      "total": 0,
+      "byBucket": {},
+      "files": []
+    },
+    {
+      "name": "system/system",
+      "group": "system",
+      "total": 0,
+      "byBucket": {},
+      "files": []
+    },
+    {
+      "name": "system/systemService",
+      "group": "system",
+      "total": 0,
+      "byBucket": {},
+      "files": []
+    },
+    {
+      "name": "system/systemServiceOwner",
+      "group": "system",
+      "total": 0,
+      "byBucket": {},
+      "files": []
+    },
+    {
+      "name": "terminal/terminalProfile",
+      "group": "terminal",
+      "total": 0,
+      "byBucket": {},
+      "files": []
+    },
+    {
+      "name": "terminal/terminalProfileMacOs",
+      "group": "terminal",
+      "total": 0,
+      "byBucket": {},
+      "files": []
+    },
+    {
+      "name": "terminal/terminalProfileMacOsDecode",
+      "group": "terminal",
+      "total": 0,
+      "byBucket": {},
+      "files": []
+    },
+    {
+      "name": "terminal/terminalProfileMacOsPlist",
+      "group": "terminal",
+      "total": 0,
+      "byBucket": {},
+      "files": []
+    },
+    {
+      "name": "terminal/terminalProfilePortableFormats",
+      "group": "terminal",
+      "total": 0,
+      "byBucket": {},
+      "files": []
+    },
+    {
+      "name": "terminal/terminalProfilePortablePlan",
+      "group": "terminal",
+      "total": 0,
+      "byBucket": {},
+      "files": []
+    },
+    {
+      "name": "terminal/terminalProfilePortableRead",
+      "group": "terminal",
+      "total": 0,
+      "byBucket": {},
+      "files": []
+    },
+    {
+      "name": "terminal/terminalService",
+      "group": "terminal",
+      "total": 0,
+      "byBucket": {},
+      "files": []
+    },
+    {
+      "name": "terminal/terminalServiceInstanceOwner",
+      "group": "terminal",
+      "total": 0,
+      "byBucket": {},
+      "files": []
+    },
+    {
+      "name": "terminal/terminalServiceLaunchPlan",
+      "group": "terminal",
+      "total": 0,
+      "byBucket": {},
+      "files": []
+    },
+    {
+      "name": "usage-stats/usageStats",
+      "group": "usage-stats",
+      "total": 0,
+      "byBucket": {},
+      "files": []
+    },
+    {
+      "name": "window-controller/node",
+      "group": "window-controller",
+      "total": 0,
+      "byBucket": {},
+      "files": []
+    },
+    {
+      "name": "window-controller/windowController",
+      "group": "window-controller",
+      "total": 0,
+      "byBucket": {},
+      "files": []
+    },
+    {
+      "name": "window-controller/windowHostControllerProjection",
+      "group": "window-controller",
+      "total": 0,
+      "byBucket": {},
+      "files": []
+    },
+    {
+      "name": "window-controller/windowHostControllerService",
+      "group": "window-controller",
+      "total": 0,
+      "byBucket": {},
+      "files": []
+    },
+    {
+      "name": "window-controller/windowHostSessionsIndexObserver",
+      "group": "window-controller",
+      "total": 0,
+      "byBucket": {},
+      "files": []
+    }
+  ],
+  "barrel": {
+    "scanned": 5927,
+    "main": 345,
+    "nodeEntry": 34
+  }
+}
