@@ -56,12 +56,23 @@ async function withTreeAsync(files, run) {
   }
 }
 
+/**
+ * 跑工具。
+ *
+ * 门禁默认要求同时比较「旧文件」与「上游」（计划书 L509），不传 `--old` 会报错。
+ * 这里的用例大多只验证**门槛算法本身**（描出恰好 0.19 / 0.20、run 7 / 8 这类边界），
+ * 并不关心「旧文件」那一侧，因此统一补上 `--allow-upstream-only` 显式声明；
+ * 想测双重口径的用例自己传 `--old` 时不会重复注入。
+ */
 function runTool(args) {
+  const withOld = args.includes("--old") || args.includes("--old-list");
+  const finalArgs =
+    withOld || args.includes("--allow-upstream-only") ? args : [...args, "--allow-upstream-only"];
   try {
     return {
       status: 0,
       stderr: "",
-      stdout: execFileSync(process.execPath, [tool, ...args], { encoding: "utf8" }),
+      stdout: execFileSync(process.execPath, [tool, ...finalArgs], { encoding: "utf8" }),
     };
   } catch (error) {
     // usageError 把原因写到 stderr；契约行剔除的「跳过通用名」告警也在 stderr，
@@ -359,9 +370,12 @@ test("contract-lines strips only rows named in the interface table", () => {
     "  return value + 1;",
     "}",
   ].join("\n");
+  // 前半是需要剔除的「纯契约行」（整行只有清单名与标点），
+  // 后半是实现行（含字面量/构造），按用户裁决照常计分 —— 才是本用例要验证的分界。
   const candidateText = [
-    "const UNRELATED_LOCAL = 1;",
-    "export const TOOL_ERROR_MESSAGE = 'tool failed';",
+    "export interface ToolErrorShown {",
+    "  message: TOOL_ERROR_MESSAGE;",
+    "}",
     "export function reportToolError(kind, detail) {",
     "  return { kind, detail, message: TOOL_ERROR_MESSAGE };",
     "}",
@@ -396,7 +410,8 @@ test("contract-lines strips only rows named in the interface table", () => {
         "--interface",
         join(root, "contract/interface.md"),
       ]);
-      assert.equal(stripped.status, 0, stripped.stdout);
+      // 实现行按裁决照常计分，因此仍超标 —— 这正是「剔除不覆盖实现」的证据。
+      assert.equal(stripped.status, 1, stripped.stdout);
       // 剔除前后两组行数都要在报告里可见。
       assert.match(stripped.stdout, /contract-lines=\d+/);
       assert.match(stripped.stdout, /residual-lines=\d+->\d+/);
@@ -438,7 +453,7 @@ test("contract-lines keeps dotted event names whole instead of splitting them", 
     "export function mcpHelper() {",
     "  return MCP_KEEP;",
     "}",
-    "export const event = 'mcp.server.reconnect.failed';",
+    "export type McpEventName = mcp.server.reconnect.failed;",
   ].join("\n");
   withTree(
     {
@@ -463,11 +478,16 @@ test("contract-lines keeps dotted event names whole instead of splitting them", 
         "--interface",
         join(root, "contract/interface.md"),
       ]);
-      // 整体名字只剔除含该事件名的那一行；含 `mcp` 的其它行必须留下。
-      assert.match(result.stdout, /contract-lines=1/);
+      // 关键：点号名必须整体出现在清单里，不能被拆成 mcp / server / reconnect / failed。
       assert.match(result.stdout, /contract-names=\[[^\]]*mcp\.server\.reconnect\.failed[^\]]*\]/);
-      // 关键：含 `mcp` 的其它行没有被连带剔除（若按 `mcp` 拆分会把 mcpHelper 也剔掉）。
-      assert.match(result.stdout, /lines=3/);
+      // 且清单里只应有这一个点号名 —— 若被拆散，会出现 mcp / server / reconnect / failed 四个条目。
+      const namesLine = /contract-names=\[([^\]]*)\]/u.exec(result.stdout);
+      assert.ok(namesLine, "报告里应有 contract-names");
+      const listed = namesLine[1].split(",").filter(Boolean);
+      assert.equal(listed.length, 1, `清单应只含 1 个点号名，实际：${listed.join(",")}`);
+      assert.equal(listed[0], "mcp.server.reconnect.failed");
+      // 含 `mcp` 的实现行（mcpHelper / MCP_KEEP）必须留下参与比较。
+      assert.match(result.stdout, /lines=[4-9]/);
     },
   );
 });
@@ -1708,7 +1728,9 @@ test("反刷分：新增文件照抄同目录旧文件必须 FAIL（--old-rev �
       execFileSync("git", ["-C", repo, "config", "user.name", "t"]);
       execFileSync("git", ["-C", repo, "add", "packages/x/original.ts"]);
       execFileSync("git", ["-C", repo, "commit", "-qm", "base"]);
-      // moved.ts 仅在工作区，不在 base 提交
+      // moved.ts 仅在工作区，不在 base 提交 —— 于是「被替换的旧文件」不存在。
+      // 按用户裁决（2026-10-21），这类情形必须报错退出：既不得静默退化为「只比上游」，
+      // 也不得靠同目录兄弟文件兜底（那等于让新文件绕过与旧实现的比较）。
       const result = runTool([
         "--repo",
         repo,
@@ -1723,9 +1745,8 @@ test("反刷分：新增文件照抄同目录旧文件必须 FAIL（--old-rev �
         "--old-rev",
         "HEAD",
       ]);
-      // --old 指向新路径在 HEAD 不存在；兜底与同目录 original.ts 比对后必须 FAIL
-      assert.notEqual(result.status, 0, result.stdout);
-      assert.match(result.stdout, /FAIL/);
+      assert.equal(result.status, 2, result.stdout);
+      assert.match(result.stderr, /not found|拒绝静默/u);
     },
   );
 });
@@ -1899,4 +1920,241 @@ test("packed-literal-split：运行时数据（git/ps 行、文件输出、用�
     assert.match(result.stdout, /PASS/);
     assert.doesNotMatch(result.stdout, /packed-literal-split/);
   });
+});
+
+test("--old 指向不存在的路径时报错退出，不静默退化为只比上游", () => {
+  withTree({ "upstream/keep.ts": "export const keep = 1;\n" }, (root) => {
+    const candidate = writeCandidate(
+      root,
+      "candidate.ts",
+      Array.from({ length: 14 }, (_, i) => `export const v${i} = ${i};`).join("\n"),
+    );
+    const result = runTool([
+      "--upstream-dir",
+      join(root, "upstream"),
+      "--gates",
+      "line",
+      "--candidate",
+      candidate,
+      "--old",
+      "does/not/exist.ts",
+      "--old-rev",
+      "HEAD",
+    ]);
+    assert.equal(result.status, 2, result.stdout);
+    assert.match(result.stderr, /not found/u);
+    assert.match(result.stderr, /拒绝静默/u);
+  });
+});
+
+test("完全不传 --old 时报错，要求显式声明只比上游", () => {
+  withTree({ "upstream/keep.ts": "export const keep = 1;\n" }, (root) => {
+    const candidate = writeCandidate(
+      root,
+      "candidate.ts",
+      Array.from({ length: 14 }, (_, i) => `export const w${i} = ${i};`).join("\n"),
+    );
+    // runTool 会自动补 --allow-upstream-only，这里直接调工具本体绕过它。
+    let outcome;
+    try {
+      execFileSync(
+        process.execPath,
+        [
+          tool,
+          "--upstream-dir",
+          join(root, "upstream"),
+          "--gates",
+          "line",
+          "--candidate",
+          candidate,
+        ],
+        { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] },
+      );
+      outcome = { status: 0, stderr: "" };
+    } catch (error) {
+      outcome = { status: error.status, stderr: error.stderr ?? "" };
+    }
+    assert.equal(outcome.status, 2);
+    assert.match(outcome.stderr, /no --old given/u);
+    assert.match(outcome.stderr, /--allow-upstream-only/u);
+  });
+});
+
+test("--allow-upstream-only 显式声明后可以只比上游，并在 stderr 说明其局限", () => {
+  withTree({ "upstream/keep.ts": "export const keep = 1;\n" }, (root) => {
+    const candidate = writeCandidate(
+      root,
+      "candidate.ts",
+      Array.from({ length: 14 }, (_, i) => `export const u${i} = ${i * 2};`).join("\n"),
+    );
+    const result = runTool([
+      "--upstream-dir",
+      join(root, "upstream"),
+      "--gates",
+      "line",
+      "--candidate",
+      candidate,
+      "--allow-upstream-only",
+    ]);
+    assert.equal(result.status, 0, result.stdout);
+    assert.match(result.stdout, /allow-upstream-only/u);
+    assert.match(result.stdout, /不能作为 L509 的达标依据/u);
+  });
+});
+
+test("--old 指向本仓既有路径时正常做双重比较，不打 --allow-upstream-only 提示", () => {
+  const body = Array.from({ length: 16 }, (_, i) => `export const shared${i} = ${i};`).join("\n");
+  withTree(
+    {
+      "repo/packages/x/impl.ts": body,
+      "upstream/keep.ts": "export const keep = 1;\n",
+    },
+    (root) => {
+      const repo = join(root, "repo");
+      execFileSync("git", ["-C", repo, "init", "-q"]);
+      execFileSync("git", ["-C", repo, "config", "user.email", "t@t"]);
+      execFileSync("git", ["-C", repo, "config", "user.name", "t"]);
+      execFileSync("git", ["-C", repo, "add", "packages/x/impl.ts"]);
+      execFileSync("git", ["-C", repo, "commit", "-qm", "base"]);
+      const result = runTool([
+        "--repo",
+        repo,
+        "--upstream-dir",
+        join(root, "upstream"),
+        "--gates",
+        "line",
+        "--candidate",
+        "packages/x/impl.ts",
+        "--old",
+        "packages/x/impl.ts",
+        "--old-rev",
+        "HEAD",
+      ]);
+      // 与自己的旧版本完全相同 → 双重口径下必须 FAIL。
+      assert.equal(result.status, 1, result.stdout);
+      assert.match(result.stdout, /FAIL/u);
+      assert.doesNotMatch(result.stderr, /allow-upstream-only/u);
+    },
+  );
+});
+
+test("契约行剔除只作用于「仅清单名与标点」的行，含构造代码的实现行照常计分", () => {
+  // 同一个文件里放四类行，逐一验证分界：
+  //   ① 纯契约字段行         → 剔除
+  //   ② zod 构造行           → 不剔除（属于实现）
+  //   ③ 属性访问行           → 不剔除（含未列名的标识符）
+  //   ④ 常量赋值（含字面量） → 不剔除
+  const candidateText = [
+    "export interface Probe {",
+    "  fieldA: ContractName;",
+    "  fieldB: z.string(),",
+    "  fieldC: request.sessionId,",
+    "}",
+    "export const FIELD_D = 'literal value';",
+  ].join("\n");
+  withTree(
+    {
+      "upstream/keep.ts": "export const keep = 1;\n",
+      "contract/interface.md": [
+        "# interface",
+        "",
+        "| 模块 | 导出名 |",
+        "| --- | --- |",
+        "| `probe.ts` | `ContractName` |",
+        "| `probe.ts` | `fieldA` |",
+        "| `probe.ts` | `fieldB` |",
+        "| `probe.ts` | `fieldC` |",
+        "| `probe.ts` | `FIELD_D` |",
+      ].join("\n"),
+    },
+    (root) => {
+      const candidate = writeCandidate(root, "probe.ts", candidateText);
+      const result = runTool([
+        "--upstream-dir",
+        join(root, "upstream"),
+        "--candidate",
+        candidate,
+        "--contract-lines",
+        "--interface",
+        join(root, "contract/interface.md"),
+      ]);
+      const stripped = /contract-lines=(\d+)/u.exec(result.stdout);
+      assert.ok(stripped, "报告里应有 contract-lines");
+      // 只有 `  fieldA: ContractName;` 是「仅清单名与标点」，其余三行都含实现成分。
+      assert.equal(Number(stripped[1]), 1, result.stdout);
+      // 剔除前后行数都要报出来（前值 > 后值）。
+      const residual = /residual-lines=(\d+)->(\d+)/u.exec(result.stdout);
+      assert.ok(residual, "报告里应有剔除前后行数");
+      assert.ok(
+        Number(residual[1]) > Number(residual[2]),
+        `剔除后行数应少于剔除前，实际 ${residual[1]} -> ${residual[2]}`,
+      );
+      // 含构造代码的三行必须仍在（zod 构造 / 属性访问 / 字面量赋值都是实现）。
+      // 这份夹具里没有任何一行会被"子串剔除"误伤，所以 residual 应至少覆盖这三行。
+      assert.ok(Number(residual[2]) >= 3, `实现行应保留，实际只余 ${residual[2]} 行`);
+    },
+  );
+});
+
+test("两侧对称剔除：候选与旧文件用同一份清单，剔除后相似度不再被契约行抬高", () => {
+  // 构造一对「除契约字段外完全相同」的新旧文件。
+  // 若只剔候选一侧：旧文件的契约字段成了「独有行」，相似度被压低；
+  // 若两侧都剔：留下的实现行完全一致 → 相似度如实反映「实现没变」。
+  const contractBlock = [
+    "export interface Probe {",
+    "  fieldA: ContractName;",
+    "  fieldB: ContractName;",
+    "}",
+  ].join("\n");
+  const implBlock = ["export function compute(payload) {", "  return payload * 3;", "}"].join("\n");
+  const fileBody = `${contractBlock}\n${implBlock}`;
+
+  withTree(
+    {
+      "repo/packages/x/probe.ts": fileBody,
+      "upstream/keep.ts": "export const keep = 1;\n",
+      "contract/interface.md": [
+        "# interface",
+        "",
+        "| 模块 | 导出名 |",
+        "| --- | --- |",
+        "| `probe.ts` | `Probe` |",
+        "| `probe.ts` | `fieldA` |",
+        "| `probe.ts` | `fieldB` |",
+        "| `probe.ts` | `ContractName` |",
+      ].join("\n"),
+    },
+    (root) => {
+      const repo = join(root, "repo");
+      execFileSync("git", ["-C", repo, "init", "-q"]);
+      execFileSync("git", ["-C", repo, "config", "user.email", "t@t"]);
+      execFileSync("git", ["-C", repo, "config", "user.name", "t"]);
+      execFileSync("git", ["-C", repo, "add", "packages/x/probe.ts"]);
+      execFileSync("git", ["-C", repo, "commit", "-qm", "base"]);
+      const result = runTool([
+        "--repo",
+        repo,
+        "--upstream-dir",
+        join(root, "upstream"),
+        "--gates",
+        "line",
+        "--candidate",
+        "packages/x/probe.ts",
+        "--old",
+        "packages/x/probe.ts",
+        "--old-rev",
+        "HEAD",
+        "--contract-lines",
+        "--interface",
+        join(root, "contract/interface.md"),
+      ]);
+      // 两侧都剔契约行后，剩下的是完全相同的实现行 → 相似度接近 1。
+      const containment = /containment=([\d.]+)/u.exec(result.stdout);
+      assert.ok(containment, "报告里应有 containment");
+      assert.ok(
+        Number(containment[1]) >= 0.9,
+        `两侧对称剔除后应如实反映「实现未变」，实际 containment=${containment[1]}\n${result.stdout}`,
+      );
+    },
+  );
 });
