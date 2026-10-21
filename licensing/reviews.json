@@ -134931,7 +134931,7 @@
     },
     {
       "path": "specs/contracts/contracts-02/interface.md",
-      "normalizedSha256": "13c8b7296ecce795d675caa20c4688d2f439fe695c7a7c0fe5f8ae7140515c74",
+      "normalizedSha256": "77cf71a2ad7f26036ed1d867325deb148ac295bb02d7785b0d2efb1c81ed6497",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored contracts-02 contract artifact for @knorvia/contracts (M2, tools/tracing/workflow/rewind; 56 inherited files). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries, and stubs keep only interface.md names with bodies that throw 'not implemented: contracts-02'. Old gate: source 11/11, dist 11/11, stub replacement 11/11 failed.",
