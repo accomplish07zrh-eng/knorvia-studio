@@ -73,10 +73,15 @@ export async function bootKernel(options: BootKernelOptions): Promise<KernelHost
       logger,
     });
 
+    const moduleIds = kernelPluginModuleIds();
     const rows = createKernelPluginRows(prepared.dshHome, {
       platform: process.platform,
       cwd: prepared.cwd,
-      moduleIds: kernelPluginModuleIds(),
+      moduleIds,
+      // 挂凭据 provider：不传这一项会让 `credentialRows` 恒为空，
+      // 而 `llm-pi-ai` 的 `apiKeyEnv` 在服务缺席时静默回退到启动环境，
+      // 那里已被进程级清洗删掉了所有 `*_API_KEY` —— 真实模型调用将无 key 可用。
+      credentialProviderModuleId: moduleIds.credentials,
       ...(options.mcpServers === undefined ? {} : { mcpServers: options.mcpServers }),
     });
     const configPath = join(prepared.dshHome, CONFIG_DIRECTORY, CONFIG_FILE);
