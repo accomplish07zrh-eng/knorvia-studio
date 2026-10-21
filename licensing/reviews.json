@@ -24023,7 +24023,7 @@
       "normalizedSha256": "c7d3721dcf32fe40af52045a851dd948fae6e49c3ccbc7ede2b86c63177173e8",
       "decision": "original",
       "license": "MIT",
-      "basis": "Knorvia-authored rework of the browser runtime bridge accessor: the shape check is a named type guard that reads members through Reflect.get and accepts both object and function candidates, so a bridge installed as a callable object or as a prototype chain is still recognised; the required member table makes adding a member a single-place change. The public surface is unchanged.",
+      "basis": "Knorvia-authored rework of the browser runtime bridge accessor: the shape check is a named type guard that reads members through Reflect.get and accepts both object and function candidates, so a bridge installed as a callable object or inherited through a prototype chain is still recognised; the required member table keeps adding a member a single-place change. Public surface unchanged.",
       "evidence": ["specs/contracts/node-repl-host-broker/interface.md"]
     },
     {
@@ -134928,7 +134928,7 @@
     },
     {
       "path": "specs/contracts/contracts-02/interface.md",
-      "normalizedSha256": "13c8b7296ecce795d675caa20c4688d2f439fe695c7a7c0fe5f8ae7140515c74",
+      "normalizedSha256": "77cf71a2ad7f26036ed1d867325deb148ac295bb02d7785b0d2efb1c81ed6497",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored contracts-02 contract artifact for @knorvia/contracts (M2, tools/tracing/workflow/rewind; 56 inherited files). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries, and stubs keep only interface.md names with bodies that throw 'not implemented: contracts-02'. Old gate: source 11/11, dist 11/11, stub replacement 11/11 failed.",
@@ -140039,7 +140039,7 @@
       "normalizedSha256": "befbbd6211155f8cc5c0b0c530b2e7fafa93d2a312140f3f7658bfef73c32dee",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored contract section registering the public names of runtime-bridge.ts for the M6 rework rework: the section lists only file name and contract names so the contract-line stripping tool sees an accurate name set; evidence and rationale live outside the table to avoid polluting the extracted names.",
+      "basis": "Knorvia-authored contract section registering the public names of runtime-bridge.ts for the M6 rework: the table lists only file name and contract names so the contract-line stripping tool sees an accurate name set; evidence and rationale live outside the table to avoid polluting the extracted names.",
       "evidence": ["docs/knorvia-kernel-m6-rework-acceptance.md"]
     },
     {
