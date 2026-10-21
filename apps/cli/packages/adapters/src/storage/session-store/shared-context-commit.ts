@@ -22,43 +22,55 @@ import { sessionEntries, saveSessionEntry } from "./repositories/session-entries
 import { createSession, getSession } from "./repositories/sessions.js";
 import { withWriteTransaction } from "./repositories/write-transaction.js";
 
+/** 把未知值窄化成普通对象记录（数组与 null 都不算）。 */
 function objectRecord(value: unknown): Record<string, unknown> | undefined {
-  return value !== null && typeof value === "object" && !Array.isArray(value)
-    ? (value as Record<string, unknown>)
-    : undefined;
+  const usable = value !== null && typeof value === "object" && !Array.isArray(value);
+  return usable ? (value as Record<string, unknown>) : undefined;
+}
+
+/** 校验 bundle 的身份一致性：三个 id 必须指向同一会话，且消息形态必须是共享上下文导入。 */
+function assertBundleIdentity(bundle: SharedContextImportCommitBundle): void {
+  const { session, contextMessage, provenance } = bundle;
+  const message = contextMessage.info;
+
+  const sameSession =
+    String(message.sessionID) === String(session.id) &&
+    String(provenance.sessionID) === String(session.id) &&
+    provenance.id.includes(String(session.id));
+  const importShape =
+    message.role === "user" &&
+    message.visibility === "model-only" &&
+    message.source === "shared_context";
+
+  if (!sameSession || !importShape) {
+    throw new Error("Shared context import bundle identity is invalid");
+  }
 }
 
 export function commitSharedContextImportBundle(
   database: DatabaseSync,
   bundle: SharedContextImportCommitBundle,
 ): SessionInfo {
+  assertBundleIdentity(bundle);
+
   const { session, contextMessage, provenance } = bundle;
-  const message = contextMessage.info;
-  if (
-    String(message.sessionID) !== String(session.id) ||
-    String(provenance.sessionID) !== String(session.id) ||
-    !provenance.id.includes(String(session.id)) ||
-    message.role !== "user" ||
-    message.visibility !== "model-only" ||
-    message.source !== "shared_context"
-  ) {
-    throw new Error("Shared context import bundle identity is invalid");
-  }
   let result!: SessionInfo;
+
   withWriteTransaction(database, "own", () => {
     const existing = getSession(database, session.id);
     if (existing) {
-      const savedProvenance = sessionEntries(database, {
-        sessionID: session.id,
-        type: provenance.type,
-      }).some((entry) => entry.id === provenance.id);
-      if (!savedProvenance) throw new Error("Shared context import session is incomplete");
+      // 会话已在：只允许「重复提交同一 bundle」的幂等路径，缺 provenance 视为半次导入。
+      const saved = sessionEntries(database, { sessionID: session.id, type: provenance.type });
+      if (!saved.some((entry) => entry.id === provenance.id)) {
+        throw new Error("Shared context import session is incomplete");
+      }
       result = existing;
       return;
     }
+
     result = createSession(database, session);
     // 导入整个临界段保持同步，让其他调用只能在本次事务结束后进入。
-    saveMessageSync(database, message);
+    saveMessageSync(database, contextMessage.info);
     for (const part of contextMessage.parts) savePartSync(database, part);
     saveSessionEntry(database, provenance);
   });
