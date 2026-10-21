@@ -63,23 +63,46 @@ function invalidRule(index: number, detail: string): Error {
   return new Error(`Invalid fs fault rule at index ${index}: ${detail}`);
 }
 
-function optionalString(
+/** 字段规格：可选（缺席即 undefined、有值必须是字符串）或必填（非空且去空白）。 */
+type FieldSpec = "optional" | "required";
+
+/**
+ * 按规格读一个字符串字段。
+ *
+ * 两种规格的差别只有「缺席时怎么办」与「是否拒绝空串」，
+ * 收成一个入口后，字段校验的措辞与顺序都集中在这里，不会每个字段各写一遍。
+ */
+function readString(
+  fields: Record<string, unknown>,
+  name: string,
+  index: number,
+  spec: FieldSpec,
+): string | undefined {
+  const value = fields[name];
+  if (value === undefined) {
+    if (spec === "optional") return undefined;
+    throw invalidRule(index, `${name} must be a non-empty string`);
+  }
+  if (typeof value !== "string") {
+    throw invalidRule(
+      index,
+      spec === "optional" ? `${name} must be a string` : `${name} must be a non-empty string`,
+    );
+  }
+  if (spec === "required" && value.trim() === "") {
+    throw invalidRule(index, `${name} must be a non-empty string`);
+  }
+  return spec === "optional" ? value : value.trim();
+}
+
+/** 可选路径字段：统一转成正斜杠；缺席保持 undefined（不构造空串）。 */
+function optionalSlashes(
   fields: Record<string, unknown>,
   name: string,
   index: number,
 ): string | undefined {
-  const value = fields[name];
-  if (value === undefined) return undefined;
-  if (typeof value !== "string") throw invalidRule(index, `${name} must be a string`);
-  return value;
-}
-
-function requiredString(fields: Record<string, unknown>, name: string, index: number): string {
-  const value = fields[name];
-  if (typeof value !== "string" || value.trim() === "") {
-    throw invalidRule(index, `${name} must be a non-empty string`);
-  }
-  return value.trim();
+  const raw = readString(fields, name, index, "optional");
+  return raw === undefined ? undefined : slashes(raw);
 }
 
 function operationSet(value: unknown, index: number): Set<Operation> | undefined {
@@ -109,20 +132,21 @@ function normalizeRule(fields: Record<string, unknown>, index: number): Rule {
   }
   // 字段校验顺序（合同固定）：maxMatches → pathRegex 类型 → code → id → message →
   // operations → pathEndsWith → pathIncludes → 最后才构造正则（原生 SyntaxError）。
-  const regexSource = optionalString(fields, "pathRegex", index);
-  const code = requiredString(fields, "code", index);
-  const id = requiredString(fields, "id", index);
-  const message = optionalString(fields, "message", index);
+  // 三组字段各自走同一个读取器：字符串按规格、操作集合单独校验、路径转正斜杠。
+  const regexSource = readString(fields, "pathRegex", index, "optional");
+  const code = readString(fields, "code", index, "required") as string;
+  const id = readString(fields, "id", index, "required") as string;
+  const message = readString(fields, "message", index, "optional");
   const selectedOperations = operationSet(fields.operations, index);
-  const ending = optionalString(fields, "pathEndsWith", index);
-  const inclusion = optionalString(fields, "pathIncludes", index);
+  const ending = optionalSlashes(fields, "pathEndsWith", index);
+  const inclusion = optionalSlashes(fields, "pathIncludes", index);
   return {
     id,
     code,
     message,
     operations: selectedOperations,
-    pathEndsWith: ending === undefined ? undefined : slashes(ending),
-    pathIncludes: inclusion === undefined ? undefined : slashes(inclusion),
+    pathEndsWith: ending,
+    pathIncludes: inclusion,
     expression: regexSource === undefined ? undefined : new RegExp(regexSource),
     maximum,
     consumed: 0,
