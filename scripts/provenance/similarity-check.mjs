@@ -230,9 +230,20 @@ function verdictFor(output, candidate) {
 
 const rows = [];
 for (const candidate of candidates) {
-  // 未改动的文件不必跑：它与旧文件的相似度恒为 1.000，结论直接是「未重写 → 不达标」。
+  // 未改动的文件：双重口径必然 1.000（等于自己），但**仍要跑一次「仅上游」** ——
+  // 那个值说明「继承的实现与上游有多像」，是判断「照搬 / 本就不同」的唯一依据。
   if (unchangedFromBaseline.has(candidate)) {
-    rows.push({ candidate, dual: null, unchanged: true, upstreamOnly: null });
+    const upstreamOnly = runSimilarity([
+      "--candidate",
+      candidate,
+      ...(values.explain ? ["--explain"] : []),
+    ]);
+    rows.push({
+      candidate,
+      dual: null,
+      unchanged: true,
+      upstreamOnly: verdictFor(upstreamOnly, candidate),
+    });
     continue;
   }
   // 两次调用：双重（旧+上游）与仅上游 —— 差值即可看出「旧文件」这一侧的影响。
