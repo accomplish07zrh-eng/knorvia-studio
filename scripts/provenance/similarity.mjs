@@ -705,7 +705,13 @@ function dumpContractLines(candidates, results) {
   const limit = Number(values["dump-residual-limit"] ?? 50);
   for (const [index, result] of results.entries()) {
     const baseline = candidates[index]?.contractBaseline;
-    if (!baseline) continue;
+    if (!baseline) {
+      // 静默跳过会让「输出 0 行」看不出原因；明确说是哪一种情况。
+      process.stderr.write(
+        `similarity: dump 跳过 ${result.path}：未启用 --contract-lines（或该候选无契约名可比）\n`,
+      );
+      continue;
+    }
     if (values["dump-residual"]) {
       const all = baseline.residual ?? [];
       process.stdout.write(`\n--- residual: ${result.path} (${all.length} 行) ---\n`);
