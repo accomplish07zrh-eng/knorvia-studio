@@ -8,10 +8,20 @@ import {
   type BrowserConnectionIdentity,
 } from "./browser-session-connections.js";
 
+/** 协议 agent 侧上下文的简称；只在本模块内使用，便于把工厂函数签名压短。 */
+type AgentSideContext = KnorviaProtocolAgentServerContext;
+
 /** 会话生命周期通知的两种载荷；两者都是「广播给该会话的全部已知连接」的请求。 */
 type LifecycleNotice =
   | { readonly method: "turnEnded"; readonly turnId: string | undefined }
   | { readonly method: "closeSession" };
+
+/** 广播所需的三个入参；收成一个对象，让调用点的意图比三个位置参数清楚。 */
+interface BroadcastRequest {
+  readonly input: BrowserControlListInput;
+  readonly targets: readonly BrowserConnectionIdentity[];
+  readonly notice: LifecycleNotice;
+}
 
 /**
  * 造一个走协议反向请求的浏览器控制端口。
@@ -23,9 +33,8 @@ type LifecycleNotice =
  * @param context - 协议 agent 侧服务上下文（提供反向请求通道）。
  * @returns `BrowserControlPort` 实现。
  */
-export function createProtocolBrowserControlBroker(
-  context: KnorviaProtocolAgentServerContext,
-): BrowserControlPort {
+export function createProtocolBrowserControlBroker(context: AgentSideContext): BrowserControlPort {
+  // 两个协作者各管一件事：通道负责发请求，目录负责记连接。
   const channel = new BrowserRequestChannel(context);
   const directory = new BrowserSessionConnections();
 
@@ -35,30 +44,37 @@ export function createProtocolBrowserControlBroker(
    * 用 `allSettled` 而非 `all`：单个连接发不出去不能阻止其余连接收到通知，
    * 而且这里没有「全部成功才算成功」的语义 —— 通知是尽力而为。
    *
-   * @param input - 携带 sessionId 与 turnId 的调用输入。
-   * @param targets - 已解析出的连接集（调用方决定是快照还是摘取）。
-   * @param notice - 要广播的载荷。
+   * @param request - 调用输入、已解析的连接集、要广播的载荷。
    */
-  const broadcast = async (
-    input: BrowserControlListInput,
-    targets: readonly BrowserConnectionIdentity[],
-    notice: LifecycleNotice,
-  ): Promise<void> => {
+  const broadcast = async ({ input, targets, notice }: BroadcastRequest): Promise<void> => {
     const deliveries = targets.map((target) => channel.notify(input, target, notice));
     await Promise.allSettled(deliveries);
   };
 
-  return {
-    list: (input) => channel.list(input),
-    execute: (input) => channel.execute(input, () => directory.remember(input)),
-    turnEnded: (input) =>
-      // 快照而不摘取：回合结束不结束这条连接，下一个回合还要用它。
-      broadcast(input, directory.snapshot(input.sessionId), {
-        method: "turnEnded",
-        turnId: input.turnId,
-      }),
-    closeSession: (input) =>
-      // 先摘取再等待回执：旧 close 的等待期里新建立的连接不该被它删掉。
-      broadcast(input, directory.take(input.sessionId), { method: "closeSession" }),
-  };
+  // 三个入口逐个实现成一个具名函数，再组装成端口对象。
+  // 分开写的好处：每个入口的「用快照还是用摘取」这类差异就在它自己的函数里，
+  // 不必在一个对象字面量的四个属性之间来回对照。
+  const list: BrowserControlPort["list"] = (input) => channel.list(input);
+
+  const execute: BrowserControlPort["execute"] = (input) =>
+    channel.execute(input, () => directory.remember(input));
+
+  /** 回合结束：用快照 —— 结束回合不结束连接，下一个回合还要用它。 */
+  const turnEnded: NonNullable<BrowserControlPort["turnEnded"]> = (input) =>
+    broadcast({
+      input,
+      targets: directory.snapshot(input.sessionId),
+      notice: { method: "turnEnded", turnId: input.turnId },
+    });
+
+  /** 关闭会话：先摘取再等回执 —— 旧 close 的等待期里新建的连接不该被它删掉。 */
+  const closeSession: NonNullable<BrowserControlPort["closeSession"]> = (input) =>
+    broadcast({
+      input,
+      targets: directory.take(input.sessionId),
+      notice: { method: "closeSession" },
+    });
+
+  const port: BrowserControlPort = { list, execute, turnEnded, closeSession };
+  return port;
 }
