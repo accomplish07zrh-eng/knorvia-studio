@@ -1731,9 +1731,9 @@ test("反刷分：新增文件照抄同目录旧文件必须 FAIL（--old-rev �
       execFileSync("git", ["-C", repo, "config", "user.name", "t"]);
       execFileSync("git", ["-C", repo, "add", "packages/x/original.ts"]);
       execFileSync("git", ["-C", repo, "commit", "-qm", "base"]);
-      // moved.ts 仅在工作区（不在 base 提交）。显式 `--old` 未给 `--old-rev` 时按工作区解析，
-      // 于是比较对象就是它自己 —— containment 1.000 → FAIL。
-      // 这正是反刷分要的：新文件不能靠「基线里没有它」蒙过去。
+      // moved.ts 仅在工作区（不在 base 提交）。显式 `--old` 未给 `--old-rev` 时若指向同一文件，
+      // 会被自比守卫判为「测错了对象」（exit 2）——
+      // 新增文件必须与「真实的旧实现」比，不能拿自己当旧文件。
       const result = runTool([
         "--repo",
         repo,
@@ -2017,10 +2017,11 @@ test("--old 指向本仓既有路径时正常做双重比较，不打 --allow-up
       execFileSync("git", ["-C", repo, "add", "packages/x/impl.ts"]);
       execFileSync("git", ["-C", repo, "commit", "-qm", "base"]);
       // 旧版本先提交「与当前不同」的内容，再在工作区写入新版 —— 这样才是真正的双重比较。
-      // （若两边同内容，自比守卫会判为「测错了对象」并 exit 2，那是另一条用例的范围。）
       writeFileSync(
         join(repo, "packages/x/impl.ts"),
-        Array.from({ length: 16 }, (_, i) => `export const legacy${i} = ${i};`).join("\n"),
+        Array.from({ length: 16 }, function (_, i) {
+          return "export const legacy" + String(i) + " = " + String(i) + ";";
+        }).join("\n"),
         "utf8",
       );
       execFileSync("git", ["-C", repo, "add", "packages/x/impl.ts"]);
@@ -2160,8 +2161,8 @@ test("两侧对称剔除：候选与旧文件用同一份清单，剔除后相�
         join(root, "contract/interface.md"),
       ]);
       // 两侧都剔契约行后，剩下的是完全相同的实现行 → 相似度 = 1。
-      // 用 --old-rev HEAD 取提交里的版本：内容与工作区相同，但「不是同一个文件实例」，
-      // 因此不会被自比守卫拦下（守卫只针对「给了 --old 却没给 rev」的情形）。
+      // 用 --old-rev HEAD 取提交里的版本：内容与工作区相同，但不是同一实例，
+      // 因此不会被自比守卫拦下（守卫只针对「给了 --old 却没给 rev」）。
       const containment = /containment=([\d.]+)/u.exec(result.stdout);
       assert.ok(containment, "报告里应有 containment");
       assert.ok(
@@ -2374,6 +2375,130 @@ test("基线规则 3 的例外：显式 --allow-upstream-only 时只比上游并
       rmSync(absolute, { force: true });
     }
   });
+});
+
+test("纯语法骨架行两侧都不计：try/catch/finally/else/return;/纯括号", () => {
+  // 夹具：大量骨架行 + 少量真实实现。骨架行不计入分母。
+  const skeletonHeavy = [
+    "export function guarded(flag) {",
+    "  try {",
+    "    return;",
+    "  } catch (error) {",
+    "    return;",
+    "  } finally {",
+    "    return;",
+    "  }",
+    "}",
+    "if (flag) {",
+    "} else {",
+    "}",
+  ].join("\n");
+  withTree(
+    {
+      "upstream/keep.ts": "export const keep = 1;\n",
+      "repo/packages/x/skeleton.ts": skeletonHeavy,
+    },
+    (root) => {
+      const json = join(root, "report.json");
+      runTool([
+        "--upstream-dir",
+        join(root, "upstream"),
+        "--candidate",
+        "packages/x/skeleton.ts",
+        "--json",
+        json,
+        "--gates",
+        "line",
+        "--repo",
+        join(root, "repo"),
+      ]);
+      const report = JSON.parse(readFileSync(json, "utf8"));
+      const [entry] = report.candidates;
+      // 8 行骨架被剔除后，只剩函数签名与 if 等少数行。
+      assert.ok(entry.lines <= 3, "骨架行应被剔除，实际 lines=" + String(entry.lines));
+    },
+  );
+});
+
+test("骨架行不计，但带返回值的实现行照常计分", () => {
+  const implementationHeavy = [
+    "export function compute(input) {",
+    "  try {",
+    "    return input * 2;",
+    "  } catch (error) {",
+    "    return fallback(error);",
+    "  }",
+    "}",
+    "export function pick(flag) {",
+    "  if (flag) {",
+    "    return flag.value;",
+    "  } else {",
+    "    return flag.other;",
+    "  }",
+    "}",
+  ].join("\n");
+  withTree(
+    {
+      "upstream/keep.ts": "export const keep = 1;\n",
+      "repo/packages/x/impl.ts": implementationHeavy,
+    },
+    (root) => {
+      const json = join(root, "report.json");
+      runTool([
+        "--upstream-dir",
+        join(root, "upstream"),
+        "--candidate",
+        "packages/x/impl.ts",
+        "--json",
+        json,
+        "--gates",
+        "line",
+        "--repo",
+        join(root, "repo"),
+      ]);
+      const report = JSON.parse(readFileSync(json, "utf8"));
+      const [entry] = report.candidates;
+      // 只有 try { / } catch (error) { / } 属骨架；带 return 表达式的行必须保留。
+      assert.ok(entry.lines >= 8, "实现行应保留，实际 lines=" + String(entry.lines));
+    },
+  );
+});
+
+test("catch 带额外条件子句不算骨架行", () => {
+  const withGuard = [
+    "export function run(task) {",
+    "  try {",
+    "    task();",
+    "  } catch (error) when (error.retryable) {",
+    "    task.retry();",
+    "  }",
+    "}",
+  ].join("\n");
+  withTree(
+    {
+      "upstream/keep.ts": "export const keep = 1;\n",
+      "repo/packages/x/guard.ts": withGuard,
+    },
+    (root) => {
+      const json = join(root, "report.json");
+      runTool([
+        "--upstream-dir",
+        join(root, "upstream"),
+        "--candidate",
+        "packages/x/guard.ts",
+        "--json",
+        json,
+        "--gates",
+        "line",
+        "--repo",
+        join(root, "repo"),
+      ]);
+      const report = JSON.parse(readFileSync(json, "utf8"));
+      const [entry] = report.candidates;
+      // 条件 catch 行属实现表达，必须计入。
+      assert.ok(entry.lines >= 4, "条件 catch 行应计入，实际 lines=" + String(entry.lines));
+    },
+  );
 });
 
 test("自比守卫：--old 指向同一文件且未给 --old-rev 时报错", () => {
