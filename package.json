@@ -16,7 +16,7 @@
     "prepare:desktop-runtime": "pnpm --filter @knorvia/desktop prepare:runtime-assets",
     "dep:graph": "node scripts/dependency-graph.mjs",
     "dep:refs": "node scripts/dep-refs.mjs",
-    "verify:pre-push": "pnpm run lint && pnpm run architecture:check -- --changed",
+    "verify:pre-push": "pnpm run lint && pnpm run architecture:check -- --changed && node scripts/verify-provenance.mjs",
     "build": "pnpm -r build",
     "build:desktop-agent:bytecode": "node scripts/build-desktop-agent-bytecode.mjs",
     "build:knorvia": "node scripts/build.mjs",
