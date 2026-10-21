@@ -194,13 +194,18 @@ test("B1 落盘的行清单与公开物化结果一致，且以单个 LF 结尾"
     assert.equal(bytes.includes(0x0d), false, "配置不得包含 CR");
     assert.equal(bytes[bytes.length - 1], 0x0a, "配置必须以单个 LF 结尾");
     const parsed = JSON.parse(text);
+    const moduleIds = kernel.kernelPluginModuleIds();
     assert.deepEqual(
       parsed,
       kernel.createKernelPluginRows(host.dshHome, {
         platform: process.platform,
         // 物化时用的就是启动 cwd；不给 cwd 会落到宿主 process.cwd()，那是另一个值。
         cwd: root,
-        moduleIds: kernel.kernelPluginModuleIds(),
+        moduleIds,
+        // 真实启动会挂凭据 provider（`host.ts` 传 `moduleIds.credentials`）。
+        // 这里必须同样传上，否则「落盘的行」与「公开物化结果」会差一行 ——
+        // 而那正是这条断言要防的事：落盘内容必须如实反映代码路径。
+        credentialProviderModuleId: moduleIds.credentials,
       }),
       "落盘的行必须与公开物化结果逐字段一致",
     );
