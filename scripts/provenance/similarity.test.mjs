@@ -6,7 +6,7 @@
 // 行门槛用例用 --gates line、结构用例用 --gates all，两道门槛各自独立验证（验收用默认 all）。
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
-import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { test } from "node:test";
@@ -27,6 +27,9 @@ import {
 } from "./similarity-structural.mjs";
 
 const tool = fileURLToPath(new URL("./similarity.mjs", import.meta.url));
+
+/** 真实仓库根：基线规则（--old-rev 默认 beff12b5）需要真实 git 历史才能解析。 */
+const repoRoot = execFileSync("git", ["rev-parse", "--show-toplevel"], { encoding: "utf8" }).trim();
 
 function withTree(files, run) {
   const root = mkdtempSync(join(tmpdir(), "knorvia-similarity-"));
@@ -1728,9 +1731,9 @@ test("反刷分：新增文件照抄同目录旧文件必须 FAIL（--old-rev �
       execFileSync("git", ["-C", repo, "config", "user.name", "t"]);
       execFileSync("git", ["-C", repo, "add", "packages/x/original.ts"]);
       execFileSync("git", ["-C", repo, "commit", "-qm", "base"]);
-      // moved.ts 仅在工作区，不在 base 提交 —— 于是「被替换的旧文件」不存在。
-      // 按用户裁决（2026-10-21），这类情形必须报错退出：既不得静默退化为「只比上游」，
-      // 也不得靠同目录兄弟文件兜底（那等于让新文件绕过与旧实现的比较）。
+      // moved.ts 仅在工作区（不在 base 提交）。显式 `--old` 未给 `--old-rev` 时按工作区解析，
+      // 于是比较对象就是它自己 —— containment 1.000 → FAIL。
+      // 这正是反刷分要的：新文件不能靠「基线里没有它」蒙过去。
       const result = runTool([
         "--repo",
         repo,
@@ -1742,11 +1745,10 @@ test("反刷分：新增文件照抄同目录旧文件必须 FAIL（--old-rev �
         "packages/x/moved.ts",
         "--old",
         "packages/x/moved.ts",
-        "--old-rev",
-        "HEAD",
       ]);
-      assert.equal(result.status, 2, result.stdout);
-      assert.match(result.stderr, /not found|拒绝静默/u);
+      assert.equal(result.status, 1, result.stdout);
+      assert.match(result.stdout, /FAIL/u);
+      assert.match(result.stdout, /containment=1\.000/u);
     },
   );
 });
@@ -1938,8 +1940,6 @@ test("--old 指向不存在的路径时报错退出，不静默退化为只比�
       candidate,
       "--old",
       "does/not/exist.ts",
-      "--old-rev",
-      "HEAD",
     ]);
     assert.equal(result.status, 2, result.stdout);
     assert.match(result.stderr, /not found/u);
@@ -1975,7 +1975,8 @@ test("完全不传 --old 时报错，要求显式声明只比上游", () => {
       outcome = { status: error.status, stderr: error.stderr ?? "" };
     }
     assert.equal(outcome.status, 2);
-    assert.match(outcome.stderr, /no --old given/u);
+    // 现在先尝试从基线自动解析；基线里没有该候选时，报「无基线来源」并要求显式声明。
+    assert.match(outcome.stderr, /no --old given|无同路径文件/u);
     assert.match(outcome.stderr, /--allow-upstream-only/u);
   });
 });
@@ -2027,8 +2028,6 @@ test("--old 指向本仓既有路径时正常做双重比较，不打 --allow-up
         "packages/x/impl.ts",
         "--old",
         "packages/x/impl.ts",
-        "--old-rev",
-        "HEAD",
       ]);
       // 与自己的旧版本完全相同 → 双重口径下必须 FAIL。
       assert.equal(result.status, 1, result.stdout);
@@ -2142,8 +2141,6 @@ test("两侧对称剔除：候选与旧文件用同一份清单，剔除后相�
         "packages/x/probe.ts",
         "--old",
         "packages/x/probe.ts",
-        "--old-rev",
-        "HEAD",
         "--contract-lines",
         "--interface",
         join(root, "contract/interface.md"),
@@ -2251,4 +2248,114 @@ test("--dump-residual-limit 限制输出行数并提示总数", () => {
       assert.match(result.stdout, /共 20 行/u);
     },
   );
+});
+
+test("基线规则 1：不给 --old 时自动与 beff12b5 同路径版本比较", () => {
+  // 用真实仓库里的一个文件（它在 beff12b5 上存在同路径）验证自动解析生效。
+  // 断言点：报告的比较文件名正是该文件自身，且没有报「无基线来源」。
+  const candidate = "apps/cli/packages/adapters/src/mcp/client-tools.ts";
+  // 上游缓存目录在仓库外（不在主仓内），用环境变量或约定路径给出；缺失时跳过本用例。
+  const upstreamDir =
+    process.env.KNORVIA_UPSTREAM_DIR ?? "D:/knorvia studio开发/cache/zcode-872ad960";
+  if (!existsSync(upstreamDir)) return;
+  let outcome;
+  try {
+    outcome = {
+      status: 0,
+      stdout: execFileSync(
+        process.execPath,
+        [
+          tool,
+          "--repo",
+          repoRoot,
+          "--candidate",
+          candidate,
+          "--upstream-dir",
+          upstreamDir,
+          "--upstream-rev",
+          "872ad960de7ec172591f7e1952f7849229f94521",
+          "--gates",
+          "line",
+        ],
+        { cwd: repoRoot, encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] },
+      ),
+    };
+  } catch (error) {
+    outcome = { status: error.status, stdout: error.stdout ?? "" };
+  }
+  // 该文件当前与基线相似（0.359），因此非 0 退出，但必须真的比过而不是报「无来源」。
+  assert.match(outcome.stdout, /containment=[\d.]+ \(/u);
+  assert.match(outcome.stdout, /client-tools\.ts\)/u);
+  assert.doesNotMatch(outcome.stdout, /无同路径文件/u);
+});
+
+test("基线规则 3：基线无同路径且不在来源映射里时，必须报错并要求显式声明", () => {
+  withTree({ "upstream/keep.ts": "export const keep = 1;\n" }, (root) => {
+    // 候选写成真实仓库里不存在的路径，模拟「基线里没有的新文件」。
+    const relative = "apps/cli/packages/adapters/src/__baseline_probe__.ts";
+    const absolute = join(repoRoot, relative);
+    writeFileSync(absolute, "export const probe = 1;\n", "utf8");
+    try {
+      let outcome;
+      try {
+        execFileSync(
+          process.execPath,
+          [
+            tool,
+            "--candidate",
+            relative,
+            "--upstream-dir",
+            join(root, "upstream"),
+            "--gates",
+            "line",
+          ],
+          { cwd: repoRoot, encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] },
+        );
+        outcome = { status: 0, stderr: "" };
+      } catch (error) {
+        outcome = { status: error.status, stderr: error.stderr ?? "" };
+      }
+      assert.equal(outcome.status, 2, outcome.stderr);
+      assert.match(outcome.stderr, /无同路径文件/u);
+      assert.match(outcome.stderr, /--allow-upstream-only/u);
+    } finally {
+      rmSync(absolute, { force: true });
+    }
+  });
+});
+
+test("基线规则 3 的例外：显式 --allow-upstream-only 时只比上游并标注 no-baseline-source", () => {
+  withTree({ "upstream/keep.ts": "export const keep = 1;\n" }, (root) => {
+    const relative = "apps/cli/packages/adapters/src/__baseline_probe2__.ts";
+    const absolute = join(repoRoot, relative);
+    writeFileSync(absolute, "export const probe2 = 1;\n", "utf8");
+    try {
+      let outcome;
+      try {
+        outcome = {
+          status: 0,
+          stdout: execFileSync(
+            process.execPath,
+            [
+              tool,
+              "--candidate",
+              relative,
+              "--upstream-dir",
+              join(root, "upstream"),
+              "--gates",
+              "line",
+              "--allow-upstream-only",
+            ],
+            { cwd: repoRoot, encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] },
+          ),
+        };
+      } catch (error) {
+        outcome = { status: error.status, stdout: error.stdout ?? "" };
+      }
+      // 允许通过，但必须标注「无基线来源」。
+      assert.match(outcome.stdout, /no-baseline-source/u);
+    } finally {
+      rmSync(absolute, { force: true });
+    }
+  });
 });
