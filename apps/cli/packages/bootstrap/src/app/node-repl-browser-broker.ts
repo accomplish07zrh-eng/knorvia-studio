@@ -67,7 +67,8 @@ function acceptSocket(
   socket.once("close", () => peers.delete(socket));
 
   const serving = serveBrowserBrokerConnection(socket, {
-    ...options,
+    port: options.browserControlPort,
+    logger: options.logger,
     token,
     signal: lifetime.signal,
   });
