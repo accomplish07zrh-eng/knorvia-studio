@@ -37,3 +37,29 @@ export function brokerCall(
 ## 常量
 
 - 响应上限 `32 * 1024 * 1024` 字节。该值不是公开导出，但行为（B5）与错误文案属于兼容面。
+
+## 返工兼容面（M6 重扫，2026-10-21）
+
+> 本节登记「历史继承文件里必须逐字保留的公开契约名」，供 `--contract-lines` 剔除使用。
+> **本节不宣称该文件属于本包范围** —— 本包原「在范围」仍只有 `broker-transaction.ts` 与 `ipc.ts`。
+>
+> 表格内**只放文件名与契约名**：`--contract-lines` 会提取整份 `interface.md` 表格行里的全部标识符，
+> 混入实现细节会让剔除范围失真（实测：说明列里的实现名会被误剔，多剔 3 行）。
+
+| 文件                | 兼容名                                                                                                                                                                              |
+| ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `runtime-bridge.ts` | `NodeReplBrowserRuntimeBridge` `documentationRoot` `assertAvailable` `readNodeReplBrowserRuntimeBridge` `NODE_REPL_BROWSER_BRIDGE_SYMBOL` `BROWSER_UNAVAILABLE_IN_SUBAGENT_MESSAGE` |
+
+### 为什么这些名字不能改名（证据，不属于剔除依据）
+
+6 个名字全部有跨文件引用，其中 `readNodeReplBrowserRuntimeBridge` 与
+`NodeReplBrowserRuntimeBridge` 被跨包直接 import
+（`apps/cli/packages/browser-use-plugin/src/browser-client.ts`）；
+`NODE_REPL_BROWSER_BRIDGE_SYMBOL` 的字符串是两个执行单元之间的交接键；
+`BROWSER_UNAVAILABLE_IN_SUBAGENT_MESSAGE` 的文案会被 UI 显示；
+`documentationRoot` 与 `assertAvailable` 是 `BrowserClientTransport` 的实现面。
+
+### 实现部分已真重写
+
+该文件的实现部分已重写（不是靠剔除蒙过），重写前后的实测值与逐条改动说明见
+`docs/knorvia-kernel-m6-rework-acceptance.md` 第四节。
