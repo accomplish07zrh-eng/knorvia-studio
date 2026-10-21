@@ -1788,3 +1788,108 @@
 ### `workflow/session-links.ts`
 
 - `deriveWorkflowSessionLinks` (FunctionDeclaration) — `export function deriveWorkflowSessionLinks( snapshot: Pick<WorkflowRunSnapshot, "activities" | "runId">, ): WorkflowSessionLink[] { const attemptByScope = new Map<string, number>(); return snapshot.ac`
+
+## 相邻文件的契约行（不在本包范围，仅登记契约名以供剔除）
+
+> **本节的目的不是宣称范围。** contracts/src/errors/index.ts 已登记 `independent-replacement`，
+> 按 AGENTS.md「不重复改已独立候选」不属于本包的重写对象；但它导出的错误码是**对外契约**——
+> 名字被下游代码与契约测试逐字依赖，改名会破坏调用方或让测试变红。
+> 因此在此登记契约名，供「契约行剔除」机制（`--contract-lines`）在计分前剔除这些行。
+
+> **⚠️ 本节写作约束（重要）**：两种模式的反引号扫描范围不同——
+> `--contract-lines` 只扫**表格行**的反引号；`--declaration` 扫**全文**反引号与 code fence。
+> 因此本节**一律不给文件路径加反引号**（写成纯文本），使两种模式都不会把路径切成碎片名。
+> 表格内只放契约名与线协议值。
+
+### errors/index.ts —— 27 个错误码
+
+**键名与线协议值一一对应，且值由键名机械派生**（驼峰 → 下划线），当前 27 条**失配 0**。
+
+> 因此**登记键名即覆盖值**，不必逐字写 54 条。
+> **但这是「当前 27 条实测的事实」，不是规则**：若将来新增不合该派生规则的键
+> （例如 `HTTPError` 可能派生成 httperror 或 http_error 两种），必须**单独登记它的值**。
+
+#### 有包外调用方引用（22 条）
+
+证据口径：`CoreErrorType.<键名>` 在 apps 与 packages 下的代码/夹具中的包外出现次数
+（排除定义文件自身、docs、specs、dist）。具体证据文件见本节末尾纯文本清单。
+
+| 键名                     | 线协议值                   | 包外文件数 |
+| ------------------------ | -------------------------- | ---------: |
+| `ConfigurationError`     | `configuration_error`      |         56 |
+| `ToolExecutionFailed`    | `tool_execution_failed`    |         46 |
+| `ToolCancelled`          | `tool_cancelled`           |         44 |
+| `PermissionDenied`       | `permission_denied`        |         21 |
+| `ToolTimeout`            | `tool_timeout`             |         16 |
+| `TurnCancelled`          | `turn_cancelled`           |         14 |
+| `InvalidStateTransition` | `invalid_state_transition` |         14 |
+| `SessionNotFound`        | `session_not_found`        |         10 |
+| `ModelError`             | `model_error`              |         10 |
+| `PermissionTimeout`      | `permission_timeout`       |          9 |
+| `InvalidInput`           | `invalid_input`            |          6 |
+| `ModelContextExceeded`   | `model_context_exceeded`   |          5 |
+| `StorageError`           | `storage_error`            |          5 |
+| `SessionCorrupted`       | `session_corrupted`        |          4 |
+| `ToolNotFound`           | `tool_not_found`           |          4 |
+| `PermissionEscalation`   | `permission_escalation`    |          4 |
+| `TurnInProgress`         | `turn_in_progress`         |          2 |
+| `InvalidTurnPhase`       | `invalid_turn_phase`       |          2 |
+| `ModelTimeout`           | `model_timeout`            |          2 |
+| `ModelRateLimited`       | `model_rate_limited`       |          2 |
+| `ToolMaxCalls`           | `tool_max_calls`           |          2 |
+| `UnknownError`           | `unknown_error`            |          2 |
+
+#### 仅有同包契约测试证据（5 条）
+
+| 键名                   | 线协议值                 | 证据来源                                                 |
+| ---------------------- | ------------------------ | -------------------------------------------------------- |
+| `SessionAlreadyExists` | `session_already_exists` | 同包 core-errors.test.ts 的 deepEqual 逐字断言全部 27 条 |
+| `TurnNotFound`         | `turn_not_found`         | 同包 core-errors.test.ts 的 deepEqual 逐字断言全部 27 条 |
+| `EventOutOfOrder`      | `event_out_of_order`     | 同包 core-errors.test.ts 的 deepEqual 逐字断言全部 27 条 |
+| `ProjectionCorrupted`  | `projection_corrupted`   | 同包 core-errors.test.ts 的 deepEqual 逐字断言全部 27 条 |
+| `Cancelled`            | `cancelled`              | 同包 core-errors.test.ts 的 deepEqual 逐字断言全部 27 条 |
+
+**说明**：这 5 条无包外调用方，但同包契约测试对**全部 27 个键名与值**做 deepEqual
+逐字断言（顺序敏感 + 完整集合）——改名会使该测试变红，这构成**测试级契约证据**。
+不是「没有契约」，而是「契约的保护者只有测试」：与调用方引用同样阻止改名，
+只是失败位置从编译期移到测试期。
+
+### 为什么这 27 条必须剔除而不是改写
+
+它们作为对象字面量的键值对成对出现，形式本身就是契约：
+
+```ts
+export const CoreErrorType = {
+  SessionNotFound: "session_not_found",
+  // …另外 26 条
+} as const;
+```
+
+改键名会破坏 `CoreErrorType.Xxx` 形式的调用方；改值会改变线协议上的错误码；
+换写法（如改成数组 + 运行时构造）会破坏 `as const` 的字面量类型推导与 `Object.keys` 的断言。
+因此这些行**结构上不可能通过改写消除**，只能剔除后对剩余实现计分。
+
+### 证据文件清单（纯文本路径，不加反引号以免被当作契约名提取）
+
+- ConfigurationError：56 个文件，首个为 apps/cli/packages/core/src/hooks/configured-runner-input.ts
+- ToolExecutionFailed：46 个文件，首个为 apps/cli/packages/core/src/hooks/configured-runner-callback.ts
+- ToolCancelled：44 个文件，首个为 apps/cli/packages/bootstrap/src/app/script-workflow-tool-port.ts
+- PermissionDenied：21 个文件，首个为 apps/cli/packages/core/src/tool/executor/errors.ts
+- ToolTimeout：16 个文件，首个为 apps/cli/packages/core/src/hooks/runner-helpers.ts
+- TurnCancelled：14 个文件，首个为 apps/cli/packages/bootstrap/src/app/workflow-driver-helpers.ts
+- InvalidStateTransition：14 个文件，首个为 apps/cli/packages/core/src/permission/broker.ts
+- SessionNotFound：10 个文件，首个为 apps/cli/packages/bootstrap/src/app/dynamic-workflow-run-launch.ts
+- ModelError：10 个文件，首个为 apps/cli/packages/core/src/runtime/helpers/model/provider-business-failure.ts
+- PermissionTimeout：9 个文件，首个为 apps/cli/packages/core/src/permission/broker.ts
+- InvalidInput：6 个文件，首个为 apps/cli/packages/core/src/runtime/helpers/media/model-media-policy.ts
+- ModelContextExceeded：5 个文件，首个为 apps/cli/packages/core/src/runtime/helpers/model/failure-classification.ts
+- StorageError：5 个文件，首个为 apps/cli/packages/core/src/tool/executor/permission-flow/refusals.ts
+- SessionCorrupted：4 个文件，首个为 apps/cli/packages/bootstrap/src/protocol/server-operations.ts
+- ToolNotFound：4 个文件，首个为 apps/cli/packages/core/src/tool/executor/call-runner.ts
+- PermissionEscalation：4 个文件，首个为 apps/cli/packages/core/src/tool/executor/invocation/outcome.ts
+- TurnInProgress：2 个文件，首个为 apps/cli/packages/core/src/runtime/methods/steering-active.ts
+- InvalidTurnPhase：2 个文件，首个为 apps/cli/packages/core/src/agent/turn-machine.ts
+- ModelTimeout：2 个文件，首个为 apps/cli/packages/core/src/workflow/expert/failures.ts
+- ModelRateLimited：2 个文件，首个为 apps/cli/packages/core/src/workflow/expert/failures.ts
+- ToolMaxCalls：2 个文件，首个为 apps/cli/packages/core/src/workflow/expert/failures.ts
+- UnknownError：2 个文件，首个为 apps/cli/packages/core/src/runtime/helpers/turn/outcome-events.ts

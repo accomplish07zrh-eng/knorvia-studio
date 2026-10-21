@@ -75,10 +75,7 @@ export function extractDeclarationNames(text) {
 
 /** 兼容行 = 含 interface.md 所列名字（按标识符边界匹配）的行。 */
 export function stripDeclarationLines(text, names) {
-  const patterns = names.map(
-    (name) =>
-      new RegExp(`(^|[^\\w$])${name.replace(/[.*+?^${}()|[\]\\]/gu, "\\$&")}([^\\w$]|$)`, "u"),
-  );
+  const patterns = names.map((name) => linePattern(name));
   const kept = [];
   let removed = 0;
   for (const line of text.split(/\r?\n/u)) {
@@ -86,6 +83,109 @@ export function stripDeclarationLines(text, names) {
     else kept.push(line);
   }
   return { text: kept.join("\n"), removed };
+}
+
+/**
+ * 一个契约名字匹配整行的正则。
+ * 带点号的名字（`mcp.server.reconnect.failed`、`tool.permission.session_grant.applied`）
+ * 必须整体匹配 —— 若按标识符拆分，`mcp` 这样的片段会剔除掉所有含 `mcp` 的行，造成灾难性误剔。
+ * 纯标识符则按标识符边界匹配，避免 `id` 命中 `width`。
+ */
+function linePattern(name) {
+  const escaped = name.replace(/[.*+?^${}()|[\]\\]/gu, "\\$&");
+  if (name.includes(".")) return new RegExp(escaped, "u");
+  return new RegExp(`(^|[^\\w$])${escaped}([^\\w$]|$)`, "u");
+}
+
+/**
+ * 契约行剔除专用的名字提取：**只认表格行里的反引号片段**。
+ *
+ * 用户约束是「只认合同 `interface.md` 里逐条列出的导出名、事件名、错误码、字段名」——
+ * 这些逐条清单在本仓库的 `interface.md` 里正是「模块路径 × 导出名」表格。
+ * 因此不扫描正文段落（正文里的 `src/`、`apps/`、`legacy` 会把整份文件剔空），
+ * 也不扫描 code fence（那里常含完整签名，会带出参数名与类型名）。
+ *
+ * 与 `extractDeclarationNames` 的第二个区别是**保留带点号的路径名**：
+ * `` `mcp.server.reconnect.failed` `` 必须整体保留，否则拆成 `mcp` 后会剔掉所有含该词的行。
+ */
+export function extractContractNames(text) {
+  const names = new Set();
+  for (const line of text.split(/\r?\n/u)) {
+    if (!line.trimStart().startsWith("|")) continue;
+    for (const match of line.matchAll(/`([^`\n]+)`/gu)) {
+      for (const token of match[1].matchAll(
+        /[A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*)+|[A-Za-z_$][\w$]*/gu,
+      )) {
+        const value = token[0];
+        if (value.includes(".")) names.add(value);
+        else if (!KEYWORDS.has(value)) names.add(value);
+      }
+    }
+  }
+  return [...names];
+}
+
+/**
+ * 过于通用的短名白名单外护栏：这些词几乎出现在每一行，剔它们等于把文件删空。
+ * 契约行剔除模式下直接拒绝（usage error），避免产出无意义的「剔除后为 0 行」。
+ */
+const TOO_GENERIC = new Set([
+  "body",
+  "code",
+  "count",
+  "data",
+  "error",
+  "event",
+  "field",
+  "index",
+  "items",
+  "key",
+  "kind",
+  "list",
+  "message",
+  "mode",
+  "name",
+  "path",
+  "payload",
+  "result",
+  "size",
+  "status",
+  "text",
+  "time",
+  "type",
+  "url",
+  "value",
+]);
+
+/** 一个名字是否过于通用（短纯标识符且在白名单里）。 */
+export function isTooGenericName(name) {
+  return TOO_GENERIC.has(name) && name.length < 6;
+}
+
+/** 剔除后剩余行占比下限：低于此值说明剔过头了。 */
+const MIN_RESIDUAL_RATIO = 0.2;
+
+/** 契约名数量上限：超过说明提取偏宽（散散文里的词也被当成了名字）。 */
+const MAX_CONTRACT_NAMES = 100;
+
+/**
+ * 契约行剔除：返回剔除结果与两个质量信号。
+ * `suspiciousRatio`：剩余行不足原行数 20%（剔过头）；
+ * `tooManyNames`：名字数超过上限（提取偏宽）。
+ * 两者都只作为报告里的可疑标记，不改变门槛判定。
+ */
+export function stripContractLines(text, names) {
+  const total = text.split(/\r?\n/u).length;
+  const { text: stripped, removed } = stripDeclarationLines(text, names);
+  const residual = stripped.split(/\r?\n/u).length;
+  return {
+    removed,
+    residual,
+    suspiciousRatio: total > 0 && residual / total < MIN_RESIDUAL_RATIO,
+    text: stripped,
+    tooManyNames: names.length > MAX_CONTRACT_NAMES,
+    total,
+  };
 }
 
 const DECLARATION_START =

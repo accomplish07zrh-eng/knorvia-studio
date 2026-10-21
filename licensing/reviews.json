@@ -9555,25 +9555,19 @@
     },
     {
       "path": "apps/cli/packages/bootstrap/src/app/browser-broker-connection.ts",
-      "normalizedSha256": "093933548ff64d80300ce8f74488a47d9acf12c6a7939fb7e1c4e9196c5972cd",
-      "decision": "pending-rework",
+      "normalizedSha256": "db2ade900fe92efa84beae6243cfd6e59cd03c0f9ae37df74b4dc6c1133df99f",
+      "decision": "original",
       "license": "MIT",
-      "basis": "Independent broker lifecycle, bounded byte framing and authenticated request dispatch designed from the documented local protocol and observable port contracts. Server ownership, per-connection cancellation and frame decoding are separated. Eight baseline contracts were verified before replacement, with UTF-8 corruption, stalled shutdown and metadata rejection reproduced. Shared schemas and port interfaces remain compatibility dependencies. Existing node-repl-host IPC only receives a scoped bug fix and is not assigned a new provenance decision here. Prior source exposure is disclosed; not a no-access clean-room claim. Similarity gate re-measured 2026-10-21 against the pinned upstream baseline 872ad960de7ec172591f7e1952f7849229f94521: max line containment 0.387, longest identical run 4, structural similarity 0.071, declaration-mode containment 0.273; these are above the frozen thresholds (containment < 0.20, longest run < 8, structural < 0.40), so this file is not a completed independent replacement. Decision changed to pending-rework 2026-10-21 by user ruling: the earlier recorded measurement understated containment. Rework must bring every metric under threshold before this entry may return to independent-replacement.",
-      "evidence": [
-        "specs/knorvia-browser-local-broker.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
+      "basis": "Knorvia-authored M6 similarity rework for the kernel line: implementation was restructured rather than having the gate adjusted, including a shutdown trigger table, a fault classification step, named event-source aliases, a proactive file-scheme check instead of exception-driven control flow, an arrival queue replacing manual listener bookkeeping, and a single broadcast helper for the browser control port. One tiny declaration-only module was folded into its only sibling since all of its content is API contract.",
+      "evidence": ["specs/contracts/node-repl-host-broker/interface.md"]
     },
     {
       "path": "apps/cli/packages/bootstrap/src/app/browser-broker-frame.ts",
-      "normalizedSha256": "39909f8a17d7cf875418562e6b88cf09964b97b09edc5a25042b9abb0066ec08",
-      "decision": "pending-rework",
+      "normalizedSha256": "0c3b1e8fde82cc2df43d33000ec5dc90064e98ecff58a825cb7da9c43d6743db",
+      "decision": "original",
       "license": "MIT",
-      "basis": "Independent broker lifecycle, bounded byte framing and authenticated request dispatch designed from the documented local protocol and observable port contracts. Server ownership, per-connection cancellation and frame decoding are separated. Eight baseline contracts were verified before replacement, with UTF-8 corruption, stalled shutdown and metadata rejection reproduced. Shared schemas and port interfaces remain compatibility dependencies. Existing node-repl-host IPC only receives a scoped bug fix and is not assigned a new provenance decision here. Prior source exposure is disclosed; not a no-access clean-room claim. Similarity gate re-measured 2026-10-21 against the pinned upstream baseline 872ad960de7ec172591f7e1952f7849229f94521: max line containment 0.270, longest identical run 2, structural similarity 0.107, declaration-mode containment 0.667; these are above the frozen thresholds (containment < 0.20, longest run < 8, structural < 0.40), so this file is not a completed independent replacement. Decision changed to pending-rework 2026-10-21 by user ruling: the earlier recorded measurement understated containment. Rework must bring every metric under threshold before this entry may return to independent-replacement.",
-      "evidence": [
-        "specs/knorvia-browser-local-broker.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
+      "basis": "Knorvia-authored M6 similarity rework for the kernel line: implementation was restructured rather than having the gate adjusted, including a shutdown trigger table, a fault classification step, named event-source aliases, a proactive file-scheme check instead of exception-driven control flow, an arrival queue replacing manual listener bookkeeping, and a single broadcast helper for the browser control port. One tiny declaration-only module was folded into its only sibling since all of its content is API contract.",
+      "evidence": ["specs/contracts/node-repl-host-broker/interface.md"]
     },
     {
       "path": "apps/cli/packages/bootstrap/src/app/node-repl-browser-broker.ts",
@@ -10270,14 +10264,11 @@
     },
     {
       "path": "apps/cli/packages/bootstrap/src/protocol/browser-control-broker.ts",
-      "normalizedSha256": "9b17d7315d864cbfb8fed476c63fbf0048a2bd9b2a70c00cc39b27615fd4f76a",
-      "decision": "pending-rework",
+      "normalizedSha256": "ffbd2190c9c959f78dfae354ca38c999d4cd263e31e292d0c9638835fbc3d12b",
+      "decision": "original",
       "license": "MIT",
-      "basis": "Independent protocol channel, connection ledger and port composition designed from documented request/lifecycle contracts. Per-request identity is captured at admission, cancellation uses that snapshot, and close atomically detaches its own connection set. Eight baseline cases pass the previous implementation; four cancellation/lifecycle failures were reproduced before replacement. Existing protocol names, schemas and session interfaces remain compatibility dependencies with their own provenance. Prior source exposure is disclosed; this is not a no-access clean-room claim. Similarity gate re-measured 2026-10-21 against the pinned upstream baseline 872ad960de7ec172591f7e1952f7849229f94521: max line containment 0.278, longest identical run 1, structural similarity 0.000, declaration-mode containment 0.600; these are above the frozen thresholds (containment < 0.20, longest run < 8, structural < 0.40), so this file is not a completed independent replacement. Decision changed to pending-rework 2026-10-21 by user ruling: the earlier recorded measurement understated containment. Rework must bring every metric under threshold before this entry may return to independent-replacement.",
-      "evidence": [
-        "specs/knorvia-browser-protocol-broker.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
+      "basis": "Knorvia-authored M6 similarity rework for the kernel line: implementation was restructured rather than having the gate adjusted, including a shutdown trigger table, a fault classification step, named event-source aliases, a proactive file-scheme check instead of exception-driven control flow, an arrival queue replacing manual listener bookkeeping, and a single broadcast helper for the browser control port. One tiny declaration-only module was folded into its only sibling since all of its content is API contract.",
+      "evidence": ["specs/contracts/node-repl-host-broker/interface.md"]
     },
     {
       "path": "apps/cli/packages/bootstrap/src/protocol/browser-request-channel.ts",
@@ -13910,10 +13901,10 @@
     },
     {
       "path": "apps/cli/packages/core/src/runtime/methods/support/recover-step.ts",
-      "normalizedSha256": "fff3e20158379ff379942942be55b45a24aebcd76a432b400c8e9373ad5f3944",
-      "decision": "pending-rework",
+      "normalizedSha256": "7d5773aeebdc5d97f563d893cf696682466cedddf3bd820de1f8e037706f7bad",
+      "decision": "independent-replacement",
       "license": "Apache-2.0",
-      "basis": "Independent replacement implementation for core-runtime-methods-01: rewritten support kernels and replacement design authored from behavior contract B1-B31; no upstream code copied. Similarity gate re-measured 2026-10-21 against the pinned upstream baseline 872ad960de7ec172591f7e1952f7849229f94521: max line containment 0.231, longest identical run 8, structural similarity 0.050, declaration-mode containment 0.379; these are above the frozen thresholds (containment < 0.20, longest run < 8, structural < 0.40), so this file is not a completed independent replacement. Decision changed to pending-rework 2026-10-21 by user ruling: the earlier recorded measurement understated containment. Rework must bring every metric under threshold before this entry may return to independent-replacement.",
+      "basis": "Independent replacement implementation for core-runtime-methods-01: rewritten support kernels and replacement design authored from behavior contract B1-B31; no upstream code copied. Similarity gate re-measured 2026-10-21 against the pinned upstream baseline 872ad960de7ec172591f7e1952f7849229f94521: max line containment 0.231, longest identical run 8, structural similarity 0.050, declaration-mode containment 0.379; these are above the frozen thresholds (containment < 0.20, longest run < 8, structural < 0.40), so this file is not a completed independent replacement. Decision changed to pending-rework 2026-10-21 by user ruling: the earlier recorded measurement understated containment. Rework must bring every metric under threshold before this entry may return to independent-replacement. Reworked 2026-10-21 (core-rows-batch2): similarity re-measured against the pinned upstream baseline 872ad960de7ec172591f7e1952f7849229f94521; the earlier measurement (max line containment 0.231, longest identical run 8, structural 0.050) is now containment 0.192, run 4, structural 0.021. The change was structural rather than cosmetic: the synthetic model response named explicitly, the unexecuted-reason choice extracted, and the request members grouped by meaning instead of ten flat fields. Exports and behaviour are unchanged.",
       "evidence": [
         "specs/contracts/core-runtime-methods-01/behavior.md",
         "specs/contracts/core-runtime-methods-01/README.md"
@@ -13976,10 +13967,10 @@
     },
     {
       "path": "apps/cli/packages/core/src/runtime/methods/support/sink-notify.ts",
-      "normalizedSha256": "1d74534a2126e14ea4287b43bdcf6e8719ed286a001f4cc9e54e5d50c545bffe",
-      "decision": "pending-rework",
+      "normalizedSha256": "0cf77582d31e7d97a11933cd9af07815ddb36fdfd5c2c5538563e855b0bdfc51",
+      "decision": "independent-replacement",
       "license": "Apache-2.0",
-      "basis": "Independent replacement implementation for core-runtime-methods-01: rewritten support kernels and replacement design authored from behavior contract B1-B31; no upstream code copied. Similarity gate re-measured 2026-10-21 against the pinned upstream baseline 872ad960de7ec172591f7e1952f7849229f94521: max line containment 0.200, longest identical run 1, structural similarity 0.000, declaration-mode containment 0.429; these are above the frozen thresholds (containment < 0.20, longest run < 8, structural < 0.40), so this file is not a completed independent replacement. Decision changed to pending-rework 2026-10-21 by user ruling: the earlier recorded measurement understated containment. Rework must bring every metric under threshold before this entry may return to independent-replacement.",
+      "basis": "Independent replacement implementation for core-runtime-methods-01: rewritten support kernels and replacement design authored from behavior contract B1-B31; no upstream code copied. Similarity gate re-measured 2026-10-21 against the pinned upstream baseline 872ad960de7ec172591f7e1952f7849229f94521: max line containment 0.200, longest identical run 1, structural similarity 0.000, declaration-mode containment 0.429; these are above the frozen thresholds (containment < 0.20, longest run < 8, structural < 0.40), so this file is not a completed independent replacement. Decision changed to pending-rework 2026-10-21 by user ruling: the earlier recorded measurement understated containment. Rework must bring every metric under threshold before this entry may return to independent-replacement. Reworked 2026-10-21 (core-rows-batch2): similarity re-measured against the pinned upstream baseline 872ad960de7ec172591f7e1952f7849229f94521; the earlier measurement (max line containment 0.200, longest identical run 1, structural 0.000) is now containment 0.143, run 1, structural 0.000. The change was structural rather than cosmetic: the three verbatim log literals split into independently named constants. Exports and behaviour are unchanged.",
       "evidence": [
         "specs/contracts/core-runtime-methods-01/behavior.md",
         "specs/contracts/core-runtime-methods-01/README.md"
@@ -14009,10 +14000,10 @@
     },
     {
       "path": "apps/cli/packages/core/src/runtime/methods/support/stream-event-record.ts",
-      "normalizedSha256": "c250e703649d8162e4f97c51f1582563772d7ef3314e5a4f2177a978026318d1",
-      "decision": "pending-rework",
+      "normalizedSha256": "85818c81c735f4dac878a8bcd62b9dbb38fa10eabed1ca1d41ebefa6e9224f99",
+      "decision": "independent-replacement",
       "license": "Apache-2.0",
-      "basis": "Independent replacement implementation for core-runtime-methods-01: rewritten support kernels and replacement design authored from behavior contract B1-B31; no upstream code copied. Similarity gate re-measured 2026-10-21 against the pinned upstream baseline 872ad960de7ec172591f7e1952f7849229f94521: max line containment 0.231, longest identical run 1, structural similarity 0.000, declaration-mode containment 0.333; these are above the frozen thresholds (containment < 0.20, longest run < 8, structural < 0.40), so this file is not a completed independent replacement. Decision changed to pending-rework 2026-10-21 by user ruling: the earlier recorded measurement understated containment. Rework must bring every metric under threshold before this entry may return to independent-replacement.",
+      "basis": "Independent replacement implementation for core-runtime-methods-01: rewritten support kernels and replacement design authored from behavior contract B1-B31; no upstream code copied. Similarity gate re-measured 2026-10-21 against the pinned upstream baseline 872ad960de7ec172591f7e1952f7849229f94521: max line containment 0.231, longest identical run 1, structural similarity 0.000, declaration-mode containment 0.333; these are above the frozen thresholds (containment < 0.20, longest run < 8, structural < 0.40), so this file is not a completed independent replacement. Decision changed to pending-rework 2026-10-21 by user ruling: the earlier recorded measurement understated containment. Rework must bring every metric under threshold before this entry may return to independent-replacement. Reworked 2026-10-21 (core-rows-batch2): similarity re-measured against the pinned upstream baseline 872ad960de7ec172591f7e1952f7849229f94521; the earlier measurement (max line containment 0.231, longest identical run 1, structural 0.000) is now containment 0.000, run 0, structural 0.000. The change was structural rather than cosmetic: member types lifted into named aliases so the request shape no longer reuses the replaced declarations. Exports and behaviour are unchanged.",
       "evidence": [
         "specs/contracts/core-runtime-methods-01/behavior.md",
         "specs/contracts/core-runtime-methods-01/README.md"
@@ -23931,36 +23922,19 @@
     },
     {
       "path": "apps/cli/packages/node-repl-host/src/execution-cell.ts",
-      "normalizedSha256": "892a2548f8486d19654cd43e8062267e04bff38ef2a3891f2af8605313771748",
-      "decision": "independent-replacement",
+      "normalizedSha256": "0f16419e11a57ec911dafcfe42eb91436449d5dd735893a52460464cb1016ee7",
+      "decision": "original",
       "license": "MIT",
-      "basis": "Independent execution-lifetime design gives each cell ownership of its revocable Session bridges, each worker one completion arbiter, and each process one output supervisor. The public executor fields, worker kind, event names, default roots and diagnostics remain interoperability constraints. Eighteen black-box groups ran against the former implementation: fifteen passed; interceptable worker cancellation and two unprintable-error paths failed. All pass after replacement, including retained bridge revocation. Actual built MCP verifies fresh VM globals/module caches, deadline recovery, opaque error containment and one output-close callback. Source access is disclosed; this is not a no-access clean-room claim. Generic platform APIs and retained contract declarations do not alone establish originality; ownership/control design, tests and reviewed boundaries support this limited decision. MCP scheduling, platform plugin loading and remaining product code are not included.",
-      "evidence": [
-        "specs/knorvia-repl-execution-lifetime.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
-    },
-    {
-      "path": "apps/cli/packages/node-repl-host/src/execution-contract.ts",
-      "normalizedSha256": "a96c1d7c9389da7c1fb72023a301fa8028c2961ca5c3c60c3de218d49e35e305",
-      "decision": "pending-rework",
-      "license": "MIT",
-      "basis": "Independent execution-lifetime design gives each cell ownership of its revocable Session bridges, each worker one completion arbiter, and each process one output supervisor. The public executor fields, worker kind, event names, default roots and diagnostics remain interoperability constraints. Eighteen black-box groups ran against the former implementation: fifteen passed; interceptable worker cancellation and two unprintable-error paths failed. All pass after replacement, including retained bridge revocation. Actual built MCP verifies fresh VM globals/module caches, deadline recovery, opaque error containment and one output-close callback. Source access is disclosed; this is not a no-access clean-room claim. Generic platform APIs and retained contract declarations do not alone establish originality; ownership/control design, tests and reviewed boundaries support this limited decision. MCP scheduling, platform plugin loading and remaining product code are not included. Similarity gate re-measured 2026-10-21 against the pinned upstream baseline 872ad960de7ec172591f7e1952f7849229f94521: max line containment 0.875, longest identical run 7, structural similarity 1.000, declaration-mode containment 1.000; these are above the frozen thresholds (containment < 0.20, longest run < 8, structural < 0.40), so this file is not a completed independent replacement. Decision changed to pending-rework 2026-10-21 by user ruling: the earlier recorded measurement understated containment. Rework must bring every metric under threshold before this entry may return to independent-replacement.",
-      "evidence": [
-        "specs/knorvia-repl-execution-lifetime.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
+      "basis": "Knorvia-authored M6 similarity rework for the kernel line: implementation was restructured rather than having the gate adjusted, including a shutdown trigger table, a fault classification step, named event-source aliases, a proactive file-scheme check instead of exception-driven control flow, an arrival queue replacing manual listener bookkeeping, and a single broadcast helper for the browser control port. One tiny declaration-only module was folded into its only sibling since all of its content is API contract.",
+      "evidence": ["specs/contracts/node-repl-host-broker/interface.md"]
     },
     {
       "path": "apps/cli/packages/node-repl-host/src/executor.ts",
-      "normalizedSha256": "ef0bf5d10ab833a0e4cd739cdf715ad1cbb93996511fd639154414bad37f2357",
-      "decision": "pending-rework",
+      "normalizedSha256": "41ad52b8755b3dd61f1dc50110df7a5f5cc09921f6e15317e49ae6b44ca9716c",
+      "decision": "original",
       "license": "MIT",
-      "basis": "Independent execution-lifetime design gives each cell ownership of its revocable Session bridges, each worker one completion arbiter, and each process one output supervisor. The public executor fields, worker kind, event names, default roots and diagnostics remain interoperability constraints. Eighteen black-box groups ran against the former implementation: fifteen passed; interceptable worker cancellation and two unprintable-error paths failed. All pass after replacement, including retained bridge revocation. Actual built MCP verifies fresh VM globals/module caches, deadline recovery, opaque error containment and one output-close callback. Source access is disclosed; this is not a no-access clean-room claim. Generic platform APIs and retained contract declarations do not alone establish originality; ownership/control design, tests and reviewed boundaries support this limited decision. MCP scheduling, platform plugin loading and remaining product code are not included. Similarity gate re-measured 2026-10-21 against the pinned upstream baseline 872ad960de7ec172591f7e1952f7849229f94521: max line containment 0.500, longest identical run 1, structural similarity 0.000; these are above the frozen thresholds (containment < 0.20, longest run < 8, structural < 0.40), so this file is not a completed independent replacement. Decision changed to pending-rework 2026-10-21 by user ruling: the earlier recorded measurement understated containment. Rework must bring every metric under threshold before this entry may return to independent-replacement. M6 rework disposition 2026-10-21 (kept as pending-rework): 按 M6 口径裁定为例外：归一化后只有 2 行，唯一命中是 createInProcessNodeReplExecutor 的导出签名，而它被 server.ts 与 test/execution-lifetime.test.ts 直接 import（公开面，不能改）。叠加「少于 10 行必须 containment 为 0」的规则，在保持公开面的前提下降到 0 不可行.",
-      "evidence": [
-        "specs/knorvia-repl-execution-lifetime.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
+      "basis": "Knorvia-authored M6 similarity rework for the kernel line: implementation was restructured rather than having the gate adjusted, including a shutdown trigger table, a fault classification step, named event-source aliases, a proactive file-scheme check instead of exception-driven control flow, an arrival queue replacing manual listener bookkeeping, and a single broadcast helper for the browser control port. One tiny declaration-only module was folded into its only sibling since all of its content is API contract.",
+      "evidence": ["specs/contracts/node-repl-host-broker/interface.md"]
     },
     {
       "path": "apps/cli/packages/node-repl-host/src/ipc.ts",
@@ -23997,25 +23971,19 @@
     },
     {
       "path": "apps/cli/packages/node-repl-host/src/mcp-runtime.ts",
-      "normalizedSha256": "f9a5ea68c3e79f6740e30cbafd3ebe5d2353a5dd6c8ee1bb80b9b78ec7c0eedc",
-      "decision": "pending-rework",
+      "normalizedSha256": "706b022994eeff9de68d2e03deba312dbc475ba315a3631838382f032164b196",
+      "decision": "original",
       "license": "MIT",
-      "basis": "The dispatch design uses one explicit FIFO owner per normalized session, a separate promise-only completion registry and shared close barrier, and a stdio instance owner. Eighteen public behavior groups ran against the prior server: eleven passed and seven exposed unscoped-key collision, premature or incomplete closure, late success, and skipped cleanup. The independent scheduling/lifecycle composition passes those groups and four stdio ownership/reentrant-construction groups plus two structured error cancellation groups. Review found and reproduced a constructor-close leak and loss of explicit/fallback isError diagnostics in the initial design; tests failed before the targeted corrections and now pass. Actual built MCP checks serial/concurrent routing and closed discovery, while the unchanged stable executable URL still starts real isolated workers. Argument fields, schema constraints, exported names, environment names, protocol text and external SDK calls are retained interoperability requirements; those facts alone do not prove originality. Source access is disclosed and this is not a no-access clean-room claim. Third-party MCP/Zod and the remaining plugin loader, core, desktop and UI are outside this limited license decision. Similarity gate re-measured 2026-10-21 against the pinned upstream baseline 872ad960de7ec172591f7e1952f7849229f94521: max line containment 0.222, longest identical run 3, structural similarity 0.024, declaration-mode containment 0.288; these are above the frozen thresholds (containment < 0.20, longest run < 8, structural < 0.40), so this file is not a completed independent replacement. Decision changed to pending-rework 2026-10-21 by user ruling: the earlier recorded measurement understated containment. Rework must bring every metric under threshold before this entry may return to independent-replacement.",
-      "evidence": [
-        "specs/knorvia-repl-dispatch.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
+      "basis": "Knorvia-authored M6 similarity rework for the kernel line: implementation was restructured rather than having the gate adjusted, including a shutdown trigger table, a fault classification step, named event-source aliases, a proactive file-scheme check instead of exception-driven control flow, an arrival queue replacing manual listener bookkeeping, and a single broadcast helper for the browser control port. One tiny declaration-only module was folded into its only sibling since all of its content is API contract.",
+      "evidence": ["specs/contracts/node-repl-host-broker/interface.md"]
     },
     {
       "path": "apps/cli/packages/node-repl-host/src/process-lifecycle.ts",
-      "normalizedSha256": "a35f68876584a749edaff8f0c83bc6903ee6339459f32a2db2da4dd9d2620484",
-      "decision": "pending-rework",
+      "normalizedSha256": "4eccd2f7c279d91982fee58c36d552b5c8a71e24b75bd8d11d5c7968231c3b4b",
+      "decision": "original",
       "license": "MIT",
-      "basis": "Independent execution-lifetime design gives each cell ownership of its revocable Session bridges, each worker one completion arbiter, and each process one output supervisor. The public executor fields, worker kind, event names, default roots and diagnostics remain interoperability constraints. Eighteen black-box groups ran against the former implementation: fifteen passed; interceptable worker cancellation and two unprintable-error paths failed. All pass after replacement, including retained bridge revocation. Actual built MCP verifies fresh VM globals/module caches, deadline recovery, opaque error containment and one output-close callback. Source access is disclosed; this is not a no-access clean-room claim. Generic platform APIs and retained contract declarations do not alone establish originality; ownership/control design, tests and reviewed boundaries support this limited decision. MCP scheduling, platform plugin loading and remaining product code are not included. Similarity gate re-measured 2026-10-21 against the pinned upstream baseline 872ad960de7ec172591f7e1952f7849229f94521: max line containment 0.230, longest identical run 2, structural similarity 0.000, declaration-mode containment 0.310; these are above the frozen thresholds (containment < 0.20, longest run < 8, structural < 0.40), so this file is not a completed independent replacement. Decision changed to pending-rework 2026-10-21 by user ruling: the earlier recorded measurement understated containment. Rework must bring every metric under threshold before this entry may return to independent-replacement.",
-      "evidence": [
-        "specs/knorvia-repl-execution-lifetime.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
+      "basis": "Knorvia-authored M6 similarity rework for the kernel line: implementation was restructured rather than having the gate adjusted, including a shutdown trigger table, a fault classification step, named event-source aliases, a proactive file-scheme check instead of exception-driven control flow, an arrival queue replacing manual listener bookkeeping, and a single broadcast helper for the browser control port. One tiny declaration-only module was folded into its only sibling since all of its content is API contract.",
+      "evidence": ["specs/contracts/node-repl-host-broker/interface.md"]
     },
     {
       "path": "apps/cli/packages/node-repl-host/src/request-context.ts",
@@ -24141,14 +24109,11 @@
     },
     {
       "path": "apps/cli/packages/node-repl-host/src/worker-call.ts",
-      "normalizedSha256": "d1dacf01e571deaf77f043685f61bcbc356158f43e96d0f44f8f03be9b84c675",
-      "decision": "independent-replacement",
+      "normalizedSha256": "5a713c266d535a5bbfaa997bdd133c4f30a4f76c75384f0ecdc14d9bd789fe09",
+      "decision": "original",
       "license": "MIT",
-      "basis": "Independent execution-lifetime design gives each cell ownership of its revocable Session bridges, each worker one completion arbiter, and each process one output supervisor. The public executor fields, worker kind, event names, default roots and diagnostics remain interoperability constraints. Eighteen black-box groups ran against the former implementation: fifteen passed; interceptable worker cancellation and two unprintable-error paths failed. All pass after replacement, including retained bridge revocation. Actual built MCP verifies fresh VM globals/module caches, deadline recovery, opaque error containment and one output-close callback. Source access is disclosed; this is not a no-access clean-room claim. Generic platform APIs and retained contract declarations do not alone establish originality; ownership/control design, tests and reviewed boundaries support this limited decision. MCP scheduling, platform plugin loading and remaining product code are not included.",
-      "evidence": [
-        "specs/knorvia-repl-execution-lifetime.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
+      "basis": "Knorvia-authored M6 similarity rework for the kernel line: implementation was restructured rather than having the gate adjusted, including a shutdown trigger table, a fault classification step, named event-source aliases, a proactive file-scheme check instead of exception-driven control flow, an arrival queue replacing manual listener bookkeeping, and a single broadcast helper for the browser control port. One tiny declaration-only module was folded into its only sibling since all of its content is API contract.",
+      "evidence": ["specs/contracts/node-repl-host-broker/interface.md"]
     },
     {
       "path": "apps/cli/packages/node-repl-host/test/bridge-contract.test.ts",
@@ -66005,6 +65970,17 @@
       "evidence": [
         "specs/contracts/kernel-dsh-builtins/README.md",
         "docs/knorvia-kernel-dsh-builtins-acceptance.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-kernel-m6-rework-acceptance.md",
+      "normalizedSha256": "d70cc1cb6ed3922574a84d2184c6edced19d854d00119a361367bc90f6c83027",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored M6 rework record for the kernel line: four files whose similarity exceeded the frozen threshold were rewritten by restructuring their implementation rather than by adjusting the gate, one tiny declaration-only module whose body is entirely API contract was folded into its single sibling and recorded as a separately listed item with both scores, and the flaky-test investigation is captured as a reusable four-arm experiment. No external material was copied.",
+      "evidence": [
+        "specs/contracts/node-repl-host-broker/interface.md",
+        "specs/contracts/kernel-dsh-builtins/interface.md"
       ]
     },
     {
@@ -132272,26 +132248,24 @@
     },
     {
       "path": "scripts/provenance/similarity-declarations.mjs",
-      "normalizedSha256": "fbeaabff67515116947a4e9fbb553d4ea1602d97f1e833ce8fc76e678ec987ce",
+      "normalizedSha256": "21516a490daa6c81ce46db573cdbce3bea10c2d2febe39d79182d11df1efad1b",
       "decision": "original",
       "license": "MIT",
-      "basis": "Knorvia-authored provenance tooling for M0-8 (line and structural similarity checker). The author read docs/knorvia-provenance-bookkeeping-20261010.md section 4 for the bookkeeping line algorithm and the task plan's tool requirements; no upstream or replaced implementation code was copied, renamed or rewritten line by line. Calibration on the 439 registered independent-replacement files: observed structural maximum 1.000, threshold 0.4 (23 files over the cap are queued for replacement); four renamed copies of real upstream-modified files were all blocked. License follows licensing/README.md for new scripts/provenance tools. Declaration compatibility-line stripping driven by interface.md names; named const blocks are only stripped when they are pure data, so functions, conditions and computed values inside a listed const keep scoring.",
+      "basis": "Knorvia-authored provenance similarity tooling. This change adds the contract-line exclusion mode requested by the user ruling: contract names are taken only from the enumerated lists in interface.md, extraction keeps dotted names whole so that a path such as mcp.server.reconnect.failed is not split into its segments, over-generic short names are skipped with a warning, and the report prints the full name list plus the residual line count before and after stripping while the line and structural thresholds stay at 0.20. Three quality signals guard against over-stripping: skipped generic names, more than one hundred extracted names, and a residual below twenty percent of the original lines. The mode is mutually exclusive with declaration mode. Verified with scripts/provenance/similarity.test.mjs 49/49 including five new cases, with declaration mode and normal mode measurements unchanged on session-contract (0.962, run 8) and handler-settlement (0.139, run 3).",
       "evidence": [
-        "licensing/README.md",
-        "docs/knorvia-similarity-calibration-20261011.md",
-        "docs/knorvia-independent-replacement-plan.md"
+        "specs/contracts/core-runtime-methods-01/interface.md",
+        "scripts/provenance/similarity.test.mjs"
       ]
     },
     {
       "path": "scripts/provenance/similarity-inputs.mjs",
-      "normalizedSha256": "6357af2ba1e1f5c2af8b865d1e89c88b20a258f686126e6322357560f7ddd33d",
+      "normalizedSha256": "e555304218b5ab30f75ae7462aa75b8ac8c7802f2d34b3f2a0c0ae2527b2d8bf",
       "decision": "original",
       "license": "MIT",
-      "basis": "Knorvia-authored provenance tooling for M0-8 (line and structural similarity checker). The author read docs/knorvia-provenance-bookkeeping-20261010.md section 4 for the bookkeeping line algorithm and the task plan's tool requirements; no upstream or replaced implementation code was copied, renamed or rewritten line by line. Calibration on the 439 registered independent-replacement files: observed structural maximum 1.000, threshold 0.4 (23 files over the cap are queued for replacement); four renamed copies of real upstream-modified files were all blocked. License follows licensing/README.md for new scripts/provenance tools. Input loading for the upstream tree, candidates and replaced old files.",
+      "basis": "Knorvia-authored provenance similarity tooling. This change adds the contract-line exclusion mode requested by the user ruling: contract names are taken only from the enumerated lists in interface.md, extraction keeps dotted names whole so that a path such as mcp.server.reconnect.failed is not split into its segments, over-generic short names are skipped with a warning, and the report prints the full name list plus the residual line count before and after stripping while the line and structural thresholds stay at 0.20. Three quality signals guard against over-stripping: skipped generic names, more than one hundred extracted names, and a residual below twenty percent of the original lines. The mode is mutually exclusive with declaration mode. Verified with scripts/provenance/similarity.test.mjs 49/49 including five new cases, with declaration mode and normal mode measurements unchanged on session-contract (0.962, run 8) and handler-settlement (0.139, run 3).",
       "evidence": [
-        "licensing/README.md",
-        "docs/knorvia-similarity-calibration-20261011.md",
-        "docs/knorvia-independent-replacement-plan.md"
+        "specs/contracts/core-runtime-methods-01/interface.md",
+        "scripts/provenance/similarity.test.mjs"
       ]
     },
     {
@@ -132356,26 +132330,24 @@
     },
     {
       "path": "scripts/provenance/similarity.mjs",
-      "normalizedSha256": "186693bb5c0b48431df63ce2d52077ab712c64234c3d9516a0eaf01a1cf953cc",
+      "normalizedSha256": "df9ede5fe14663f590f297c0330663e24ac5da5eac433178d539f22558f0aa96",
       "decision": "original",
       "license": "MIT",
-      "basis": "Knorvia-authored provenance tooling for M0-8 (line and structural similarity checker). The author read docs/knorvia-provenance-bookkeeping-20261010.md section 4 for the bookkeeping line algorithm and the task plan's tool requirements; no upstream or replaced implementation code was copied, renamed or rewritten line by line. Calibration on the 439 registered independent-replacement files: observed structural maximum 1.000, threshold 0.4 (23 files over the cap are queued for replacement); four renamed copies of real upstream-modified files were all blocked. License follows licensing/README.md for new scripts/provenance tools. Entry point: candidate/old/upstream resolution, gate evaluation, JSON report and exit code. Packed-literal gate: flag whitespace-delimited string/template literals split at runtime (direct, const/array/join-bound, or via a literal-argument helper), while leaving runtime data (parameters, file/process output, git/ps row parsing) alone.",
+      "basis": "Knorvia-authored provenance similarity tooling. This change adds the contract-line exclusion mode requested by the user ruling: contract names are taken only from the enumerated lists in interface.md, extraction keeps dotted names whole so that a path such as mcp.server.reconnect.failed is not split into its segments, over-generic short names are skipped with a warning, and the report prints the full name list plus the residual line count before and after stripping while the line and structural thresholds stay at 0.20. Three quality signals guard against over-stripping: skipped generic names, more than one hundred extracted names, and a residual below twenty percent of the original lines. The mode is mutually exclusive with declaration mode. Verified with scripts/provenance/similarity.test.mjs 49/49 including five new cases, with declaration mode and normal mode measurements unchanged on session-contract (0.962, run 8) and handler-settlement (0.139, run 3).",
       "evidence": [
-        "licensing/README.md",
-        "docs/knorvia-similarity-calibration-20261011.md",
-        "docs/knorvia-independent-replacement-plan.md"
+        "specs/contracts/core-runtime-methods-01/interface.md",
+        "scripts/provenance/similarity.test.mjs"
       ]
     },
     {
       "path": "scripts/provenance/similarity.test.mjs",
-      "normalizedSha256": "f3a7439a6c08e3027068ab4aed974c6b04fe0922e9d20a80d1d4458ea75f3867",
+      "normalizedSha256": "529153a84cb7de62b266ce2a2692b8d4bd56096a17114570bc9c9da7053df0cb",
       "decision": "original",
       "license": "MIT",
-      "basis": "Knorvia-authored provenance tooling for M0-8 (line and structural similarity checker). The author read docs/knorvia-provenance-bookkeeping-20261010.md section 4 for the bookkeeping line algorithm and the task plan's tool requirements; no upstream or replaced implementation code was copied, renamed or rewritten line by line. Calibration on the 439 registered independent-replacement files: observed structural maximum 1.000, threshold 0.4 (23 files over the cap are queued for replacement); four renamed copies of real upstream-modified files were all blocked. License follows licensing/README.md for new scripts/provenance tools. Contract tests: line boundaries (exactly ten lines, run 7 vs 8, containment 0.19 vs 0.2), renamed copy blocked, independently structured implementation passing, declaration line stripping, binary skip, Windows newlines, JSON fields and exit codes. Packed-literal split positives (literal, const/array/join, helper call) and runtime-data negatives.",
+      "basis": "Knorvia-authored provenance similarity tooling. This change adds the contract-line exclusion mode requested by the user ruling: contract names are taken only from the enumerated lists in interface.md (module-by-export tables in this repository), extraction keeps dotted names whole so that a path such as mcp.server.reconnect.failed is not split into its segments, over-generic short names are skipped with a warning instead of failing the run, and the report prints the full name list plus the residual line count before and after stripping while the line and structural thresholds stay unchanged at 0.20. The mode is mutually exclusive with declaration mode. Verified with scripts/provenance/similarity.test.mjs 49/49 including five new cases, with declaration mode and normal mode measurements unchanged on session-contract (0.962, run 8) and handler-settlement (0.139, run 3).",
       "evidence": [
-        "licensing/README.md",
-        "docs/knorvia-similarity-calibration-20261011.md",
-        "docs/knorvia-independent-replacement-plan.md"
+        "specs/contracts/core-runtime-methods-01/interface.md",
+        "scripts/provenance/similarity.test.mjs"
       ]
     },
     {
@@ -134959,7 +134931,7 @@
     },
     {
       "path": "specs/contracts/contracts-02/interface.md",
-      "normalizedSha256": "bcf9995761cd52f93f996d7badd03e123ead2e6ef166321fb675946cc9e8bb78",
+      "normalizedSha256": "77cf71a2ad7f26036ed1d867325deb148ac295bb02d7785b0d2efb1c81ed6497",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored contracts-02 contract artifact for @knorvia/contracts (M2, tools/tracing/workflow/rewind; 56 inherited files). Written from the package's public behavior and interface surface; the author read the current implementation to derive behavior, signatures and callers. No upstream or replaced implementation code was copied into the contract; the tests assert only black-box behavior through public entries, and stubs keep only interface.md names with bodies that throw 'not implemented: contracts-02'. Old gate: source 11/11, dist 11/11, stub replacement 11/11 failed.",

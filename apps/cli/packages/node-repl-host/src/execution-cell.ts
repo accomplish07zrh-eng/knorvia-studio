@@ -5,7 +5,7 @@ import { NodeReplSession, type NodeReplRunResult } from "@knorvia/core/repl";
 import { createBrowserBridgeGlobals } from "./browser-bridge.js";
 import { createComputerUseBridgeGlobals } from "./cua-bridge.js";
 import type { ActiveNodeReplCall } from "./execution-binding.js";
-import type { NodeReplExecuteInput } from "./execution-contract.js";
+import type { NodeReplExecuteInput } from "./executor.js";
 
 const CELL_GENERATION = 1;
 
