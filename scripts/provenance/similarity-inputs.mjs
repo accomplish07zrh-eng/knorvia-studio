@@ -144,6 +144,9 @@ export async function loadCandidate({
       suspiciousRatio: stripped.suspiciousRatio,
       tooManyNames: stripped.tooManyNames,
       totalLines: stripped.total,
+      // 残留行与剔除行的原文（含行号），供验收文档逐字贴出与人工核对剔除是否过宽。
+      residual: numberedLines(stripped.text),
+      stripped: stripped.removedLines,
     };
     lines = normalizeLines(stripped.text);
     text = structuralStripped.text;
@@ -217,6 +220,20 @@ export async function loadCandidate({
     reexportUnresolved,
     tracedLeaves,
   };
+}
+
+/**
+ * 把文本按行编号，空行与纯空白行跳过。
+ *
+ * 行号是**原始文本里的 1-based 行号**，便于在源码里定位；
+ * 归一化后的行数另由 `residual-lines` 给出，两者口径不同、不能混用。
+ */
+function numberedLines(text) {
+  if (!text) return [];
+  return text
+    .split(/\r?\n/u)
+    .map((line, index) => ({ line: index + 1, text: line }))
+    .filter((entry) => entry.text.trim().length > 0);
 }
 
 function stripDeclarations(text, names) {

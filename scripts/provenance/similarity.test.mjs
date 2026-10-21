@@ -2158,3 +2158,97 @@ test("两侧对称剔除：候选与旧文件用同一份清单，剔除后相�
     },
   );
 });
+
+test("--dump-residual 逐字输出残留行与原始行号", () => {
+  // 夹具：三行纯契约字段（应被剔）+ 两行实现（应留下）。
+  const candidateText = [
+    "export interface Probe {",
+    "  fieldA: ContractName;",
+    "  fieldB: ContractName;",
+    "}",
+    "export function compute(payload) {",
+    "  return payload * 3;",
+    "}",
+  ].join("\n");
+  withTree(
+    {
+      "upstream/keep.ts": "export const keep = 1;\n",
+      "contract/interface.md": [
+        "# interface",
+        "",
+        "| 模块 | 导出名 |",
+        "| --- | --- |",
+        "| `probe.ts` | `Probe` |",
+        "| `probe.ts` | `fieldA` |",
+        "| `probe.ts` | `fieldB` |",
+        "| `probe.ts` | `ContractName` |",
+      ].join("\n"),
+    },
+    (root) => {
+      const candidate = writeCandidate(root, "probe.ts", candidateText);
+      const result = runTool([
+        "--upstream-dir",
+        join(root, "upstream"),
+        "--candidate",
+        candidate,
+        "--contract-lines",
+        "--interface",
+        join(root, "contract/interface.md"),
+        "--dump-residual",
+        "--dump-stripped",
+      ]);
+      // 残留段与被剔段都要出现，且带原始行号 L<n>。
+      assert.match(result.stdout, /--- residual: .* \(\d+ 行\) ---/u);
+      assert.match(result.stdout, /--- stripped: .* \(\d+ 行\) ---/u);
+      assert.match(result.stdout, /L\d+\s+/u);
+      // 实现行必须出现在残留里（它是留下来参与计分的部分）。
+      assert.match(result.stdout, /compute\(payload\)/u);
+      // 纯契约字段行必须出现在 stripped 里，且带原始行号。
+      assert.match(result.stdout, /L2\s+fieldA: ContractName;/u);
+      assert.match(result.stdout, /L3\s+fieldB: ContractName;/u);
+    },
+  );
+});
+
+test("--dump-residual-limit 限制输出行数并提示总数", () => {
+  // 造 20 行纯契约字段，limit 设 3，应只显示 3 行并提示总数。
+  const fields = Array.from({ length: 20 }, (_, i) => `  field${i}: ContractName;`);
+  const candidateText = ["export interface Probe {", ...fields, "}"].join("\n");
+  const tableRows = fields.map((_, i) =>
+    ["| ", "`", "probe.ts", "`", " | ", "`", `field${i}`, "`", " |"].join(""),
+  );
+  withTree(
+    {
+      "upstream/keep.ts": "export const keep = 1;\n",
+      "contract/interface.md": [
+        "# interface",
+        "",
+        "| 模块 | 导出名 |",
+        "| --- | --- |",
+        "| `probe.ts` | `Probe` |",
+        "| `probe.ts` | `ContractName` |",
+        ...tableRows,
+      ].join("\n"),
+    },
+    (root) => {
+      const candidate = writeCandidate(root, "probe.ts", candidateText);
+      const result = runTool([
+        "--upstream-dir",
+        join(root, "upstream"),
+        "--candidate",
+        candidate,
+        "--contract-lines",
+        "--interface",
+        join(root, "contract/interface.md"),
+        "--dump-stripped",
+        "--dump-residual-limit",
+        "3",
+      ]);
+      // 被剔的是 20 行纯契约字段，limit=3 → 只显示 3 行并提示总数。
+      const shown = [...result.stdout.matchAll(/^ {2}L\d+ {2}/gmu)].length;
+      assert.ok(shown <= 3, `应最多显示 3 行，实际 ${shown}\n${result.stdout}`);
+      assert.match(result.stdout, /仅显示前 3 行/u);
+      assert.match(result.stdout, /共 20 行/u);
+    },
+  );
+});

@@ -312,12 +312,16 @@ function isContractOnlyLine(line, names) {
 export function stripContractOnlyLines(text, names) {
   const ordered = [...names].sort((a, b) => b.length - a.length);
   const kept = [];
-  let removed = 0;
-  for (const line of text.split(/\r?\n/u)) {
-    if (isContractOnlyLine(line, ordered)) removed += 1;
-    else kept.push(line);
+  const removedLines = [];
+  const raw = text.split(/\r?\n/u);
+  for (let index = 0; index < raw.length; index += 1) {
+    const line = raw[index];
+    if (isContractOnlyLine(line, ordered)) {
+      // 记录被剔掉的行与其原始行号，供 --dump-stripped 逐字展示。
+      removedLines.push({ line: index + 1, text: line });
+    } else kept.push(line);
   }
-  return { text: kept.join("\n"), removed };
+  return { removed: removedLines.length, removedLines, text: kept.join("\n") };
 }
 
 /**
@@ -325,13 +329,16 @@ export function stripContractOnlyLines(text, names) {
  * `suspiciousRatio`：剩余行不足原行数 20%（剔过头）；
  * `tooManyNames`：名字数超过上限（提取偏宽）。
  * 两者都只作为报告里的可疑标记，不改变门槛判定。
+ *
+ * 同时返回 `removedText`（被剔掉的行拼回文本），供 `--dump-stripped` 逐字展示。
  */
 export function stripContractLines(text, names) {
   const total = text.split(/\r?\n/u).length;
-  const { text: stripped, removed } = stripContractOnlyLines(text, names);
+  const { text: stripped, removed, removedLines } = stripContractOnlyLines(text, names);
   const residual = stripped.split(/\r?\n/u).length;
   return {
     removed,
+    removedLines,
     residual,
     suspiciousRatio: total > 0 && residual / total < MIN_RESIDUAL_RATIO,
     text: stripped,
