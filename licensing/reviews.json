@@ -9962,13 +9962,13 @@
     },
     {
       "path": "apps/cli/packages/bootstrap/src/kernel/builtins-modules.ts",
-      "normalizedSha256": "398370d153992254e0662e0b0ac18edc2af141c26a80c60e4dc3c650fe755242",
+      "normalizedSha256": "78147af0d1326aa2c6fc80a412894fa7409f9f23ddd9926134f2880a2a449492",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia rewrite of kernel-dsh-builtins against contract v1 (behavior B1-B24, interface and black-box tests). The author read the replaced core implementation only to understand behavior; no code was copied, renamed or rewritten line by line. No old gate applies to this accessor package; new implementation 51/51 on both source and dist entries, 0 skipped. Max line containment 0.125, longest identical run 2, structural similarity 0.167 against the replaced core files and the upstream baseline 872ad960; declaration mode 4/4 with containment 0.000.",
+      "basis": "Knorvia-authored extension of the existing bootstrap kernel composition: the credential provider module id is added to the plugin module ids and passed by the host to the composition root, closing the gap where the credential row was never mounted and the pi-ai auth context therefore silently fell back to an environment that has all API keys scrubbed. The package export for the new subpath follows the five existing sibling subpath exports.",
       "evidence": [
-        "specs/contracts/kernel-dsh-builtins/README.md",
-        "docs/knorvia-kernel-dsh-builtins-acceptance.md"
+        "docs/knorvia-kernel-plugin-credentials-acceptance.md",
+        "specs/contracts/kernel-plugin-credentials/interface.md"
       ]
     },
     {
@@ -10078,14 +10078,13 @@
     },
     {
       "path": "apps/cli/packages/bootstrap/src/kernel/host.ts",
-      "normalizedSha256": "1542d034359903d49862dc928671e2ca1f33dad3d0af27dc4857b332279c5045",
+      "normalizedSha256": "6fe345abbea1228baf5926d988383ee855ac6a2eb7787ee32a4de06bc9f60df6",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored kernel-dsh-builtins implementation for the DSH-backed built-in kernel (M2 accessor package). Updated in place to mount and configure the existing DSH capabilities; the author read the replaced core/src/context, core/src/compact and core/src/tool files to understand behavior only, no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.125, longest identical run 2, structural similarity 0.167; declaration mode 4/4 with containment 0.000.",
+      "basis": "Knorvia-authored extension of the existing bootstrap kernel composition: the credential provider module id is added to the plugin module ids and passed by the host to the composition root, closing the gap where the credential row was never mounted and the pi-ai auth context therefore silently fell back to an environment that has all API keys scrubbed. The package export for the new subpath follows the five existing sibling subpath exports.",
       "evidence": [
-        "specs/contracts/kernel-dsh-builtins/README.md",
-        "specs/contracts/kernel-dsh-builtins/behavior.md",
-        "docs/knorvia-kernel-dsh-builtins-acceptance.md"
+        "docs/knorvia-kernel-plugin-credentials-acceptance.md",
+        "specs/contracts/kernel-plugin-credentials/interface.md"
       ]
     },
     {
@@ -139715,13 +139714,13 @@
     },
     {
       "path": "specs/contracts/kernel-dsh-builtins/tests/composition-builtins.test.mjs",
-      "normalizedSha256": "80976dd77ad5239f8f74e7a11c2f2c0eab5d670ae13879f6830875ca9cb3bd50",
+      "normalizedSha256": "4742044f83bacab69997b1c6885b20d97ed97dd64c56f018e2b2493969debe7f",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia rewrite of kernel-dsh-builtins against contract v1 (behavior B1-B24, interface and black-box tests). The author read the replaced core implementation only to understand behavior; no code was copied, renamed or rewritten line by line. No old gate applies to this accessor package; new implementation 51/51 on both source and dist entries, 0 skipped. Max line containment 0.125, longest identical run 2, structural similarity 0.167 against the replaced core files and the upstream baseline 872ad960; declaration mode 4/4 with containment 0.000.",
+      "basis": "Knorvia-authored extension of the existing bootstrap kernel composition: the credential provider module id is added to the plugin module ids and passed by the host to the composition root, closing the gap where the credential row was never mounted and the pi-ai auth context therefore silently fell back to an environment that has all API keys scrubbed. The package export for the new subpath follows the five existing sibling subpath exports.",
       "evidence": [
-        "specs/contracts/kernel-dsh-builtins/README.md",
-        "docs/knorvia-kernel-dsh-builtins-acceptance.md"
+        "docs/knorvia-kernel-plugin-credentials-acceptance.md",
+        "specs/contracts/kernel-plugin-credentials/interface.md"
       ]
     },
     {
@@ -150060,25 +150059,19 @@
     },
     {
       "path": "apps/cli/packages/bootstrap/src/kernel-plugin-credentials/provider-table.ts",
-      "normalizedSha256": "e7c1876b5ab9bcf083cb08943878ec3e0e03d0bf53d64df3d7112ae37a425d19",
+      "normalizedSha256": "2e508032e88822019ae2a984f7aa62767ab8888bddf1659db69e36f62d1472bc",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored provider-table mapper for kernel-plugin-credentials. Pure function mapping the product's provider configuration into the installed model adapter's profile dictionary, keyed by provider id, with the base URL passed through unchanged, the credential reference name derived rather than carrying a value, static headers validated before they are written, and invalid entries skipped with a warning instead of failing the whole table. The three protocol literals are taken from the dependency's own protocol table rather than invented. Written from specs/contracts/kernel-plugin-credentials/interface.md; no code was copied, renamed or rewritten line by line. Covered by contract entries B3 and B4.",
-      "evidence": [
-        "specs/contracts/kernel-plugin-credentials/interface.md",
-        "specs/contracts/kernel-plugin-credentials/README.md"
-      ]
+      "basis": "Knorvia-authored implementation of the provider table mapping from Knorvia provider config to the DSH pi-ai provider profiles: admission is decided by an explicit discriminated verdict with enumerable rejection reasons instead of scattered continues, and profile projection is a separate pure step. The three protocol literals are the DSH PROTOCOLS keys, not invented here.",
+      "evidence": ["specs/contracts/kernel-plugin-credentials/interface.md"]
     },
     {
       "path": "apps/cli/packages/bootstrap/src/kernel-plugin-credentials/reference.ts",
-      "normalizedSha256": "602bfea00a057ade0b39706eadf5c4949df16f6abab72d0f800580ba5713acfa",
+      "normalizedSha256": "38ae43d48bc35e9a8544c47ccec1a6daba54bb662c4eb9f14783db9d4d5c328a",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored reference-namespace mapper for kernel-plugin-credentials. Converts between the provider identifier, the credential reference name the environment-shaped namespace requires, and the scoped record key the structured channel uses, keeping case significant so two providers differing only in case cannot collide. Written from specs/contracts/kernel-plugin-credentials/interface.md; no code was copied, renamed or rewritten line by line.",
-      "evidence": [
-        "specs/contracts/kernel-plugin-credentials/interface.md",
-        "specs/contracts/kernel-plugin-credentials/behavior.md"
-      ]
+      "basis": "Knorvia-authored name conversion layer between the DSH credential ref, the DSH credential key and the Knorvia provider id. Three pure functions; the return type is a named alias so the two lookup signatures read as one contract instead of two folded shapes.",
+      "evidence": ["specs/contracts/kernel-plugin-credentials/interface.md"]
     },
     {
       "path": "apps/cli/packages/bootstrap/src/kernel-plugin-credentials/logger.ts",
@@ -150089,6 +150082,17 @@
       "evidence": [
         "specs/contracts/kernel-plugin-credentials/behavior.md",
         "specs/contracts/kernel-plugin-credentials/acceptance.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-kernel-plugin-credentials-acceptance.md",
+      "normalizedSha256": "961ca50a0b0cb0bdadc13cacea72d12fc5d816d96a92685e46068b8c77e7da03",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored acceptance record for the kernel-plugin-credentials implementation: the wiring that finally mounts the credential provider row, the evidence that the row count goes from zero to one, the three semantics verified against the DSH credentials source and type docs, the scoring-mode decision per plan line 359, and the correction to the builtins B1 expectation so it follows the real startup path. No external material was copied.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-credentials/README.md",
+        "specs/contracts/kernel-plugin-credentials/interface.md"
       ]
     }
   ]

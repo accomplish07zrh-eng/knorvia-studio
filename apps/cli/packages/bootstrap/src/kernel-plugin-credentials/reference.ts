@@ -12,6 +12,9 @@
 import { credentialKeyScope } from "@deepseek-ai/dsh-credentials";
 import type { CredentialKey, CredentialRef } from "@deepseek-ai/dsh-credentials";
 
+/** 名字还原的结果：命中就是 host 侧路由 key，未命中就是「不归本 provider」。 */
+type ProviderIdLookup = string | undefined;
+
 /**
  * 把 `providerId` 规范化成可作为 POSIX 环境变量名后缀的形式。
  *
@@ -28,20 +31,24 @@ export function normalizeProviderIdForRef(providerId: string): string {
 /**
  * 从 `CredentialRef`（环境变量名形状）还原出 `providerId`。
  *
- * @returns `providerId`；引用名不在本 provider 的命名空间（前缀不匹配）时返回 `undefined`。
+ * 返回 `undefined` 的语义是「**这个引用不归本 provider**」（前缀不匹配或只有前缀）。
+ *
+ * @param ref - DSH 的凭据引用（或等价的字符串）。
+ * @param prefix - 引用名前缀。
+ * @returns 规范化后的 `providerId`；不在本命名空间时为 `undefined`。
  */
 export function providerIdOfCredentialRef(
   ref: CredentialRef | string,
   prefix: string,
-): string | undefined {
+): ProviderIdLookup {
   const name = String(ref);
   if (!name.startsWith(prefix)) return undefined;
-  const rest = name.slice(prefix.length);
-  if (rest.length === 0) return undefined;
+  const normalizedId = name.slice(prefix.length);
+  if (normalizedId.length === 0) return undefined;
   // 规范化是单向的（`-` → `_`），因此这里还原出的是规范化后的形式；
-  // 调用方拿它当 providerId 去问 Host 是安全的——Host 侧按规范化形式也能对齐，
+  // 调用方拿它当 providerId 去问 Host 是安全的 —— Host 侧按规范化形式也能对齐，
   // 因为 `buildPiAiProviderTable` 写 `apiKeyEnv` 时用的就是这个函数。
-  return rest;
+  return normalizedId;
 }
 
 /**
@@ -54,10 +61,7 @@ export function providerIdOfCredentialRef(
  * @param expectedScope - 期望的 scope（`"llm-pi-ai"`）。
  * @returns 宿主路由 key（即 providerId）；scope 不匹配时 `undefined`。
  */
-export function readRecordProviderId(
-  key: CredentialKey,
-  expectedScope: string,
-): string | undefined {
+export function readRecordProviderId(key: CredentialKey, expectedScope: string): ProviderIdLookup {
   if (credentialKeyScope(key) !== expectedScope) return undefined;
   const joined = String(key);
   const slash = joined.indexOf("/");
