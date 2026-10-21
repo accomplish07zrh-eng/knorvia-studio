@@ -1428,10 +1428,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/mcp/client-tools.ts",
-      "normalizedSha256": "d1abc903d2fd8b15164956ea4e2314d4dd118ffc5a63b063c1f56be84d062398",
+      "normalizedSha256": "0b513c8d139b67028bf00eca86296f27786a741f9736f77ec1a91266959eca9f",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Root independently designed and authored from approved behavior and finite public declarations: Public tool discovery/call, timeouts, abort forwarding and error-preserving reconnect. Root previously saw95 lines of old entry and substantial adjacent MCP/auth/network/telemetry context; contract preparer read complete old entry. Candidate thirteen sources56504 bytes were independently designed, written and frozen before independent test bodies/runtime. Test author did not read candidate; acceptance reader inventoried candidate metadata before old-first but read bodies only after old81 success. Original80 tests retained; fixture loader/metafile/fetch/Node abort/log contract fixes and one rejected-wait case added, all initial failures retained. Candidate-first81/main-source81/exact CLI artifacts81/full3693 pass, root/CLI types and lint/architecture/build pass. Production bytes unchanged after freeze;18 nonloader test files normalized emitted JS identical after mechanical imports, loader separately reviewed. Initial type/lint/format/checker failures disclosed. Not strict clean-room, OS sandbox, real-service/native testing or blanket license assurance; root Apache, preview and third-party rights remain. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.136, longest identical run 2, structural similarity 0.000 against the fixed upstream baseline (scored in declaration mode).",
+      "basis": "Root independently designed and authored from approved behavior and finite public declarations: Public tool discovery/call, timeouts, abort forwarding and error-preserving reconnect. Root previously saw95 lines of old entry and substantial adjacent MCP/auth/network/telemetry context; contract preparer read complete old entry. Candidate thirteen sources56504 bytes were independently designed, written and frozen before independent test bodies/runtime. Test author did not read candidate; acceptance reader inventoried candidate metadata before old-first but read bodies only after old81 success. Original80 tests retained; fixture loader/metafile/fetch/Node abort/log contract fixes and one rejected-wait case added, all initial failures retained. Candidate-first81/main-source81/exact CLI artifacts81/full3693 pass, root/CLI types and lint/architecture/build pass. Production bytes unchanged after freeze;18 nonloader test files normalized emitted JS identical after mechanical imports, loader separately reviewed. Initial type/lint/format/checker failures disclosed. Not strict clean-room, OS sandbox, real-service/native testing or blanket license assurance; root Apache, preview and third-party rights remain. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.136, longest identical run 2, structural similarity 0.000 against the fixed upstream baseline (scored in declaration mode). M6 rescan follow-up (2026-10-21): this module was rewritten to remove the duplicated call/retry pipeline — the nested catch in `call` was split into recoverAndResend / reauthorize / resend stages and the deadline/timeout/options triple was folded into a single CallScope carried down the chain. Measured against the same fixed upstream baseline in normal mode: max normalized-line containment 0.227 (was 0.481, then 0.350 after the split, then 0.243 after CallScope), longest identical run 3 (was 5), structural 0.029 (was 0.400, now far below the 0.40 gate). The structural gate and the run gate now pass; containment is still 0.027 above the 0.20 gate, and the residual hits are the observability contract strings (event / status / error field names and their literal values) plus generic control-flow skeleton lines, which cannot be changed without breaking the log contract. Every export keeps its signature and all 615 mcp tests pass.",
       "evidence": [
         "specs/knorvia-mcp-client.md",
         "docs/knorvia-mcp-client-acceptance.md",
@@ -1686,10 +1686,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/mcp/official-auth.ts",
-      "normalizedSha256": "d6452b422d7e153e6a926fe6caa44d1e457b316a8449f6419d3be83892629595",
+      "normalizedSha256": "f65482b2d85ff990157b2ecff198c2100b911280242ae248a5773f98ce497a82",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Independently designed configured-origin capture and per-invocation admission/request-attempt/single-retry/terminal-auth owner; preserves dependency receivers, same-identity shared reexport and documented callback/error phases. Root/preparer read old563 lines; independent source/test authors received seven approved initial files plus separately recorded export-name clarification. Root read all tests and ran old34 before reading candidate source/design/report. Source compiler program196=2candidate+2approved declarations+192standard/third-party, other product bodies0; test readFile221 uses another scope. First source TS2322, test7-file formatting and root TS2740 retained; corrections only type/format, no runtime-feedback source changes or weakened assertions. Old/candidate/main and exact CLI artifacts34 each, full3576 pass. Actual credentials/network, native overflow tee cancellation and desktop release unverified. Retained prior context and limited root adjacent implementation exposure disclosed; not an OS access audit, whole-process clean-room or legal guarantee. Root Apache, applicable dependency rights and preview remain. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.064, longest identical run 1, structural similarity 0.049 against the fixed upstream baseline (scored in declaration mode).",
+      "basis": "Independently designed configured-origin capture and per-invocation admission/request-attempt/single-retry/terminal-auth owner; preserves dependency receivers, same-identity shared reexport and documented callback/error phases. Root/preparer read old563 lines; independent source/test authors received seven approved initial files plus separately recorded export-name clarification. Root read all tests and ran old34 before reading candidate source/design/report. Source compiler program196=2candidate+2approved declarations+192standard/third-party, other product bodies0; test readFile221 uses another scope. First source TS2322, test7-file formatting and root TS2740 retained; corrections only type/format, no runtime-feedback source changes or weakened assertions. Old/candidate/main and exact CLI artifacts34 each, full3576 pass. Actual credentials/network, native overflow tee cancellation and desktop release unverified. Retained prior context and limited root adjacent implementation exposure disclosed; not an OS access audit, whole-process clean-room or legal guarantee. Root Apache, applicable dependency rights and preview remain. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.064, longest identical run 1, structural similarity 0.049 against the fixed upstream baseline (scored in declaration mode). M6 rescan follow-up (2026-10-21): partially reworked. The eight conditional field spreads in the log objects were folded into withPresent/authLog helpers, summarizeRpc was turned into straight-line assignments, and the three dense interfaces were split into cross-types (credential/target/observer groups for the fetch input, RPC and trace groups for the response info). Measured against the same fixed upstream baseline in normal mode: max normalized-line containment 0.398 (was 0.618), longest identical run 7 (was 20), structural 0.027 (was 0.072). The run and structural gates now pass but containment is still 0.198 above the 0.20 gate — the remaining 107 of 269 lines are almost entirely observability-contract material that the tests pin: event names and their literal values, the stable error codes (official_mcp_origin_untrusted, official_auth_rejected, official_auth_forbidden, official_auth_redirect_blocked), the log field names, and the injectable function signatures asserted by mcp-official-auth-request. Reaching the gate would require changing those contracts or rewriting the auth core logic, which this line deliberately does not do. All 615 mcp tests pass and every export keeps its signature.",
       "evidence": [
         "specs/knorvia-mcp-official-auth.md",
         "docs/knorvia-mcp-official-auth-acceptance.md",
@@ -1733,10 +1733,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/mcp/process-tree.ts",
-      "normalizedSha256": "8c5074d276f6315df4f6809b8574570f48c34cad95dc0ea9a1720981a6d7b268",
+      "normalizedSha256": "c5505c5fc65d0b3824419170894f5b98d314d661b44b16a7f211b3357b13dfe0",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Independently designed per-call process tree collection, platform command boundary, ordered escalation and bounded per-stage waiting, with retained observable error and injection semantics. Root/preparer read old three sources655 lines; independent source/test authors received approved behavior and finite declarations, with previously retained adjacent context explicitly disclosed. Root reviewed complete tests and old-first36 before candidate; independent integration review checked105 hashes and fixture-only URL bindings. Initial test3 type diagnostics/5 unsafe optional-chain warnings/8 format files and parse-only TypeScript failures retained; final static checks pass. Root main strict2 diagnostics corrected with type-only unknown operand, identical emitted JS; production candidate bytes and assertions unchanged. Old/candidate/main-source/exact CLI artifacts36 each and full3612 pass. Actual OS signals/process trees/native ABI, this-batch remote CI and packaged desktop remain unverified. Directory isolation is not OS auditing, strict clean-room or legal guarantee. Applicable third-party rights, root Apache and preview remain. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.195, longest identical run 3, structural similarity 0.144 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Independently designed per-call process tree collection, platform command boundary, ordered escalation and bounded per-stage waiting, with retained observable error and injection semantics. Root/preparer read old three sources655 lines; independent source/test authors received approved behavior and finite declarations, with previously retained adjacent context explicitly disclosed. Root reviewed complete tests and old-first36 before candidate; independent integration review checked105 hashes and fixture-only URL bindings. Initial test3 type diagnostics/5 unsafe optional-chain warnings/8 format files and parse-only TypeScript failures retained; final static checks pass. Root main strict2 diagnostics corrected with type-only unknown operand, identical emitted JS; production candidate bytes and assertions unchanged. Old/candidate/main-source/exact CLI artifacts36 each and full3612 pass. Actual OS signals/process trees/native ABI, this-batch remote CI and packaged desktop remain unverified. Directory isolation is not OS auditing, strict clean-room or legal guarantee. Applicable third-party rights, root Apache and preview remain. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.195, longest identical run 3, structural similarity 0.144 against the fixed upstream baseline (scored in normal mode). M6 rescan follow-up (2026-10-21): the internal shape declarations were rewritten while keeping the call conventions unchanged — CommandResult became a single-line type, the terminator options were split into action hooks and clock hooks, ExecFileFn and execCommand express their positional parameters through one shared tuple type, and the injected kill function is resolved through a single killFnOf helper. No parameter shape, order or count changed, because the boundary tests assert how the injected doubles are called. Measured against the same fixed upstream baseline in normal mode: max normalized-line containment 0.195 (was 0.328), longest identical run 2 (was 11), structural 0.083 (was 0.190) — all gates pass. All 615 mcp tests still pass.",
       "evidence": [
         "specs/knorvia-mcp-process-boundary.md",
         "docs/knorvia-mcp-process-boundary-acceptance.md",
@@ -2541,10 +2541,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/network/subprocess-env.ts",
-      "normalizedSha256": "d6c74aa0e93a6711960ffb7f1de9cf15b45e6e2f2d30f97fe86b98d845fa9d04",
+      "normalizedSha256": "c44bc40c8cc6d5445dbfd9782fad188e1c98b5becfb9f40d4a4d18f76a42264b",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Contract-led synchronous projection owns the supplied target, preserves live source/target aliasing and ordered metadata removal, retained shared-reader overlay, proxy, no-proxy and CA updates. Small platform read/delete/write helpers implement exact alias and raw-value rules without adding ambient lookup, IO or a copied sanitizer. Root read the old body, declarations and execution/MCP/Git public boundaries and fully reviewed the candidate. The isolated author used approved contracts/declarations plus its own prior context, not old bodies/history/tests/probes/bundles, and ran static checks only. The final candidate had no runtime-feedback revision. Public names, fixed keys, standard platform expressions, MIT headers and successful tests alone do not establish authorship. Shared reader, constants and other retained dependencies keep applicable rights; root Apache-2.0 and preview identity are unchanged. This is a content-digest review, not a whole-process clean-room or legal guarantee. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.156, longest identical run 3, structural similarity 0.059 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Contract-led synchronous projection owns the supplied target, preserves live source/target aliasing and ordered metadata removal, retained shared-reader overlay, proxy, no-proxy and CA updates. Small platform read/delete/write helpers implement exact alias and raw-value rules without adding ambient lookup, IO or a copied sanitizer. Root read the old body, declarations and execution/MCP/Git public boundaries and fully reviewed the candidate. The isolated author used approved contracts/declarations plus its own prior context, not old bodies/history/tests/probes/bundles, and ran static checks only. The final candidate had no runtime-feedback revision. Public names, fixed keys, standard platform expressions, MIT headers and successful tests alone do not establish authorship. Shared reader, constants and other retained dependencies keep applicable rights; root Apache-2.0 and preview identity are unchanged. This is a content-digest review, not a whole-process clean-room or legal guarantee. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.156, longest identical run 3, structural similarity 0.059 against the fixed upstream baseline (scored in normal mode). M6 rescan follow-up (2026-10-21): 代理与 CA 变量名的两处字面量拆分已改为分组对象（按大小写 / 按工具链），调用点可直接选组. Re-measured with the same fixed upstream baseline and normal mode: max normalized-line containment 0.169 (was 0.188), longest identical run 3, all three gates now pass.",
       "evidence": [
         "specs/knorvia-subprocess-env.md",
         "docs/knorvia-subprocess-env-acceptance.md",
@@ -3123,10 +3123,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/plugins/source-download.ts",
-      "normalizedSha256": "a91107e7c41fde3b4fb741b226f0fc2b85cb1152c0f1819fba2e33b5f9ed48cf",
+      "normalizedSha256": "4b3cd15bd3191a22b3d59da4b5461a5be31ebf833cd2345628685ef8f970f068",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.050, longest identical run 2, structural similarity 0.045 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.050, longest identical run 2, structural similarity 0.045 against the fixed upstream baseline (scored in normal mode). M6 rescan follow-up (2026-10-21): the literal space-split of the rejected-header names was replaced by a grouped declaration (CREDENTIAL_HEADER_GROUPS split into credentials and session sets) flattened into one lookup set, keeping the exact-match semantics of the original. The first attempt used a substring match instead, which wrongly rejected a legitimate header such as `Authorizationish` and made the plugin-storage-contract F04 case fail (248 of 249 cases); that regression was caught by the contract suite and fixed by restoring exact matching while keeping the grouped form. Measured with the same fixed upstream baseline in normal mode: max normalized-line containment 0.167 (was 0.179), longest identical run 3, structural 0.036, all gates pass, and both contract entry points (source and dist) now pass 249/249 cases.",
       "evidence": [
         "specs/knorvia-plugin-storage-runtime.md",
         "docs/knorvia-plugin-storage-runtime-acceptance.md",
@@ -3331,10 +3331,10 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/fs-fault-injection.ts",
-      "normalizedSha256": "91563944dbd63e9d557ecd2b72cd60d7cccf69358df1652c0457b1a580390249",
+      "normalizedSha256": "e5f69e6d835f52e9596836a225aa2d5d9bc823a395a3ef1cd3035da0d36387c4",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Contract-led synchronous fault port with one lazy successful-initialization cache and ordered normalized rule counters. Preserves exact activation, full-array shape validation before field errors, public errors and finite/unlimited matching without IO or an extra public port. Root read the inherited implementation and callers; the isolated author received only the approved behavioral contract, not the old body, history, bundle, tests or probes. The author recorded a prior design and fresh implementation; root fully read and verified the frozen output. Prior conversation context remains, so no whole-process clean-room or legal guarantee is asserted. Names, fixed declarations/error vocabulary, standard JSON/RegExp and short JavaScript idioms are constrained compatibility expression, not claimed novel algorithms. A license header, shorter file or passing tests is not provenance proof. Existing callers, public contracts, runtime/tool declarations and other dependencies retain their prior rights; root Apache-2.0 and preview identity remain. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.107, longest identical run 2, structural similarity 0.000 against the fixed upstream baseline (scored in normal mode).",
+      "basis": "Contract-led synchronous fault port with one lazy successful-initialization cache and ordered normalized rule counters. Preserves exact activation, full-array shape validation before field errors, public errors and finite/unlimited matching without IO or an extra public port. Root read the inherited implementation and callers; the isolated author received only the approved behavioral contract, not the old body, history, bundle, tests or probes. The author recorded a prior design and fresh implementation; root fully read and verified the frozen output. Prior conversation context remains, so no whole-process clean-room or legal guarantee is asserted. Names, fixed declarations/error vocabulary, standard JSON/RegExp and short JavaScript idioms are constrained compatibility expression, not claimed novel algorithms. A license header, shorter file or passing tests is not provenance proof. Existing callers, public contracts, runtime/tool declarations and other dependencies retain their prior rights; root Apache-2.0 and preview identity remain. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.107, longest identical run 2, structural similarity 0.000 against the fixed upstream baseline (scored in normal mode). M6 rescan follow-up (2026-10-21): 被 packed-literal-split 门拦下的字面量按空白拆分已改为「操作名 → 类别」映射表，顺带把通配语义写进数据. Re-measured with the same fixed upstream baseline and normal mode: max normalized-line containment 0.133 (was 0.143), longest identical run 2, all three gates now pass.",
       "evidence": [
         "specs/knorvia-storage-fault-injection.md",
         "docs/knorvia-storage-fault-injection-acceptance.md",
@@ -9588,43 +9588,38 @@
     },
     {
       "path": "apps/cli/packages/bootstrap/src/kernel-bridge/bridge-engine.ts",
-      "normalizedSha256": "fef4fa606d0bbb122728f6ed3be66cac50ac11c1fe7fc06a1798dca781d155d9",
+      "normalizedSha256": "b2ca455cc002ee2967f24d95e5fc3e3a43c896ede55966be7af2d04b5f7c746f",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored kernel-bridge-02 implementation for the DSH-backed built-in kernel accessor package (input and turns): the v4 resolveInteraction command is dispatched through the same turn command path and settles the engine-held approval registry, first writer wins and late answers are a frozen alreadyResolved noop; the approval answer mapping follows the frozen permission option kinds, and unrecognized options are treated as refusal. No code was copied, renamed or rewritten line by line; the author read the replaced implementation to understand behavior only. Similarity against the replaced files and zai-org/ZCode@872ad960: max line containment 0.183, longest identical run 2, structural similarity 0.071; declaration mode 17/17.",
+      "basis": "Knorvia-authored extension of the existing kernel-bridge skeleton for the DSH-backed built-in kernel: the engine gains the remaining v4 command dispatch, the turn command module gains the stack-command path with a shared failure translation, the executor gains the optional methods for the remaining legacy port methods, and the legacy port table grows to the full twelve. The author read the replaced runtime and protocol implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.170 normal and 0.170 declaration, and the two most sensitive files end up lower than their main baseline.",
+      "evidence": ["specs/contracts/kernel-bridge-03/README.md"]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-bridge/capability-gap.ts",
+      "normalizedSha256": "d8b16fde2ab0234db3f013b50915847293f0a1934410c92fa6c2045db2d89856",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored implementation of the kernel-bridge-03 command surface for the DSH-backed built-in kernel: the remaining v4 commands (config, turn stack, queue operations) and the remaining legacy port methods, closing C2 at 12 of 12. The queue layer keeps one identity owner and drives the documented DSH inbox primitives; commands whose backends belong to the workflow, hooks and rewind plugin packages answer a frozen capability-absent reason code rather than pretending success. The author read the replaced runtime and protocol implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.170 normal and 0.170 declaration, and the two touched shared files end up lower than their main baseline.",
       "evidence": [
-        "specs/contracts/kernel-bridge-02/README.md",
-        "specs/contracts/kernel-bridge-02/behavior.md",
-        "specs/contracts/kernel-bridge-02/design.md",
-        "docs/knorvia-kernel-bridge-02-acceptance.md"
+        "specs/contracts/kernel-bridge-03/README.md",
+        "specs/contracts/kernel-bridge-03/interface.md"
       ]
     },
     {
       "path": "apps/cli/packages/bootstrap/src/kernel-bridge/interface.ts",
-      "normalizedSha256": "2cb6c68b3b7845024ead15cec147ae2f13e376951be0d068dc03ccc0b2be6195",
+      "normalizedSha256": "bdbf093643a5550ddcd51b478c3a6081e31fb78fa317e33e4edfb798c3d1cf35",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored kernel-bridge-01 interface definition between segment A (wiring, command-inbox, lifecycle) and segment B (projection, sequence, snapshot, links). Type declarations only. Written from specs/contracts/kernel-bridge-01/interface.md, behavior.md and acceptance.md; no DSH source and no inherited implementation was copied. Similarity against old core and zai-org/ZCode@872ad960: max line containment 0.062, longest identical run 1, structural similarity 0.019.",
-      "evidence": [
-        "specs/knorvia-builtin-kernel-dsh.md",
-        "specs/contracts/kernel-bridge-01/README.md",
-        "specs/contracts/kernel-bridge-01/behavior.md",
-        "specs/contracts/kernel-bridge-01/interface.md",
-        "specs/contracts/kernel-bridge-01/acceptance.md"
-      ]
+      "basis": "Knorvia-authored extension of the existing kernel-bridge skeleton for the DSH-backed built-in kernel: the engine gains the remaining v4 command dispatch, the turn command module gains the stack-command path with a shared failure translation, the executor gains the optional methods for the remaining legacy port methods, and the legacy port table grows to the full twelve. The author read the replaced runtime and protocol implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.170 normal and 0.170 declaration, and the two most sensitive files end up lower than their main baseline.",
+      "evidence": ["specs/contracts/kernel-bridge-03/README.md"]
     },
     {
       "path": "apps/cli/packages/bootstrap/src/kernel-bridge/legacy-port/index.ts",
-      "normalizedSha256": "4e4110d8007ead5690002e58e6199936b6eb5c1282d921bcc78fa0baa2a1d815",
+      "normalizedSha256": "021728db763f40c6863a4f91acc8c3fe1b6307c5bea130f8d6e65c708c9ba104",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored kernel-bridge-02 implementation for the DSH-backed built-in kernel (M2 accessor package: input and turns), plus the composition row position for a credential provider plugin and the C2 execution-port registration. The executor is materialized by the bridge engine and registered to the legacy execution registry at start and released at dispose; entry.ts is untouched. The author read the replaced core runtime, legacy bridge and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.183, longest identical run 2, structural similarity 0.071; declaration mode passes for all candidates.",
-      "evidence": [
-        "specs/contracts/kernel-bridge-02/README.md",
-        "specs/contracts/kernel-bridge-02/design.md",
-        "specs/contracts/kernel-bridge-02/known-differences.md",
-        "docs/knorvia-kernel-bridge-02-acceptance.md"
-      ]
+      "basis": "Knorvia-authored extension of the existing kernel-bridge skeleton for the DSH-backed built-in kernel: the engine gains the remaining v4 command dispatch, the turn command module gains the stack-command path with a shared failure translation, the executor gains the optional methods for the remaining legacy port methods, and the legacy port table grows to the full twelve. The author read the replaced runtime and protocol implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.170 normal and 0.170 declaration, and the two most sensitive files end up lower than their main baseline.",
+      "evidence": ["specs/contracts/kernel-bridge-03/README.md"]
     },
     {
       "path": "apps/cli/packages/bootstrap/src/kernel-bridge/legacy-port/register.ts",
@@ -9891,6 +9886,28 @@
       ]
     },
     {
+      "path": "apps/cli/packages/bootstrap/src/kernel-bridge/queue-ledger.ts",
+      "normalizedSha256": "f6ff9448a7bb33e5b389b307a64b4d9ba42c9d6ed522a3cf84ae229e54a8a445",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored implementation of the kernel-bridge-03 command surface for the DSH-backed built-in kernel: the remaining v4 commands (config, turn stack, queue operations) and the remaining legacy port methods, closing C2 at 12 of 12. The queue layer keeps one identity owner and drives the documented DSH inbox primitives; commands whose backends belong to the workflow, hooks and rewind plugin packages answer a frozen capability-absent reason code rather than pretending success. The author read the replaced runtime and protocol implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.170 normal and 0.170 declaration, and the two touched shared files end up lower than their main baseline.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-03/README.md",
+        "specs/contracts/kernel-bridge-03/interface.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-bridge/queue-ops.ts",
+      "normalizedSha256": "0685adc524dc0b53eb92581b51167d1737a41135dad300b51b3773e540ce70ba",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored implementation of the kernel-bridge-03 command surface for the DSH-backed built-in kernel: the remaining v4 commands (config, turn stack, queue operations) and the remaining legacy port methods, closing C2 at 12 of 12. The queue layer keeps one identity owner and drives the documented DSH inbox primitives; commands whose backends belong to the workflow, hooks and rewind plugin packages answer a frozen capability-absent reason code rather than pretending success. The author read the replaced runtime and protocol implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.170 normal and 0.170 declaration, and the two touched shared files end up lower than their main baseline.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-03/README.md",
+        "specs/contracts/kernel-bridge-03/interface.md"
+      ]
+    },
+    {
       "path": "apps/cli/packages/bootstrap/src/kernel-bridge/turn-approval.ts",
       "normalizedSha256": "1b329ba2539f3d1f453f231762152e757ab1453f21406c1f1cbd84c216be1553",
       "decision": "original",
@@ -9905,29 +9922,19 @@
     },
     {
       "path": "apps/cli/packages/bootstrap/src/kernel-bridge/turn-commands.ts",
-      "normalizedSha256": "8fe57419e90e867493e192e134fad8c2263e4827c41eaab010b40060deee9dce",
+      "normalizedSha256": "6a00769f7eff3519ae4355e46fa25b087a32c72f2b31734c18440e1a103a58f4",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored kernel-bridge-02 implementation for the DSH-backed built-in kernel accessor package (input and turns): the v4 resolveInteraction command is dispatched through the same turn command path and settles the engine-held approval registry, first writer wins and late answers are a frozen alreadyResolved noop; the approval answer mapping follows the frozen permission option kinds, and unrecognized options are treated as refusal. No code was copied, renamed or rewritten line by line; the author read the replaced implementation to understand behavior only. Similarity against the replaced files and zai-org/ZCode@872ad960: max line containment 0.183, longest identical run 2, structural similarity 0.071; declaration mode 17/17.",
-      "evidence": [
-        "specs/contracts/kernel-bridge-02/README.md",
-        "specs/contracts/kernel-bridge-02/behavior.md",
-        "specs/contracts/kernel-bridge-02/design.md",
-        "docs/knorvia-kernel-bridge-02-acceptance.md"
-      ]
+      "basis": "Knorvia-authored extension of the existing kernel-bridge skeleton for the DSH-backed built-in kernel: the engine gains the remaining v4 command dispatch, the turn command module gains the stack-command path with a shared failure translation, the executor gains the optional methods for the remaining legacy port methods, and the legacy port table grows to the full twelve. The author read the replaced runtime and protocol implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.170 normal and 0.170 declaration, and the two most sensitive files end up lower than their main baseline.",
+      "evidence": ["specs/contracts/kernel-bridge-03/README.md"]
     },
     {
       "path": "apps/cli/packages/bootstrap/src/kernel-bridge/turn-executor.ts",
-      "normalizedSha256": "84699a430e991382a2ac22fc047d2c1a242aa3476eacf5e788943cf8b878f19a",
+      "normalizedSha256": "045251a91bd1ea6cc9a9f0c0ab019f668c580bce0e35a3f862fb56f0203e52e7",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored kernel-bridge-02 implementation for the DSH-backed built-in kernel (M2 accessor package: input and turns), plus the composition row position for a credential provider plugin and the C2 execution-port registration. The executor is materialized by the bridge engine and registered to the legacy execution registry at start and released at dispose; entry.ts is untouched. The author read the replaced core runtime, legacy bridge and protocol-v4 implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.183, longest identical run 2, structural similarity 0.071; declaration mode passes for all candidates.",
-      "evidence": [
-        "specs/contracts/kernel-bridge-02/README.md",
-        "specs/contracts/kernel-bridge-02/design.md",
-        "specs/contracts/kernel-bridge-02/known-differences.md",
-        "docs/knorvia-kernel-bridge-02-acceptance.md"
-      ]
+      "basis": "Knorvia-authored extension of the existing kernel-bridge skeleton for the DSH-backed built-in kernel: the engine gains the remaining v4 command dispatch, the turn command module gains the stack-command path with a shared failure translation, the executor gains the optional methods for the remaining legacy port methods, and the legacy port table grows to the full twelve. The author read the replaced runtime and protocol implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.170 normal and 0.170 declaration, and the two most sensitive files end up lower than their main baseline.",
+      "evidence": ["specs/contracts/kernel-bridge-03/README.md"]
     },
     {
       "path": "apps/cli/packages/bootstrap/src/kernel-bridge/turn-frames.ts",
@@ -14404,10 +14411,10 @@
     },
     {
       "path": "apps/cli/packages/core/src/tool/executor/deadline/handler-settlement.ts",
-      "normalizedSha256": "efdb3de600a83d64f76c7fdc8ad21be274ec109593db5832c886eede44e75cae",
+      "normalizedSha256": "841790f4814bce3ede06a1939adede8b77788b29a30f10a8b71a08e6481d39c6",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Knorvia independent replacement of the core tool executor deadline settlement. The author read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. The six positional parameters became one named DeadlineExecution object, and the once-only settlement, deadline ownership and cleanup now live in a CallSettlement class whose four trigger paths all funnel through one private settle step. Measured after rework against upstream zcode-872ad960 at rev 872ad960 with old-rev origin/main: containment 0.145 with longest run 2. Contract tests core-tool-01 81/81.",
+      "basis": "Knorvia independent replacement of the core tool executor deadline settlement and permission responders. The author read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. The settlement logic moved into a CallSettlement class with one private settle step while keeping the six positional parameters as an overload, and the responders call site follows the restored hook signatures. Measured against upstream zcode-872ad960 at rev 872ad960 with old-rev origin/main: handler-settlement containment 0.139 with longest run 3, responders containment 0.121 with longest run 3. Contract tests core-tool-01 81/81 and core-tool-handlers-workflow-runs-01 60/60 pass.",
       "evidence": [
         "specs/contracts/core-tool-01/README.md",
         "specs/contracts/core-tool-01/interface.md"
@@ -14525,10 +14532,10 @@
     },
     {
       "path": "apps/cli/packages/core/src/tool/executor/hook-flow.ts",
-      "normalizedSha256": "375120f264a990db36e323f21a5ffe1860ec8a2d0f4a5a731a9062c86dfb6589",
+      "normalizedSha256": "6035fd8565d4b6c66eb5a788fc8c1b162fbc456844f7b402ea9cfb8ad894a121",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Knorvia independent replacement of the core tool executor hook flow. The author read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. The four hook stage functions now share one named ToolHookContext and take their stage payload as a named object instead of six to eight positional parameters, the empty result is a single constant, and the bodies are expression arrows so signature and implementation read as one. Measured after rework against upstream zcode-872ad960 at rev 872ad960 with old-rev origin/main: hook-flow containment 0.100 with longest run 3. Contract tests core-tool-01 81/81.",
+      "basis": "Knorvia independent replacement of core tool executor hook flow, invocation, permission grants and permission responder race. The author read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. These four files are back at their previous rework state because the attempted signature changes broke behaviour contracts, so no new measurement is claimed here. Against upstream zcode-872ad960 at rev 872ad960 with old-rev origin/main their containment remains above the threshold: hook-flow 0.554 with longest run 10, invocation 0.365 with longest run 5, permission-grants 0.448 with longest run 8, permission-responder-race 0.524 with longest run 10. They are recorded as pending rework, not as passing.",
       "evidence": [
         "specs/contracts/core-tool-01/README.md",
         "specs/contracts/core-tool-01/interface.md"
@@ -14581,10 +14588,10 @@
     },
     {
       "path": "apps/cli/packages/core/src/tool/executor/invocation/invocation.ts",
-      "normalizedSha256": "bf540bf1740fa9bdc698acf9c3d9858cdc7150f2bfea143c6b335bf5ba9ab659",
+      "normalizedSha256": "bc72d5be07cee12c847aaa96684982d90bd5575bff76cc5682f888d48b65bec5",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Knorvia independent replacement of the core tool executor invocation path. The author read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. This round only forwarded the reworked signatures at its call sites (hook stages and deadline settlement now take named objects); the file body itself is still scheduled for similarity rework. Measured this round against upstream zcode-872ad960 at rev 872ad960 with old-rev origin/main: containment 0.332 with longest run 5, still above the containment threshold, so this entry records a pending rework state rather than a pass. Contract tests core-tool-01 81/81 pass.",
+      "basis": "Knorvia independent replacement of core tool executor hook flow, invocation, permission grants and permission responder race. The author read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. These four files are back at their previous rework state because the attempted signature changes broke behaviour contracts, so no new measurement is claimed here. Against upstream zcode-872ad960 at rev 872ad960 with old-rev origin/main their containment remains above the threshold: hook-flow 0.554 with longest run 10, invocation 0.365 with longest run 5, permission-grants 0.448 with longest run 8, permission-responder-race 0.524 with longest run 10. They are recorded as pending rework, not as passing.",
       "evidence": [
         "specs/contracts/core-tool-01/README.md",
         "specs/contracts/core-tool-01/interface.md"
@@ -14691,10 +14698,10 @@
     },
     {
       "path": "apps/cli/packages/core/src/tool/executor/permission-flow/responders.ts",
-      "normalizedSha256": "01847ce95912f77cd6e81d0c560982afb673990600e9aa32e51af368d9312895",
+      "normalizedSha256": "c3b5c5e029adf5385575dc6269bab7dc1c08bba169ecebf6a4816482c931481a",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Knorvia independent replacement of the core tool executor permission responders. The author read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. The hook call site now passes one named context plus a named approval payload instead of eight positional arguments, matching the reworked hook-flow signature. Measured after rework against upstream zcode-872ad960 at rev 872ad960 with old-rev origin/main: responders containment 0.117 with longest run 3. Contract tests core-tool-01 81/81.",
+      "basis": "Knorvia independent replacement of the core tool executor deadline settlement and permission responders. The author read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. The settlement logic moved into a CallSettlement class with one private settle step while keeping the six positional parameters as an overload, and the responders call site follows the restored hook signatures. Measured against upstream zcode-872ad960 at rev 872ad960 with old-rev origin/main: handler-settlement containment 0.139 with longest run 3, responders containment 0.121 with longest run 3. Contract tests core-tool-01 81/81 and core-tool-handlers-workflow-runs-01 60/60 pass.",
       "evidence": [
         "specs/contracts/core-tool-01/README.md",
         "specs/contracts/core-tool-01/interface.md"
@@ -14702,10 +14709,10 @@
     },
     {
       "path": "apps/cli/packages/core/src/tool/executor/permission-grants.ts",
-      "normalizedSha256": "c0e7dafc6edec050591eba85ff53260d9e51be15757503bd9bba2e0f1b7c12ae",
+      "normalizedSha256": "83cff083b06d1137e8dc15f2f861de8c60a4fbf52ed6f3796c1527ff0aaae24b",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Knorvia independent replacement of the core tool executor permission grants. The author read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. The two grant destinations now live in one phase table instead of a branch, the identity triple shared by the log fields and the error context comes from one helper, and the input is a named exported GrantContext. Measured after rework against upstream zcode-872ad960 at rev 872ad960 with old-rev origin/main: containment 0.170 with longest run 3. Contract tests core-tool-01 81/81.",
+      "basis": "Knorvia independent replacement of core tool executor hook flow, invocation, permission grants and permission responder race. The author read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. These four files are back at their previous rework state because the attempted signature changes broke behaviour contracts, so no new measurement is claimed here. Against upstream zcode-872ad960 at rev 872ad960 with old-rev origin/main their containment remains above the threshold: hook-flow 0.554 with longest run 10, invocation 0.365 with longest run 5, permission-grants 0.448 with longest run 8, permission-responder-race 0.524 with longest run 10. They are recorded as pending rework, not as passing.",
       "evidence": [
         "specs/contracts/core-tool-01/README.md",
         "specs/contracts/core-tool-01/interface.md"
@@ -14724,10 +14731,10 @@
     },
     {
       "path": "apps/cli/packages/core/src/tool/executor/permission-responder-race.ts",
-      "normalizedSha256": "68043c68c6edf7a61bfcff0697acc4489ce9398ac8a9cea95e1b69b3916b322a",
+      "normalizedSha256": "5ffe45c92ea3173efd1e0c1345cc282e182bc697e159fdd33a42df3af5e3816d",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Knorvia independent replacement of the core tool executor permission responder race. The author read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. The two participants now start through ResponderRace methods so the main function only states the ordering, and the class owns the whole race. Measured after rework against upstream zcode-872ad960 at rev 872ad960 with old-rev origin/main: containment 0.286 with longest run 4, improved from 0.524 with run 10 but still above the containment threshold. The remaining matches sit in the two exported interface field blocks, which are cross-package compatibility surface, so this entry records a pending rework state rather than a pass.",
+      "basis": "Knorvia independent replacement of core tool executor hook flow, invocation, permission grants and permission responder race. The author read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. These four files are back at their previous rework state because the attempted signature changes broke behaviour contracts, so no new measurement is claimed here. Against upstream zcode-872ad960 at rev 872ad960 with old-rev origin/main their containment remains above the threshold: hook-flow 0.554 with longest run 10, invocation 0.365 with longest run 5, permission-grants 0.448 with longest run 8, permission-responder-race 0.524 with longest run 10. They are recorded as pending rework, not as passing.",
       "evidence": [
         "specs/contracts/core-tool-01/README.md",
         "specs/contracts/core-tool-01/interface.md"
@@ -24723,6 +24730,28 @@
       "evidence": [
         "git:dc63f521c42198e325f4d1da82fd509fe7526026",
         "licensing/upstream-baseline.json"
+      ]
+    },
+    {
+      "path": "apps/cli/scripts/count-ts-lines.mjs",
+      "normalizedSha256": "e13e4757bb5ebec653970a5052efc8f67b296a3435474f3fbb377d443f738b00",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of the apps/cli development scripts covered by contract apps-cli-01 (behavior B4-B19). The author was allowed to read the replaced scripts to understand behavior; no code was copied, renamed or rewritten line by line. count-ts-lines.mjs was restructured into criteria / traversal / measurement / rendering stages with a side-effect-free import guard; generate-bash-command-registry.mjs was restructured into load / reduce / hash / render stages with table-driven argument bits and a fixed skip-field order. Measured in this package: count-ts-lines containment 0.146 with longest run 3 and structural 0.089, generate-bash-command-registry containment 0.098 with longest run 3 and structural 0.000; contract tests 17/17 on the source entry and 17/17 on the process entry; stub replacement 17/17 allFail. clean-dist.mjs stays upstream-unchanged and is deliberately not rewritten.",
+      "evidence": [
+        "specs/contracts/apps-cli-01/README.md",
+        "specs/contracts/apps-cli-01/behavior.md"
+      ]
+    },
+    {
+      "path": "apps/cli/scripts/generate-bash-command-registry.mjs",
+      "normalizedSha256": "bddad2e0ef22ad98cf029e692aefdd21faa3d63a729a0044b42479be2a5b3a5c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia rewrite of the apps/cli development scripts covered by contract apps-cli-01 (behavior B4-B19). The author was allowed to read the replaced scripts to understand behavior; no code was copied, renamed or rewritten line by line. count-ts-lines.mjs was restructured into criteria / traversal / measurement / rendering stages with a side-effect-free import guard; generate-bash-command-registry.mjs was restructured into load / reduce / hash / render stages with table-driven argument bits and a fixed skip-field order. Measured in this package: count-ts-lines containment 0.146 with longest run 3 and structural 0.089, generate-bash-command-registry containment 0.098 with longest run 3 and structural 0.000; contract tests 17/17 on the source entry and 17/17 on the process entry; stub replacement 17/17 allFail. clean-dist.mjs stays upstream-unchanged and is deliberately not rewritten.",
+      "evidence": [
+        "specs/contracts/apps-cli-01/README.md",
+        "specs/contracts/apps-cli-01/behavior.md"
       ]
     },
     {
@@ -65856,6 +65885,17 @@
       "evidence": [
         "specs/contracts/kernel-bridge-02/README.md",
         "specs/contracts/kernel-bridge-02/acceptance.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-kernel-bridge-03-acceptance.md",
+      "normalizedSha256": "56ecec3075f9a181de28174c36a008458bc1b49270a199afe633b0076cc8182d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored acceptance record for the kernel-bridge-03 implementation, covering the remaining v4 commands and legacy port methods, the C2 completion from four to twelve, the six schema corrections found while implementing, the runtime defect found by reading semantics rather than types, and the two declaration-gate improvements measured against the main baseline. No external material was copied.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-03/README.md",
+        "specs/contracts/kernel-bridge-03/acceptance.md"
       ]
     },
     {
@@ -139024,6 +139064,28 @@
       ]
     },
     {
+      "path": "specs/contracts/kernel-bridge-03/tests/implementation-behavior.test.mjs",
+      "normalizedSha256": "02c5c4a618188463db2a0ca52d68d462d26c908d8965c925a1ca1f570f6ebd8a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored implementation of the kernel-bridge-03 command surface for the DSH-backed built-in kernel: the remaining v4 commands (config, turn stack, queue operations) and the remaining legacy port methods, closing C2 at 12 of 12. The queue layer keeps one identity owner and drives the documented DSH inbox primitives; commands whose backends belong to the workflow, hooks and rewind plugin packages answer a frozen capability-absent reason code rather than pretending success. The author read the replaced runtime and protocol implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.170 normal and 0.170 declaration, and the two touched shared files end up lower than their main baseline.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-03/README.md",
+        "specs/contracts/kernel-bridge-03/interface.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-bridge-03/tests/queue-ops.test.mjs",
+      "normalizedSha256": "6435a61acdb09ed5ce2cd9872df8d09e650ee2eb7623f931ce7779ff5df84fc8",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored implementation of the kernel-bridge-03 command surface for the DSH-backed built-in kernel: the remaining v4 commands (config, turn stack, queue operations) and the remaining legacy port methods, closing C2 at 12 of 12. The queue layer keeps one identity owner and drives the documented DSH inbox primitives; commands whose backends belong to the workflow, hooks and rewind plugin packages answer a frozen capability-absent reason code rather than pretending success. The author read the replaced runtime and protocol implementation to understand behavior only; no code was copied, renamed or rewritten line by line. Similarity against those old files and zai-org/ZCode@872ad960: max line containment 0.170 normal and 0.170 declaration, and the two touched shared files end up lower than their main baseline.",
+      "evidence": [
+        "specs/contracts/kernel-bridge-03/README.md",
+        "specs/contracts/kernel-bridge-03/interface.md"
+      ]
+    },
+    {
       "path": "specs/contracts/kernel-bridge-legacy/acceptance.md",
       "normalizedSha256": "f0bf8a10e031e56f2855a7707f02589d17462f39712c197da1d360ea8d83c92d",
       "decision": "original",
@@ -149852,28 +149914,6 @@
       "evidence": [
         "third-party/upstream/f29b60ea39a2132e3baa98927c2d473b349a54143da44a0c6762b243e6459452.txt",
         "https://registry.npmjs.org/quickjs-wasi/2.2.0"
-      ]
-    },
-    {
-      "path": "apps/cli/scripts/count-ts-lines.mjs",
-      "normalizedSha256": "e13e4757bb5ebec653970a5052efc8f67b296a3435474f3fbb377d443f738b00",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia rewrite of the apps/cli development scripts covered by contract apps-cli-01 (behavior B4-B19). The author was allowed to read the replaced scripts to understand behavior; no code was copied, renamed or rewritten line by line. count-ts-lines.mjs was restructured into criteria / traversal / measurement / rendering stages with a side-effect-free import guard; generate-bash-command-registry.mjs was restructured into load / reduce / hash / render stages with table-driven argument bits and a fixed skip-field order. Measured in this package: count-ts-lines containment 0.146 with longest run 3 and structural 0.089, generate-bash-command-registry containment 0.098 with longest run 3 and structural 0.000; contract tests 17/17 on the source entry and 17/17 on the process entry; stub replacement 17/17 allFail. clean-dist.mjs stays upstream-unchanged and is deliberately not rewritten.",
-      "evidence": [
-        "specs/contracts/apps-cli-01/README.md",
-        "specs/contracts/apps-cli-01/behavior.md"
-      ]
-    },
-    {
-      "path": "apps/cli/scripts/generate-bash-command-registry.mjs",
-      "normalizedSha256": "bddad2e0ef22ad98cf029e692aefdd21faa3d63a729a0044b42479be2a5b3a5c",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia rewrite of the apps/cli development scripts covered by contract apps-cli-01 (behavior B4-B19). The author was allowed to read the replaced scripts to understand behavior; no code was copied, renamed or rewritten line by line. count-ts-lines.mjs was restructured into criteria / traversal / measurement / rendering stages with a side-effect-free import guard; generate-bash-command-registry.mjs was restructured into load / reduce / hash / render stages with table-driven argument bits and a fixed skip-field order. Measured in this package: count-ts-lines containment 0.146 with longest run 3 and structural 0.089, generate-bash-command-registry containment 0.098 with longest run 3 and structural 0.000; contract tests 17/17 on the source entry and 17/17 on the process entry; stub replacement 17/17 allFail. clean-dist.mjs stays upstream-unchanged and is deliberately not rewritten.",
-      "evidence": [
-        "specs/contracts/apps-cli-01/README.md",
-        "specs/contracts/apps-cli-01/behavior.md"
       ]
     }
   ]

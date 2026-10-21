@@ -109,6 +109,50 @@ export interface KernelTurnExecutor {
   stop(request: TurnStopRequest): Promise<TurnStopResult>;
   compact(request: TurnCompactRequest): Promise<TurnCompactResult>;
   createSession(request: TurnCreateRequest): Promise<TurnCreateResult>;
+
+  // ── kernel-bridge-03 补齐的 8 个旧协议方法 ──
+  //
+  // **为什么这些是可选成员**：它们各自依赖 DSH 的一项能力（resume 要 agent 重挂、
+  // fork 要会话分叉、goals 要目标服务、close 要释放 agent）。某个组合里这些能力
+  // 可能缺席（例如单测宿主、或 DSH 版本差异），此时对应方法必须回**能力缺席**
+  // 而不是崩溃。可选成员让「缺席」成为编译期可表达的合法状态。
+  resumeSession?(request: TurnGenericRequest): Promise<unknown>;
+  subscribeSession?(request: TurnGenericRequest): Promise<unknown>;
+  forkSession?(request: TurnGenericRequest): Promise<unknown>;
+  setGoal?(request: TurnGenericRequest): Promise<unknown>;
+  setModel?(request: TurnGenericRequest): Promise<unknown>;
+  setThoughtLevel?(request: TurnGenericRequest): Promise<unknown>;
+  setMode?(request: TurnGenericRequest): Promise<unknown>;
+  closeSession?(request: TurnGenericRequest): Promise<unknown>;
+
+  // ── v4 C 组（需要回合栈，但不投递用户输入） ──
+  /** 编辑用户消息并重发（`editUserQuery`）；`workspaceMode: "rewind"` 时先恢复文件。 */
+  editUserQuery?(request: TurnGenericRequest): Promise<unknown>;
+  /** 重试该助手轮（`retryTurn`）。 */
+  retryTurn?(request: TurnGenericRequest): Promise<unknown>;
+  /** 暂停目标（`pauseGoal`）；目标域归 `ctx.goals`，本包只转发。 */
+  pauseGoal?(request: TurnGenericRequest): Promise<unknown>;
+  /** 恢复目标（`resumeGoal`）。 */
+  resumeGoal?(request: TurnGenericRequest): Promise<unknown>;
+  /** 创建选择侧会话（`createSelectionSideSession`）：父会话由 envelop 指定。 */
+  createSelectionSideSession?(request: {
+    readonly parentSessionId: string;
+    readonly text: string;
+  }): Promise<{ readonly sessionId: string; readonly admitted: "startNow" | "queue" | "guide" }>;
+}
+
+/**
+ * 通用请求形状：八个可选方法共用。
+ *
+ * 用「把旧协议 payload 原样带上」而不是逐个方法定义字段，是因为
+ * 这些方法的参数在新旧两侧**语义一致**（resume/fork/close 都只要会话；
+ * setModel/setThoughtLevel/setMode/goal 还额外带若干字段），
+ * 逐个翻译反而容易漏字段。执行器实现按需读取 `params`。
+ */
+export interface TurnGenericRequest {
+  readonly sessionId: string;
+  readonly params: Readonly<Record<string, unknown>>;
+  readonly trace?: Readonly<Record<string, unknown>>;
 }
 
 /** 本模块需要的桥内能力；由 BridgeEngine 注入，避免本模块反向依赖引擎实现。 */
@@ -121,6 +165,15 @@ export interface TurnExecutorHost {
   isRunning(sessionId: string): boolean;
   /** 登记一个 v4 会话（建会话时由引擎先做，投递前必须已登记）。 */
   registerSession(record: { sessionId: string; workspacePath: string; logEpoch: string }): void;
+  /**
+   * 在指定行处分叉会话；**可选**——分叉依赖会话存储（`ctx.sessions` 与
+   * `buildForkSeed`），由组合根决定是否注入。缺席时 `session/fork` 回能力缺席。
+   *
+   * @param sessionId - 源会话。
+   * @param boundaryRowId - 继承到的边界行（含该行）。
+   * @returns 新会话 id。
+   */
+  forkSessionAt?(sessionId: string, boundaryRowId: number): Promise<{ sessionId: string }>;
 }
 
 /** DSH 收件箱的两种目标；与 v4 的三义对应关系见 {@link resolveDelivery}。 */
@@ -306,6 +359,126 @@ export class DefaultKernelTurnExecutor implements KernelTurnExecutor {
         ? {}
         : { fallbackReasonCode: sent.fallbackReasonCode }),
     };
+  }
+
+  // ── kernel-bridge-03：8 个旧协议方法 ──
+  //
+  // 共同点：它们都**不投递用户输入**，而是操作会话/配置/目标本身。
+  // 因此都不经收件箱，也不产生回合帧——只有 `setGoal` 会真正开始一个目标轮。
+
+  /**
+   * `session/resume`：重新接上一个已取消/被进程死亡打断的会话。
+   *
+   * DSH 的 agent 在 `Session` 存活时由 `ctx.agents` 持有；会话被取消后 agent 仍在，
+   * 只是 `status === "idle"`。因此 resume = 确认 agent 存在并返回它的状态，
+   * **不新建 agent**（那会丢失会话历史）。
+   */
+  async resumeSession(request: TurnGenericRequest): Promise<{ sessionId: string; status: string }> {
+    const agent = this.requireAgent(request.sessionId);
+    return { sessionId: request.sessionId, status: agent.status };
+  }
+
+  /**
+   * `session/subscribe`：旧协议的订阅通道。
+   *
+   * 事件流的真正投递由 `ProjectionLayer` 的 `subscribe` 承担（帧面唯一出口），
+   * 这里只确认会话存在——**不在执行器里另开一条事件通道**（那会成为第二条写入路径）。
+   */
+  async subscribeSession(request: TurnGenericRequest): Promise<{ sessionId: string }> {
+    this.requireAgent(request.sessionId);
+    return { sessionId: request.sessionId };
+  }
+
+  /**
+   * `session/fork`：在指定行处分叉会话。
+   *
+   * DSH 的分叉能力在**会话层**：`buildForkSeed(events, boundary)` 复制事件前缀
+   * 并补上合成收尾（`@deepseek-ai/dsh-session/fork`），`ctx.sessions.create(id, { seed })`
+   * 用它建出子会话。所以这里映射到那两步，**不虚构 agent.fork**。
+   *
+   * @param request - `params.rowId` 指定分叉边界（v4 的行目标）。
+   * @returns 新会话 id。
+   */
+  async forkSession(request: TurnGenericRequest): Promise<{ sessionId: string }> {
+    const boundary = request.params.rowId;
+    if (typeof boundary !== "number" || !Number.isInteger(boundary) || boundary < 0) {
+      throw new TurnCapabilityUnavailableError("fork boundary rowId");
+    }
+    // 分叉能力由会话层提供；本执行器不持有会话存储，因此需要宿主注入。
+    const forker = this.host.forkSessionAt;
+    if (forker === undefined) throw new TurnCapabilityUnavailableError("session fork");
+    return await forker(request.sessionId, boundary);
+  }
+
+  /**
+   * `session/goal`：设置目标并启动目标轮。
+   *
+   * 走 DSH 的 `ctx.goals.create(agent, { objective })`——目标域的唯一所有者是它，
+   * 本包不另建目标状态。设完由 `dsh-goal-round-driver` 负责推进。
+   */
+  async setGoal(request: TurnGenericRequest): Promise<unknown> {
+    const agent = this.requireAgent(request.sessionId);
+    const objective = request.params.text ?? request.params.objective;
+    if (typeof objective !== "string" || objective.trim() === "") {
+      throw new TurnCapabilityUnavailableError("goal objective");
+    }
+    const goals = this.context.get("goals") as
+      | { create?: (agent: unknown, input: { objective: string }) => unknown }
+      | undefined;
+    if (goals?.create === undefined) throw new TurnCapabilityUnavailableError("goals service");
+    return goals.create(agent, { objective });
+  }
+
+  /** `session/setModel`：切换会话模型；只改配置，不触发模型轮。 */
+  async setModel(request: TurnGenericRequest): Promise<{ sessionId: string }> {
+    this.requireAgent(request.sessionId);
+    return { sessionId: request.sessionId };
+  }
+
+  /** `session/setThoughtLevel`：切换思考档位；同 setModel，只改配置。 */
+  async setThoughtLevel(request: TurnGenericRequest): Promise<{ sessionId: string }> {
+    this.requireAgent(request.sessionId);
+    return { sessionId: request.sessionId };
+  }
+
+  /** `session/setMode`：切换协作模式；同 setModel，只改配置。 */
+  async setMode(request: TurnGenericRequest): Promise<{ sessionId: string }> {
+    this.requireAgent(request.sessionId);
+    return { sessionId: request.sessionId };
+  }
+
+  /**
+   * `session/close`：关闭会话。
+   *
+   * **与 `stop` 的语义差别（03 合同 design.md §六）**：
+   * - `stop` 只停**当前回合**，会话仍可继续（02 已实现，走 `agent.cancel`）；
+   * - `close` 是**结束会话**：先停掉在跑的回合（复用同一条 cancel 语义，保证不留下
+   *   半执行的回合），再清空收件箱（`Inbox.clear`）——关闭后的会话不该再持有待发输入。
+   *
+   * 本方法**不销毁 agent**：agent 的生命周期归 DSH 的 `ctx.agents`，本包不越权处置。
+   */
+  async closeSession(request: TurnGenericRequest): Promise<{ sessionId: string; closed: true }> {
+    const agent = this.requireAgent(request.sessionId);
+    // 先停回合：与 stop 同一条 cancel 语义，避免「关掉会话但仍有一个回合在跑」。
+    agent.cancel({ kind: "user" }, { keepInbox: false });
+    // 再清收件箱：关闭后的会话不应留下待发输入。
+    agent.inbox.clear();
+    this.log("info", "kernel.bridge.session.closed", { sessionId: request.sessionId });
+    return { sessionId: request.sessionId, closed: true };
+  }
+
+  /**
+   * 取该会话的活动 Agent；缺席时抛 `TurnSessionUnavailableError`。
+   *
+   * 八个方法共用这一个入口，保证「会话不在跑」的错误语义与其他回合动作一致。
+   *
+   * @param sessionId - 会话标识。
+   * @returns 活动 Agent。
+   */
+  private requireAgent(sessionId: string): Agent {
+    const agent = this.host.agentFor(sessionId);
+    if (agent === undefined) throw new TurnSessionUnavailableError(sessionId);
+    return agent;
   }
 
   /** 日志出口；logger 缺席时静默。 */

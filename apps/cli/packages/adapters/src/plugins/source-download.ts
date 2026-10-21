@@ -6,10 +6,28 @@ import { assertAtomicNotAborted } from "./atomic-protocol.js";
 import { redactSourceReference } from "./source-redaction.js";
 
 const redirectStatuses = new Set([301, 302, 303, 307, 308]);
-/* 会带出凭据的头部一律拒绝转发 */
-const sensitiveZipHeaders = new Set(
-  "authorization cookie proxy-authorization set-cookie".split(" "),
+
+/**
+ * 会被拒绝转发的头部：按「凭据头」与「会话头」两类分开列，小写化后精确匹配。
+ *
+ * **必须是精确匹配，不能改成「包含」判定**：契约要求 `Authorizationish` 这类
+ * 仅名字里含有标记词的合法头**通过**（`plugin-storage-contract` 的 F04 用例守这条）。
+ * 分类而不是平铺，是为了让「拒绝理由」在代码里自解释：两类都是「会把凭据带出去」的头。
+ */
+const CREDENTIAL_HEADER_GROUPS = {
+  credentials: ["authorization", "proxy-authorization"],
+  session: ["cookie", "set-cookie"],
+} as const;
+
+/** 小写化后的拒绝名单。 */
+const CREDENTIAL_HEADER_NAMES: ReadonlySet<string> = new Set(
+  Object.values(CREDENTIAL_HEADER_GROUPS).flat(),
 );
+
+function carriesCredentials(headerName: string): boolean {
+  return CREDENTIAL_HEADER_NAMES.has(headerName.toLowerCase());
+}
+
 export const SOURCE_DOWNLOAD_TIMEOUT = 180_000;
 
 export function assertZipDownloadUrl(value: string): URL {
@@ -34,7 +52,7 @@ export function assertZipDownloadHeaders(headers?: Record<string, string>): void
     throw new Error("Plugin ZIP headers must be a string map");
   }
   for (const [name, value] of Object.entries(headers)) {
-    if (typeof value !== "string" || sensitiveZipHeaders.has(name.toLowerCase())) {
+    if (typeof value !== "string" || carriesCredentials(name)) {
       throw new Error(`Unsupported plugin ZIP header: ${name}`);
     }
   }
