@@ -13,7 +13,11 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { parseArgs } from "node:util";
-import { extractDeclarationNames } from "./similarity-declarations.mjs";
+import {
+  extractContractNames,
+  extractDeclarationNames,
+  isTooGenericName,
+} from "./similarity-declarations.mjs";
 import { loadCandidate, loadUpstream, readOldFile, readPathList } from "./similarity-inputs.mjs";
 import { appendSiblingOldFiles, pathExistsInRev } from "./similarity-reexport.mjs";
 import {
@@ -51,6 +55,9 @@ const HELP = `用法: node scripts/provenance/similarity.mjs [选项]
 声明文件：
   --interface <file>        interface.md，可重复；从中提取兼容名字
   --declaration             候选按纯声明文件处理：先剔除含兼容名字的行，再算两道门槛
+  --contract-lines          契约行剔除：只剔除含 interface.md 逐条列出的完整名字（含带点号的
+                            事件名/错误码）的行，再按原门槛计分；与 --declaration 互斥。
+                            报告同时给出剔除前后两组行数与完整名字清单。
 
 其他：
   --repo <dir>              仓库根，默认当前目录
@@ -80,6 +87,7 @@ const { values } = parseArgs({
     "upstream-rev": { type: "string" },
     interface: { type: "string", multiple: true },
     declaration: { type: "boolean" },
+    "contract-lines": { type: "boolean" },
     gates: { type: "string" },
     json: { type: "string" },
     calibrate: { type: "boolean" },
@@ -111,11 +119,42 @@ if (values.classification) {
 if (!candidatePaths.length)
   usageError("no candidates: pass --candidate, --candidate-list or --classification");
 
+// 契约行剔除与声明模式语义不同（剔单行 vs 剥整块），同时给会让报告无法解释，
+// 因此在读取任何 interface.md 之前先拒绝。
+if (values.declaration && values["contract-lines"])
+  usageError("--declaration and --contract-lines are mutually exclusive");
+
 const declarationNames = (values.interface ?? []).flatMap((file) =>
   extractDeclarationNames(readFileSync(resolve(file), "utf8")),
 );
 if (values.declaration && declarationNames.length === 0)
   usageError("--declaration requires --interface with at least one name");
+
+// 契约行剔除：只认 interface.md 表格里逐条列出的完整名字（含带点号的事件名/错误码）。
+const contractNames = values["contract-lines"]
+  ? [
+      ...new Set(
+        (values.interface ?? []).flatMap((file) =>
+          extractContractNames(readFileSync(resolve(file), "utf8")),
+        ),
+      ),
+    ]
+  : [];
+if (values["contract-lines"]) {
+  if (contractNames.length === 0)
+    usageError("--contract-lines requires --interface with at least one name");
+  // 通用短名会把几乎每一行都剔掉，剔除将失去意义。这里跳过它们并显式告警：
+  // interface.md 里出现 `event` / `code` 这类词是正常的，整体报错会让该模式无法使用。
+  const generic = contractNames.filter((name) => isTooGenericName(name));
+  if (generic.length > 0) {
+    process.stderr.write(
+      `similarity: --contract-lines skips over-generic names (would strip almost every line): ${generic.join(", ")}\n`,
+    );
+    for (const name of generic) contractNames.splice(contractNames.indexOf(name), 1);
+  }
+  if (contractNames.length === 0)
+    usageError("--contract-lines: every extracted name was over-generic; nothing to strip");
+}
 
 const oxfmtOptions = loadOxfmtOptions(repo);
 const oldPathArgs = [
@@ -135,6 +174,7 @@ const candidates = await Promise.all(
       repo,
       givenPath,
       declarationNames: values.declaration ? declarationNames : [],
+      contractNames,
       oxfmtOptions,
     }),
   ),
@@ -145,7 +185,6 @@ if (gates !== "line") applyStructural(results);
 // 压行拆分是独立 gate：与行/结构门槛分开计数，任一命中即 FAIL。
 applyPackedLiteralGate(results, candidates);
 for (const result of results) result.pass = result.violations.length === 0;
-
 const failed = results.filter((result) => !result.pass);
 for (const result of results) process.stdout.write(`${describe(result)}\n`);
 if (values.explain) explainResults(candidates, results);
@@ -205,6 +244,17 @@ async function evaluateLines(candidate) {
     lines: residualLines,
     binary: candidate.binary,
     declaration: candidate.declaration ?? false,
+    // 契约行剔除的完整记录：名字清单（审查重点）、剔除行数、剔除前后行数。
+    contractExclusion: candidate.contractBaseline
+      ? {
+          names: candidate.contractBaseline.names,
+          strippedLines: candidate.contractBaseline.strippedLines,
+          suspiciousRatio: candidate.contractBaseline.suspiciousRatio,
+          tooManyNames: candidate.contractBaseline.tooManyNames,
+          before: { residualLines: candidate.contractBaseline.totalLines },
+          after: { residualLines },
+        }
+      : null,
     linesBeforeStrip,
     strippedLines: linesBeforeStrip - residualLines,
     residualLines,
@@ -455,8 +505,12 @@ function describe(result) {
       : ` structural=${format(result.structural.value)} (${result.structural.file})`;
   // 格式化失败（语法错误或格式不支持）时退回原文比较，必须让使用者看得到。
   const formatNote = result.formatted ? "" : " format=fallback";
+  // 契约行剔除：名字清单是最终审查的重点项，必须完整打印，不能只报数量。
+  const exclusion = result.contractExclusion
+    ? ` contract-lines=${result.contractExclusion.strippedLines} contract-names=[${result.contractExclusion.names.join(",")}] residual-lines=${result.contractExclusion.before.residualLines}->${result.contractExclusion.after.residualLines}${result.contractExclusion.suspiciousRatio ? " contract-exclusion-suspicious=residual-below-20%" : ""}${result.contractExclusion.tooManyNames ? " contract-exclusion-suspicious=too-many-names" : ""}`
+    : "";
   const verdict = result.violations.length ? ` -> ${result.violations.join("; ")}` : "";
-  return `${result.pass ? "PASS " : "FAIL "} ${result.path} lines=${result.lines}${declaration}${formatNote}${line}${structural}${verdict}${traced}`;
+  return `${result.pass ? "PASS " : "FAIL "} ${result.path} lines=${result.lines}${declaration}${exclusion}${formatNote}${line}${structural}${verdict}${traced}`;
 }
 
 function calibrate(results) {
