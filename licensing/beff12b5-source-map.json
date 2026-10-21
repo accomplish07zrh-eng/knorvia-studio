@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "baselineRev": "beff12b5",
+  "files": {
+    "apps/cli/packages/node-repl-host/src/mcp-caller-context.ts": [
+      "apps/cli/packages/node-repl-host/src/mcp-runtime.ts"
+    ],
+    "apps/cli/packages/node-repl-host/src/mcp-tool-dispatch.ts": [
+      "apps/cli/packages/node-repl-host/src/mcp-runtime.ts"
+    ],
+    "apps/cli/packages/node-repl-host/src/mcp-tool-catalogue.ts": [
+      "apps/cli/packages/node-repl-host/src/mcp-runtime.ts"
+    ]
+  }
+}
