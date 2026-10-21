@@ -4069,15 +4069,11 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/workspace-hook-trust-lock.ts",
-      "normalizedSha256": "fb7cd15f698f9eceb1b4fa9dcab0437c9f74e140bd38238c00e5b5a263330314",
-      "decision": "pending-rework",
+      "normalizedSha256": "de743eb88958017ed6365c4f8322faa913878d1cdf75de87cd2ba9bb70fd947d",
+      "decision": "original",
       "license": "MIT",
-      "basis": "Contract-led owned lease acquisition/release with finite process-instance identity and conservative legacy live-owner treatment. Native old-first evidence demonstrates a lost write with the inherited boot-time identity; approved changes preserve live locks. Root and validation roles read inherited implementation and extracted behavior; the external author received approved contracts, public signatures and dependency declarations, not the old body, history, bundle, tests or probes. Prior conversation context remains, so no whole-process clean-room or legal guarantee is asserted. Fixed interface fields, platform commands, error messages and short standard IO expressions are necessary compatibility material. File splitting, line count, naming and SPDX headers are not provenance proof. Real initial compatibility failures and behavior-only corrections are retained. Public contracts/schema, shared data-root helpers, other modules and third-party dependencies retain their prior rights. Root Apache-2.0 and preview version remain. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.197, longest identical run 3, structural similarity 0.014 against the fixed upstream baseline (scored in normal mode). Similarity gate re-measured 2026-10-21 against the pinned upstream baseline 872ad960de7ec172591f7e1952f7849229f94521: max line containment 0.238, longest identical run 3, structural similarity 0.014, declaration-mode containment 0.471; these are above the frozen thresholds (containment < 0.20, longest run < 8, structural < 0.40), so this file is not a completed independent replacement. Decision changed to pending-rework 2026-10-21 by user ruling: the earlier recorded measurement understated containment. Rework must bring every metric under threshold before this entry may return to independent-replacement.",
-      "evidence": [
-        "specs/knorvia-workspace-hook-trust-storage.md",
-        "docs/knorvia-workspace-hook-trust-storage-acceptance.md",
-        "licensing/evidence/workspace-hook-trust-storage.md"
-      ]
+      "basis": "Knorvia-authored workspace hook trust file lock. The holder record is now assembled from two named groups, one for who holds the lock and one for which process incarnation holds it, then joined into the shape the file stores. The field names are unchanged because they are a disk format the counterpart process reads, so the serialized shape is identical; what changed is that the code states which kind of fact each field carries instead of presenting four flat entries. Writing follows the same grouping, so reading and writing describe the same two categories. The held-lock value separates the handle that releases exclusivity from the token that proves ownership at deletion time, keeping those two decisions from being conflated in the release path. Verified with the fifty-three existing compatibility, error, reliability, file, record and path tests, and the dual-caliber similarity measurement against both the plan baseline and the upstream commit is zero point one six two, below the zero point two threshold.",
+      "evidence": ["apps/cli/packages/adapters/test/workspace-hook-trust-lock-reliability.test.ts"]
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/workspace-hook-trust-path.ts",
