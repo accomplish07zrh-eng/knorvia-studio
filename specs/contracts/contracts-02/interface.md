@@ -1788,3 +1788,79 @@
 ### `workflow/session-links.ts`
 
 - `deriveWorkflowSessionLinks` (FunctionDeclaration) — `export function deriveWorkflowSessionLinks( snapshot: Pick<WorkflowRunSnapshot, "activities" | "runId">, ): WorkflowSessionLink[] { const attemptByScope = new Map<string, number>(); return snapshot.ac`
+
+## 相邻文件的契约行（不在本包范围，仅登记契约名以供剔除）
+
+> **本节的目的不是宣称范围。** `contracts/src/errors/index.ts` 已登记 `independent-replacement`，
+> 按 AGENTS.md「不重复改已独立候选」不属于本包的重写对象；但它导出的错误码是**对外契约**——
+> 名字被下游代码与契约测试逐字依赖，改名会破坏调用方或让测试变红。因此在此登记契约名，
+> 供「契约行剔除」机制（`--contract-lines`）在相似度计分前剔除这些行。
+
+### `errors/index.ts` —— 27 个错误码
+
+**键名与线协议值一一对应，且值由键名机械派生**（驼峰 → 下划线），当前 27 条**失配 0**。
+
+> 因此**登记键名即覆盖值**，不必逐字写 54 条。
+> **但这是「当前 27 条实测的事实」，不是规则**：若将来新增不合该派生规则的键
+> （例如 `HTTPError` → `httperror` 与 `http_error` 两种可能），必须**单独登记它的值**。
+
+#### 有包外调用方引用（22 条）
+
+证据口径：`CoreErrorType.<键名>` 在 `apps/` 与 `packages/` 下的代码/夹具中的包外出现次数
+（排除定义文件自身、`docs/`、`specs/`、`**/dist/**`）。
+
+| 键名                     | 线协议值                   | 包外文件数 | 首个证据文件                                                                    |
+| ------------------------ | -------------------------- | ---------: | ------------------------------------------------------------------------------- |
+| `ConfigurationError`     | `configuration_error`      |         56 | `apps/cli/packages/core/src/hooks/configured-runner-input.ts`                   |
+| `ToolExecutionFailed`    | `tool_execution_failed`    |         46 | `apps/cli/packages/core/src/hooks/configured-runner-callback.ts`                |
+| `ToolCancelled`          | `tool_cancelled`           |         44 | `apps/cli/packages/bootstrap/src/app/script-workflow-tool-port.ts`              |
+| `PermissionDenied`       | `permission_denied`        |         21 | `apps/cli/packages/core/src/tool/executor/errors.ts`                            |
+| `ToolTimeout`            | `tool_timeout`             |         16 | `apps/cli/packages/core/src/hooks/runner-helpers.ts`                            |
+| `TurnCancelled`          | `turn_cancelled`           |         14 | `apps/cli/packages/bootstrap/src/app/workflow-driver-helpers.ts`                |
+| `InvalidStateTransition` | `invalid_state_transition` |         14 | `apps/cli/packages/core/src/permission/broker.ts`                               |
+| `SessionNotFound`        | `session_not_found`        |         10 | `apps/cli/packages/bootstrap/src/app/dynamic-workflow-run-launch.ts`            |
+| `ModelError`             | `model_error`              |         10 | `apps/cli/packages/core/src/runtime/helpers/model/provider-business-failure.ts` |
+| `PermissionTimeout`      | `permission_timeout`       |          9 | `apps/cli/packages/core/src/permission/broker.ts`                               |
+| `InvalidInput`           | `invalid_input`            |          6 | `apps/cli/packages/core/src/runtime/helpers/media/model-media-policy.ts`        |
+| `ModelContextExceeded`   | `model_context_exceeded`   |          5 | `apps/cli/packages/core/src/runtime/helpers/model/failure-classification.ts`    |
+| `StorageError`           | `storage_error`            |          5 | `apps/cli/packages/core/src/tool/executor/permission-flow/refusals.ts`          |
+| `SessionCorrupted`       | `session_corrupted`        |          4 | `apps/cli/packages/bootstrap/src/protocol/server-operations.ts`                 |
+| `ToolNotFound`           | `tool_not_found`           |          4 | `apps/cli/packages/core/src/tool/executor/call-runner.ts`                       |
+| `PermissionEscalation`   | `permission_escalation`    |          4 | `apps/cli/packages/core/src/tool/executor/invocation/outcome.ts`                |
+| `TurnInProgress`         | `turn_in_progress`         |          2 | `apps/cli/packages/core/src/runtime/methods/steering-active.ts`                 |
+| `InvalidTurnPhase`       | `invalid_turn_phase`       |          2 | `apps/cli/packages/core/src/agent/turn-machine.ts`                              |
+| `ModelTimeout`           | `model_timeout`            |          2 | `apps/cli/packages/core/src/workflow/expert/failures.ts`                        |
+| `ModelRateLimited`       | `model_rate_limited`       |          2 | `apps/cli/packages/core/src/workflow/expert/failures.ts`                        |
+| `ToolMaxCalls`           | `tool_max_calls`           |          2 | `apps/cli/packages/core/src/workflow/expert/failures.ts`                        |
+| `UnknownError`           | `unknown_error`            |          2 | `apps/cli/packages/core/src/runtime/helpers/turn/outcome-events.ts`             |
+
+#### 仅有同包契约测试证据（5 条）
+
+| 键名                   | 线协议值                 | 证据                                                                                        |
+| ---------------------- | ------------------------ | ------------------------------------------------------------------------------------------- |
+| `SessionAlreadyExists` | `session_already_exists` | `../../test/core-errors.test.ts` 的 `deepEqual(Object.keys/values(...))` 逐字断言全部 27 条 |
+| `TurnNotFound`         | `turn_not_found`         | `../../test/core-errors.test.ts` 的 `deepEqual(Object.keys/values(...))` 逐字断言全部 27 条 |
+| `EventOutOfOrder`      | `event_out_of_order`     | `../../test/core-errors.test.ts` 的 `deepEqual(Object.keys/values(...))` 逐字断言全部 27 条 |
+| `ProjectionCorrupted`  | `projection_corrupted`   | `../../test/core-errors.test.ts` 的 `deepEqual(Object.keys/values(...))` 逐字断言全部 27 条 |
+| `Cancelled`            | `cancelled`              | `../../test/core-errors.test.ts` 的 `deepEqual(Object.keys/values(...))` 逐字断言全部 27 条 |
+
+**说明**：这 5 条无包外调用方，但同包契约测试
+`apps/cli/packages/contracts/test/core-errors.test.ts` 对**全部 27 个键名与值**做 `deepEqual`
+逐字断言（顺序敏感 + 完整集合）——改名会使该测试变红，这构成**测试级契约证据**。
+不是「没有契约」，而是「契约的保护者只有测试」：与调用方引用相比它同样阻止改名，
+只是失败位置从编译期移到测试期。
+
+### 为什么这 27 条必须剔除而不是改写
+
+它们作为对象字面量的 `键: "值"` 成对出现，形式本身就是契约：
+
+```ts
+export const CoreErrorType = {
+  SessionNotFound: "session_not_found",
+  // …另外 26 条
+} as const;
+```
+
+改键名会破坏 `CoreErrorType.Xxx` 形式的调用方；改值会改变线协议上的错误码；
+换写法（如改成数组 + 运行时构造）会破坏 `as const` 的字面量类型推导与 `Object.keys` 的断言。
+因此这些行**结构上不可能通过改写消除**，只能剔除后对剩余实现计分。

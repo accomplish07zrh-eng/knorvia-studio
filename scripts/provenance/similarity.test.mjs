@@ -713,6 +713,43 @@ test("contract-lines ignores paths inside prose cells of two-column tables", () 
   );
 });
 
+test("no-upstream-counterpart marks a pass that had nothing to compare against", () => {
+  // 上游完全没有可比的同类文件时，containment=0.000 只代表「没得比」，不代表「不雷同」。
+  // 这里只放一个 .d.ts 上游（kind 与候选 .ts 不同）→ 候选找不到比较对象。
+  const candidateText = [
+    "export interface OnlyHereContract {",
+    "  value: string;",
+    "}",
+    "export declare function onlyHere(): void;",
+  ].join("\n");
+  withTree(
+    {
+      "upstream/other.d.ts": "export declare const unrelated: number;\n",
+      "contract/interface.md": [
+        "# interface",
+        "",
+        "| 模块 | 导出名 |",
+        "| --- | --- |",
+        "| `only-here.ts` | `OnlyHereContract` |",
+      ].join("\n"),
+    },
+    (root) => {
+      const candidate = writeCandidate(root, "only-here.ts", candidateText);
+      const result = runTool([
+        "--upstream-dir",
+        join(root, "upstream"),
+        "--candidate",
+        candidate,
+        "--contract-lines",
+        "--interface",
+        join(root, "contract/interface.md"),
+      ]);
+      // 没有上游同类文件可比 —— 报告必须标注，避免「0.000」被读成「比过且不雷同」。
+      assert.match(result.stdout, /no-upstream-counterpart/);
+    },
+  );
+});
+
 test("strip accounting keeps the identity and never reports negative lines", () => {
   // 恒等式：linesBeforeStrip - residualLines === strippedLines，且 strippedLines 不得为负。
   // 纯 re-export 文件曾出现 -7：格式化把 re-export 丢光后 before=0，而 residual 是展开追踪的 7 行。

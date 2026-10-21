@@ -280,6 +280,10 @@ async function evaluateLines(candidate) {
     // 剩余行为 0 表示「没有可比对的实现行」，与「比出来的 0.000」是两件事：
     // 前者不构成达标依据（纯 re-export / 全剥空的纯声明），下游不得据此判为已完成。
     noComparableLines: residualLines === 0,
+    // 没有任何上游文件参与比较（lineMetrics 的 maxContainment.file 为 null）：
+    // 此时 PASS 只说明「没超标」，不说明「与上游对比后不雷同」—— 因为根本没得比。
+    // 上游无同名文件（拆分产物/新增文件）或同目录无兄弟文件时会落到这一档。
+    noUpstreamCounterpart: false,
     strippedBlocks: candidate.strippedBlocks ?? 0,
     formatted: candidate.formatted,
     formatError: candidate.formatError,
@@ -338,6 +342,8 @@ async function evaluateLines(candidate) {
   return {
     ...base,
     tracedFrom: candidate.tracedFrom ?? null,
+    // 没有任何上游文件参与比较：PASS 只说明「没超标」，不说明「不雷同」。
+    noUpstreamCounterpart: metrics.maxContainment.file === null && candidate.lines.length > 0,
     maxContainment: metrics.maxContainment,
     longestRun: metrics.longestRun,
     checks: { ...base.checks, line: violations.length === 0 },
@@ -534,8 +540,11 @@ function describe(result) {
   // 剩余行为 0 时并没有「比出来的低相似度」：那是一份没有可比对实现的文件（纯 re-export 等）。
   // 不标注的话，`containment=0.000` 会被读成「完美达标」，让归零判定失真。
   const noComparableNote = result.residualLines === 0 ? " no-comparable-lines" : "";
+  // 没有上游文件参与比较时，containment=0.000 不代表「比过了不雷同」，只代表「没得比」。
+  // 上游无同名文件（拆分产物/新增）会落到这一档，审查者必须能一眼看出。
+  const counterpartNote = result.noUpstreamCounterpart ? " no-upstream-counterpart" : "";
   const verdict = result.violations.length ? ` -> ${result.violations.join("; ")}` : "";
-  return `${result.pass ? "PASS " : "FAIL "} ${result.path} lines=${result.lines}${declaration}${exclusion}${noComparableNote}${formatNote}${line}${structural}${verdict}${traced}`;
+  return `${result.pass ? "PASS " : "FAIL "} ${result.path} lines=${result.lines}${declaration}${exclusion}${noComparableNote}${counterpartNote}${formatNote}${line}${structural}${verdict}${traced}`;
 }
 
 function calibrate(results) {
