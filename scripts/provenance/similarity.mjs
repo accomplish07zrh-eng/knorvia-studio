@@ -49,7 +49,9 @@ const HELP = `用法: node scripts/provenance/similarity.mjs [选项]
 比较对象：
   --old <path>              被替换的旧文件，可重复；相对路径按 --repo（或 --old-rev）解析
   --old-list <file>         每行一个旧文件路径
-  --old-rev <rev>           旧文件取自该 git 提交（默认 beff12b5，计划执行基线）
+  --old-rev <rev>           旧文件取自该 git 提交。
+                            不给 --old 时自动用 beff12b5（计划执行基线）；
+                            给了 --old 但没给本参数时读工作区。
   --source-map <file>       来源映射：拆分/移动产生的文件与其来源文件的对应关系
                             （默认 licensing/beff12b5-source-map.json；多来源取最高值）
   --dump-residual           打印剔除契约行后残留的行原文（含原始行号），供验收文档逐字贴出
@@ -331,6 +333,31 @@ const candidates = await Promise.all(
     }),
   ),
 );
+
+// 自比防御：「候选与旧文件是同一个文件、且内容相同」时报出的 1.000 没有信息量 ——
+// 它不表示「完全没有改进」，只表示「测错了对象」（通常是给了 --old 却没给 --old-rev，
+// 于是两边都读了工作区的同一个文件）。与「--old 不存在就报错」是同一类防御：不静默。
+//
+// 注意：`candidates[].path` 是绝对路径而 `candidatePaths` 是相对路径，不能用字符串相等判断；
+// 两者由同一数组按同序构建，因此用**索引**对应。
+if (oldRevision === undefined && oldFiles.length > 0) {
+  const selfCompared = candidatePaths.filter((candidatePath, index) => {
+    const candidateFile = candidates[index];
+    if (!candidateFile || candidateFile.binary) return false;
+    return oldFiles.some(
+      (oldFile) =>
+        oldFile.path === candidatePath && !oldFile.binary && oldFile.text === candidateFile.text,
+    );
+  });
+  if (selfCompared.length > 0) {
+    usageError(
+      `${selfCompared.length} 个候选与 --old 指向同一文件且内容相同：\n` +
+        selfCompared.map((path) => `  · ${path}`).join("\n") +
+        "\n  这样的比较必然是 1.000 —— 它不表示「未重写」，只表示「测错了对象」。\n" +
+        "  不给 --old 会自动用 beff12b5 基线；或显式传 --old-rev <rev>。",
+    );
+  }
+}
 const results = [];
 for (const candidate of candidates) results.push(await evaluateLines(candidate));
 if (gates !== "line") applyStructural(results);
