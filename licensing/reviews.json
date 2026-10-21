@@ -113001,7 +113001,7 @@
     },
     {
       "path": "packages/services/test/studio-integrated-runtime.test.ts",
-      "normalizedSha256": "499434238fcebe6f613c310a4dc0534e4941dde1e93735180c88c7b829d575d9",
+      "normalizedSha256": "16c0bf6e6418e87c80042c07f80560da6389c3db4212e8bfe5720cf240cae849",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Created by Knorvia after the first snapshot 7619e41; the commit wording (\"replace\"/\"rewrite\" family) describes the documented work, not this file's origin. Measured against the pinned upstream 872ad960 with the M0-8 similarity tool (line and structural gates): max normalized-line containment 0.04 (apps/zcode-cli/packages/adapters/src/pdf/index.ts), longest identical run 2 lines, structural similarity 0.0075 (apps/zcode-cli/packages/tui/src/theme/defaults.ts). Both applicable gates pass, so this file registers as original without claiming independent replacement of any upstream implementation. The author was allowed to read the inherited implementation; no code was copied, renamed or rewritten line by line.",
@@ -113298,7 +113298,7 @@
     },
     {
       "path": "packages/services/test/studio-workspace-runtime-recovery.test.ts",
-      "normalizedSha256": "577c0685698c9958c03f78e96fb28a4f1a43e59b7b112331009e65d957c9510d",
+      "normalizedSha256": "9af355200caa6f8233df564edf1357d3fd01a00003572204d9dee820e89da933",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Created by Knorvia commit c6a81655 (2026-10-07) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.05 (apps/zcode-cli/packages/dynamic-workflow-runtime/src/harness.ts), longest identical run 2 lines, below the 0.2 / 8-line thresholds. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
@@ -113310,7 +113310,7 @@
     },
     {
       "path": "packages/services/test/studio-workspace-runtime.test.ts",
-      "normalizedSha256": "21028ee8c48c936cb339a9f6f82faa6bd877b5f4fbb919c095416c8ac917a4c6",
+      "normalizedSha256": "f2877cbaebb0a7c55faaebbf03b952394a8033e7dd65b9a07d65287a42c6615a",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Created by Knorvia commit c6a81655 (2026-10-07) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.03 (apps/zcode-cli/packages/core/src/tool/handlers/plan-mode.ts), longest identical run 1 lines, below the 0.2 / 8-line thresholds. Bookkeeping review only; not a claim of independent replacement of any upstream implementation.",
@@ -140834,7 +140834,7 @@
     },
     {
       "path": "specs/contracts/services-01/known-differences.md",
-      "normalizedSha256": "09dede137ec84e39ae418136c41ce9d1b191dc1d1588ab9840938833e3ca1ea8",
+      "normalizedSha256": "7d3d03da0b9af9111cddb969285ec0cd018da1508f8e96a6d8af7f63215b3ccc",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored services-01 contract artifact for @knorvia/services (M3: agent/broadcast/commands/conversation-telemetry/credential/cua-permission-broker/file, 60 inherited files in packages/services/src).",
