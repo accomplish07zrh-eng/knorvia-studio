@@ -150064,6 +150064,14 @@
       "license": "Apache-2.0",
       "basis": "Knorvia-authored licensing infrastructure. This file records the source relationships for files that the plan split or moved: each derived path maps to one or more baseline files it came from, and the similarity gate compares the derived file against every listed source and keeps the strictest result. An array value is what makes the multiple-source comparison possible without extra branch logic, and listing the same path as one of its own sources keeps the ordinary case and the derived case on one code path.",
       "evidence": ["licensing/README.md"]
+    },
+    {
+      "path": "scripts/verify-provenance.mjs",
+      "normalizedSha256": "326d92a44917592362282df88e76f9b3def03a317f94994cd260f464454b9a11",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored pre-push guard that verifies only the files this branch changed: it recomputes their hashes and compares against the provenance inventory, so a forgotten regeneration is caught locally in about a second instead of after a full CI round. The full check remains the authority and is not replaced.",
+      "evidence": ["licensing/current-files.json"]
     }
   ]
 }
