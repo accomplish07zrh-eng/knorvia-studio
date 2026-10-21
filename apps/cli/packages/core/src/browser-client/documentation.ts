@@ -6,12 +6,15 @@ import type { BrowserBackendDescriptor } from "@knorvia/contracts/browser-contro
 import { BrowserApiPolicy, loadBrowserApiManifest, type BrowserApiManifest } from "./manifest.js";
 import { BROWSER_FALLBACK_GUIDE, renderBrowserDocumentation } from "./documentation-render.js";
 
+/** 一条文档条目的启用条件：命中哪些浏览器类型、需要哪些 API/能力。 */
 interface Conditions {
   browserTypes?: string[];
   requiredApiMembers?: string[];
   requiredBrowserCapabilities?: string[];
   requiredTabCapabilities?: string[];
 }
+
+/** 索引里的一条文档引用。`mode` 为 `lookup` 时只登记路径、不内联内容。 */
 interface DocumentEntry {
   path: string;
   name?: string;
@@ -19,10 +22,21 @@ interface DocumentEntry {
   mode?: "included" | "lookup";
   when?: Conditions;
 }
+
+/** 索引文件的顶层形状。 */
 interface DocumentIndex {
   title?: string;
   documents: DocumentEntry[];
 }
+
+/** 条件字段名的单一来源：校验与读取都用这一份，避免两处各写一遍。 */
+const CONDITION_FIELDS = [
+  "browserTypes",
+  "requiredApiMembers",
+  "requiredBrowserCapabilities",
+  "requiredTabCapabilities",
+] as const;
+
 const record = (value: unknown): value is Record<string, unknown> =>
   typeof value === "object" && value !== null && !Array.isArray(value);
 const strings = (value: unknown): value is string[] =>
@@ -33,36 +47,57 @@ function inside(root: string, path: string): boolean {
   return distance !== ".." && !distance.startsWith(`..${sep}`) && !isAbsolute(distance);
 }
 
-function documentPath(root: string, path: string): string | undefined {
-  const rejectOutside = () => {
-    console.warn(
-      "[Knorvia Browser Docs] A reference outside the documentation directory was ignored.",
-    );
-    return undefined;
-  };
-  if (isAbsolute(path) || win32.isAbsolute(path)) return rejectOutside();
-  const candidate = resolve(root, path);
-  if (!inside(root, candidate)) return rejectOutside();
+/**
+ * 文档引用的边界判定与落盘读取。
+ *
+ * 三条规则：
+ *   1. 绝对路径一律拒绝（含 win32 形态），只接受文档目录内的相对引用；
+ *   2. 解析后还要比对**真实路径**，防止 junction / symlink 把引用带出目录；
+ *   3. 读取失败只告警不抛错 —— 缺文档不应让工具调用失败。
+ */
+const DOCS_WARNING = "[Knorvia Browser Docs]";
+
+/** 把「出错就告警并返回 undefined」收敛成一处，读路径上不再散落 try/catch。 */
+function bestEffort<T>(
+  attempt: () => T,
+  warning: string,
+  skipIf?: (error: unknown) => boolean,
+): T | undefined {
   try {
-    const physical = realpathSync(candidate);
-    // 同时检查真实路径，避免 junction 或 symlink 绕过文档目录边界。
-    return inside(root, physical) ? physical : rejectOutside();
+    return attempt();
   } catch (error) {
-    if (!record(error) || error.code !== "ENOENT")
-      console.warn("[Knorvia Browser Docs] A documentation reference could not be resolved.");
+    if (!skipIf?.(error)) console.warn(`${DOCS_WARNING} ${warning}`);
     return undefined;
   }
+}
+
+/** 引用落在文档目录之外时的统一处置。 */
+function rejectOutsideReference(): undefined {
+  console.warn(`${DOCS_WARNING} A reference outside the documentation directory was ignored.`);
+  return undefined;
+}
+
+function documentPath(root: string, path: string): string | undefined {
+  if (isAbsolute(path) || win32.isAbsolute(path)) return rejectOutsideReference();
+  const candidate = resolve(root, path);
+  if (!inside(root, candidate)) return rejectOutsideReference();
+  // 真实路径仍须在目录内：junction 与 symlink 可以绕过上一步的字面判定。
+  const physical = bestEffort(
+    () => realpathSync(candidate),
+    "A documentation reference could not be resolved.",
+    (error) => record(error) && error.code === "ENOENT",
+  );
+  if (physical === undefined) return undefined;
+  return inside(root, physical) ? physical : rejectOutsideReference();
 }
 
 function readDocument(root: string, path: string): string | undefined {
   const candidate = documentPath(root, path);
   if (!candidate) return undefined;
-  try {
-    return readFileSync(candidate, "utf8");
-  } catch {
-    console.warn("[Knorvia Browser Docs] A documentation file could not be read.");
-    return undefined;
-  }
+  return bestEffort(
+    () => readFileSync(candidate, "utf8"),
+    "A documentation file could not be read.",
+  );
 }
 
 function isEntry(value: unknown): value is DocumentEntry {
@@ -74,12 +109,7 @@ function isEntry(value: unknown): value is DocumentEntry {
   if (value.when === undefined) return true;
   const conditions = value.when;
   if (!record(conditions)) return false;
-  return [
-    "browserTypes",
-    "requiredApiMembers",
-    "requiredBrowserCapabilities",
-    "requiredTabCapabilities",
-  ].every((key) => conditions[key] === undefined || strings(conditions[key]));
+  return CONDITION_FIELDS.every((key) => conditions[key] === undefined || strings(conditions[key]));
 }
 
 function indexFrom(text: string | undefined): DocumentIndex {
