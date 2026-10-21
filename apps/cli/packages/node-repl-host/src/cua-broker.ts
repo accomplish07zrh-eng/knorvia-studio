@@ -8,16 +8,24 @@ import { authenticatedEnvelope, computerFailureLine, computerRequest } from "./c
 import { LocalRequestServer } from "./local-request-server.js";
 
 const TOKEN_BYTES = 32;
-export interface NodeReplCuaBroker {
+
+/** 装配结果：连接信息、就绪信号、关闭入口。 */
+export type NodeReplCuaBroker = {
   connection: NodeReplCuaBrokerConnection;
   ready: Promise<void>;
-  close(): Promise<void>;
-}
-export function createNodeReplCuaBroker(input: {
-  runtime: ComputerUseRuntime;
-  logger?: Logger;
-  platform?: NodeJS.Platform | string;
-}): NodeReplCuaBroker {
+  close: () => Promise<void>;
+};
+
+/** 必填项：要执行工具调用的运行时。 */
+type CuaBrokerRequired = { runtime: ComputerUseRuntime };
+
+/** 可覆盖项：日志与平台（测试会注入替身）。 */
+type CuaBrokerOverrides = { logger?: Logger; platform?: NodeJS.Platform | string };
+
+/** 装配入参：必填 + 可覆盖。 */
+type CuaBrokerAsk = CuaBrokerRequired & CuaBrokerOverrides;
+
+export function createNodeReplCuaBroker(input: CuaBrokerAsk): NodeReplCuaBroker {
   const token = randomBytes(TOKEN_BYTES).toString("hex");
   const credential = Buffer.from(token);
   const listener = new LocalRequestServer({
