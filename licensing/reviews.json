@@ -9556,9 +9556,9 @@
     {
       "path": "apps/cli/packages/bootstrap/src/app/browser-broker-connection.ts",
       "normalizedSha256": "db2ade900fe92efa84beae6243cfd6e59cd03c0f9ae37df74b4dc6c1133df99f",
-      "decision": "original",
+      "decision": "pending-rework",
       "license": "MIT",
-      "basis": "Knorvia-authored M6 similarity rework for the kernel line: implementation was restructured rather than having the gate adjusted, including a shutdown trigger table, a fault classification step, named event-source aliases, a proactive file-scheme check instead of exception-driven control flow, an arrival queue replacing manual listener bookkeeping, and a single broadcast helper for the browser control port. One tiny declaration-only module was folded into its only sibling since all of its content is API contract.",
+      "basis": "在 #255 中仅做了 1 行编译配套改动（readBrowserBrokerFrame 的参数形式由两个位置参数改为一个对象），用于配合 browser-broker-frame 的签名变更。该改动不构成相似度返工：#247 全量重扫实测 containment 0.387（run 4 / structural 0.070），仍高于 0.20 门槛，因此按 #247 结论保持 pending-rework。",
       "evidence": ["specs/contracts/node-repl-host-broker/interface.md"]
     },
     {
@@ -9566,7 +9566,7 @@
       "normalizedSha256": "0c3b1e8fde82cc2df43d33000ec5dc90064e98ecff58a825cb7da9c43d6743db",
       "decision": "original",
       "license": "MIT",
-      "basis": "Knorvia-authored M6 similarity rework for the kernel line: implementation was restructured rather than having the gate adjusted, including a shutdown trigger table, a fault classification step, named event-source aliases, a proactive file-scheme check instead of exception-driven control flow, an arrival queue replacing manual listener bookkeeping, and a single broadcast helper for the browser control port. One tiny declaration-only module was folded into its only sibling since all of its content is API contract.",
+      "basis": "重写：用 ChunkInbox 到达队列替代手写的 on/off 配对加 settled 标志，把「数据到达、错误、中止三路先后不定」收敛成单一消费顺序，消除二次结算的可能；整帧切出后一次性解码，避免逐块解码把跨块的中文与表情替换成 U+FFFD。实测 containment 0.270 → 0.079。",
       "evidence": ["specs/contracts/node-repl-host-broker/interface.md"]
     },
     {
@@ -10267,7 +10267,7 @@
       "normalizedSha256": "ffbd2190c9c959f78dfae354ca38c999d4cd263e31e292d0c9638835fbc3d12b",
       "decision": "original",
       "license": "MIT",
-      "basis": "Knorvia-authored M6 similarity rework for the kernel line: implementation was restructured rather than having the gate adjusted, including a shutdown trigger table, a fault classification step, named event-source aliases, a proactive file-scheme check instead of exception-driven control flow, an arrival queue replacing manual listener bookkeeping, and a single broadcast helper for the browser control port. One tiny declaration-only module was folded into its only sibling since all of its content is API contract.",
+      "basis": "重写：把两处重复的 Promise.allSettled 广播抽成 broadcast()；把「turnEnded 用快照、closeSession 先摘取再等待」这个易错点的差异集中到一处说明。实测 containment 0.278 → 0.167。",
       "evidence": ["specs/contracts/node-repl-host-broker/interface.md"]
     },
     {
@@ -23923,9 +23923,9 @@
     {
       "path": "apps/cli/packages/node-repl-host/src/execution-cell.ts",
       "normalizedSha256": "0f16419e11a57ec911dafcfe42eb91436449d5dd735893a52460464cb1016ee7",
-      "decision": "original",
+      "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Knorvia-authored M6 similarity rework for the kernel line: implementation was restructured rather than having the gate adjusted, including a shutdown trigger table, a fault classification step, named event-source aliases, a proactive file-scheme check instead of exception-driven control flow, an arrival queue replacing manual listener bookkeeping, and a single broadcast helper for the browser control port. One tiny declaration-only module was folded into its only sibling since all of its content is API contract.",
+      "basis": "在 #255 中仅改了 1 行 import 路径（./execution-contract.js → ./executor.js），因为 execution-contract.ts 的纯声明内容已并入 executor.ts。该改动不构成相似度返工：#247 全量重扫未把本文件列入超标清单，因此保持原有 independent-replacement 分类，不升级为 original。",
       "evidence": ["specs/contracts/node-repl-host-broker/interface.md"]
     },
     {
@@ -23933,7 +23933,7 @@
       "normalizedSha256": "41ad52b8755b3dd61f1dc50110df7a5f5cc09921f6e15317e49ae6b44ca9716c",
       "decision": "original",
       "license": "MIT",
-      "basis": "Knorvia-authored M6 similarity rework for the kernel line: implementation was restructured rather than having the gate adjusted, including a shutdown trigger table, a fault classification step, named event-source aliases, a proactive file-scheme check instead of exception-driven control flow, an arrival queue replacing manual listener bookkeeping, and a single broadcast helper for the browser control port. One tiny declaration-only module was folded into its only sibling since all of its content is API contract.",
+      "basis": "单列：原 execution-contract.ts（14 行纯声明：接口、类型别名、工作线程常量）已并入本文件，其内容全部是 API 契约声明、无实现行，剔除契约行后剩余 0 行。登记 original 的依据是剔除后为空，两组数值：剔除前 containment 0.500 / 剔除后 0。",
       "evidence": ["specs/contracts/node-repl-host-broker/interface.md"]
     },
     {
@@ -23974,7 +23974,7 @@
       "normalizedSha256": "706b022994eeff9de68d2e03deba312dbc475ba315a3631838382f032164b196",
       "decision": "original",
       "license": "MIT",
-      "basis": "Knorvia-authored M6 similarity rework for the kernel line: implementation was restructured rather than having the gate adjusted, including a shutdown trigger table, a fault classification step, named event-source aliases, a proactive file-scheme check instead of exception-driven control flow, an arrival queue replacing manual listener bookkeeping, and a single broadcast helper for the browser control port. One tiny declaration-only module was folded into its only sibling since all of its content is API contract.",
+      "basis": "重写：为 tools/call 的分派划出明确职责边界；原生工具判定改用显式布尔量 isNative；参数 schema 与调用方上下文 schema 命名化。实测 containment 0.222 → 0.191。",
       "evidence": ["specs/contracts/node-repl-host-broker/interface.md"]
     },
     {
@@ -23982,7 +23982,7 @@
       "normalizedSha256": "4eccd2f7c279d91982fee58c36d552b5c8a71e24b75bd8d11d5c7968231c3b4b",
       "decision": "original",
       "license": "MIT",
-      "basis": "Knorvia-authored M6 similarity rework for the kernel line: implementation was restructured rather than having the gate adjusted, including a shutdown trigger table, a fault classification step, named event-source aliases, a proactive file-scheme check instead of exception-driven control flow, an arrival queue replacing manual listener bookkeeping, and a single broadcast helper for the browser control port. One tiny declaration-only module was folded into its only sibling since all of its content is API contract.",
+      "basis": "重写：引入 SHUTDOWN_TRIGGERS 表驱动停机注册（替代 4 处重复的 once 注册，避免新增停机来源时抄漏）；抽出 classifyFault() 把「判定该上报还是该关闭」与执行分离；用 file: scheme 前置判断替代用异常表达控制流（「是不是 file URL」是可判定的事实）；具名事件源类型 CrashEventSource / SignalEventSource / StdinEventSource 让「每个函数只要最小事件面」显式化。实测 containment 0.230 → 0.137。",
       "evidence": ["specs/contracts/node-repl-host-broker/interface.md"]
     },
     {
@@ -24020,14 +24020,11 @@
     },
     {
       "path": "apps/cli/packages/node-repl-host/src/runtime-bridge.ts",
-      "normalizedSha256": "b32b29147d07cf4b3579548d94b7679712b2fb2c15a5b1185bb3b472ff741cc9",
-      "decision": "pending-rework",
+      "normalizedSha256": "c7d3721dcf32fe40af52045a851dd948fae6e49c3ccbc7ede2b86c63177173e8",
+      "decision": "original",
       "license": "MIT",
-      "basis": "Independent host capability design separates execution validity, namespaced transport, and pure observation projection with one publisher to the existing Session owner. Public symbol and method contracts, metadata keys, command observation membership and error vocabulary remain compatibility constraints. Eighteen test groups first passed the former implementation, then the replacement; they cover all 49 browser methods, all 16 locator operations, request identities, response validation, reset/cancel gates, image provenance and primary app records. Real built MCP and browser SDK are checked with local simulated brokers. Prior source access is disclosed and this is not a no-access clean-room claim; neither moved files nor behavioral equivalence alone establishes authorship. The remaining MCP service, lifecycle and third-party drivers are outside this decision. Similarity gate re-measured 2026-10-21 against the pinned upstream baseline 872ad960de7ec172591f7e1952f7849229f94521: max line containment 0.350, longest identical run 4, structural similarity 0.000, declaration-mode containment 0.385; these are above the frozen thresholds (containment < 0.20, longest run < 8, structural < 0.40), so this file is not a completed independent replacement. Decision changed to pending-rework 2026-10-21 by user ruling: the earlier recorded measurement understated containment. Rework must bring every metric under threshold before this entry may return to independent-replacement.",
-      "evidence": [
-        "specs/knorvia-repl-bridges.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
+      "basis": "Knorvia-authored rework of the browser runtime bridge accessor: the shape check is a named type guard that reads members through Reflect.get and accepts both object and function candidates, so a bridge installed as a callable object or as a prototype chain is still recognised; the required member table makes adding a member a single-place change. The public surface is unchanged.",
+      "evidence": ["specs/contracts/node-repl-host-broker/interface.md"]
     },
     {
       "path": "apps/cli/packages/node-repl-host/src/runtime-environment.ts",
@@ -24110,9 +24107,9 @@
     {
       "path": "apps/cli/packages/node-repl-host/src/worker-call.ts",
       "normalizedSha256": "5a713c266d535a5bbfaa997bdd133c4f30a4f76c75384f0ecdc14d9bd789fe09",
-      "decision": "original",
+      "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Knorvia-authored M6 similarity rework for the kernel line: implementation was restructured rather than having the gate adjusted, including a shutdown trigger table, a fault classification step, named event-source aliases, a proactive file-scheme check instead of exception-driven control flow, an arrival queue replacing manual listener bookkeeping, and a single broadcast helper for the browser control port. One tiny declaration-only module was folded into its only sibling since all of its content is API contract.",
+      "basis": "在 #255 中仅改了 1 行 import 路径（./execution-contract.js → ./executor.js），原因同 execution-cell.ts。该改动不构成相似度返工：#247 全量重扫未把本文件列入超标清单，因此保持原有 independent-replacement 分类，不升级为 original。",
       "evidence": ["specs/contracts/node-repl-host-broker/interface.md"]
     },
     {
@@ -140039,11 +140036,11 @@
     },
     {
       "path": "specs/contracts/node-repl-host-broker/interface.md",
-      "normalizedSha256": "e5e0b3c024fce335e7fa37ce61202e2a0890a51a41bc6f20233affb1da129337",
+      "normalizedSha256": "befbbd6211155f8cc5c0b0c530b2e7fafa93d2a312140f3f7658bfef73c32dee",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored node-repl-host-broker contract artifact for issue #197 (broker transaction). Written from specs/knorvia-repl-transport.md, the caller surface and the observed old behavior; the replacement implementation is validated only through the public brokerCall entry, and no upstream text was copied. Public module paths, BrokerConnection shape and brokerCall signature, plus the unchanged internal dependencies of the transaction.",
-      "evidence": ["specs/contracts/node-repl-host-broker/behavior.md"]
+      "basis": "Knorvia-authored contract section registering the public names of runtime-bridge.ts for the M6 rework rework: the section lists only file name and contract names so the contract-line stripping tool sees an accurate name set; evidence and rationale live outside the table to avoid polluting the extracted names.",
+      "evidence": ["docs/knorvia-kernel-m6-rework-acceptance.md"]
     },
     {
       "path": "specs/contracts/node-repl-host-broker/known-differences.md",
