@@ -201,7 +201,19 @@ if (givenOldPaths.length === 0 && !values["allow-upstream-only"]) {
 }
 const oldFiles = await Promise.all(
   oldPathArgs.map((givenPath) =>
-    readOldFile({ repo, givenPath, revision: values["old-rev"], oxfmtOptions }),
+    readOldFile({
+      repo,
+      givenPath,
+      oxfmtOptions,
+      revision: values["old-rev"],
+      // 两侧对称剔除：旧文件用与候选相同的清单
+      // （--contract-lines 用契约名，--declaration 用声明名）。
+      stripNames: values["contract-lines"]
+        ? contractNames
+        : values.declaration
+          ? declarationNames
+          : [],
+    }),
   ),
 );
 if (values["allow-upstream-only"] && givenOldPaths.length === 0) {
