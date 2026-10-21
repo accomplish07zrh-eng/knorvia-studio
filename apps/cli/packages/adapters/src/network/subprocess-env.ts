@@ -46,80 +46,71 @@ const CA_ENV_GROUPS = {
 /** CA 变量名的平铺视图（顺序与声明顺序一致）。 */
 const CA_ENV_KEYS: readonly string[] = Object.values(CA_ENV_GROUPS);
 
-/** 取值：Windows 下按不区分大小写的首个匹配键，其余平台直接取同名键。 */
-function sourceValue(
-  origin: Record<string, string | undefined>,
-  name: string,
-  foldCase: boolean,
-): string | undefined {
-  if (!foldCase) return origin[name];
-  const folded = name.toLowerCase();
-  const key = Object.keys(origin).find((entry) => entry.toLowerCase() === folded);
-  // Windows 首个匹配即决定结果，空值也不能跳到后面的大小写别名。
-  return key === undefined ? undefined : origin[key];
+/**
+ * 一次写入所需的两侧字典与大小写策略。
+ *
+ * 原先每个辅助函数都要重复收 `origin` / `target` / `foldCase` 三件套，
+ * 参数表比函数体还长；收成一个上下文后，辅助函数只剩「做什么」这一层信息。
+ */
+interface EnvWriteContext {
+  /** 大小写不敏感平台（Windows）为 true：取值取首个匹配键，删除删掉全部别名。 */
+  foldCase: boolean;
+  /** 来源环境：可能是 process.env，也可能是另一份待合并的字典。 */
+  origin: Record<string, string | undefined>;
+  /** 目标环境：最终要交给子进程的那一份。 */
+  target: Record<string, string>;
 }
 
-function removeKey(target: Record<string, string>, name: string, foldCase: boolean): void {
-  if (!foldCase) {
-    delete target[name];
+/** 取值：不区分大小写时取首个匹配键，否则直接取同名键。 */
+function sourceValue(context: EnvWriteContext, name: string): string | undefined {
+  if (!context.foldCase) return context.origin[name];
+  const folded = name.toLowerCase();
+  const key = Object.keys(context.origin).find((entry) => entry.toLowerCase() === folded);
+  // Windows 首个匹配即决定结果，空值也不能跳到后面的大小写别名。
+  return key === undefined ? undefined : context.origin[key];
+}
+
+/** 删除一个键；大小写不敏感时删掉全部别名。 */
+function removeKey(context: EnvWriteContext, name: string): void {
+  if (!context.foldCase) {
+    delete context.target[name];
     return;
   }
   const folded = name.toLowerCase();
-  for (const key of Object.keys(target)) {
-    if (key.toLowerCase() === folded) delete target[key];
+  for (const key of Object.keys(context.target)) {
+    if (key.toLowerCase() === folded) delete context.target[key];
   }
 }
 
-function writeValue(
-  target: Record<string, string>,
-  name: string,
-  value: string,
-  foldCase: boolean,
-): void {
-  removeKey(target, name, foldCase);
-  target[name] = value;
+/** 写一个键：先按大小写策略清掉旧值，再落新值。 */
+function writeValue(context: EnvWriteContext, name: string, value: string): void {
+  removeKey(context, name);
+  context.target[name] = value;
 }
 
-function nonblankSourceValue(
-  origin: Record<string, string | undefined>,
-  name: string,
-  foldCase: boolean,
-): string | undefined {
-  const value = sourceValue(origin, name, foldCase);
+/** 取值但要求非空白：把「空串等于没配」的约定收在一处。 */
+function nonblankSourceValue(context: EnvWriteContext, name: string): string | undefined {
+  const value = sourceValue(context, name);
   return value?.trim() ? value : undefined;
 }
 
 /** 工具透传环境 → 目标 env（可关闭）。 */
-function mergeToolPassthrough(
-  targetEnv: Record<string, string>,
-  origin: Record<string, string | undefined>,
-  foldCase: boolean,
-  enabled: boolean,
-): void {
-  removeKey(targetEnv, KNORVIA_TOOL_ENV_PASSTHROUGH_ENV_KEY, foldCase);
+function mergeToolPassthrough(context: EnvWriteContext, enabled: boolean): void {
+  removeKey(context, KNORVIA_TOOL_ENV_PASSTHROUGH_ENV_KEY);
   if (!enabled) return;
-  for (const [key, value] of Object.entries(readKnorviaToolEnvPassthroughEnv(origin))) {
-    writeValue(targetEnv, key, value, foldCase);
+  for (const [key, value] of Object.entries(readKnorviaToolEnvPassthroughEnv(context.origin))) {
+    writeValue(context, key, value);
   }
 }
 
-function writeAll(
-  targetEnv: Record<string, string>,
-  keys: readonly string[],
-  value: string,
-  foldCase: boolean,
-): void {
-  for (const key of keys) writeValue(targetEnv, key, value, foldCase);
+/** 同一取值写到多个变量名（大小写两套 / 各工具链的 CA 变量）。 */
+function writeAll(context: EnvWriteContext, keys: readonly string[], value: string): void {
+  for (const key of keys) writeValue(context, key, value);
 }
 
 /** 代理值：显式策略优先，其次来源环境；缺 scheme 时补 http://。 */
-function proxyValue(
-  origin: Record<string, string | undefined>,
-  policy: NetworkEgressEnvPolicy,
-  foldCase: boolean,
-): string | undefined {
-  const raw =
-    policy.httpProxy?.trim() || sourceValue(origin, KNORVIA_HTTP_PROXY_ENV_KEY, foldCase)?.trim();
+function proxyValue(context: EnvWriteContext, policy: NetworkEgressEnvPolicy): string | undefined {
+  const raw = policy.httpProxy?.trim() || sourceValue(context, KNORVIA_HTTP_PROXY_ENV_KEY)?.trim();
   if (!raw) return undefined;
   return /^[a-z][a-z0-9+.-]*:\/\//i.test(raw) ? raw : `http://${raw}`;
 }
@@ -129,24 +120,25 @@ export function applyNetworkEgressEnv(
   options: NetworkEgressEnvOptions,
 ): Record<string, string> {
   const platform = options.platform ?? process.platform;
-  const origin = options.sourceEnv ?? {};
+  const context: EnvWriteContext = {
+    foldCase: platform === "win32",
+    origin: options.sourceEnv ?? {},
+    target: targetEnv,
+  };
   const policy = options.network ?? {};
-  const foldCase = platform === "win32";
 
-  mergeToolPassthrough(targetEnv, origin, foldCase, options.toolEnvPassthrough !== false);
+  mergeToolPassthrough(context, options.toolEnvPassthrough !== false);
 
   // source 可以就是 env；必须在覆盖和前序写入之后逐项取值，不能提前快照。
-  const proxy = proxyValue(origin, policy, foldCase);
-  if (proxy) writeAll(targetEnv, PROXY_ENV_KEYS, proxy, foldCase);
+  const proxy = proxyValue(context, policy);
+  if (proxy) writeAll(context, PROXY_ENV_KEYS, proxy);
 
-  const noProxy =
-    policy.noProxy?.trim() || nonblankSourceValue(origin, KNORVIA_NO_PROXY_ENV_KEY, foldCase);
-  if (noProxy) writeAll(targetEnv, ["NO_PROXY", "no_proxy"], noProxy, foldCase);
+  const noProxy = policy.noProxy?.trim() || nonblankSourceValue(context, KNORVIA_NO_PROXY_ENV_KEY);
+  if (noProxy) writeAll(context, ["NO_PROXY", "no_proxy"], noProxy);
 
   const ca =
-    policy.caCertFile?.trim() ||
-    nonblankSourceValue(origin, KNORVIA_AGENT_CA_CERT_ENV_KEY, foldCase);
-  if (ca) writeAll(targetEnv, CA_ENV_KEYS, ca, foldCase);
+    policy.caCertFile?.trim() || nonblankSourceValue(context, KNORVIA_AGENT_CA_CERT_ENV_KEY);
+  if (ca) writeAll(context, CA_ENV_KEYS, ca);
 
   return targetEnv;
 }
