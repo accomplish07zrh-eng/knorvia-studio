@@ -36,17 +36,25 @@ type TerminatorClockHooks = { now?: () => number; sleep?: (ms: number) => Promis
 type TerminatorOptions = TerminatorActionHooks &
   TerminatorClockHooks & { platform?: NodeJS.Platform };
 
-// 预算常量：枚举 1s、taskkill 2s、轮询 25ms、SIGKILL 后核对 250ms；
-// 两级宽限 SIGINT 250ms → SIGTERM 750ms，顺序不可颠倒。
-const ENUMERATION_TIMEOUT_MS = 1000;
-const TASKKILL_TIMEOUT_MS = 2000;
-const POLL_INTERVAL_MS = 25;
-const FINAL_WAIT_MS = 250;
-const GRACE_STAGES = [
-  ["SIGINT", 250],
-  ["SIGTERM", 750],
-] as const;
+/**
+ * 终止过程的时间预算与信号梯次。
+ *
+ * 四个超时各自约束一次外部等待（枚举后代、taskkill、轮询间隔、SIGKILL 后核对），
+ * 宽限梯次则规定「先温和后强硬」的两级节奏 —— 顺序不可颠倒，每级结束都重新核对存活。
+ * 全部是固定值：不随环境放宽，避免清理路径的耗时变得不可预期。
+ */
+const TERMINATION_BUDGET = {
+  enumerateTimeoutMs: 1000,
+  taskkillTimeoutMs: 2000,
+  pollIntervalMs: 25,
+  postKillSettleMs: 250,
+  graceStages: [
+    ["SIGINT", 250],
+    ["SIGTERM", 750],
+  ],
+} as const;
 
+/** 从错误对象里取退出码；没有 code 字段当成 0，code 不是数字则视为「取不到」。 */
 function exitStatus(cause: unknown): number | null {
   if (!cause || typeof cause !== "object" || !("code" in cause)) return 0;
   const code = cause.code;
@@ -105,7 +113,7 @@ async function childProcesses(parent: number, options: TerminatorOptions): Promi
     ["-P", String(parent)],
     {
       encoding: "utf8",
-      timeout: ENUMERATION_TIMEOUT_MS,
+      timeout: TERMINATION_BUDGET.enumerateTimeoutMs,
     },
     options,
   );
@@ -119,7 +127,7 @@ async function childProcesses(parent: number, options: TerminatorOptions): Promi
   const listingResult = await execCommand(
     "ps",
     [platform === "darwin" ? "-axo" : "-eo", "pid=,ppid="],
-    { encoding: "utf8", timeout: ENUMERATION_TIMEOUT_MS },
+    { encoding: "utf8", timeout: TERMINATION_BUDGET.enumerateTimeoutMs },
     options,
   );
   if (listingResult.error || listingResult.status !== 0 || !listingResult.stdout) return [];
@@ -159,7 +167,7 @@ async function awaitExit(
   const startedAt = now();
   while (now() - startedAt < budgetMs) {
     if (!pids.some((target) => isRunning(target, options))) return;
-    await sleep(POLL_INTERVAL_MS);
+    await sleep(TERMINATION_BUDGET.pollIntervalMs);
   }
 }
 
@@ -193,7 +201,7 @@ export async function terminateMcpStdioProcessTree(
       ["/PID", String(pid), "/T", "/F"],
       {
         encoding: "utf8",
-        timeout: TASKKILL_TIMEOUT_MS,
+        timeout: TERMINATION_BUDGET.taskkillTimeoutMs,
         windowsHide: true,
       },
       options,
@@ -209,7 +217,7 @@ export async function terminateMcpStdioProcessTree(
   }
 
   const treeIds = positiveUnique([...(await treeOf(pid, options)), pid]);
-  for (const [graceSignal, budgetMs] of GRACE_STAGES) {
+  for (const [graceSignal, budgetMs] of TERMINATION_BUDGET.graceStages) {
     signalProcess(-pid, graceSignal, options);
     for (const target of treeIds) signalProcess(target, graceSignal, options);
     await awaitExit(treeIds, budgetMs, options);
@@ -221,7 +229,7 @@ export async function terminateMcpStdioProcessTree(
     if (isRunning(target, options)) signalProcess(target, "SIGKILL", options);
   }
   signalProcess(-pid, "SIGKILL", options);
-  await awaitExit(hardPids, FINAL_WAIT_MS, options);
+  await awaitExit(hardPids, TERMINATION_BUDGET.postKillSettleMs, options);
   const leftover = hardPids.filter((target) => isRunning(target, options));
   if (leftover.length > 0) {
     throw new Error(

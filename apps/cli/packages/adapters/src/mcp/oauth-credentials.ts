@@ -16,12 +16,21 @@ export const MCP_OAUTH_CANONICAL_CREDENTIALS_KEY = "authorization_credentials";
 export const MCP_OAUTH_CREDENTIALS_VERSION = 2;
 export const MCP_OAUTH_SUPPORTED_CREDENTIAL_VERSIONS = new Set<number>([1, 2]);
 
-const CLIENT_KEY = "client_information";
-const TOKENS_KEY = "tokens";
-const GENERATION_BYTES = 16;
-const LEGACY_DIGEST_LENGTH = 32;
-const EXPIRY_SKEW_MS = 30_000;
-const MILLISECONDS_PER_SECOND = 1_000;
+/**
+ * 存储键与派生取值的规格表。
+ *
+ * 键名决定「写到凭据库的哪一格」；其余四项决定「新代际串多长」「旧记录派生时截多少字符」
+ * 「提前多久算临近过期」「秒与毫秒的换算」。归到一处后，调用点只读名字，
+ * 不必在文件里四处对照散落的常量声明。
+ */
+const STORE_SPEC = {
+  clientSlot: "client_information",
+  tokensSlot: "tokens",
+  generationBytes: 16,
+  legacyDigestChars: 32,
+  expirySkewMs: 30_000,
+  msPerSecond: 1_000,
+} as const;
 
 export type {
   CanonicalCredentialSnapshot,
@@ -86,7 +95,7 @@ function generationFor(record: McpOAuthCanonicalCredentials, text: string): stri
     return record.generation;
   }
   const digest = createHash("sha256").update(text).digest("hex");
-  return `legacy-${digest.slice(0, LEGACY_DIGEST_LENGTH)}`;
+  return `legacy-${digest.slice(0, STORE_SPEC.legacyDigestChars)}`;
 }
 
 /** 可选字段映射：canonical 的落盘键 → 快照字段（缺席即不写入）。 */
@@ -139,9 +148,9 @@ export async function publishCanonicalCredentials(
   const obtainedAt = payload.obtainedAt ?? Date.now();
   let expiresAt: number | undefined;
   if (typeof payload.tokens.expires_in === "number" && Number.isFinite(payload.tokens.expires_in)) {
-    expiresAt = obtainedAt + payload.tokens.expires_in * MILLISECONDS_PER_SECOND;
+    expiresAt = obtainedAt + payload.tokens.expires_in * STORE_SPEC.msPerSecond;
   }
-  const generation = randomBytes(GENERATION_BYTES).toString("hex");
+  const generation = randomBytes(STORE_SPEC.generationBytes).toString("hex");
   const record: McpOAuthCanonicalCredentials = {
     client_information: payload.clientInformation,
     ...(expiresAt !== undefined ? { expires_at: expiresAt } : {}),
@@ -158,8 +167,8 @@ export async function publishCanonicalCredentials(
   const legacyTokensRaw = JSON.stringify(payload.tokens);
   await store.saveMany({
     [mcpOAuthCredentialKey(keySpace, MCP_OAUTH_CANONICAL_CREDENTIALS_KEY)]: text,
-    [mcpOAuthCredentialKey(keySpace, CLIENT_KEY)]: legacyClientRaw,
-    [mcpOAuthCredentialKey(keySpace, TOKENS_KEY)]: legacyTokensRaw,
+    [mcpOAuthCredentialKey(keySpace, STORE_SPEC.clientSlot)]: legacyClientRaw,
+    [mcpOAuthCredentialKey(keySpace, STORE_SPEC.tokensSlot)]: legacyTokensRaw,
   });
   return { canonical: record, generation, legacyClientRaw, legacyTokensRaw, raw: text };
 }
@@ -167,7 +176,7 @@ export async function publishCanonicalCredentials(
 export function isCanonicalTokenNearExpiry(
   view: Pick<CanonicalCredentialSnapshot, "expiresAt">,
   now = Date.now(),
-  skewWindowMs = EXPIRY_SKEW_MS,
+  skewWindowMs = STORE_SPEC.expirySkewMs,
 ): boolean {
   return view.expiresAt === undefined || now >= view.expiresAt - skewWindowMs;
 }
@@ -179,8 +188,9 @@ export async function invalidateCanonicalCredentials(
   invalidateScope: CanonicalInvalidationScope,
 ): Promise<boolean> {
   const canonicalKey = mcpOAuthCredentialKey(keySpace, MCP_OAUTH_CANONICAL_CREDENTIALS_KEY);
-  const keyList = [canonicalKey, mcpOAuthCredentialKey(keySpace, TOKENS_KEY)];
-  if (invalidateScope === "all") keyList.push(mcpOAuthCredentialKey(keySpace, CLIENT_KEY));
+  const keyList = [canonicalKey, mcpOAuthCredentialKey(keySpace, STORE_SPEC.tokensSlot)];
+  if (invalidateScope === "all")
+    keyList.push(mcpOAuthCredentialKey(keySpace, STORE_SPEC.clientSlot));
   return await store.deleteManyIfValue(canonicalKey, expectedText, keyList);
 }
 
@@ -296,8 +306,8 @@ export async function loadCredentialPair(
   keySpace: string,
 ): Promise<CredentialPairSnapshot | undefined> {
   const canonicalKey = mcpOAuthCredentialKey(keySpace, MCP_OAUTH_CANONICAL_CREDENTIALS_KEY);
-  const clientKey = mcpOAuthCredentialKey(keySpace, CLIENT_KEY);
-  const tokensKey = mcpOAuthCredentialKey(keySpace, TOKENS_KEY);
+  const clientKey = mcpOAuthCredentialKey(keySpace, STORE_SPEC.clientSlot);
+  const tokensKey = mcpOAuthCredentialKey(keySpace, STORE_SPEC.tokensSlot);
   const view = await store.loadMany([canonicalKey, clientKey, tokensKey]);
   return deriveCredentialPair({
     canonicalRaw: view[canonicalKey] ?? undefined,
