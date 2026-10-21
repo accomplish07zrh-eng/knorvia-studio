@@ -9555,10 +9555,10 @@
     },
     {
       "path": "apps/cli/packages/bootstrap/src/app/browser-broker-connection.ts",
-      "normalizedSha256": "db2ade900fe92efa84beae6243cfd6e59cd03c0f9ae37df74b4dc6c1133df99f",
-      "decision": "pending-rework",
+      "normalizedSha256": "a39c88ba4c6243285e566f5b92f2e63537212bbf1d4b088ed74535a33382c0a1",
+      "decision": "original",
       "license": "MIT",
-      "basis": "在 #255 中仅做了 1 行编译配套改动（readBrowserBrokerFrame 的参数形式由两个位置参数改为一个对象），用于配合 browser-broker-frame 的签名变更。该改动不构成相似度返工：#247 全量重扫实测 containment 0.387（run 4 / structural 0.070），仍高于 0.20 门槛，因此按 #247 结论保持 pending-rework。",
+      "basis": "Knorvia-authored rework of the browser broker connection handler: the request/response exchange is modelled as an explicit one-shot lifecycle with a single write exit (respond) and a single disconnect exit (drop), the forwarding step takes its inputs as one object, and the wire field names are passed through unchanged because they are fixed by the shared schema. Error text is redacted before being written back so a host-echoed token never leaves the process.",
       "evidence": ["specs/contracts/node-repl-host-broker/interface.md"]
     },
     {
@@ -140036,11 +140036,11 @@
     },
     {
       "path": "specs/contracts/node-repl-host-broker/interface.md",
-      "normalizedSha256": "befbbd6211155f8cc5c0b0c530b2e7fafa93d2a312140f3f7658bfef73c32dee",
+      "normalizedSha256": "7ba6944ddd7cf6c595959d6800376104c580b85a6fd458a9b2e5ef9edab98d75",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored contract section registering the public names of runtime-bridge.ts for the M6 rework: the table lists only the file name and the contract names so the contract-line stripping tool sees an accurate name set; evidence and rationale live outside the table to avoid polluting the extracted names.",
-      "evidence": ["docs/knorvia-kernel-m6-rework-acceptance.md"]
+      "basis": "Knorvia-authored contract section registering the public names needed by the M6 rework: the table lists only the file name and the contract names so the contract-line stripping tool extracts an accurate name set with no fragments. Evidence and rationale live outside the table.",
+      "evidence": ["docs/knorvia-kernel-m6-batch3-acceptance.md"]
     },
     {
       "path": "specs/contracts/node-repl-host-broker/known-differences.md",
@@ -150072,6 +150072,14 @@
         "third-party/upstream/f29b60ea39a2132e3baa98927c2d473b349a54143da44a0c6762b243e6459452.txt",
         "https://registry.npmjs.org/quickjs-wasi/2.2.0"
       ]
+    },
+    {
+      "path": "docs/knorvia-kernel-m6-batch3-acceptance.md",
+      "normalizedSha256": "13725cd0a78fef0fc54e31397ec1070c22220a033373c68027c41dc3d4adc694",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored acceptance record for the third M6 rework batch: the browser broker connection handler rework from 0.387 to 0.254 by structural changes, then to 0.180 after registering seven wire-protocol field names in the contract interface. The record also documents the three-way state alignment required when undoing a rework, and the PowerShell redirection pitfall that silently produced UTF-16 and made the tool skip the file.",
+      "evidence": ["specs/contracts/node-repl-host-broker/interface.md"]
     }
   ]
 }
