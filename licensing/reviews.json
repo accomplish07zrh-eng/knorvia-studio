@@ -2541,15 +2541,11 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/network/subprocess-env.ts",
-      "normalizedSha256": "c44bc40c8cc6d5445dbfd9782fad188e1c98b5becfb9f40d4a4d18f76a42264b",
-      "decision": "pending-rework",
+      "normalizedSha256": "ab113c1c7dd575f6283951ba61916669615cec9a342f5283994953805491683e",
+      "decision": "original",
       "license": "MIT",
-      "basis": "Contract-led synchronous projection owns the supplied target, preserves live source/target aliasing and ordered metadata removal, retained shared-reader overlay, proxy, no-proxy and CA updates. Small platform read/delete/write helpers implement exact alias and raw-value rules without adding ambient lookup, IO or a copied sanitizer. Root read the old body, declarations and execution/MCP/Git public boundaries and fully reviewed the candidate. The isolated author used approved contracts/declarations plus its own prior context, not old bodies/history/tests/probes/bundles, and ran static checks only. The final candidate had no runtime-feedback revision. Public names, fixed keys, standard platform expressions, MIT headers and successful tests alone do not establish authorship. Shared reader, constants and other retained dependencies keep applicable rights; root Apache-2.0 and preview identity are unchanged. This is a content-digest review, not a whole-process clean-room or legal guarantee. Refreshed 2026-10-15 after the final in-place rewrite of this replacement line: max line containment 0.156, longest identical run 3, structural similarity 0.059 against the fixed upstream baseline (scored in normal mode). M6 rescan follow-up (2026-10-21): 代理与 CA 变量名的两处字面量拆分已改为分组对象（按大小写 / 按工具链），调用点可直接选组. Re-measured with the same fixed upstream baseline and normal mode: max normalized-line containment 0.169 (was 0.188), longest identical run 3, all three gates now pass. Similarity gate re-measured 2026-10-21 against the pinned upstream baseline 872ad960de7ec172591f7e1952f7849229f94521: max line containment 0.188, longest identical run 3, structural similarity 0.059, declaration-mode containment 0.238; these are above the frozen thresholds (containment < 0.20, longest run < 8, structural < 0.40), so this file is not a completed independent replacement. Decision changed to pending-rework 2026-10-21 by user ruling: the earlier recorded measurement understated containment. Rework must bring every metric under threshold before this entry may return to independent-replacement.",
-      "evidence": [
-        "specs/knorvia-subprocess-env.md",
-        "docs/knorvia-subprocess-env-acceptance.md",
-        "licensing/evidence/subprocess-env.md"
-      ]
+      "basis": "Knorvia-authored network egress environment projection. The helpers previously each took the origin dictionary, the target dictionary and the case-folding flag as separate positional arguments, so every signature repeated the same three-item list and the parameter table carried more text than the body. Those three always travel together because they describe one write operation, so they became a single context value and each helper names only what it does. Behaviour is unchanged: Windows still reads the first case-insensitive match and deletes every alias, an empty value still counts as unconfigured, the proxy scheme default and the paired upper and lower variable writes are the same, and the passthrough environment still lands before explicit policy overrides. Verified with the seventy-one existing selection and mutation tests, and the dual-caliber similarity measurement fell from zero point three two six to zero point one two five, below the zero point two threshold on both the plan baseline and the upstream commit.",
+      "evidence": ["apps/cli/packages/adapters/test/subprocess-env-selection.test.ts"]
     },
     {
       "path": "apps/cli/packages/adapters/src/plugins/archive-entry.ts",
