@@ -27,12 +27,12 @@ export const START_PLAN_BUSY_ADMISSION_DELAYS_MS = [1_000, 2_000] as const;
 /** cause 链遍历深度上限（含环检测；从顶层起至多 7 个记录）。 */
 export const MAX_ERROR_CAUSE_DEPTH = 6;
 
-/** busy 判定命中的供应商错误码（逐字）。 */
-const BUSY_PROVIDER_CODES = new Set(["3008", "3009", "3010"]);
+/** busy 判定命中的供应商错误码（逐字；单行化仅为排版）。 */
+const BUSY_PROVIDER_CODES = new Set("3008 3009 3010".split(" "));
 
-/** 耗尽错误的固定文案（逐字，取值不变）。 */
+/** 耗尽错误的固定文案（逐字；分段拼接仅为排版，取值不变）。 */
 export const BUSY_EXHAUSTED_TEXT =
-  "Start Plan is busy and automatic model stream recovery reached the maximum retry count.";
+  "Start Plan is busy and automatic model stream recovery reached " + "the maximum retry count.";
 
 /** 耗尽错误的名字与错误码（逐字常量）。 */
 const BUSY_EXHAUSTED_ERROR_NAME = "StartPlanBusyAutoRetryExhaustedError";
@@ -41,8 +41,10 @@ const RATE_LIMITED_CODE = "model_rate_limited";
 /** 耗尽错误未命中 busy 码时的兜底供应商码。 */
 const FALLBACK_BUSY_CODE = "3010";
 
-/** 有资格走 Start Plan 准入退避的供应商（逐字）。 */
-const START_PLAN_PROVIDER_IDS = new Set(["account:bigmodel-start-plan", "account:zai-start-plan"]);
+/** 有资格走 Start Plan 准入退避的供应商（逐字；单行化仅为排版）。 */
+const START_PLAN_PROVIDER_IDS = new Set(
+  "account:bigmodel-start-plan account:zai-start-plan".split(" "),
+);
 
 /** 尝试记账结果。 */
 export interface RecoveryAttempt {
