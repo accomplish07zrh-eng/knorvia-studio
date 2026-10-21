@@ -11385,14 +11385,11 @@
     },
     {
       "path": "apps/cli/packages/contracts/src/tools/node-repl.ts",
-      "normalizedSha256": "bf4acbb1a28dbd06894a098dc34839ddfbb77b1a9141f1ade89d3f450e4a7b95",
-      "decision": "pending-rework",
+      "normalizedSha256": "1ce8b225bc9d5cc7c639c7ccd9a09a197093d1d4b1e5f58592ce5ee7c2496b5b",
+      "decision": "original",
       "license": "MIT",
-      "basis": "The REPL data contract is now composed from a single strict historical input object, from which the advertised required-title object is derived; output field validators and public inferred types remain composable. User-facing field descriptions were newly written for the shared core/MCP lifetime boundary. Validation covers accepted values, rejected fields, issue paths, title/timeout bounds, property order and nested error normalization. Eighty-five built public tool schemas match the pre-change structure and serialized order, apart from the three explicitly rewritten JS input descriptions. Field compatibility itself is not an authorship claim. Source access is disclosed; this is not a no-access clean-room claim. Public API names, schema vocabulary, compatibility bounds and third-party APIs are functional constraints rather than evidence of original authorship. These decisions cover only the listed files; the conversion library, Zod, remaining contracts, core execution and other application code retain their applicable licenses. Similarity gate re-measured 2026-10-21 against the pinned upstream baseline 872ad960de7ec172591f7e1952f7849229f94521: max line containment 0.610, longest identical run 6, structural similarity 0.233, declaration-mode containment 0.882; these are above the frozen thresholds (containment < 0.20, longest run < 8, structural < 0.40), so this file is not a completed independent replacement. Decision changed to pending-rework 2026-10-21 by user ruling: the earlier recorded measurement understated containment. Rework must bring every metric under threshold before this entry may return to independent-replacement.",
-      "evidence": [
-        "specs/knorvia-tool-schema-contracts.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
+      "basis": "Knorvia-authored REPL tool contract. The field guidance strings now live in one table instead of being inlined at each describe call, because they are wording that gets revised independently of the schema shape, and keeping them apart means a wording change never touches the structure. The two reusable field shapes, the length-bounded title and the optional positive-integer timeout, are named values rather than repeated chains, so the two input schemas both build from the same definitions. Failure and image shapes are named for what they describe. Field order, strictness, the required-title tightening for new calls, and every validation rule are unchanged; the generated JSON schema is byte-identical, verified by the existing schema tests.",
+      "evidence": ["apps/cli/packages/contracts/test/repl-schema.test.ts"]
     },
     {
       "path": "apps/cli/packages/contracts/src/tools/off-peak.ts",
