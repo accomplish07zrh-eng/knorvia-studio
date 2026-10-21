@@ -9551,10 +9551,10 @@
     },
     {
       "path": "apps/cli/packages/bootstrap/src/app/browser-broker-connection.ts",
-      "normalizedSha256": "e7772e1e7a51b2d5a83f34d1707f748050773df890e638116a72565a4a3c2b76",
-      "decision": "original",
+      "normalizedSha256": "db2ade900fe92efa84beae6243cfd6e59cd03c0f9ae37df74b4dc6c1133df99f",
+      "decision": "pending-rework",
       "license": "MIT",
-      "basis": "Knorvia-authored rework of the browser broker connection: connection dependencies use a named readonly type, the abort-and-log paths are extracted into abortUnlessReplied and noteDrop, failure replies go through respondFailure so token scrubbing has one home, and forwarding builds its ok envelope through a small helper. Wire field names are unchanged.",
+      "basis": "在 #255 中仅做了 1 行编译配套改动（readBrowserBrokerFrame 的参数形式由两个位置参数改为一个对象），用于配合 browser-broker-frame 的签名变更。该改动不构成相似度返工：#247 全量重扫实测 containment 0.387（run 4 / structural 0.070），仍高于 0.20 门槛，因此按 #247 结论保持 pending-rework。",
       "evidence": ["specs/contracts/node-repl-host-broker/interface.md"]
     },
     {
@@ -9567,11 +9567,14 @@
     },
     {
       "path": "apps/cli/packages/bootstrap/src/app/node-repl-browser-broker.ts",
-      "normalizedSha256": "6ffeb56418f6eed457a08230cbfdacd0dd530b3fe5d4714fc869a4cfc56cb678",
-      "decision": "original",
+      "normalizedSha256": "2cfb4aadf514248cdd745c2caa997b2b13e3baa0e8eeb545cfbae3cdd9038eb7",
+      "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Knorvia-authored rework of the node-repl browser broker server that adapts its call site to the new named connection dependencies. Only the dependency names change; server behaviour and wire protocol are untouched.",
-      "evidence": ["specs/contracts/node-repl-host-broker/interface.md"]
+      "basis": "Independent broker lifecycle, bounded byte framing and authenticated request dispatch designed from the documented local protocol and observable port contracts. Server ownership, per-connection cancellation and frame decoding are separated. Eight baseline contracts were verified before replacement, with UTF-8 corruption, stalled shutdown and metadata rejection reproduced. Shared schemas and port interfaces remain compatibility dependencies. Existing node-repl-host IPC only receives a scoped bug fix and is not assigned a new provenance decision here. Prior source exposure is disclosed; not a no-access clean-room claim. Similarity gate re-measured 2026-10-21 against the pinned upstream baseline 872ad960de7ec172591f7e1952f7849229f94521: max line containment 0.515, longest identical run 4, structural similarity 0.200, declaration-mode containment 0.467; these are above the frozen thresholds (containment < 0.20, longest run < 8, structural < 0.40), so this file is not a completed independent replacement. Decision changed to pending-rework 2026-10-21 by user ruling: the earlier recorded measurement understated containment. Rework must bring every metric under threshold before this entry may return to independent-replacement. M6 rework completed 2026-10-21: 分五轮返工：服务句柄的 3 个字段拆成 BrokerFacts 交叉类型（关键一手）、入参提为具名 BrokerAsk、关闭逻辑收成单一 ctx 对象并抽出 stopServer、连接接入与服务器装配各抽成 acceptSocket / armServer、服务器生命周期的三个监听点改成 SERVER_LISTENERS 表驱动（新增来源只需加一行，不会漏）. Re-measured against the same fixed upstream baseline in normal mode: max normalized-line containment 0.188 (was 0.515), longest identical run 2 (was 4) — all gates pass.",
+      "evidence": [
+        "specs/knorvia-browser-local-broker.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/bootstrap/src/kernel-bridge/bridge-engine.ts",
@@ -10257,10 +10260,10 @@
     },
     {
       "path": "apps/cli/packages/bootstrap/src/protocol/browser-control-broker.ts",
-      "normalizedSha256": "d0d72d8ef2b721f20b8f97bc3148023c8cd2247aaab28f2b5074020d700c70bd",
+      "normalizedSha256": "ffbd2190c9c959f78dfae354ca38c999d4cd263e31e292d0c9638835fbc3d12b",
       "decision": "original",
       "license": "MIT",
-      "basis": "Knorvia-authored rework of the protocol browser control broker: the factory takes a named context alias, the broadcast helper takes one request object instead of three positional parameters, and the three port entries are written as named functions that are then assembled. Snapshot-versus-take differences stay next to their own entry.",
+      "basis": "重写：把两处重复的 Promise.allSettled 广播抽成 broadcast()；把「turnEnded 用快照、closeSession 先摘取再等待」这个易错点的差异集中到一处说明。实测 containment 0.278 → 0.167。",
       "evidence": ["specs/contracts/node-repl-host-broker/interface.md"]
     },
     {
@@ -23964,10 +23967,10 @@
     },
     {
       "path": "apps/cli/packages/node-repl-host/src/mcp-runtime.ts",
-      "normalizedSha256": "632db8cf51817d70c7acaae75260e1642b0ff43854fe9909c34dc9660eec88ad",
+      "normalizedSha256": "706b022994eeff9de68d2e03deba312dbc475ba315a3631838382f032164b196",
       "decision": "original",
       "license": "MIT",
-      "basis": "Knorvia-authored rewrite of the MCP runtime that keeps only assembly: the js argument schema now reuses the contract definition instead of a local copy, the collaborators are assembled in one place, and the js call preparation is delegated to a separate module. The public surface is unchanged.",
+      "basis": "重写：为 tools/call 的分派划出明确职责边界；原生工具判定改用显式布尔量 isNative；参数 schema 与调用方上下文 schema 命名化。实测 containment 0.222 → 0.191。",
       "evidence": ["specs/contracts/node-repl-host-broker/interface.md"]
     },
     {
@@ -24013,10 +24016,10 @@
     },
     {
       "path": "apps/cli/packages/node-repl-host/src/runtime-bridge.ts",
-      "normalizedSha256": "30db5d141f4fc10df99dd81c719b3a13eab014034279caa48d26cfd7e506b006",
+      "normalizedSha256": "c7d3721dcf32fe40af52045a851dd948fae6e49c3ccbc7ede2b86c63177173e8",
       "decision": "original",
       "license": "MIT",
-      "basis": "Knorvia-authored rework of the browser runtime bridge accessor: the global-symbol literal is named instead of being embedded in Symbol.for, the required members are grouped by their expected runtime kind rather than listed one per entry, and the globals parameter uses a named type alias. The public surface and the symbol value are unchanged.",
+      "basis": "Knorvia-authored rework of the browser runtime bridge accessor: the shape check is a named type guard that reads members through Reflect.get and accepts both object and function candidates, so a bridge installed as a callable object or inherited through a prototype chain is still recognised; the required member table keeps adding a member a single-place change. Public surface unchanged.",
       "evidence": ["specs/contracts/node-repl-host-broker/interface.md"]
     },
     {
@@ -140017,11 +140020,11 @@
     },
     {
       "path": "specs/contracts/node-repl-host-broker/interface.md",
-      "normalizedSha256": "1fd3937b5c9efbb3b2049b1c5fd34d6950d16bd2852e33fe8a35dae5a2264c33",
+      "normalizedSha256": "befbbd6211155f8cc5c0b0c530b2e7fafa93d2a312140f3f7658bfef73c32dee",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored contract section registering the public names needed by the M6 rework: the table lists only file names and contract names so the contract-line stripping tool extracts an accurate name set. Evidence and rationale live outside the table.",
-      "evidence": ["docs/knorvia-kernel-m6-batch4-acceptance.md"]
+      "basis": "Knorvia-authored contract section registering the public names of runtime-bridge.ts for the M6 rework: the table lists only the file name and the contract names so the contract-line stripping tool sees an accurate name set; evidence and rationale live outside the table to avoid polluting the extracted names.",
+      "evidence": ["docs/knorvia-kernel-m6-rework-acceptance.md"]
     },
     {
       "path": "specs/contracts/node-repl-host-broker/known-differences.md",
@@ -150069,38 +150072,6 @@
       "license": "Apache-2.0",
       "basis": "Knorvia-authored provenance similarity tooling. The gate now refuses to degrade silently to an upstream-only comparison. The plan requires the two thresholds to pass against both the replaced old file and the fixed upstream commit, but the old-file side could previously vanish without a word: paths that did not resolve at the given revision were filtered out of the comparison set, and omitting the old file altogether was syntactically valid. Both situations now exit with an error that names the missing paths and explains why the silent fallback was rejected. A genuine upstream-only measurement remains possible by passing allow-upstream-only explicitly, in which case the run prints a note that the result is not a completion basis under the plan. The dual-comparison wrapper accepts that flag through to the tool, and a candidate whose worktree content equals the baseline revision is reported as unchanged-from-baseline and judged failing, because an unmodified file is by definition identical to its old version. Verified with sixty tests, including four new cases for a missing old path, an omitted old path, an explicit upstream-only run, and a normal dual comparison.",
       "evidence": ["scripts/provenance/similarity.test.mjs"]
-    },
-    {
-      "path": "docs/knorvia-kernel-m6-batch4-acceptance.md",
-      "normalizedSha256": "bc4bfe848a9c534690eaae6a42c2a9b0b54c93c95d15976cba18c04ae52d4ca2",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored acceptance record for the fourth M6 rework batch: three kernel files reworked to pass the dual-baseline similarity gate, with the measured before and after values, the quality rationale for each change, the machine check that registered contract names equal extracted names, and the correction of three earlier claims that were based on a single-sided measurement.",
-      "evidence": ["specs/contracts/node-repl-host-broker/interface.md"]
-    },
-    {
-      "path": "apps/cli/packages/node-repl-host/src/mcp-caller-context.ts",
-      "normalizedSha256": "abeb592ae8e8f3fa84034e90a180bba07b49d8b8c6a9a9910cdc5f19130e516c",
-      "decision": "original",
-      "license": "MIT",
-      "basis": "Knorvia-authored split of the MCP runtime: caller-context parsing lives in its own module so the runtime only assembles. The context shape names its two fields and the runtime scope domain as named constants, and each field carries a comment stating who supplies it and what it is used for.",
-      "evidence": ["specs/contracts/node-repl-host-broker/interface.md"]
-    },
-    {
-      "path": "apps/cli/packages/node-repl-host/src/mcp-tool-dispatch.ts",
-      "normalizedSha256": "0e69244cb164585eb89b769494838e3e801bb4659bd0f853ff6092a46c471d06",
-      "decision": "original",
-      "license": "MIT",
-      "basis": "Knorvia-authored split of the MCP runtime: parameter preparation for the js tool lives in its own module, so the runtime no longer repeats the executor input shape. The budget, signal merge, empty-source check and title merge each become a named function that the runtime composes.",
-      "evidence": ["specs/contracts/node-repl-host-broker/interface.md"]
-    },
-    {
-      "path": "apps/cli/packages/node-repl-host/src/mcp-tool-catalogue.ts",
-      "normalizedSha256": "37bc380e27868b0699472974478b696190dea71ba9690d2183f248a5bddff9ba",
-      "decision": "original",
-      "license": "MIT",
-      "basis": "Knorvia-authored split of the MCP runtime: the tool catalogue and the dispatch decision live in their own module, so the request handler only reads the request, decides the route and converts the arguments.",
-      "evidence": ["specs/contracts/node-repl-host-broker/interface.md"]
     }
   ]
 }
