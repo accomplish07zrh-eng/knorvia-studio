@@ -150150,11 +150150,11 @@
     },
     {
       "path": "specs/contracts/kernel-plugin-hooks/behavior.md",
-      "normalizedSha256": "354a62b6c65199505a22b040a4276cd8165d2a55929b4dba80c03b9de17fabb8",
+      "normalizedSha256": "dc2cb206802ab4aac16db2fd0e2188e7591f2a3bcd553fc0a50e7e988f1ca479",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored M2 access-package contract for the hooks plugin. This revision withdraws a difference that further inspection showed does not exist. I had recorded that a post-tool hook could not add context in the same turn, based on the event summary alone. Reading the decision type itself shows all three of its branches carry an additional-context field, so the hook can attach context in the same turn exactly as before, and the same field also appears on both the success and failure result shapes, which makes it a first-class channel rather than a workaround. The withdrawal is recorded in place with the reason and the lesson, rather than being silently removed, so a reviewer can see that the claim was checked twice. The remaining two differences stand: the stop event runs every listener rather than short-circuiting on the first objection while reaching the same verdict, and an asynchronous session-start hook cannot veto session creation because only a synchronous throw is honoured.",
-      "evidence": ["specs/contracts/kernel-plugin-hooks/known-differences.md"]
+      "basis": "Knorvia-authored M2 access-package contract for the hooks plugin. This adds the decision and result type mapping that the implementation will be built from, listing for each extension point exactly what the plugin receives and what it may return, because a capability can hide in a return type rather than in the event signature. It records the four kinds a pre-tool decision may take and the requirement that a denial carries a reason, the four approval outcomes and their correspondence to the old decisions, the three post-tool branches and the fact that all of them can carry additional context in the same turn, and the success and failure result shapes that decide which post-tool event a call belongs to. One input field is marked for confirmation during implementation: the tool arguments are typed as unknown while the documentation describes them as parsed and frozen, so the implementation must check whether parsing is needed before building the hook input.",
+      "evidence": ["specs/contracts/kernel-plugin-hooks/behavior.md"]
     },
     {
       "path": "specs/contracts/kernel-plugin-hooks/interface.md",

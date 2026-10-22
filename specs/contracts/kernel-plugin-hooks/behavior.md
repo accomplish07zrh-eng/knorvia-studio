@@ -165,6 +165,64 @@
 7. `SessionStart` → `session/created`：同步 throw 阻断（§2.2）。
 8. **多重 Hook 的聚合**：waterfall 类按注册顺序执行，首个产生阻断的 Hook 短路后续（不调 `next()`）；serial 类（Stop）由数据决定，顺序无关（§2.8）。
 
+### H3b 决策与结果的类型映射（实现依据）
+
+> **教训**：判断「平台有没有某能力」不能只看事件 JSDoc 概览，必须读到**决策/结果类型的字段定义** ——
+> 能力常在返回类型里（`PostToolDecision.additionalContexts` 就是这样发现的，见 `known-differences.md` 撤销记录）。
+
+#### `tools/pre-execute` → `PreToolDecision`
+
+```ts
+| { kind: 'allow' }
+| { kind: 'deny'; reason: string; info?: ToolErrorInfo }
+| { kind: 'cancel' }
+| { kind: 'ask'; reason?: string; displayReason?: { en: string; [locale: string]: string } }
+```
+
+**约束**：`deny` **必须**带 `reason` —— 旧 Hook 未给 reason 时由本包兜底文案。
+
+#### `approval/request` → `ApprovalOutcome`
+
+```ts
+type ApprovalOutcome = "allowed-once" | "rejected" | "cancelled" | "unavailable";
+```
+
+**映射**：旧 `allow` → `'allowed-once'`（DSH 无「永久允许」语义）；`deny` → `'rejected'`；无决策 → `next()`。
+
+#### `tools/post-execute` → `PostToolDecision`
+
+```ts
+| { kind: 'accept'; content?: ContentBlock[]; value?: never; additionalContexts?: UserMessage[] }
+| { kind: 'accept'; value: JsonValue; content?: never; additionalContexts?: UserMessage[] }
+| { kind: 'block'; feedback: ContentBlock[]; additionalContexts?: UserMessage[] }
+```
+
+**关键**：三个分支都带 `additionalContexts` → **`PostToolUse` 的 `additionalContext` 可同回合注入**（H5.2）。
+
+#### `tools/post-execute` 拿到的 `ToolExecutionResult`
+
+```ts
+// 成功
+{ isError: false; value: JsonValue; content: ContentBlock[]; meta?: JsonValue;
+  additionalContexts?: UserMessage[]; concludesTurn?: true }
+// 失败
+{ isError: true; error: { message: string; info?: ToolErrorInfo }; content: ContentBlock[];
+  meta?: JsonValue; additionalContexts?: UserMessage[]; concludesTurn?: never }
+```
+
+**判别**：`result.isError` 决定走 `PostToolUse` 还是 `PostToolUseFailure` 的语义分支。
+
+#### `tools/pre-execute` 拿到的 `ToolExecution`
+
+```ts
+readonly callId: ToolCallId; readonly name: string; readonly arguments: unknown;
+readonly agent?: Agent; readonly signal: AbortSignal; readonly token: ToolExecutionToken;
+```
+
+**待实现确认**：`arguments` 的 TS 类型是 `unknown`，但 JSDoc 说「parsed arguments cross one
+lossless-JSON materialization boundary before policy and are deep-frozen」→ 倾向已解析对象；
+实现时实测，若为字符串则需 `JSON.parse` 后作为 `tool_input`。
+
 ### H4 工作区 Hook 信任规则（复用 `core-hooks` B10–B16 的语义）
 
 1. **策略存储**：复用 `adapters/src/storage/workspace-hook-trust-store.ts` 提供的存储（规格：「工作区 Hook 信任存储随 Knorvia Hook 插件保留」）。本包**不重新实现**文件锁、路径解析、原子写入。
