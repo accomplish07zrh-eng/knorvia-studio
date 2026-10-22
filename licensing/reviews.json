@@ -150139,6 +150139,54 @@
         "third-party/upstream/f29b60ea39a2132e3baa98927c2d473b349a54143da44a0c6762b243e6459452.txt",
         "https://registry.npmjs.org/quickjs-wasi/2.2.0"
       ]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-hooks/README.md",
+      "normalizedSha256": "32bc80717d1602745de8cd83196c4bd606df2e59813530382e5eadc0e0cb9aa9",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored M2 access-package contract for the hooks plugin. This revision withdraws a difference that further inspection showed does not exist. I had recorded that a post-tool hook could not add context in the same turn, based on the event summary alone. Reading the decision type itself shows all three of its branches carry an additional-context field, so the hook can attach context in the same turn exactly as before, and the same field also appears on both the success and failure result shapes, which makes it a first-class channel rather than a workaround. The withdrawal is recorded in place with the reason and the lesson, rather than being silently removed, so a reviewer can see that the claim was checked twice. The remaining two differences stand: the stop event runs every listener rather than short-circuiting on the first objection while reaching the same verdict, and an asynchronous session-start hook cannot veto session creation because only a synchronous throw is honoured.",
+      "evidence": ["specs/contracts/kernel-plugin-hooks/known-differences.md"]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-hooks/behavior.md",
+      "normalizedSha256": "dc2cb206802ab4aac16db2fd0e2188e7591f2a3bcd553fc0a50e7e988f1ca479",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored M2 access-package contract for the hooks plugin. This adds the decision and result type mapping that the implementation will be built from, listing for each extension point exactly what the plugin receives and what it may return, because a capability can hide in a return type rather than in the event signature. It records the four kinds a pre-tool decision may take and the requirement that a denial carries a reason, the four approval outcomes and their correspondence to the old decisions, the three post-tool branches and the fact that all of them can carry additional context in the same turn, and the success and failure result shapes that decide which post-tool event a call belongs to. One input field is marked for confirmation during implementation: the tool arguments are typed as unknown while the documentation describes them as parsed and frozen, so the implementation must check whether parsing is needed before building the hook input.",
+      "evidence": ["specs/contracts/kernel-plugin-hooks/behavior.md"]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-hooks/interface.md",
+      "normalizedSha256": "9ad0bd9350b74142ddf169d86d101f2fbc5aa8a4f9638354546a70b5d678d5e5",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored M2 access-package contract for the hooks plugin. This revision records the verification evidence behind the reuse claims: every contract type the plugin intends to reuse was confirmed to already exist in the contracts package, so the plugin adds no new type definitions there, and every DSH package it depends on was confirmed to be already declared by the bootstrap package, so implementation needs no new dependencies. It also records which dispatch mode each of the seven extension points uses, since the mode is what decides whether a hook can block: waterfall points can decline to delegate, the serial point short-circuits on the first bail value, and the emit point accepts only a synchronous throw as a veto, which is why an asynchronous hook cannot prevent a session from being created.",
+      "evidence": ["specs/contracts/kernel-plugin-hooks/interface.md"]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-hooks/callers.md",
+      "normalizedSha256": "0386c53ab78bdb7e7cd87d4dd2839b6ea213f4932c07dfa39aa1e4360ce998ee",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored M2 access-package contract for the hooks plugin. It records which cordis extension points carry the seven hook events on the DSH runtime, together with the dispatch mode of each and what that mode permits: three points are waterfalls that can block or rewrite, one is a serial point whose first bail value short-circuits, and one is an emit point that can only veto through a synchronous throw. It also records a deviation from the plan document, where the post-tool event was assigned to a point that turns out to be observe-only, and states that the waterfall point is used instead while the observe-only one is kept for audit. Behaviour paragraphs reuse the existing core-hooks contract by reference rather than restating it, because that package is deleted at kernel switch and only its contract survives. Differences forced by the platform are registered separately with their cause, their observable effect, and whether an equivalent exists.",
+      "evidence": ["specs/contracts/kernel-plugin-hooks/behavior.md"]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-hooks/known-differences.md",
+      "normalizedSha256": "773b910ac5a8373d84c67ba4bff13f28476b43db06681d791d2c3a15d38b5edd",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored M2 access-package contract for the hooks plugin. This revision withdraws a difference that further inspection showed does not exist. I had recorded that a post-tool hook could not add context in the same turn, based on the event summary alone. Reading the decision type itself shows all three of its branches carry an additional-context field, so the hook can attach context in the same turn exactly as before, and the same field also appears on both the success and failure result shapes, which makes it a first-class channel rather than a workaround. The withdrawal is recorded in place with the reason and the lesson, rather than being silently removed, so a reviewer can see that the claim was checked twice. The remaining two differences stand: the stop event runs every listener rather than short-circuiting on the first objection while reaching the same verdict, and an asynchronous session-start hook cannot veto session creation because only a synchronous throw is honoured.",
+      "evidence": ["specs/contracts/kernel-plugin-hooks/known-differences.md"]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-hooks/acceptance.md",
+      "normalizedSha256": "8059b46a9f16e6bdf422ea6e123d5d814b7c3359ef78c56db2482f15b2885134",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored M2 access-package contract for the hooks plugin. It records which cordis extension points carry the seven hook events on the DSH runtime, together with the dispatch mode of each and what that mode permits: three points are waterfalls that can block or rewrite, one is a serial point whose first bail value short-circuits, and one is an emit point that can only veto through a synchronous throw. It also records a deviation from the plan document, where the post-tool event was assigned to a point that turns out to be observe-only, and states that the waterfall point is used instead while the observe-only one is kept for audit. Behaviour paragraphs reuse the existing core-hooks contract by reference rather than restating it, because that package is deleted at kernel switch and only its contract survives. Differences forced by the platform are registered separately with their cause, their observable effect, and whether an equivalent exists.",
+      "evidence": ["specs/contracts/kernel-plugin-hooks/behavior.md"]
     }
   ]
 }
