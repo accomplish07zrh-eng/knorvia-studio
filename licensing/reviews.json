@@ -152210,6 +152210,86 @@
         "specs/contracts/kernel-plugin-rewind/interface.md",
         "specs/contracts/kernel-plugin-rewind/behavior.md"
       ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-hooks/workspace-review-flow.ts",
+      "normalizedSha256": "e79d279ff963fc278099ee6744439600dfddeea1ff4f6bf8bb06bd44f2f741fc",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored review flow registry, runtime admission, telemetry redaction and trust record creation, four modules covering the remaining review, admission, telemetry and record clauses. The registry settles a superseded flow immediately rather than leaving its promise hanging and keeps resolution idempotent so a timeout racing a decision cannot settle twice; same-generation comparison excludes the bundle digest because the digest belongs to snapshot contents and a changed digest must report a snapshot mismatch. The admission controller applies nine rules in a fixed order with a test for each precedence pair, marks itself activated even when the feature is disabled so the disabled reason is not masked by the not-activated rule, and compares a submitted security counter against the current counter rather than the counter seen at the last evaluation since a client may submit a stale revision. Telemetry redacts the workspace identity through a hash rather than truncation, because truncation would make distinct workspaces that share a prefix indistinguishable while a hash keeps them apart without exposing the path, and it admits only an allow-list of fields so commands, script content and source paths never reach the log. Trust record creation de-duplicates the approved item ids in first-seen order, fails loudly on an unknown item or a missing source file, and stores the six slot fields at grant time because those are what later identifies whether a record describes the same declaration line. Verified with two hundred and seventy-nine contract tests across the package.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/workspace-trust-records.test.mjs"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-hooks/workspace-runtime-admission.ts",
+      "normalizedSha256": "6978285eedaa1cf79f3774b22ae85fc361b4d016ba143306661c507be55c156c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored review flow registry, runtime admission, telemetry redaction and trust record creation, four modules covering the remaining review, admission, telemetry and record clauses. The registry settles a superseded flow immediately rather than leaving its promise hanging and keeps resolution idempotent so a timeout racing a decision cannot settle twice; same-generation comparison excludes the bundle digest because the digest belongs to snapshot contents and a changed digest must report a snapshot mismatch. The admission controller applies nine rules in a fixed order with a test for each precedence pair, marks itself activated even when the feature is disabled so the disabled reason is not masked by the not-activated rule, and compares a submitted security counter against the current counter rather than the counter seen at the last evaluation since a client may submit a stale revision. Telemetry redacts the workspace identity through a hash rather than truncation, because truncation would make distinct workspaces that share a prefix indistinguishable while a hash keeps them apart without exposing the path, and it admits only an allow-list of fields so commands, script content and source paths never reach the log. Trust record creation de-duplicates the approved item ids in first-seen order, fails loudly on an unknown item or a missing source file, and stores the six slot fields at grant time because those are what later identifies whether a record describes the same declaration line. Verified with two hundred and seventy-nine contract tests across the package.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/workspace-trust-records.test.mjs"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-hooks/workspace-telemetry.ts",
+      "normalizedSha256": "a525884a4e22c2fe6ba803e48aa3097d4403e3cda6ac5f38118d53902336292f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored review flow registry, runtime admission, telemetry redaction and trust record creation, four modules covering the remaining review, admission, telemetry and record clauses. The registry settles a superseded flow immediately rather than leaving its promise hanging and keeps resolution idempotent so a timeout racing a decision cannot settle twice; same-generation comparison excludes the bundle digest because the digest belongs to snapshot contents and a changed digest must report a snapshot mismatch. The admission controller applies nine rules in a fixed order with a test for each precedence pair, marks itself activated even when the feature is disabled so the disabled reason is not masked by the not-activated rule, and compares a submitted security counter against the current counter rather than the counter seen at the last evaluation since a client may submit a stale revision. Telemetry redacts the workspace identity through a hash rather than truncation, because truncation would make distinct workspaces that share a prefix indistinguishable while a hash keeps them apart without exposing the path, and it admits only an allow-list of fields so commands, script content and source paths never reach the log. Trust record creation de-duplicates the approved item ids in first-seen order, fails loudly on an unknown item or a missing source file, and stores the six slot fields at grant time because those are what later identifies whether a record describes the same declaration line. Verified with two hundred and seventy-nine contract tests across the package.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/workspace-trust-records.test.mjs"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-hooks/workspace-trust-records.ts",
+      "normalizedSha256": "9b25eea36b2e08004946ce035679ec328452c6cb97f3e53902193cbe9030b338",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored review flow registry, runtime admission, telemetry redaction and trust record creation, four modules covering the remaining review, admission, telemetry and record clauses. The registry settles a superseded flow immediately rather than leaving its promise hanging and keeps resolution idempotent so a timeout racing a decision cannot settle twice; same-generation comparison excludes the bundle digest because the digest belongs to snapshot contents and a changed digest must report a snapshot mismatch. The admission controller applies nine rules in a fixed order with a test for each precedence pair, marks itself activated even when the feature is disabled so the disabled reason is not masked by the not-activated rule, and compares a submitted security counter against the current counter rather than the counter seen at the last evaluation since a client may submit a stale revision. Telemetry redacts the workspace identity through a hash rather than truncation, because truncation would make distinct workspaces that share a prefix indistinguishable while a hash keeps them apart without exposing the path, and it admits only an allow-list of fields so commands, script content and source paths never reach the log. Trust record creation de-duplicates the approved item ids in first-seen order, fails loudly on an unknown item or a missing source file, and stores the six slot fields at grant time because those are what later identifies whether a record describes the same declaration line. Verified with two hundred and seventy-nine contract tests across the package.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/workspace-trust-records.test.mjs"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-hooks/tests/workspace-review-flow.test.mjs",
+      "normalizedSha256": "7996b0ef5daa0381103a2558851dd00da30f209847b1770a097f62d004ff62c4",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored review flow registry, runtime admission, telemetry redaction and trust record creation, four modules covering the remaining review, admission, telemetry and record clauses. The registry settles a superseded flow immediately rather than leaving its promise hanging and keeps resolution idempotent so a timeout racing a decision cannot settle twice; same-generation comparison excludes the bundle digest because the digest belongs to snapshot contents and a changed digest must report a snapshot mismatch. The admission controller applies nine rules in a fixed order with a test for each precedence pair, marks itself activated even when the feature is disabled so the disabled reason is not masked by the not-activated rule, and compares a submitted security counter against the current counter rather than the counter seen at the last evaluation since a client may submit a stale revision. Telemetry redacts the workspace identity through a hash rather than truncation, because truncation would make distinct workspaces that share a prefix indistinguishable while a hash keeps them apart without exposing the path, and it admits only an allow-list of fields so commands, script content and source paths never reach the log. Trust record creation de-duplicates the approved item ids in first-seen order, fails loudly on an unknown item or a missing source file, and stores the six slot fields at grant time because those are what later identifies whether a record describes the same declaration line. Verified with two hundred and seventy-nine contract tests across the package.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/workspace-trust-records.test.mjs"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-hooks/tests/workspace-runtime-admission.test.mjs",
+      "normalizedSha256": "c0a29a2dc984376baec2b5959bc9450c9f83a0f18ebc6c5efd13b40fccc8caba",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored review flow registry, runtime admission, telemetry redaction and trust record creation, four modules covering the remaining review, admission, telemetry and record clauses. The registry settles a superseded flow immediately rather than leaving its promise hanging and keeps resolution idempotent so a timeout racing a decision cannot settle twice; same-generation comparison excludes the bundle digest because the digest belongs to snapshot contents and a changed digest must report a snapshot mismatch. The admission controller applies nine rules in a fixed order with a test for each precedence pair, marks itself activated even when the feature is disabled so the disabled reason is not masked by the not-activated rule, and compares a submitted security counter against the current counter rather than the counter seen at the last evaluation since a client may submit a stale revision. Telemetry redacts the workspace identity through a hash rather than truncation, because truncation would make distinct workspaces that share a prefix indistinguishable while a hash keeps them apart without exposing the path, and it admits only an allow-list of fields so commands, script content and source paths never reach the log. Trust record creation de-duplicates the approved item ids in first-seen order, fails loudly on an unknown item or a missing source file, and stores the six slot fields at grant time because those are what later identifies whether a record describes the same declaration line. Verified with two hundred and seventy-nine contract tests across the package.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/workspace-trust-records.test.mjs"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-hooks/tests/workspace-telemetry.test.mjs",
+      "normalizedSha256": "3819d18e04c8f201de99bd3ff61b359479cdf2f0890de075f6b0469f431d90dd",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored review flow registry, runtime admission, telemetry redaction and trust record creation, four modules covering the remaining review, admission, telemetry and record clauses. The registry settles a superseded flow immediately rather than leaving its promise hanging and keeps resolution idempotent so a timeout racing a decision cannot settle twice; same-generation comparison excludes the bundle digest because the digest belongs to snapshot contents and a changed digest must report a snapshot mismatch. The admission controller applies nine rules in a fixed order with a test for each precedence pair, marks itself activated even when the feature is disabled so the disabled reason is not masked by the not-activated rule, and compares a submitted security counter against the current counter rather than the counter seen at the last evaluation since a client may submit a stale revision. Telemetry redacts the workspace identity through a hash rather than truncation, because truncation would make distinct workspaces that share a prefix indistinguishable while a hash keeps them apart without exposing the path, and it admits only an allow-list of fields so commands, script content and source paths never reach the log. Trust record creation de-duplicates the approved item ids in first-seen order, fails loudly on an unknown item or a missing source file, and stores the six slot fields at grant time because those are what later identifies whether a record describes the same declaration line. Verified with two hundred and seventy-nine contract tests across the package.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/workspace-trust-records.test.mjs"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-hooks/tests/workspace-trust-records.test.mjs",
+      "normalizedSha256": "35794803c9b1f371b678e3545c53c559542c423a167fdf90c83e621f196c79a6",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored review flow registry, runtime admission, telemetry redaction and trust record creation, four modules covering the remaining review, admission, telemetry and record clauses. The registry settles a superseded flow immediately rather than leaving its promise hanging and keeps resolution idempotent so a timeout racing a decision cannot settle twice; same-generation comparison excludes the bundle digest because the digest belongs to snapshot contents and a changed digest must report a snapshot mismatch. The admission controller applies nine rules in a fixed order with a test for each precedence pair, marks itself activated even when the feature is disabled so the disabled reason is not masked by the not-activated rule, and compares a submitted security counter against the current counter rather than the counter seen at the last evaluation since a client may submit a stale revision. Telemetry redacts the workspace identity through a hash rather than truncation, because truncation would make distinct workspaces that share a prefix indistinguishable while a hash keeps them apart without exposing the path, and it admits only an allow-list of fields so commands, script content and source paths never reach the log. Trust record creation de-duplicates the approved item ids in first-seen order, fails loudly on an unknown item or a missing source file, and stores the six slot fields at grant time because those are what later identifies whether a record describes the same declaration line. Verified with two hundred and seventy-nine contract tests across the package.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/workspace-trust-records.test.mjs"
+      ]
     }
   ]
 }
