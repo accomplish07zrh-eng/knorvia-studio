@@ -5153,7 +5153,7 @@
     },
     {
       "path": "apps/cli/packages/adapters/test/device-fs-runtime-contract.test.mjs",
-      "normalizedSha256": "dfd54b40278af097c10f43739176295b28fe5494104d62acb0c851b826e3a764",
+      "normalizedSha256": "8976bea9c89317204aa8db834693fe6dca0d7195e335714882ae63bfe19242f8",
       "decision": "original",
       "license": "MIT",
       "basis": "Created by Knorvia after the first snapshot 7619e41; the commit wording (\"replace\"/\"rewrite\" family) describes the documented work, not this file's origin. Measured against the pinned upstream 872ad960 with the M0-8 similarity tool (line and structural gates): max normalized-line containment 0.05 (packages/server/src/remote/docker-backend.ts), longest identical run 2 lines, structural similarity 0.1111 (apps/zcode-cli/packages/core/src/tool/handlers/ask-user-question.ts). Both applicable gates pass, so this file registers as original without claiming independent replacement of any upstream implementation. The author was allowed to read the inherited implementation; no code was copied, renamed or rewritten line by line.",
