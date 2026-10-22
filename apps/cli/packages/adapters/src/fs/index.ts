@@ -1,8 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 // 文件系统门面：唯一错误转换与副作用编排入口；每个方法只表达意图，细节在内部模块。
-import { mkdtemp, mkdir, readdir, readFile, rm, stat, unlink, writeFile } from "node:fs/promises";
+import { mkdir, readdir, readFile, stat, unlink, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
-import { tmpdir } from "node:os";
 import {
   createFileSystemError,
   isFileSystemPortError,
@@ -27,10 +26,6 @@ import {
   type FileSystemSearchFilesResult,
   type FileSystemSearchTextRequest,
   type FileSystemSearchTextResult,
-  type FileSystemCreateTempDirectoryRequest,
-  type FileSystemCreateTempDirectoryResult,
-  type FileSystemRemoveDirectoryRequest,
-  type FileSystemRemoveDirectoryResult,
 } from "@knorvia/contracts";
 import { maybeThrowStorageFsFault } from "../storage/fs-fault-injection.js";
 import { bounded, prefix, publish } from "./node-file-io.js";
@@ -302,51 +297,6 @@ export class NodeFileSystemAdapter implements FileSystemPort {
     const target = absolute(request.path);
     const normalized = request.path === target ? request : { ...request, path: target };
     return searchText(normalized, this.adapterOptions.textSearchEngine, options?.signal);
-  }
-
-  /**
-   * 创建唯一命名的临时目录（`mkdtemp` 语义）。
-   *
-   * 用系统 `mkdtemp` 而不是「拼路径 + mkdir」：唯一性由内核保证，
-   * 「先 stat 再创建」在并发下有竞态（两个消费者可能拿到同一路径）。
-   */
-  async createTempDirectory(
-    request: FileSystemCreateTempDirectoryRequest,
-  ): Promise<FileSystemCreateTempDirectoryResult> {
-    const parent = absolute(request.parentDirectory ?? tmpdir());
-    // mkdtemp 的模板必须以分隔符结尾，否则随机后缀会拼到父目录名后面。
-    const template = join(parent, request.prefix);
-    return await guarded(template, async () => {
-      maybeThrowStorageFsFault({ operation: "mkdir", path: template });
-      const path = await mkdtemp(template);
-      return { path };
-    });
-  }
-
-  /**
-   * 递归删除目录树；目录不存在时按 `missingOk` 处理（默认不抛错）。
-   *
-   * 默认 `missingOk: true` 是刻意选择：Hook 的 `cleanup()` 必须「可重复调用不抛错」
-   * （B1.5），而 cleanup 可能在目录已被外部清理后再次调用。
-   */
-  async removeDirectory(
-    request: FileSystemRemoveDirectoryRequest,
-  ): Promise<FileSystemRemoveDirectoryResult> {
-    const target = absolute(request.path);
-    const missingOk = request.missingOk ?? true;
-    return await guarded(target, async () => {
-      maybeThrowStorageFsFault({ operation: "rm", path: target });
-      try {
-        await rm(target, { recursive: true, force: missingOk });
-        return { removed: true };
-      } catch (cause) {
-        // force: true 已覆盖「不存在」的情况；能走到这里的是真实错误（权限、占用等）。
-        if (missingOk && isFileSystemPortError(cause) && cause.code === "not_found") {
-          return { removed: false };
-        }
-        throw cause;
-      }
-    });
   }
 }
 

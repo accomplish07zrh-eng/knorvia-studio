@@ -217,34 +217,6 @@ export interface FileSystemRemoveFileRequest {
   trace?: TraceContext;
 }
 
-/** 创建临时目录：前缀用于识别用途（如 `knorvia-hook-`）。 */
-export interface FileSystemCreateTempDirectoryRequest {
-  /** 目录名前缀，实现可在其后追加随机后缀。 */
-  prefix: string;
-  /** 父目录；省略时用系统临时目录（`os.tmpdir()`）。 */
-  parentDirectory?: string;
-  trace?: TraceContext;
-}
-
-export interface FileSystemCreateTempDirectoryResult {
-  /** 创建出的目录绝对路径。 */
-  path: string;
-}
-
-/** 递归删除目录。 */
-export interface FileSystemRemoveDirectoryRequest {
-  /** 归一化绝对路径。 */
-  path: string;
-  /** 为真时，目录本来就不存在也算删除成功（默认 true，保证 cleanup 幂等）。 */
-  missingOk?: boolean;
-  trace?: TraceContext;
-}
-
-export interface FileSystemRemoveDirectoryResult {
-  /** 是否真的删除了东西（目录本不存在时为 false）。 */
-  removed: boolean;
-}
-
 /** 删除结果；removed 说明这次调用是否真的删掉了东西。 */
 export interface FileSystemRemoveFileResult {
   path: string;
@@ -404,25 +376,4 @@ export interface FileSystemPort {
     request: FileSystemSearchTextRequest,
     options?: FileSystemOperationOptions,
   ): Promise<FileSystemSearchTextResult>;
-  /**
-   * 在系统临时目录下创建一个唯一命名的目录（`mkdtemp` 语义）。
-   *
-   * 为什么需要它而不是「自己拼路径 + createDirectory」：
-   * 唯一性由系统保证，避免并发下两个消费者拿到同一个路径；
-   * 而「先 stat 再创建」有竞态。
-   */
-  createTempDirectory(
-    request: FileSystemCreateTempDirectoryRequest,
-    options?: FileSystemOperationOptions,
-  ): Promise<FileSystemCreateTempDirectoryResult>;
-  /**
-   * 递归删除目录树；目录不存在时按 `missingOk` 处理（默认不抛错，保证 cleanup 幂等）。
-   *
-   * 与 `removeFile` 的区别：`removeFile` 只删文件，删目录会报错；
-   * 而 Hook 的临时目录必须能被「重复调用不抛错」地清理（B1.5）。
-   */
-  removeDirectory(
-    request: FileSystemRemoveDirectoryRequest,
-    options?: FileSystemOperationOptions,
-  ): Promise<FileSystemRemoveDirectoryResult>;
 }
