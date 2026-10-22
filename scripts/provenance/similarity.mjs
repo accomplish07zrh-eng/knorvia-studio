@@ -10,7 +10,8 @@
 // 两道门槛的算法与校准见 scripts/provenance/similarity-lines.mjs、
 // similarity-structural.mjs 与 docs/knorvia-similarity-calibration-20261011.md；
 // 门槛写入常量后不再调整。
-import { readFileSync, writeFileSync } from "node:fs";
+import { execFileSync } from "node:child_process";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { parseArgs } from "node:util";
 import {
@@ -48,7 +49,11 @@ const HELP = `用法: node scripts/provenance/similarity.mjs [选项]
 比较对象：
   --old <path>              被替换的旧文件，可重复；相对路径按 --repo（或 --old-rev）解析
   --old-list <file>         每行一个旧文件路径
-  --old-rev <rev>           旧文件取自该 git 提交，而不是工作区
+  --old-rev <rev>           旧文件取自该 git 提交。
+                            不给 --old 时自动用 beff12b5（计划执行基线）；
+                            给了 --old 但没给本参数时读工作区。
+  --source-map <file>       来源映射：拆分/移动产生的文件与其来源文件的对应关系
+                            （默认 licensing/beff12b5-source-map.json；多来源取最高值）
   --dump-residual           打印剔除契约行后残留的行原文（含原始行号），供验收文档逐字贴出
   --dump-residual-limit <n> 限制每次打印的行数，默认 50；超出时提示总行数
   --dump-stripped           打印被剔掉的契约行原文，便于核对「是否剔得过宽」
@@ -77,6 +82,18 @@ const HELP = `用法: node scripts/provenance/similarity.mjs [选项]
   --help
 `;
 
+/**
+ * 计划执行基线：M6 相似度比对统一固定到这个提交。
+ *
+ * 用户裁决（2026-10-21）：基线不按「上一次返工前」，而固定为计划执行基线，
+ * 以防止多轮返工接力比较 —— 若每轮只与上一轮比，返工十轮后「与最初旧实现的相似度」
+ * 从未被检查过。固定基线保证「无论返工几轮，最终必须与最初的旧实现不同」。
+ */
+const BASELINE_REV = "beff12b5";
+
+/** 默认的来源映射文件（相对仓库根）；不存在时视为空映射。 */
+const DEFAULT_SOURCE_MAP = "licensing/beff12b5-source-map.json";
+
 function usageError(message) {
   process.stderr.write(`similarity: ${message}\n`);
   process.exit(2);
@@ -91,6 +108,7 @@ const { values } = parseArgs({
     old: { type: "string", multiple: true },
     "old-list": { type: "string" },
     "old-rev": { type: "string" },
+    "source-map": { type: "string" },
     "allow-upstream-only": { type: "boolean" },
     "dump-residual": { type: "boolean" },
     "dump-residual-limit": { type: "string" },
@@ -179,26 +197,101 @@ if (values["contract-lines"]) {
 }
 
 const oxfmtOptions = loadOxfmtOptions(repo);
+
+/**
+ * 读取来源映射：`新路径 → [来源路径...]`。
+ *
+ * 用户裁决（2026-10-21）第 2 条：本计划中拆分或移动产生的文件，
+ * 与其在基线上的来源文件比（多个来源取最高值）。映射值为数组正是为了「取最高」。
+ * 文件不存在时返回空映射 —— 这是合法状态（当前 112 个待返工文件在 beff12b5 上全部同路径存在）。
+ */
+function loadSourceMap(repoRoot) {
+  const mapPath = resolve(repoRoot, values["source-map"] ?? DEFAULT_SOURCE_MAP);
+  if (!existsSync(mapPath)) return new Map();
+  const parsed = JSON.parse(readFileSync(mapPath, "utf8"));
+  const entries = Object.entries(parsed.files ?? {});
+  const normalized = new Map();
+  for (const [target, sources] of entries)
+    normalized.set(target, Array.isArray(sources) ? sources : [sources]);
+  return normalized;
+}
+
+/** 取某个候选在基线上的全部比较对象：同路径（若存在）+ 来源映射给出的路径。 */
+function baselinePathsFor(candidatePath, sourceMap) {
+  const paths = new Set();
+  if (pathExistsInRev(repo, baselineRev, candidatePath)) paths.add(candidatePath);
+  for (const source of sourceMap.get(candidatePath) ?? [])
+    if (pathExistsInRev(repo, baselineRev, source)) paths.add(source);
+  return [...paths];
+}
+
+const sourceMap = loadSourceMap(repo);
 const givenOldPaths = [
   ...(values.old ?? []),
   ...(values["old-list"] ? readPathList(values["old-list"]) : []),
 ];
+
+// 自动解析：显式 --old 优先；否则按基线规则为每个候选算出比较对象。
+//   规则 1：基线同路径存在 → 与它比；
+//   规则 2：来源映射给出 → 与各来源比（多来源取最高）；
+//   规则 3：两者都没有 → 报错（除非显式 --allow-upstream-only）。
+//
+// 但基线 rev 本身可能不存在（测试夹具用临时仓库、或外部仓库没有该提交）——
+// 此时基线规则无从谈起，跳过自动解析，仍由下面的「不传 --old 报错」兜住。
+// `--old-rev` 未显式给出时：自动解析用计划基线；显式 `--old` 则取工作区。
+const explicitOldRev = values["old-rev"];
+const baselineRev = explicitOldRev ?? BASELINE_REV;
+
+const baselineAvailable = (() => {
+  try {
+    execFileSync("git", ["cat-file", "-e", `${explicitOldRev ?? "HEAD"}^{commit}`], {
+      cwd: repo,
+      stdio: "ignore",
+    });
+    return true;
+  } catch {
+    return false;
+  }
+})();
+const autoBaseline = givenOldPaths.length === 0 && baselineAvailable;
+const resolvedOldPaths = autoBaseline
+  ? [...new Set(candidatePaths.flatMap((path) => baselinePathsFor(path, sourceMap)))]
+  : givenOldPaths;
+
+// 规则 3：哪些候选在基线上完全找不到比较对象。
+if (autoBaseline && !values["allow-upstream-only"]) {
+  const orphaned = candidatePaths.filter((path) => baselinePathsFor(path, sourceMap).length === 0);
+  if (orphaned.length > 0) {
+    usageError(
+      `${orphaned.length} 个候选在基线 ${baselineRev} 上既无同路径文件、也不在来源映射里：\n` +
+        orphaned.map((path) => `  · ${path}`).join("\n") +
+        "\n  按裁决第 3 条，这类文件只比上游，但必须显式声明 --allow-upstream-only。",
+    );
+  }
+}
+if (autoBaseline && values["allow-upstream-only"]) {
+  const orphaned = candidatePaths.filter((path) => baselinePathsFor(path, sourceMap).length === 0);
+  for (const path of orphaned)
+    process.stdout.write(`similarity: ${path} — no-baseline-source → 只比上游\n`);
+}
 // 静默过滤是危险的：全部 `--old` 都失效时，门禁会退化成「只比上游」，
 // 而计划书 L509 要求「对被替换的旧文件与上游固定提交都通过」——
 // 少了旧文件那一侧，报出的数字会偏低，看起来更容易达标。
 // 因此这里把「给了但解析不到」变成显式错误。
-const oldPathArgs = givenOldPaths.filter((givenPath) =>
-  pathExistsInRev(repo, values["old-rev"], givenPath),
+// 显式 --old 且未给 --old-rev → 用工作区（revision=undefined）；自动解析 → 用基线。
+const oldRevision = autoBaseline ? baselineRev : explicitOldRev;
+const oldPathArgs = resolvedOldPaths.filter((givenPath) =>
+  pathExistsInRev(repo, oldRevision, givenPath),
 );
-const missingOldPaths = givenOldPaths.filter((givenPath) => !oldPathArgs.includes(givenPath));
+const missingOldPaths = resolvedOldPaths.filter((givenPath) => !oldPathArgs.includes(givenPath));
 if (missingOldPaths.length > 0) {
   usageError(
-    `--old path(s) not found in ${values["old-rev"] ?? "the worktree"}: ${missingOldPaths.join(", ")}\n` +
+    `--old path(s) not found in ${oldRevision ?? "the worktree"}: ${missingOldPaths.join(", ")}\n` +
       "  拒绝静默退化为「只比上游」：旧文件那一侧缺席会让结果偏低。\n" +
       "  请确认路径与 --old-rev（例如旧文件所在的历史提交）。",
   );
 }
-if (givenOldPaths.length === 0 && !values["allow-upstream-only"]) {
+if (resolvedOldPaths.length === 0 && !values["allow-upstream-only"]) {
   usageError(
     "no --old given: the gate requires comparing against the replaced old file as well as upstream " +
       "(plan L509).\n" +
@@ -211,7 +304,7 @@ const oldFiles = await Promise.all(
       repo,
       givenPath,
       oxfmtOptions,
-      revision: values["old-rev"],
+      revision: oldRevision,
       // 两侧对称剔除：旧文件用与候选相同的清单
       // （--contract-lines 用契约名，--declaration 用声明名）。
       stripNames: values["contract-lines"]
@@ -222,7 +315,7 @@ const oldFiles = await Promise.all(
     }),
   ),
 );
-if (values["allow-upstream-only"] && givenOldPaths.length === 0) {
+if (values["allow-upstream-only"] && resolvedOldPaths.length === 0) {
   process.stdout.write(
     "similarity: --allow-upstream-only — 只与上游比较；结果不含「与旧文件」那一侧，不能作为 L509 的达标依据\n",
   );
@@ -240,6 +333,31 @@ const candidates = await Promise.all(
     }),
   ),
 );
+
+// 自比防御：「候选与旧文件是同一个文件、且内容相同」时报出的 1.000 没有信息量 ——
+// 它不表示「完全没有改进」，只表示「测错了对象」（通常是给了 --old 却没给 --old-rev，
+// 于是两边都读了工作区的同一个文件）。与「--old 不存在就报错」是同一类防御：不静默。
+//
+// 注意：`candidates[].path` 是绝对路径而 `candidatePaths` 是相对路径，不能用字符串相等判断；
+// 两者由同一数组按同序构建，因此用**索引**对应。
+if (oldRevision === undefined && oldFiles.length > 0) {
+  const selfCompared = candidatePaths.filter((candidatePath, index) => {
+    const candidateFile = candidates[index];
+    if (!candidateFile || candidateFile.binary) return false;
+    return oldFiles.some(
+      (oldFile) =>
+        oldFile.path === candidatePath && !oldFile.binary && oldFile.text === candidateFile.text,
+    );
+  });
+  if (selfCompared.length > 0) {
+    usageError(
+      `${selfCompared.length} 个候选与 --old 指向同一文件且内容相同：\n` +
+        selfCompared.map((path) => `  · ${path}`).join("\n") +
+        "\n  这样的比较必然是 1.000 —— 它不表示「未重写」，只表示「测错了对象」。\n" +
+        "  不给 --old 会自动用 beff12b5 基线；或显式传 --old-rev <rev>。",
+    );
+  }
+}
 const results = [];
 for (const candidate of candidates) results.push(await evaluateLines(candidate));
 if (gates !== "line") applyStructural(results);
@@ -614,7 +732,13 @@ function dumpContractLines(candidates, results) {
   const limit = Number(values["dump-residual-limit"] ?? 50);
   for (const [index, result] of results.entries()) {
     const baseline = candidates[index]?.contractBaseline;
-    if (!baseline) continue;
+    if (!baseline) {
+      // 静默跳过会让「输出 0 行」看不出原因；明确说是哪一种情况。
+      process.stderr.write(
+        `similarity: dump 跳过 ${result.path}：未启用 --contract-lines（或该候选无契约名可比）\n`,
+      );
+      continue;
+    }
     if (values["dump-residual"]) {
       const all = baseline.residual ?? [];
       process.stdout.write(`\n--- residual: ${result.path} (${all.length} 行) ---\n`);

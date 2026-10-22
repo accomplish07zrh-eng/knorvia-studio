@@ -45,6 +45,7 @@ const { values } = parseArgs({
   options: {
     candidate: { type: "string", multiple: true },
     "candidate-list": { type: "string" },
+    classification: { type: "string" },
     "base-rev": { type: "string" },
     "upstream-dir": { type: "string" },
     "upstream-rev": { type: "string" },
@@ -66,6 +67,7 @@ if (values.help) {
       "  --upstream-rev <rev>      可选：上游提交号，仅用于报告",
       "  --candidate <path>        候选文件，可重复；相对路径按 --repo 解析",
       "  --candidate-list <file>   每行一个候选路径",
+      "  --classification <name>   取 licensing/current-files.json 中该分类的全部文件（如 pending-rework）",
       "  --repo <dir>              仓库根，默认当前目录",
       "  --gates <all|line|structural>",
       "  --json <file>             输出 JSON 报告",
@@ -93,7 +95,18 @@ if (values["candidate-list"]) {
       .filter(Boolean),
   );
 }
-if (candidates.length === 0) usageError("no candidates: pass --candidate or --candidate-list");
+// 直接按分类取清单：`licensing/current-files.json` 是分类的权威来源，
+// 手工相加「包数」容易重复计数（core 与包外清单会重叠）。
+if (values.classification) {
+  const inventory = JSON.parse(readFileSync(resolve(repo, "licensing/current-files.json"), "utf8"));
+  candidates.push(
+    ...inventory.files
+      .filter((file) => file.classification === values.classification)
+      .map((file) => file.path),
+  );
+}
+if (candidates.length === 0)
+  usageError("no candidates: pass --candidate, --candidate-list or --classification");
 
 /** 该路径在指定 rev 上是否存在。 */
 function existsInRev(path, rev) {
@@ -217,9 +230,21 @@ function verdictFor(output, candidate) {
 
 const rows = [];
 for (const candidate of candidates) {
-  // 未改动的文件不必跑：它与旧文件的相似度恒为 1.000，结论直接是「未重写 → 不达标」。
+  // 未改动的文件：双重口径必然 1.000（等于自己），但**仍要跑一次「仅上游」** ——
+  // 那个值说明「继承的实现与上游有多像」，是判断「照搬 / 本就不同」的唯一依据。
   if (unchangedFromBaseline.has(candidate)) {
-    rows.push({ candidate, dual: null, unchanged: true, upstreamOnly: null });
+    const upstreamOnly = runSimilarity([
+      "--candidate",
+      candidate,
+      "--allow-upstream-only",
+      ...(values.explain ? ["--explain"] : []),
+    ]);
+    rows.push({
+      candidate,
+      dual: null,
+      unchanged: true,
+      upstreamOnly: verdictFor(upstreamOnly, candidate),
+    });
     continue;
   }
   // 两次调用：双重（旧+上游）与仅上游 —— 差值即可看出「旧文件」这一侧的影响。
@@ -235,6 +260,7 @@ for (const candidate of candidates) {
   const upstreamOnly = runSimilarity([
     "--candidate",
     candidate,
+    "--allow-upstream-only",
     ...(values.explain ? ["--explain"] : []),
   ]);
   const dualVerdict = verdictFor(dual, candidate);
@@ -251,8 +277,12 @@ for (const candidate of candidates) {
 process.stdout.write("=== 判定（双重口径 = max(旧文件, 上游)）===\n");
 for (const row of rows) {
   if (row.unchanged) {
+    const up = row.upstreamOnly;
+    const upContainment = up?.containment == null ? "n/a" : up.containment.toFixed(3);
     process.stdout.write(
-      `FAIL  ${row.candidate}\n` + `        自基线未改动 → 与旧文件相似度 1.000 → 未重写，不达标\n`,
+      `FAIL  ${row.candidate}\n` +
+        `        自基线未改动 → 与旧文件 1.000 → 未重写，不达标` +
+        `   仅上游 containment=${upContainment} run=${up?.run ?? "n/a"}\n`,
     );
     continue;
   }
