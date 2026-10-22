@@ -14,10 +14,6 @@
       "types": "./dist/repl/node-repl-session.d.ts",
       "import": "./dist/repl/node-repl-session.js"
     },
-    "./browser-client": {
-      "types": "./dist/browser-client/index.d.ts",
-      "import": "./dist/browser-client/index.js"
-    },
     "./create-workflow-graph-bounds": {
       "types": "./dist/tool/handlers/create-workflow-graph-bounds.d.ts",
       "import": "./dist/tool/handlers/create-workflow-graph-bounds.js"

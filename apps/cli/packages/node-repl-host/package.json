@@ -25,7 +25,8 @@
     "@knorvia/cua": "workspace:*",
     "@knorvia/shared": "workspace:*",
     "@modelcontextprotocol/server": "2.0.0",
-    "zod": "^4.4.3"
+    "zod": "^4.4.3",
+    "@knorvia/browser-client": "workspace:*"
   },
   "devDependencies": {
     "@modelcontextprotocol/client": "2.0.0",
