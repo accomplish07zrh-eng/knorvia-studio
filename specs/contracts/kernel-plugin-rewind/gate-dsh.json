@@ -1,0 +1,16 @@
+{
+  "contract": "kernel-plugin-rewind",
+  "contractVersion": "v1",
+  "engine": "dsh",
+  "scope": "Offline contract tests over the public plugin entry with in-memory port doubles. Does not cover the real filesystem, the real artifact store, or a real session fork.",
+  "testFile": "apps/cli/packages/bootstrap/test/kernel-plugin-rewind.test.ts",
+  "commit": "69b1e602",
+  "ranAt": "2026-10-22T04:58:52.576Z",
+  "node": "v26.3.0",
+  "totals": {
+    "tests": 34,
+    "pass": 34,
+    "fail": 0
+  },
+  "verdict": "pass"
+}
