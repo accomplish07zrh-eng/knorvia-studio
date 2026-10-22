@@ -150379,6 +150379,38 @@
       "license": "Apache-2.0",
       "basis": "Knorvia-authored DSH event probes. Each probe drives a real cordis context to establish one fact the implementation depends on before any mount point is written: where the continuation argument sits, whether entering a step replaces or appends messages, whether an approval request is claimed or delegated, whether a frozen tool result can be replaced, whether the event bus contains listener exceptions, and whether an asynchronous listener can veto session creation. They live in their own directory rather than beside the contract tests because some deliberately demonstrate a wrong call shape and one leaves an asynchronous rejection, and a mixed run would let those records gate the contract suite. Their findings are summarised in the accompanying notes file so the conclusions survive even if the probes are later simplified.",
       "evidence": ["specs/contracts/kernel-plugin-hooks/tests/probes/probe-findings.md"]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/fs/temp-directory.ts",
+      "normalizedSha256": "5c190ca33b068723dceb69389cadf31e5b8b4e2225dbcdae414e9e4c4eefbe33",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored temporary directory capability, placed as a plugin-specific port rather than an extension of the general filesystem port. The hook executor needs a uniquely named working directory and must remove it idempotently, but neither belongs in the general filesystem interface: the earlier attempt to widen that interface forced every implementation and a sealed contract-test harness to change, while the capability has exactly one consumer. The node implementation lives in its own adapter file because the filesystem index is behind a sealed seam that only permits a fixed set of imports, and adding a separate file keeps it outside that seam instead of loosening the seal. Uniqueness comes from the platform temporary-directory primitive so it is guaranteed by the kernel rather than by a check-then-create race. Removal is recursive and treats an absent directory as success by default, since cleanup can run more than once. Verified with seven contract tests including uniqueness across calls, a caller-supplied parent, recursive removal of a populated directory, repeated removal, the strict setting, and an in-memory stand-in demonstrating the interface is sufficient without touching the real filesystem.",
+      "evidence": ["specs/contracts/kernel-plugin-hooks/tests/temp-directory.test.mjs"]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/index.ts",
+      "normalizedSha256": "b8b9b953e933cd563dae46ee41350e2353ea329851ad506772f66168f8f5d724",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored temporary directory capability, placed as a plugin-specific port rather than an extension of the general filesystem port. The hook executor needs a uniquely named working directory and must remove it idempotently, but neither belongs in the general filesystem interface: the earlier attempt to widen that interface forced every implementation and a sealed contract-test harness to change, while the capability has exactly one consumer. The node implementation lives in its own adapter file because the filesystem index is behind a sealed seam that only permits a fixed set of imports, and adding a separate file keeps it outside that seam instead of loosening the seal. Uniqueness comes from the platform temporary-directory primitive so it is guaranteed by the kernel rather than by a check-then-create race. Removal is recursive and treats an absent directory as success by default, since cleanup can run more than once. Verified with seven contract tests including uniqueness across calls, a caller-supplied parent, recursive removal of a populated directory, repeated removal, the strict setting, and an in-memory stand-in demonstrating the interface is sufficient without touching the real filesystem.",
+      "evidence": ["specs/contracts/kernel-plugin-hooks/tests/temp-directory.test.mjs"]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-hooks/temp-directory.ts",
+      "normalizedSha256": "ca06f0a4b833c5a99f6e9919432cedd957cb338bde886a88a5bc167994307279",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored temporary directory capability, placed as a plugin-specific port rather than an extension of the general filesystem port. The hook executor needs a uniquely named working directory and must remove it idempotently, but neither belongs in the general filesystem interface: the earlier attempt to widen that interface forced every implementation and a sealed contract-test harness to change, while the capability has exactly one consumer. The node implementation lives in its own adapter file because the filesystem index is behind a sealed seam that only permits a fixed set of imports, and adding a separate file keeps it outside that seam instead of loosening the seal. Uniqueness comes from the platform temporary-directory primitive so it is guaranteed by the kernel rather than by a check-then-create race. Removal is recursive and treats an absent directory as success by default, since cleanup can run more than once. Verified with seven contract tests including uniqueness across calls, a caller-supplied parent, recursive removal of a populated directory, repeated removal, the strict setting, and an in-memory stand-in demonstrating the interface is sufficient without touching the real filesystem.",
+      "evidence": ["specs/contracts/kernel-plugin-hooks/tests/temp-directory.test.mjs"]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-hooks/tests/temp-directory.test.mjs",
+      "normalizedSha256": "4ee0477d4703d5d395ff8503d7fc23d7c695430d1a8db0e29cdd6c7153fe79d3",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored temporary directory capability, placed as a plugin-specific port rather than an extension of the general filesystem port. The hook executor needs a uniquely named working directory and must remove it idempotently, but neither belongs in the general filesystem interface: the earlier attempt to widen that interface forced every implementation and a sealed contract-test harness to change, while the capability has exactly one consumer. The node implementation lives in its own adapter file because the filesystem index is behind a sealed seam that only permits a fixed set of imports, and adding a separate file keeps it outside that seam instead of loosening the seal. Uniqueness comes from the platform temporary-directory primitive so it is guaranteed by the kernel rather than by a check-then-create race. Removal is recursive and treats an absent directory as success by default, since cleanup can run more than once. Verified with seven contract tests including uniqueness across calls, a caller-supplied parent, recursive removal of a populated directory, repeated removal, the strict setting, and an in-memory stand-in demonstrating the interface is sufficient without touching the real filesystem.",
+      "evidence": ["specs/contracts/kernel-plugin-hooks/tests/temp-directory.test.mjs"]
     }
   ]
 }
