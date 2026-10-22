@@ -69,6 +69,22 @@ export interface KnorviaHooksConfig {
 
 **不新增**：本包不复制这些类型的定义（避免双份真相）。
 
+### 已核验（2026-10-22）
+
+上表 24 个类型名**全部在 `apps/cli/packages/contracts/src/hooks/index.ts` 真实存在**
+（`grep '^export (const|type|interface) <Name>'` 命中 28 处 —— 部分名字同时有 `const` 与 `type` 两份导出）。
+**本包不需要新增 `@knorvia/contracts` 的导出。**
+
+DSH 侧依赖**已全部在 `bootstrap/package.json` 声明**，实现阶段无需新增依赖：
+
+| 包                               | 版本       | 用途                                                      |
+| -------------------------------- | ---------- | --------------------------------------------------------- |
+| `@deepseek-ai/cordis`            | 4.0.5      | `Context` 与事件分发模式                                  |
+| `@deepseek-ai/dsh-tools`         | 0.2.0-rc.2 | `tools/pre-execute`、`tools/post-execute`、`tools/result` |
+| `@deepseek-ai/dsh-agent`         | 0.2.0-rc.2 | `agent/pre-step`、`agent/turn-stopping`                   |
+| `@deepseek-ai/dsh-session`       | 0.2.0-rc.2 | `session/created`                                         |
+| `@deepseek-ai/dsh-user-approval` | 0.2.0-rc.2 | `approval/request`                                        |
+
 ## 四、本包对外导出
 
 ```ts

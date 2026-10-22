@@ -150158,11 +150158,11 @@
     },
     {
       "path": "specs/contracts/kernel-plugin-hooks/interface.md",
-      "normalizedSha256": "1178a43c2c4a5803fa1b5c3866aa649a1c682c44acd80f22e13d639feed8ee3e",
+      "normalizedSha256": "9ad0bd9350b74142ddf169d86d101f2fbc5aa8a4f9638354546a70b5d678d5e5",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored M2 access-package contract for the hooks plugin. It records which cordis extension points carry the seven hook events on the DSH runtime, together with the dispatch mode of each and what that mode permits: three points are waterfalls that can block or rewrite, one is a serial point whose first bail value short-circuits, and one is an emit point that can only veto through a synchronous throw. It also records a deviation from the plan document, where the post-tool event was assigned to a point that turns out to be observe-only, and states that the waterfall point is used instead while the observe-only one is kept for audit. Behaviour paragraphs reuse the existing core-hooks contract by reference rather than restating it, because that package is deleted at kernel switch and only its contract survives. Differences forced by the platform are registered separately with their cause, their observable effect, and whether an equivalent exists.",
-      "evidence": ["specs/contracts/kernel-plugin-hooks/behavior.md"]
+      "basis": "Knorvia-authored M2 access-package contract for the hooks plugin. This revision records the verification evidence behind the reuse claims: every contract type the plugin intends to reuse was confirmed to already exist in the contracts package, so the plugin adds no new type definitions there, and every DSH package it depends on was confirmed to be already declared by the bootstrap package, so implementation needs no new dependencies. It also records which dispatch mode each of the seven extension points uses, since the mode is what decides whether a hook can block: waterfall points can decline to delegate, the serial point short-circuits on the first bail value, and the emit point accepts only a synchronous throw as a veto, which is why an asynchronous hook cannot prevent a session from being created.",
+      "evidence": ["specs/contracts/kernel-plugin-hooks/interface.md"]
     },
     {
       "path": "specs/contracts/kernel-plugin-hooks/callers.md",
