@@ -31,7 +31,6 @@
   },
   "dependencies": {
     "@knorvia/model-option-map": "workspace:*",
-    "@knorvia/shared-types": "workspace:*",
     "zod": "4.6.5"
   },
   "devDependencies": {

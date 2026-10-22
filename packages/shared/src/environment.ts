@@ -9,19 +9,34 @@
 // 放在 `@knorvia/shared` 而非 `@knorvia/shared-types`：后者是纯类型包，
 // 而这里要读 `process` 与 `node:sea`，是真实的运行期依赖。
 //
+// **⚠️ `RuntimeInfo` 的类型在这里定义，不从 `@knorvia/shared-types` 导入**：
+// 那个包在 `apps/cli/packages/` 下，而 `packages/*` 层按设计不依赖 `apps/cli/*` 层
+// （根 typecheck 只构建 `packages/*`）。`shared-types` 反向转发本文件的定义 ——
+// `apps/cli → packages` 是仓库的常态方向。
+//
 // **唯一的副作用是读取进程自身的事实**（arch / cwd / execPath / version / platform），
 // 不发起任何 I/O 请求。
 
 import { isSea } from "node:sea";
-import type { RuntimeInfo } from "@knorvia/shared-types";
-
-export type { RuntimeInfo };
 
 /**
- * 收集当前运行环境的快照。
+ * 运行环境的只读快照，用于诊断与打包自检。
  *
  * `sea` 表示「是否运行在 Node 单文件可执行包（SEA）里」——
  * 打包后的 CLI 与直接 `node` 启动的行为差异需要它来区分。
+ */
+export type RuntimeInfo = {
+  arch: NodeJS.Architecture;
+  cwd: string;
+  execPath: string;
+  node: string;
+  platform: NodeJS.Platform;
+  sea: boolean;
+  versions: NodeJS.ProcessVersions;
+};
+
+/**
+ * 收集当前运行环境的快照。
  */
 export const getRuntimeInfo = (): RuntimeInfo => ({
   arch: process.arch,

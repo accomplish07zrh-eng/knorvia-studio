@@ -334,6 +334,9 @@ export { redactFeedbackText } from "./feedbackPrivacy.js";
 export { color, formatJson, supportsColor } from "./output.js";
 export type { JsonValue } from "./output.js";
 export { getRuntimeInfo } from "./environment.js";
+// `RuntimeInfo` 的类型与实现同源（都在 environment.ts）。
+// `shared-types` 转发这里的定义 —— `apps/cli → packages` 是仓库常态方向。
+export type { RuntimeInfo } from "./environment.js";
 
 /**
  * 当前的呈现面。

@@ -24209,7 +24209,7 @@
     },
     {
       "path": "apps/cli/packages/shared-types/src/index.ts",
-      "normalizedSha256": "3cba9159728ff55a22a079eca196495c790133bc94365fe51499cefcadc75def",
+      "normalizedSha256": "009ad24a8b6bbd2fef8ae60a56bee8354328b2f58747bbc5cc57067e14ec4888",
       "decision": "independent-replacement",
       "license": "Apache-2.0",
       "basis": "Knorvia independent replacement of apps-cli-packages-02 against contract v1 (behavior B1-B38, interface and black-box tests). The author read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. The implementation was restructured into smaller cohesive modules so both similarity gates pass. Measured in this package (Node v24.14.0): line-mode similarity 25/25 pass with highest containment 0.194, declaration-mode similarity 7/7 pass with 0-1 residual lines and containment 0.000, contract tests source 38/38 and dist 38/38, old gate PASS with stub replacement 0/38 allFail.",
@@ -151889,7 +151889,7 @@
     },
     {
       "path": "packages/shared/src/output.ts",
-      "normalizedSha256": "77b535d6f18e36103f9317034d3630577758faad3cf3cb14fc63ea0c1e9afbc6",
+      "normalizedSha256": "551bf21e42698e6038a88eb74ed576d9cb7e21ce1fa54497d78286111a3dcdbe",
       "decision": "original",
       "license": "MIT",
       "basis": "Output shaping and terminal capability detection: JSON serialisation with a stable two-space indent, the no-colour-overrides-TTY decision, and the ANSI fragment table whose every method returns its input unchanged when colour is disabled. These functions previously lived in core/src/output.ts, but every consumer is in the CLI command layer and core is scheduled for removal with the kernel switch, so leaving them there would break the CLI at that point. They could not move to the shared-types package because that package is deliberately type-only: it carries no runtime values at all, and these are real functions. The shared package already exposes runtime exports and is a dependency of both core and the CLI, so placing them here keeps the two consumers on equal footing rather than creating a cycle.",
@@ -151900,7 +151900,7 @@
     },
     {
       "path": "packages/shared/src/environment.ts",
-      "normalizedSha256": "f5964f8f75e36f7032c45158ceea788a4da9e34e3372fce35debd6a2d9e23948",
+      "normalizedSha256": "727ca1a0a36502bfc124090da5574d28015148e2a146f1676adb288557d38a29",
       "decision": "original",
       "license": "MIT",
       "basis": "A read-only snapshot of the current runtime: architecture, working directory, executable path, Node version, platform, whether the process is a single-file executable, and the dependency version map. Moved here from core/src/environment.ts for the same reason as the output helpers: its only consumer is the CLI entry point, and core disappears with the kernel switch. The snapshot reads process facts and node:sea but performs no I/O of its own, which is why it can sit in a shared package without dragging an adapter dependency along. The RuntimeInfo type itself stays in shared-types so the shape remains part of the pure type surface.",

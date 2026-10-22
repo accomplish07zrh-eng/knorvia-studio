@@ -14,9 +14,14 @@
 // 所以放在这里：`@knorvia/shared` 是「共享协议与类型」包，已允许运行期导出，
 // 且 core 与 cli 都已是它的依赖（平级消费，无反向依赖）。
 //
+// **⚠️ `JsonValue` 复用 `@knorvia/model-option-map` 的定义**（不自己再定义一份）：
+// 本包已依赖它（同层，合法），而它已有语义等价的 JSON 值递归类型。
+// **不能**从 `@knorvia/shared-types` 导入 —— 那个包在 `apps/cli/packages/` 下，
+// 而 `packages/*` 层按设计不依赖 `apps/cli/*` 层（根 typecheck 只构建 `packages/*`）。
+//
 // **本模块只有纯函数与无状态常量**：除读取 `stream.isTTY` 外不触碰外部世界。
 
-import type { JsonValue } from "@knorvia/shared-types";
+import type { JsonValue } from "@knorvia/model-option-map";
 
 export type { JsonValue };
 
