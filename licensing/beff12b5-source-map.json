@@ -2,13 +2,106 @@
   "schemaVersion": 1,
   "baselineRev": "beff12b5",
   "files": {
+    "apps/cli/packages/browser-client/src/api-catalog.ts": [
+      "apps/cli/packages/core/src/browser-client/api-catalog.ts"
+    ],
+    "apps/cli/packages/browser-client/src/api-contract.ts": [
+      "apps/cli/packages/core/src/browser-client/api-contract.ts"
+    ],
+    "apps/cli/packages/browser-client/src/api-policy.ts": [
+      "apps/cli/packages/core/src/browser-client/api-policy.ts"
+    ],
+    "apps/cli/packages/browser-client/src/browser-capabilities.ts": [
+      "apps/cli/packages/core/src/browser-client/browser-capabilities.ts"
+    ],
+    "apps/cli/packages/browser-client/src/browser-commands.ts": [
+      "apps/cli/packages/core/src/browser-client/browser-commands.ts"
+    ],
+    "apps/cli/packages/browser-client/src/browser-connection.ts": [
+      "apps/cli/packages/core/src/browser-client/browser-connection.ts"
+    ],
+    "apps/cli/packages/browser-client/src/browser-dialogs.ts": [
+      "apps/cli/packages/core/src/browser-client/browser-dialogs.ts"
+    ],
+    "apps/cli/packages/browser-client/src/browser-objects.ts": [
+      "apps/cli/packages/core/src/browser-client/browser-objects.ts"
+    ],
+    "apps/cli/packages/browser-client/src/browser-recording.ts": [
+      "apps/cli/packages/core/src/browser-client/browser-recording.ts"
+    ],
+    "apps/cli/packages/browser-client/src/browser-registry.ts": [
+      "apps/cli/packages/core/src/browser-client/browser-registry.ts"
+    ],
+    "apps/cli/packages/browser-client/src/browser-tabs.ts": [
+      "apps/cli/packages/core/src/browser-client/browser-tabs.ts"
+    ],
+    "apps/cli/packages/browser-client/src/documentation-render.ts": [
+      "apps/cli/packages/core/src/browser-client/documentation-render.ts"
+    ],
+    "apps/cli/packages/browser-client/src/documentation.ts": [
+      "apps/cli/packages/core/src/browser-client/documentation.ts"
+    ],
+    "apps/cli/packages/browser-client/src/facade-contract.ts": [
+      "apps/cli/packages/core/src/browser-client/facade-contract.ts"
+    ],
+    "apps/cli/packages/browser-client/src/facade.ts": [
+      "apps/cli/packages/core/src/browser-client/facade.ts"
+    ],
+    "apps/cli/packages/browser-client/src/index.ts": [
+      "apps/cli/packages/core/src/browser-client/index.ts"
+    ],
+    "apps/cli/packages/browser-client/src/manifest.ts": [
+      "apps/cli/packages/core/src/browser-client/manifest.ts"
+    ],
+    "apps/cli/packages/browser-client/src/playwright-contract.ts": [
+      "apps/cli/packages/core/src/browser-client/playwright-contract.ts"
+    ],
+    "apps/cli/packages/browser-client/src/playwright-frame.ts": [
+      "apps/cli/packages/core/src/browser-client/playwright-frame.ts"
+    ],
+    "apps/cli/packages/browser-client/src/playwright-handles.ts": [
+      "apps/cli/packages/core/src/browser-client/playwright-handles.ts"
+    ],
+    "apps/cli/packages/browser-client/src/playwright-locator.ts": [
+      "apps/cli/packages/core/src/browser-client/playwright-locator.ts"
+    ],
+    "apps/cli/packages/browser-client/src/playwright-page.ts": [
+      "apps/cli/packages/core/src/browser-client/playwright-page.ts"
+    ],
+    "apps/cli/packages/browser-client/src/playwright-runtime.ts": [
+      "apps/cli/packages/core/src/browser-client/playwright-runtime.ts"
+    ],
+    "apps/cli/packages/browser-client/src/playwright-selectors.ts": [
+      "apps/cli/packages/core/src/browser-client/playwright-selectors.ts"
+    ],
+    "apps/cli/packages/browser-client/src/playwright.ts": [
+      "apps/cli/packages/core/src/browser-client/playwright.ts"
+    ],
+    "apps/cli/packages/browser-client/src/raw-tab.ts": [
+      "apps/cli/packages/core/src/browser-client/raw-tab.ts"
+    ],
+    "apps/cli/packages/browser-client/src/result.ts": [
+      "apps/cli/packages/core/src/browser-client/result.ts"
+    ],
+    "apps/cli/packages/browser-client/src/runtime-installation.ts": [
+      "apps/cli/packages/core/src/browser-client/runtime-installation.ts"
+    ],
+    "apps/cli/packages/browser-client/src/selection.ts": [
+      "apps/cli/packages/core/src/browser-client/selection.ts"
+    ],
+    "apps/cli/packages/browser-client/src/tab-cua.ts": [
+      "apps/cli/packages/core/src/browser-client/tab-cua.ts"
+    ],
+    "apps/cli/packages/browser-client/src/tab.ts": [
+      "apps/cli/packages/core/src/browser-client/tab.ts"
+    ],
     "apps/cli/packages/node-repl-host/src/mcp-caller-context.ts": [
       "apps/cli/packages/node-repl-host/src/mcp-runtime.ts"
     ],
-    "apps/cli/packages/node-repl-host/src/mcp-tool-dispatch.ts": [
+    "apps/cli/packages/node-repl-host/src/mcp-tool-catalogue.ts": [
       "apps/cli/packages/node-repl-host/src/mcp-runtime.ts"
     ],
-    "apps/cli/packages/node-repl-host/src/mcp-tool-catalogue.ts": [
+    "apps/cli/packages/node-repl-host/src/mcp-tool-dispatch.ts": [
       "apps/cli/packages/node-repl-host/src/mcp-runtime.ts"
     ]
   }
