@@ -151701,10 +151701,10 @@
     },
     {
       "path": "apps/cli/packages/browser-client/src/browser-registry.ts",
-      "normalizedSha256": "7353e405103edbc54445feb5d4567ea62eec869025d35263a4c3d27e105d5511",
+      "normalizedSha256": "b6a11c81b266e65f3e1191b383b5f168d9f4d5124c84824fbc5dc21be1ac1bca",
       "decision": "pending-rework",
       "license": "Apache-2.0",
-      "basis": " Moved out of core/src/browser-client into @knorvia/browser-client on 2026-10-22 (User decision 2026-10-22 option B; spec L88 supplement). Per the user ruling, a move does not count as a rewrite: similarity is still measured against the source file at the planned-execution baseline beff12b5, i.e. apps/cli/packages/core/src/browser-client/browser-registry.ts. This file is a byte-for-byte copy, so it measures 1.000 and stays pending-rework until genuinely rewritten.",
+      "basis": " Moved out of core/src/browser-client into @knorvia/browser-client on 2026-10-22 (User decision 2026-10-22 option B; spec L88 supplement). Per the user ruling, a move does not count as a rewrite: similarity is still measured against the source file at the planned-execution baseline beff12b5, i.e. apps/cli/packages/core/src/browser-client/browser-registry.ts. This file is a byte-for-byte copy, so it measures 1.000 and stays pending-rework until genuinely rewritten. Partial rewrite 2026-10-22: measured 0.206 (run 4, structural 0.013) — run and structural pass, containment misses 0.20 by 0.007. 20 of the 26 remaining hit lines are pure contract (class name, 4-line constructor, 12 public method signatures, 2 private signatures), so the residual gap can only be closed by form-only edits — judged a contract wall and left pending-rework.",
       "evidence": [
         "specs/contracts/apps-cli-packages-01/README.md",
         "docs/knorvia-apps-cli-packages-01-acceptance.md"
@@ -151932,10 +151932,10 @@
     },
     {
       "path": "apps/cli/packages/browser-client/src/tab.ts",
-      "normalizedSha256": "28026bf7583204e434286c188f22da5be90b4d5c9b5d16142a4cfed5d6c83d88",
+      "normalizedSha256": "57d4eaf1dcf2a341a762ee9845964053e7709b17b7fcbd25deaffafb095771b4",
       "decision": "pending-rework",
       "license": "Apache-2.0",
-      "basis": " Moved out of core/src/browser-client into @knorvia/browser-client on 2026-10-22 (User decision 2026-10-22 option B; spec L88 supplement). Per the user ruling, a move does not count as a rewrite: similarity is still measured against the source file at the planned-execution baseline beff12b5, i.e. apps/cli/packages/core/src/browser-client/tab.ts. This file is a byte-for-byte copy, so it measures 1.000 and stays pending-rework until genuinely rewritten.",
+      "basis": " Moved out of core/src/browser-client into @knorvia/browser-client on 2026-10-22 (User decision 2026-10-22 option B; spec L88 supplement). Per the user ruling, a move does not count as a rewrite: similarity is still measured against the source file at the planned-execution baseline beff12b5, i.e. apps/cli/packages/core/src/browser-client/tab.ts. This file is a byte-for-byte copy, so it measures 1.000 and stays pending-rework until genuinely rewritten. Partial rewrite 2026-10-22: 3 private fields folded into #state; measured 0.876 (run 54, structural 0.742). The remaining 54-line run is 12 one-line forwarding methods whose signatures are the public API — judged form-limited and left pending-rework.",
       "evidence": [
         "specs/contracts/apps-cli-packages-01/README.md",
         "docs/knorvia-apps-cli-packages-01-acceptance.md"
