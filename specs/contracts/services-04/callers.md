@@ -4,9 +4,9 @@
 
 ## 一、两种引用口径（⚠️ 只读口径 A 会误判「大部分是死代码」）
 
-| 口径 | 含义 | 实测 | 用途 |
-| :--- | :--- | ---: | :--- |
-| **A. 直接引用** | 外部文件 `import` 本层 46 个实现文件之一 | **18 处** | 判断「哪些是内部实现细节」 |
+| 口径                    | 含义                                                          |           实测 | 用途                         |
+| :---------------------- | :------------------------------------------------------------ | -------------: | :--------------------------- |
+| **A. 直接引用**         | 外部文件 `import` 本层 46 个实现文件之一                      |      **18 处** | 判断「哪些是内部实现细节」   |
 | **B. 经聚合桶间接使用** | 外层通过 `@knorvia/services` 或 `@knorvia/services/node` 使用 | **379 个文件** | 说明「本层是包公开面的主体」 |
 
 **⚠️ 关键事实**：**38 / 46 个模块零直接引用**（口径 A），
@@ -16,34 +16,34 @@
 
 扫描 5927 个 `.ts`/`.tsx` 文件（排除 `node_modules` 与 `dist`）：
 
-| 入口 | 引用文件数 |
-| :--- | ---: |
-| `@knorvia/services`（browser-safe 入口 → `index.ts`） | **345** |
-| `@knorvia/services/node`（Node 入口 → `node.ts`） | **34** |
+| 入口                                                  | 引用文件数 |
+| :---------------------------------------------------- | ---------: |
+| `@knorvia/services`（browser-safe 入口 → `index.ts`） |    **345** |
+| `@knorvia/services/node`（Node 入口 → `node.ts`）     |     **34** |
 
 **两个聚合桶合计 144 条转发**（`index.ts` 56 条 + `node.ts` 88 条），
 把本层 145 个导出中的公开部分暴露出去。见 `behavior.md` B6 的「转发面完整性断言」。
 
 ## 二、口径 A：按引用方分层
 
-| 引用方 | 处数 |
-| :--- | ---: |
-| services/test | **15** |
-| packages/desktop | **3** |
-| **合计** | **18** |
+| 引用方           |   处数 |
+| :--------------- | -----: |
+| services/test    | **15** |
+| packages/desktop |  **3** |
+| **合计**         | **18** |
 
 ## 三、口径 A：按被引用模块（降序，仅列有引用的）
 
-| 模块 | 组 | 总引用 | services/test | packages/desktop |
-| :--- | :--- | ---: | ---: | ---: |
-| `paths.ts` | . | **4** | 4 | 0 |
-| `terminal/terminal.ts` | terminal | **4** | 4 | 0 |
-| `storage-startup.ts` | . | **3** | 0 | 3 |
-| `terminal/terminalProfileTypes.ts` | terminal | **3** | 3 | 0 |
-| `descriptors.ts` | . | **1** | 1 | 0 |
-| `subagents/subagentStorage.ts` | subagents | **1** | 1 | 0 |
-| `system/integratedTerminalShells.ts` | system | **1** | 1 | 0 |
-| `usage-stats/usageStatsService.ts` | usage-stats | **1** | 1 | 0 |
+| 模块                                 | 组          | 总引用 | services/test | packages/desktop |
+| :----------------------------------- | :---------- | -----: | ------------: | ---------------: |
+| `paths.ts`                           | .           |  **4** |             4 |                0 |
+| `terminal/terminal.ts`               | terminal    |  **4** |             4 |                0 |
+| `storage-startup.ts`                 | .           |  **3** |             0 |                3 |
+| `terminal/terminalProfileTypes.ts`   | terminal    |  **3** |             3 |                0 |
+| `descriptors.ts`                     | .           |  **1** |             1 |                0 |
+| `subagents/subagentStorage.ts`       | subagents   |  **1** |             1 |                0 |
+| `system/integratedTerminalShells.ts` | system      |  **1** |             1 |                0 |
+| `usage-stats/usageStatsService.ts`   | usage-stats |  **1** |             1 |                0 |
 
 ## 四、零直接外部引用的模块（38 个）
 

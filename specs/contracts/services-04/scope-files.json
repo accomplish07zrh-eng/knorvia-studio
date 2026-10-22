@@ -54,9 +54,7 @@
       "path": "packages/services/src/descriptors.ts",
       "blob": "4ccf0b51c507b99dd96618bff354f2fbd6a7b26e",
       "normalizedSha256": "5b2defea851b2ebd6d1b65d751bc6fda8a0e1252b41dabd38a4b61724e712a3c",
-      "contentMatchedPaths": [
-        "packages/services/src/descriptors.ts"
-      ]
+      "contentMatchedPaths": ["packages/services/src/descriptors.ts"]
     },
     "bytes": 560,
     "lines": 16,
@@ -504,9 +502,7 @@
       "path": "packages/services/src/terminal/terminalProfileTypes.ts",
       "blob": "c4218bf29ff3415c5e32d8863f1e6bf629fba607",
       "normalizedSha256": "2b61bb42156542e062d6e786c580a9747b479e0f6b65d684503e3480e61eca0b",
-      "contentMatchedPaths": [
-        "packages/services/src/terminal/terminalProfileTypes.ts"
-      ]
+      "contentMatchedPaths": ["packages/services/src/terminal/terminalProfileTypes.ts"]
     },
     "bytes": 734,
     "lines": 32,

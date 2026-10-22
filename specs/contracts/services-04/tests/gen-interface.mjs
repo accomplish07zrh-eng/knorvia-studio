@@ -99,5 +99,9 @@ const header = [
   "- `studio-runtime/`（149 个 `.ts`）：**不在 M6 返工范围**（`pending-rework` 零个），不归本包。",
 ];
 
-writeFileSync(join(contractDir, "interface.md"), [...header, ...sections].join(NL + NL) + NL, "utf8");
+writeFileSync(
+  join(contractDir, "interface.md"),
+  [...header, ...sections].join(NL + NL) + NL,
+  "utf8",
+);
 console.log(`wrote specs/contracts/services-04/interface.md（${stats.count} 模块，${total} 导出）`);

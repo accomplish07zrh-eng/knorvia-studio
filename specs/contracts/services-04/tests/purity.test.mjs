@@ -79,7 +79,8 @@ describe(`purity（${isDist ? "dist" : "source"} 入口）`, () => {
     await ensureLoadable();
   });
 
-  test("B4a 真 I/O 的目录白名单：fs / child_process / net 只允许出现在 4 组内", () => {
+  test("B4a 真 I/O 的目录白名单：fs / child_process / net 只允许出现在 4 组内", async () => {
+    await ensureLoadable();
     const violations = [];
     for (const [name, imports] of nodeImports()) {
       if (imports.real.length === 0) continue;
@@ -89,20 +90,14 @@ describe(`purity（${isDist ? "dist" : "source"} 入口）`, () => {
         violations.push(`${name}（组 ${group}）import ${imports.real.join(", ")}`);
       }
     }
-    assert.deepEqual(
-      violations,
-      [],
-      `真 I/O 出现在白名单外的组：\n${violations.join("\n")}`,
-    );
+    assert.deepEqual(violations, [], `真 I/O 出现在白名单外的组：\n${violations.join("\n")}`);
   });
 
-  test("B4b 纯工具模块不限制：node:path / os / util / crypto 可使用", () => {
+  test("B4b 纯工具模块不限制：node:path / os / util / crypto 可使用", async () => {
+    await ensureLoadable();
     // 这条是**记录性断言**：说明为什么 20 个文件有 node 依赖但只有 17 个有真 I/O。
     const withPure = [...nodeImports().entries()].filter(([, i]) => i.pure.length > 0);
-    assert(
-      withPure.length >= 15,
-      `应有 ≥15 个文件使用纯 node 工具模块，实际 ${withPure.length}`,
-    );
+    assert(withPure.length >= 15, `应有 ≥15 个文件使用纯 node 工具模块，实际 ${withPure.length}`);
     // 确认纯工具集合的构成
     const pureModules = new Set(withPure.flatMap(([, i]) => i.pure));
     for (const mod of pureModules) {
@@ -110,7 +105,8 @@ describe(`purity（${isDist ? "dist" : "source"} 入口）`, () => {
     }
   });
 
-  test("B4c 真 I/O 的文件数与分布冻结（14 个真 I/O + 6 个纯工具）", () => {
+  test("B4c 真 I/O 的文件数与分布冻结（14 个真 I/O + 6 个纯工具）", async () => {
+    await ensureLoadable();
     const map = nodeImports();
     const withReal = [...map.entries()].filter(([, i]) => i.real.length > 0).map(([n]) => n);
     const withPureOnly = [...map.entries()]
@@ -133,7 +129,8 @@ describe(`purity（${isDist ? "dist" : "source"} 入口）`, () => {
     assert.deepEqual(withPureOnly.slice().sort(), FROZEN_PURE_ONLY_FILES.slice().sort());
   });
 
-  test("B4d usage-stats 组零 I/O（最小组应保持最简）", () => {
+  test("B4d usage-stats 组零 I/O（最小组应保持最简）", async () => {
+    await ensureLoadable();
     const map = nodeImports();
     for (const row of scopeRows().filter((r) => r.group === "usage-stats")) {
       const imports = map.get(row.name);
@@ -144,7 +141,8 @@ describe(`purity（${isDist ? "dist" : "source"} 入口）`, () => {
     }
   });
 
-  test("B5a 模块级副作用：顶层无 await（0 处）", () => {
+  test("B5a 模块级副作用：顶层无 await（0 处）", async () => {
+    await ensureLoadable();
     const offenders = [];
     for (const row of scopeRows()) {
       const code = stripCommentsAndStrings(readSource(row));
@@ -153,7 +151,8 @@ describe(`purity（${isDist ? "dist" : "source"} 入口）`, () => {
     assert.deepEqual(offenders, [], `以下文件有顶层 await：\n${offenders.join("\n")}`);
   });
 
-  test("B5b 模块级副作用：逐条冻结（6 处，新增即失败）", () => {
+  test("B5b 模块级副作用：逐条冻结（6 处，新增即失败）", async () => {
+    await ensureLoadable();
     const found = [];
     for (const row of scopeRows()) {
       const code = stripCommentsAndStrings(readSource(row));
@@ -162,7 +161,8 @@ describe(`purity（${isDist ? "dist" : "source"} 入口）`, () => {
       )) {
         const init = m[2].trim();
         const isFunction =
-          /^(?:async\s*)?(?:\([^)]*\)|[A-Za-z0-9_$]+)\s*=>/u.test(init) || /^function\b/u.test(init);
+          /^(?:async\s*)?(?:\([^)]*\)|[A-Za-z0-9_$]+)\s*=>/u.test(init) ||
+          /^function\b/u.test(init);
         const isLiteral = /^(?:\d|true|false|null|undefined|\[|\{|"|'|`)/u.test(init);
         const isRegex = /^\//u.test(init);
         if (isFunction || isLiteral || isRegex) continue;
@@ -179,7 +179,8 @@ describe(`purity（${isDist ? "dist" : "source"} 入口）`, () => {
     );
   });
 
-  test("B5c process.env 读取：冻结 8 个文件清单（新增即失败）", () => {
+  test("B5c process.env 读取：冻结 8 个文件清单（新增即失败）", async () => {
+    await ensureLoadable();
     const envFiles = [];
     for (const row of scopeRows()) {
       if (/process\s*\.\s*env/u.test(stripCommentsAndStrings(readSource(row)))) {
@@ -196,13 +197,16 @@ describe(`purity（${isDist ? "dist" : "source"} 入口）`, () => {
     assert.equal(FROZEN_ENV_FILES.length, 8);
   });
 
-  test("B5d 技术债登记：dataLocationOwner.ts 的 3 处模块级 env 快照", () => {
+  test("B5d 技术债登记：dataLocationOwner.ts 的 3 处模块级 env 快照", async () => {
+    await ensureLoadable();
     // 这是 K-v 记录的核心事实：该文件在 import 时就固化 env，
     // 导致「同一进程内改 env 无效」。替换阶段应改为注入式。
     const row = scopeRows().find((r) => r.name === "dataLocationOwner.ts");
     assert(row !== undefined, "dataLocationOwner.ts 应在 scope 内");
     const source = readSource(row);
-    const matches = [...source.matchAll(/^const\s+(captured[A-Za-z0-9_$]+)\s*=/gmu)].map((m) => m[1]);
+    const matches = [...source.matchAll(/^const\s+(captured[A-Za-z0-9_$]+)\s*=/gmu)].map(
+      (m) => m[1],
+    );
     assert.deepEqual(
       matches.slice().sort(),
       ["capturedAppRoot", "capturedDataBase", "capturedDefaultBase"],
@@ -219,7 +223,8 @@ describe(`purity（${isDist ? "dist" : "source"} 入口）`, () => {
     }
   });
 
-  test("B6 无循环依赖（层内依赖图是 DAG）", () => {
+  test("B6 无循环依赖（层内依赖图是 DAG）", async () => {
+    await ensureLoadable();
     const adjacency = new Map();
     for (const edge of frozen().edgeList) {
       const [from, to] = edge.split("->");

@@ -27,10 +27,7 @@ export const PLAN_DIRS = [
 ];
 
 /** 包级公开面聚合桶：不属于实现范围（同 services-03 的 contract.ts / K5 先例）。 */
-export const BARREL_FILES = [
-  "packages/services/src/index.ts",
-  "packages/services/src/node.ts",
-];
+export const BARREL_FILES = ["packages/services/src/index.ts", "packages/services/src/node.ts"];
 
 /**
  * 冻结快照：每条含 path / group / name / lines / bytes / exportCount / runtimeExports / classification。

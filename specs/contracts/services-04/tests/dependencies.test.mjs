@@ -74,7 +74,8 @@ describe(`dependencies（${isDist ? "dist" : "source"} 入口）`, () => {
     await ensureLoadable();
   });
 
-  test("B7 层内依赖不扩大：实测边 ⊆ 冻结的 64 条", () => {
+  test("B7 层内依赖不扩大：实测边 ⊆ 冻结的 64 条", async () => {
+    await ensureLoadable();
     const declared = new Set(frozen().edgeList);
     assert.equal(declared.size, 64, "冻结的层内依赖边应为 64 条");
 
@@ -86,7 +87,8 @@ describe(`dependencies（${isDist ? "dist" : "source"} 入口）`, () => {
     assert.deepEqual(removed, [], `层内依赖减少了边（合同需更新）：${removed.join(", ")}`);
   });
 
-  test("B7 层内依赖拓扑：汇聚点与叶子数量守恒", () => {
+  test("B7 层内依赖拓扑：汇聚点与叶子数量守恒", async () => {
+    await ensureLoadable();
     const names = scopeRows().map((r) => r.name.replace(/\.ts$/u, ""));
     const inDeg = new Map(names.map((n) => [n, 0]));
     const outDeg = new Map(names.map((n) => [n, 0]));
@@ -96,8 +98,14 @@ describe(`dependencies（${isDist ? "dist" : "source"} 入口）`, () => {
       outDeg.set(from, (outDeg.get(from) ?? 0) + 1);
     }
 
-    const hubs = [...inDeg.entries()].filter(([, c]) => c >= 2).map(([n]) => n).sort();
-    const leaves = [...outDeg.entries()].filter(([, c]) => c === 0).map(([n]) => n).sort();
+    const hubs = [...inDeg.entries()]
+      .filter(([, c]) => c >= 2)
+      .map(([n]) => n)
+      .sort();
+    const leaves = [...outDeg.entries()]
+      .filter(([, c]) => c === 0)
+      .map(([n]) => n)
+      .sort();
 
     assert.equal(hubs.length, 18, `汇聚点（入度≥2）应为 18 个，实际 ${hubs.length}`);
     assert.equal(leaves.length, 16, `叶子（无层内依赖）应为 16 个，实际 ${leaves.length}`);
@@ -111,7 +119,8 @@ describe(`dependencies（${isDist ? "dist" : "source"} 入口）`, () => {
     );
   });
 
-  test("B8 依赖方向：46 个文件不 import adapters/ 或 studio-runtime/adapters/", () => {
+  test("B8 依赖方向：46 个文件不 import adapters/ 或 studio-runtime/adapters/", async () => {
+    await ensureLoadable();
     const violations = [];
     for (const row of scopeRows()) {
       for (const spec of specifiersOf(readSource(row))) {
@@ -123,7 +132,8 @@ describe(`dependencies（${isDist ? "dist" : "source"} 入口）`, () => {
     assert.deepEqual(violations, [], `出现向上依赖：\n${violations.join("\n")}`);
   });
 
-  test("B8 跨包依赖：实际只有 3 个目标目录（agent 3 / session 4 / setting 1）", () => {
+  test("B8 跨包依赖：实际只有 3 个目标目录（agent 3 / session 4 / setting 1）", async () => {
+    await ensureLoadable();
     // services-04 在分层里向下依赖更早的包：
     //   · `agent/` → services-01
     //   · `session/`、`setting/` → services-03
@@ -155,7 +165,8 @@ describe(`dependencies（${isDist ? "dist" : "source"} 入口）`, () => {
     );
   });
 
-  test("B10 被引用面守恒：口径 A（直接引用）18 处，按层正确", () => {
+  test("B10 被引用面守恒：口径 A（直接引用）18 处，按层正确", async () => {
+    await ensureLoadable();
     const callers = JSON.parse(
       readFileSync(join(repoRoot, "specs/contracts/services-04/callers-summary.json"), "utf8"),
     );
@@ -166,7 +177,10 @@ describe(`dependencies（${isDist ? "dist" : "source"} 入口）`, () => {
     });
 
     // 有直接外部引用的模块恰好 8 个
-    const used = callers.perModule.filter((m) => m.total > 0).map((m) => m.name).sort();
+    const used = callers.perModule
+      .filter((m) => m.total > 0)
+      .map((m) => m.name)
+      .sort();
     assert.deepEqual(used, [
       "descriptors",
       "paths",
@@ -179,18 +193,28 @@ describe(`dependencies（${isDist ? "dist" : "source"} 入口）`, () => {
     ]);
   });
 
-  test("B10 被引用面守恒：口径 B（经聚合桶）379 个文件", () => {
+  test("B10 被引用面守恒：口径 B（经聚合桶）379 个文件", async () => {
+    await ensureLoadable();
     const callers = JSON.parse(
       readFileSync(join(repoRoot, "specs/contracts/services-04/callers-summary.json"), "utf8"),
     );
     assert(callers.barrel !== undefined, "callers-summary 应含 barrel 统计");
     const total = callers.barrel.main + callers.barrel.nodeEntry;
     assert(total >= 370 && total <= 390, `经聚合桶使用的文件数应在 370–390，实际 ${total}`);
-    assert.equal(callers.barrel.main, 345, `@knorvia/services 应为 345，实际 ${callers.barrel.main}`);
-    assert.equal(callers.barrel.nodeEntry, 34, `@knorvia/services/node 应为 34，实际 ${callers.barrel.nodeEntry}`);
+    assert.equal(
+      callers.barrel.main,
+      345,
+      `@knorvia/services 应为 345，实际 ${callers.barrel.main}`,
+    );
+    assert.equal(
+      callers.barrel.nodeEntry,
+      34,
+      `@knorvia/services/node 应为 34，实际 ${callers.barrel.nodeEntry}`,
+    );
   });
 
-  test("B10 零直接引用的模块：38 个，且全部经聚合桶或层内依赖被使用（0 死代码）", () => {
+  test("B10 零直接引用的模块：38 个，且全部经聚合桶或层内依赖被使用（0 死代码）", async () => {
+    await ensureLoadable();
     const callers = JSON.parse(
       readFileSync(join(repoRoot, "specs/contracts/services-04/callers-summary.json"), "utf8"),
     );
@@ -228,7 +252,8 @@ describe(`dependencies（${isDist ? "dist" : "source"} 入口）`, () => {
     assert.equal(internalCount, 30, `被层内依赖的应为 30 个，实际 ${internalCount}`);
   });
 
-  test("B10 子聚合桶 `window-controller/node.ts` 的性质（K-w）", () => {
+  test("B10 子聚合桶 `window-controller/node.ts` 的性质（K-w）", async () => {
+    await ensureLoadable();
     const source = readFileSync(join(repoRoot, SRC, "window-controller/node.ts"), "utf8");
 
     // ① 它是纯转发（无实现）：所有非空、非注释行都属于转发语句的组成部分
@@ -256,7 +281,9 @@ describe(`dependencies（${isDist ? "dist" : "source"} 入口）`, () => {
     );
 
     // ② 它转发 3 个实现文件
-    const distinct = [...new Set([...source.matchAll(/from\s+"\.\/([^"]+)\.js"/gu)].map((m) => m[1]))];
+    const distinct = [
+      ...new Set([...source.matchAll(/from\s+"\.\/([^"]+)\.js"/gu)].map((m) => m[1])),
+    ];
     assert.deepEqual(distinct.slice().sort(), [
       "windowHostControllerProjection",
       "windowHostControllerService",
@@ -285,7 +312,11 @@ describe(`dependencies（${isDist ? "dist" : "source"} 入口）`, () => {
       assert(row !== undefined, `${item.name} 应在 scope 内`);
       const { loaded, exports } = await loadDeclaredExports(row);
       assert.equal(typeof loaded, "object", `${item.name} 应可加载`);
-      assert.equal(exports.length, item.exports, `${item.name} 导出数应为 ${item.exports}，实际 ${exports.length}`);
+      assert.equal(
+        exports.length,
+        item.exports,
+        `${item.name} 导出数应为 ${item.exports}，实际 ${exports.length}`,
+      );
       for (const entry of exports.filter((e) => e.runtime)) {
         assert(entry.name in loaded, `${item.name} 的运行时导出 ${entry.name} 应可用`);
       }

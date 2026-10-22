@@ -66,9 +66,7 @@
       "byBucket": {
         "services/test": 1
       },
-      "files": [
-        "packages/services/test/service-collection-fake-authority-20261003.test.ts"
-      ]
+      "files": ["packages/services/test/service-collection-fake-authority-20261003.test.ts"]
     },
     {
       "name": "subagents/subagentStorage",
@@ -77,9 +75,7 @@
       "byBucket": {
         "services/test": 1
       },
-      "files": [
-        "packages/services/test/knorviaStorageIsolation.test.ts"
-      ]
+      "files": ["packages/services/test/knorviaStorageIsolation.test.ts"]
     },
     {
       "name": "system/integratedTerminalShells",
@@ -88,9 +84,7 @@
       "byBucket": {
         "services/test": 1
       },
-      "files": [
-        "packages/services/test/integrated-shell-fake-permission-20261002.test.ts"
-      ]
+      "files": ["packages/services/test/integrated-shell-fake-permission-20261002.test.ts"]
     },
     {
       "name": "usage-stats/usageStatsService",
@@ -99,9 +93,7 @@
       "byBucket": {
         "services/test": 1
       },
-      "files": [
-        "packages/services/test/knorviaAccountRemoval.test.ts"
-      ]
+      "files": ["packages/services/test/knorviaAccountRemoval.test.ts"]
     },
     {
       "name": "accessor",

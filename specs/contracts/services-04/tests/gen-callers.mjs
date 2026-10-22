@@ -55,7 +55,11 @@ for (const file of allFiles) {
     const cleaned = spec.replace(/\.js$/u, "");
     // 在已知模块名里找后缀匹配
     for (const name of moduleNames) {
-      if (cleaned === name || cleaned.endsWith(`/src/${name}`) || cleaned.endsWith(`/services/${name}`)) {
+      if (
+        cleaned === name ||
+        cleaned.endsWith(`/src/${name}`) ||
+        cleaned.endsWith(`/services/${name}`)
+      ) {
         refs.get(name).push(file);
       }
     }
@@ -67,7 +71,8 @@ const bucketOf = (file) => {
   if (file.startsWith("packages/services/src/")) return "services/src (同包其他层)";
   if (file.startsWith("packages/ui/")) return "packages/ui";
   if (file.startsWith("packages/desktop/")) return "packages/desktop";
-  if (file.startsWith("packages/web/") || file.startsWith("packages/server/")) return "packages/web+server";
+  if (file.startsWith("packages/web/") || file.startsWith("packages/server/"))
+    return "packages/web+server";
   if (file.startsWith("packages/client/")) return "packages/client";
   if (file.startsWith("apps/cli/")) return "apps/cli";
   return "其他";
@@ -177,12 +182,18 @@ const lines = [
   "## 三、口径 A：按被引用模块（降序，仅列有引用的）",
   "",
   "| 模块 | 组 | 总引用 | " + Object.keys(totals).join(" | ") + " |",
-  "| :--- | :--- | ---: | " + Object.keys(totals).map(() => "---:").join(" | ") + " |",
+  "| :--- | :--- | ---: | " +
+    Object.keys(totals)
+      .map(() => "---:")
+      .join(" | ") +
+    " |",
   ...perModule
     .filter((m) => m.total > 0)
     .map(
       (m) =>
-        `| \`${m.name}.ts\` | ${m.group} | **${m.total}** | ${Object.keys(totals).map((b) => m.byBucket[b] ?? 0).join(" | ")} |`,
+        `| \`${m.name}.ts\` | ${m.group} | **${m.total}** | ${Object.keys(totals)
+          .map((b) => m.byBucket[b] ?? 0)
+          .join(" | ")} |`,
     ),
   "",
   `## 四、零直接外部引用的模块（${zero.length} 个）`,

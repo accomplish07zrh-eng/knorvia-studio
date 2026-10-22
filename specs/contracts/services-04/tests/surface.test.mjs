@@ -66,7 +66,8 @@ describe(`surface（${isDist ? "dist" : "source"} 入口）`, () => {
     await ensureLoadable();
   });
 
-  test("B1 范围：46 文件，分组与冻结值一致", () => {
+  test("B1 范围：46 文件，分组与冻结值一致", async () => {
+    await ensureLoadable();
     const rows = scopeRows();
     assert.equal(rows.length, stats.count, `文件数应为 ${stats.count}`);
     assert.equal(stats.count, 46);
@@ -91,7 +92,8 @@ describe(`surface（${isDist ? "dist" : "source"} 入口）`, () => {
     }
   });
 
-  test("B1 范围：行数/字节/分类与冻结值一致", () => {
+  test("B1 范围：行数/字节/分类与冻结值一致", async () => {
+    await ensureLoadable();
     const rows = scopeRows();
     const lines = rows.reduce((sum, r) => sum + r.lines, 0);
     const bytes = rows.reduce((sum, r) => sum + r.bytes, 0);
@@ -108,7 +110,8 @@ describe(`surface（${isDist ? "dist" : "source"} 入口）`, () => {
     assert.deepEqual(byClass, stats.byClassification);
   });
 
-  test("B2 分组：interface.md 覆盖 46 个模块，无遗漏无重复", () => {
+  test("B2 分组：interface.md 覆盖 46 个模块，无遗漏无重复", async () => {
+    await ensureLoadable();
     const moduleHeaders = [
       ...interfaceText.matchAll(/^### `packages\/services\/src\/([^`]+)\.ts`$/gmu),
     ].map((m) => `${m[1]}.ts`);
@@ -116,12 +119,15 @@ describe(`surface（${isDist ? "dist" : "source"} 入口）`, () => {
     assert.equal(new Set(moduleHeaders).size, 46, "模块不得重复");
     assert.deepEqual(
       moduleHeaders.slice().sort(),
-      scopeRows().map((r) => r.name).sort(),
+      scopeRows()
+        .map((r) => r.name)
+        .sort(),
       "interface.md 的模块集应与 scope 完全一致",
     );
   });
 
-  test("B3 导出总数守恒：每个模块与 interface.md 逐条一致", () => {
+  test("B3 导出总数守恒：每个模块与 interface.md 逐条一致", async () => {
+    await ensureLoadable();
     let total = 0;
     for (const row of scopeRows()) {
       const actual = extractExports(repoRoot, row.name).map((e) => e.name);
@@ -139,6 +145,7 @@ describe(`surface（${isDist ? "dist" : "source"} 入口）`, () => {
   });
 
   test("B6 + K-z 转发面完整性：聚合桶的每条转发都能在运行期取到", async () => {
+    await ensureLoadable();
     // ⚠️ 设计说明（这一条我最初写错过两次，见 known-differences.md K-z）：
     //
     // 错误设计 ①：「模块若被外部直接引用 → 它的全部导出都必须被聚合桶转发」
@@ -165,7 +172,9 @@ describe(`surface（${isDist ? "dist" : "source"} 入口）`, () => {
       const loaded = await importBarrel(barrel);
       const source = readFileSync(join(repoRoot, file), "utf8");
 
-      for (const stmt of source.matchAll(/^export\s+(type\s+)?\{([\s\S]*?)\}\s*from\s*"([^"]+)"/gmu)) {
+      for (const stmt of source.matchAll(
+        /^export\s+(type\s+)?\{([\s\S]*?)\}\s*from\s*"([^"]+)"/gmu,
+      )) {
         const isTypeOnly = stmt[1] !== undefined;
         if (isTypeOnly) continue; // 纯类型转发在运行期不存在，无法用 loaded 校验
 
@@ -173,7 +182,10 @@ describe(`surface（${isDist ? "dist" : "source"} 入口）`, () => {
           .split(",")
           .map((p) => p.trim())
           .filter((p) => p !== "" && !p.startsWith("//") && !p.startsWith("type "))
-          .map((p) => (/\bas\s+([A-Za-z0-9_$]+)$/u.exec(p) ?? [null, p.split(/\s+as\s+/u)[0].trim()])[1]);
+          .map(
+            (p) =>
+              (/\bas\s+([A-Za-z0-9_$]+)$/u.exec(p) ?? [null, p.split(/\s+as\s+/u)[0].trim()])[1],
+          );
 
         for (const name of names) {
           if (name === "") continue;
@@ -210,6 +222,8 @@ describe(`surface（${isDist ? "dist" : "source"} 入口）`, () => {
       "实现范围不得包含 .d.ts",
     );
     // 该文件存在（第三方类型声明）
-    assert.doesNotThrow(() => readFileSync(join(repoRoot, "packages/services/src/types/yazl.d.ts")));
+    assert.doesNotThrow(() =>
+      readFileSync(join(repoRoot, "packages/services/src/types/yazl.d.ts")),
+    );
   });
 });

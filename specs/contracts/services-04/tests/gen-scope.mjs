@@ -37,9 +37,7 @@ function collectFiles() {
       files.push(...walk(`${SRC}/${dir}`));
     }
   }
-  return files
-    .filter((path) => !BARREL_FILES.includes(path))
-    .sort();
+  return files.filter((path) => !BARREL_FILES.includes(path)).sort();
 }
 
 function groupOf(path) {
@@ -121,11 +119,7 @@ for (const row of rows) {
   byClassification[row.classification] = (byClassification[row.classification] ?? 0) + 1;
 }
 
-writeFileSync(
-  join(contractDir, "scope-files.json"),
-  `${JSON.stringify(rows, null, 2)}\n`,
-  "utf8",
-);
+writeFileSync(join(contractDir, "scope-files.json"), `${JSON.stringify(rows, null, 2)}\n`, "utf8");
 
 writeFileSync(
   join(contractDir, ".frozen.json"),
@@ -148,11 +142,15 @@ writeFileSync(
 );
 
 console.log(`=== services-04 scope 采集完成 ===`);
-console.log(`文件 ${rows.length} / 行 ${totalLines} / 字节 ${totalBytes} / 导出 ${totalExports}（运行时 ${totalRuntime}）`);
+console.log(
+  `文件 ${rows.length} / 行 ${totalLines} / 字节 ${totalBytes} / 导出 ${totalExports}（运行时 ${totalRuntime}）`,
+);
 console.log(`层内依赖边 ${edgeList.length}`);
 console.log(`\n按组:`);
 for (const [group, stats] of Object.entries(byGroup).sort((a, b) => b[1].lines - a[1].lines)) {
-  console.log(`  ${group.padEnd(20)} ${String(stats.files).padStart(3)} 文件 ${String(stats.lines).padStart(5)} 行 ${String(stats.exports).padStart(4)} 导出`);
+  console.log(
+    `  ${group.padEnd(20)} ${String(stats.files).padStart(3)} 文件 ${String(stats.lines).padStart(5)} 行 ${String(stats.exports).padStart(4)} 导出`,
+  );
 }
 console.log(`\n分类: ${JSON.stringify(byClassification)}`);
 void srcPrefix;

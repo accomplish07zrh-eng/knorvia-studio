@@ -1,34 +1,20 @@
 # services-04 接口（interface.md）
 
-
-
 本文件只列**兼容所需的模块路径、导出名、参数与返回类型**：实现包必须让这些模块路径与导出在编译产物中保持可用，签名不变。行为见 `behavior.md`，调用方见 `callers.md`。
-
-
 
 机器生成：`node --import tsx specs/contracts/services-04/tests/gen-interface.mjs`（抽取器 `tests/exports-ast.mjs`，范围真源 `tests/scope.mjs` / `scope-files.json`）。**不要手改**；导出面测试的 oracle 是本文件的导出声明块。
 
-
-
 覆盖范围：**46 个实现文件**（计划书 L215 的 7 项，排除 2 个包级聚合桶），按功能组分组。
-
-
 
 ## 本包的定位
 
-
-
 `packages/services/src` 的**编排层**：服务注册基础设施、子 Agent、系统探测、终端、用量统计、窗口控制。
-
-
 
 与 `services-03`（`studio-runtime/domain` 的**纯逻辑层**）不同，本层**允许 I/O** ——
 
 实测 46 个文件里有 45 处 `node:*` 内置依赖（`fs` / `child_process` / `path` / `os` 等）。
 
 但按插件化结构要求，**I/O 必须通过注入的依赖获取，不在模块级创建**（见 `behavior.md` B3）。
-
-
 
 **层内耦合比 domain 层紧得多**：
 
@@ -38,11 +24,7 @@
 
 - 叶子（无层内依赖）**16 个**
 
-
-
 ## 不在兼容面上
-
-
 
 - `packages/services/src/index.ts`（198 行）与 `node.ts`（1,796 行）：**包级公开面聚合桶**，
 
@@ -96,6 +78,7 @@ export function getLegacyDeletedTaskSessionSnapshotPath(
   workspaceIdentity?: string,
 ): string;
 ```
+
 ### `packages/services/src/accessor.ts`
 
 81 行，导出 1 项（运行时 0 / 纯类型 1），分类 `upstream-modified`。签名逐字取自源码。
@@ -145,6 +128,7 @@ export interface IServiceAccessor {
   readonly promptAttachmentTransferService: IPromptAttachmentTransferService;
 }
 ```
+
 ### `packages/services/src/dataLocationOwner.ts`
 
 49 行，导出 4 项（运行时 4 / 纯类型 0），分类 `unreviewed`。签名逐字取自源码。
@@ -155,6 +139,7 @@ export function getDataBaseDir(): string;
 export function getKnorviaDataRootDir(): string;
 export async function copyDataDirectory(oldBaseDir: string, newBaseDir: string): Promise<void>;
 ```
+
 ### `packages/services/src/collection.ts`
 
 36 行，导出 1 项（运行时 1 / 纯类型 0），分类 `upstream-modified`。签名逐字取自源码。
@@ -162,18 +147,21 @@ export async function copyDataDirectory(oldBaseDir: string, newBaseDir: string):
 ```ts
 export class ServiceCollection { … }
 ```
+
 ### `packages/services/src/memoryDiagnostics.ts`
 
 26 行，导出 3 项（运行时 3 / 纯类型 0），分类 `upstream-modified`。签名逐字取自源码。
 
 ```ts
-export const memoryDiagnosticsRegistry: MemoryDiagnosticsRegistry = createMemoryDiagnosticsRegistry();
+export const memoryDiagnosticsRegistry: MemoryDiagnosticsRegistry =
+  createMemoryDiagnosticsRegistry();
 export function registerMemoryDiagnosticsProvider(
   name: string,
   provider: MemoryDiagnosticsProvider,
 ): IDisposable;
 export function collectServiceMemoryDiagnostics(): Record<string, number>;
 ```
+
 ### `packages/services/src/descriptors.ts`
 
 16 行，导出 2 项（运行时 1 / 纯类型 1），分类 `upstream-unchanged`。签名逐字取自源码。
@@ -186,6 +174,7 @@ export interface ServiceDescriptor<T> {
 }
 export function createServiceDescriptor<T>(channelName: string): ServiceDescriptor<T>;
 ```
+
 ### `packages/services/src/storage-startup.ts`
 
 5 行，导出 5 项（运行时 5 / 纯类型 0），分类 `original`。签名逐字取自源码。
@@ -213,6 +202,7 @@ export function parseSubagentMarkdown(
 ): ParseSubagentMarkdownResult;
 export function serializeSubagentMarkdown(config: SubAgentConfig): string;
 ```
+
 ### `packages/services/src/subagents/subagentsService.ts`
 
 251 行，导出 1 项（运行时 1 / 纯类型 0），分类 `upstream-modified`。签名逐字取自源码。
@@ -222,6 +212,7 @@ export function createSubagentsService(options?: SubagentsServiceOptions): ISuba
   prepareRuntimeState(): Promise<void>;
 };
 ```
+
 ### `packages/services/src/subagents/subagentServicePlugins.ts`
 
 227 行，导出 1 项（运行时 1 / 纯类型 0），分类 `unreviewed`。签名逐字取自源码。
@@ -234,6 +225,7 @@ export async function discoverPlugins(
   diagnostics: AgentDiagnostic[],
 ): Promise<{ profiles: AgentSummary[]; runtimeAgents: AgentSummary[] }>;
 ```
+
 ### `packages/services/src/subagents/subagentServiceFiles.ts`
 
 105 行，导出 6 项（运行时 6 / 纯类型 0），分类 `unreviewed`。签名逐字取自源码。
@@ -256,6 +248,7 @@ export function savedProfile(
   workspacePath?: string,
 ): { content: string; agent: AgentSummary };
 ```
+
 ### `packages/services/src/subagents/subagentServiceState.ts`
 
 79 行，导出 4 项（运行时 3 / 纯类型 1），分类 `unreviewed`。签名逐字取自源码。
@@ -279,6 +272,7 @@ export async function migrateDisabledAgentId(
   options: SubagentStorageOptions,
 ): Promise<void>;
 ```
+
 ### `packages/services/src/subagents/subagentStorage.ts`
 
 74 行，导出 8 项（运行时 7 / 纯类型 1），分类 `upstream-modified`。签名逐字取自源码。
@@ -295,6 +289,7 @@ export async function resolveSubagentStateFile(options?: SubagentStorageOptions)
 export async function resolveKnorviaStorageRoot(options?: SubagentStorageOptions): Promise<string>;
 export function resolveConfigPath(path: string, options?: SubagentStorageOptions): string;
 ```
+
 ### `packages/services/src/subagents/subagents.ts`
 
 45 行，导出 2 项（运行时 1 / 纯类型 1），分类 `upstream-modified`。签名逐字取自源码。
@@ -331,6 +326,7 @@ export const ISubagentsService = createServiceDescriptor<ISubagentsService>(
   ServiceChannels.Subagents,
 );
 ```
+
 ### `packages/services/src/subagents/subagentModelSelection.ts`
 
 13 行，导出 1 项（运行时 1 / 纯类型 0），分类 `upstream-modified`。签名逐字取自源码。
@@ -353,6 +349,7 @@ export function normalizeSubagentModelSelection(
 ```ts
 export function createSystemService(options: CreateSystemServiceOptions = {}): ISystemService;
 ```
+
 ### `packages/services/src/system/integratedTerminalShells.ts`
 
 111 行，导出 1 项（运行时 1 / 纯类型 0），分类 `upstream-modified`。签名逐字取自源码。
@@ -364,6 +361,7 @@ export function listIntegratedTerminalShellOptions(options: {
   platform: NodeJS.Platform;
 }): IntegratedTerminalShellOption[];
 ```
+
 ### `packages/services/src/system/ssh-alias/configuration.ts`
 
 108 行，导出 4 项（运行时 2 / 纯类型 2），分类 `original`。签名逐字取自源码。
@@ -382,38 +380,34 @@ export interface Declaration {
 export function readContexts(root: string): Promise<Context[]>;
 export function declarations(contexts: Context[]): Declaration[];
 ```
+
 ### `packages/services/src/system/ssh-alias/fallback.ts`
 
 103 行，导出 3 项（运行时 3 / 纯类型 0），分类 `original`。签名逐字取自源码。
 
 ```ts
 export function validPort(value: string): number | undefined;
-export function fallbackOption(
-  declaration: Declaration,
-  contexts: Context[],
-): SSHConfigAliasOption;
+export function fallbackOption(declaration: Declaration, contexts: Context[]): SSHConfigAliasOption;
 export function mergeQuery(
   output: string | null,
   fallback: SSHConfigAliasOption,
 ): SSHConfigAliasOption;
 ```
+
 ### `packages/services/src/system/ssh-alias/query.ts`
 
 93 行，导出 3 项（运行时 3 / 纯类型 0），分类 `unreviewed`。签名逐字取自源码。
 
 ```ts
 export function findSSH(): string | null;
-export function queryAlias(
-  executable: string,
-  root: string,
-  alias: string,
-): Promise<string | null>;
+export function queryAlias(executable: string, root: string, alias: string): Promise<string | null>;
 export async function mapWorkers<T, R>(
   items: T[],
   requested: number,
   mapper: (item: T) => Promise<R>,
 ): Promise<R[]>;
 ```
+
 ### `packages/services/src/system/ssh-alias/tokens.ts`
 
 76 行，导出 3 项（运行时 3 / 纯类型 0），分类 `unreviewed`。签名逐字取自源码。
@@ -423,6 +417,7 @@ export function withoutComment(line: string): string;
 export function words(line: string): string[];
 export function homeToken(raw: string): string;
 ```
+
 ### `packages/services/src/system/system-probe/targetLifecycle.ts`
 
 72 行，导出 1 项（运行时 1 / 纯类型 0），分类 `unreviewed`。签名逐字取自源码。
@@ -435,6 +430,7 @@ export async function runTarget(
   serviceProbe: ServiceProbe,
 ): Promise<TargetResult>;
 ```
+
 ### `packages/services/src/system/system-probe/defaultAdapters.ts`
 
 60 行，导出 2 项（运行时 2 / 纯类型 0），分类 `unreviewed`。签名逐字取自源码。
@@ -446,6 +442,7 @@ export async function probeHttp(
   policy: OwnerPolicy,
 ): Promise<{ latencyMs: number; marker?: string }>;
 ```
+
 ### `packages/services/src/system/systemServiceOwner.ts`
 
 54 行，导出 2 项（运行时 1 / 纯类型 1），分类 `unreviewed`。签名逐字取自源码。
@@ -457,6 +454,7 @@ export function createSystemServiceOwner(
   policy: OwnerPolicy,
 ): ISystemService;
 ```
+
 ### `packages/services/src/system/system-probe/contracts.ts`
 
 41 行，导出 8 项（运行时 0 / 纯类型 8），分类 `unreviewed`。签名逐字取自源码。
@@ -497,6 +495,7 @@ export type OwnerPolicy = {
 };
 export type TargetResult = IntranetProbeResult["results"][number];
 ```
+
 ### `packages/services/src/system/sshConfigAlias.ts`
 
 38 行，导出 1 项（运行时 1 / 纯类型 0），分类 `upstream-modified`。签名逐字取自源码。
@@ -504,6 +503,7 @@ export type TargetResult = IntranetProbeResult["results"][number];
 ```ts
 export async function listSSHConfigAliasesFromLocalConfig(): Promise<SSHConfigAliasOption[]>;
 ```
+
 ### `packages/services/src/system/system.ts`
 
 16 行，导出 2 项（运行时 1 / 纯类型 1），分类 `upstream-modified`。签名逐字取自源码。
@@ -529,6 +529,7 @@ export const ISystemService = createServiceDescriptor<ISystemService>(ServiceCha
 ```ts
 export class TerminalServiceInstanceOwner { … }
 ```
+
 ### `packages/services/src/terminal/terminalService.ts`
 
 252 行，导出 1 项（运行时 1 / 纯类型 0），分类 `upstream-modified`。签名逐字取自源码。
@@ -538,6 +539,7 @@ export function createTerminalService(dependencies: {
   settingService: ISettingService;
 }): ITerminalService;
 ```
+
 ### `packages/services/src/terminal/terminalProfileMacOsDecode.ts`
 
 183 行，导出 2 项（运行时 1 / 纯类型 1），分类 `unreviewed`。签名逐字取自源码。
@@ -549,6 +551,7 @@ export function decodeTerminalProfileMacOs(
   app: TerminalProfileMacOsApp,
 ): TerminalDetectedProfile | null;
 ```
+
 ### `packages/services/src/terminal/terminalServiceLaunchPlan.ts`
 
 113 行，导出 8 项（运行时 7 / 纯类型 1），分类 `unreviewed`。签名逐字取自源码。
@@ -582,6 +585,7 @@ export function terminalWindowsPtyPlan(
   release: string,
 ): TerminalWindowsPtyInfo | undefined;
 ```
+
 ### `packages/services/src/terminal/terminalProfilePortableFormats.ts`
 
 109 行，导出 1 项（运行时 1 / 纯类型 0），分类 `original`。签名逐字取自源码。
@@ -592,6 +596,7 @@ export function interpretTerminalProfile(
   raw: string,
 ): TerminalDetectedProfile | null;
 ```
+
 ### `packages/services/src/terminal/terminalProfilePortablePlan.ts`
 
 93 行，导出 4 项（运行时 1 / 纯类型 3），分类 `original`。签名逐字取自源码。
@@ -612,6 +617,7 @@ export function* terminalProfilePortablePlan(
   external: readonly ExternalDetector[],
 ): Generator<TerminalProfileGroup>;
 ```
+
 ### `packages/services/src/terminal/terminalProfile.ts`
 
 76 行，导出 3 项（运行时 1 / 纯类型 2），分类 `upstream-modified`。签名逐字取自源码。
@@ -621,6 +627,7 @@ export type { TerminalFontFamilySource } from "./terminalProfileTypes.js";
 export type { TerminalThemeProfile } from "./terminalProfileTypes.js";
 export function resolveTerminalFontProfile(input: TerminalFontProfileInput): TerminalFontProfile;
 ```
+
 ### `packages/services/src/terminal/terminalProfileMacOs.ts`
 
 46 行，导出 1 项（运行时 1 / 纯类型 0），分类 `upstream-modified`。签名逐字取自源码。
@@ -628,6 +635,7 @@ export function resolveTerminalFontProfile(input: TerminalFontProfileInput): Ter
 ```ts
 export function createMacOsTerminalProfileDetectors(): readonly TerminalProfileDetector[];
 ```
+
 ### `packages/services/src/terminal/terminalProfileTypes.ts`
 
 32 行，导出 3 项（运行时 0 / 纯类型 3），分类 `upstream-unchanged`。签名逐字取自源码。
@@ -664,6 +672,7 @@ export interface TerminalDetectedProfile {
   theme?: TerminalThemeProfile;
 }
 ```
+
 ### `packages/services/src/terminal/terminal.ts`
 
 28 行，导出 3 项（运行时 1 / 纯类型 2），分类 `upstream-modified`。签名逐字取自源码。
@@ -691,6 +700,7 @@ export interface ITerminalService {
 }
 export const ITerminalService = createServiceDescriptor<ITerminalService>(ServiceChannels.Terminal);
 ```
+
 ### `packages/services/src/terminal/terminalProfileMacOsPlist.ts`
 
 24 行，导出 2 项（运行时 1 / 纯类型 1），分类 `unreviewed`。签名逐字取自源码。
@@ -706,6 +716,7 @@ export function readTerminalProfileMacOsPlist(
   ports: TerminalProfileMacOsPlistPorts,
 ): Record<string, unknown> | null;
 ```
+
 ### `packages/services/src/terminal/terminalProfilePortableRead.ts`
 
 23 行，导出 1 项（运行时 1 / 纯类型 0），分类 `unreviewed`。签名逐字取自源码。
@@ -733,6 +744,7 @@ export function createUsageStatsService(dependencies: {
   agentService: Pick<IKnorviaAgentService, "getAppUsageStats">;
 }): IUsageStatsService;
 ```
+
 ### `packages/services/src/usage-stats/usageStats.ts`
 
 11 行，导出 2 项（运行时 1 / 纯类型 1），分类 `upstream-modified`。签名逐字取自源码。
@@ -768,6 +780,7 @@ export function createWindowHostControllerRuntime(options: {
   ) => void;
 });
 ```
+
 ### `packages/services/src/window-controller/windowHostControllerProjection.ts`
 
 556 行，导出 5 项（运行时 1 / 纯类型 4），分类 `unreviewed`。签名逐字取自源码。
@@ -807,6 +820,7 @@ export type WindowHostControllerMutation =
 export type WindowHostControllerMutationResult = void | boolean | KnorviaArchivedTaskDeletionResult;
 export function createWindowHostControllerProjection(options: { createId: () => string });
 ```
+
 ### `packages/services/src/window-controller/windowHostSessionsIndexObserver.ts`
 
 362 行，导出 2 项（运行时 1 / 纯类型 1），分类 `unreviewed`。签名逐字取自源码。
@@ -823,6 +837,7 @@ export function createWindowHostSessionsIndexObserver(options: {
   onError?: (error: unknown) => void;
 }): WindowHostSessionsIndexObserver;
 ```
+
 ### `packages/services/src/window-controller/windowController.ts`
 
 71 行，导出 6 项（运行时 1 / 纯类型 5），分类 `upstream-modified`。签名逐字取自源码。
@@ -869,6 +884,7 @@ export const IWindowControllerService = createServiceDescriptor<IWindowControlle
   ServiceChannels.WindowController,
 );
 ```
+
 ### `packages/services/src/window-controller/node.ts`
 
 11 行，导出 8 项（运行时 3 / 纯类型 5），分类 `unreviewed`。签名逐字取自源码。
