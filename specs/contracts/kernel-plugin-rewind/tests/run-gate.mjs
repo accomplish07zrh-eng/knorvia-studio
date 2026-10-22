@@ -60,11 +60,11 @@ const engine = parseEngine(process.argv);
 /** 跑测试并解析 node:test 的汇总行。 */
 function runTests() {
   // 用 node 的 test runner 直接跑 tsx 转译的用例；stdout 全量捕获后解析。
-  const output = execFileSync(
-    process.execPath,
-    ["--import", "tsx", "--test", TEST_FILE],
-    { cwd: REPO_ROOT, encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] },
-  );
+  const output = execFileSync(process.execPath, ["--import", "tsx", "--test", TEST_FILE], {
+    cwd: REPO_ROOT,
+    encoding: "utf8",
+    stdio: ["ignore", "pipe", "pipe"],
+  });
   return output;
 }
 

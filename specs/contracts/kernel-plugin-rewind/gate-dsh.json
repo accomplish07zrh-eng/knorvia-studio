@@ -4,9 +4,9 @@
   "engine": "dsh",
   "scope": "Offline contract tests over the public plugin entry with in-memory port doubles. Does not cover the real filesystem, the real artifact store, or a real session fork.",
   "testFile": "apps/cli/packages/bootstrap/test/kernel-plugin-rewind.test.ts",
-  "commit": "dbd65ac8",
-  "ranAt": "2026-10-22T17:51:24.998Z",
-  "node": "v24.14.0",
+  "commit": "b531642c",
+  "ranAt": "2026-10-22T18:38:43.592Z",
+  "node": "v26.3.0",
   "totals": {
     "tests": 34,
     "pass": 34,
