@@ -58,7 +58,7 @@
 | [`interface.md`](interface.md)                 | 插件入口（`apply(ctx, config)`）、配置面、复用 `@knorvia/contracts` 的 hooks 公开类型、导出清单                                                                                                    |
 | [`callers.md`](callers.md)                     | 生产与测试调用方；组合根接线点                                                                                                                                                                     |
 | `tests/`                                       | 契约测试（node:test，只走公开入口）+ 夹具                                                                                                                                                          |
-| [`known-differences.md`](known-differences.md) | 与旧行为的差异（当前：additionalContext 延后一拍）                                                                                                                                                 |
+| [`known-differences.md`](known-differences.md) | 与旧行为的差异（当前 2 条：Stop 执行次数、SessionStart 异步不能阻断；D1 经复核已撤销）                                                                                                             |
 | [`acceptance.md`](acceptance.md)               | 验收记录（待替换步骤填写）                                                                                                                                                                         |
 
 ## 五、复用的既有规格（不重写）

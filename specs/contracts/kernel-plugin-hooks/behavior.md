@@ -175,7 +175,7 @@
 ### H5 session mailbox 登记（复用 B17）
 
 1. 三个事件（`SessionStart` / `UserPromptSubmit` / `Stop`）的登记项形状、返回的 `additionalContext`、`PostToolUse` 的 pending input 入队语义与 B17 一致。
-2. **新增约束**：`additionalContext` 的注入路径按 §五 known-differences 执行（延后到下一步）。
+2. **注入路径**：`additionalContext` 通过 `tools/post-execute` 返回的 `additionalContexts` **在同一回合**注入（`PostToolDecision` 的 `accept` / `block` 分支都带该字段），与旧行为一致。
 
 ### H6 观测与 telemetry
 
@@ -187,36 +187,39 @@
 
 ## 四、复用 `core-hooks` 合同的映射
 
-| core-hooks 条目               | 本包对应       | 复用方式                                              |
-| ----------------------------- | -------------- | ----------------------------------------------------- |
-| B1 兼容 stdin                 | H2.1           | 语义不变                                              |
-| B2 插件环境与变量展开         | H2.1           | 语义不变                                              |
-| B3 执行描述元数据             | H2.1           | 语义不变                                              |
-| B4 展示文本脱敏               | H6.2           | 语义不变                                              |
-| B5 配置运行器登记             | H2.1           | 语义不变                                              |
-| B6 workspace 登记项与插入顺序 | H4.2           | 语义不变（存储换成 adapters）                         |
-| B7 配置回调执行映射           | H2.1           | 语义不变                                              |
-| B8 执行结果解析               | H2.4           | 语义不变                                              |
-| B9 退出码 2 输出语义          | H2.4           | 语义不变                                              |
-| B10 策略提供者                | H4.2           | 语义不变                                              |
-| B11 信任协调者                | H4.2           | 语义不变                                              |
-| B12 单条信任求值              | H4.3           | 语义不变                                              |
-| B13 审核流程注册表            | H4.2           | 语义不变                                              |
-| B14 运行时准入                | H4.4           | 输入换成 DSH 事件                                     |
-| B15 telemetry 脱敏            | H6.2           | 语义不变                                              |
-| B16 信任记录创建              | H4.2           | 语义不变                                              |
-| B17 session mailbox           | H5             | 语义不变 + additionalContext 延后（known-difference） |
-| B18 公开入口与类型面          | `interface.md` | 换成 `@knorvia/bootstrap/kernel-plugin-hooks` 导出    |
-| B19 平台与资源边界            | 全文           | 语义不变                                              |
+| core-hooks 条目               | 本包对应       | 复用方式                                           |
+| ----------------------------- | -------------- | -------------------------------------------------- |
+| B1 兼容 stdin                 | H2.1           | 语义不变                                           |
+| B2 插件环境与变量展开         | H2.1           | 语义不变                                           |
+| B3 执行描述元数据             | H2.1           | 语义不变                                           |
+| B4 展示文本脱敏               | H6.2           | 语义不变                                           |
+| B5 配置运行器登记             | H2.1           | 语义不变                                           |
+| B6 workspace 登记项与插入顺序 | H4.2           | 语义不变（存储换成 adapters）                      |
+| B7 配置回调执行映射           | H2.1           | 语义不变                                           |
+| B8 执行结果解析               | H2.4           | 语义不变                                           |
+| B9 退出码 2 输出语义          | H2.4           | 语义不变                                           |
+| B10 策略提供者                | H4.2           | 语义不变                                           |
+| B11 信任协调者                | H4.2           | 语义不变                                           |
+| B12 单条信任求值              | H4.3           | 语义不变                                           |
+| B13 审核流程注册表            | H4.2           | 语义不变                                           |
+| B14 运行时准入                | H4.4           | 输入换成 DSH 事件                                  |
+| B15 telemetry 脱敏            | H6.2           | 语义不变                                           |
+| B16 信任记录创建              | H4.2           | 语义不变                                           |
+| B17 session mailbox           | H5             | 语义不变（`additionalContext` 同回合注入）         |
+| B18 公开入口与类型面          | `interface.md` | 换成 `@knorvia/bootstrap/kernel-plugin-hooks` 导出 |
+| B19 平台与资源边界            | 全文           | 语义不变                                           |
 
 ---
 
 ## 五、known-differences
 
-见 [`known-differences.md`](known-differences.md)。当前登记 **2 条**：
+见 [`known-differences.md`](known-differences.md)。当前登记 **2 条**（原有 3 条，其中 D1 经复核不成立已撤销）：
 
-1. `PostToolUse` 的 `additionalContext` **延后到下一步**（DSH 无「工具结果后追加上下文」的公开通道）。
-2. `Stop` 的多 Hook **执行次数不同**（serial 跑完所有监听器直到 bail；旧行为按序短路），但**聚合结论等价**。
+1. `Stop` 的多 Hook **执行次数不同**（serial 跑完所有监听器直到 bail；旧行为按序短路），但**聚合结论等价**。
+2. `SessionStart` 的**异步** Hook **不能阻断**会话创建（`session/created` 只有同步 throw 能否决）→ 这是**静默失效**，需产品确认是否升级为功能缺口。
+
+**已撤销**：~~`PostToolUse` 的 `additionalContext` 延后~~ —— 复核发现 `PostToolDecision` 的 `accept` / `block`
+分支都带 `additionalContexts`，可**同回合**注入，与旧行为一致。
 
 ---
 

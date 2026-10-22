@@ -8,16 +8,29 @@
 
 ---
 
-## D1 `PostToolUse` 的 `additionalContext` 延后到下一步
+## 已撤销的差异
 
-| 项           | 内容                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **旧行为**   | `PostToolUse` Hook 返回 `additionalContext` 后，该内容在**同一回合**进入模型上下文（下一次模型请求就能看到）                                                                                                                                                                                                                                                                                                                                                                                |
-| **新行为**   | `additionalContext` 通过 `agent/pre-step` 的 messages 替换能力注入，**延后到下一步**                                                                                                                                                                                                                                                                                                                                                                                                        |
-| **原因**     | DSH 没有「工具结果返回后追加上下文」的公开通道：<br/>· `tools/post-execute` 能「接受/替换/增强/阻断」**结果本身**，但没有「额外插入一条 message」的接口<br/>· `tools/result` 是 `emit` + `deep-frozen`，只能观察<br/>· `ToolRunContext.deferContext(message)` 存在，但它是**工具实现内部**的接口（JSDoc：「typically a nested-dispatch context ferried by a composite tool, or a fresh plugin-sourced instruction」），不是插件扩展点<br/>· `agent/pre-step` 的 messages 替换是**公开**能力 |
-| **影响**     | 若 Hook 用 `additionalContext` 做「立即纠正模型」的事，纠正晚一拍生效。对于「补充信息供下一步参考」的用法无影响                                                                                                                                                                                                                                                                                                                                                                             |
-| **等价替代** | 无完全等价的替代；`agent/pre-step` 是语义最接近的公开路径                                                                                                                                                                                                                                                                                                                                                                                                                                   |
-| **已确认**   | 2026-10-22 实测 `tools/post-execute` / `tools/result` / `ToolRunContext` 三者的 JSDoc                                                                                                                                                                                                                                                                                                                                                                                                       |
+### ~~D1 `PostToolUse` 的 `additionalContext` 延后到下一步~~ —— **不成立，已撤销**
+
+**撤销原因（2026-10-22 复核）**：我先前只看了 `tools/post-execute` 的 JSDoc 概览，
+漏看了 `PostToolDecision` 的**字段定义**。实测其三个分支都支持 `additionalContexts`：
+
+```ts
+export type PostToolDecision =
+  | { kind: "accept"; content?: ContentBlock[]; additionalContexts?: UserMessage[] }
+  | { kind: "accept"; value: JsonValue; additionalContexts?: UserMessage[] }
+  | { kind: "block"; feedback: ContentBlock[]; additionalContexts?: UserMessage[] };
+```
+
+**→ `PostToolUse` 的 `additionalContext` 可以在同一回合注入**
+（`tools/post-execute` 返回 `{ kind: 'accept', additionalContexts }`），
+**与旧行为一致，无需延后到 `agent/pre-step`。**
+
+**顺带确认**：`ToolExecutionSuccess` 与 `ToolExecutionFailure` 也各自携带
+`additionalContexts?: UserMessage[]`，说明这是 DSH 的一等通道，不是补丁。
+
+**教训**：判断「平台有没有某个能力」时，不能只看事件的 JSDoc 概览，
+必须读到**决策/结果类型的字段定义**——能力常常在返回类型里，不在事件签名上。
 
 ---
 
