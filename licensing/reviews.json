@@ -151312,10 +151312,10 @@
     },
     {
       "path": "specs/contracts/kernel-plugin-hooks/acceptance.md",
-      "normalizedSha256": "b588069fd0a4ecac3cae0f9f68c695b941d450f30d951a6f03bc0166e0268430",
+      "normalizedSha256": "068c5e4bee2bde38c904b85a3224cdd11877172e79528ad6fd818897555aa7e3",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored acceptance record update adding the display clauses to the coverage table. The record now lists the descriptor and sanitizer as implemented with their test counts, and the list of unimplemented clause groups shrinks to workspace registration, the trust rules and the session mailbox. Keeping this table current matters because it is the only place that states which parts of the behaviour contract this package actually satisfies, and an out-of-date table would overstate progress.",
+      "basis": "Knorvia-authored workspace trust layer and its acceptance record. The policy provider owns state per instance with no global singleton, validates before writing so an invalid policy cannot leave a half-updated state, and notifies only on actual change; identity keys live in a Map because the identity is caller-supplied text and prototype keys would otherwise pollute the table. The trust coordinator keeps a monotonic security revision per workspace, registering a workspace as known when its revision is read, because a workspace that was only ever read would otherwise be missed when a default policy change must bump every known workspace and its interface would stay silently stale; composite keys are joined with a NUL separator since both parts may contain colons. The registration module admits workspace hooks only when admission allows, uses resolved timeouts and output limits, and inserts project hooks before the first non-user configured hook without ever preceding a user hook; the declaration digest covers only the fields that identify a declaration and excludes tuning values, so raising a timeout does not force re-trusting. The acceptance table now lists eleven implemented clause groups and the remaining two, stating completion as a fraction of clause groups.",
       "evidence": [
         "specs/contracts/kernel-plugin-hooks/acceptance.md"
       ]
@@ -151979,6 +151979,76 @@
       "basis": "Knorvia-authored hook display layer, two pure functions. The sanitizer redacts secrets from text that will be shown to users, handling credentials embedded in URL user information, authorization headers and assignments, query parameters, key-value pairs with or without quotes, and long options, while leaving everything else untouched. Key names are matched case-insensitively and allow prefixes and suffixes, because a variant such as a hyphenated spelling would otherwise slip through. A test caught a subtle failure where the value pattern also swallowed the following query parameter, so the secret was redacted but an unrelated argument silently disappeared; that is why every case asserts both that the secret is gone and that neighbouring text survives. The descriptor renders a hook command for display, quoting only fragments outside a safe character set, marks source kind and visibility, distinguishes background from foreground execution, and omits optional fields entirely when absent rather than emitting empty placeholders. Both are pure and idempotent, and the descriptor does not swallow errors from an injected expansion function. Verified with thirty-seven contract tests.",
       "evidence": [
         "specs/contracts/kernel-plugin-hooks/tests/display-metadata.test.mjs"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-hooks/workspace-policy.ts",
+      "normalizedSha256": "9e4ed2548f091a55f3ee83dae180b316a4546f357a95a5b95f3b49f085fffb8f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored workspace trust layer and its acceptance record. The policy provider owns state per instance with no global singleton, validates before writing so an invalid policy cannot leave a half-updated state, and notifies only on actual change; identity keys live in a Map because the identity is caller-supplied text and prototype keys would otherwise pollute the table. The trust coordinator keeps a monotonic security revision per workspace, registering a workspace as known when its revision is read, because a workspace that was only ever read would otherwise be missed when a default policy change must bump every known workspace and its interface would stay silently stale; composite keys are joined with a NUL separator since both parts may contain colons. The registration module admits workspace hooks only when admission allows, uses resolved timeouts and output limits, and inserts project hooks before the first non-user configured hook without ever preceding a user hook; the declaration digest covers only the fields that identify a declaration and excludes tuning values, so raising a timeout does not force re-trusting. The acceptance table now lists eleven implemented clause groups and the remaining two, stating completion as a fraction of clause groups.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-hooks/workspace-trust-coordinator.ts",
+      "normalizedSha256": "c8ffd0611b6a9d1df57b3ed1a29c8e0e13edc21881ccc8cf58f5dd44bb79eaf1",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored workspace trust layer and its acceptance record. The policy provider owns state per instance with no global singleton, validates before writing so an invalid policy cannot leave a half-updated state, and notifies only on actual change; identity keys live in a Map because the identity is caller-supplied text and prototype keys would otherwise pollute the table. The trust coordinator keeps a monotonic security revision per workspace, registering a workspace as known when its revision is read, because a workspace that was only ever read would otherwise be missed when a default policy change must bump every known workspace and its interface would stay silently stale; composite keys are joined with a NUL separator since both parts may contain colons. The registration module admits workspace hooks only when admission allows, uses resolved timeouts and output limits, and inserts project hooks before the first non-user configured hook without ever preceding a user hook; the declaration digest covers only the fields that identify a declaration and excludes tuning values, so raising a timeout does not force re-trusting. The acceptance table now lists eleven implemented clause groups and the remaining two, stating completion as a fraction of clause groups.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-hooks/workspace-registration.ts",
+      "normalizedSha256": "ef54154f9fac4149c4b13bb615e747da9d361bc0d8459b2ac129b155693b575e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored workspace trust layer and its acceptance record. The policy provider owns state per instance with no global singleton, validates before writing so an invalid policy cannot leave a half-updated state, and notifies only on actual change; identity keys live in a Map because the identity is caller-supplied text and prototype keys would otherwise pollute the table. The trust coordinator keeps a monotonic security revision per workspace, registering a workspace as known when its revision is read, because a workspace that was only ever read would otherwise be missed when a default policy change must bump every known workspace and its interface would stay silently stale; composite keys are joined with a NUL separator since both parts may contain colons. The registration module admits workspace hooks only when admission allows, uses resolved timeouts and output limits, and inserts project hooks before the first non-user configured hook without ever preceding a user hook; the declaration digest covers only the fields that identify a declaration and excludes tuning values, so raising a timeout does not force re-trusting. The acceptance table now lists eleven implemented clause groups and the remaining two, stating completion as a fraction of clause groups.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-hooks/hook-runner.ts",
+      "normalizedSha256": "278a07624eedf3310f371ed0fd0fa9cac9795759b12667586884285729c64dcd",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored workspace trust layer and its acceptance record. The policy provider owns state per instance with no global singleton, validates before writing so an invalid policy cannot leave a half-updated state, and notifies only on actual change; identity keys live in a Map because the identity is caller-supplied text and prototype keys would otherwise pollute the table. The trust coordinator keeps a monotonic security revision per workspace, registering a workspace as known when its revision is read, because a workspace that was only ever read would otherwise be missed when a default policy change must bump every known workspace and its interface would stay silently stale; composite keys are joined with a NUL separator since both parts may contain colons. The registration module admits workspace hooks only when admission allows, uses resolved timeouts and output limits, and inserts project hooks before the first non-user configured hook without ever preceding a user hook; the declaration digest covers only the fields that identify a declaration and excludes tuning values, so raising a timeout does not force re-trusting. The acceptance table now lists eleven implemented clause groups and the remaining two, stating completion as a fraction of clause groups.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-hooks/tests/workspace-policy.test.mjs",
+      "normalizedSha256": "3670ae2ef5599a103c83a4e83f7cec3509e947f1292579cb3a90e89c1a16a8f4",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored workspace trust layer and its acceptance record. The policy provider owns state per instance with no global singleton, validates before writing so an invalid policy cannot leave a half-updated state, and notifies only on actual change; identity keys live in a Map because the identity is caller-supplied text and prototype keys would otherwise pollute the table. The trust coordinator keeps a monotonic security revision per workspace, registering a workspace as known when its revision is read, because a workspace that was only ever read would otherwise be missed when a default policy change must bump every known workspace and its interface would stay silently stale; composite keys are joined with a NUL separator since both parts may contain colons. The registration module admits workspace hooks only when admission allows, uses resolved timeouts and output limits, and inserts project hooks before the first non-user configured hook without ever preceding a user hook; the declaration digest covers only the fields that identify a declaration and excludes tuning values, so raising a timeout does not force re-trusting. The acceptance table now lists eleven implemented clause groups and the remaining two, stating completion as a fraction of clause groups.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-hooks/tests/workspace-trust-coordinator.test.mjs",
+      "normalizedSha256": "343ffdae6876caf3ee33db9d869c68db9da784cebbd56eba87ee70370a8fc310",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored workspace trust layer and its acceptance record. The policy provider owns state per instance with no global singleton, validates before writing so an invalid policy cannot leave a half-updated state, and notifies only on actual change; identity keys live in a Map because the identity is caller-supplied text and prototype keys would otherwise pollute the table. The trust coordinator keeps a monotonic security revision per workspace, registering a workspace as known when its revision is read, because a workspace that was only ever read would otherwise be missed when a default policy change must bump every known workspace and its interface would stay silently stale; composite keys are joined with a NUL separator since both parts may contain colons. The registration module admits workspace hooks only when admission allows, uses resolved timeouts and output limits, and inserts project hooks before the first non-user configured hook without ever preceding a user hook; the declaration digest covers only the fields that identify a declaration and excludes tuning values, so raising a timeout does not force re-trusting. The acceptance table now lists eleven implemented clause groups and the remaining two, stating completion as a fraction of clause groups.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-hooks/tests/workspace-registration.test.mjs",
+      "normalizedSha256": "8c51462120e17ccf4642ddabd0499b98dbbb17bf40837efeef2b056ce35c313c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored workspace trust layer and its acceptance record. The policy provider owns state per instance with no global singleton, validates before writing so an invalid policy cannot leave a half-updated state, and notifies only on actual change; identity keys live in a Map because the identity is caller-supplied text and prototype keys would otherwise pollute the table. The trust coordinator keeps a monotonic security revision per workspace, registering a workspace as known when its revision is read, because a workspace that was only ever read would otherwise be missed when a default policy change must bump every known workspace and its interface would stay silently stale; composite keys are joined with a NUL separator since both parts may contain colons. The registration module admits workspace hooks only when admission allows, uses resolved timeouts and output limits, and inserts project hooks before the first non-user configured hook without ever preceding a user hook; the declaration digest covers only the fields that identify a declaration and excludes tuning values, so raising a timeout does not force re-trusting. The acceptance table now lists eleven implemented clause groups and the remaining two, stating completion as a fraction of clause groups.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/acceptance.md"
       ]
     }
   ]
