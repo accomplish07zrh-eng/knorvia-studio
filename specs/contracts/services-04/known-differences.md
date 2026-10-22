@@ -338,11 +338,13 @@ node --import tsx scripts/provenance/similarity.mjs --repo <wt> `
 ```
 
 得到：
+
 ```
 FAIL  .../dataLocationOwner.ts  lines=24  containment=1.000  run=24  structural=1.000
 ```
 
 **用 `--explain` 查实际比较对象**：
+
 ```
 EXPLAIN .../dataLocationOwner.ts 命中 24/24（containment 1.000）
   比较文件 .../dataLocationOwner.ts     ← 比的是候选自己
@@ -356,6 +358,7 @@ EXPLAIN .../dataLocationOwner.ts 命中 24/24（containment 1.000）
 **危害**：`1.000` 会被误读为「与上游逐字相同」→ 进而误判为「登记为 `original` 是错的」。
 
 **判据（避免再踩）**：
+
 1. 看到 `containment=1.000` **且** `run` = 全部行数 → **先跑 `--explain` 查比较对象**；
 2. 若「比较文件 == 候选文件」→ **是自比假阳性**，不是真实结果；
 3. 「上游无同路径」的情形应报 `no-upstream-counterpart`，不该静默自比。
@@ -372,13 +375,13 @@ EXPLAIN .../dataLocationOwner.ts 命中 24/24（containment 1.000）
 **核实后确认这是 6.1 的自比假阳性**。`licensing/reviews.json` 的 `basis` 里记录的是
 **「按内容找最相似的上游文件」**（不是同路径），实测值全部 < 0.20：
 
-| 文件 | `basis` 记的 containment | 比较对象 |
-| :--- | ---: | :--- |
-| `system/ssh-alias/fallback.ts` | 0.13 | `sshConfigAlias.ts` |
-| `system/ssh-alias/configuration.ts` | 0.19 | `sshConfigAlias.ts` |
-| `terminal/terminalProfilePortableFormats.ts` | 0.10 | `session-fork.ts` |
-| `terminal/terminalProfilePortablePlan.ts` | 0.06 | `subagentsService.ts` |
-| `terminal/terminalServiceInstanceOwner.ts` | 0.09 | `zcodeAgentService.ts` |
+| 文件                                         | `basis` 记的 containment | 比较对象               |
+| :------------------------------------------- | -----------------------: | :--------------------- |
+| `system/ssh-alias/fallback.ts`               |                     0.13 | `sshConfigAlias.ts`    |
+| `system/ssh-alias/configuration.ts`          |                     0.19 | `sshConfigAlias.ts`    |
+| `terminal/terminalProfilePortableFormats.ts` |                     0.10 | `session-fork.ts`      |
+| `terminal/terminalProfilePortablePlan.ts`    |                     0.06 | `subagentsService.ts`  |
+| `terminal/terminalServiceInstanceOwner.ts`   |                     0.09 | `zcodeAgentService.ts` |
 
 **→ 全部 < 0.20 → 登记为 `original` 正确 ✅，不需要改登记。**
 
@@ -394,6 +397,7 @@ EXPLAIN .../dataLocationOwner.ts 命中 24/24（containment 1.000）
 ```
 
 **⚠️ 而「契约面占比」是本包引入的判定量**：
+
 ```
 契约面 = interface/type 成员行 + 导出函数签名行 + import 行 + 转发行 + 导出声明行
 归一化行 = 总行数 − 纯注释行 − 空行
@@ -416,18 +420,18 @@ EXPLAIN .../dataLocationOwner.ts 命中 24/24（containment 1.000）
 对 `system/system-probe/targetLifecycle.ts`（71 行原始 / 15 行归一化 / 契约面占比 0.028）
 做了 7 次重写，每次记录实测：
 
-| 版本 | 方案 | 归一化 | **containment** | run | structural |
-| :--- | :--- | ---: | ---: | ---: | ---: |
-| 原始 | — | 15 | **1.000** | 15 | 1.000 |
-| v1 | 拆 4 个辅助函数（探测分离 + 结果构造器） | 83 | **0.530** | 9 | 0.077 |
-| v2 | + 统一结果组装（`assemble` + `locatorOf`） | 66 | **0.288** | 6 | 0.071 |
-| v3 | + 探测策略表（`ProbeStrategy`） | 74 | **0.243** | 6 | **0.000** |
-| v4 | + 逐字段赋值（去掉结果对象字面量） | 73 | **0.233** | 6 | 0.000 |
-| v5 | + 探测入参构造器（`tcpArgs`/`serviceArgs`） | 75 | **0.213** | 6 | 0.000 |
-| **v6** | + `locatorOf` 并入 `kind` | **76** | **0.211** ⭐ 最优 | 6 | 0.000 |
-| v7a | 压缩：`Object.assign` 合并字段赋值 | 67 | 0.299 ↓ | 6 | 0.000 |
-| v7b | 合并 `probeOnce`（少一个函数） | 62 | 0.419 ↓ | 8 | 0.067 |
-| v7c | 合并 `probeArgsOf`（带类型断言） | 78 | 0.218 ↓ | 6 | 0.000 |
+| 版本   | 方案                                        | 归一化 |   **containment** | run | structural |
+| :----- | :------------------------------------------ | -----: | ----------------: | --: | ---------: |
+| 原始   | —                                           |     15 |         **1.000** |  15 |      1.000 |
+| v1     | 拆 4 个辅助函数（探测分离 + 结果构造器）    |     83 |         **0.530** |   9 |      0.077 |
+| v2     | + 统一结果组装（`assemble` + `locatorOf`）  |     66 |         **0.288** |   6 |      0.071 |
+| v3     | + 探测策略表（`ProbeStrategy`）             |     74 |         **0.243** |   6 |  **0.000** |
+| v4     | + 逐字段赋值（去掉结果对象字面量）          |     73 |         **0.233** |   6 |      0.000 |
+| v5     | + 探测入参构造器（`tcpArgs`/`serviceArgs`） |     75 |         **0.213** |   6 |      0.000 |
+| **v6** | + `locatorOf` 并入 `kind`                   | **76** | **0.211** ⭐ 最优 |   6 |      0.000 |
+| v7a    | 压缩：`Object.assign` 合并字段赋值          |     67 |           0.299 ↓ |   6 |      0.000 |
+| v7b    | 合并 `probeOnce`（少一个函数）              |     62 |           0.419 ↓ |   8 |      0.067 |
+| v7c    | 合并 `probeArgsOf`（带类型断言）            |     78 |           0.218 ↓ |   6 |      0.000 |
 
 ### 7.2 结论：存在「相似度-抽象度」最优点
 
@@ -438,6 +442,7 @@ EXPLAIN .../dataLocationOwner.ts 命中 24/24（containment 1.000）
 ```
 
 **v7a/b/c 变差的原因**：
+
 - `Object.assign` 合并 → 把分立的字段赋值重新合成对象字面量，与原版同形；
 - 合并 `probeOnce` → 内部直接沿用原版的参数对象结构；
 - 合并 `probeArgsOf` → 类型断言增加了行数且未改变结构。
@@ -448,12 +453,12 @@ EXPLAIN .../dataLocationOwner.ts 命中 24/24（containment 1.000）
 
 这个文件的实现由四个**行为必需**的结构组成：
 
-| 结构 | 为什么必须保留 |
-| :--- | :--- |
-| 重试循环 | `attempts` 参数决定 |
-| 双分支（tcp / service） | `target.kind` 判别式决定 |
-| 结果对象字段 | `TargetResult` 类型决定 |
-| 错误捕获 + `lastError` | 「失败后继续重试、用尽后报错」的语义决定 |
+| 结构                    | 为什么必须保留                           |
+| :---------------------- | :--------------------------------------- |
+| 重试循环                | `attempts` 参数决定                      |
+| 双分支（tcp / service） | `target.kind` 判别式决定                 |
+| 结果对象字段            | `TargetResult` 类型决定                  |
+| 错误捕获 + `lastError`  | 「失败后继续重试、用尽后报错」的语义决定 |
 
 **抽象只能改变「组织方式」，不能改变「行为结构」** ——
 而 15 行归一化里，行为结构占了绝大部分 → **0.211 是抽象极限**。
@@ -467,6 +472,6 @@ EXPLAIN .../dataLocationOwner.ts 命中 24/24（containment 1.000）
 **→ 保持原版，把 0.211 如实记录为抽象极限。**
 
 **判据（供后续文件复用）**：
+
 > 若「最优抽象的 containment」与 0.20 的差距 < 0.02，
 > 且该最优抽象需要 3 倍以上的行数膨胀 → **不保留，如实记录极限**。
-

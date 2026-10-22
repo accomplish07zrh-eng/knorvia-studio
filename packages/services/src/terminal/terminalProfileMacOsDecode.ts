@@ -123,7 +123,9 @@ function displayFamilyOf(value: unknown): string | undefined {
  * value 可能是字符串（`"MesloLGS-NF-Regular 13"`）或带 `toString` 的对象；
  * 「非字符串也尝试 toString」是既有可观测行为，必须保留。
  */
-function fontDescriptorOf(value: unknown): Pick<TerminalDetectedProfile, "fontFamily" | "fontSize"> {
+function fontDescriptorOf(
+  value: unknown,
+): Pick<TerminalDetectedProfile, "fontFamily" | "fontSize"> {
   const raw = typeof value === "string" ? value : (value as { toString?(): string })?.toString?.();
   const sizeText = raw?.match(/\s+(\d+(?:\.\d+)?)$/)?.[1];
   const parsedSize = asNumber(sizeText);
@@ -221,10 +223,14 @@ function projectTheme(
   app: TerminalProfileMacOsApp,
 ): TerminalThemeProfile | undefined {
   // 每个目标字段取其候选键里第一个能解析出颜色的；找不到就不出现在结果里。
-  const resolved = fields[app].flatMap(([target, names]): Array<[keyof TerminalThemeProfile, string]> => {
-    const match = names.map((name) => colorOf(profile[name])).find((value) => value !== undefined);
-    return match === undefined ? [] : [[target, match]];
-  });
+  const resolved = fields[app].flatMap(
+    ([target, names]): Array<[keyof TerminalThemeProfile, string]> => {
+      const match = names
+        .map((name) => colorOf(profile[name]))
+        .find((value) => value !== undefined);
+      return match === undefined ? [] : [[target, match]];
+    },
+  );
   return resolved.length === 0 ? undefined : Object.fromEntries(resolved);
 }
 
