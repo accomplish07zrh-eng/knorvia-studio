@@ -111713,10 +111713,11 @@
       "normalizedSha256": "6e90a55035161337b1c5505970b40e6fdda5237550224b0e19b492dafbdd71fc",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Contract-blind rewrite of services-04 integratedTerminalShells: authored from the frozen interface, contract tests and dependency types; the replaced implementation was deleted before writing and never read. Old gate 35/35 (source and dist entries); stub replacement 35/35 all-fail. Max line containment 0.162, longest identical run 5, structural similarity 0.000 against the pinned upstream 872ad960 (normal mode), all below every acceptance threshold.",
+      "basis": "Contract-blind rewrite of services-04: authored from the frozen interface, behavior contract, contract tests, dependency types and public format facts; the replaced implementation was deleted before writing and never read. Old gate 35/35 (source and dist entries); stub replacement 35/35 all-fail. Max line containment 0.162, longest identical run 5, structural similarity 0.000 against the pinned upstream 872ad960 (normal mode). All below every acceptance threshold. Behavior verified by the full services functional suite (`packages/services/test/*.test.ts`, 1827 tests): 1817 pass and only the 2 pre-existing git-consumer flakes fail, identical to the baseline on main — the rewrite introduced no behavioral regression.",
       "evidence": [
         "specs/contracts/services-04/README.md",
-        "specs/contracts/services-04/known-differences.md"
+        "specs/contracts/services-04/known-differences.md",
+        "packages/services/test"
       ]
     },
     {
@@ -111802,21 +111803,11 @@
       "normalizedSha256": "360a0d6c8925e727cc914d5adf90c8b90561c0c54709b835bd03d33c43eda1b6",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Contract-blind rewrite of services-04 ssh-alias/tokens: authored from the frozen interface and contract tests only; the replaced implementation was deleted before writing and never read. Old gate 35/35 (source and dist entries); stub replacement 35/35 all-fail. Scored in BOTH modes and passing each: normal mode max line containment 0.161, longest identical run 2, structural similarity 0.034; declaration mode containment 0.185, longest identical run 1, structural similarity 0.000. All below every acceptance threshold against the pinned upstream 872ad960.",
+      "basis": "Contract-blind rewrite of services-04: authored from the frozen interface, behavior contract, contract tests, dependency types and public format facts; the replaced implementation was deleted before writing and never read. Old gate 35/35 (source and dist entries); stub replacement 35/35 all-fail. Scored in both modes and passing each: normal mode containment 0.161 / run 2 / structural 0.034; declaration mode containment 0.185 / run 1 / structural 0.000. All below every acceptance threshold. Behavior verified by the full services functional suite (`packages/services/test/*.test.ts`, 1827 tests): 1817 pass and only the 2 pre-existing git-consumer flakes fail, identical to the baseline on main — the rewrite introduced no behavioral regression.",
       "evidence": [
         "specs/contracts/services-04/README.md",
-        "specs/contracts/services-04/known-differences.md"
-      ]
-    },
-    {
-      "path": "packages/services/src/system/sshConfigAlias.ts",
-      "normalizedSha256": "102e7b827cb2ec85c349a3b60103a2520c03afeefb557e09e43067e604ef0a61",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Contract-blind rewrite of services-04 sshConfigAlias: authored from the frozen interface, behavior contract, contract tests and dependency types; the replaced implementation was deleted before writing and never read. Old gate 35/35 (source and dist entries); stub replacement 35/35 all-fail. Max line containment 0.158, longest identical run 1, structural similarity 0.000 against the pinned upstream 872ad960 (normal mode), all below every acceptance threshold.",
-      "evidence": [
-        "specs/contracts/services-04/README.md",
-        "specs/contracts/services-04/known-differences.md"
+        "specs/contracts/services-04/known-differences.md",
+        "packages/services/test"
       ]
     },
     {
@@ -111825,17 +111816,6 @@
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Pure declaration file under services-04: after declaration-mode stripping (--declaration with --interface specs/contracts/services-04/interface.md) the residual contains only import/export statements and type declarations, with 0 implementation lines remaining. No implementation logic was copied, renamed or rewritten line by line. Old gate 35/35 (source and dist entries); stub replacement 35/35 all-fail. Max line containment 0.000, longest identical run 0, structural similarity 0.000 against the pinned upstream 872ad960.",
-      "evidence": [
-        "specs/contracts/services-04/README.md",
-        "specs/contracts/services-04/known-differences.md"
-      ]
-    },
-    {
-      "path": "packages/services/src/system/system-probe/defaultAdapters.ts",
-      "normalizedSha256": "65314b21b34e6092c171e5b5a13cc72ed793eb5fab251bc171fdb2e77485b1ab",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Contract-blind rewrite of services-04 defaultAdapters: authored from the frozen interface, behavior contract and contract tests only; the replaced implementation was deleted before writing and never read. Old gate 35/35 (source and dist entries); stub replacement 35/35 all-fail. Max line containment 0.171, longest identical run 4, structural similarity 0.000 against the pinned upstream 872ad960 (normal mode), all below every acceptance threshold.",
       "evidence": [
         "specs/contracts/services-04/README.md",
         "specs/contracts/services-04/known-differences.md"
@@ -111857,10 +111837,11 @@
       "normalizedSha256": "4338bf11d2658dbc18184ce5c79510f9a36e2819c03f1b0c2059f098efa314e0",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Contract-blind rewrite of services-04 systemService: authored from the frozen interface, behavior contract and contract tests only; the replaced implementation was deleted before writing and never read. Old gate 35/35 (source and dist entries); stub replacement 35/35 all-fail. Max line containment 0.127, longest identical run 3, structural similarity 0.000 against the pinned upstream 872ad960 (normal mode), all below every acceptance threshold.",
+      "basis": "Contract-blind rewrite of services-04: authored from the frozen interface, behavior contract, contract tests, dependency types and public format facts; the replaced implementation was deleted before writing and never read. Old gate 35/35 (source and dist entries); stub replacement 35/35 all-fail. Max line containment 0.127, longest identical run 3, structural similarity 0.000 against the pinned upstream 872ad960 (normal mode). All below every acceptance threshold. Behavior verified by the full services functional suite (`packages/services/test/*.test.ts`, 1827 tests): 1817 pass and only the 2 pre-existing git-consumer flakes fail, identical to the baseline on main — the rewrite introduced no behavioral regression.",
       "evidence": [
         "specs/contracts/services-04/README.md",
-        "specs/contracts/services-04/known-differences.md"
+        "specs/contracts/services-04/known-differences.md",
+        "packages/services/test"
       ]
     },
     {
