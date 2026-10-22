@@ -150150,11 +150150,11 @@
     },
     {
       "path": "specs/contracts/kernel-plugin-hooks/behavior.md",
-      "normalizedSha256": "dc2cb206802ab4aac16db2fd0e2188e7591f2a3bcd553fc0a50e7e988f1ca479",
+      "normalizedSha256": "261ac92958f36985058883384fb7ee80ba5af01b9ba94ae749c78f61f43acfd7",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored M2 access-package contract for the hooks plugin. This adds the decision and result type mapping that the implementation will be built from, listing for each extension point exactly what the plugin receives and what it may return, because a capability can hide in a return type rather than in the event signature. It records the four kinds a pre-tool decision may take and the requirement that a denial carries a reason, the four approval outcomes and their correspondence to the old decisions, the three post-tool branches and the fact that all of them can carry additional context in the same turn, and the success and failure result shapes that decide which post-tool event a call belongs to. One input field is marked for confirmation during implementation: the tool arguments are typed as unknown while the documentation describes them as parsed and frozen, so the implementation must check whether parsing is needed before building the hook input.",
-      "evidence": ["specs/contracts/kernel-plugin-hooks/behavior.md"]
+      "basis": "Knorvia-authored hooks plugin implementation, third mount point, plus three mapping details the contract needed. The post-tool mount covers both the success and failure hook events because the runtime routes thrown tools through the same waterfall, and the result is deep-frozen so the plugin replaces outcomes by returning a decision rather than mutating the result. Three details are now written into the behaviour contract because they are semantic boundaries rather than platform gaps: an approval request answered with another request must delegate instead of claiming, since claiming would either loop or consume the user opportunity without asking anyone; a post-tool denial can only be expressed as blocking, because the tool has already run and there is nothing left to cancel, which makes it observably different from a pre-tool denial; and a post-tool approval request has no object and therefore always delegates. Each of the three has a contract test.",
+      "evidence": ["specs/contracts/kernel-plugin-hooks/tests/post-tool-use.test.mjs"]
     },
     {
       "path": "specs/contracts/kernel-plugin-hooks/interface.md",
@@ -150251,6 +150251,30 @@
       "license": "Apache-2.0",
       "basis": "Knorvia-authored hooks plugin implementation, second mount point. The permission request mount maps hook verdicts onto the four approval outcomes the runtime defines. An allow becomes a one-time allowance because the runtime has no permanent-allow outcome, a deny becomes rejection, and a request for approval delegates rather than claiming the request: this event is itself the request for approval, so answering it with another request would either loop or consume the user opportunity without asking anyone. Absence of a verdict also delegates, preserving the chance for a downstream answerer to decide. The handler passes the abort signal through unchanged and tolerates every optional field being absent, since the runtime declares them optional. Verified with eight contract tests driving a real cordis context through the approval waterfall, covering all four outcomes, field mapping, absent optional fields, claiming without delegating, and listener disposal.",
       "evidence": ["specs/contracts/kernel-plugin-hooks/tests/permission-request.test.mjs"]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-hooks/post-tool-use.ts",
+      "normalizedSha256": "a10b19a6f37b5fbc735e1bc279712bba7b312a6f39e2d2543a50b38afea24d69",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored hooks plugin implementation, third mount point, plus three mapping details the contract needed. The post-tool mount covers both the success and failure hook events because the runtime routes thrown tools through the same waterfall, and the result is deep-frozen so the plugin replaces outcomes by returning a decision rather than mutating the result. Three details are now written into the behaviour contract because they are semantic boundaries rather than platform gaps: an approval request answered with another request must delegate instead of claiming, since claiming would either loop or consume the user opportunity without asking anyone; a post-tool denial can only be expressed as blocking, because the tool has already run and there is nothing left to cancel, which makes it observably different from a pre-tool denial; and a post-tool approval request has no object and therefore always delegates. Each of the three has a contract test.",
+      "evidence": ["specs/contracts/kernel-plugin-hooks/tests/post-tool-use.test.mjs"]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-hooks/tests/probe4.test.mjs",
+      "normalizedSha256": "459077351ce13ba52ba86f251b234bf706b2ba096dbb58bcddf9a0a16244931f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored hooks plugin implementation, third mount point, plus three mapping details the contract needed. The post-tool mount covers both the success and failure hook events because the runtime routes thrown tools through the same waterfall, and the result is deep-frozen so the plugin replaces outcomes by returning a decision rather than mutating the result. Three details are now written into the behaviour contract because they are semantic boundaries rather than platform gaps: an approval request answered with another request must delegate instead of claiming, since claiming would either loop or consume the user opportunity without asking anyone; a post-tool denial can only be expressed as blocking, because the tool has already run and there is nothing left to cancel, which makes it observably different from a pre-tool denial; and a post-tool approval request has no object and therefore always delegates. Each of the three has a contract test.",
+      "evidence": ["specs/contracts/kernel-plugin-hooks/tests/post-tool-use.test.mjs"]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-hooks/tests/post-tool-use.test.mjs",
+      "normalizedSha256": "7a5db715418fa89cbc77442ceacf505019b65f1557c9b06e54aea895a3d1b073",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored hooks plugin implementation, third mount point, plus three mapping details the contract needed. The post-tool mount covers both the success and failure hook events because the runtime routes thrown tools through the same waterfall, and the result is deep-frozen so the plugin replaces outcomes by returning a decision rather than mutating the result. Three details are now written into the behaviour contract because they are semantic boundaries rather than platform gaps: an approval request answered with another request must delegate instead of claiming, since claiming would either loop or consume the user opportunity without asking anyone; a post-tool denial can only be expressed as blocking, because the tool has already run and there is nothing left to cancel, which makes it observably different from a pre-tool denial; and a post-tool approval request has no object and therefore always delegates. Each of the three has a contract test.",
+      "evidence": ["specs/contracts/kernel-plugin-hooks/tests/post-tool-use.test.mjs"]
     }
   ]
 }
