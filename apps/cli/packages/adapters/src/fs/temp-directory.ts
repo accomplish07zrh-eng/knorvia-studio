@@ -12,14 +12,14 @@
 //   · `fs/index.ts` 被 `device-fs-contract` 的 esbuild seam 拦截（只允许固定白名单的
 //     node:fs / node:os 导入）。这个文件不在 seam 的 entry 列表里，所以可以自由使用
 //     `mkdtemp` / `rm` / `tmpdir`，而不会破坏那套封闭契约测试。
-import { mkdtemp, rm } from "node:fs/promises";
+import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
 /**
  * 临时目录端口：插件只依赖这个接口，不直接碰 `node:fs`。
  *
- * 与 `FileSystemPort` 的区别：这里的两个方法**只服务于「一次性的工作目录」**这个场景，
+ * 与 `FileSystemPort` 的区别：这里的三个方法**只服务于「一次性的工作目录」**这个场景，
  * 不试图表达通用文件操作。
  */
 export interface TempDirectoryPort {
@@ -28,6 +28,8 @@ export interface TempDirectoryPort {
     readonly prefix: string;
     readonly parentDirectory?: string;
   }): Promise<{ readonly path: string }>;
+  /** 向已创建的临时目录里写一个 UTF-8 文本文件。 */
+  writeTranscript(path: string, content: string): Promise<void>;
   /**
    * 递归删除目录树。
    *
@@ -54,6 +56,10 @@ export function createNodeTempDirectoryPort(): TempDirectoryPort {
       const template = join(parent, request.prefix);
       const path = await mkdtemp(template);
       return { path };
+    },
+    async writeTranscript(path, content) {
+      // UTF-8 固定编码：transcript 是 JSONL 文本，编码由本端口统一，不让调用方决定。
+      await writeFile(path, content, "utf8");
     },
     async removeDirectory(request) {
       const missingOk = request.missingOk ?? true;
