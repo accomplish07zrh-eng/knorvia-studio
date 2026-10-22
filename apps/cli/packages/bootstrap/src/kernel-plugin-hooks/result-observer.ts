@@ -8,23 +8,16 @@
 //   用途：**审计与 telemetry**，不承担决策。
 //
 // ⚠️ 第 5 个语义陷阱（探针 23b 实测）：
-//   DSH 的 JSDoc 说 "Listener failures are contained"，但**containment 是 DSH 做的**，
+//   DSH 的 JSDoc 说「Listener failures are contained」，但**containment 是 DSH 做的**，
 //   不是 cordis 的能力 —— cordis 的 `emit` 会直接把监听器的异常抛给调用方。
 //   所以本模块的监听器**必须自己保证不抛**：观测逻辑的失败不能影响工具执行。
+//
+// ⚠️ 类型必须用 DSH 的真实导出（不用自定义接口）：
+//   首版我写了只含部分字段的 `ObservedPayload` / `ObservedResult`，
+//   结果 CI 的「Build CLI packages」报 TS2345（签名与 `ctx.on` 期望的不兼容）。
+//   **教训**：DSH 导出的类型就直接用，不要为「只取部分字段」另写一份 —— 会丢失兼容性。
 import type { Context } from "@deepseek-ai/cordis";
-
-/** DSH 的 `ToolExecutionResult`（只取本模块用到的字段）。 */
-export interface ObservedResult {
-  readonly isError: boolean;
-  readonly content: readonly unknown[];
-  readonly error?: { readonly message: string };
-}
-
-/** DSH 交给 `tools/result` 的最小载荷。 */
-export interface ObservedPayload {
-  readonly name: string;
-  readonly callId?: string;
-}
+import type { ToolExecution, ToolExecutionResult } from "@deepseek-ai/dsh-tools";
 
 /** 一次工具结果的观测回调。 */
 export interface ResultObserver {
@@ -49,16 +42,16 @@ export interface ResultObserver {
  */
 export function safeObserve(
   observer: ResultObserver,
-  payload: ObservedPayload,
-  result: ObservedResult,
+  exec: Readonly<ToolExecution>,
+  result: Readonly<ToolExecutionResult>,
 ): void {
   try {
     observer.observe({
-      toolName: payload.name,
-      toolUseId: payload.callId,
+      toolName: exec.name,
+      toolUseId: exec.callId,
       isError: result.isError,
       contentBlockCount: result.content.length,
-      errorMessage: result.isError ? result.error?.message : undefined,
+      errorMessage: result.isError ? result.error.message : undefined,
     });
   } catch {
     // 观测失败静默忽略：这是「观测不影响主流程」的实现。
@@ -71,9 +64,16 @@ export function safeObserve(
  *
  * 注意：本挂载点**不产生任何决策**（emit 模式的返回值被忽略）。
  * 它只用于审计与 telemetry，不参与 7 种 Hook 事件的决策路径。
+ *
+ * 返回 `undefined` 是 DSH 对 `tools/result` 监听器的类型要求（不是疏忽）。
  */
 export function mountResultObserver(ctx: Context, observer: ResultObserver): () => void {
-  const handler = (payload: ObservedPayload, result: ObservedResult) =>
-    safeObserve(observer, payload, result);
+  const handler = (
+    exec: Readonly<ToolExecution>,
+    result: Readonly<ToolExecutionResult>,
+  ): undefined => {
+    safeObserve(observer, exec, result);
+    return undefined;
+  };
   return ctx.on("tools/result", handler);
 }

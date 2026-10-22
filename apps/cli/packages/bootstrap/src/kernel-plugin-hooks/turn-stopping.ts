@@ -13,23 +13,18 @@
 //   旧 Hook 的 `continue: false` / 无决策 → 不动作（回合正常关闭）
 //
 // ⚠️ 已知差异（known-differences D2）：
-//   旧实现按注册顺序短路（第一个要 continue 的之后的 Hook 不再执行）；
-//   新实现是 serial，**所有监听器都会执行**（除非某个 bail），但聚合结论等价。
+//   旧实现按注册顺序短路；新实现是 serial，**所有监听器都会执行**（除非某个 bail），
+//   但聚合结论等价（都由「有任一 Hook 要 continue」决定）。
+//
+// ⚠️ 类型必须用 DSH 的真实导出：
+//   首版我写了 `AgentLike` 与 `TurnStoppingPayload` 自定义接口，
+//   CI 报 TS2345（`agent.steer` 的参数类型与 DSH 的 `UserMessage` 不兼容）。
+//   **教训**：直接用 DSH 的 `Agent` / `UserMessage` 类型。
 import type { Context } from "@deepseek-ai/cordis";
+import type { Agent } from "@deepseek-ai/dsh-agent";
+import type { UserMessage } from "@deepseek-ai/dsh-llm";
 import { NO_OPINION, type HookVerdict } from "./verdict.js";
-import { makeInjectedMessage, type UserMessageLike } from "./user-prompt-submit.js";
-
-/** DSH 的 agent（只取本模块用到的部分）。 */
-export interface AgentLike {
-  steer(message: UserMessageLike): void;
-}
-
-/** DSH 交给 `agent/turn-stopping` 的载荷。 */
-export interface TurnStoppingPayload {
-  readonly agent: AgentLike;
-  readonly turn: number;
-  readonly signal: AbortSignal;
-}
+import { makeInjectedMessage } from "./user-prompt-submit.js";
 
 /** 一次回合停止判定请求。 */
 export interface StopJudge {
@@ -50,22 +45,28 @@ export interface StopJudge {
  */
 export async function decideTurnStopping(
   judge: StopJudge,
-  payload: TurnStoppingPayload,
+  agent: Agent,
+  turn: number,
+  signal: AbortSignal,
 ): Promise<void> {
-  const verdict = await judge.judge({ turn: payload.turn, signal: payload.signal });
+  const verdict = await judge.judge({ turn, signal });
 
   if (verdict.kind === "deny") {
     // 「拒绝停止」= 「继续」：构造一条消息并 steer，机器会重读 inbox。
-    payload.agent.steer(makeInjectedMessage(verdict.reason));
+    agent.steer(makeInjectedMessage(verdict.reason) as UserMessage);
   }
   // allow / ask / 无意见 → 不动作
 }
 
 /**
  * 注册 Stop 挂载点。
+ *
+ * 监听器签名必须与 DSH 的 `agent/turn-stopping` 一致：
+ * `(payload: { agent, turn, signal }) => void | Promise<void>`。
  */
 export function mountTurnStopping(ctx: Context, judge: StopJudge): () => void {
-  const handler = (payload: TurnStoppingPayload) => decideTurnStopping(judge, payload);
+  const handler = (payload: { agent: Agent; turn: number; signal: AbortSignal }): Promise<void> =>
+    decideTurnStopping(judge, payload.agent, payload.turn, payload.signal);
   return ctx.on("agent/turn-stopping", handler);
 }
 
