@@ -150187,6 +150187,54 @@
       "license": "Apache-2.0",
       "basis": "Knorvia-authored M2 access-package contract for the hooks plugin. It records which cordis extension points carry the seven hook events on the DSH runtime, together with the dispatch mode of each and what that mode permits: three points are waterfalls that can block or rewrite, one is a serial point whose first bail value short-circuits, and one is an emit point that can only veto through a synchronous throw. It also records a deviation from the plan document, where the post-tool event was assigned to a point that turns out to be observe-only, and states that the waterfall point is used instead while the observe-only one is kept for audit. Behaviour paragraphs reuse the existing core-hooks contract by reference rather than restating it, because that package is deleted at kernel switch and only its contract survives. Differences forced by the platform are registered separately with their cause, their observable effect, and whether an equivalent exists.",
       "evidence": ["specs/contracts/kernel-plugin-hooks/behavior.md"]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-tools-01/README.md",
+      "normalizedSha256": "dab55d9f97b63531320e538c107581c00390995a237c766946c35ec57fcb5378",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contract for the cron tool family of the DSH kernel plugin: it freezes the four tools scope, the DSH tool pipeline facts, the mapping from the old executor files to DSH services, and the scoring mode with the dual baseline.",
+      "evidence": ["docs/knorvia-independent-replacement-plan.md"]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-tools-01/behavior.md",
+      "normalizedSha256": "d2a0877f137c76dd2ff5678a0d2405c55ed9cb56742e4ef58d6465b12900db1a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contract for the cron tool family of the DSH kernel plugin: it freezes the four tools scope, the DSH tool pipeline facts, the mapping from the old executor files to DSH services, and the scoring mode with the dual baseline.",
+      "evidence": ["docs/knorvia-independent-replacement-plan.md"]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-tools-01/interface.md",
+      "normalizedSha256": "a14b5859119ad0ea5c3c2c250933193c1477eadfb4090879f2d043720fc6786b",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contract for the cron tool family of the DSH kernel plugin: it freezes the four tools scope, the DSH tool pipeline facts, the mapping from the old executor files to DSH services, and the scoring mode with the dual baseline.",
+      "evidence": ["docs/knorvia-independent-replacement-plan.md"]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-tools-01/callers.md",
+      "normalizedSha256": "f6fb5a0eb246abf83ecec6ff1bd16fa425de813b8b071f201b8438580f7db386",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contract for the cron tool family of the DSH kernel plugin: it freezes the four tools scope, the DSH tool pipeline facts, the mapping from the old executor files to DSH services, and the scoring mode with the dual baseline.",
+      "evidence": ["docs/knorvia-independent-replacement-plan.md"]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-tools-01/known-differences.md",
+      "normalizedSha256": "9414319f3f4427781aeafad85b5c7548ffff6adda66563c16b3c5217450d15b8",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contract for the cron tool family of the DSH kernel plugin: it freezes the four tools scope, the DSH tool pipeline facts, the mapping from the old executor files to DSH services, and the scoring mode with the dual baseline.",
+      "evidence": ["docs/knorvia-independent-replacement-plan.md"]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-tools-01/acceptance.md",
+      "normalizedSha256": "bc487ab9b04af617a855fda6a69528461d6835907239bd06a3a92966a0b7d5ee",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contract for the cron tool family of the DSH kernel plugin: it freezes the four tools scope, the DSH tool pipeline facts, the mapping from the old executor files to DSH services, and the scoring mode with the dual baseline.",
+      "evidence": ["docs/knorvia-independent-replacement-plan.md"]
     }
   ]
 }
