@@ -151312,10 +151312,10 @@
     },
     {
       "path": "specs/contracts/kernel-plugin-hooks/acceptance.md",
-      "normalizedSha256": "6fd4240042ccab39520a18da05bda424faa77c5bb8e8a81f2b4929a8e9703d97",
+      "normalizedSha256": "b588069fd0a4ecac3cae0f9f68c695b941d450f30d951a6f03bc0166e0268430",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored temporary directory port and its node implementation, plus the acceptance record correction. The port now owns creating a temporary directory, writing the transcript into it, and removing the tree recursively, so a written file cannot outlive the directory that owns it; splitting writing into a separate filesystem call would let a caller write a transcript and forget to remove it. The node implementation lives in its own adapter file because the filesystem index sits behind a sealed contract-test seam that permits only a fixed set of imports, and a separate file stays outside that seam rather than loosening it. Removal treats an absent directory as success by default because cleanup can run more than once and must not throw on the second call. The acceptance record documents that the earlier statement about migrating thirty-three tests was wrong, since those tests exercise the old core entry point that is deleted with the core package, and it now tabulates clause coverage and states completion as a fraction of clause groups. Verified with seventy-seven executor contract tests plus the temporary directory tests.",
+      "basis": "Knorvia-authored acceptance record update adding the display clauses to the coverage table. The record now lists the descriptor and sanitizer as implemented with their test counts, and the list of unimplemented clause groups shrinks to workspace registration, the trust rules and the session mailbox. Keeping this table current matters because it is the only place that states which parts of the behaviour contract this package actually satisfies, and an out-of-date table would overstate progress.",
       "evidence": [
         "specs/contracts/kernel-plugin-hooks/acceptance.md"
       ]
@@ -151939,6 +151939,46 @@
       "evidence": [
         "specs/contracts/apps-cli-packages-01/README.md",
         "docs/knorvia-apps-cli-packages-01-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-hooks/display-sanitize.ts",
+      "normalizedSha256": "8e8cefa715b2a35679e8fe5aa2404e6ad49453cba02b5270b1cb9a4d1e491224",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored hook display layer, two pure functions. The sanitizer redacts secrets from text that will be shown to users, handling credentials embedded in URL user information, authorization headers and assignments, query parameters, key-value pairs with or without quotes, and long options, while leaving everything else untouched. Key names are matched case-insensitively and allow prefixes and suffixes, because a variant such as a hyphenated spelling would otherwise slip through. A test caught a subtle failure where the value pattern also swallowed the following query parameter, so the secret was redacted but an unrelated argument silently disappeared; that is why every case asserts both that the secret is gone and that neighbouring text survives. The descriptor renders a hook command for display, quoting only fragments outside a safe character set, marks source kind and visibility, distinguishes background from foreground execution, and omits optional fields entirely when absent rather than emitting empty placeholders. Both are pure and idempotent, and the descriptor does not swallow errors from an injected expansion function. Verified with thirty-seven contract tests.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/display-metadata.test.mjs"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-hooks/display-metadata.ts",
+      "normalizedSha256": "da242b4a56b7e1203f49f7c3f867cb7a6e22a3e14aca48678c5b1530a1ba08d5",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored hook display layer, two pure functions. The sanitizer redacts secrets from text that will be shown to users, handling credentials embedded in URL user information, authorization headers and assignments, query parameters, key-value pairs with or without quotes, and long options, while leaving everything else untouched. Key names are matched case-insensitively and allow prefixes and suffixes, because a variant such as a hyphenated spelling would otherwise slip through. A test caught a subtle failure where the value pattern also swallowed the following query parameter, so the secret was redacted but an unrelated argument silently disappeared; that is why every case asserts both that the secret is gone and that neighbouring text survives. The descriptor renders a hook command for display, quoting only fragments outside a safe character set, marks source kind and visibility, distinguishes background from foreground execution, and omits optional fields entirely when absent rather than emitting empty placeholders. Both are pure and idempotent, and the descriptor does not swallow errors from an injected expansion function. Verified with thirty-seven contract tests.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/display-metadata.test.mjs"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-hooks/tests/display-sanitize.test.mjs",
+      "normalizedSha256": "530c6050b9d6847c2272ccb0cb84ac4970aa659410e47dccaa75181ea68fb2f6",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored hook display layer, two pure functions. The sanitizer redacts secrets from text that will be shown to users, handling credentials embedded in URL user information, authorization headers and assignments, query parameters, key-value pairs with or without quotes, and long options, while leaving everything else untouched. Key names are matched case-insensitively and allow prefixes and suffixes, because a variant such as a hyphenated spelling would otherwise slip through. A test caught a subtle failure where the value pattern also swallowed the following query parameter, so the secret was redacted but an unrelated argument silently disappeared; that is why every case asserts both that the secret is gone and that neighbouring text survives. The descriptor renders a hook command for display, quoting only fragments outside a safe character set, marks source kind and visibility, distinguishes background from foreground execution, and omits optional fields entirely when absent rather than emitting empty placeholders. Both are pure and idempotent, and the descriptor does not swallow errors from an injected expansion function. Verified with thirty-seven contract tests.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/display-metadata.test.mjs"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-hooks/tests/display-metadata.test.mjs",
+      "normalizedSha256": "4054411fabd3d470dab3989441012783541df3d6056e90ca2349e8e28c7fd9b9",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored hook display layer, two pure functions. The sanitizer redacts secrets from text that will be shown to users, handling credentials embedded in URL user information, authorization headers and assignments, query parameters, key-value pairs with or without quotes, and long options, while leaving everything else untouched. Key names are matched case-insensitively and allow prefixes and suffixes, because a variant such as a hyphenated spelling would otherwise slip through. A test caught a subtle failure where the value pattern also swallowed the following query parameter, so the secret was redacted but an unrelated argument silently disappeared; that is why every case asserts both that the secret is gone and that neighbouring text survives. The descriptor renders a hook command for display, quoting only fragments outside a safe character set, marks source kind and visibility, distinguishes background from foreground execution, and omits optional fields entirely when absent rather than emitting empty placeholders. Both are pure and idempotent, and the descriptor does not swallow errors from an injected expansion function. Verified with thirty-seven contract tests.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/display-metadata.test.mjs"
       ]
     }
   ]
