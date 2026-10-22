@@ -151312,10 +151312,10 @@
     },
     {
       "path": "specs/contracts/kernel-plugin-hooks/acceptance.md",
-      "normalizedSha256": "f77a523bd7c38478a72552867ff58c15b2da9dcfe0290885fb2073cf20e01fe4",
+      "normalizedSha256": "6fd4240042ccab39520a18da05bda424faa77c5bb8e8a81f2b4929a8e9703d97",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored hooks plugin implementation, final mount point and acceptance record. The session-start mount is deliberately a synchronous handler because only a synchronous throw can veto session creation; an asynchronous listener would turn that throw into a rejection that the runtime merely logs, which the probe demonstrated by comparing both shapes. Since hook scripts necessarily run asynchronously, blocking a session from a hook cannot be done at this boundary at all, so the module offers a deferred path that turns such a verdict into a denial at the first prompt submission, which is the closest feasible behaviour and is already registered as a difference. Probes were also separated from contract tests into their own directory, because mixed runs coupled them: one probe intentionally demonstrates a wrong call shape and another leaves an asynchronous rejection that the test runner reports as a failure, and neither should gate the contract suite. The acceptance record states which claims rest on stand-in objects, which rest only on this package logic, and which are not implemented yet, instead of presenting all of them as verified.",
+      "basis": "Knorvia-authored temporary directory port and its node implementation, plus the acceptance record correction. The port now owns creating a temporary directory, writing the transcript into it, and removing the tree recursively, so a written file cannot outlive the directory that owns it; splitting writing into a separate filesystem call would let a caller write a transcript and forget to remove it. The node implementation lives in its own adapter file because the filesystem index sits behind a sealed contract-test seam that permits only a fixed set of imports, and a separate file stays outside that seam rather than loosening it. Removal treats an absent directory as success by default because cleanup can run more than once and must not throw on the second call. The acceptance record documents that the earlier statement about migrating thirty-three tests was wrong, since those tests exercise the old core entry point that is deleted with the core package, and it now tabulates clause coverage and states completion as a fraction of clause groups. Verified with seventy-seven executor contract tests plus the temporary directory tests.",
       "evidence": [
         "specs/contracts/kernel-plugin-hooks/acceptance.md"
       ]
@@ -151562,12 +151562,12 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/fs/temp-directory.ts",
-      "normalizedSha256": "5c190ca33b068723dceb69389cadf31e5b8b4e2225dbcdae414e9e4c4eefbe33",
+      "normalizedSha256": "5c7bf4c36de265ae64eba8670062ef94f59df8fc0a1e22819b22665392a3e368",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored temporary directory capability, placed as a plugin-specific port rather than an extension of the general filesystem port. The hook executor needs a uniquely named working directory and must remove it idempotently, but neither belongs in the general filesystem interface: the earlier attempt to widen that interface forced every implementation and a sealed contract-test harness to change, while the capability has exactly one consumer. The node implementation lives in its own adapter file because the filesystem index is behind a sealed seam that only permits a fixed set of imports, and adding a separate file keeps it outside that seam instead of loosening the seal. Uniqueness comes from the platform temporary-directory primitive so it is guaranteed by the kernel rather than by a check-then-create race. Removal is recursive and treats an absent directory as success by default, since cleanup can run more than once. Verified with seven contract tests including uniqueness across calls, a caller-supplied parent, recursive removal of a populated directory, repeated removal, the strict setting, and an in-memory stand-in demonstrating the interface is sufficient without touching the real filesystem.",
+      "basis": "Knorvia-authored temporary directory port and its node implementation, plus the acceptance record correction. The port now owns creating a temporary directory, writing the transcript into it, and removing the tree recursively, so a written file cannot outlive the directory that owns it; splitting writing into a separate filesystem call would let a caller write a transcript and forget to remove it. The node implementation lives in its own adapter file because the filesystem index sits behind a sealed contract-test seam that permits only a fixed set of imports, and a separate file stays outside that seam rather than loosening it. Removal treats an absent directory as success by default because cleanup can run more than once and must not throw on the second call. The acceptance record documents that the earlier statement about migrating thirty-three tests was wrong, since those tests exercise the old core entry point that is deleted with the core package, and it now tabulates clause coverage and states completion as a fraction of clause groups. Verified with seventy-seven executor contract tests plus the temporary directory tests.",
       "evidence": [
-        "specs/contracts/kernel-plugin-hooks/tests/temp-directory.test.mjs"
+        "specs/contracts/kernel-plugin-hooks/acceptance.md"
       ]
     },
     {
@@ -151582,12 +151582,12 @@
     },
     {
       "path": "apps/cli/packages/bootstrap/src/kernel-plugin-hooks/temp-directory.ts",
-      "normalizedSha256": "ca06f0a4b833c5a99f6e9919432cedd957cb338bde886a88a5bc167994307279",
+      "normalizedSha256": "b245c1f72986ec53426e6d7b8e037be70567648d53dd9fadfc3a2939981f9d0c",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored temporary directory capability, placed as a plugin-specific port rather than an extension of the general filesystem port. The hook executor needs a uniquely named working directory and must remove it idempotently, but neither belongs in the general filesystem interface: the earlier attempt to widen that interface forced every implementation and a sealed contract-test harness to change, while the capability has exactly one consumer. The node implementation lives in its own adapter file because the filesystem index is behind a sealed seam that only permits a fixed set of imports, and adding a separate file keeps it outside that seam instead of loosening the seal. Uniqueness comes from the platform temporary-directory primitive so it is guaranteed by the kernel rather than by a check-then-create race. Removal is recursive and treats an absent directory as success by default, since cleanup can run more than once. Verified with seven contract tests including uniqueness across calls, a caller-supplied parent, recursive removal of a populated directory, repeated removal, the strict setting, and an in-memory stand-in demonstrating the interface is sufficient without touching the real filesystem.",
+      "basis": "Knorvia-authored temporary directory port and its node implementation, plus the acceptance record correction. The port now owns creating a temporary directory, writing the transcript into it, and removing the tree recursively, so a written file cannot outlive the directory that owns it; splitting writing into a separate filesystem call would let a caller write a transcript and forget to remove it. The node implementation lives in its own adapter file because the filesystem index sits behind a sealed contract-test seam that permits only a fixed set of imports, and a separate file stays outside that seam rather than loosening it. Removal treats an absent directory as success by default because cleanup can run more than once and must not throw on the second call. The acceptance record documents that the earlier statement about migrating thirty-three tests was wrong, since those tests exercise the old core entry point that is deleted with the core package, and it now tabulates clause coverage and states completion as a fraction of clause groups. Verified with seventy-seven executor contract tests plus the temporary directory tests.",
       "evidence": [
-        "specs/contracts/kernel-plugin-hooks/tests/temp-directory.test.mjs"
+        "specs/contracts/kernel-plugin-hooks/acceptance.md"
       ]
     },
     {
