@@ -12,7 +12,7 @@
     "dev:desktop:bytecode": "node scripts/dev-desktop-env.mjs production --agent-bytecode",
     "dev:desktop:remote-prod": "node scripts/dev-desktop-remote-prod.mjs",
     "dev:server": "pnpm --filter @knorvia/server dev",
-    "prepare": "husky",
+    "prepare": "husky && git config core.hooksPath .husky/_ && git config merge.ours.driver true",
     "prepare:desktop-runtime": "pnpm --filter @knorvia/desktop prepare:runtime-assets",
     "dep:graph": "node scripts/dependency-graph.mjs",
     "dep:refs": "node scripts/dep-refs.mjs",
