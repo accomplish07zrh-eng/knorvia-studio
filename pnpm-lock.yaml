@@ -162,9 +162,6 @@ importers:
       '@knorvia/shared':
         specifier: workspace:*
         version: link:../../../../packages/shared
-      '@knorvia/shared-types':
-        specifier: workspace:*
-        version: link:../shared-types
       '@modelcontextprotocol/client':
         specifier: 2.0.0
         version: 2.0.0
@@ -412,9 +409,6 @@ importers:
       '@knorvia/shared':
         specifier: workspace:*
         version: link:../../../../packages/shared
-      '@knorvia/shared-types':
-        specifier: workspace:*
-        version: link:../shared-types
       '@knorvia/telemetry':
         specifier: workspace:*
         version: link:../telemetry
@@ -752,9 +746,6 @@ importers:
       '@knorvia/shared':
         specifier: workspace:*
         version: link:../../../../packages/shared
-      '@knorvia/shared-types':
-        specifier: workspace:*
-        version: link:../shared-types
       '@mbears/opentui-core':
         specifier: 0.2.15
         version: 0.2.15(typescript@6.0.2)(web-tree-sitter@0.25.10)

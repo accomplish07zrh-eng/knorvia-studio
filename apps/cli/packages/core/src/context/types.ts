@@ -41,12 +41,14 @@ export type ContextInjectionTarget = "system" | "meta_user";
 
 export type ContextCacheHint = "stable" | "dynamic";
 
-// 2026-10-23 移出：`PresentationSurface` 已提到 `@knorvia/shared-types`。
+// 2026-10-23 移出：`PresentationSurface` 已提到 `@knorvia/shared`。
 // 它是纯字面量联合类型，而 core / cli / bootstrap 三方都要引用；
-// core 会随 kernel-switch 删除，所以提到纯类型包让两侧稳定依赖。
+// core 会随 kernel-switch 删除，所以提到共享包让两侧稳定依赖。
+// **不放 `shared-types`**：那个包在 `apps/cli/packages/` 下，而 `packages/*` 层
+// 按设计不依赖 `apps/cli/*` 层（根 typecheck 只构建 `packages/*`）。
 // 这里既转发（保持 `@knorvia/core` 导出面不变），也 import 供本文件下文使用。
-export type { PresentationSurface } from "@knorvia/shared-types";
-import type { PresentationSurface } from "@knorvia/shared-types";
+export type { PresentationSurface } from "@knorvia/shared";
+import type { PresentationSurface } from "@knorvia/shared";
 
 // section 形状：名称、来源、注入位置、缓存提示与三份正文度量。
 export interface ContextSection {

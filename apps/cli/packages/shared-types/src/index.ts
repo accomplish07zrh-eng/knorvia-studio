@@ -61,12 +61,3 @@ export type RuntimeInfo = {
   sea: boolean;
   versions: NodeJS.ProcessVersions;
 };
-
-/**
- * 当前的呈现面。
- *
- * 2026-10-23 从 `core/src/context/types.ts` 移来：它是纯字面量联合类型，
- * 与「纯类型包」的定位一致。原先 core 与 cli/bootstrap 都要引用它，
- * 而 core 会随 kernel-switch 删除，所以提到这里让两侧都能稳定依赖。
- */
-export type PresentationSurface = "terminal" | "knorvia_desktop";

@@ -24209,7 +24209,7 @@
     },
     {
       "path": "apps/cli/packages/shared-types/src/index.ts",
-      "normalizedSha256": "d080fb075846a5c9f0551bcd53d78dce902c49c0612f25524f66c27ed2109afa",
+      "normalizedSha256": "3cba9159728ff55a22a079eca196495c790133bc94365fe51499cefcadc75def",
       "decision": "independent-replacement",
       "license": "Apache-2.0",
       "basis": "Knorvia independent replacement of apps-cli-packages-02 against contract v1 (behavior B1-B38, interface and black-box tests). The author read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. The implementation was restructured into smaller cohesive modules so both similarity gates pass. Measured in this package (Node v24.14.0): line-mode similarity 25/25 pass with highest containment 0.194, declaration-mode similarity 7/7 pass with 0-1 residual lines and containment 0.000, contract tests source 38/38 and dist 38/38, old gate PASS with stub replacement 0/38 allFail.",

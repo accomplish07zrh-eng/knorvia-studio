@@ -1,6 +1,6 @@
 import { extractDisallowedToolsArgs, parseGlobalArgs } from "./arguments.js";
 import { createNodeLoggerFactory } from "@knorvia/adapters";
-import { type PresentationSurface } from "@knorvia/shared-types";
+import { type PresentationSurface } from "@knorvia/shared";
 import { getRuntimeInfo } from "@knorvia/shared";
 import { color, formatJson, supportsColor } from "@knorvia/shared";
 import { getKnorviaCopy, isUiLocale, type UiLocale } from "@knorvia/i18n";

@@ -108,7 +108,6 @@
     "@knorvia/model-option-map": "workspace:*",
     "@knorvia/provider": "workspace:*",
     "@knorvia/shared": "workspace:*",
-    "@knorvia/shared-types": "workspace:*",
     "@modelcontextprotocol/client": "2.0.0",
     "ai": "6.0.193",
     "cheerio": "^1.0.0",
