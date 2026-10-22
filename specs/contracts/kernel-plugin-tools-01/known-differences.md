@@ -2,6 +2,37 @@
 
 > 每条都是「有意为之的差异」，不是缺陷。若某条被改动，视为破坏合同。
 
+## D0 元数据必须分两层：DSH 工具定义 vs Knorvia 能力声明（2026-10-23 实测）
+
+**合同原状**：`behavior.md` B5 与 `interface.md` §二 把 6 个元数据字段
+（`readOnly` / `destructive` / `needsApproval` / `sideEffectScope` / `riskLevel` /
+`maxOutputBytes`）当作「工具的元数据」一并列出，**暗示它们都是 DSH 工具定义的一部分**。
+
+**实测**（`@deepseek-ai/dsh-tools/lib/types/schema.d.ts` 的 `DefineToolOptions`）：
+
+| 字段                                                                                                           | 是否存在 | 说明                                                                 |
+| -------------------------------------------------------------------------------------------------------------- | :------: | -------------------------------------------------------------------- |
+| `timeoutMs`                                                                                                    |    ✅    | L197 `readonly timeoutMs?: number`                                   |
+| `isConcurrencySafe`                                                                                            |    ✅    | L203 `isConcurrencySafe?(args): boolean` —— **是函数，不是布尔字段** |
+| `readOnly` / `destructive` / `needsApproval` / `sideEffectScope` / `riskLevel` / `maxOutputBytes` / `guidance` |    ❌    | **DSH 全部没有**                                                     |
+
+**为什么这是「差异」而不是「缺陷」**：`kernel-plugin-policy/tool-catalogue.ts` 的注释
+逐字说明了设计意图 ——
+
+> 「DSH 的 `ToolSchema` 只是 JSON Schema，**不含** `readOnly` / `destructive` /
+> `sideEffectScope` 语义 —— **那些是 Knorvia 的产品概念**，
+> DSH 侧 schema 只用于参数校验，不参与权限判定（K8）。」
+
+所以这两层是**有意的架构分离**：
+
+| 层               | 谁定义                                                | 管什么                         | 本包怎么提供                         |
+| ---------------- | ----------------------------------------------------- | ------------------------------ | ------------------------------------ |
+| DSH 工具定义     | `@deepseek-ai/dsh-tools`                              | 工具怎么跑（参数、执行、超时） | `defineTool({...})`                  |
+| Knorvia 能力声明 | `kernel-plugin-policy` 的 `ToolCapabilityDeclaration` | 工具的风险/审批语义            | 导出 `CRON_TOOL_CAPABILITIES` 纯数据 |
+
+**⚠️ 影响**：合同已按此修正（B5 改为两层表、interface.md §二 拆成两表）。
+**`maxOutputBytes` 不由本包声明** —— 输出预算归 DSH 的 `dsh-output-retention` 与 `dsh-spill`。
+
 ## D1 投影改为「排除表」而非「白名单」——契约新增字段时行为不同
 
 **旧实现**：硬编码 12 个字段名的白名单。
