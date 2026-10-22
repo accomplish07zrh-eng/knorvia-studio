@@ -44,6 +44,14 @@
 
 **DSH 不提供 Hook 机制**：我扫描了全部 51 个 cordis 事件扩展点（18 个包），**没有 `dsh-hooks-*` 包**。7 种事件全部由本插件用上述扩展点实现 —— 与规格「Hook 由 Knorvia 插件按现有 7 种事件实现」一致。
 
+### 7 种事件 → **6 个**挂载点
+
+`PostToolUse` 与 `PostToolUseFailure` **共用 `tools/post-execute`**：
+DSH 把 thrown tool 也路由到同一个 waterfall（JSDoc：「thrown tools still reach this waterfall as errors」），
+由 `result.isError` 区分走哪个 Hook 事件的语义（探针 13 实测）。
+
+**→ 实现时只需 6 个挂载点，但覆盖 7 个 Hook 事件。**
+
 ### 与规格的一处偏差（已核实并采用）
 
 | 规格原文                                               | 实测                                                                                                                           | 本包采用                 | 理由                                                                                       |
