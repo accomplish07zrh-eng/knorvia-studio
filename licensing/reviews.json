@@ -109633,17 +109633,6 @@
       ]
     },
     {
-      "path": "packages/services/src/memoryDiagnostics.ts",
-      "normalizedSha256": "c08376d1629d21eed6b5c5a12301d3f2d0905b622a94d3fbdb98ee871c030fbc",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Pure declaration file (import type / interface / type / small const only) under services-04. Reviewed against the frozen interface.md; the retained code surface is type declarations and re-exports, which the contract records as compatibility facts. No implementation logic was copied, renamed or rewritten line by line. Old gate 35/35 (source and dist entries); stub replacement 35/35 all-fail. Measured in declaration mode with --interface specs/contracts/services-04/interface.md: residual-lines 0 (no-comparable-lines), max line containment 0.000, longest identical run 0, structural similarity 0.000 against the pinned upstream 872ad960, all below every acceptance threshold.",
-      "evidence": [
-        "specs/contracts/services-04/README.md",
-        "specs/contracts/services-04/known-differences.md"
-      ]
-    },
-    {
       "path": "packages/services/src/model-provider/PACKET-EXPOSURE-20261002.md",
       "normalizedSha256": "de0963210116785e328f4fae2897d91547259edb081d0cc717a342e20b0f0c25",
       "decision": "original",
@@ -111421,6 +111410,17 @@
       "evidence": [
         "git:3864165639098238254f4a0f4c4c068ce8cac24d",
         "licensing/upstream-baseline.json"
+      ]
+    },
+    {
+      "path": "packages/services/src/system/system-probe/contracts.ts",
+      "normalizedSha256": "aa6f3a7cacfaa60116156f638f15a6fe1a8289d8266686a4e9b458a63b3591aa",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Pure declaration file under services-04: after declaration-mode stripping (--declaration with --interface specs/contracts/services-04/interface.md) the residual contains only import/export statements and type declarations, with 0 implementation lines remaining. No implementation logic was copied, renamed or rewritten line by line. Old gate 35/35 (source and dist entries); stub replacement 35/35 all-fail. Max line containment 0.000, longest identical run 0, structural similarity 0.000 against the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/services-04/README.md",
+        "specs/contracts/services-04/known-differences.md"
       ]
     },
     {
