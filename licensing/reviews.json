@@ -150142,11 +150142,11 @@
     },
     {
       "path": "specs/contracts/kernel-plugin-hooks/README.md",
-      "normalizedSha256": "32bc80717d1602745de8cd83196c4bd606df2e59813530382e5eadc0e0cb9aa9",
+      "normalizedSha256": "43715f4ddcd2968cff5cafba570078f843f9370412ae5ccac140aa58d7406644",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored M2 access-package contract for the hooks plugin. This revision withdraws a difference that further inspection showed does not exist. I had recorded that a post-tool hook could not add context in the same turn, based on the event summary alone. Reading the decision type itself shows all three of its branches carry an additional-context field, so the hook can attach context in the same turn exactly as before, and the same field also appears on both the success and failure result shapes, which makes it a first-class channel rather than a workaround. The withdrawal is recorded in place with the reason and the lesson, rather than being silently removed, so a reviewer can see that the claim was checked twice. The remaining two differences stand: the stop event runs every listener rather than short-circuiting on the first objection while reaching the same verdict, and an asynchronous session-start hook cannot veto session creation because only a synchronous throw is honoured.",
-      "evidence": ["specs/contracts/kernel-plugin-hooks/known-differences.md"]
+      "basis": "Knorvia-authored hooks plugin implementation, fourth mount point, plus two documentation additions. The user-prompt mount maps a denial to rejecting the proposed step and an injected context to entering the step with the original messages plus one appended user message. Appending matters because entering replaces the message list rather than adding to it, which the probe confirmed by showing that a replacement list of one message yields one message regardless of how many arrived. The injected message carries an identifier, the user role, text content and a user source, all of which the message type requires. Allow and approval verdicts delegate, because submitting a prompt has no notion of permission or approval; only accept, reject and rewrite apply. Documentation gains the fact that the post-tool mount covers both the success and failure events because the runtime routes thrown tools through the same waterfall, so seven hook events need six mount points, and it gains a registered difference explaining that a post-tool denial is observable to the user because the runtime has no accept-with-warning branch and blocking rewrites the result as a failure.",
+      "evidence": ["specs/contracts/kernel-plugin-hooks/tests/user-prompt-submit.test.mjs"]
     },
     {
       "path": "specs/contracts/kernel-plugin-hooks/behavior.md",
@@ -150174,11 +150174,11 @@
     },
     {
       "path": "specs/contracts/kernel-plugin-hooks/known-differences.md",
-      "normalizedSha256": "773b910ac5a8373d84c67ba4bff13f28476b43db06681d791d2c3a15d38b5edd",
+      "normalizedSha256": "641a3635be1d72060cd0eaa2247be2ae694d5762dc8df8e1f594fc3f5da02809",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored M2 access-package contract for the hooks plugin. This revision withdraws a difference that further inspection showed does not exist. I had recorded that a post-tool hook could not add context in the same turn, based on the event summary alone. Reading the decision type itself shows all three of its branches carry an additional-context field, so the hook can attach context in the same turn exactly as before, and the same field also appears on both the success and failure result shapes, which makes it a first-class channel rather than a workaround. The withdrawal is recorded in place with the reason and the lesson, rather than being silently removed, so a reviewer can see that the claim was checked twice. The remaining two differences stand: the stop event runs every listener rather than short-circuiting on the first objection while reaching the same verdict, and an asynchronous session-start hook cannot veto session creation because only a synchronous throw is honoured.",
-      "evidence": ["specs/contracts/kernel-plugin-hooks/known-differences.md"]
+      "basis": "Knorvia-authored hooks plugin implementation, fourth mount point, plus two documentation additions. The user-prompt mount maps a denial to rejecting the proposed step and an injected context to entering the step with the original messages plus one appended user message. Appending matters because entering replaces the message list rather than adding to it, which the probe confirmed by showing that a replacement list of one message yields one message regardless of how many arrived. The injected message carries an identifier, the user role, text content and a user source, all of which the message type requires. Allow and approval verdicts delegate, because submitting a prompt has no notion of permission or approval; only accept, reject and rewrite apply. Documentation gains the fact that the post-tool mount covers both the success and failure events because the runtime routes thrown tools through the same waterfall, so seven hook events need six mount points, and it gains a registered difference explaining that a post-tool denial is observable to the user because the runtime has no accept-with-warning branch and blocking rewrites the result as a failure.",
+      "evidence": ["specs/contracts/kernel-plugin-hooks/tests/user-prompt-submit.test.mjs"]
     },
     {
       "path": "specs/contracts/kernel-plugin-hooks/acceptance.md",
@@ -150275,6 +150275,30 @@
       "license": "Apache-2.0",
       "basis": "Knorvia-authored hooks plugin implementation, third mount point, plus three mapping details the contract needed. The post-tool mount covers both the success and failure hook events because the runtime routes thrown tools through the same waterfall, and the result is deep-frozen so the plugin replaces outcomes by returning a decision rather than mutating the result. Three details are now written into the behaviour contract because they are semantic boundaries rather than platform gaps: an approval request answered with another request must delegate instead of claiming, since claiming would either loop or consume the user opportunity without asking anyone; a post-tool denial can only be expressed as blocking, because the tool has already run and there is nothing left to cancel, which makes it observably different from a pre-tool denial; and a post-tool approval request has no object and therefore always delegates. Each of the three has a contract test.",
       "evidence": ["specs/contracts/kernel-plugin-hooks/tests/post-tool-use.test.mjs"]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-hooks/user-prompt-submit.ts",
+      "normalizedSha256": "fa0098a2821455d940bff8d0a9b3491cdc110669ebcc1be770c890c386def818",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored hooks plugin implementation, fourth mount point, plus two documentation additions. The user-prompt mount maps a denial to rejecting the proposed step and an injected context to entering the step with the original messages plus one appended user message. Appending matters because entering replaces the message list rather than adding to it, which the probe confirmed by showing that a replacement list of one message yields one message regardless of how many arrived. The injected message carries an identifier, the user role, text content and a user source, all of which the message type requires. Allow and approval verdicts delegate, because submitting a prompt has no notion of permission or approval; only accept, reject and rewrite apply. Documentation gains the fact that the post-tool mount covers both the success and failure events because the runtime routes thrown tools through the same waterfall, so seven hook events need six mount points, and it gains a registered difference explaining that a post-tool denial is observable to the user because the runtime has no accept-with-warning branch and blocking rewrites the result as a failure.",
+      "evidence": ["specs/contracts/kernel-plugin-hooks/tests/user-prompt-submit.test.mjs"]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-hooks/tests/probe5.test.mjs",
+      "normalizedSha256": "67794c6cf5f2bc407255dc28e5b52683b69fe60581eb8bc758e904e08974175c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored hooks plugin implementation, fourth mount point, plus two documentation additions. The user-prompt mount maps a denial to rejecting the proposed step and an injected context to entering the step with the original messages plus one appended user message. Appending matters because entering replaces the message list rather than adding to it, which the probe confirmed by showing that a replacement list of one message yields one message regardless of how many arrived. The injected message carries an identifier, the user role, text content and a user source, all of which the message type requires. Allow and approval verdicts delegate, because submitting a prompt has no notion of permission or approval; only accept, reject and rewrite apply. Documentation gains the fact that the post-tool mount covers both the success and failure events because the runtime routes thrown tools through the same waterfall, so seven hook events need six mount points, and it gains a registered difference explaining that a post-tool denial is observable to the user because the runtime has no accept-with-warning branch and blocking rewrites the result as a failure.",
+      "evidence": ["specs/contracts/kernel-plugin-hooks/tests/user-prompt-submit.test.mjs"]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-hooks/tests/user-prompt-submit.test.mjs",
+      "normalizedSha256": "22e0540cc70153411fabdc4a796a9b6646255fc24a3fa9aeb9d0b70762435dcb",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored hooks plugin implementation, fourth mount point, plus two documentation additions. The user-prompt mount maps a denial to rejecting the proposed step and an injected context to entering the step with the original messages plus one appended user message. Appending matters because entering replaces the message list rather than adding to it, which the probe confirmed by showing that a replacement list of one message yields one message regardless of how many arrived. The injected message carries an identifier, the user role, text content and a user source, all of which the message type requires. Allow and approval verdicts delegate, because submitting a prompt has no notion of permission or approval; only accept, reject and rewrite apply. Documentation gains the fact that the post-tool mount covers both the success and failure events because the runtime routes thrown tools through the same waterfall, so seven hook events need six mount points, and it gains a registered difference explaining that a post-tool denial is observable to the user because the runtime has no accept-with-warning branch and blocking rewrites the result as a failure.",
+      "evidence": ["specs/contracts/kernel-plugin-hooks/tests/user-prompt-submit.test.mjs"]
     }
   ]
 }
