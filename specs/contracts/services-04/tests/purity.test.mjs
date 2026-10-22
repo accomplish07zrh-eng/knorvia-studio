@@ -197,10 +197,12 @@ describe(`purity（${isDist ? "dist" : "source"} 入口）`, () => {
     assert.equal(FROZEN_ENV_FILES.length, 8);
   });
 
-  test("B5d 技术债登记：dataLocationOwner.ts 的 3 处模块级 env 快照", async () => {
+  test("B5d 技术债已偿还：dataLocationOwner.ts 不再有模块级 env 快照", async () => {
     await ensureLoadable();
-    // 这是 K-v 记录的核心事实：该文件在 import 时就固化 env，
-    // 导致「同一进程内改 env 无效」。替换阶段应改为注入式。
+    // K-v-4 记录的原始事实：该文件曾在 import 时固化 3 处 env（capturedDataBase /
+    // capturedAppRoot / capturedDefaultBase），导致「同一进程内改 env 无效」。
+    // 替换阶段按 B5d 的要求改为「首次使用时解析 + 可显式注入」，
+    // 所以这里断言「债务已消除」：不再有任何 captured* 模块级常量。
     const row = scopeRows().find((r) => r.name === "dataLocationOwner.ts");
     assert(row !== undefined, "dataLocationOwner.ts 应在 scope 内");
     const source = readSource(row);
@@ -209,18 +211,14 @@ describe(`purity（${isDist ? "dist" : "source"} 入口）`, () => {
     );
     assert.deepEqual(
       matches.slice().sort(),
-      ["capturedAppRoot", "capturedDataBase", "capturedDefaultBase"],
-      `dataLocationOwner.ts 的模块级 env 快照应为这 3 个，实际：${matches.join(", ")}`,
+      [],
+      `dataLocationOwner.ts 不应再有模块级 env 快照（实际：${matches.join(", ")}）`,
     );
-    // 这 3 个都必须读 process.env（证明它们是 env 快照而不是常量）
-    for (const name of matches) {
-      const decl = new RegExp(`^const\\s+${name}\\s*=\\s*([^;\\n]+)`, "mu").exec(source);
-      assert(decl !== null, `${name} 应有声明`);
-      assert(
-        /process\s*\.\s*env/u.test(decl[1]),
-        `${name} 应读 process.env（实际：${decl[1].slice(0, 60)}）`,
-      );
-    }
+    // 注入式接口存在：setDataBaseDir 可显式设置数据根。
+    assert(
+      /export\s+function\s+setDataBaseDir\s*\(/u.test(source),
+      "dataLocationOwner.ts 应提供 setDataBaseDir 注入入口",
+    );
   });
 
   test("B6 无循环依赖（层内依赖图是 DAG）", async () => {
@@ -287,17 +285,25 @@ const FROZEN_PURE_ONLY_FILES = [
   "window-controller/windowHostControllerProjection.ts",
 ];
 
-/** 6 处模块级副作用（`const X = <调用>()`）。 */
+/**
+ * 模块级副作用（`const X = <调用>()`）。
+ *
+ * 原为 6 处；dataLocationOwner.ts 的 3 处 env 快照（capturedDataBase /
+ * capturedAppRoot / capturedDefaultBase）在替换阶段按 B5d 改为「首次使用时解析 +
+ * 可显式注入」后消除，剩 3 处。
+ */
 const FROZEN_MODULE_SIDE_EFFECTS = [
-  "dataLocationOwner.ts#capturedAppRoot",
-  "dataLocationOwner.ts#capturedDataBase",
-  "dataLocationOwner.ts#capturedDefaultBase",
   "subagents/subagentsService.ts#logger",
   "terminal/terminalProfile.ts#externalDetectors",
   "terminal/terminalService.ts#require",
 ];
 
-/** 8 个读 process.env 的文件。 */
+/**
+ * 读 process.env 的文件清单。
+ *
+ * dataLocationOwner.ts 仍在列 —— 它改为「首次使用时解析」，但仍读 process.env，
+ * 只是不再在 import 时固化。
+ */
 const FROZEN_ENV_FILES = [
   "dataLocationOwner.ts",
   "paths.ts",

@@ -122,7 +122,7 @@ system/systemServiceOwner.ts / terminal/terminalProfile.ts / terminal/terminalSe
 
 **新增即失败**（配置读取路径变了，需重新审）。
 
-### B5d 技术债登记：`dataLocationOwner.ts` 的 3 处模块级 env 快照
+### B5d 技术债登记：`dataLocationOwner.ts` 的 3 处模块级 env 快照（**已偿还，2026-10-22**）
 
 见 `known-differences.md` K-v-4：
 
@@ -135,6 +135,14 @@ const capturedDefaultBase = process.env.HOME?.trim() || homedir();
 **问题**：import 时就固化 env → 之后改 `process.env` 不生效；测试无法在 import 前注入环境。
 **本合同的 B5 冻结它（而非禁止）** —— 因为它是既有实现，且「数据目录在进程启动时确定」这个语义本身合理。
 **替换阶段应改为注入式**，届时同步更新 B5b/B5c 的冻结清单。
+
+**✅ 偿还记录（2026-10-22）**：
+
+- 移除 3 处模块级 env 快照（`capturedDataBase` / `capturedAppRoot` / `capturedDefaultBase`）
+- 改为「首次使用时解析 + 缓存 + `setDataBaseDir` 可失效缓存」
+- **B5b 冻结清单同步删除 3 条**（剩 3 条：`subagentsService#logger` / `terminalProfile#externalDetectors` / `terminalService#require`）
+- **B5d 测试改为「断言债务已偿还」**（无模块级 env 快照 + `setDataBaseDir` 存在）
+- 语义更强：从「允许存在」变成「必须不存在」
 
 ---
 

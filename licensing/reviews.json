@@ -109319,6 +109319,17 @@
       ]
     },
     {
+      "path": "packages/services/src/dataLocationOwner.ts",
+      "normalizedSha256": "38b9c17877924c677af1af74bf390574643d64cffca6f31eb52c6b776d0d1c71",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract-blind rewrite of services-04 dataLocationOwner: authored from the frozen interface, behavior contract and contract tests; the replaced implementation was deleted before writing and never read. Also repaid the K-v-4 technical debt: the three module-level env snapshots (capturedDataBase / capturedAppRoot / capturedDefaultBase) were replaced by first-use resolution with an explicit setDataBaseDir injection point, and the B5b freeze list was updated accordingly. Old gate 35/35 (source and dist entries); stub replacement 35/35 all-fail. Max line containment 0.089, longest identical run 1, structural similarity 0.000 against the pinned upstream 872ad960 (normal mode), all below every acceptance threshold.",
+      "evidence": [
+        "specs/contracts/services-04/README.md",
+        "specs/contracts/services-04/known-differences.md"
+      ]
+    },
+    {
       "path": "packages/services/src/device/LIFECYCLE-EVIDENCE-20261002.md",
       "normalizedSha256": "0e6d8a2aa7af5df997f0b3e4c417c30fb6e8fc26b32c4db03b2ec2473c72c91c",
       "decision": "original",
