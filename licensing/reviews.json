@@ -24809,10 +24809,10 @@
     },
     {
       "path": "apps/cli/packages/tui/src/app-permission.ts",
-      "normalizedSha256": "1ffc7bd27cf00d34a55fcc2532220250979a1dd4b43a6fe5d698fa8c4370b3c0",
-      "decision": "pending-rework",
+      "normalizedSha256": "98ccac44b0e316f62d94c45df37bd91803333be3ef36347ee5b4245d0cc8a450",
+      "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "New TUI adapter prepares quietly and delegates terminal state and abort ownership to the common lifecycle. The TUI queue owns only its displayed prompt; removal uses prompt identity, and keyboard cleanup does not reject the pending answer. Fixed workflow exemptions and validation messages remain compatibility facts. Prior source was accessed; no no-access clean-room claim is made. This decision is limited to the new required prepare/publish/activate lifecycle, one owner for completion and cancellation, and explicitly bound client adapters. Public records, fixed reason strings, policy exceptions and standard Promise/Map behavior are compatibility constraints, not claimed inventions. Renaming, splitting, helper extraction and test success alone do not establish independent provenance. The registry, inherited protocol mappings, stored-state restoration, public types, input recheck, subagent routing, HookRunner, rule persistence and adjacent implementations retain their applicable licensing. This is not a whole-product MIT determination. Similarity gate re-measured 2026-10-21 against the pinned upstream baseline 872ad960de7ec172591f7e1952f7849229f94521: max line containment 0.388, longest identical run 4, structural similarity 0.059, declaration-mode containment 0.333; these are above the frozen thresholds (containment < 0.20, longest run < 8, structural < 0.40), so this file is not a completed independent replacement. Decision changed to pending-rework 2026-10-21 by user ruling: the earlier recorded measurement understated containment. Rework must bring every metric under threshold before this entry may return to independent-replacement.",
+      "basis": "New TUI adapter prepares quietly and delegates terminal state and abort ownership to the common lifecycle. The TUI queue owns only its displayed prompt; removal uses prompt identity, and keyboard cleanup does not reject the pending answer. Fixed workflow exemptions and validation messages remain compatibility facts. Prior source was accessed; no no-access clean-room claim is made. This decision is limited to the new required prepare/publish/activate lifecycle, one owner for completion and cancellation, and explicitly bound client adapters. Public records, fixed reason strings, policy exceptions and standard Promise/Map behavior are compatibility constraints, not claimed inventions. Renaming, splitting, helper extraction and test success alone do not establish independent provenance. The registry, inherited protocol mappings, stored-state restoration, public types, input recheck, subagent routing, HookRunner, rule persistence and adjacent implementations retain their applicable licensing. This is not a whole-product MIT determination. Similarity gate re-measured 2026-10-21 against the pinned upstream baseline 872ad960de7ec172591f7e1952f7849229f94521: max line containment 0.388, longest identical run 4, structural similarity 0.059, declaration-mode containment 0.333; these are above the frozen thresholds (containment < 0.20, longest run < 8, structural < 0.40), so this file is not a completed independent replacement. Decision changed to pending-rework 2026-10-21 by user ruling: the earlier recorded measurement understated containment. Rework must bring every metric under threshold before this entry may return to independent-replacement. M6 rework completed 2026-10-22: 把 PermissionPreparation 的接线从「一个大字面量内联三个例外」拆成具名层次：settleNow 收掉两处重复的三字段结论对象（时刻统一在函数内取）；autoAllow / denyInvalidQuestion 各自表达一个例外；statusFor 把状态行文案的选择独立出来；buildApproval 内 resolve / decline 各自具名；removePrompt 的「取快照 → 清空 → 过滤」三段各自具名（keepOthers）；showPrompt 拆出「登记」与「显示」两步并说明为什么分开；确认门豁免名单从每次调用新建数组改成模块级 Set（每次权限请求省一次数组分配，且 O(1) 查找）；局部状态变量 prompt 改名 shown，与 showPrompt / removePrompt 连成「挂出 → 摘掉」一条线. Measurements use the user-adjudicated dual caliber with the fixed planned-execution baseline: --old <same apps/cli path> --old-rev beff12b5 --upstream-dir cache/zcode-872ad960, and BOTH sides must pass. Result: max normalized-line containment 0.182 (baseline 1.000), longest identical run 3 (baseline 47), structural 0.000 (baseline 1.000 — the structural fingerprint changed completely, i.e. a real rewrite).",
       "evidence": [
         "specs/knorvia-permission-readiness.md",
         "docs/knorvia-permission-readiness-acceptance.md"
@@ -150138,6 +150138,151 @@
       "evidence": [
         "third-party/upstream/f29b60ea39a2132e3baa98927c2d473b349a54143da44a0c6762b243e6459452.txt",
         "https://registry.npmjs.org/quickjs-wasi/2.2.0"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-hooks/README.md",
+      "normalizedSha256": "32bc80717d1602745de8cd83196c4bd606df2e59813530382e5eadc0e0cb9aa9",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored M2 access-package contract for the hooks plugin. This revision withdraws a difference that further inspection showed does not exist. I had recorded that a post-tool hook could not add context in the same turn, based on the event summary alone. Reading the decision type itself shows all three of its branches carry an additional-context field, so the hook can attach context in the same turn exactly as before, and the same field also appears on both the success and failure result shapes, which makes it a first-class channel rather than a workaround. The withdrawal is recorded in place with the reason and the lesson, rather than being silently removed, so a reviewer can see that the claim was checked twice. The remaining two differences stand: the stop event runs every listener rather than short-circuiting on the first objection while reaching the same verdict, and an asynchronous session-start hook cannot veto session creation because only a synchronous throw is honoured.",
+      "evidence": ["specs/contracts/kernel-plugin-hooks/known-differences.md"]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-hooks/behavior.md",
+      "normalizedSha256": "dc2cb206802ab4aac16db2fd0e2188e7591f2a3bcd553fc0a50e7e988f1ca479",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored M2 access-package contract for the hooks plugin. This adds the decision and result type mapping that the implementation will be built from, listing for each extension point exactly what the plugin receives and what it may return, because a capability can hide in a return type rather than in the event signature. It records the four kinds a pre-tool decision may take and the requirement that a denial carries a reason, the four approval outcomes and their correspondence to the old decisions, the three post-tool branches and the fact that all of them can carry additional context in the same turn, and the success and failure result shapes that decide which post-tool event a call belongs to. One input field is marked for confirmation during implementation: the tool arguments are typed as unknown while the documentation describes them as parsed and frozen, so the implementation must check whether parsing is needed before building the hook input.",
+      "evidence": ["specs/contracts/kernel-plugin-hooks/behavior.md"]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-hooks/interface.md",
+      "normalizedSha256": "9ad0bd9350b74142ddf169d86d101f2fbc5aa8a4f9638354546a70b5d678d5e5",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored M2 access-package contract for the hooks plugin. This revision records the verification evidence behind the reuse claims: every contract type the plugin intends to reuse was confirmed to already exist in the contracts package, so the plugin adds no new type definitions there, and every DSH package it depends on was confirmed to be already declared by the bootstrap package, so implementation needs no new dependencies. It also records which dispatch mode each of the seven extension points uses, since the mode is what decides whether a hook can block: waterfall points can decline to delegate, the serial point short-circuits on the first bail value, and the emit point accepts only a synchronous throw as a veto, which is why an asynchronous hook cannot prevent a session from being created.",
+      "evidence": ["specs/contracts/kernel-plugin-hooks/interface.md"]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-hooks/callers.md",
+      "normalizedSha256": "0386c53ab78bdb7e7cd87d4dd2839b6ea213f4932c07dfa39aa1e4360ce998ee",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored M2 access-package contract for the hooks plugin. It records which cordis extension points carry the seven hook events on the DSH runtime, together with the dispatch mode of each and what that mode permits: three points are waterfalls that can block or rewrite, one is a serial point whose first bail value short-circuits, and one is an emit point that can only veto through a synchronous throw. It also records a deviation from the plan document, where the post-tool event was assigned to a point that turns out to be observe-only, and states that the waterfall point is used instead while the observe-only one is kept for audit. Behaviour paragraphs reuse the existing core-hooks contract by reference rather than restating it, because that package is deleted at kernel switch and only its contract survives. Differences forced by the platform are registered separately with their cause, their observable effect, and whether an equivalent exists.",
+      "evidence": ["specs/contracts/kernel-plugin-hooks/behavior.md"]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-hooks/known-differences.md",
+      "normalizedSha256": "773b910ac5a8373d84c67ba4bff13f28476b43db06681d791d2c3a15d38b5edd",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored M2 access-package contract for the hooks plugin. This revision withdraws a difference that further inspection showed does not exist. I had recorded that a post-tool hook could not add context in the same turn, based on the event summary alone. Reading the decision type itself shows all three of its branches carry an additional-context field, so the hook can attach context in the same turn exactly as before, and the same field also appears on both the success and failure result shapes, which makes it a first-class channel rather than a workaround. The withdrawal is recorded in place with the reason and the lesson, rather than being silently removed, so a reviewer can see that the claim was checked twice. The remaining two differences stand: the stop event runs every listener rather than short-circuiting on the first objection while reaching the same verdict, and an asynchronous session-start hook cannot veto session creation because only a synchronous throw is honoured.",
+      "evidence": ["specs/contracts/kernel-plugin-hooks/known-differences.md"]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-hooks/acceptance.md",
+      "normalizedSha256": "8059b46a9f16e6bdf422ea6e123d5d814b7c3359ef78c56db2482f15b2885134",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored M2 access-package contract for the hooks plugin. It records which cordis extension points carry the seven hook events on the DSH runtime, together with the dispatch mode of each and what that mode permits: three points are waterfalls that can block or rewrite, one is a serial point whose first bail value short-circuits, and one is an emit point that can only veto through a synchronous throw. It also records a deviation from the plan document, where the post-tool event was assigned to a point that turns out to be observe-only, and states that the waterfall point is used instead while the observe-only one is kept for audit. Behaviour paragraphs reuse the existing core-hooks contract by reference rather than restating it, because that package is deleted at kernel switch and only its contract survives. Differences forced by the platform are registered separately with their cause, their observable effect, and whether an equivalent exists.",
+      "evidence": ["specs/contracts/kernel-plugin-hooks/behavior.md"]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-policy/index.ts",
+      "normalizedSha256": "c4fb481717b320ef0796897552209bb32f4f23a9d823e2075e7a90f5706076cb",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "DSH plugin entry for the Knorvia permission policy (kernel-plugin-policy, M2 access package). Registers a single tools/pre-execute waterfall listener and turns the seven ordered permission routes into a terminal PreToolDecision. The waterfall sequence is split deliberately: product-level hard constraints (control / interaction / mandatory routes and session grants) short-circuit without calling next(), while the soft routes (ordinary / plan / exemptions / build) run only after the downstream hook listener allows, so user Hook extensions stay reachable without being able to override hard constraints. Every unjudgeable situation denies rather than throwing, because a thrown error on the DSH side could let the pipeline default to allow. Written from specs/knorvia-permission-policy.md (the authoritative priority list) and the public DSH type surface; the legacy core/src/permission implementation was read only as behavioural evidence, not copied, renamed or rewritten line by line.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-policy/README.md",
+        "specs/contracts/kernel-plugin-policy/behavior.md",
+        "specs/contracts/kernel-plugin-policy/interface.md",
+        "specs/knorvia-permission-policy.md",
+        "specs/knorvia-builtin-kernel-dsh.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-policy/policy-routes.ts",
+      "normalizedSha256": "c686881bfe935ef85c3ce184bf1d06b58fd77ff08d02de11b0ba6ba641bbded9",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Implementation of the seven ordered permission routes (control, interaction, mandatory, ordinary, plan, exemptions, build) as two exported groups: evaluateHardRoutes for the product-level constraints that must not be overridable, and evaluateSoftRoutes for the product policy that runs after downstream hooks allow. The route order is frozen and exported so tests can assert it has not been rearranged. Route exhaustion returns a deny decision instead of throwing, which deliberately differs from the legacy implementation and is recorded in known-differences K3: an exception on the DSH side could fall through to a default allow, so the safer choice is an explicit denial carrying a rule id. Capability fields are consumed per-property so one override never grants an unrelated power. Written from the authoritative priority list in specs/knorvia-permission-policy.md.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-policy/behavior.md",
+        "specs/contracts/kernel-plugin-policy/known-differences.md",
+        "specs/knorvia-permission-policy.md",
+        "specs/knorvia-permission-rule-matching.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-policy/capability-resolver.ts",
+      "normalizedSha256": "34d0e25ae3a9f9a1536e85afe7a08144a5c1571aaa3895e730927d2f44328e79",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Resolves a tool's permission-relevant capability from its declaration plus the retained name-default table. Each of the nine fields follows its own precedence chain (permission sub-declaration, top-level declaration, name defaults, hardcoded fallback) so an override affects only its own property. The name-default table intentionally keeps TodoWrite and AskUserQuestion in the read-only group because that is the existing product policy and changing it would change how often users are prompted, which is a product decision rather than part of this access package; the reasoning is recorded in known-differences K5. Unknown tools fall back to the stricter defaults so forgetting to register a new tool tightens rather than loosens the check.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-policy/behavior.md",
+        "specs/contracts/kernel-plugin-policy/known-differences.md",
+        "specs/knorvia-permission-policy.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-policy/mode-registry.ts",
+      "normalizedSha256": "cfcbc1e6e26ce52f4b511d86090d4bdf4ef796d4a19646c0be9e9ab64cde535a",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Holds the mapping from session id to Knorvia collaboration mode because the DSH surface exposes only a plan-mode boolean and has no notion of the five modes: the Agent type carries only an id and the plan-mode controller returns just active and pending flags. The authoritative reader is injected by the composition root, this registry is a cache in front of it, and an unknown session resolves to undefined so the caller denies instead of defaulting to a mode. Invalid mode names are rejected on write so dirty values cannot reach the decision path. The reasoning for owning this state is measured in the contract README section two.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-policy/README.md",
+        "specs/contracts/kernel-plugin-policy/behavior.md",
+        "specs/knorvia-builtin-kernel-dsh.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-policy/session-grants.ts",
+      "normalizedSha256": "ab9b338f525fb4ef04327aaee521fb16ecfcf2fa4f379fe55cf54cbc82bdbfc4",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Holds per-session grants of the form tool plus optional rule content, because the DSH approval seam is explicitly one-shot: an approval applies only to that request, while Knorvia keeps session-scoped grants. Grants are scoped to one session, use set semantics on insert, and are deliberately not persisted: the DSH session log is authoritative and a restart is a new session, which matches the legacy implementation's ephemeral grant set. Rule content matching is delegated to this package's own compiler so command prefixes require a boundary character and URL rules compare the whole string.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-policy/behavior.md",
+        "specs/contracts/kernel-plugin-policy/known-differences.md",
+        "specs/knorvia-permission-grants.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-policy/rule-content.ts",
+      "normalizedSha256": "5f78c64fe458b12d5c196b4846b8f83d56062c54a4f0f5ca93b237cf5a18c8b4",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Compiles and evaluates permission rule content in four forms: command prefix requiring a boundary character, wildcard pattern, literal string, and whole-URL match for WebFetch inputs. Written from the rule-matching specification rather than copied from the legacy module; the escape set, boundary set and anchor handling are stated explicitly so user-supplied content is never executed as regular expression syntax. The command form deliberately requires a boundary after the prefix so a rule for ls does not silently match lsof.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-policy/interface.md",
+        "specs/knorvia-permission-rule-matching.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-policy/tool-catalogue.ts",
+      "normalizedSha256": "6e4c88a797f3c0053e4ad82cae7ced81abc61ca12ae229e9dc69d2d5af740e2e",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Resolves where a tool's metadata comes from: an explicit declaration, the retained name-default table, or the stricter unknown default. Kept in its own module because deciding whether metadata is read from DSH or maintained locally is a real design decision; the decision recorded here is that DSH tool schemas describe JSON argument shapes only and carry no read-only, destructive or side-effect semantics, so those Knorvia concepts cannot be derived from DSH. Also implements drift detection between the host's registered tools and the local default table so a newly added tool that was never registered is surfaced by CI instead of silently falling back.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-policy/interface.md",
+        "specs/contracts/kernel-plugin-policy/known-differences.md",
+        "specs/knorvia-builtin-kernel-dsh.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-policy/logger.ts",
+      "normalizedSha256": "c027e50edf3b9e48cefe7b380e876907b88725c13bf613112b34521c27d51846",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Minimal logger interface with a no-op implementation so the package can be mounted in purely offline tests without pulling in the DSH logging facilities; the composition root injects the real logger. The interface is written from this package's own logging contract, which requires that decision reasons and log fields never carry tool argument values.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-policy/interface.md",
+        "specs/contracts/kernel-plugin-policy/behavior.md"
       ]
     }
   ]
