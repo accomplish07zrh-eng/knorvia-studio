@@ -98,8 +98,11 @@ export type {
   NodeReplSessionOptions,
   NodeReplStructuredResult,
 } from "./repl/node-repl-session.js";
-export { setupBrowserRuntime } from "./browser-client/index.js";
-export type { BrowserClientTransport } from "./browser-client/index.js";
+
+// 2026-10-23 移出：`setupBrowserRuntime` / `BrowserClientTransport` 已随 #302
+// 迁到独立包 `@knorvia/browser-client`。core 内那份是逐字节相同的重复副本，
+// 且包外零引用（唯一使用者 `tool/repl/session-registry.ts` 已改指独立包）。
+// 所以这里不再从 core 导出它们 —— 消费方应直接 `import from "@knorvia/browser-client"`。
 
 // —— 子代理与运行时任务 ——
 export * from "./subagent/index.js";

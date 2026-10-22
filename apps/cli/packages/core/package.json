@@ -27,6 +27,7 @@
     "lint:fix": "oxlint --fix src --no-ignore"
   },
   "dependencies": {
+    "@knorvia/browser-client": "workspace:*",
     "@knorvia/contracts": "workspace:*",
     "@knorvia/cua": "workspace:*",
     "@knorvia/dynamic-workflow": "workspace:*",

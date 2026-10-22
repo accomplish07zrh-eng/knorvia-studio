@@ -545,6 +545,9 @@ importers:
 
   apps/cli/packages/core:
     dependencies:
+      '@knorvia/browser-client':
+        specifier: workspace:*
+        version: link:../browser-client
       '@knorvia/contracts':
         specifier: workspace:*
         version: link:../contracts
