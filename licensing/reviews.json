@@ -152050,6 +152050,26 @@
       "evidence": [
         "specs/contracts/kernel-plugin-hooks/acceptance.md"
       ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-hooks/workspace-trust-evaluation.ts",
+      "normalizedSha256": "2b7dba2f746eb96cfc1555bc39ee18ada1c333a26366fa2ce61c6f71a67a8daf",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored trust evaluation module, the safety core that decides whether a workspace hook may run. It applies seven rules in a fixed order where the first match wins, and the order itself is part of the logic: a denied policy beats a stored record, a corrupt store beats the allow-trusted-only mode, a stored record beats a revocation marker, and a revocation beats a stale slot. Each precedence pair has its own test that constructs a case where both conditions hold, because testing single matches would not detect a reordering. Same-slot detection requires the same workspace, a different digest and six equal slot fields, and records missing any of those fields are excluded rather than treated as matching, so an older record shape cannot be mistaken for a current slot. Admission maps only the trusted-persistent state to admitted, including pending approval as blocked, and the runnable formula additionally requires the declaration to be enabled and the policy not to deny. The fail-closed policy used when the policy provider misbehaves denies rather than falling back to the default, since the default permits running and would turn an error into an allowance. Verified with twenty-two contract tests.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/workspace-trust-evaluation.test.mjs"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-hooks/tests/workspace-trust-evaluation.test.mjs",
+      "normalizedSha256": "4072a95b5e28b1fe2e81019e2d03ff5e3611cd72c399f2989658f3c93fe0f3b6",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored trust evaluation module, the safety core that decides whether a workspace hook may run. It applies seven rules in a fixed order where the first match wins, and the order itself is part of the logic: a denied policy beats a stored record, a corrupt store beats the allow-trusted-only mode, a stored record beats a revocation marker, and a revocation beats a stale slot. Each precedence pair has its own test that constructs a case where both conditions hold, because testing single matches would not detect a reordering. Same-slot detection requires the same workspace, a different digest and six equal slot fields, and records missing any of those fields are excluded rather than treated as matching, so an older record shape cannot be mistaken for a current slot. Admission maps only the trusted-persistent state to admitted, including pending approval as blocked, and the runnable formula additionally requires the declaration to be enabled and the policy not to deny. The fail-closed policy used when the policy provider misbehaves denies rather than falling back to the default, since the default permits running and would turn an error into an allowance. Verified with twenty-two contract tests.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/workspace-trust-evaluation.test.mjs"
+      ]
     }
   ]
 }
