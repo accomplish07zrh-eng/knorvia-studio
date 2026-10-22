@@ -177,6 +177,52 @@ export interface SessionEventStorePort {
 SQLite、或适配 DSH session log 的实现 —— **由组合根注入**。
 **所以「旧格式兼容」不是本包的问题**（端口实现负责）。
 
+### 2.3 `ToolArtifactStorePort`（第三个端口，**可选**）
+
+**定义**：`apps/cli/packages/contracts/src/interfaces/tool-artifact-store.port.ts:137`
+
+```ts
+readToolResultArtifact(
+  request: ToolArtifactReadRequest,
+  options?: { signal?: AbortSignal },
+): Promise<ToolArtifactReadResult>;
+```
+
+**本包用途**：`readToolResultArtifact({ uri: checkpoint.snapshotRef })` ——
+读检查点指向的 artifact，从中拿「文件清单 + 变更前内容」。
+
+**⚠️ 为什么必需（在功能层面）**：`CheckpointCreatedPayload` 的 schema 是 **`.strict()`** 的，
+只带 `snapshotRef`（URI 引用），**文件内容不在 payload 里**。
+所以「读检查点的文件清单」必须经 artifactStore —— 无法从事件里直接得到。
+
+**⚠️ 为什么在配置层面是「可选」**：
+旧实现的 `AgentRuntimeInternal` 里它是可选的：
+
+```ts
+// core/src/runtime/internal.ts:108
+artifactStore?: ToolArtifactStorePort;
+```
+
+缺失时旧实现返回：
+
+```ts
+unavailableFile("workspace", "checkpoint_unreadable", "ArtifactStore is not configured.");
+```
+
+新实现保持同一语义（**B9 fail closed**：明确不可用，不是抛错、也不是「无需回退」）。
+
+**⚠️ 按能力分级依赖**（这是「可选」的具体含义）：
+
+| 能力                     | 是否需要 artifactStore | 缺失时的行为                                              |
+| ------------------------ | :--------------------: | --------------------------------------------------------- |
+| `listCheckpoints`        |       ❌ 不需要        | 正常返回（只读事件）                                      |
+| `planConversationRewind` |       ❌ 不需要        | 正常返回（只读事件）                                      |
+| `previewFileRewind`      |        ✅ 需要         | `available: false` + 「artifact store is not configured」 |
+| `applyFileRewind`        |        ✅ 需要         | `unavailableReason` 同上（**零写入**）                    |
+
+**⚠️ 所以装配期不校验它**（与 `fileSystem` / `eventStore` / `workspaceRoot` 不同）——
+那三个是「所有能力都需要」的，而 artifactStore 只被两个能力需要。
+
 ---
 
 ## 三、计划与结果类型

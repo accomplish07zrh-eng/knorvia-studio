@@ -151315,7 +151315,7 @@
       "normalizedSha256": "c25b4535c19b046ecaeee6fa1142b8edbd583a18ee711b1dea9a9165bd42aec3",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored review flow registry and runtime admission, two modules covering the review and admission clauses, plus the acceptance table update. The registry manages a pending flow as a promise plus a deadline: superseding settles the old flow immediately instead of leaving it hanging, resolution is idempotent so a timeout racing a decision cannot settle twice, and the public state is a getter returning a fresh object so a caller cannot mutate internal state and always sees the current value. The timeout handle is deliberately mutable rather than readonly, because settling clears the handle so a settled flow does not leave a timer dangling. Same-generation comparison excludes the bundle digest, because the digest belongs to the snapshot contents and a changed digest must report a snapshot mismatch rather than a superseded flow. The admission controller applies nine rules in a fixed order and each precedence pair has its own test; it marks itself activated even when the feature is disabled, because otherwise the not-activated rule would fire first and mask the disabled reason, and it compares a submitted security counter against the current counter rather than the counter seen at the last evaluation, since a client may submit a stale revision. Telemetry is deduplicated by a key combining the event, reason, bundle digest and source. Verified with fifty-one contract tests and a full package build.",
+      "basis": "Knorvia-authored acceptance record update after merging main, keeping the coverage table current with the clauses implemented so far and the remaining ones listed. The table is the only place stating which parts of the behaviour contract this package satisfies, so letting it drift would overstate progress.",
       "evidence": [
         "specs/contracts/kernel-plugin-hooks/acceptance.md"
       ]
@@ -152072,43 +152072,143 @@
       ]
     },
     {
-      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-hooks/workspace-review-flow.ts",
-      "normalizedSha256": "e79d279ff963fc278099ee6744439600dfddeea1ff4f6bf8bb06bd44f2f741fc",
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-rewind/index.ts",
+      "normalizedSha256": "327ee39bb4b032d481877067100202d93a212a7073321f6ede9d29bfb04894e1",
       "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored review flow registry and runtime admission, two modules covering the review and admission clauses, plus the acceptance table update. The registry manages a pending flow as a promise plus a deadline: superseding settles the old flow immediately instead of leaving it hanging, resolution is idempotent so a timeout racing a decision cannot settle twice, and the public state is a getter returning a fresh object so a caller cannot mutate internal state and always sees the current value. The timeout handle is deliberately mutable rather than readonly, because settling clears the handle so a settled flow does not leave a timer dangling. Same-generation comparison excludes the bundle digest, because the digest belongs to the snapshot contents and a changed digest must report a snapshot mismatch rather than a superseded flow. The admission controller applies nine rules in a fixed order and each precedence pair has its own test; it marks itself activated even when the feature is disabled, because otherwise the not-activated rule would fire first and mask the disabled reason, and it compares a submitted security counter against the current counter rather than the counter seen at the last evaluation, since a client may submit a stale revision. Telemetry is deduplicated by a key combining the event, reason, bundle digest and source. Verified with fifty-one contract tests and a full package build.",
+      "license": "MIT",
+      "basis": "DSH plugin entry for the Knorvia file-rewind and workspace-checkpoint package (kernel-plugin-rewind, M2 access package). Takes three injected ports (FileSystemPort, SessionEventStorePort, optional ToolArtifactStorePort) plus the workspace root, and returns a handle exposing preview, apply, checkpoint listing, conversation planning and a scope router. The plugin never imports a DSH runtime, so it stays engine-agnostic and testable offline. Session rewinds are planned only: the handle returns the target sequence number and deliberately does not call session.fork, because forking is a session-surface operation owned by the bridge. Every unjudgeable situation returns an explicit unavailable result instead of throwing or silently succeeding. Written from specs/contracts/kernel-plugin-rewind and the two contracts ports; the legacy core/src/runtime/methods implementation was read only as behavioural evidence, not copied or renamed line by line.",
       "evidence": [
-        "specs/contracts/kernel-plugin-hooks/acceptance.md"
+        "specs/contracts/kernel-plugin-rewind/README.md",
+        "specs/contracts/kernel-plugin-rewind/interface.md",
+        "specs/contracts/kernel-plugin-rewind/behavior.md",
+        "specs/knorvia-builtin-kernel-dsh.md"
       ]
     },
     {
-      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-hooks/workspace-runtime-admission.ts",
-      "normalizedSha256": "6978285eedaa1cf79f3774b22ae85fc361b4d016ba143306661c507be55c156c",
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-rewind/file-state.ts",
+      "normalizedSha256": "3e4300ed457ca00b2674e89e4db9e9e6738e45dd9671bb27c3c894b417c90d90",
       "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored review flow registry and runtime admission, two modules covering the review and admission clauses, plus the acceptance table update. The registry manages a pending flow as a promise plus a deadline: superseding settles the old flow immediately instead of leaving it hanging, resolution is idempotent so a timeout racing a decision cannot settle twice, and the public state is a getter returning a fresh object so a caller cannot mutate internal state and always sees the current value. The timeout handle is deliberately mutable rather than readonly, because settling clears the handle so a settled flow does not leave a timer dangling. Same-generation comparison excludes the bundle digest, because the digest belongs to the snapshot contents and a changed digest must report a snapshot mismatch rather than a superseded flow. The admission controller applies nine rules in a fixed order and each precedence pair has its own test; it marks itself activated even when the feature is disabled, because otherwise the not-activated rule would fire first and mask the disabled reason, and it compares a submitted security counter against the current counter rather than the counter seen at the last evaluation, since a client may submit a stale revision. Telemetry is deduplicated by a key combining the event, reason, bundle digest and source. Verified with fifty-one contract tests and a full package build.",
+      "license": "MIT",
+      "basis": "Reads a file's current state through the injected FileSystemPort and computes its content hash. The hash must stay byte-identical to the legacy implementation because checkpoint artifacts store hashes: content === null maps to the literal string missing, while the empty string maps to sha256 of the empty string. Confusing the two would make every deleted-file comparison fail, so the three boundary cases are asserted directly in the contract tests. Text is read with an explicit UTF-8 encoding rather than relying on a port default, because a different default would change every digest. node:crypto is used directly since the repository's I/O-convergence rule covers fetch, http, fs, child_process and process.env but not in-memory hashing.",
       "evidence": [
-        "specs/contracts/kernel-plugin-hooks/acceptance.md"
+        "specs/contracts/kernel-plugin-rewind/known-differences.md",
+        "specs/contracts/kernel-plugin-rewind/acceptance.md",
+        "apps/cli/packages/contracts/src/interfaces/file-system.port.ts"
       ]
     },
     {
-      "path": "specs/contracts/kernel-plugin-hooks/tests/workspace-review-flow.test.mjs",
-      "normalizedSha256": "7996b0ef5daa0381103a2558851dd00da30f209847b1770a097f62d004ff62c4",
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-rewind/file-rewind-plan.ts",
+      "normalizedSha256": "9c188e71aedb2312e282cd6efa7cf2f0f37bc178c1d2ff328bb9598d89f476d4",
       "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored review flow registry and runtime admission, two modules covering the review and admission clauses, plus the acceptance table update. The registry manages a pending flow as a promise plus a deadline: superseding settles the old flow immediately instead of leaving it hanging, resolution is idempotent so a timeout racing a decision cannot settle twice, and the public state is a getter returning a fresh object so a caller cannot mutate internal state and always sees the current value. The timeout handle is deliberately mutable rather than readonly, because settling clears the handle so a settled flow does not leave a timer dangling. Same-generation comparison excludes the bundle digest, because the digest belongs to the snapshot contents and a changed digest must report a snapshot mismatch rather than a superseded flow. The admission controller applies nine rules in a fixed order and each precedence pair has its own test; it marks itself activated even when the feature is disabled, because otherwise the not-activated rule would fire first and mask the disabled reason, and it compares a submitted security counter against the current counter rather than the counter seen at the last evaluation, since a client may submit a stale revision. Telemetry is deduplicated by a key combining the event, reason, bundle digest and source. Verified with fifty-one contract tests and a full package build.",
+      "license": "MIT",
+      "basis": "Computes the operation list that would move the workspace back to a checkpoint's recorded state: restore files that disappeared, overwrite files whose content differs, remove files that did not exist at the checkpoint, and skip files already at the target state. Planning is strictly read-only, and each operation records the hash observed at planning time so the apply stage can detect later edits. A file whose current state cannot be read makes the whole plan unavailable rather than being skipped, because silently skipping would under-report what a rewind changes.",
       "evidence": [
-        "specs/contracts/kernel-plugin-hooks/acceptance.md"
+        "specs/contracts/kernel-plugin-rewind/behavior.md",
+        "specs/contracts/kernel-plugin-rewind/interface.md"
       ]
     },
     {
-      "path": "specs/contracts/kernel-plugin-hooks/tests/workspace-runtime-admission.test.mjs",
-      "normalizedSha256": "c0a29a2dc984376baec2b5959bc9450c9f83a0f18ebc6c5efd13b40fccc8caba",
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-rewind/file-rewind-apply.ts",
+      "normalizedSha256": "68b389bcd31ea0cd1eaf9a72301509093da3c9e503e9c087bb972fac2ccccd3c",
       "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored review flow registry and runtime admission, two modules covering the review and admission clauses, plus the acceptance table update. The registry manages a pending flow as a promise plus a deadline: superseding settles the old flow immediately instead of leaving it hanging, resolution is idempotent so a timeout racing a decision cannot settle twice, and the public state is a getter returning a fresh object so a caller cannot mutate internal state and always sees the current value. The timeout handle is deliberately mutable rather than readonly, because settling clears the handle so a settled flow does not leave a timer dangling. Same-generation comparison excludes the bundle digest, because the digest belongs to the snapshot contents and a changed digest must report a snapshot mismatch rather than a superseded flow. The admission controller applies nine rules in a fixed order and each precedence pair has its own test; it marks itself activated even when the feature is disabled, because otherwise the not-activated rule would fire first and mask the disabled reason, and it compares a submitted security counter against the current counter rather than the counter seen at the last evaluation, since a client may submit a stale revision. Telemetry is deduplicated by a key combining the event, reason, bundle digest and source. Verified with fifty-one contract tests and a full package build.",
+      "license": "MIT",
+      "basis": "Executes a rewind plan with three ordered stages: drift validation before any write, journaled step execution, and compensation on failure. Drift validation compares the hash recorded at planning time against the current content and refuses the whole rewind when they differ, which is a deliberate tightening over the legacy behaviour of silently overwriting user edits. Idempotence is achieved by detecting that a file is already at its target state rather than by remembering past runs, and concurrent applies of the same checkpoint are rejected through an in-flight registry so two rewinds cannot interleave writes.",
       "evidence": [
-        "specs/contracts/kernel-plugin-hooks/acceptance.md"
+        "specs/contracts/kernel-plugin-rewind/behavior.md",
+        "specs/contracts/kernel-plugin-rewind/known-differences.md",
+        "specs/contracts/kernel-plugin-rewind/acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-rewind/file-rewind-compensate.ts",
+      "normalizedSha256": "cf0195818dba84ea6e6dbd85553b9f5712b27bc9cf4483d71af9d4ac0a19122a",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Rolls back already-executed rewind steps in reverse order using the journal captured before each step. Compensation stops at the first failure instead of continuing through the remaining entries: a failing compensation indicates an unexpected filesystem state, and pressing on would make that state harder to reason about. The journal is handed back to the caller with a partial flag so a human can inspect exactly which files were touched, which is safer than reporting a compensation that did not fully succeed.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-rewind/known-differences.md",
+        "specs/contracts/kernel-plugin-rewind/behavior.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-rewind/checkpoint-events.ts",
+      "normalizedSha256": "a22de7b916609900300a1ecc71a455dd3382e1e77df2a37c2958732e8147ad3c",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Reads and appends the session events that carry workspace checkpoints and rewind actions. Event types and payload shapes must match the legacy contract so existing sessions stay readable: checkpoint_created and rewind_triggered are matched by their canonical identifiers. Malformed historical events are skipped rather than throwing, matching the legacy observable behaviour where one corrupt entry must not break the whole checkpoint list. No secondary checkpoint list is cached in this package; every listing is recomputed from events so the event log remains the single source of truth.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-rewind/behavior.md",
+        "specs/contracts/kernel-plugin-rewind/known-differences.md",
+        "apps/cli/packages/contracts/src/interfaces/session.port.ts"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-rewind/checkpoint-artifact.ts",
+      "normalizedSha256": "3fa557b417a836a7b5c1a346cbf4fd76e9bb7828616c081f76b2bc166134e6a2",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Loads a checkpoint's file list from the artifact store, because the checkpoint payload carries only a snapshot reference and the schema is strict about not accepting an inline artifact. The artifact store is optional: listing checkpoints and planning conversation rewinds work without it, while preview and apply report an explicit unavailable result when it is missing. That mirrors the legacy behaviour of returning a checkpoint-unreadable result rather than throwing, and it keeps the narrower capabilities usable in deployments that only mount event storage.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-rewind/interface.md",
+        "specs/contracts/kernel-plugin-rewind/known-differences.md",
+        "apps/cli/packages/contracts/src/interfaces/tool-artifact-store.port.ts"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-rewind/checkpoint-list.ts",
+      "normalizedSha256": "ef92447aed974d23af6e48c84c17daf4f86709caea7259a6c58f370af769887b",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Lists a session's checkpoints by replaying its events and finds a specific checkpoint event by identifier. Listing is read-only and stateless: the result is recomputed on every call so no cached index can drift from the event log. Session identifiers arriving as plain strings are normalised through the contracts helper rather than cast, which keeps the branded type honest at the boundary.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-rewind/behavior.md",
+        "apps/cli/packages/contracts/src/interfaces/session.port.ts"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-rewind/conversation-plan.ts",
+      "normalizedSha256": "e52ce4364f7ff34a241c6e0cdf075ba33ce63fa4a4e17ff38ffa7a635031abe7",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Works out which sequence number a conversation rewind should target and reports the affected range, without performing the fork itself. Forking is a physical branch operation owned by the session surface, so this module deliberately stops at producing the target sequence number and leaves the fork call to the bridge. Targets that do not exist are reported as unavailable with a missing status rather than throwing, because an unknown message is a normal user input outcome.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-rewind/behavior.md",
+        "specs/contracts/kernel-plugin-rewind/known-differences.md",
+        "specs/knorvia-builtin-kernel-dsh.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-rewind/rewind-router.ts",
+      "normalizedSha256": "1bfa487ec7dfbd5b64e9b6136719e65e9077a405492966af93a2488e5d0b0546",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Dispatches a rewind request by scope: conversation-only plans the target and returns without forking, workspace-only plans and applies file changes, and both runs the conversation planning first so an unavailable conversation target stops the request before any file is touched. Ordering the conversation plan first prevents a half-applied rewind where files changed but the conversation target turned out to be unreachable.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-rewind/behavior.md",
+        "specs/contracts/kernel-plugin-rewind/interface.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-rewind/tool-declarations.ts",
+      "normalizedSha256": "b9d4bb639229b7f5cf441a6ef187d45942714d7239e4d873efe909fafe3610d0",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Declares the capability metadata for the two tools this package exposes: a read-only preview and a destructive apply. The declarations exist so the permission policy can judge rewind calls with accurate risk: without them the tools would fall back to the unknown defaults and be classified as medium risk, which would skip the approval prompt that a destructive workspace write must trigger. The apply tool therefore declares itself destructive, workspace-scoped, high risk and approval-required.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-rewind/behavior.md",
+        "specs/contracts/kernel-plugin-rewind/interface.md",
+        "specs/contracts/kernel-plugin-policy/behavior.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-rewind/logger.ts",
+      "normalizedSha256": "87571208bdde4f9c62bdc85c5061712766cf9aa67f9c5b910e30e57516306cbd",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Minimal logger interface with a no-op implementation so the package can be mounted in purely offline tests without pulling in the DSH logging facilities; the composition root injects the real logger. The interface follows this package's own logging contract, which requires that decision reasons and log fields never carry file contents.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-rewind/interface.md",
+        "specs/contracts/kernel-plugin-rewind/behavior.md"
       ]
     }
   ]
