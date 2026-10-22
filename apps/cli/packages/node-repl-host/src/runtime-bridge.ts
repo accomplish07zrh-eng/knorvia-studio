@@ -5,7 +5,7 @@
 // 为什么需要校验：全局符号是**执行单元之间约定的交接点**，两侧由不同模块写入，
 // 类型系统在跨执行单元边界上帮不上忙。这里做运行期形状核对，把「拿到一个对象」
 // 收窄成「拿到一个可用的桥」——否则第一次调用才会以 `is not a function` 暴露。
-import type { BrowserClientTransport } from "@knorvia/core/browser-client";
+import type { BrowserClientTransport } from "@knorvia/browser-client";
 
 /**
  * 桥在全局命名空间里的键。

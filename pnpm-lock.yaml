@@ -429,8 +429,24 @@ importers:
         specifier: ^3.3.1
         version: 3.3.1
 
+  apps/cli/packages/browser-client:
+    dependencies:
+      '@knorvia/contracts':
+        specifier: workspace:*
+        version: link:../contracts
+    devDependencies:
+      '@types/node':
+        specifier: ^24.0.0
+        version: 24.12.2
+      typescript:
+        specifier: ^5.9.0
+        version: 5.9.3
+
   apps/cli/packages/browser-use-plugin:
     dependencies:
+      '@knorvia/browser-client':
+        specifier: workspace:*
+        version: link:../browser-client
       '@knorvia/contracts':
         specifier: workspace:*
         version: link:../contracts
@@ -600,6 +616,9 @@ importers:
 
   apps/cli/packages/node-repl-host:
     dependencies:
+      '@knorvia/browser-client':
+        specifier: workspace:*
+        version: link:../browser-client
       '@knorvia/contracts':
         specifier: workspace:*
         version: link:../contracts

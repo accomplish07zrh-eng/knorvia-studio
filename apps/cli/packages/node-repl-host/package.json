@@ -20,6 +20,7 @@
     "lint": "oxlint src --no-ignore"
   },
   "dependencies": {
+    "@knorvia/browser-client": "workspace:*",
     "@knorvia/contracts": "workspace:*",
     "@knorvia/core": "workspace:*",
     "@knorvia/cua": "workspace:*",
