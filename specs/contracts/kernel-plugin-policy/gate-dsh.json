@@ -1,0 +1,20 @@
+{
+  "contract": "kernel-plugin-policy",
+  "contractVersion": "v1",
+  "engine": "dsh",
+  "scope": "offline policy decisions under KNORVIA_KERNEL_ENGINE=dsh",
+  "testFile": "apps/cli/packages/bootstrap/test/kernel-plugin-policy.test.ts",
+  "commit": "329027c0bb51f6e3ed097bcec45b076519241979",
+  "ranAt": "2026-10-22T02:09:42.372Z",
+  "node": "v26.3.0",
+  "totals": {
+    "tests": 42,
+    "suites": 0,
+    "pass": 42,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "verdict": "pass"
+}
