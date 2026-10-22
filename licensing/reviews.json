@@ -150872,12 +150872,12 @@
     },
     {
       "path": "specs/contracts/kernel-plugin-hooks/acceptance.md",
-      "normalizedSha256": "c25b4535c19b046ecaeee6fa1142b8edbd583a18ee711b1dea9a9165bd42aec3",
+      "normalizedSha256": "946e1ff9240909a9481fe882af0f93a71f1094d1ffe5325e1b417127f9dceb04",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored acceptance record update after merging main, keeping the coverage table current with the clauses implemented so far and the remaining ones listed. The table is the only place stating which parts of the behaviour contract this package satisfies, so letting it drift would overstate progress.",
+      "basis": "Knorvia-authored session mailbox hook, the final clause of the behaviour contract, plus the acceptance table update that marks every clause group implemented. The mailbox registers three hook events that share one callback: it drains unread messages with an explicit session identity and a fixed limit, returns nothing when there is nothing to read, and formats messages into a single additional context for prompt submission and turn stopping, while a post-tool invocation with a pending-input sink enqueues each message separately instead, because injecting context mid-tool would interrupt the current step. Attribute values in the message envelope are escaped while the body is left verbatim, so a message cannot break out of its envelope but its content stays readable. Stopping additionally requests continuation so the drained messages are actually seen. Verified with nineteen contract tests covering registration shape, drain arguments, the empty case, both dispatch branches, the envelope format and escaping.",
       "evidence": [
-        "specs/contracts/kernel-plugin-hooks/acceptance.md"
+        "specs/contracts/kernel-plugin-hooks/tests/session-mailbox.test.mjs"
       ]
     },
     {
@@ -152099,6 +152099,26 @@
       "evidence": [
         "specs/knorvia-builtin-kernel-dsh.md",
         "apps/cli/packages/contracts/src/interfaces"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-hooks/session-mailbox.ts",
+      "normalizedSha256": "667a50c97ab9eb46306bbeb26bc124c5d6d32b93d6b60beb79f51bedafa1b01f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored session mailbox hook, the final clause of the behaviour contract, plus the acceptance table update that marks every clause group implemented. The mailbox registers three hook events that share one callback: it drains unread messages with an explicit session identity and a fixed limit, returns nothing when there is nothing to read, and formats messages into a single additional context for prompt submission and turn stopping, while a post-tool invocation with a pending-input sink enqueues each message separately instead, because injecting context mid-tool would interrupt the current step. Attribute values in the message envelope are escaped while the body is left verbatim, so a message cannot break out of its envelope but its content stays readable. Stopping additionally requests continuation so the drained messages are actually seen. Verified with nineteen contract tests covering registration shape, drain arguments, the empty case, both dispatch branches, the envelope format and escaping.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/session-mailbox.test.mjs"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-hooks/tests/session-mailbox.test.mjs",
+      "normalizedSha256": "447254e6aca6d8c4e84f3e83e1a78c39063feb0355dc23e8c2c0d71e477586da",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored session mailbox hook, the final clause of the behaviour contract, plus the acceptance table update that marks every clause group implemented. The mailbox registers three hook events that share one callback: it drains unread messages with an explicit session identity and a fixed limit, returns nothing when there is nothing to read, and formats messages into a single additional context for prompt submission and turn stopping, while a post-tool invocation with a pending-input sink enqueues each message separately instead, because injecting context mid-tool would interrupt the current step. Attribute values in the message envelope are escaped while the body is left verbatim, so a message cannot break out of its envelope but its content stays readable. Stopping additionally requests continuation so the drained messages are actually seen. Verified with nineteen contract tests covering registration shape, drain arguments, the empty case, both dispatch branches, the envelope format and escaping.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/session-mailbox.test.mjs"
       ]
     }
   ]
