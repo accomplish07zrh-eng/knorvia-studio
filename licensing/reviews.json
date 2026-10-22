@@ -151265,30 +151265,20 @@
       "normalizedSha256": "43715f4ddcd2968cff5cafba570078f843f9370412ae5ccac140aa58d7406644",
       "decision": "original",
       "license": "Apache-2.0",
-<<<<<<< HEAD
-      "basis": "Knorvia-authored M2 access-package contract for the hooks plugin. This revision withdraws a difference that further inspection showed does not exist. I had recorded that a post-tool hook could not add context in the same turn, based on the event summary alone. Reading the decision type itself shows all three of its branches carry an additional-context field, so the hook can attach context in the same turn exactly as before, and the same field also appears on both the success and failure result shapes, which makes it a first-class channel rather than a workaround. The withdrawal is recorded in place with the reason and the lesson, rather than being silently removed, so a reviewer can see that the claim was checked twice. The remaining two differences stand: the stop event runs every listener rather than short-circuiting on the first objection while reaching the same verdict, and an asynchronous session-start hook cannot veto session creation because only a synchronous throw is honoured.",
-      "evidence": [
-        "specs/contracts/kernel-plugin-hooks/known-differences.md"
-      ]
-=======
       "basis": "Knorvia-authored hooks plugin implementation, fourth mount point, plus two documentation additions. The user-prompt mount maps a denial to rejecting the proposed step and an injected context to entering the step with the original messages plus one appended user message. Appending matters because entering replaces the message list rather than adding to it, which the probe confirmed by showing that a replacement list of one message yields one message regardless of how many arrived. The injected message carries an identifier, the user role, text content and a user source, all of which the message type requires. Allow and approval verdicts delegate, because submitting a prompt has no notion of permission or approval; only accept, reject and rewrite apply. Documentation gains the fact that the post-tool mount covers both the success and failure events because the runtime routes thrown tools through the same waterfall, so seven hook events need six mount points, and it gains a registered difference explaining that a post-tool denial is observable to the user because the runtime has no accept-with-warning branch and blocking rewrites the result as a failure.",
-      "evidence": ["specs/contracts/kernel-plugin-hooks/tests/user-prompt-submit.test.mjs"]
->>>>>>> origin/main
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/user-prompt-submit.test.mjs"
+      ]
     },
     {
       "path": "specs/contracts/kernel-plugin-hooks/behavior.md",
       "normalizedSha256": "261ac92958f36985058883384fb7ee80ba5af01b9ba94ae749c78f61f43acfd7",
       "decision": "original",
       "license": "Apache-2.0",
-<<<<<<< HEAD
-      "basis": "Knorvia-authored M2 access-package contract for the hooks plugin. This adds the decision and result type mapping that the implementation will be built from, listing for each extension point exactly what the plugin receives and what it may return, because a capability can hide in a return type rather than in the event signature. It records the four kinds a pre-tool decision may take and the requirement that a denial carries a reason, the four approval outcomes and their correspondence to the old decisions, the three post-tool branches and the fact that all of them can carry additional context in the same turn, and the success and failure result shapes that decide which post-tool event a call belongs to. One input field is marked for confirmation during implementation: the tool arguments are typed as unknown while the documentation describes them as parsed and frozen, so the implementation must check whether parsing is needed before building the hook input.",
-      "evidence": [
-        "specs/contracts/kernel-plugin-hooks/behavior.md"
-      ]
-=======
       "basis": "Knorvia-authored hooks plugin implementation, third mount point, plus three mapping details the contract needed. The post-tool mount covers both the success and failure hook events because the runtime routes thrown tools through the same waterfall, and the result is deep-frozen so the plugin replaces outcomes by returning a decision rather than mutating the result. Three details are now written into the behaviour contract because they are semantic boundaries rather than platform gaps: an approval request answered with another request must delegate instead of claiming, since claiming would either loop or consume the user opportunity without asking anyone; a post-tool denial can only be expressed as blocking, because the tool has already run and there is nothing left to cancel, which makes it observably different from a pre-tool denial; and a post-tool approval request has no object and therefore always delegates. Each of the three has a contract test.",
-      "evidence": ["specs/contracts/kernel-plugin-hooks/tests/post-tool-use.test.mjs"]
->>>>>>> origin/main
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/post-tool-use.test.mjs"
+      ]
     },
     {
       "path": "specs/contracts/kernel-plugin-hooks/interface.md",
@@ -151315,30 +151305,20 @@
       "normalizedSha256": "641a3635be1d72060cd0eaa2247be2ae694d5762dc8df8e1f594fc3f5da02809",
       "decision": "original",
       "license": "Apache-2.0",
-<<<<<<< HEAD
-      "basis": "Knorvia-authored M2 access-package contract for the hooks plugin. This revision withdraws a difference that further inspection showed does not exist. I had recorded that a post-tool hook could not add context in the same turn, based on the event summary alone. Reading the decision type itself shows all three of its branches carry an additional-context field, so the hook can attach context in the same turn exactly as before, and the same field also appears on both the success and failure result shapes, which makes it a first-class channel rather than a workaround. The withdrawal is recorded in place with the reason and the lesson, rather than being silently removed, so a reviewer can see that the claim was checked twice. The remaining two differences stand: the stop event runs every listener rather than short-circuiting on the first objection while reaching the same verdict, and an asynchronous session-start hook cannot veto session creation because only a synchronous throw is honoured.",
-      "evidence": [
-        "specs/contracts/kernel-plugin-hooks/known-differences.md"
-      ]
-=======
       "basis": "Knorvia-authored hooks plugin implementation, fourth mount point, plus two documentation additions. The user-prompt mount maps a denial to rejecting the proposed step and an injected context to entering the step with the original messages plus one appended user message. Appending matters because entering replaces the message list rather than adding to it, which the probe confirmed by showing that a replacement list of one message yields one message regardless of how many arrived. The injected message carries an identifier, the user role, text content and a user source, all of which the message type requires. Allow and approval verdicts delegate, because submitting a prompt has no notion of permission or approval; only accept, reject and rewrite apply. Documentation gains the fact that the post-tool mount covers both the success and failure events because the runtime routes thrown tools through the same waterfall, so seven hook events need six mount points, and it gains a registered difference explaining that a post-tool denial is observable to the user because the runtime has no accept-with-warning branch and blocking rewrites the result as a failure.",
-      "evidence": ["specs/contracts/kernel-plugin-hooks/tests/user-prompt-submit.test.mjs"]
->>>>>>> origin/main
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/user-prompt-submit.test.mjs"
+      ]
     },
     {
       "path": "specs/contracts/kernel-plugin-hooks/acceptance.md",
       "normalizedSha256": "f77a523bd7c38478a72552867ff58c15b2da9dcfe0290885fb2073cf20e01fe4",
       "decision": "original",
       "license": "Apache-2.0",
-<<<<<<< HEAD
-      "basis": "Knorvia-authored M2 access-package contract for the hooks plugin. It records which cordis extension points carry the seven hook events on the DSH runtime, together with the dispatch mode of each and what that mode permits: three points are waterfalls that can block or rewrite, one is a serial point whose first bail value short-circuits, and one is an emit point that can only veto through a synchronous throw. It also records a deviation from the plan document, where the post-tool event was assigned to a point that turns out to be observe-only, and states that the waterfall point is used instead while the observe-only one is kept for audit. Behaviour paragraphs reuse the existing core-hooks contract by reference rather than restating it, because that package is deleted at kernel switch and only its contract survives. Differences forced by the platform are registered separately with their cause, their observable effect, and whether an equivalent exists.",
-      "evidence": [
-        "specs/contracts/kernel-plugin-hooks/behavior.md"
-      ]
-=======
       "basis": "Knorvia-authored hooks plugin implementation, final mount point and acceptance record. The session-start mount is deliberately a synchronous handler because only a synchronous throw can veto session creation; an asynchronous listener would turn that throw into a rejection that the runtime merely logs, which the probe demonstrated by comparing both shapes. Since hook scripts necessarily run asynchronously, blocking a session from a hook cannot be done at this boundary at all, so the module offers a deferred path that turns such a verdict into a denial at the first prompt submission, which is the closest feasible behaviour and is already registered as a difference. Probes were also separated from contract tests into their own directory, because mixed runs coupled them: one probe intentionally demonstrates a wrong call shape and another leaves an asynchronous rejection that the test runner reports as a failure, and neither should gate the contract suite. The acceptance record states which claims rest on stand-in objects, which rest only on this package logic, and which are not implemented yet, instead of presenting all of them as verified.",
-      "evidence": ["specs/contracts/kernel-plugin-hooks/acceptance.md"]
->>>>>>> origin/main
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/acceptance.md"
+      ]
     },
     {
       "path": "apps/cli/packages/bootstrap/src/kernel-plugin-hooks/verdict.ts",
@@ -151346,7 +151326,9 @@
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored hooks plugin implementation, first mount point. The verdict module turns a hook permission decision into one of four outcomes and keeps the no-opinion case distinct from an explicit allow, because delegating to the next listener and asserting permission are different statements. A hook that supplies no decision is treated as having no opinion rather than as failing, since hook output is user script and a malformed result means that hook expressed nothing, not that the plugin is misconfigured. The pre-tool mount point maps those outcomes onto the tool runtime decision shape and delegates when there is no opinion, which is the common path. It carries the abort signal through unchanged because the runtime rechecks cancellation after asynchronous listeners settle, and it does not read or modify permission mode state, which belongs to the policy package. Verified with ten contract tests driving a real cordis context through the tool pre-execute waterfall, covering delegation, denial with a reason, approval requests, explicit allowance, input field mapping, short-circuiting, non-short-circuiting delegation, and listener disposal.",
-      "evidence": ["specs/contracts/kernel-plugin-hooks/tests/pre-tool-use.test.mjs"]
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/pre-tool-use.test.mjs"
+      ]
     },
     {
       "path": "apps/cli/packages/bootstrap/src/kernel-plugin-hooks/pre-tool-use.ts",
@@ -151354,7 +151336,9 @@
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored hooks plugin implementation, first mount point. The verdict module turns a hook permission decision into one of four outcomes and keeps the no-opinion case distinct from an explicit allow, because delegating to the next listener and asserting permission are different statements. A hook that supplies no decision is treated as having no opinion rather than as failing, since hook output is user script and a malformed result means that hook expressed nothing, not that the plugin is misconfigured. The pre-tool mount point maps those outcomes onto the tool runtime decision shape and delegates when there is no opinion, which is the common path. It carries the abort signal through unchanged because the runtime rechecks cancellation after asynchronous listeners settle, and it does not read or modify permission mode state, which belongs to the policy package. Verified with ten contract tests driving a real cordis context through the tool pre-execute waterfall, covering delegation, denial with a reason, approval requests, explicit allowance, input field mapping, short-circuiting, non-short-circuiting delegation, and listener disposal.",
-      "evidence": ["specs/contracts/kernel-plugin-hooks/tests/pre-tool-use.test.mjs"]
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/pre-tool-use.test.mjs"
+      ]
     },
     {
       "path": "specs/contracts/kernel-plugin-hooks/tests/pre-tool-use.test.mjs",
@@ -151362,7 +151346,9 @@
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored hooks plugin implementation, first mount point. The verdict module turns a hook permission decision into one of four outcomes and keeps the no-opinion case distinct from an explicit allow, because delegating to the next listener and asserting permission are different statements. A hook that supplies no decision is treated as having no opinion rather than as failing, since hook output is user script and a malformed result means that hook expressed nothing, not that the plugin is misconfigured. The pre-tool mount point maps those outcomes onto the tool runtime decision shape and delegates when there is no opinion, which is the common path. It carries the abort signal through unchanged because the runtime rechecks cancellation after asynchronous listeners settle, and it does not read or modify permission mode state, which belongs to the policy package. Verified with ten contract tests driving a real cordis context through the tool pre-execute waterfall, covering delegation, denial with a reason, approval requests, explicit allowance, input field mapping, short-circuiting, non-short-circuiting delegation, and listener disposal.",
-      "evidence": ["specs/contracts/kernel-plugin-hooks/tests/pre-tool-use.test.mjs"]
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/pre-tool-use.test.mjs"
+      ]
     },
     {
       "path": "apps/cli/packages/bootstrap/src/kernel-plugin-hooks/permission-request.ts",
@@ -151370,7 +151356,9 @@
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored hooks plugin implementation, second mount point. The permission request mount maps hook verdicts onto the four approval outcomes the runtime defines. An allow becomes a one-time allowance because the runtime has no permanent-allow outcome, a deny becomes rejection, and a request for approval delegates rather than claiming the request: this event is itself the request for approval, so answering it with another request would either loop or consume the user opportunity without asking anyone. Absence of a verdict also delegates, preserving the chance for a downstream answerer to decide. The handler passes the abort signal through unchanged and tolerates every optional field being absent, since the runtime declares them optional. Verified with eight contract tests driving a real cordis context through the approval waterfall, covering all four outcomes, field mapping, absent optional fields, claiming without delegating, and listener disposal.",
-      "evidence": ["specs/contracts/kernel-plugin-hooks/tests/permission-request.test.mjs"]
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/permission-request.test.mjs"
+      ]
     },
     {
       "path": "specs/contracts/kernel-plugin-hooks/tests/permission-request.test.mjs",
@@ -151378,7 +151366,9 @@
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored hooks plugin implementation, second mount point. The permission request mount maps hook verdicts onto the four approval outcomes the runtime defines. An allow becomes a one-time allowance because the runtime has no permanent-allow outcome, a deny becomes rejection, and a request for approval delegates rather than claiming the request: this event is itself the request for approval, so answering it with another request would either loop or consume the user opportunity without asking anyone. Absence of a verdict also delegates, preserving the chance for a downstream answerer to decide. The handler passes the abort signal through unchanged and tolerates every optional field being absent, since the runtime declares them optional. Verified with eight contract tests driving a real cordis context through the approval waterfall, covering all four outcomes, field mapping, absent optional fields, claiming without delegating, and listener disposal.",
-      "evidence": ["specs/contracts/kernel-plugin-hooks/tests/permission-request.test.mjs"]
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/permission-request.test.mjs"
+      ]
     },
     {
       "path": "apps/cli/packages/bootstrap/src/kernel-plugin-hooks/post-tool-use.ts",
@@ -151386,7 +151376,9 @@
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored hooks plugin implementation, third mount point, plus three mapping details the contract needed. The post-tool mount covers both the success and failure hook events because the runtime routes thrown tools through the same waterfall, and the result is deep-frozen so the plugin replaces outcomes by returning a decision rather than mutating the result. Three details are now written into the behaviour contract because they are semantic boundaries rather than platform gaps: an approval request answered with another request must delegate instead of claiming, since claiming would either loop or consume the user opportunity without asking anyone; a post-tool denial can only be expressed as blocking, because the tool has already run and there is nothing left to cancel, which makes it observably different from a pre-tool denial; and a post-tool approval request has no object and therefore always delegates. Each of the three has a contract test.",
-      "evidence": ["specs/contracts/kernel-plugin-hooks/tests/post-tool-use.test.mjs"]
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/post-tool-use.test.mjs"
+      ]
     },
     {
       "path": "specs/contracts/kernel-plugin-hooks/tests/post-tool-use.test.mjs",
@@ -151394,18 +151386,218 @@
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored hooks plugin implementation, third mount point, plus three mapping details the contract needed. The post-tool mount covers both the success and failure hook events because the runtime routes thrown tools through the same waterfall, and the result is deep-frozen so the plugin replaces outcomes by returning a decision rather than mutating the result. Three details are now written into the behaviour contract because they are semantic boundaries rather than platform gaps: an approval request answered with another request must delegate instead of claiming, since claiming would either loop or consume the user opportunity without asking anyone; a post-tool denial can only be expressed as blocking, because the tool has already run and there is nothing left to cancel, which makes it observably different from a pre-tool denial; and a post-tool approval request has no object and therefore always delegates. Each of the three has a contract test.",
-      "evidence": ["specs/contracts/kernel-plugin-hooks/tests/post-tool-use.test.mjs"]
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/post-tool-use.test.mjs"
+      ]
     },
     {
       "path": "apps/cli/packages/bootstrap/src/kernel-plugin-hooks/user-prompt-submit.ts",
       "normalizedSha256": "923f0a30f3e45c2154c1ab44476c58b5e00b0304f2435bee9f5250cf56ff5005",
       "decision": "original",
-<<<<<<< HEAD
-      "license": "MIT",
-      "basis": "Minimal logger interface with a no-op implementation so the package can be mounted in purely offline tests without pulling in the DSH logging facilities; the composition root injects the real logger. The interface is written from this package's own logging contract, which requires that decision reasons and log fields never carry tool argument values.",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored hooks plugin implementation, three typing corrections found by the package build. The first version of the observation, stop and prompt mounts declared their own minimal payload shapes and omitted the listener this-type. Runtime probes and contract tests all passed because a hand-driven context dispatch does not check types, but the package build rejected all three, which shows that runtime verification and type verification cover different ground. The correction uses the runtime exported types directly, including the full payload shapes and the exact return types the events declare, and the event handlers now name the payload the event actually provides. Observation still returns the bare undefined the event requires rather than a void function. Verified by the full package build completing all fifteen tasks, with the contract suite still at sixty-three passing and the probes at thirty-one.",
       "evidence": [
-        "specs/contracts/kernel-plugin-policy/interface.md",
-        "specs/contracts/kernel-plugin-policy/behavior.md"
+        "specs/contracts/kernel-plugin-hooks/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-hooks/tests/user-prompt-submit.test.mjs",
+      "normalizedSha256": "22e0540cc70153411fabdc4a796a9b6646255fc24a3fa9aeb9d0b70762435dcb",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored hooks plugin implementation, fourth mount point, plus two documentation additions. The user-prompt mount maps a denial to rejecting the proposed step and an injected context to entering the step with the original messages plus one appended user message. Appending matters because entering replaces the message list rather than adding to it, which the probe confirmed by showing that a replacement list of one message yields one message regardless of how many arrived. The injected message carries an identifier, the user role, text content and a user source, all of which the message type requires. Allow and approval verdicts delegate, because submitting a prompt has no notion of permission or approval; only accept, reject and rewrite apply. Documentation gains the fact that the post-tool mount covers both the success and failure events because the runtime routes thrown tools through the same waterfall, so seven hook events need six mount points, and it gains a registered difference explaining that a post-tool denial is observable to the user because the runtime has no accept-with-warning branch and blocking rewrites the result as a failure.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/user-prompt-submit.test.mjs"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-hooks/turn-stopping.ts",
+      "normalizedSha256": "6b0da47dbf9d046c3d2c4ff7ff125f0b76d76f8198b775e8a88c005e9ef802b1",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored hooks plugin implementation, three typing corrections found by the package build. The first version of the observation, stop and prompt mounts declared their own minimal payload shapes and omitted the listener this-type. Runtime probes and contract tests all passed because a hand-driven context dispatch does not check types, but the package build rejected all three, which shows that runtime verification and type verification cover different ground. The correction uses the runtime exported types directly, including the full payload shapes and the exact return types the events declare, and the event handlers now name the payload the event actually provides. Observation still returns the bare undefined the event requires rather than a void function. Verified by the full package build completing all fifteen tasks, with the contract suite still at sixty-three passing and the probes at thirty-one.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-hooks/tests/turn-stopping.test.mjs",
+      "normalizedSha256": "0459b6756fabdd378633389778308635a0f4690c3f51dd29ffa27e9eab175147",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored hooks plugin implementation, fifth mount point. The stop mount treats a denial as a request to continue, because at the point where the turn is about to close, refusing to close and asking to continue are the same statement; it expresses that by steering a user message, which the runtime reads as fresh input that runs another step. Allowance, approval requests and no opinion all leave the turn to close, since none of them has a meaning at that boundary. The handler deliberately returns no bail value so that other listeners registered at the same point still run, which keeps the aggregation equivalent to the old behaviour even though the runtime visits every listener instead of short-circuiting on the first objection; that difference is already registered. Verified with nine contract tests driving a real cordis context through the serial dispatch, covering continuation, quiet closure for each non-denial verdict, field mapping, the multi-listener aggregation, the absence of a bail value, disposal, and the injected message shape.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/turn-stopping.test.mjs"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-hooks/result-observer.ts",
+      "normalizedSha256": "9b7ed1993c5d0f0bf5d575699703dc8b24fab803f125ec167cec752904174b89",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored hooks plugin implementation, three typing corrections found by the package build. The first version of the observation, stop and prompt mounts declared their own minimal payload shapes and omitted the listener this-type. Runtime probes and contract tests all passed because a hand-driven context dispatch does not check types, but the package build rejected all three, which shows that runtime verification and type verification cover different ground. The correction uses the runtime exported types directly, including the full payload shapes and the exact return types the events declare, and the event handlers now name the payload the event actually provides. Observation still returns the bare undefined the event requires rather than a void function. Verified by the full package build completing all fifteen tasks, with the contract suite still at sixty-three passing and the probes at thirty-one.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-hooks/tests/result-observer.test.mjs",
+      "normalizedSha256": "ef2fffff0c4f58e26d6b533827281626fc153886a419170dfdcc51fa7973507f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored hooks plugin implementation, sixth mount point, which is observation only. The tool-result event carries no decision, so this module records tool name, call identity, failure flag, content block count and failure message, and produces nothing. It wraps the observer call in its own guard because the event bus does not contain listener exceptions: the runtime documentation promises containment, but that promise belongs to the runtime, not to the bus, which was measured by throwing from a listener and seeing the error reach the caller. Since observation failing must never affect tool execution, the module absorbs those errors itself rather than relying on a guarantee that does not hold at this layer. It also leaves its inputs untouched. Verified with seven contract tests covering success and failure field mapping, swallowed observer errors, multiple listeners, absent optional fields, disposal, and input immutability.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/result-observer.test.mjs"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-hooks/session-start.ts",
+      "normalizedSha256": "344f7c537c7df970492cee0df9a658224b61cd0307ad98408300adc1d8b9482f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored hooks plugin implementation, final mount point and acceptance record. The session-start mount is deliberately a synchronous handler because only a synchronous throw can veto session creation; an asynchronous listener would turn that throw into a rejection that the runtime merely logs, which the probe demonstrated by comparing both shapes. Since hook scripts necessarily run asynchronously, blocking a session from a hook cannot be done at this boundary at all, so the module offers a deferred path that turns such a verdict into a denial at the first prompt submission, which is the closest feasible behaviour and is already registered as a difference. Probes were also separated from contract tests into their own directory, because mixed runs coupled them: one probe intentionally demonstrates a wrong call shape and another leaves an asynchronous rejection that the test runner reports as a failure, and neither should gate the contract suite. The acceptance record states which claims rest on stand-in objects, which rest only on this package logic, and which are not implemented yet, instead of presenting all of them as verified.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-hooks/tests/session-start.test.mjs",
+      "normalizedSha256": "f06f82a3ff642a5ccacd30b76d302bd5d343b3b4dc7adb6d961cf5cb813c8041",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored hooks plugin implementation, final mount point and acceptance record. The session-start mount is deliberately a synchronous handler because only a synchronous throw can veto session creation; an asynchronous listener would turn that throw into a rejection that the runtime merely logs, which the probe demonstrated by comparing both shapes. Since hook scripts necessarily run asynchronously, blocking a session from a hook cannot be done at this boundary at all, so the module offers a deferred path that turns such a verdict into a denial at the first prompt submission, which is the closest feasible behaviour and is already registered as a difference. Probes were also separated from contract tests into their own directory, because mixed runs coupled them: one probe intentionally demonstrates a wrong call shape and another leaves an asynchronous rejection that the test runner reports as a failure, and neither should gate the contract suite. The acceptance record states which claims rest on stand-in objects, which rest only on this package logic, and which are not implemented yet, instead of presenting all of them as verified.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-hooks/tests/probes/probe.test.mjs",
+      "normalizedSha256": "a51a69faa7539fa2933a8e2d3b32cb209656b4f0c4beb68e726a66667343fde7",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored DSH event probes. Each probe drives a real cordis context to establish one fact the implementation depends on before any mount point is written: where the continuation argument sits, whether entering a step replaces or appends messages, whether an approval request is claimed or delegated, whether a frozen tool result can be replaced, whether the event bus contains listener exceptions, and whether an asynchronous listener can veto session creation. They live in their own directory rather than beside the contract tests because some deliberately demonstrate a wrong call shape and one leaves an asynchronous rejection, and a mixed run would let those records gate the contract suite. Their findings are summarised in the accompanying notes file so the conclusions survive even if the probes are later simplified.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/probes/probe-findings.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-hooks/tests/probes/probe2.test.mjs",
+      "normalizedSha256": "bb11ef11b40e0367e7e34bffd292c678664268f51f4ae35d2ae923737ef16c57",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored DSH event probes. Each probe drives a real cordis context to establish one fact the implementation depends on before any mount point is written: where the continuation argument sits, whether entering a step replaces or appends messages, whether an approval request is claimed or delegated, whether a frozen tool result can be replaced, whether the event bus contains listener exceptions, and whether an asynchronous listener can veto session creation. They live in their own directory rather than beside the contract tests because some deliberately demonstrate a wrong call shape and one leaves an asynchronous rejection, and a mixed run would let those records gate the contract suite. Their findings are summarised in the accompanying notes file so the conclusions survive even if the probes are later simplified.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/probes/probe-findings.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-hooks/tests/probes/probe3.test.mjs",
+      "normalizedSha256": "6448f82ee4e93810e5d5f91647daa2e4c792408aaecb1ed642316b5c6556a6c8",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored DSH event probes. Each probe drives a real cordis context to establish one fact the implementation depends on before any mount point is written: where the continuation argument sits, whether entering a step replaces or appends messages, whether an approval request is claimed or delegated, whether a frozen tool result can be replaced, whether the event bus contains listener exceptions, and whether an asynchronous listener can veto session creation. They live in their own directory rather than beside the contract tests because some deliberately demonstrate a wrong call shape and one leaves an asynchronous rejection, and a mixed run would let those records gate the contract suite. Their findings are summarised in the accompanying notes file so the conclusions survive even if the probes are later simplified.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/probes/probe-findings.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-hooks/tests/probes/probe4.test.mjs",
+      "normalizedSha256": "459077351ce13ba52ba86f251b234bf706b2ba096dbb58bcddf9a0a16244931f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored DSH event probes. Each probe drives a real cordis context to establish one fact the implementation depends on before any mount point is written: where the continuation argument sits, whether entering a step replaces or appends messages, whether an approval request is claimed or delegated, whether a frozen tool result can be replaced, whether the event bus contains listener exceptions, and whether an asynchronous listener can veto session creation. They live in their own directory rather than beside the contract tests because some deliberately demonstrate a wrong call shape and one leaves an asynchronous rejection, and a mixed run would let those records gate the contract suite. Their findings are summarised in the accompanying notes file so the conclusions survive even if the probes are later simplified.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/probes/probe-findings.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-hooks/tests/probes/probe5.test.mjs",
+      "normalizedSha256": "67794c6cf5f2bc407255dc28e5b52683b69fe60581eb8bc758e904e08974175c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored DSH event probes. Each probe drives a real cordis context to establish one fact the implementation depends on before any mount point is written: where the continuation argument sits, whether entering a step replaces or appends messages, whether an approval request is claimed or delegated, whether a frozen tool result can be replaced, whether the event bus contains listener exceptions, and whether an asynchronous listener can veto session creation. They live in their own directory rather than beside the contract tests because some deliberately demonstrate a wrong call shape and one leaves an asynchronous rejection, and a mixed run would let those records gate the contract suite. Their findings are summarised in the accompanying notes file so the conclusions survive even if the probes are later simplified.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/probes/probe-findings.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-hooks/tests/probes/probe6.test.mjs",
+      "normalizedSha256": "5b35f56c0598abd94eed010e6e4096b2676f0239bc9ed9cb123fa7d674f45300",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored DSH event probes. Each probe drives a real cordis context to establish one fact the implementation depends on before any mount point is written: where the continuation argument sits, whether entering a step replaces or appends messages, whether an approval request is claimed or delegated, whether a frozen tool result can be replaced, whether the event bus contains listener exceptions, and whether an asynchronous listener can veto session creation. They live in their own directory rather than beside the contract tests because some deliberately demonstrate a wrong call shape and one leaves an asynchronous rejection, and a mixed run would let those records gate the contract suite. Their findings are summarised in the accompanying notes file so the conclusions survive even if the probes are later simplified.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/probes/probe-findings.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-hooks/tests/probes/probe7.test.mjs",
+      "normalizedSha256": "74ef916b112124e0aa0c79d436eba9b6795151676bf269d175b90b247dad94b5",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored DSH event probes. Each probe drives a real cordis context to establish one fact the implementation depends on before any mount point is written: where the continuation argument sits, whether entering a step replaces or appends messages, whether an approval request is claimed or delegated, whether a frozen tool result can be replaced, whether the event bus contains listener exceptions, and whether an asynchronous listener can veto session creation. They live in their own directory rather than beside the contract tests because some deliberately demonstrate a wrong call shape and one leaves an asynchronous rejection, and a mixed run would let those records gate the contract suite. Their findings are summarised in the accompanying notes file so the conclusions survive even if the probes are later simplified.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/probes/probe-findings.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-hooks/tests/probes/probe8.test.mjs",
+      "normalizedSha256": "e2af936e7c1480ad218b06bd2c179a7610d399a1bd68a657d3ddd9eb62ea95e0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored DSH event probes. Each probe drives a real cordis context to establish one fact the implementation depends on before any mount point is written: where the continuation argument sits, whether entering a step replaces or appends messages, whether an approval request is claimed or delegated, whether a frozen tool result can be replaced, whether the event bus contains listener exceptions, and whether an asynchronous listener can veto session creation. They live in their own directory rather than beside the contract tests because some deliberately demonstrate a wrong call shape and one leaves an asynchronous rejection, and a mixed run would let those records gate the contract suite. Their findings are summarised in the accompanying notes file so the conclusions survive even if the probes are later simplified.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/probes/probe-findings.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-hooks/tests/probes/probe-findings.md",
+      "normalizedSha256": "72e113c5b05b7d29eb5fcb041051f2a41e67f420e33419979d02411dc4471517",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored DSH event probes. Each probe drives a real cordis context to establish one fact the implementation depends on before any mount point is written: where the continuation argument sits, whether entering a step replaces or appends messages, whether an approval request is claimed or delegated, whether a frozen tool result can be replaced, whether the event bus contains listener exceptions, and whether an asynchronous listener can veto session creation. They live in their own directory rather than beside the contract tests because some deliberately demonstrate a wrong call shape and one leaves an asynchronous rejection, and a mixed run would let those records gate the contract suite. Their findings are summarised in the accompanying notes file so the conclusions survive even if the probes are later simplified.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/probes/probe-findings.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/fs/temp-directory.ts",
+      "normalizedSha256": "5c190ca33b068723dceb69389cadf31e5b8b4e2225dbcdae414e9e4c4eefbe33",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored temporary directory capability, placed as a plugin-specific port rather than an extension of the general filesystem port. The hook executor needs a uniquely named working directory and must remove it idempotently, but neither belongs in the general filesystem interface: the earlier attempt to widen that interface forced every implementation and a sealed contract-test harness to change, while the capability has exactly one consumer. The node implementation lives in its own adapter file because the filesystem index is behind a sealed seam that only permits a fixed set of imports, and adding a separate file keeps it outside that seam instead of loosening the seal. Uniqueness comes from the platform temporary-directory primitive so it is guaranteed by the kernel rather than by a check-then-create race. Removal is recursive and treats an absent directory as success by default, since cleanup can run more than once. Verified with seven contract tests including uniqueness across calls, a caller-supplied parent, recursive removal of a populated directory, repeated removal, the strict setting, and an in-memory stand-in demonstrating the interface is sufficient without touching the real filesystem.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/temp-directory.test.mjs"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/index.ts",
+      "normalizedSha256": "b8b9b953e933cd563dae46ee41350e2353ea329851ad506772f66168f8f5d724",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored temporary directory capability, placed as a plugin-specific port rather than an extension of the general filesystem port. The hook executor needs a uniquely named working directory and must remove it idempotently, but neither belongs in the general filesystem interface: the earlier attempt to widen that interface forced every implementation and a sealed contract-test harness to change, while the capability has exactly one consumer. The node implementation lives in its own adapter file because the filesystem index is behind a sealed seam that only permits a fixed set of imports, and adding a separate file keeps it outside that seam instead of loosening the seal. Uniqueness comes from the platform temporary-directory primitive so it is guaranteed by the kernel rather than by a check-then-create race. Removal is recursive and treats an absent directory as success by default, since cleanup can run more than once. Verified with seven contract tests including uniqueness across calls, a caller-supplied parent, recursive removal of a populated directory, repeated removal, the strict setting, and an in-memory stand-in demonstrating the interface is sufficient without touching the real filesystem.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/temp-directory.test.mjs"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-hooks/temp-directory.ts",
+      "normalizedSha256": "ca06f0a4b833c5a99f6e9919432cedd957cb338bde886a88a5bc167994307279",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored temporary directory capability, placed as a plugin-specific port rather than an extension of the general filesystem port. The hook executor needs a uniquely named working directory and must remove it idempotently, but neither belongs in the general filesystem interface: the earlier attempt to widen that interface forced every implementation and a sealed contract-test harness to change, while the capability has exactly one consumer. The node implementation lives in its own adapter file because the filesystem index is behind a sealed seam that only permits a fixed set of imports, and adding a separate file keeps it outside that seam instead of loosening the seal. Uniqueness comes from the platform temporary-directory primitive so it is guaranteed by the kernel rather than by a check-then-create race. Removal is recursive and treats an absent directory as success by default, since cleanup can run more than once. Verified with seven contract tests including uniqueness across calls, a caller-supplied parent, recursive removal of a populated directory, repeated removal, the strict setting, and an in-memory stand-in demonstrating the interface is sufficient without touching the real filesystem.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/temp-directory.test.mjs"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-hooks/tests/temp-directory.test.mjs",
+      "normalizedSha256": "4ee0477d4703d5d395ff8503d7fc23d7c695430d1a8db0e29cdd6c7153fe79d3",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored temporary directory capability, placed as a plugin-specific port rather than an extension of the general filesystem port. The hook executor needs a uniquely named working directory and must remove it idempotently, but neither belongs in the general filesystem interface: the earlier attempt to widen that interface forced every implementation and a sealed contract-test harness to change, while the capability has exactly one consumer. The node implementation lives in its own adapter file because the filesystem index is behind a sealed seam that only permits a fixed set of imports, and adding a separate file keeps it outside that seam instead of loosening the seal. Uniqueness comes from the platform temporary-directory primitive so it is guaranteed by the kernel rather than by a check-then-create race. Removal is recursive and treats an absent directory as success by default, since cleanup can run more than once. Verified with seven contract tests including uniqueness across calls, a caller-supplied parent, recursive removal of a populated directory, repeated removal, the strict setting, and an in-memory stand-in demonstrating the interface is sufficient without touching the real filesystem.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/temp-directory.test.mjs"
       ]
     },
     {
@@ -151748,171 +151940,6 @@
         "specs/contracts/apps-cli-packages-01/README.md",
         "docs/knorvia-apps-cli-packages-01-acceptance.md"
       ]
-=======
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored hooks plugin implementation, three typing corrections found by the package build. The first version of the observation, stop and prompt mounts declared their own minimal payload shapes and omitted the listener this-type. Runtime probes and contract tests all passed because a hand-driven context dispatch does not check types, but the package build rejected all three, which shows that runtime verification and type verification cover different ground. The correction uses the runtime exported types directly, including the full payload shapes and the exact return types the events declare, and the event handlers now name the payload the event actually provides. Observation still returns the bare undefined the event requires rather than a void function. Verified by the full package build completing all fifteen tasks, with the contract suite still at sixty-three passing and the probes at thirty-one.",
-      "evidence": ["specs/contracts/kernel-plugin-hooks/acceptance.md"]
-    },
-    {
-      "path": "specs/contracts/kernel-plugin-hooks/tests/user-prompt-submit.test.mjs",
-      "normalizedSha256": "22e0540cc70153411fabdc4a796a9b6646255fc24a3fa9aeb9d0b70762435dcb",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored hooks plugin implementation, fourth mount point, plus two documentation additions. The user-prompt mount maps a denial to rejecting the proposed step and an injected context to entering the step with the original messages plus one appended user message. Appending matters because entering replaces the message list rather than adding to it, which the probe confirmed by showing that a replacement list of one message yields one message regardless of how many arrived. The injected message carries an identifier, the user role, text content and a user source, all of which the message type requires. Allow and approval verdicts delegate, because submitting a prompt has no notion of permission or approval; only accept, reject and rewrite apply. Documentation gains the fact that the post-tool mount covers both the success and failure events because the runtime routes thrown tools through the same waterfall, so seven hook events need six mount points, and it gains a registered difference explaining that a post-tool denial is observable to the user because the runtime has no accept-with-warning branch and blocking rewrites the result as a failure.",
-      "evidence": ["specs/contracts/kernel-plugin-hooks/tests/user-prompt-submit.test.mjs"]
-    },
-    {
-      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-hooks/turn-stopping.ts",
-      "normalizedSha256": "6b0da47dbf9d046c3d2c4ff7ff125f0b76d76f8198b775e8a88c005e9ef802b1",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored hooks plugin implementation, three typing corrections found by the package build. The first version of the observation, stop and prompt mounts declared their own minimal payload shapes and omitted the listener this-type. Runtime probes and contract tests all passed because a hand-driven context dispatch does not check types, but the package build rejected all three, which shows that runtime verification and type verification cover different ground. The correction uses the runtime exported types directly, including the full payload shapes and the exact return types the events declare, and the event handlers now name the payload the event actually provides. Observation still returns the bare undefined the event requires rather than a void function. Verified by the full package build completing all fifteen tasks, with the contract suite still at sixty-three passing and the probes at thirty-one.",
-      "evidence": ["specs/contracts/kernel-plugin-hooks/acceptance.md"]
-    },
-    {
-      "path": "specs/contracts/kernel-plugin-hooks/tests/turn-stopping.test.mjs",
-      "normalizedSha256": "0459b6756fabdd378633389778308635a0f4690c3f51dd29ffa27e9eab175147",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored hooks plugin implementation, fifth mount point. The stop mount treats a denial as a request to continue, because at the point where the turn is about to close, refusing to close and asking to continue are the same statement; it expresses that by steering a user message, which the runtime reads as fresh input that runs another step. Allowance, approval requests and no opinion all leave the turn to close, since none of them has a meaning at that boundary. The handler deliberately returns no bail value so that other listeners registered at the same point still run, which keeps the aggregation equivalent to the old behaviour even though the runtime visits every listener instead of short-circuiting on the first objection; that difference is already registered. Verified with nine contract tests driving a real cordis context through the serial dispatch, covering continuation, quiet closure for each non-denial verdict, field mapping, the multi-listener aggregation, the absence of a bail value, disposal, and the injected message shape.",
-      "evidence": ["specs/contracts/kernel-plugin-hooks/tests/turn-stopping.test.mjs"]
-    },
-    {
-      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-hooks/result-observer.ts",
-      "normalizedSha256": "9b7ed1993c5d0f0bf5d575699703dc8b24fab803f125ec167cec752904174b89",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored hooks plugin implementation, three typing corrections found by the package build. The first version of the observation, stop and prompt mounts declared their own minimal payload shapes and omitted the listener this-type. Runtime probes and contract tests all passed because a hand-driven context dispatch does not check types, but the package build rejected all three, which shows that runtime verification and type verification cover different ground. The correction uses the runtime exported types directly, including the full payload shapes and the exact return types the events declare, and the event handlers now name the payload the event actually provides. Observation still returns the bare undefined the event requires rather than a void function. Verified by the full package build completing all fifteen tasks, with the contract suite still at sixty-three passing and the probes at thirty-one.",
-      "evidence": ["specs/contracts/kernel-plugin-hooks/acceptance.md"]
-    },
-    {
-      "path": "specs/contracts/kernel-plugin-hooks/tests/result-observer.test.mjs",
-      "normalizedSha256": "ef2fffff0c4f58e26d6b533827281626fc153886a419170dfdcc51fa7973507f",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored hooks plugin implementation, sixth mount point, which is observation only. The tool-result event carries no decision, so this module records tool name, call identity, failure flag, content block count and failure message, and produces nothing. It wraps the observer call in its own guard because the event bus does not contain listener exceptions: the runtime documentation promises containment, but that promise belongs to the runtime, not to the bus, which was measured by throwing from a listener and seeing the error reach the caller. Since observation failing must never affect tool execution, the module absorbs those errors itself rather than relying on a guarantee that does not hold at this layer. It also leaves its inputs untouched. Verified with seven contract tests covering success and failure field mapping, swallowed observer errors, multiple listeners, absent optional fields, disposal, and input immutability.",
-      "evidence": ["specs/contracts/kernel-plugin-hooks/tests/result-observer.test.mjs"]
-    },
-    {
-      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-hooks/session-start.ts",
-      "normalizedSha256": "344f7c537c7df970492cee0df9a658224b61cd0307ad98408300adc1d8b9482f",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored hooks plugin implementation, final mount point and acceptance record. The session-start mount is deliberately a synchronous handler because only a synchronous throw can veto session creation; an asynchronous listener would turn that throw into a rejection that the runtime merely logs, which the probe demonstrated by comparing both shapes. Since hook scripts necessarily run asynchronously, blocking a session from a hook cannot be done at this boundary at all, so the module offers a deferred path that turns such a verdict into a denial at the first prompt submission, which is the closest feasible behaviour and is already registered as a difference. Probes were also separated from contract tests into their own directory, because mixed runs coupled them: one probe intentionally demonstrates a wrong call shape and another leaves an asynchronous rejection that the test runner reports as a failure, and neither should gate the contract suite. The acceptance record states which claims rest on stand-in objects, which rest only on this package logic, and which are not implemented yet, instead of presenting all of them as verified.",
-      "evidence": ["specs/contracts/kernel-plugin-hooks/acceptance.md"]
-    },
-    {
-      "path": "specs/contracts/kernel-plugin-hooks/tests/session-start.test.mjs",
-      "normalizedSha256": "f06f82a3ff642a5ccacd30b76d302bd5d343b3b4dc7adb6d961cf5cb813c8041",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored hooks plugin implementation, final mount point and acceptance record. The session-start mount is deliberately a synchronous handler because only a synchronous throw can veto session creation; an asynchronous listener would turn that throw into a rejection that the runtime merely logs, which the probe demonstrated by comparing both shapes. Since hook scripts necessarily run asynchronously, blocking a session from a hook cannot be done at this boundary at all, so the module offers a deferred path that turns such a verdict into a denial at the first prompt submission, which is the closest feasible behaviour and is already registered as a difference. Probes were also separated from contract tests into their own directory, because mixed runs coupled them: one probe intentionally demonstrates a wrong call shape and another leaves an asynchronous rejection that the test runner reports as a failure, and neither should gate the contract suite. The acceptance record states which claims rest on stand-in objects, which rest only on this package logic, and which are not implemented yet, instead of presenting all of them as verified.",
-      "evidence": ["specs/contracts/kernel-plugin-hooks/acceptance.md"]
-    },
-    {
-      "path": "specs/contracts/kernel-plugin-hooks/tests/probes/probe.test.mjs",
-      "normalizedSha256": "a51a69faa7539fa2933a8e2d3b32cb209656b4f0c4beb68e726a66667343fde7",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored DSH event probes. Each probe drives a real cordis context to establish one fact the implementation depends on before any mount point is written: where the continuation argument sits, whether entering a step replaces or appends messages, whether an approval request is claimed or delegated, whether a frozen tool result can be replaced, whether the event bus contains listener exceptions, and whether an asynchronous listener can veto session creation. They live in their own directory rather than beside the contract tests because some deliberately demonstrate a wrong call shape and one leaves an asynchronous rejection, and a mixed run would let those records gate the contract suite. Their findings are summarised in the accompanying notes file so the conclusions survive even if the probes are later simplified.",
-      "evidence": ["specs/contracts/kernel-plugin-hooks/tests/probes/probe-findings.md"]
-    },
-    {
-      "path": "specs/contracts/kernel-plugin-hooks/tests/probes/probe2.test.mjs",
-      "normalizedSha256": "bb11ef11b40e0367e7e34bffd292c678664268f51f4ae35d2ae923737ef16c57",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored DSH event probes. Each probe drives a real cordis context to establish one fact the implementation depends on before any mount point is written: where the continuation argument sits, whether entering a step replaces or appends messages, whether an approval request is claimed or delegated, whether a frozen tool result can be replaced, whether the event bus contains listener exceptions, and whether an asynchronous listener can veto session creation. They live in their own directory rather than beside the contract tests because some deliberately demonstrate a wrong call shape and one leaves an asynchronous rejection, and a mixed run would let those records gate the contract suite. Their findings are summarised in the accompanying notes file so the conclusions survive even if the probes are later simplified.",
-      "evidence": ["specs/contracts/kernel-plugin-hooks/tests/probes/probe-findings.md"]
-    },
-    {
-      "path": "specs/contracts/kernel-plugin-hooks/tests/probes/probe3.test.mjs",
-      "normalizedSha256": "6448f82ee4e93810e5d5f91647daa2e4c792408aaecb1ed642316b5c6556a6c8",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored DSH event probes. Each probe drives a real cordis context to establish one fact the implementation depends on before any mount point is written: where the continuation argument sits, whether entering a step replaces or appends messages, whether an approval request is claimed or delegated, whether a frozen tool result can be replaced, whether the event bus contains listener exceptions, and whether an asynchronous listener can veto session creation. They live in their own directory rather than beside the contract tests because some deliberately demonstrate a wrong call shape and one leaves an asynchronous rejection, and a mixed run would let those records gate the contract suite. Their findings are summarised in the accompanying notes file so the conclusions survive even if the probes are later simplified.",
-      "evidence": ["specs/contracts/kernel-plugin-hooks/tests/probes/probe-findings.md"]
-    },
-    {
-      "path": "specs/contracts/kernel-plugin-hooks/tests/probes/probe4.test.mjs",
-      "normalizedSha256": "459077351ce13ba52ba86f251b234bf706b2ba096dbb58bcddf9a0a16244931f",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored DSH event probes. Each probe drives a real cordis context to establish one fact the implementation depends on before any mount point is written: where the continuation argument sits, whether entering a step replaces or appends messages, whether an approval request is claimed or delegated, whether a frozen tool result can be replaced, whether the event bus contains listener exceptions, and whether an asynchronous listener can veto session creation. They live in their own directory rather than beside the contract tests because some deliberately demonstrate a wrong call shape and one leaves an asynchronous rejection, and a mixed run would let those records gate the contract suite. Their findings are summarised in the accompanying notes file so the conclusions survive even if the probes are later simplified.",
-      "evidence": ["specs/contracts/kernel-plugin-hooks/tests/probes/probe-findings.md"]
-    },
-    {
-      "path": "specs/contracts/kernel-plugin-hooks/tests/probes/probe5.test.mjs",
-      "normalizedSha256": "67794c6cf5f2bc407255dc28e5b52683b69fe60581eb8bc758e904e08974175c",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored DSH event probes. Each probe drives a real cordis context to establish one fact the implementation depends on before any mount point is written: where the continuation argument sits, whether entering a step replaces or appends messages, whether an approval request is claimed or delegated, whether a frozen tool result can be replaced, whether the event bus contains listener exceptions, and whether an asynchronous listener can veto session creation. They live in their own directory rather than beside the contract tests because some deliberately demonstrate a wrong call shape and one leaves an asynchronous rejection, and a mixed run would let those records gate the contract suite. Their findings are summarised in the accompanying notes file so the conclusions survive even if the probes are later simplified.",
-      "evidence": ["specs/contracts/kernel-plugin-hooks/tests/probes/probe-findings.md"]
-    },
-    {
-      "path": "specs/contracts/kernel-plugin-hooks/tests/probes/probe6.test.mjs",
-      "normalizedSha256": "5b35f56c0598abd94eed010e6e4096b2676f0239bc9ed9cb123fa7d674f45300",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored DSH event probes. Each probe drives a real cordis context to establish one fact the implementation depends on before any mount point is written: where the continuation argument sits, whether entering a step replaces or appends messages, whether an approval request is claimed or delegated, whether a frozen tool result can be replaced, whether the event bus contains listener exceptions, and whether an asynchronous listener can veto session creation. They live in their own directory rather than beside the contract tests because some deliberately demonstrate a wrong call shape and one leaves an asynchronous rejection, and a mixed run would let those records gate the contract suite. Their findings are summarised in the accompanying notes file so the conclusions survive even if the probes are later simplified.",
-      "evidence": ["specs/contracts/kernel-plugin-hooks/tests/probes/probe-findings.md"]
-    },
-    {
-      "path": "specs/contracts/kernel-plugin-hooks/tests/probes/probe7.test.mjs",
-      "normalizedSha256": "74ef916b112124e0aa0c79d436eba9b6795151676bf269d175b90b247dad94b5",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored DSH event probes. Each probe drives a real cordis context to establish one fact the implementation depends on before any mount point is written: where the continuation argument sits, whether entering a step replaces or appends messages, whether an approval request is claimed or delegated, whether a frozen tool result can be replaced, whether the event bus contains listener exceptions, and whether an asynchronous listener can veto session creation. They live in their own directory rather than beside the contract tests because some deliberately demonstrate a wrong call shape and one leaves an asynchronous rejection, and a mixed run would let those records gate the contract suite. Their findings are summarised in the accompanying notes file so the conclusions survive even if the probes are later simplified.",
-      "evidence": ["specs/contracts/kernel-plugin-hooks/tests/probes/probe-findings.md"]
-    },
-    {
-      "path": "specs/contracts/kernel-plugin-hooks/tests/probes/probe8.test.mjs",
-      "normalizedSha256": "e2af936e7c1480ad218b06bd2c179a7610d399a1bd68a657d3ddd9eb62ea95e0",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored DSH event probes. Each probe drives a real cordis context to establish one fact the implementation depends on before any mount point is written: where the continuation argument sits, whether entering a step replaces or appends messages, whether an approval request is claimed or delegated, whether a frozen tool result can be replaced, whether the event bus contains listener exceptions, and whether an asynchronous listener can veto session creation. They live in their own directory rather than beside the contract tests because some deliberately demonstrate a wrong call shape and one leaves an asynchronous rejection, and a mixed run would let those records gate the contract suite. Their findings are summarised in the accompanying notes file so the conclusions survive even if the probes are later simplified.",
-      "evidence": ["specs/contracts/kernel-plugin-hooks/tests/probes/probe-findings.md"]
-    },
-    {
-      "path": "specs/contracts/kernel-plugin-hooks/tests/probes/probe-findings.md",
-      "normalizedSha256": "72e113c5b05b7d29eb5fcb041051f2a41e67f420e33419979d02411dc4471517",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored DSH event probes. Each probe drives a real cordis context to establish one fact the implementation depends on before any mount point is written: where the continuation argument sits, whether entering a step replaces or appends messages, whether an approval request is claimed or delegated, whether a frozen tool result can be replaced, whether the event bus contains listener exceptions, and whether an asynchronous listener can veto session creation. They live in their own directory rather than beside the contract tests because some deliberately demonstrate a wrong call shape and one leaves an asynchronous rejection, and a mixed run would let those records gate the contract suite. Their findings are summarised in the accompanying notes file so the conclusions survive even if the probes are later simplified.",
-      "evidence": ["specs/contracts/kernel-plugin-hooks/tests/probes/probe-findings.md"]
-    },
-    {
-      "path": "apps/cli/packages/adapters/src/fs/temp-directory.ts",
-      "normalizedSha256": "5c190ca33b068723dceb69389cadf31e5b8b4e2225dbcdae414e9e4c4eefbe33",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored temporary directory capability, placed as a plugin-specific port rather than an extension of the general filesystem port. The hook executor needs a uniquely named working directory and must remove it idempotently, but neither belongs in the general filesystem interface: the earlier attempt to widen that interface forced every implementation and a sealed contract-test harness to change, while the capability has exactly one consumer. The node implementation lives in its own adapter file because the filesystem index is behind a sealed seam that only permits a fixed set of imports, and adding a separate file keeps it outside that seam instead of loosening the seal. Uniqueness comes from the platform temporary-directory primitive so it is guaranteed by the kernel rather than by a check-then-create race. Removal is recursive and treats an absent directory as success by default, since cleanup can run more than once. Verified with seven contract tests including uniqueness across calls, a caller-supplied parent, recursive removal of a populated directory, repeated removal, the strict setting, and an in-memory stand-in demonstrating the interface is sufficient without touching the real filesystem.",
-      "evidence": ["specs/contracts/kernel-plugin-hooks/tests/temp-directory.test.mjs"]
-    },
-    {
-      "path": "apps/cli/packages/adapters/src/index.ts",
-      "normalizedSha256": "b8b9b953e933cd563dae46ee41350e2353ea329851ad506772f66168f8f5d724",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored temporary directory capability, placed as a plugin-specific port rather than an extension of the general filesystem port. The hook executor needs a uniquely named working directory and must remove it idempotently, but neither belongs in the general filesystem interface: the earlier attempt to widen that interface forced every implementation and a sealed contract-test harness to change, while the capability has exactly one consumer. The node implementation lives in its own adapter file because the filesystem index is behind a sealed seam that only permits a fixed set of imports, and adding a separate file keeps it outside that seam instead of loosening the seal. Uniqueness comes from the platform temporary-directory primitive so it is guaranteed by the kernel rather than by a check-then-create race. Removal is recursive and treats an absent directory as success by default, since cleanup can run more than once. Verified with seven contract tests including uniqueness across calls, a caller-supplied parent, recursive removal of a populated directory, repeated removal, the strict setting, and an in-memory stand-in demonstrating the interface is sufficient without touching the real filesystem.",
-      "evidence": ["specs/contracts/kernel-plugin-hooks/tests/temp-directory.test.mjs"]
-    },
-    {
-      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-hooks/temp-directory.ts",
-      "normalizedSha256": "ca06f0a4b833c5a99f6e9919432cedd957cb338bde886a88a5bc167994307279",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored temporary directory capability, placed as a plugin-specific port rather than an extension of the general filesystem port. The hook executor needs a uniquely named working directory and must remove it idempotently, but neither belongs in the general filesystem interface: the earlier attempt to widen that interface forced every implementation and a sealed contract-test harness to change, while the capability has exactly one consumer. The node implementation lives in its own adapter file because the filesystem index is behind a sealed seam that only permits a fixed set of imports, and adding a separate file keeps it outside that seam instead of loosening the seal. Uniqueness comes from the platform temporary-directory primitive so it is guaranteed by the kernel rather than by a check-then-create race. Removal is recursive and treats an absent directory as success by default, since cleanup can run more than once. Verified with seven contract tests including uniqueness across calls, a caller-supplied parent, recursive removal of a populated directory, repeated removal, the strict setting, and an in-memory stand-in demonstrating the interface is sufficient without touching the real filesystem.",
-      "evidence": ["specs/contracts/kernel-plugin-hooks/tests/temp-directory.test.mjs"]
-    },
-    {
-      "path": "specs/contracts/kernel-plugin-hooks/tests/temp-directory.test.mjs",
-      "normalizedSha256": "4ee0477d4703d5d395ff8503d7fc23d7c695430d1a8db0e29cdd6c7153fe79d3",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored temporary directory capability, placed as a plugin-specific port rather than an extension of the general filesystem port. The hook executor needs a uniquely named working directory and must remove it idempotently, but neither belongs in the general filesystem interface: the earlier attempt to widen that interface forced every implementation and a sealed contract-test harness to change, while the capability has exactly one consumer. The node implementation lives in its own adapter file because the filesystem index is behind a sealed seam that only permits a fixed set of imports, and adding a separate file keeps it outside that seam instead of loosening the seal. Uniqueness comes from the platform temporary-directory primitive so it is guaranteed by the kernel rather than by a check-then-create race. Removal is recursive and treats an absent directory as success by default, since cleanup can run more than once. Verified with seven contract tests including uniqueness across calls, a caller-supplied parent, recursive removal of a populated directory, repeated removal, the strict setting, and an in-memory stand-in demonstrating the interface is sufficient without touching the real filesystem.",
-      "evidence": ["specs/contracts/kernel-plugin-hooks/tests/temp-directory.test.mjs"]
->>>>>>> origin/main
     }
   ]
 }
