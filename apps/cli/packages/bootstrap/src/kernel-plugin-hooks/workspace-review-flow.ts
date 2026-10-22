@@ -73,7 +73,13 @@ interface InternalFlow {
   readonly result: Promise<ReviewFlowOutcome>;
   readonly resolve: (outcome: ReviewFlowOutcome) => void;
   readonly reject: (error: Error) => void;
-  readonly timer: ReturnType<typeof setTimeout> | undefined;
+  /**
+   * 超时计时器。
+   *
+   * ⚠️ 不能是 `readonly` —— 结算时要清掉引用（`clearTimeout` + 置 `undefined`），
+   * 否则已结算的流程会留下悬空计时器。
+   */
+  timer: ReturnType<typeof setTimeout> | undefined;
   state: ReviewFlowState;
   supersededByInteractionId: string | undefined;
   settled: boolean;
