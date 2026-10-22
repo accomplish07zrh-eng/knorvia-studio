@@ -321,3 +321,152 @@ for (const stmt of source.matchAll(/^export\s+(?:type\s+)?\{...\}\s*from\s*"([^"
 1. **16 个叶子**（无层内依赖）可并行；
 2. **6 个真 I/O 且是叶子的文件**（`dataLocationOwner` / `system/integratedTerminalShells` 等）优先；
 3. **18 个汇聚点最后改**，其中 `descriptors`(6) 与 `terminal/terminalProfileTypes`(6) 最后。
+
+---
+
+## 6. ⚠️ 测量方法的两个陷阱（2026-10-22 实测记录）
+
+### 6.1 `--allow-upstream-only` 在「上游无同路径文件」时回退成**自比**
+
+**现象**：对 `dataLocationOwner.ts`（本项目新写、上游无对应路径）执行：
+
+```powershell
+node --import tsx scripts/provenance/similarity.mjs --repo <wt> `
+  --candidate-list <该文件> `
+  --upstream-dir "cache/zcode-872ad960" --upstream-rev 872ad960... `
+  --allow-upstream-only
+```
+
+得到：
+```
+FAIL  .../dataLocationOwner.ts  lines=24  containment=1.000  run=24  structural=1.000
+```
+
+**用 `--explain` 查实际比较对象**：
+```
+EXPLAIN .../dataLocationOwner.ts 命中 24/24（containment 1.000）
+  比较文件 .../dataLocationOwner.ts     ← 比的是候选自己
+  最长连续段 24 行：候选 #0…#23 ↔ 比较文件 #0…
+```
+
+**根因**：上游缓存里 `packages/services/src` 下**没有** `system/`、`terminal/`、`subagents/`、
+`window-controller/`、`usage-stats/` 这些目录 —— 即这些路径在上游根本不存在。
+工具在「上游无同路径」时**回退成「与候选自身比」**，必然得出 `containment=1.000`。
+
+**危害**：`1.000` 会被误读为「与上游逐字相同」→ 进而误判为「登记为 `original` 是错的」。
+
+**判据（避免再踩）**：
+1. 看到 `containment=1.000` **且** `run` = 全部行数 → **先跑 `--explain` 查比较对象**；
+2. 若「比较文件 == 候选文件」→ **是自比假阳性**，不是真实结果；
+3. 「上游无同路径」的情形应报 `no-upstream-counterpart`，不该静默自比。
+
+**⚠️ 这是本轮发现的第 6 个「静默失败」类问题**（前 5 个：`--old` 路径不存在静默只比上游、
+手工数契约行以为剔完为 0、`git checkout origin/main -- licensing/*.json` 静默删本分支登记、
+批量模式 `--old-list` 未对齐报 n/a、`readdirSync` 裸调用 + catch 吞错返回 0 个文件）。
+
+### 6.2 5 个 `original` 文件的核实结论：**登记正确**
+
+**曾误判**：用 `--allow-upstream-only` 测出 5 个 `original` 文件
+`containment=1.000 / run=全部行数 / structural=1.000`，一度怀疑是「登记错误」。
+
+**核实后确认这是 6.1 的自比假阳性**。`licensing/reviews.json` 的 `basis` 里记录的是
+**「按内容找最相似的上游文件」**（不是同路径），实测值全部 < 0.20：
+
+| 文件 | `basis` 记的 containment | 比较对象 |
+| :--- | ---: | :--- |
+| `system/ssh-alias/fallback.ts` | 0.13 | `sshConfigAlias.ts` |
+| `system/ssh-alias/configuration.ts` | 0.19 | `sshConfigAlias.ts` |
+| `terminal/terminalProfilePortableFormats.ts` | 0.10 | `session-fork.ts` |
+| `terminal/terminalProfilePortablePlan.ts` | 0.06 | `subagentsService.ts` |
+| `terminal/terminalServiceInstanceOwner.ts` | 0.09 | `zcodeAgentService.ts` |
+
+**→ 全部 < 0.20 → 登记为 `original` 正确 ✅，不需要改登记。**
+
+### 6.3 替换范围的实际结论
+
+```
+46 个实现文件
+  − 6 个 original（本项目自己写，不需替换）
+  − 4 个纯声明型（走 --declaration 声明模式）
+  = 36 个需处理
+      其中 15 个「契约面占比 ≥ 0.20」→ 数学不可达（如实记录）
+      其中 21 个「契约面占比 < 0.20」→ 真正需重写
+```
+
+**⚠️ 而「契约面占比」是本包引入的判定量**：
+```
+契约面 = interface/type 成员行 + 导出函数签名行 + import 行 + 转发行 + 导出声明行
+归一化行 = 总行数 − 纯注释行 − 空行
+契约面占比 = 契约面 / 归一化行
+```
+
+**判据**：契约面占比 ≥ 0.20 → 无论怎么重写实现，`containment` 的理论下界都 ≥ 0.20 → 不可达。
+
+**⚠️ 这个判据的局限（实测）**：
+`terminalProfileMacOsPlist.ts` 契约面占比 0.300，两次重写实测 0.500 / 0.529 ——
+**实际比理论下界更差**（重写后会出现新的巧合匹配）。
+**所以契约面占比只能用于「粗筛不可达」，不能用于「预测能达到多少」。**
+
+---
+
+## 7. KD-6.3：`targetLifecycle.ts` 的抽象极限 = 0.211（差 0.011）
+
+### 7.1 七次重写实验
+
+对 `system/system-probe/targetLifecycle.ts`（71 行原始 / 15 行归一化 / 契约面占比 0.028）
+做了 7 次重写，每次记录实测：
+
+| 版本 | 方案 | 归一化 | **containment** | run | structural |
+| :--- | :--- | ---: | ---: | ---: | ---: |
+| 原始 | — | 15 | **1.000** | 15 | 1.000 |
+| v1 | 拆 4 个辅助函数（探测分离 + 结果构造器） | 83 | **0.530** | 9 | 0.077 |
+| v2 | + 统一结果组装（`assemble` + `locatorOf`） | 66 | **0.288** | 6 | 0.071 |
+| v3 | + 探测策略表（`ProbeStrategy`） | 74 | **0.243** | 6 | **0.000** |
+| v4 | + 逐字段赋值（去掉结果对象字面量） | 73 | **0.233** | 6 | 0.000 |
+| v5 | + 探测入参构造器（`tcpArgs`/`serviceArgs`） | 75 | **0.213** | 6 | 0.000 |
+| **v6** | + `locatorOf` 并入 `kind` | **76** | **0.211** ⭐ 最优 | 6 | 0.000 |
+| v7a | 压缩：`Object.assign` 合并字段赋值 | 67 | 0.299 ↓ | 6 | 0.000 |
+| v7b | 合并 `probeOnce`（少一个函数） | 62 | 0.419 ↓ | 8 | 0.067 |
+| v7c | 合并 `probeArgsOf`（带类型断言） | 78 | 0.218 ↓ | 6 | 0.000 |
+
+### 7.2 结论：存在「相似度-抽象度」最优点
+
+```
+· 抽象不足（照抄结构）      → 1.000
+· 最优抽象（v6）            → 0.211
+· 过度压缩（v7a/b/c）       → 0.218–0.419（重新引入与原文同形的结构）
+```
+
+**v7a/b/c 变差的原因**：
+- `Object.assign` 合并 → 把分立的字段赋值重新合成对象字面量，与原版同形；
+- 合并 `probeOnce` → 内部直接沿用原版的参数对象结构；
+- 合并 `probeArgsOf` → 类型断言增加了行数且未改变结构。
+
+**→ 「压缩行数」会重新引入与原文同形的结构。**
+
+### 7.3 为什么 0.211 是极限（行为结构不可变）
+
+这个文件的实现由四个**行为必需**的结构组成：
+
+| 结构 | 为什么必须保留 |
+| :--- | :--- |
+| 重试循环 | `attempts` 参数决定 |
+| 双分支（tcp / service） | `target.kind` 判别式决定 |
+| 结果对象字段 | `TargetResult` 类型决定 |
+| 错误捕获 + `lastError` | 「失败后继续重试、用尽后报错」的语义决定 |
+
+**抽象只能改变「组织方式」，不能改变「行为结构」** ——
+而 15 行归一化里，行为结构占了绝大部分 → **0.211 是抽象极限**。
+
+### 7.4 为什么不保留 v6
+
+**15 行 → 76 行是 5 倍膨胀**，属于「为降相似度而过度设计」。
+在一个 15 行的文件里引入「策略表 + 统一组装 + 逐字段赋值 + 入参构造器」是**过度工程**；
+真实的质量标准是「代码简洁易懂」，而 76 行比 15 行更难懂。
+
+**→ 保持原版，把 0.211 如实记录为抽象极限。**
+
+**判据（供后续文件复用）**：
+> 若「最优抽象的 containment」与 0.20 的差距 < 0.02，
+> 且该最优抽象需要 3 倍以上的行数膨胀 → **不保留，如实记录极限**。
+
