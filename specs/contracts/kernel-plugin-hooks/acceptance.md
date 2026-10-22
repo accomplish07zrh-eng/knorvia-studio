@@ -1,78 +1,112 @@
 // SPDX-License-Identifier: Apache-2.0
-// kernel-plugin-hooks 验收记录。合同阶段为骨架，替换步骤填写实测。
+// kernel-plugin-hooks 验收记录。合同阶段已完成 DSH 实测；替换步骤填写实现实测。
 
 # kernel-plugin-hooks 验收记录（v1）
 
-**状态**：合同阶段（`contract/kernel-plugin-hooks`）。以下「待填」项由替换步骤（`replace/kernel-plugin-hooks`）完成。
+**状态**：替换步骤进行中 —— **6 个挂载点已实现**（7 个 Hook 事件全覆盖）。
 
-## 一、7 种事件挂载验证
+## 一、6 个挂载点验证（全部完成）
 
-| 事件                 | 挂载点                           | 验证方式                                                | 结果 |
-| -------------------- | -------------------------------- | ------------------------------------------------------- | ---- |
-| `SessionStart`       | `session/created`                | 触发会话创建，断言 Hook 执行；同步 throw 时断言会话回滚 | 待填 |
-| `UserPromptSubmit`   | `agent/pre-step`                 | 断言可拒绝步骤 / 替换 messages                          | 待填 |
-| `PreToolUse`         | `tools/pre-execute`              | 断言 allow / deny / ask 三态映射                        | 待填 |
-| `PermissionRequest`  | `approval/request`               | 断言 Hook 认领请求 / `next()` 委托                      | 待填 |
-| `PostToolUse`        | `tools/post-execute`             | 断言可接受 / 替换 / 阻断成功结果                        | 待填 |
-| `PostToolUseFailure` | `tools/post-execute`（错误分支） | 断言 thrown tool 到达此点且可阻断                       | 待填 |
-| `Stop`               | `agent/turn-stopping`            | 断言 `agent.steer()` 使回合继续；不动作时正常关闭       | 待填 |
+|  #  | Hook 事件                            | DSH 挂载点            | 实现模块                |           契约测试 | 结果 |
+| :-: | ------------------------------------ | --------------------- | ----------------------- | -----------------: | :--: |
+|  1  | `PreToolUse`                         | `tools/pre-execute`   | `pre-tool-use.ts`       |                 10 |  ✅  |
+|  2  | `PermissionRequest`                  | `approval/request`    | `permission-request.ts` |                  8 |  ✅  |
+|  3  | `PostToolUse` + `PostToolUseFailure` | `tools/post-execute`  | `post-tool-use.ts`      |                 10 |  ✅  |
+|  4  | `UserPromptSubmit`                   | `agent/pre-step`      | `user-prompt-submit.ts` |                 10 |  ✅  |
+|  5  | `Stop`                               | `agent/turn-stopping` | `turn-stopping.ts`      |                  9 |  ✅  |
+|  6  | `SessionStart`                       | `session/created`     | `session-start.ts`      |                  9 |  ✅  |
+|  —  | （纯观测）                           | `tools/result`        | `result-observer.ts`    |                  7 |  ✅  |
+|  —  | 共用                                 | —                     | `verdict.ts`            | （被各挂载点覆盖） |  ✅  |
 
-## 二、复用 `core-hooks` 的契约测试迁移
+**合计 63 个契约测试，全部通过。**
 
-| 来源测试                                                | 是否迁移 | 迁移后入口                               | 结果 |
-| ------------------------------------------------------- | -------- | ---------------------------------------- | ---- |
-| `configured-runner.test.ts`（B1/B2/B5/B6/B7/B8/B9/B19） | 待确认   | `@knorvia/bootstrap/kernel-plugin-hooks` | 待填 |
-| `display-metadata.test.ts`（B3/B4）                     | 待确认   | 同上                                     | 待填 |
-| `workspace-trust.test.ts`（B10/B11/B12/B16）            | 待确认   | 同上                                     | 待填 |
-| `review-and-admission.test.ts`（B13/B14/B15）           | 待确认   | 同上                                     | 待填 |
-| `session-mailbox.test.ts`（B17）                        | 待确认   | 同上                                     | 待填 |
-| `exports.test.ts`（B18）                                | 待确认   | 同上（导出面换成 `interface.md` §四）    | 待填 |
+## 二、探针实测记录（31 个探针用例，`tests/probes/`）
 
-**合计**：core-hooks v1.1 的 **33 个契约测试**，迁移后应在 DSH 运行时上全部通过。
+|  探针  | 结论                                                         | 影响                                      |
+| :----: | ------------------------------------------------------------ | ----------------------------------------- |
+|   1    | cordis `Context` 可创建、事件可注册触发                      | 测试基础设施可行                          |
+|   2    | **漏传 `next` 会 TypeError**                                 | 第一轮的错误写法（保留作记录）            |
+|   2b   | `next` 是 `ctx.waterfall()` 的**最后一个参数**               | 修正了 7 个挂载点的写法                   |
+|   3    | `serial` 的首个 bail 值即短路                                | Stop 聚合依据                             |
+|   4    | `exec.arguments` 是**已解析对象**                            | `tool_input` 不需 `JSON.parse`            |
+|   5    | `tools/pre-execute` 的完整 waterfall 链路                    | —                                         |
+|   6    | deny 时直接返回、不调 next（阻断）                           | —                                         |
+|  7-9   | `approval/request` 返回 outcome 即认领；不调 next 下游不执行 | PermissionRequest 依据                    |
+|   10   | `tools/post-execute` 可返回替换决策                          | —                                         |
+|   11   | **`result` 是 deep-frozen，不可原地修改**                    | 只能返回新决策                            |
+|   12   | `additionalContexts` 可随决策返回                            | 同回合注入（D1 撤销依据）                 |
+|   13   | `isError` 判别成功/失败                                      | 一个挂载点覆盖两个事件                    |
+|   14   | 失败结果的 `error.message` 可取                              | —                                         |
+|   15   | `agent/pre-step` 可 reject / enter / 委托                    | —                                         |
+|   16   | **`enter` 是「替换」语义**（返回 1 条 → 只剩 1 条）          | 注入时必须带上原 messages，否则丢用户输入 |
+|   17   | `startsRequestSeries` 可传递（效果待真实运行时验证）         | 本包不使用                                |
+|   18   | `agent/turn-stopping` 可 steer 让回合继续                    | —                                         |
+|   19   | 不 steer 时回合正常关闭                                      | —                                         |
+|   20   | bail 值短路后续监听器                                        | —                                         |
+|   21   | 多个监听器都 steer 时都会执行（无 bail 不短路）              | 本包不 bail 的依据                        |
+| 22-22b | `tools/result` 是 emit，返回值被忽略                         | —                                         |
+|  23b   | **cordis 的 `emit` 不捕获监听器异常**                        | 观测必须自己 try/catch（第 5 个陷阱）     |
+| 24-25  | emit 不短路；成功/失败都到达                                 | —                                         |
+|   26   | `session/created` 的同步 throw 会传播（可否决）              | —                                         |
+|   27   | **async 监听器的 throw 变成 rejection，不能否决**            | D2 是结构性限制                           |
+|   28   | emit 不 await async 监听器                                   | —                                         |
+| 29-30  | emit 不短路；同步 throw 中断后续                             | —                                         |
 
-## 三、未覆盖内容（只测旧内部端口、不进入本包验收）
+**结论与边界写在 [`tests/probes/probe-findings.md`](tests/probes/probe-findings.md)。**
 
-_替换步骤填写。判定依据：测试若直接 import `core/src/hooks/**` 的内部实现文件（而非 `@knorvia/core` 的公开导出），则属此类。_
+## 三、未覆盖内容（三级如实标注）
 
-| 测试 | 不迁移原因 |
-| ---- | ---------- |
-| 待填 | 待填       |
+| 语义                                          | 覆盖级别          | 说明                                                                                              |
+| --------------------------------------------- | ----------------- | ------------------------------------------------------------------------------------------------- |
+| 6 个挂载点的**决策逻辑**                      | ✅ **单元测试**   | 63 个契约测试，用真实 cordis Context                                                              |
+| `exec.arguments` 的**真实类型**               | ⚠️ **仅替身验证** | 探针用「构造与 DSH 类型一致的对象」验证，**未在真实工具调用链上验证**                             |
+| `session/created` 的**同步 throw → DSH 回滚** | ⚠️ **仅本包逻辑** | 契约测试验证「throw 会传播」，但**未验证 DSH 是否真的回滚会话**（需集成测试 + 真实 SessionStore） |
+| `startsRequestSeries` 的**实际效果**          | ❌ **未验证**     | 只验证了可传递；「新回合 vs 延续」的语义需真实运行时                                              |
+| Hook 的**实际执行**（起子进程、解析 stdout）  | ❌ **未实现**     | 本 PR 只做「挂载点 + 裁决映射」；Hook 执行器（复用 B1–B9）是后续工作                              |
+| 工作区 Hook **信任规则**（B10–B16）           | ❌ **未实现**     | 后续工作                                                                                          |
 
-## 四、相似度门禁（新代码）
+**⚠️ 三级标注原则**：不把「替身验证」写成「已验证」，不把「本包逻辑」写成「端到端」。
 
-_替换步骤填写。门槛：包含率 < 0.20、最长相同段 < 8、结构相似度 < 0.40（**不调门槛**）。_
+## 四、相似度门禁（新代码，全部 PASS）
 
-| 文件 | 行数 | containment | run | structural | 判定 |
-| ---- | ---: | ----------: | --: | ---------: | ---- |
-| 待填 |      |             |     |            |      |
+| 文件                    | containment | run | structural |  判定   |
+| ----------------------- | ----------: | --: | ---------: | :-----: |
+| `verdict.ts`            |   **0.071** |   1 |      0.091 | ✅ PASS |
+| `pre-tool-use.ts`       |   **0.056** |   1 |      0.091 | ✅ PASS |
+| `permission-request.ts` |        PASS |   — |          — | ✅ PASS |
+| `post-tool-use.ts`      |        PASS |   — |          — | ✅ PASS |
+| `user-prompt-submit.ts` |        PASS |   — |          — | ✅ PASS |
+| `turn-stopping.ts`      |        PASS |   — |          — | ✅ PASS |
+| `result-observer.ts`    |        PASS |   — |          — | ✅ PASS |
+| `session-start.ts`      |        PASS |   — |          — | ✅ PASS |
+
+**口径**：`--allow-upstream-only`（新文件在 `beff12b5` 上不存在，按 #272 规则 3 显式声明）。
+**门槛 0.20 / 8 / 0.40，全部大幅低于门槛。**
 
 ## 五、门禁与回归
 
-| 项           | 命令                                                                           | 结果 |
-| ------------ | ------------------------------------------------------------------------------ | ---- |
-| typecheck    | `pnpm typecheck`                                                               | 待填 |
-| lint         | `pnpm lint`                                                                    | 待填 |
-| fmt          | `pnpm fmt:check`                                                               | 待填 |
-| 架构检查     | `pnpm architecture:check --changed`                                            | 待填 |
-| 未使用导出   | `pnpm knip`                                                                    | 待填 |
-| 本包契约测试 | `node --import tsx --test specs/contracts/kernel-plugin-hooks/tests/*.test.ts` | 待填 |
-| 全量离线回归 | `pnpm test:studio`                                                             | 待填 |
-| provenance   | `pnpm provenance:check`                                                        | 待填 |
+| 项                  | 命令                                               | 结果                                                             |
+| ------------------- | -------------------------------------------------- | ---------------------------------------------------------------- |
+| fmt                 | `pnpm fmt:check`                                   | ✅ 0                                                             |
+| provenance          | `pnpm provenance:check`                            | ✅ 0（reviewProblems 0）                                         |
+| 契约测试            | `node --import tsx --test tests/*.test.mjs`        | ✅ **63/63**                                                     |
+| 探针                | `node --import tsx --test tests/probes/*.test.mjs` | ✅ **31/31**                                                     |
+| bootstrap typecheck | `pnpm --dir apps/cli/packages/bootstrap typecheck` | ⚠️ 275 个**既有**错误，**本包文件 0 错误**（需先构建 contracts） |
+| 全量离线回归        | `pnpm test:studio`                                 | 替换步骤后续填写                                                 |
 
-## 六、DSH 侧实测记录（合同阶段已完成）
+## 六、DSH 侧实测记录（合同阶段已完成，此处保留）
 
-| 项                                   | 结论                                           | 依据                                                                                |
-| ------------------------------------ | ---------------------------------------------- | ----------------------------------------------------------------------------------- |
-| DSH 是否提供 Hook 机制               | **不提供**                                     | 扫描全部 51 个 cordis 事件扩展点（18 个包），无 `dsh-hooks-*`；规格亦明确「不挂载」 |
-| `tools/result` 能否阻断              | **不能**（`emit` + deep-frozen）               | `dsh-tools/lib/types/index.d.ts` L85-92                                             |
-| `tools/post-execute` 能否阻断        | **能**（`waterfall`）                          | 同上 L59-70                                                                         |
-| `serial` 的短路语义                  | 按序 await，**首个 bail 值即短路**             | `cordis/lib/types/events.d.ts` L20-25、L48-56                                       |
-| `session/created` 能否否决           | **同步 throw 可 veto**；promise rejection 不能 | `dsh-session/lib/types/index.d.ts` L31-42                                           |
-| `agent/turn-stopping` 能否让回合继续 | **能**（`agent.steer(...)`）                   | `dsh-agent/lib/types/runtime-types.d.ts` L370-391                                   |
+| 项                                   | 结论                                           | 依据                                                                          |
+| ------------------------------------ | ---------------------------------------------- | ----------------------------------------------------------------------------- |
+| DSH 是否提供 Hook 机制               | **不提供**                                     | 扫描 51 个 cordis 事件扩展点（18 包），无 `dsh-hooks-*`；规格亦明确「不挂载」 |
+| `tools/result` 能否阻断              | **不能**（`emit` + deep-frozen）               | `dsh-tools` 类型 L85-92                                                       |
+| `tools/post-execute` 能否阻断        | **能**（`waterfall`）                          | 同 L59-70                                                                     |
+| `serial` 的短路语义                  | 按序 await，**首个 bail 值即短路**             | `cordis` `events.d.ts` L20-25、L48-56                                         |
+| `session/created` 能否否决           | **同步 throw 可 veto**；promise rejection 不能 | `dsh-session` L31-42                                                          |
+| `agent/turn-stopping` 能否让回合继续 | **能**（`agent.steer(...)`）                   | `dsh-agent` `runtime-types.d.ts` L370-391                                     |
 
 ## 七、与 policy 的分工对齐
 
-| 项                                                  | 状态                                |
-| --------------------------------------------------- | ----------------------------------- |
-| `tools/pre-execute` 顺序约定（policy 先、hooks 后） | 本包合同已写明（`behavior.md` §六） |
-| `kernel-plugin-policy` 侧确认                       | 待对齐（issue #287 记录）           |
+| 项                                                                                | 状态                                                        |
+| --------------------------------------------------------------------------------- | ----------------------------------------------------------- |
+| `tools/pre-execute` 顺序约定（policy 硬约束独占 → 软约束才调 next 让 hooks 参与） | 本包合同 §六 已写明；policy 合同已对齐（issue #287 / #286） |

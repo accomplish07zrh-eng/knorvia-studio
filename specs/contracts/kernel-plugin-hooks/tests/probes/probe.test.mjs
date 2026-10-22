@@ -31,30 +31,32 @@ test("探针 1：cordis Context 可创建，事件可注册与触发", async () 
   assert.deepEqual(seen[0], { hello: "world" });
 });
 
-test("探针 2：waterfall 的 next() 语义（可短路）", async () => {
+test("探针 2（❌ 错误写法，保留作记录）：漏传 next 会 TypeError", async () => {
   const { Context } = await loadCordis();
   const ctx = new Context();
 
   const order = [];
-  // 第一个监听器：不改，委托
-  ctx.on("probe/waterfall", async (value, next) => {
+  // ⚠️ 这是我第一轮的**错误写法**：假设 cordis 会把 next 注入给监听器。
+  // 实际约定是「next 由 ctx.waterfall() 调用时作为最后一个参数传入」
+  // （events.d.ts L68-74），所以这里 next 是 undefined。
+  ctx.on("probe/waterfall", (value, next) => {
     order.push("first");
-    return await next();
-  });
-  // 第二个监听器：短路，不调 next()
-  ctx.on("probe/waterfall", async () => {
-    order.push("second");
-    return { kind: "deny", reason: "blocked by second" };
-  });
-  // 第三个监听器：若 second 短路，它不应被执行
-  ctx.on("probe/waterfall", async (_value, next) => {
-    order.push("third");
-    return await next();
+    return next();
   });
 
-  const result = await ctx.waterfall("probe/waterfall", { kind: "allow" });
-  assert.deepEqual(order, ["first", "second"], `短路后不应执行 third，实际：${order.join(",")}`);
-  assert.equal(result.kind, "deny");
+  // 正确调用要传 innermost next 作为最后一个参数；不带 next 就会 TypeError
+  let threw = false;
+  let message = "";
+  try {
+    ctx.waterfall("probe/waterfall", { kind: "allow" });
+  } catch (error) {
+    threw = true;
+    message = error.message;
+  }
+
+  assert.equal(threw, true, "漏传 next 应 TypeError（这正是第一轮踩的坑）");
+  assert.match(message, /next is not a function/u);
+  // 正确的写法见 probe2.test.mjs 的「探针 2b」
 });
 
 test("探针 3：serial 的 bail 语义（首个 bail 值即短路）", async () => {
