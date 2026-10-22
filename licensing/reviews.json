@@ -150150,11 +150150,11 @@
     },
     {
       "path": "specs/contracts/kernel-plugin-hooks/behavior.md",
-      "normalizedSha256": "53ef3af960315ab96a6c1464cb1cfd196d4a6bccdeb377c06ac34743848d6045",
+      "normalizedSha256": "a027e4b44fb97962dc0fe2db1ccf882422c7160a303ba44b274d5c9fbdf24da7",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored M2 access-package contract for the hooks plugin. It records which cordis extension points carry the seven hook events on the DSH runtime, together with the dispatch mode of each and what that mode permits: three points are waterfalls that can block or rewrite, one is a serial point whose first bail value short-circuits, and one is an emit point that can only veto through a synchronous throw. It also records a deviation from the plan document, where the post-tool event was assigned to a point that turns out to be observe-only, and states that the waterfall point is used instead while the observe-only one is kept for audit. Behaviour paragraphs reuse the existing core-hooks contract by reference rather than restating it, because that package is deleted at kernel switch and only its contract survives. Differences forced by the platform are registered separately with their cause, their observable effect, and whether an equivalent exists.",
-      "evidence": ["specs/contracts/kernel-plugin-hooks/behavior.md"]
+      "basis": "Knorvia-authored M2 access-package contract for the hooks plugin. Two clarifications. First, the split with the permission-policy package at the shared pre-execute point is expressed by phase rather than by order: while the policy enforces its hard constraints it returns without delegating, so hook listeners never run and cannot loosen a product-level requirement; only when the policy delegates do hook listeners take part and the policy combines both views. The contract states that this is a structural guarantee rather than a runtime check, and that hooks must not assume they see every tool call. Second, the difference that asynchronous session-start hooks cannot veto session creation is recorded as a silent failure rather than a difference in degree, with a note that if preventing session start is an existing capability users rely on, the entry must be promoted from a known difference to a reported gap.",
+      "evidence": ["specs/contracts/kernel-plugin-hooks/known-differences.md"]
     },
     {
       "path": "specs/contracts/kernel-plugin-hooks/interface.md",
@@ -150174,11 +150174,11 @@
     },
     {
       "path": "specs/contracts/kernel-plugin-hooks/known-differences.md",
-      "normalizedSha256": "1972ea76934b29002a2ff2433add73317d56e011ee543c485e8aae507a5db6c1",
+      "normalizedSha256": "0282af2cc464dbe9871290d3df3a9beca5ae544b9912a95ec969f32e28cfd5c7",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored M2 access-package contract for the hooks plugin. It records which cordis extension points carry the seven hook events on the DSH runtime, together with the dispatch mode of each and what that mode permits: three points are waterfalls that can block or rewrite, one is a serial point whose first bail value short-circuits, and one is an emit point that can only veto through a synchronous throw. It also records a deviation from the plan document, where the post-tool event was assigned to a point that turns out to be observe-only, and states that the waterfall point is used instead while the observe-only one is kept for audit. Behaviour paragraphs reuse the existing core-hooks contract by reference rather than restating it, because that package is deleted at kernel switch and only its contract survives. Differences forced by the platform are registered separately with their cause, their observable effect, and whether an equivalent exists.",
-      "evidence": ["specs/contracts/kernel-plugin-hooks/behavior.md"]
+      "basis": "Knorvia-authored M2 access-package contract for the hooks plugin. Two clarifications. First, the split with the permission-policy package at the shared pre-execute point is expressed by phase rather than by order: while the policy enforces its hard constraints it returns without delegating, so hook listeners never run and cannot loosen a product-level requirement; only when the policy delegates do hook listeners take part and the policy combines both views. The contract states that this is a structural guarantee rather than a runtime check, and that hooks must not assume they see every tool call. Second, the difference that asynchronous session-start hooks cannot veto session creation is recorded as a silent failure rather than a difference in degree, with a note that if preventing session start is an existing capability users rely on, the entry must be promoted from a known difference to a reported gap.",
+      "evidence": ["specs/contracts/kernel-plugin-hooks/known-differences.md"]
     },
     {
       "path": "specs/contracts/kernel-plugin-hooks/acceptance.md",

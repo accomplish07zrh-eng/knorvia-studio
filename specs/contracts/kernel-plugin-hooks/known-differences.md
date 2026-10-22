@@ -36,14 +36,17 @@
 
 ## D3 `SessionStart` 的异步 Hook 不能阻断会话创建
 
-| 项           | 内容                                                                                                                                                                                                                                                                          |
-| ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **旧行为**   | `SessionStart` Hook 可返回阻止性结果，旧运行时据此中止会话                                                                                                                                                                                                                    |
-| **新行为**   | `session/created` 是 `emit`；**只有同步 throw 能否决**（DSH JSDoc：「A synchronous throw vetoes and rolls back」「A returned-promise rejection is logged but cannot retroactively veto this synchronous boundary」）。异步 Hook 的阻断**降级为记录 + 计入 telemetry**，不阻断 |
-| **原因**     | `session/created` 的分发模式与 DSH 的同步边界约束                                                                                                                                                                                                                             |
-| **影响**     | 若用户的 `SessionStart` Hook 是异步脚本（`process` / `command` 形态必然异步），它**无法阻断会话创建**；只能记录                                                                                                                                                               |
-| **等价替代** | 无直接替代。**缓解**：若要「阻止会话进入某个状态」，可用 `UserPromptSubmit`（`agent/pre-step` waterfall）在第一次提交前阻断<br/>**注意**：这与「SessionStart 阻断」语义不同（后者在会话创建时，前者在第一次输入时）                                                           |
-| **已确认**   | 2026-10-22 实测 `dsh-session` 的 `session/created` JSDoc                                                                                                                                                                                                                      |
+| 项           | 内容                                                                                                                                                                                                                                                                                                                                                              |
+| ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **旧行为**   | `SessionStart` Hook 可返回阻止性结果，旧运行时据此中止会话                                                                                                                                                                                                                                                                                                        |
+| **新行为**   | `session/created` 是 `emit`；**只有同步 throw 能否决**（DSH JSDoc：「A synchronous throw vetoes and rolls back」「A returned-promise rejection is logged but cannot retroactively veto this synchronous boundary」）。异步 Hook 的阻断**降级为记录 + 计入 telemetry**，不阻断                                                                                     |
+| **原因**     | `session/created` 的分发模式与 DSH 的同步边界约束                                                                                                                                                                                                                                                                                                                 |
+| **影响**     | **这是静默失效，不是显式报错**：<br/>· 用户配置的 `SessionStart` Hook 几乎必然是异步脚本（`process` / `command` 形态），所以它在 DSH 上**无法阻断会话创建**<br/>· 旧运行时能阻断，新运行时只记录一条 log/telemetry → **依赖「Hook 阻止会话启动」的配置不再生效，但没有错误提示**<br/>· 若产品要求「Hook 能阻止会话」，这属于**功能缺失**而非仅差异 → 需产品侧确认 |
+| **等价替代** | 无直接替代。**缓解**：若要「阻止会话进入某个状态」，可用 `UserPromptSubmit`（`agent/pre-step` waterfall）在第一次提交前阻断<br/>**注意**：这与「SessionStart 阻断」语义不同（后者在会话创建时，前者在第一次输入时）                                                                                                                                               |
+| **已确认**   | 2026-10-22 实测 `dsh-session` 的 `session/created` JSDoc                                                                                                                                                                                                                                                                                                          |
+
+**⚠️ 需要产品确认**：若「Hook 阻止会话启动」是既有能力且被用户依赖，则本差异升级为
+**功能缺口**，需在 `acceptance.md` 单列并上报，而不是仅记为 known-difference。
 
 ---
 
