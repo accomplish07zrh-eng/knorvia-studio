@@ -111798,6 +111798,17 @@
       ]
     },
     {
+      "path": "packages/services/src/system/ssh-alias/tokens.ts",
+      "normalizedSha256": "360a0d6c8925e727cc914d5adf90c8b90561c0c54709b835bd03d33c43eda1b6",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract-blind rewrite of services-04 ssh-alias/tokens: authored from the frozen interface and contract tests only; the replaced implementation was deleted before writing and never read. Old gate 35/35 (source and dist entries); stub replacement 35/35 all-fail. Scored in BOTH modes and passing each: normal mode max line containment 0.161, longest identical run 2, structural similarity 0.034; declaration mode containment 0.185, longest identical run 1, structural similarity 0.000. All below every acceptance threshold against the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/services-04/README.md",
+        "specs/contracts/services-04/known-differences.md"
+      ]
+    },
+    {
       "path": "packages/services/src/system/sshConfigAlias.ts",
       "normalizedSha256": "102e7b827cb2ec85c349a3b60103a2520c03afeefb557e09e43067e604ef0a61",
       "decision": "original",
@@ -111935,6 +111946,17 @@
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Pure declaration file (import type / interface / type / small const only) under services-04. Reviewed against the frozen interface.md; the retained code surface is type declarations and re-exports, which the contract records as compatibility facts. No implementation logic was copied, renamed or rewritten line by line. Old gate 35/35 (source and dist entries); stub replacement 35/35 all-fail. Measured in declaration mode with --interface specs/contracts/services-04/interface.md: residual-lines 0 (no-comparable-lines), max line containment 0.000, longest identical run 0, structural similarity 0.000 against the pinned upstream 872ad960, all below every acceptance threshold.",
+      "evidence": [
+        "specs/contracts/services-04/README.md",
+        "specs/contracts/services-04/known-differences.md"
+      ]
+    },
+    {
+      "path": "packages/services/src/window-controller/windowController.ts",
+      "normalizedSha256": "d55d6806eab32b8d71e57052c1d48d1bdd58a5e3da63e324789d6fb73ab5ec73",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Pure declaration file under services-04: contains only `import type`, `type` aliases, `interface` declarations and one `createServiceDescriptor` const; no class method bodies, function bodies or control flow. Reviewed against the frozen interface.md; the retained code surface is type declarations, which the contract records as compatibility facts. Measured in declaration mode with --interface specs/contracts/services-04/interface.md: residual-lines 0 (no-comparable-lines), max line containment 0.000, longest identical run 0, structural similarity 0.000 against the pinned upstream 872ad960. Old gate 35/35 (source and dist entries); stub replacement 35/35 all-fail.",
       "evidence": [
         "specs/contracts/services-04/README.md",
         "specs/contracts/services-04/known-differences.md"
