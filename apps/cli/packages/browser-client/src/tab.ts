@@ -42,9 +42,12 @@ export class Tab {
   readonly capabilities: BrowserCapabilityCollection;
   playwright: PlaywrightAPI;
   recording: BrowserRecordingAPI;
-  #send: BrowserExecuteFn;
-  #viewport: BrowserViewportSize | null;
-  #wrap: ObjectWrapper = identityWrapper;
+  /** 一次 Tab 的可变状态：发送函数、最近一次视口、以及当前的包装器。 */
+  #state: {
+    send: BrowserExecuteFn;
+    viewport: BrowserViewportSize | null;
+    wrap: ObjectWrapper;
+  };
   constructor(
     execute: BrowserExecuteFn,
     tabId?: string,
@@ -54,8 +57,12 @@ export class Tab {
   ) {
     this.id = tabId ?? "";
     this.tabId = tabId;
-    this.#send = execute;
-    this.#viewport = summary?.viewport ? { ...summary.viewport } : null;
+    this.#state = {
+      send: execute,
+      // 视口是「开出来的那份快照」，拷贝一份避免与调用方共享引用。
+      viewport: summary?.viewport ? { ...summary.viewport } : null,
+      wrap: identityWrapper,
+    };
     const run: BrowserExecuteFn = (command) => this.#run(command);
     this.raw = new RawTab(run);
     this.playwright = createPlaywrightAPI(run);
@@ -65,11 +72,15 @@ export class Tab {
       readCapabilityDocumentation,
     );
   }
+  /**
+   * 把命令发给底层执行器。
+   *
+   * 有 tabId 时把它并进命令（底层按 tabId 路由）；没有就原样发。
+   */
   #run(command: BrowserCommand): Promise<BrowserCommandResult> {
-    const scoped: BrowserCommand & { tabId?: string } = this.tabId
-      ? { ...command, tabId: this.tabId }
-      : command;
-    return this.#send(scoped);
+    const hasTab = this.tabId !== undefined;
+    const scoped = hasTab ? { ...command, tabId: this.tabId } : command;
+    return this.#state.send(scoped);
   }
   async #result(command: BrowserCommand): Promise<BrowserCommandResult> {
     return expectOk(command, await this.#run(command));
@@ -87,9 +98,10 @@ export class Tab {
     >;
   }
   applyPlaywrightPolicy(policy: BrowserApiPolicy): this {
-    this.#wrap = (value, name) => createBrowserApiProxy(value, name, policy, { hideUnknown: true });
-    this.playwright = configurePlaywrightObjectWrapper(this.playwright, this.#wrap);
-    this.recording = this.#wrap(this.recording, "BrowserRecordingAPI");
+    this.#state.wrap = (value, name) =>
+      createBrowserApiProxy(value, name, policy, { hideUnknown: true });
+    this.playwright = configurePlaywrightObjectWrapper(this.playwright, this.#state.wrap);
+    this.recording = this.#state.wrap(this.recording, "BrowserRecordingAPI");
     return this;
   }
   goto(url: string): Promise<void> {
@@ -123,10 +135,11 @@ export class Tab {
         `setViewportSize requires integer width ${limits.minWidth}..${limits.maxWidth} and height ${limits.minHeight}..${limits.maxHeight}`,
       );
     await this.#action({ method: "browserViewportSet", width, height });
-    this.#viewport = { width, height };
+    this.#state.viewport = { width, height };
   }
   viewportSize(): BrowserViewportSize | null {
-    return this.#viewport && { ...this.#viewport };
+    const current = this.#state.viewport;
+    return current === null ? null : { ...current };
   }
   async screenshot(options?: Omit<ScreenshotOptions, "ref">): Promise<Uint8Array> {
     return base64ToBytes((await this.#payload(commands.screenshot(options), "image")).base64);
@@ -204,19 +217,19 @@ export class Tab {
       prompt: "PromptDialog",
       beforeunload: "BeforeUnloadDialog",
     };
-    return this.#wrap(view, names[view.type]);
+    return this.#state.wrap(view, names[view.type]);
   }
   handleDialog(accept: boolean, promptText?: string): Promise<void> {
     return this.#action(commands.handleDialog(accept, promptText));
   }
   get cua() {
-    return this.#wrap(
+    return this.#state.wrap(
       createCua((command) => this.#action(command)),
       "CUAAPI",
     );
   }
   get dom_cua() {
-    return this.#wrap(
+    return this.#state.wrap(
       createDomCua(
         (command) => this.#action(command),
         () => this.snapshot(),
