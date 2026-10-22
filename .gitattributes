@@ -14,7 +14,9 @@ third-party/native-search/licenses/** -text -whitespace
 third-party/runtime/*.txt -text -whitespace
 third-party/inventory.json linguist-generated=true
 licensing/upstream-baseline.json linguist-generated=true
-licensing/current-files.json linguist-generated=true
+# current-files.json 是 provenance:report 的生成物：merge 时取当前分支版本避免冲突，
+# 随后重跑 provenance:report 即按 reviews.json 完整重建。reviews.json 是真源，不能自动合并。
+licensing/current-files.json merge=ours linguist-generated=true
 licensing/evidence/*.json linguist-generated=true
 
 # 冻结来源、API 摘录与原检查输出由 evidence:check 校验原字节，不作平台换行转换。
