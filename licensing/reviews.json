@@ -111709,6 +111709,17 @@
       ]
     },
     {
+      "path": "packages/services/src/system/integratedTerminalShells.ts",
+      "normalizedSha256": "6e90a55035161337b1c5505970b40e6fdda5237550224b0e19b492dafbdd71fc",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract-blind rewrite of services-04 integratedTerminalShells: authored from the frozen interface, contract tests and dependency types; the replaced implementation was deleted before writing and never read. Old gate 35/35 (source and dist entries); stub replacement 35/35 all-fail. Max line containment 0.162, longest identical run 5, structural similarity 0.000 against the pinned upstream 872ad960 (normal mode), all below every acceptance threshold.",
+      "evidence": [
+        "specs/contracts/services-04/README.md",
+        "specs/contracts/services-04/known-differences.md"
+      ]
+    },
+    {
       "path": "packages/services/src/system/SHELL-EVIDENCE-20261002.md",
       "normalizedSha256": "51e1c0b00af1c3b2f6c06469debc697e07f4f335e8f0ee7ecd1beaf557a1940e",
       "decision": "original",
