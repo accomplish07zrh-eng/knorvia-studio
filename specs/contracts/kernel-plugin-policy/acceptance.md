@@ -129,12 +129,34 @@ node specs/contracts/kernel-plugin-policy/tests/run-gate.mjs --engine dsh
 
 ### 4.3 产物
 
-| 门         | 产物            |
-| ---------- | --------------- |
-| 旧门       | `gate-old.json` |
-| 新运行时门 | `gate-dsh.json` |
+| 门         | 产物               | 本次结果       |
+| ---------- | ------------------ | -------------- |
+| 旧门       | `gate-legacy.json` | **42/42 通过** |
+| 新运行时门 | `gate-dsh.json`    | **42/42 通过** |
+
+**产物字段**：`contract` / `contractVersion` / `engine` / `scope` / `testFile` / `commit` /
+`ranAt` / `node` / `totals`（tests/suites/pass/fail/cancelled/skipped/todo）/ `verdict`
+（失败时另有 `failures`）。
+
+**⚠️ `scope` 字段是刻意的**：它明确写出「本门只覆盖离线判定」——
+新运行时门通过**不等于**真实交互链路可用（后者归 `kernel-switch` 实机冒烟）。
 
 **接入包无 stubs**（不替换既有实现，不需要桩门）。
+
+### 4.4 门禁入口的实现说明
+
+`tests/run-gate.mjs` 跑的是**同一份** 42 个用例（`bootstrap/test/kernel-plugin-policy.test.ts`），
+差别只在环境变量：
+
+```bash
+node specs/contracts/kernel-plugin-policy/tests/run-gate.mjs              # 不设 KNORVIA_KERNEL_ENGINE
+node specs/contracts/kernel-plugin-policy/tests/run-gate.mjs --engine dsh # 设 KNORVIA_KERNEL_ENGINE=dsh
+```
+
+**⚠️ 两个门的用例完全相同、结果也相同，这是预期而非冗余**：
+本包是 **engine-agnostic** 的纯策略插件（L10），它不读 `KNORVIA_KERNEL_ENGINE`，
+所以引擎切换不改变它的判定结果。**门禁在这里的作用是「证明这一点」**——
+若哪天两个门的结果不同，说明有代码路径意外读到了引擎状态。
 
 ---
 

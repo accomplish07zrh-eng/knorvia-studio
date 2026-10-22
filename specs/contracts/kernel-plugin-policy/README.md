@@ -312,6 +312,54 @@ node specs/contracts/kernel-plugin-policy/tests/run-gate.mjs --engine dsh # 新�
    `sideEffectScope` / `riskLevel`）是本包 B3 的输入。若某工具缺声明，本包按 L5 fail closed。
 4. **`kernel-switch`**：默认引擎切换到 `dsh`、删除 `core`、真实交互冒烟归它。本包只交付判定能力。
 
+### 9.1 组合行接线归 `kernel-switch`（Lead 2026-10-22 裁决）
+
+**本包导出**：
+
+```ts
+export const DEFAULT_POLICY_ROW_ID = "knorvia-policy";
+```
+
+**接线方式**（由 `kernel-switch` 的 owner 在
+`apps/cli/packages/bootstrap/src/kernel/composition.ts` 里加一行）：
+
+```ts
+{ id: DEFAULT_POLICY_ROW_ID, name: "@knorvia/bootstrap/kernel-plugin-policy" }
+```
+
+**⚠️ 本包不修改 `composition.ts`** —— 那是 `kernel-dsh-builtins` 的冻结面（§一 2）。
+**所以「本包的插件何时被真正挂载」不在本包范围内**：本包只保证
+「被挂载后行为正确」（由 `gate-dsh.json` 的 42 个用例覆盖）。
+
+**⚠️ 而接线时必须同时满足两条顺序约束**：
+
+1. 本包的监听者**排在 `kernel-plugin-hooks` 之前**（§一 3 / D6）；
+2. 组合根必须在挂载后**立即**为每个活跃 session 调 `handle.setMode(sessionId, mode)`，
+   否则首次工具调用会因「模式缺失」而 `deny`（L3 的必然结果，不是缺陷）。
+
+### 9.2 本包不消费 DSH 的配置 schema（跨包问题确认）
+
+**Lead 转达的两个跨包问题**（`exec-kernel` 发现）：
+
+1. DSH 的 `ValueSchemaSpec` 没有 `min` / `max` / `minLength`；
+2. DSH 的 schema 层会在执行体之前拒绝类型不符的输入（`.nullable()` 需用 `oneOf` 表达）。
+
+**对本包的影响：无。** 理由：
+
+- 本包**没有 DSH 插件配置 schema** —— 插件配置是纯 TypeScript 接口
+  `KnorviaPolicyConfig` + `assertWired()` 的运行时校验（B1），
+  **不经过 DSH 的 schema 层**；
+- 本包唯一的 DSH 交互面是 `tools/pre-execute` 钩子，
+  它的入参 `ToolExecution` 与出参 `PreToolDecision` 都是 **DSH 自己的类型**，
+  本包只读/只产出，不定义 schema；
+- 本包内部对 `arguments` 的解析是**宽松的**（拿不到期望字段就当「无法判定」→ fail closed，B9），
+  **不做类型强校验**，因此不受「schema 层前置拒绝」影响。
+
+**⚠️ 对比**：`kernel-plugin-credentials`（#254）确实有 zod schema
+（`knorviaProviderRuntimeHeadersRequestParamsSchema` / `...ResponseSchema`），
+但那是**协议消息**的校验（`@knorvia/contracts` 定义），不是 DSH 插件配置 schema ——
+同样不经 DSH 的 schema 层。
+
 ---
 
 ## 十、Lead 裁决记录（2026-10-22）

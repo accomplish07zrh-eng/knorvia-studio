@@ -1,0 +1,112 @@
+{
+  "count": 46,
+  "lines": 5635,
+  "bytes": 197458,
+  "exports": 145,
+  "runtimeExports": 99,
+  "byGroup": {
+    ".": {
+      "files": 7,
+      "lines": 418,
+      "exports": 34
+    },
+    "subagents": {
+      "files": 8,
+      "lines": 1144,
+      "exports": 25
+    },
+    "system": {
+      "files": 12,
+      "lines": 972,
+      "exports": 31
+    },
+    "terminal": {
+      "files": 12,
+      "lines": 1268,
+      "exports": 30
+    },
+    "usage-stats": {
+      "files": 2,
+      "lines": 28,
+      "exports": 3
+    },
+    "window-controller": {
+      "files": 5,
+      "lines": 1805,
+      "exports": 22
+    }
+  },
+  "byClassification": {
+    "upstream-modified": 20,
+    "unreviewed": 18,
+    "upstream-unchanged": 2,
+    "original": 6
+  },
+  "internalEdges": 64,
+  "edgeList": [
+    "accessor->subagents/subagents",
+    "accessor->system/system",
+    "accessor->terminal/terminal",
+    "accessor->usage-stats/usageStats",
+    "accessor->window-controller/windowController",
+    "collection->descriptors",
+    "paths->dataLocationOwner",
+    "subagents/subagentServiceFiles->subagents/subagentMarkdown",
+    "subagents/subagentServiceFiles->subagents/subagentModelSelection",
+    "subagents/subagentServicePlugins->subagents/subagentMarkdown",
+    "subagents/subagentServicePlugins->subagents/subagentServiceFiles",
+    "subagents/subagentServicePlugins->subagents/subagentStorage",
+    "subagents/subagentServiceState->subagents/subagentStorage",
+    "subagents/subagents->descriptors",
+    "subagents/subagentsService->subagents/subagentModelSelection",
+    "subagents/subagentsService->subagents/subagentServiceFiles",
+    "subagents/subagentsService->subagents/subagentServicePlugins",
+    "subagents/subagentsService->subagents/subagentServiceState",
+    "subagents/subagentsService->subagents/subagentStorage",
+    "subagents/subagentsService->subagents/subagents",
+    "system/ssh-alias/configuration->system/ssh-alias/tokens",
+    "system/ssh-alias/fallback->system/ssh-alias/configuration",
+    "system/ssh-alias/fallback->system/ssh-alias/tokens",
+    "system/sshConfigAlias->system/ssh-alias/configuration",
+    "system/sshConfigAlias->system/ssh-alias/fallback",
+    "system/sshConfigAlias->system/ssh-alias/query",
+    "system/system->descriptors",
+    "system/system-probe/defaultAdapters->system/system-probe/contracts",
+    "system/system-probe/targetLifecycle->system/system-probe/contracts",
+    "system/systemService->system/system",
+    "system/systemService->system/systemServiceOwner",
+    "system/systemServiceOwner->system/system-probe/contracts",
+    "system/systemServiceOwner->system/system-probe/defaultAdapters",
+    "system/systemServiceOwner->system/system-probe/targetLifecycle",
+    "terminal/terminal->descriptors",
+    "terminal/terminal->terminal/terminalProfile",
+    "terminal/terminalProfile->terminal/terminalProfileMacOs",
+    "terminal/terminalProfile->terminal/terminalProfilePortablePlan",
+    "terminal/terminalProfile->terminal/terminalProfilePortableRead",
+    "terminal/terminalProfile->terminal/terminalProfileTypes",
+    "terminal/terminalProfileMacOs->terminal/terminalProfileMacOsDecode",
+    "terminal/terminalProfileMacOs->terminal/terminalProfileMacOsPlist",
+    "terminal/terminalProfileMacOs->terminal/terminalProfileTypes",
+    "terminal/terminalProfileMacOsDecode->terminal/terminalProfileTypes",
+    "terminal/terminalProfilePortableFormats->terminal/terminalProfilePortablePlan",
+    "terminal/terminalProfilePortableFormats->terminal/terminalProfileTypes",
+    "terminal/terminalProfilePortablePlan->terminal/terminalProfileTypes",
+    "terminal/terminalProfilePortableRead->terminal/terminalProfilePortableFormats",
+    "terminal/terminalProfilePortableRead->terminal/terminalProfilePortablePlan",
+    "terminal/terminalProfilePortableRead->terminal/terminalProfileTypes",
+    "terminal/terminalService->terminal/terminal",
+    "terminal/terminalService->terminal/terminalProfile",
+    "terminal/terminalService->terminal/terminalServiceInstanceOwner",
+    "terminal/terminalService->terminal/terminalServiceLaunchPlan",
+    "terminal/terminalServiceLaunchPlan->terminal/terminal",
+    "usage-stats/usageStats->descriptors",
+    "usage-stats/usageStatsService->usage-stats/usageStats",
+    "window-controller/node->window-controller/windowHostControllerProjection",
+    "window-controller/node->window-controller/windowHostControllerService",
+    "window-controller/node->window-controller/windowHostSessionsIndexObserver",
+    "window-controller/windowController->descriptors",
+    "window-controller/windowHostControllerService->window-controller/windowController",
+    "window-controller/windowHostControllerService->window-controller/windowHostControllerProjection",
+    "window-controller/windowHostControllerService->window-controller/windowHostSessionsIndexObserver"
+  ]
+}
