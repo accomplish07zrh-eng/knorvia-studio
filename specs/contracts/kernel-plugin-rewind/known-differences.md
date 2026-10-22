@@ -304,6 +304,71 @@ interface PersistedWorkspaceEventData {
 
 ---
 
+## K10 检查点的文件清单来自 artifactStore，**不在事件 payload 里**
+
+### 旧实现
+
+`CheckpointCreatedPayload` 只带 **`snapshotRef`（一个 URI 引用）**，文件内容通过
+**第三个端口**读取：
+
+```ts
+// core/src/runtime/methods/file-rewind-planning.ts:167-170
+let artifact: WorkspaceCheckpointArtifact;
+const result = await runtime.artifactStore.readToolResultArtifact(
+  { uri: checkpoint.snapshotRef, trace },
+  ...
+);
+```
+
+**而 `artifactStore` 在旧实现里是可选端口**：
+
+```ts
+// core/src/runtime/internal.ts:108
+artifactStore?: ToolArtifactStorePort;
+```
+
+缺失时旧实现返回：
+
+```ts
+unavailableFile("workspace", "checkpoint_unreadable", "ArtifactStore is not configured.");
+```
+
+### 新实现
+
+同一机制（第三个端口 `ToolArtifactStorePort`，**可选**，见 interface.md §2.3）。
+
+**按能力分级依赖**：
+
+| 能力                     | 需要 artifactStore | 缺失时                               |
+| ------------------------ | :----------------: | ------------------------------------ |
+| `listCheckpoints`        |         ❌         | 正常返回（只读事件）                 |
+| `planConversationRewind` |         ❌         | 正常返回（只读事件）                 |
+| `previewFileRewind`      |         ✅         | `available: false` + 明确原因（B9）  |
+| `applyFileRewind`        |         ✅         | `unavailableReason` 同上，**零写入** |
+
+### ⚠️ 这是「实现阶段发现的合同遗漏」
+
+**我最初的合同（v1 初稿）误以为「artifact 内联在事件 payload 的 `artifact` 字段里」**，
+并据此写了实现。而写测试时被 **schema 自校验**立刻拦住：
+
+```
+ZodError: unrecognized_keys: ["artifact"]
+message: "Unrecognized key(s) in object: 'artifact'"
+```
+
+因为 `checkpointCreatedPayloadSchema` 是 **`.strict()`** 的 —— **内联在 schema 层就被拒绝**。
+
+**所以**：
+
+1. 合同补了 interface.md §2.3（第三个端口）；
+2. 实现改为「从 artifactStore 按 `snapshotRef` 读」；
+3. **测试夹具保留 schema 自校验** —— 它正是发现这个遗漏的工具。
+
+**⚠️ 判据（供方法论记录）**：**测试夹具必须过生产 schema**（`Schema.parse(fixture)`），
+不要手写 JSON。因为「假绿」比「红」更危险 —— 它让人以为已经验证过。
+
+---
+
 ## 汇总表
 
 |  #  | 差异                             | 性质         | 风险                                   |
