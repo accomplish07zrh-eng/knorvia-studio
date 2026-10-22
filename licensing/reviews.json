@@ -152480,6 +152480,76 @@
       "evidence": [
         "apps/cli/packages/bootstrap/test/kernel-plugin-tools-01-cron.test.mjs"
       ]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-tools-02/README.md",
+      "normalizedSha256": "2691a0239844a79f1980e9850021e9429203b87705f7e5119f6c352894002855",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contract for the second tool group, recovered from a patch and corrected against the runtime before merging. The contract covers four tools: two that manage off-peak windows, one that reads a session context projection, and one that enters plan mode by calling the plan-mode controller. Verification against the published types confirmed three of the four assumptions and corrected one: the plan-mode controller does return the four documented outcomes, the session projection registry and the off-peak port both exist, and guidance text is genuinely a deployment configuration of the plan-mode service rather than a tool field. The metadata section had inherited the same mistaken assumption as the sibling tool contract, treating read-only, destructiveness, approval and risk as tool definition fields, so it is now split into the runtime definition layer that exposes only a timeout and a concurrency predicate, and the capability declaration layer that carries the product semantics. The guidance distinction is recorded as a difference, because it is the one place in this contract where the word does not refer to a tool field.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-tools-02/known-differences.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-tools-02/behavior.md",
+      "normalizedSha256": "00f854d37f695eb80091d66c9e4348a2ec7281a60b87746e3eee857637e679ae",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contract for the second tool group, recovered from a patch and corrected against the runtime before merging. The contract covers four tools: two that manage off-peak windows, one that reads a session context projection, and one that enters plan mode by calling the plan-mode controller. Verification against the published types confirmed three of the four assumptions and corrected one: the plan-mode controller does return the four documented outcomes, the session projection registry and the off-peak port both exist, and guidance text is genuinely a deployment configuration of the plan-mode service rather than a tool field. The metadata section had inherited the same mistaken assumption as the sibling tool contract, treating read-only, destructiveness, approval and risk as tool definition fields, so it is now split into the runtime definition layer that exposes only a timeout and a concurrency predicate, and the capability declaration layer that carries the product semantics. The guidance distinction is recorded as a difference, because it is the one place in this contract where the word does not refer to a tool field.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-tools-02/known-differences.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-tools-02/interface.md",
+      "normalizedSha256": "526d132edc60c71cbf922a22fcfbe653e27f94c9e04aaab15921e557206d3eff",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contract for the second tool group, recovered from a patch and corrected against the runtime before merging. The contract covers four tools: two that manage off-peak windows, one that reads a session context projection, and one that enters plan mode by calling the plan-mode controller. Verification against the published types confirmed three of the four assumptions and corrected one: the plan-mode controller does return the four documented outcomes, the session projection registry and the off-peak port both exist, and guidance text is genuinely a deployment configuration of the plan-mode service rather than a tool field. The metadata section had inherited the same mistaken assumption as the sibling tool contract, treating read-only, destructiveness, approval and risk as tool definition fields, so it is now split into the runtime definition layer that exposes only a timeout and a concurrency predicate, and the capability declaration layer that carries the product semantics. The guidance distinction is recorded as a difference, because it is the one place in this contract where the word does not refer to a tool field.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-tools-02/known-differences.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-tools-02/callers.md",
+      "normalizedSha256": "5ea454cf0b9520386a69f8aaae54720fc5d0653c1b7a2549ede02898075aedf4",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contract for the second tool group, recovered from a patch and corrected against the runtime before merging. The contract covers four tools: two that manage off-peak windows, one that reads a session context projection, and one that enters plan mode by calling the plan-mode controller. Verification against the published types confirmed three of the four assumptions and corrected one: the plan-mode controller does return the four documented outcomes, the session projection registry and the off-peak port both exist, and guidance text is genuinely a deployment configuration of the plan-mode service rather than a tool field. The metadata section had inherited the same mistaken assumption as the sibling tool contract, treating read-only, destructiveness, approval and risk as tool definition fields, so it is now split into the runtime definition layer that exposes only a timeout and a concurrency predicate, and the capability declaration layer that carries the product semantics. The guidance distinction is recorded as a difference, because it is the one place in this contract where the word does not refer to a tool field.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-tools-02/known-differences.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-tools-02/known-differences.md",
+      "normalizedSha256": "e7a5646ea73c7e8be6fc49d665ca6eff040a5060aaef56a87a84158ee381aa8c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contract for the second tool group, recovered from a patch and corrected against the runtime before merging. The contract covers four tools: two that manage off-peak windows, one that reads a session context projection, and one that enters plan mode by calling the plan-mode controller. Verification against the published types confirmed three of the four assumptions and corrected one: the plan-mode controller does return the four documented outcomes, the session projection registry and the off-peak port both exist, and guidance text is genuinely a deployment configuration of the plan-mode service rather than a tool field. The metadata section had inherited the same mistaken assumption as the sibling tool contract, treating read-only, destructiveness, approval and risk as tool definition fields, so it is now split into the runtime definition layer that exposes only a timeout and a concurrency predicate, and the capability declaration layer that carries the product semantics. The guidance distinction is recorded as a difference, because it is the one place in this contract where the word does not refer to a tool field.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-tools-02/known-differences.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-tools-02/acceptance.md",
+      "normalizedSha256": "3ee983f373902641f6e9ed2a5629f9468bb55614a36cb8bb4ac3891178275d18",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contract for the second tool group, recovered from a patch and corrected against the runtime before merging. The contract covers four tools: two that manage off-peak windows, one that reads a session context projection, and one that enters plan mode by calling the plan-mode controller. Verification against the published types confirmed three of the four assumptions and corrected one: the plan-mode controller does return the four documented outcomes, the session projection registry and the off-peak port both exist, and guidance text is genuinely a deployment configuration of the plan-mode service rather than a tool field. The metadata section had inherited the same mistaken assumption as the sibling tool contract, treating read-only, destructiveness, approval and risk as tool definition fields, so it is now split into the runtime definition layer that exposes only a timeout and a concurrency predicate, and the capability declaration layer that carries the product semantics. The guidance distinction is recorded as a difference, because it is the one place in this contract where the word does not refer to a tool field.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-tools-02/known-differences.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-tools-02/plan-mode-entries.md",
+      "normalizedSha256": "634e93aaf86e595c11f1b11af197576e271c86019b6a958af47eadf5388ffa31",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contract for the second tool group, recovered from a patch and corrected against the runtime before merging. The contract covers four tools: two that manage off-peak windows, one that reads a session context projection, and one that enters plan mode by calling the plan-mode controller. Verification against the published types confirmed three of the four assumptions and corrected one: the plan-mode controller does return the four documented outcomes, the session projection registry and the off-peak port both exist, and guidance text is genuinely a deployment configuration of the plan-mode service rather than a tool field. The metadata section had inherited the same mistaken assumption as the sibling tool contract, treating read-only, destructiveness, approval and risk as tool definition fields, so it is now split into the runtime definition layer that exposes only a timeout and a concurrency predicate, and the capability declaration layer that carries the product semantics. The guidance distinction is recorded as a difference, because it is the one place in this contract where the word does not refer to a tool field.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-tools-02/known-differences.md"
+      ]
     }
   ]
 }
