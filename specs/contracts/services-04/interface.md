@@ -12,7 +12,7 @@
 
 与 `services-03`（`studio-runtime/domain` 的**纯逻辑层**）不同，本层**允许 I/O** ——
 
-实测 46 个文件里有 45 处 `node:*` 内置依赖（`fs` / `child_process` / `path` / `os` 等）。
+实测 46 个文件里有 45 处内置模块依赖（文件系统、子进程、路径、操作系统等）。
 
 但按插件化结构要求，**I/O 必须通过注入的依赖获取，不在模块级创建**（见 `behavior.md` B3）。
 
@@ -37,6 +37,96 @@
 - `packages/services/src/types/yazl.d.ts`：第三方类型声明（`yazl` 是 zip 库），登记但不跑相似度。
 
 - `studio-runtime/`（149 个 `.ts`）：**不在 M6 返工范围**（`pending-rework` 零个），不归本包。
+
+## 合同写死的纯数据常量表（声明模式计分）
+
+按计划书「选择 9」与 M1 复盘第 2、5 条：**合同写死的纯数据常量表**
+（键名与数值都由外部格式规定、不含逻辑）在 `interface.md` 逐条列名，
+**用声明模式（`--declaration`）计分时整块剔除**；表中夹带的逻辑与文件其余代码照常计分。
+
+下列 const 块经 `isPureDataConst` 验证为纯数据（只含字面量、数组、对象、`as const`、
+类型注解，无函数/条件/运算/模板插值），可被整块剔除。
+
+### 1. `terminalProfileMacOsDecode.ts` — `palette`（16 项 ANSI 颜色名）
+
+|  #  | 值              | 外部格式出处                   |
+| :-: | :-------------- | :----------------------------- |
+|  0  | `black`         | iTerm2 动态配置 `Ansi 0 Color` |
+|  1  | `red`           | `Ansi 1 Color`                 |
+|  2  | `green`         | `Ansi 2 Color`                 |
+|  3  | `yellow`        | `Ansi 3 Color`                 |
+|  4  | `blue`          | `Ansi 4 Color`                 |
+|  5  | `magenta`       | `Ansi 5 Color`                 |
+|  6  | `cyan`          | `Ansi 6 Color`                 |
+|  7  | `white`         | `Ansi 7 Color`                 |
+|  8  | `brightBlack`   | `Ansi 8 Color`                 |
+|  9  | `brightRed`     | `Ansi 9 Color`                 |
+| 10  | `brightGreen`   | `Ansi 10 Color`                |
+| 11  | `brightYellow`  | `Ansi 11 Color`                |
+| 12  | `brightBlue`    | `Ansi 12 Color`                |
+| 13  | `brightMagenta` | `Ansi 13 Color`                |
+| 14  | `brightCyan`    | `Ansi 14 Color`                |
+| 15  | `brightWhite`   | `Ansi 15 Color`                |
+
+**外部格式出处**：iTerm2 动态配置文件（Dynamic Profiles）的 `Ansi <n> Color` 键；
+下标 0–15 与 ANSI 终端颜色名（normal 8 + bright 8）的对应关系由 ANSI X3.64 / ECMA-48
+的 SGR 颜色序列与 iTerm2 的公开格式文档规定。
+本项目的 16 个名字是**该公开格式的字段名**，不是本项目的实现表达。
+
+### 2. `terminalProfileMacOsDecode.ts` — `fields`（plist 键名表）
+
+| 目标字段                         | iTerm2 键名                         | Apple Terminal 键名 |
+| :------------------------------- | :---------------------------------- | :------------------ |
+| `foreground`                     | `Foreground Color`                  | `TextColor`         |
+| `background`                     | `Background Color`                  | `BackgroundColor`   |
+| `cursor`                         | `Cursor Color`                      | `CursorColor`       |
+| `cursorAccent`                   | `Cursor Text Color`                 | —                   |
+| `selectionBackground`            | `Selection Color`                   | `SelectionColor`    |
+| `black` … `brightWhite`（16 项） | `Ansi <n> Color` / `ANSI <n> Color` | `ANSI<Name>Color`   |
+
+**外部格式出处**：
+
+- **iTerm2**：动态配置文件的 `Foreground Color` / `Background Color` / `Cursor Color` /
+  `Cursor Text Color` / `Selection Color` / `Ansi <n> Color` 键名；
+- **Apple Terminal**：`.terminal` 属性列表（plist）的 `TextColor` / `BackgroundColor` /
+  `CursorColor` / `SelectionColor` / `ANSI<Name>Color` 键名。
+
+**这些键名是两种终端配置格式的公开字段名**，必须逐字匹配才能读取真实用户配置，
+不属于本项目的实现表达。
+
+**⚠️ 本表已重构为纯字面量**：原实现用 `palette.map(...)` + 模板插值动态生成，
+经 `isPureDataConst` 判定为**非纯数据**（含箭头函数与模板插值），无法整块剔除。
+本次把两处 `.map()` 展开为 16 + 16 条字面量条目 ——
+**这是真实改进**（数据表只应含数据，生成逻辑不应内嵌在数据里）。
+
+### 3. `terminalProfile.ts` — `fallbackFamilies`（14 行）
+
+等宽编程字体的族名候选表。**外部格式出处**：字体族名是操作系统与终端的公开标识
+（`Menlo` / `Monaco` / `Courier` / `Cascadia` / `Consolas` 等由各系统与字体厂商公开命名）。
+
+### 4. `terminalServiceLaunchPlan.ts` — `darwinSearchPath`（10 行）
+
+macOS 上可执行文件搜索路径列表。**外部格式出处**：
+`/usr/local/bin`、`/opt/homebrew/bin`、`/usr/bin` 等是 macOS / Homebrew 的公开目录约定。
+
+### 5. 其余小常量（各 1–4 行）
+
+| 文件                                                   | const                                                                                               | 性质                                              |
+| :----------------------------------------------------- | :-------------------------------------------------------------------------------------------------- | :------------------------------------------------ |
+| `terminalProfileMacOs.ts`                              | `applications`                                                                                      | macOS Terminal.app / iTerm2 的公开 bundle 标识    |
+| `system/systemService.ts`                              | `DEFAULT_PROBE_TIMEOUT_MS` / `DEFAULT_PROBE_ATTEMPTS` / `MAX_PROBE_ATTEMPTS` / `DEFAULT_PROBE_PORT` | 探测默认参数（数值由本合同的 `behavior.md` 冻结） |
+| `window-controller/windowHostSessionsIndexObserver.ts` | `SUBSCRIBER_SCOPE` / `MAX_STAGED_WIRES`                                                             | 订阅范围标识与暂存上限                            |
+| `paths.ts`                                             | `KNORVIA_WINDOWS_APP_INSTALL_DIR_ENV`                                                               | 环境变量名（产品自身的 `KNORVIA_` 前缀约定）      |
+| `subagents/subagentServiceFiles.ts`                    | `builtInNames`                                                                                      | 内置子 Agent 名列表                               |
+
+**⚠️ 声明模式的计分口径**（`--declaration --interface specs/contracts/services-04/interface.md`）：
+
+1. 先整块剔除上述 `isPureDataConst` 验证通过的 const 块；
+2. 再剔除「含本节所列名字的行」；
+3. 剩余解析/解码逻辑**照常按 normal 模式门槛计分**（containment < 0.20 / run < 8 / structural < 0.40）。
+
+**⚠️ 本节只列「数据表名」，不列「函数名」** ——
+否则 `--declaration` 会把函数实现行也剔掉，造成「剔过头」。
 
 ## 根目录（`packages/services/src/*.ts`，7 件）
 
