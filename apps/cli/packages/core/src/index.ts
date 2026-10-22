@@ -89,7 +89,14 @@ export * from "./mcp/index.js";
 export * from "./plugin-reference/index.js";
 
 // —— Node REPL / browser-use 运行时原语 ——
-export { NodeReplSession } from "./repl/node-repl-session.js";
+// 2026-10-23 移出：这批定义原先在 `core/src/repl/`，而 core（turn 执行与 REPL 工具）
+// 与 `node-repl-host`（REPL 宿主）双方都依赖它 —— 只搬进任一侧都会产生
+// 「重复副本」或「core → 宿主 的依赖倒置」。所以按 #302 的做法提成独立包
+// `@knorvia/repl-core`，两侧平级依赖。
+//
+// 这里保留 core 的**公共导出面**不变（转发自新包），所以包外调用方无需改动；
+// 而 core 内部已直接 `import from "@knorvia/repl-core"`。
+export { NodeReplSession } from "@knorvia/repl-core";
 export type {
   NodeReplCuaAppIdentity,
   NodeReplImage,
@@ -97,7 +104,7 @@ export type {
   NodeReplRunResult,
   NodeReplSessionOptions,
   NodeReplStructuredResult,
-} from "./repl/node-repl-session.js";
+} from "@knorvia/repl-core";
 
 // 2026-10-23 移出：`setupBrowserRuntime` / `BrowserClientTransport` 已随 #302
 // 迁到独立包 `@knorvia/browser-client`。core 内那份是逐字节相同的重复副本，

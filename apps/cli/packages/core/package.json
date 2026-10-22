@@ -31,6 +31,7 @@
     "@knorvia/contracts": "workspace:*",
     "@knorvia/cua": "workspace:*",
     "@knorvia/dynamic-workflow": "workspace:*",
+    "@knorvia/repl-core": "workspace:*",
     "@knorvia/shared": "workspace:*",
     "@knorvia/shared-types": "workspace:*",
     "cheerio": "^1.0.0",

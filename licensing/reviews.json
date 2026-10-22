@@ -12560,110 +12560,11 @@
       ]
     },
     {
-      "path": "apps/cli/packages/core/src/repl/browser-turn-state.ts",
-      "normalizedSha256": "fcb923db67d6eb9fe38014cab3bbb14c5f76492b238e19998cde2b33a77f7319",
-      "decision": "pending-rework",
-      "license": "MIT",
-      "basis": "Independently implemented from public interfaces, caller contracts and pre-replacement black-box characterization. Execution output is owned by an async run context; timers by VM generation; browser hints by separate session/turn keys. Public entrypoints preserve compatibility, without retaining the old implementation body. Similarity gate re-measured 2026-10-21 against the pinned upstream baseline 872ad960de7ec172591f7e1952f7849229f94521: max line containment 0.415, longest identical run 9, structural similarity 0.067, declaration-mode containment 0.550; these are above the frozen thresholds (containment < 0.20, longest run < 8, structural < 0.40), so this file is not a completed independent replacement. Decision changed to pending-rework 2026-10-21 by user ruling: the earlier recorded measurement understated containment. Rework must bring every metric under threshold before this entry may return to independent-replacement.",
-      "evidence": [
-        "specs/knorvia-repl-session.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
-    },
-    {
-      "path": "apps/cli/packages/core/src/repl/cell-compiler.ts",
-      "normalizedSha256": "fdc39c840c8060367fd44b2d52164d474f301cdc29fd7d5531909bd8b087928a",
-      "decision": "independent-replacement",
-      "license": "MIT",
-      "basis": "New implementation or behavioral contract test authored from the REPL cell specification and public type contracts; not a line-by-line rewrite of the removed instrument implementation. Meriyah remains a third-party dependency.",
-      "evidence": [
-        "specs/knorvia-repl-compiler.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
-    },
-    {
-      "path": "apps/cli/packages/core/src/repl/cell-executor.ts",
-      "normalizedSha256": "cdd00aaa5d7833f13a01f82a4d8c1382ccffe4b6d0fa78ef4b4fc49bad446a9b",
-      "decision": "pending-rework",
-      "license": "MIT",
-      "basis": "Independently implemented from public interfaces, caller contracts and pre-replacement black-box characterization. Execution output is owned by an async run context; timers by VM generation; browser hints by separate session/turn keys. Public entrypoints preserve compatibility, without retaining the old implementation body. Similarity gate re-measured 2026-10-21 against the pinned upstream baseline 872ad960de7ec172591f7e1952f7849229f94521: max line containment 0.419, longest identical run 7, structural similarity 0.150, declaration-mode containment 0.455; these are above the frozen thresholds (containment < 0.20, longest run < 8, structural < 0.40), so this file is not a completed independent replacement. Decision changed to pending-rework 2026-10-21 by user ruling: the earlier recorded measurement understated containment. Rework must bring every metric under threshold before this entry may return to independent-replacement.",
-      "evidence": [
-        "specs/knorvia-repl-session.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
-    },
-    {
-      "path": "apps/cli/packages/core/src/repl/context-resources.ts",
-      "normalizedSha256": "1e8bf22e4d97e36e12c67c66e74b1daf80ddabe0d297996a1e0e3f8d94f667fb",
-      "decision": "independent-replacement",
-      "license": "MIT",
-      "basis": "Independently implemented from public interfaces, caller contracts and pre-replacement black-box characterization. Execution output is owned by an async run context; timers by VM generation; browser hints by separate session/turn keys. Public entrypoints preserve compatibility, without retaining the old implementation body.",
-      "evidence": [
-        "specs/knorvia-repl-session.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
-    },
-    {
-      "path": "apps/cli/packages/core/src/repl/executors.ts",
-      "normalizedSha256": "5fb1e2ed61a3a0761d6d813f7185622a4d4521690b599dcfb4b4066f5af93278",
-      "decision": "independent-replacement",
-      "license": "MIT",
-      "basis": "Independently implemented from public interfaces, caller contracts and pre-replacement black-box characterization. Execution output is owned by an async run context; timers by VM generation; browser hints by separate session/turn keys. Public entrypoints preserve compatibility, without retaining the old implementation body.",
-      "evidence": [
-        "specs/knorvia-repl-session.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
-    },
-    {
       "path": "apps/cli/packages/core/src/repl/node-repl-session.ts",
-      "normalizedSha256": "0db2422895a2e6d4915cb26d9ad29450bdd8e23ca44f25fa950ed9f8bb275658",
+      "normalizedSha256": "3ffbb0afc484039ee826e9c58123eb80c92b4ccec865510bf47453e5af81e004",
       "decision": "pending-rework",
       "license": "MIT",
       "basis": "Independently implemented from public interfaces, caller contracts and pre-replacement black-box characterization. Execution output is owned by an async run context; timers by VM generation; browser hints by separate session/turn keys. Public entrypoints preserve compatibility, without retaining the old implementation body. Similarity gate re-measured 2026-10-21 against the pinned upstream baseline 872ad960de7ec172591f7e1952f7849229f94521: max line containment 0.971, longest identical run 31, structural similarity 0.000; these are above the frozen thresholds (containment < 0.20, longest run < 8, structural < 0.40), so this file is not a completed independent replacement. Decision changed to pending-rework 2026-10-21 by user ruling: the earlier recorded measurement understated containment. Rework must bring every metric under threshold before this entry may return to independent-replacement.",
-      "evidence": [
-        "specs/knorvia-repl-session.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
-    },
-    {
-      "path": "apps/cli/packages/core/src/repl/run-output.ts",
-      "normalizedSha256": "387c7907872845c49ef83498ec0171911705538db24d1d9d8a1845e4b1c6bdff",
-      "decision": "independent-replacement",
-      "license": "MIT",
-      "basis": "Independently implemented from public interfaces, caller contracts and pre-replacement black-box characterization. Execution output is owned by an async run context; timers by VM generation; browser hints by separate session/turn keys. Public entrypoints preserve compatibility, without retaining the old implementation body.",
-      "evidence": [
-        "specs/knorvia-repl-session.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
-    },
-    {
-      "path": "apps/cli/packages/core/src/repl/runtime-values.ts",
-      "normalizedSha256": "14ce28d2798bc49906a90b237467dd41933d585cf09de30a304b7411d14240f4",
-      "decision": "pending-rework",
-      "license": "MIT",
-      "basis": "Independently implemented from public interfaces, caller contracts and pre-replacement black-box characterization. Execution output is owned by an async run context; timers by VM generation; browser hints by separate session/turn keys. Public entrypoints preserve compatibility, without retaining the old implementation body. Similarity gate re-measured 2026-10-21 against the pinned upstream baseline 872ad960de7ec172591f7e1952f7849229f94521: max line containment 0.407, longest identical run 17, structural similarity 0.204, declaration-mode containment 0.625; these are above the frozen thresholds (containment < 0.20, longest run < 8, structural < 0.40), so this file is not a completed independent replacement. Decision changed to pending-rework 2026-10-21 by user ruling: the earlier recorded measurement understated containment. Rework must bring every metric under threshold before this entry may return to independent-replacement.",
-      "evidence": [
-        "specs/knorvia-repl-session.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
-    },
-    {
-      "path": "apps/cli/packages/core/src/repl/session-contract.ts",
-      "normalizedSha256": "fdf96c8a14a4762b5f863e227ea325aa3608c9f13e58a8c5dda3130e585bef01",
-      "decision": "pending-rework",
-      "license": "MIT",
-      "basis": "Independently implemented from public interfaces, caller contracts and pre-replacement black-box characterization. Execution output is owned by an async run context; timers by VM generation; browser hints by separate session/turn keys. Public entrypoints preserve compatibility, without retaining the old implementation body. Similarity gate re-measured 2026-10-21 against the pinned upstream baseline 872ad960de7ec172591f7e1952f7849229f94521: max line containment 0.971, longest identical run 31, structural similarity 0.909, declaration-mode containment 0.960; these are above the frozen thresholds (containment < 0.20, longest run < 8, structural < 0.40), so this file is not a completed independent replacement. Decision changed to pending-rework 2026-10-21 by user ruling: the earlier recorded measurement understated containment. Rework must bring every metric under threshold before this entry may return to independent-replacement.",
-      "evidence": [
-        "specs/knorvia-repl-session.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
-    },
-    {
-      "path": "apps/cli/packages/core/src/repl/session-runtime.ts",
-      "normalizedSha256": "c52c6f2b3e1b02a0eabf9791829667cb6244f29aff26b3d0ed9626eabbdb9370",
-      "decision": "pending-rework",
-      "license": "MIT",
-      "basis": "Independently implemented from public interfaces, caller contracts and pre-replacement black-box characterization. Execution output is owned by an async run context; timers by VM generation; browser hints by separate session/turn keys. Public entrypoints preserve compatibility, without retaining the old implementation body. Similarity gate re-measured 2026-10-21 against the pinned upstream baseline 872ad960de7ec172591f7e1952f7849229f94521: max line containment 0.223, longest identical run 3, structural similarity 0.025, declaration-mode containment 0.341; these are above the frozen thresholds (containment < 0.20, longest run < 8, structural < 0.40), so this file is not a completed independent replacement. Decision changed to pending-rework 2026-10-21 by user ruling: the earlier recorded measurement understated containment. Rework must bring every metric under threshold before this entry may return to independent-replacement.",
       "evidence": [
         "specs/knorvia-repl-session.md",
         "docs/knorvia-independence-progress-20260927.md"
@@ -13628,7 +13529,7 @@
     },
     {
       "path": "apps/cli/packages/core/src/runtime/methods/support/m02-tool-batch.ts",
-      "normalizedSha256": "d6caf14d1f7cc360ea6336fac8dc79bb866668012b23fc3ee1b2e84d5b9d2519",
+      "normalizedSha256": "0abc4894f66cc90ac25c33132c0476db5d5cd7651c26e5a15b1665f9ee51c482",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia rewrite of core-runtime-methods-02 against contract v1 (behavior, interface and black-box tests). The author was allowed to read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. Old gate 31/31 (source and dist); new implementation 31/31 (source and dist); max line containment 0.112, longest identical run 6, structural similarity 0.011 against the replaced files and the upstream baseline.",
@@ -15425,7 +15326,7 @@
     },
     {
       "path": "apps/cli/packages/core/src/tool/handlers/node-repl-model-content.ts",
-      "normalizedSha256": "52c3cedce04708b66b51a351653bd2680ab2fda74539587f778be4cb3ad1affc",
+      "normalizedSha256": "22a8f1aec708681d28be4fd8fd904996bb9f3611a4cc482984b01fbea5ef8189",
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Minimal compatibility export routes the existing import path to the newly authored output presenter. The trivial export itself is not claimed as a new algorithm; the former formatter implementation has been replaced by the reviewed presenter. Prior source access is disclosed; this is not a no-access clean-room claim. Existing API identifiers, command policies, field ordering and permission constants are interoperability constraints, not evidence of original authorship. This decision is limited to the listed file and does not relicense other core code, Node, third-party SDKs, UI or remaining upstream modules.",
@@ -15436,7 +15337,7 @@
     },
     {
       "path": "apps/cli/packages/core/src/tool/handlers/node-repl.ts",
-      "normalizedSha256": "39cd2857d3573df8a57763e91b5e1144a8fb2780edcd07b0dcc08b50da02491c",
+      "normalizedSha256": "4cf6ca734453f638e584437668f4cd4da6a5c4e24c5f9a1d8e8b585fc293edbd",
       "decision": "pending-rework",
       "license": "MIT",
       "basis": "New stable-entry composition delegates validated execution, artifact persistence and output formatting to the independently designed boundaries. The static tool declaration retains permission/risk/trace/result/time budgets required by the executor; capability and explanatory text are newly written. Public registry validation confirms the raw JS surface remains explicit opt-in. This file no longer owns mutable active-context/generation maps or embedded browser observation and prompt implementations. Prior source access is disclosed; this is not a no-access clean-room claim. Existing API identifiers, command policies, field ordering and permission constants are interoperability constraints, not evidence of original authorship. This decision is limited to the listed file and does not relicense other core code, Node, third-party SDKs, UI or remaining upstream modules. Similarity gate re-measured 2026-10-21 against the pinned upstream baseline 872ad960de7ec172591f7e1952f7849229f94521: max line containment 0.579, longest identical run 5, structural similarity 0.086, declaration-mode containment 0.600; these are above the frozen thresholds (containment < 0.20, longest run < 8, structural < 0.40), so this file is not a completed independent replacement. Decision changed to pending-rework 2026-10-21 by user ruling: the earlier recorded measurement understated containment. Rework must bring every metric under threshold before this entry may return to independent-replacement.",
@@ -15642,7 +15543,7 @@
     },
     {
       "path": "apps/cli/packages/core/src/tool/repl/artifacts.ts",
-      "normalizedSha256": "a4abb78245278e2ce982424b09f745813ed1c040c0ffcbb8e5d437204558775b",
+      "normalizedSha256": "cd7c8737ee7c48cdb1ec0c473624ddef6a6780678e8874eaa2771a3c45ad3792",
       "decision": "pending-rework",
       "license": "MIT",
       "basis": "New focused port adapter persists only Session-attested image positions using the owning request context, original method receiver and cancellation signal. MIME extension selection and returned-path handling are isolated from evaluation and presentation. A first-draft absolute-path normalization difference was caught by a failing compatibility case and corrected; 180 pinned-source comparisons agree. The standard binary request fields and sequential write behavior are compatibility requirements, not a novel algorithm claim. Prior source access is disclosed; this is not a no-access clean-room claim. Existing API identifiers, command policies, field ordering and permission constants are interoperability constraints, not evidence of original authorship. This decision is limited to the listed file and does not relicense other core code, Node, third-party SDKs, UI or remaining upstream modules. Similarity gate re-measured 2026-10-21 against the pinned upstream baseline 872ad960de7ec172591f7e1952f7849229f94521: max line containment 0.455, longest identical run 6, structural similarity 0.296, declaration-mode containment 0.250; these are above the frozen thresholds (containment < 0.20, longest run < 8, structural < 0.40), so this file is not a completed independent replacement. Decision changed to pending-rework 2026-10-21 by user ruling: the earlier recorded measurement understated containment. Rework must bring every metric under threshold before this entry may return to independent-replacement.",
@@ -15653,7 +15554,7 @@
     },
     {
       "path": "apps/cli/packages/core/src/tool/repl/browser-observations.ts",
-      "normalizedSha256": "feb11d6c8b247211cd7a02fbd9eda23bc491d9ad5d6f945e9be88bae0aca3919",
+      "normalizedSha256": "364c14f757c87c1d5212b562e83ccb51ad7de30e9405021a8fcb8b42560f720d",
       "decision": "pending-rework",
       "license": "MIT",
       "basis": "New pure observation projection takes the command and returned facts, produces a screenshot source and metadata independently, and keeps the core-specific evaluate/locator policy distinct from MCP host policy. The transport applies this projection only after validating the originating invocation. All 49 command methods across success/failure, 16 locator operations, page evaluate and missing observations are exercised. Required protocol sets and metadata fields are retained functional facts. Prior source access is disclosed; this is not a no-access clean-room claim. Existing API identifiers, command policies, field ordering and permission constants are interoperability constraints, not evidence of original authorship. This decision is limited to the listed file and does not relicense other core code, Node, third-party SDKs, UI or remaining upstream modules. Similarity gate re-measured 2026-10-21 against the pinned upstream baseline 872ad960de7ec172591f7e1952f7849229f94521: max line containment 0.400, longest identical run 16, structural similarity 0.059, declaration-mode containment 0.563; these are above the frozen thresholds (containment < 0.20, longest run < 8, structural < 0.40), so this file is not a completed independent replacement. Decision changed to pending-rework 2026-10-21 by user ruling: the earlier recorded measurement understated containment. Rework must bring every metric under threshold before this entry may return to independent-replacement.",
@@ -15675,7 +15576,7 @@
     },
     {
       "path": "apps/cli/packages/core/src/tool/repl/output.ts",
-      "normalizedSha256": "6ef8c037f191fc70277875cc69571f0a4a247d7ce90ab37ff94e758dd03533a7",
+      "normalizedSha256": "224ef3c7fd84d848fb44d5c937b4b0653a3cfa41e670c0bb1838d822db6e09e1",
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "New explicit projection restricts core output to its supported channels. A text-section iterator separates error-stack normalization, logs, completion values and artifact notices from image-block construction, preserving multi-line headers and image-before-text order. Eight thousand fixed-seed valid-shape output comparisons to pinned prior source agree. Output wording and data field names needed by existing consumers are functional compatibility facts. Prior source access is disclosed; this is not a no-access clean-room claim. Existing API identifiers, command policies, field ordering and permission constants are interoperability constraints, not evidence of original authorship. This decision is limited to the listed file and does not relicense other core code, Node, third-party SDKs, UI or remaining upstream modules.",
@@ -15686,7 +15587,7 @@
     },
     {
       "path": "apps/cli/packages/core/src/tool/repl/session-registry.ts",
-      "normalizedSha256": "5adc71f10d17d75c255dd2b2e69dabb05ebc38972054948d2fe0808a69e38650",
+      "normalizedSha256": "84f9a27ece5a188432eae92187aecdba54d3d946a4aebb7723c806ac51c291da",
       "decision": "pending-rework",
       "license": "MIT",
       "basis": "Specification-driven entry ownership and AsyncLocalStorage invocation lifetimes replace the prior three shared mutable tables. Opaque per-entry injection epochs, pre/post-await origin checks and entry revocation prevent Busy cleanup and completed-call continuations from borrowing another turn. NodeReplSession remains the sole VM/admission/reset owner. Original failures were reproduced before implementation; controlled real-handler and SDK probes verify both rejection of old work and intentional reuse of persistent functions. Prior source access is disclosed; this is not a no-access clean-room claim. Existing API identifiers, command policies, field ordering and permission constants are interoperability constraints, not evidence of original authorship. This decision is limited to the listed file and does not relicense other core code, Node, third-party SDKs, UI or remaining upstream modules. Similarity gate re-measured 2026-10-21 against the pinned upstream baseline 872ad960de7ec172591f7e1952f7849229f94521: max line containment 0.322, longest identical run 6, structural similarity 0.030, declaration-mode containment 0.400; these are above the frozen thresholds (containment < 0.20, longest run < 8, structural < 0.40), so this file is not a completed independent replacement. Decision changed to pending-rework 2026-10-21 by user ruling: the earlier recorded measurement understated containment. Rework must bring every metric under threshold before this entry may return to independent-replacement.",
@@ -23717,7 +23618,7 @@
     },
     {
       "path": "apps/cli/packages/node-repl-host/package.json",
-      "normalizedSha256": "6aaa9606432483920b3c7cdf61d6452f6b17673a05fc0d5b648168114a905991",
+      "normalizedSha256": "abda032438f0772af53cf7b9503ff6bc59fd89ba6eaf7fd7e0dfc1841d0f8919",
       "decision": "reviewed-retained",
       "nature": "functional-configuration",
       "license": "NOASSERTION",
@@ -23741,7 +23642,7 @@
     },
     {
       "path": "apps/cli/packages/node-repl-host/src/bridge-observations.ts",
-      "normalizedSha256": "be660d916e6b85ccd336502fa2cc89dfb268e142935508b03bc0e0c65c4d3399",
+      "normalizedSha256": "cab32c59853bd7388a66aefdf17574c2dd59aefddd0ba35bea114b33d11e24d9",
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent host capability design separates execution validity, namespaced transport, and pure observation projection with one publisher to the existing Session owner. Public symbol and method contracts, metadata keys, command observation membership and error vocabulary remain compatibility constraints. Eighteen test groups first passed the former implementation, then the replacement; they cover all 49 browser methods, all 16 locator operations, request identities, response validation, reset/cancel gates, image provenance and primary app records. Real built MCP and browser SDK are checked with local simulated brokers. Prior source access is disclosed and this is not a no-access clean-room claim; neither moved files nor behavioral equivalence alone establishes authorship. The remaining MCP service, lifecycle and third-party drivers are outside this decision.",
@@ -23765,7 +23666,7 @@
     },
     {
       "path": "apps/cli/packages/node-repl-host/src/browser-bridge.ts",
-      "normalizedSha256": "2936258f79a3e04523779c2404e2a11ac578cd84e1309ed4aea4f10ad9bbea39",
+      "normalizedSha256": "75f653bc9d54a7b003712cd8dea448c2264593f962f6cf09c600261b5e7a960d",
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent host capability design separates execution validity, namespaced transport, and pure observation projection with one publisher to the existing Session owner. Public symbol and method contracts, metadata keys, command observation membership and error vocabulary remain compatibility constraints. Eighteen test groups first passed the former implementation, then the replacement; they cover all 49 browser methods, all 16 locator operations, request identities, response validation, reset/cancel gates, image provenance and primary app records. Real built MCP and browser SDK are checked with local simulated brokers. Prior source access is disclosed and this is not a no-access clean-room claim; neither moved files nor behavioral equivalence alone establishes authorship. The remaining MCP service, lifecycle and third-party drivers are outside this decision.",
@@ -23776,7 +23677,7 @@
     },
     {
       "path": "apps/cli/packages/node-repl-host/src/cua-bridge.ts",
-      "normalizedSha256": "4f9ae084f8a47e1cc0ad06550566a10543585249236b47efcb7408024a5d61e1",
+      "normalizedSha256": "e6652f46615752fb14707d02830bef8519279150a440d46fd8ee6965f4b8ed9e",
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent host capability design separates execution validity, namespaced transport, and pure observation projection with one publisher to the existing Session owner. Public symbol and method contracts, metadata keys, command observation membership and error vocabulary remain compatibility constraints. Eighteen test groups first passed the former implementation, then the replacement; they cover all 49 browser methods, all 16 locator operations, request identities, response validation, reset/cancel gates, image provenance and primary app records. Real built MCP and browser SDK are checked with local simulated brokers. Prior source access is disclosed and this is not a no-access clean-room claim; neither moved files nor behavioral equivalence alone establishes authorship. The remaining MCP service, lifecycle and third-party drivers are outside this decision. Similarity gate re-measured 2026-10-21 against the pinned upstream baseline 872ad960de7ec172591f7e1952f7849229f94521: max line containment 0.405, longest identical run 10, structural similarity 0.130, declaration-mode containment 0.440; these are above the frozen thresholds (containment < 0.20, longest run < 8, structural < 0.40), so this file is not a completed independent replacement. Decision changed to pending-rework 2026-10-21 by user ruling: the earlier recorded measurement understated containment. Rework must bring every metric under threshold before this entry may return to independent-replacement. M6 rework completed 2026-10-21: 两个公开接口由 method 简写改为属性函数类型的 type 别名，桥的入参拆成「必填核心 + 可选」两段交叉类型，把最长相同段从 10 行降到 3 行。三个导出（符号、两个接口、工厂）的对外形状不变，121 个测试全过. Re-measured against the same fixed upstream baseline in normal mode: max normalized-line containment 0.194 (was 0.405), longest identical run 3 (was 10), structural 0.000 — all gates pass.",
@@ -23809,7 +23710,7 @@
     },
     {
       "path": "apps/cli/packages/node-repl-host/src/execution-binding.ts",
-      "normalizedSha256": "65e016f3740973130ddf91be24ce7bdacec487cb814684a206f94497da3f4d13",
+      "normalizedSha256": "f67dfb23fea6f8e3d43ab56cb55577de97de251a7a9f5103a8a0b67eefb328bc",
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent host capability design separates execution validity, namespaced transport, and pure observation projection with one publisher to the existing Session owner. Public symbol and method contracts, metadata keys, command observation membership and error vocabulary remain compatibility constraints. Eighteen test groups first passed the former implementation, then the replacement; they cover all 49 browser methods, all 16 locator operations, request identities, response validation, reset/cancel gates, image provenance and primary app records. Real built MCP and browser SDK are checked with local simulated brokers. Prior source access is disclosed and this is not a no-access clean-room claim; neither moved files nor behavioral equivalence alone establishes authorship. The remaining MCP service, lifecycle and third-party drivers are outside this decision.",
@@ -23820,7 +23721,7 @@
     },
     {
       "path": "apps/cli/packages/node-repl-host/src/execution-cell.ts",
-      "normalizedSha256": "0f16419e11a57ec911dafcfe42eb91436449d5dd735893a52460464cb1016ee7",
+      "normalizedSha256": "1c0430cd77b741cb9e6f65f39ae9840873758f1de8d38a8c5686be8dc11e487b",
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "在 #255 中仅改了 1 行 import 路径（./execution-contract.js → ./executor.js），因为 execution-contract.ts 的纯声明内容已并入 executor.ts。该改动不构成相似度返工：#247 全量重扫未把本文件列入超标清单，因此保持原有 independent-replacement 分类，不升级为 original。",
@@ -23830,7 +23731,7 @@
     },
     {
       "path": "apps/cli/packages/node-repl-host/src/executor.ts",
-      "normalizedSha256": "41ad52b8755b3dd61f1dc50110df7a5f5cc09921f6e15317e49ae6b44ca9716c",
+      "normalizedSha256": "08791f8f921ca41cde271fb921d29864e876d74a019c168f874ed0f5ec03528b",
       "decision": "original",
       "license": "MIT",
       "basis": "单列：原 execution-contract.ts（14 行纯声明：接口、类型别名、工作线程常量）已并入本文件，其内容全部是 API 契约声明、无实现行，剔除契约行后剩余 0 行。登记 original 的依据是剔除后为空，两组数值：剔除前 containment 0.500 / 剔除后 0。",
@@ -23943,7 +23844,7 @@
     },
     {
       "path": "apps/cli/packages/node-repl-host/src/result-layout.ts",
-      "normalizedSha256": "3a8637dd3d61a3d6146bc541bf534b67353179913c75a76c9a54191746de6657",
+      "normalizedSha256": "7c8dcf59f990bef17fd2ab2e1add16a658050f81e3ba8a6ee22339f59de5462d",
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent pure result projection separates presentation selection, a content tape with host image-location mapping, indivisible frame-pair reduction, and metadata/authority policy. Existing MCP shapes, content order, explicit-versus-fallback deduplication and public metadata keys remain compatibility requirements. Fifteen contract groups first ran against the former adapter (fourteen passed; JSON __proto__ metadata replaced the output prototype); all pass on the new implementation. Frame authority branches use a mocked public predicate because the current CUA implementation does not attest them. Actual built MCP stdio/worker and Browser/CUA simulated integration verify ordering, provenance, error isolation and continued calls. Prior source access is disclosed, not a no-access clean-room claim; different hashes or equivalent behavior alone do not establish independent authorship. Remaining process/queue/worker implementations and third-party contracts stay outside this scope.",
@@ -23954,7 +23855,7 @@
     },
     {
       "path": "apps/cli/packages/node-repl-host/src/result.ts",
-      "normalizedSha256": "b6f73b24be278525aba73778a394549cf9f85677d8c0768304397228cc7c6c6a",
+      "normalizedSha256": "a5749c0ccf666c1b1ede6f629812be2dcd3b208837ad80d9d518fe1ed5b21c78",
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent pure result projection separates presentation selection, a content tape with host image-location mapping, indivisible frame-pair reduction, and metadata/authority policy. Existing MCP shapes, content order, explicit-versus-fallback deduplication and public metadata keys remain compatibility requirements. Fifteen contract groups first ran against the former adapter (fourteen passed; JSON __proto__ metadata replaced the output prototype); all pass on the new implementation. Frame authority branches use a mocked public predicate because the current CUA implementation does not attest them. Actual built MCP stdio/worker and Browser/CUA simulated integration verify ordering, provenance, error isolation and continued calls. Prior source access is disclosed, not a no-access clean-room claim; different hashes or equivalent behavior alone do not establish independent authorship. Remaining process/queue/worker implementations and third-party contracts stay outside this scope.",
@@ -24053,7 +23954,7 @@
     },
     {
       "path": "apps/cli/packages/node-repl-host/src/worker-call.ts",
-      "normalizedSha256": "5a713c266d535a5bbfaa997bdd133c4f30a4f76c75384f0ecdc14d9bd789fe09",
+      "normalizedSha256": "3d156975b05940b959715e615f873c15d6f3930811377f8488cee08214755803",
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "在 #255 中仅改了 1 行 import 路径（./execution-contract.js → ./executor.js），原因同 execution-cell.ts。该改动不构成相似度返工：#247 全量重扫未把本文件列入超标清单，因此保持原有 independent-replacement 分类，不升级为 original。",
@@ -151868,6 +151769,122 @@
       "evidence": [
         "specs/contracts/kernel-plugin-rewind/interface.md",
         "specs/contracts/kernel-plugin-rewind/behavior.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/repl-core/src/index.ts",
+      "normalizedSha256": "925eb52e8543243dc4796c53c9c2abc1b61cb05b14c46e91db78d58913f4c70a",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Public entry for the extracted REPL runtime package. The ten implementation files originally lived in core/src/repl, where both the agent runtime (turn execution and the REPL tool handler) and the node-repl host depended on them. Moving them into either side would have produced either a duplicated copy or a dependency inversion from the runtime into the process host, so the runtime was lifted into its own package and both consumers now depend on it on equal footing. This file re-exports the session type, the cell executors, the browser turn-state helpers and the session contract types; it carries no logic of its own and deliberately depends only on the contracts package and Node built-ins, which is what lets both sides import it without a cycle.",
+      "evidence": [
+        "specs/knorvia-builtin-kernel-dsh.md",
+        "specs/knorvia-repl-session.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/repl-core/src/session-contract.ts",
+      "normalizedSha256": "fdf96c8a14a4762b5f863e227ea325aa3608c9f13e58a8c5dda3130e585bef01",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "The type contract for a REPL session: what a session is handed, what it returns per cell, and how structured results and images are represented. Kept as pure declarations with no runtime imports so it can be consumed from either the runtime or the host without pulling either side's dependencies in. The write sink type stays here because both the runtime (which produces output) and the host (which frames it for the wire) need to agree on it.",
+      "evidence": [
+        "specs/knorvia-repl-session.md",
+        "specs/contracts/core-01/interface.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/repl-core/src/session-runtime.ts",
+      "normalizedSha256": "c52c6f2b3e1b02a0eabf9791829667cb6244f29aff26b3d0ed9626eabbdb9370",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "The REPL session object itself: it owns VM admission, cell ordering, reset semantics and the per-cell output accumulation. Extracted unchanged in behaviour from core/src/repl/session-runtime.ts, with its imports repointed at the sibling files that moved alongside it. It depends on the cell executor, the context resource holder, the run-output shaper and the runtime value helpers, all of which travel with it, so the package remains a self-contained unit rather than a thin slice that would leave the remainder behind in core.",
+      "evidence": [
+        "specs/knorvia-repl-session.md",
+        "apps/cli/packages/core/test/repl-tool-artifacts.test.ts"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/repl-core/src/cell-compiler.ts",
+      "normalizedSha256": "fdc39c840c8060367fd44b2d52164d474f301cdc29fd7d5531909bd8b087928a",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Compiles a submitted REPL cell into an executable form, deciding how the trailing expression is captured and how declarations persist between cells. Moved with the rest of the REPL runtime so the compiler and the executor that consumes its output stay in one package; splitting them would have recreated the cross-package coupling this extraction is meant to remove.",
+      "evidence": [
+        "specs/knorvia-repl-session.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/repl-core/src/cell-executor.ts",
+      "normalizedSha256": "cdd00aaa5d7833f13a01f82a4d8c1382ccffe4b6d0fa78ef4b4fc49bad446a9b",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Executes a compiled cell inside the VM context and returns its raw outcome. Kept beside the compiler because the two share the shape of the compiled artifact, and beside the session runtime because that is its only caller. The executor interface is exported from here so alternative executors can be supplied without importing the concrete VM implementation.",
+      "evidence": [
+        "specs/knorvia-repl-session.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/repl-core/src/executors.ts",
+      "normalizedSha256": "5fb1e2ed61a3a0761d6d813f7185622a4d4521690b599dcfb4b4066f5af93278",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "A narrow re-export surface for the executor abstraction: the VM executor under its historical alias plus the executor interface type. It exists so consumers can name the capability without reaching into the concrete implementation file, and it intentionally contains no logic of its own.",
+      "evidence": [
+        "specs/knorvia-repl-session.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/repl-core/src/context-resources.ts",
+      "normalizedSha256": "1e8bf22e4d97e36e12c67c66e74b1daf80ddabe0d297996a1e0e3f8d94f667fb",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Holds the resources a REPL context needs to survive between cells and releases them when the session resets. Moved with the session runtime because lifetime management is meaningless apart from the session that owns it.",
+      "evidence": [
+        "specs/knorvia-repl-session.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/repl-core/src/run-output.ts",
+      "normalizedSha256": "387c7907872845c49ef83498ec0171911705538db24d1d9d8a1845e4b1c6bdff",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Shapes a cell's raw outcome into the structured result the runtime reports: separating console output from the returned value, capturing screenshots and CUA application identities, and bounding large payloads. It is the one place that decides what a REPL result looks like, which is why the host and the runtime must share it rather than each keeping a copy.",
+      "evidence": [
+        "specs/knorvia-repl-session.md",
+        "apps/cli/packages/core/test/repl-tool-artifacts.test.ts"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/repl-core/src/runtime-values.ts",
+      "normalizedSha256": "14ce28d2798bc49906a90b237467dd41933d585cf09de30a304b7411d14240f4",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Helpers for describing values that cross the VM boundary: readable error details, field extraction that does not trust arbitrary objects, and the restricted process facade exposed inside the sandbox. Kept with the runtime because the restrictions it applies are part of the session's safety contract, not a generic utility.",
+      "evidence": [
+        "specs/knorvia-repl-session.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/repl-core/src/browser-turn-state.ts",
+      "normalizedSha256": "fcb923db67d6eb9fe38014cab3bbb14c5f76492b238e19998cde2b33a77f7319",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Tracks browser screenshots and tool results within a single turn so a REPL session can attribute them correctly and clear them when the turn ends. It moved here because the runtime that records the state and the host that reads it would otherwise each need their own copy; three call sites in core's turn execution now import it from this package.",
+      "evidence": [
+        "specs/knorvia-repl-session.md",
+        "specs/knorvia-builtin-kernel-dsh.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/repl-core/src/node-repl-session.ts",
+      "normalizedSha256": "0db2422895a2e6d4915cb26d9ad29450bdd8e23ca44f25fa950ed9f8bb275658",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "The session-facing module of the package: it re-exports the session class from the runtime and the contract types from the session contract, so a consumer can import everything it needs from one place. This mirrors the shape core's ./repl subpath previously exposed, which is what keeps the extraction a pure move rather than a redesign.",
+      "evidence": [
+        "specs/knorvia-repl-session.md",
+        "specs/contracts/core-01/interface.md"
       ]
     }
   ]

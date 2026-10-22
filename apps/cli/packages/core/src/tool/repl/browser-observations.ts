@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2026 Knorvia contributors
 import type { BrowserCommand, BrowserCommandResult } from "@knorvia/contracts/browser-control";
-import type { NodeReplImage } from "../../repl/session-contract.js";
+import type { NodeReplImage } from "@knorvia/repl-core";
 
 const pageActions = new Set<string>([
   "navigate",

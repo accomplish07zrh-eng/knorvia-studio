@@ -6,8 +6,8 @@ import type { JsRuntimeInput, SessionId } from "@knorvia/contracts";
 // 原先这里从 `core/src/browser-client/` 的重复副本导入（该副本与本包内容逐字节相同），
 // 删除副本后改指独立包，行为不变。
 import { setupBrowserRuntime } from "@knorvia/browser-client";
-import { NodeReplSession } from "../../repl/node-repl-session.js";
-import type { NodeReplRunResult } from "../../repl/session-contract.js";
+import { NodeReplSession } from "@knorvia/repl-core";
+import type { NodeReplRunResult } from "@knorvia/repl-core";
 import type { ToolExecutionContext } from "../types.js";
 import { browserObservation } from "./browser-observations.js";
 

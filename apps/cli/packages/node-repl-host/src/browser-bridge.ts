@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2026 Knorvia contributors
-import type { NodeReplSession } from "@knorvia/core/repl";
+import type { NodeReplSession } from "@knorvia/repl-core";
 import {
   NODE_REPL_BROWSER_BROKER_SOCKET_ENV,
   NODE_REPL_BROWSER_BROKER_TOKEN_ENV,

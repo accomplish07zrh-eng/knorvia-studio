@@ -6,7 +6,7 @@
 // 下面这段接口/类型/常量，没有自己的实现，独立成文件只会让「换一种方式执行」
 // 这件事在读代码时被切到两个文件里。三个使用方（`worker-call`、`execution-cell`、
 // 本文件的 `createInProcessNodeReplExecutor`）都在同目录，属于同一模块族。
-import type { NodeReplRequestMeta, NodeReplRunResult } from "@knorvia/core/repl";
+import type { NodeReplRequestMeta, NodeReplRunResult } from "@knorvia/repl-core";
 import type { NodeReplCuaBrokerConnection } from "./cua-bridge.js";
 import { executeCell } from "./execution-cell.js";
 export { executeInWorker } from "./worker-call.js";

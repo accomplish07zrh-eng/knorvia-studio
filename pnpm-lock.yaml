@@ -557,6 +557,9 @@ importers:
       '@knorvia/dynamic-workflow':
         specifier: workspace:*
         version: link:../dynamic-workflow
+      '@knorvia/repl-core':
+        specifier: workspace:*
+        version: link:../repl-core
       '@knorvia/shared':
         specifier: workspace:*
         version: link:../../../../packages/shared
@@ -631,6 +634,9 @@ importers:
       '@knorvia/cua':
         specifier: workspace:*
         version: link:../../../../packages/cua
+      '@knorvia/repl-core':
+        specifier: workspace:*
+        version: link:../repl-core
       '@knorvia/shared':
         specifier: workspace:*
         version: link:../../../../packages/shared
@@ -650,6 +656,19 @@ importers:
       esbuild:
         specifier: ^0.25.0
         version: 0.25.12
+      typescript:
+        specifier: ^5.9.0
+        version: 5.9.3
+
+  apps/cli/packages/repl-core:
+    dependencies:
+      '@knorvia/contracts':
+        specifier: workspace:*
+        version: link:../contracts
+    devDependencies:
+      '@types/node':
+        specifier: ^24.0.0
+        version: 24.12.2
       typescript:
         specifier: ^5.9.0
         version: 5.9.3

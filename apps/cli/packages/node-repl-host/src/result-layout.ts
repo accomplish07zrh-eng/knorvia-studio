@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2026 Knorvia contributors
 import { isOfficialCuaImageRefText } from "@knorvia/cua/frame-contract";
-import type { NodeReplRunResult, NodeReplStructuredResult } from "@knorvia/core/repl";
+import type { NodeReplRunResult, NodeReplStructuredResult } from "@knorvia/repl-core";
 import type { CallToolResult } from "@modelcontextprotocol/server";
 
 type Content = CallToolResult["content"][number];
