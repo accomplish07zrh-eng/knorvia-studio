@@ -150872,10 +150872,10 @@
     },
     {
       "path": "specs/contracts/kernel-plugin-hooks/acceptance.md",
-      "normalizedSha256": "068c5e4bee2bde38c904b85a3224cdd11877172e79528ad6fd818897555aa7e3",
+      "normalizedSha256": "c25b4535c19b046ecaeee6fa1142b8edbd583a18ee711b1dea9a9165bd42aec3",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored workspace trust layer and its acceptance record. The policy provider owns state per instance with no global singleton, validates before writing so an invalid policy cannot leave a half-updated state, and notifies only on actual change; identity keys live in a Map because the identity is caller-supplied text and prototype keys would otherwise pollute the table. The trust coordinator keeps a monotonic security revision per workspace, registering a workspace as known when its revision is read, because a workspace that was only ever read would otherwise be missed when a default policy change must bump every known workspace and its interface would stay silently stale; composite keys are joined with a NUL separator since both parts may contain colons. The registration module admits workspace hooks only when admission allows, uses resolved timeouts and output limits, and inserts project hooks before the first non-user configured hook without ever preceding a user hook; the declaration digest covers only the fields that identify a declaration and excludes tuning values, so raising a timeout does not force re-trusting. The acceptance table now lists eleven implemented clause groups and the remaining two, stating completion as a fraction of clause groups.",
+      "basis": "Knorvia-authored acceptance record update after merging main, keeping the coverage table current with the clauses implemented so far and the remaining ones listed. The table is the only place stating which parts of the behaviour contract this package satisfies, so letting it drift would overstate progress.",
       "evidence": [
         "specs/contracts/kernel-plugin-hooks/acceptance.md"
       ]
@@ -151576,9 +151576,9 @@
       "normalizedSha256": "278a07624eedf3310f371ed0fd0fa9cac9795759b12667586884285729c64dcd",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored workspace trust layer and its acceptance record. The policy provider owns state per instance with no global singleton, validates before writing so an invalid policy cannot leave a half-updated state, and notifies only on actual change; identity keys live in a Map because the identity is caller-supplied text and prototype keys would otherwise pollute the table. The trust coordinator keeps a monotonic security revision per workspace, registering a workspace as known when its revision is read, because a workspace that was only ever read would otherwise be missed when a default policy change must bump every known workspace and its interface would stay silently stale; composite keys are joined with a NUL separator since both parts may contain colons. The registration module admits workspace hooks only when admission allows, uses resolved timeouts and output limits, and inserts project hooks before the first non-user configured hook without ever preceding a user hook; the declaration digest covers only the fields that identify a declaration and excludes tuning values, so raising a timeout does not force re-trusting. The acceptance table now lists eleven implemented clause groups and the remaining two, stating completion as a fraction of clause groups.",
+      "basis": "Knorvia-authored hook executor modules and their contract tests, re-registered after merging main, where taking the incoming reviews file silently dropped entries added on this branch. The input module merges the original fields with fixed aliases, tool fields and per-event aliases and writes a transcript whose contents depend on the event; environment overlay and variable expansion share one table so the two cannot drift, and skill variables raise instead of expanding to an empty string; execution maps both hook shapes onto the execution port and always cleans the temporary directory in a finally block; parsing treats unparseable stdout as no output because a hook printing a log line must not fail an action, while a shape mismatch does raise; the runner registers hooks from configuration and short-circuits on the first blocking verdict. These entries were lost because the reviews file was taken wholesale from the incoming side, and the consistency check still passed since the generated inventory was equally incomplete.",
       "evidence": [
-        "specs/contracts/kernel-plugin-hooks/acceptance.md"
+        "specs/contracts/kernel-plugin-hooks/tests/hook-runner.test.mjs"
       ]
     },
     {
@@ -151907,6 +151907,176 @@
       "evidence": [
         "apps/cli/packages/shared-types/src/index.ts",
         "specs/knorvia-builtin-kernel-dsh.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-hooks/workspace-review-flow.ts",
+      "normalizedSha256": "e79d279ff963fc278099ee6744439600dfddeea1ff4f6bf8bb06bd44f2f741fc",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored review flow registry, runtime admission, telemetry redaction and trust record creation, four modules covering the remaining review, admission, telemetry and record clauses. The registry settles a superseded flow immediately rather than leaving its promise hanging and keeps resolution idempotent so a timeout racing a decision cannot settle twice; same-generation comparison excludes the bundle digest because the digest belongs to snapshot contents and a changed digest must report a snapshot mismatch. The admission controller applies nine rules in a fixed order with a test for each precedence pair, marks itself activated even when the feature is disabled so the disabled reason is not masked by the not-activated rule, and compares a submitted security counter against the current counter rather than the counter seen at the last evaluation since a client may submit a stale revision. Telemetry redacts the workspace identity through a hash rather than truncation, because truncation would make distinct workspaces that share a prefix indistinguishable while a hash keeps them apart without exposing the path, and it admits only an allow-list of fields so commands, script content and source paths never reach the log. Trust record creation de-duplicates the approved item ids in first-seen order, fails loudly on an unknown item or a missing source file, and stores the six slot fields at grant time because those are what later identifies whether a record describes the same declaration line. Verified with two hundred and seventy-nine contract tests across the package.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/workspace-trust-records.test.mjs"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-hooks/workspace-runtime-admission.ts",
+      "normalizedSha256": "6978285eedaa1cf79f3774b22ae85fc361b4d016ba143306661c507be55c156c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored review flow registry, runtime admission, telemetry redaction and trust record creation, four modules covering the remaining review, admission, telemetry and record clauses. The registry settles a superseded flow immediately rather than leaving its promise hanging and keeps resolution idempotent so a timeout racing a decision cannot settle twice; same-generation comparison excludes the bundle digest because the digest belongs to snapshot contents and a changed digest must report a snapshot mismatch. The admission controller applies nine rules in a fixed order with a test for each precedence pair, marks itself activated even when the feature is disabled so the disabled reason is not masked by the not-activated rule, and compares a submitted security counter against the current counter rather than the counter seen at the last evaluation since a client may submit a stale revision. Telemetry redacts the workspace identity through a hash rather than truncation, because truncation would make distinct workspaces that share a prefix indistinguishable while a hash keeps them apart without exposing the path, and it admits only an allow-list of fields so commands, script content and source paths never reach the log. Trust record creation de-duplicates the approved item ids in first-seen order, fails loudly on an unknown item or a missing source file, and stores the six slot fields at grant time because those are what later identifies whether a record describes the same declaration line. Verified with two hundred and seventy-nine contract tests across the package.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/workspace-trust-records.test.mjs"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-hooks/workspace-telemetry.ts",
+      "normalizedSha256": "a525884a4e22c2fe6ba803e48aa3097d4403e3cda6ac5f38118d53902336292f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored review flow registry, runtime admission, telemetry redaction and trust record creation, four modules covering the remaining review, admission, telemetry and record clauses. The registry settles a superseded flow immediately rather than leaving its promise hanging and keeps resolution idempotent so a timeout racing a decision cannot settle twice; same-generation comparison excludes the bundle digest because the digest belongs to snapshot contents and a changed digest must report a snapshot mismatch. The admission controller applies nine rules in a fixed order with a test for each precedence pair, marks itself activated even when the feature is disabled so the disabled reason is not masked by the not-activated rule, and compares a submitted security counter against the current counter rather than the counter seen at the last evaluation since a client may submit a stale revision. Telemetry redacts the workspace identity through a hash rather than truncation, because truncation would make distinct workspaces that share a prefix indistinguishable while a hash keeps them apart without exposing the path, and it admits only an allow-list of fields so commands, script content and source paths never reach the log. Trust record creation de-duplicates the approved item ids in first-seen order, fails loudly on an unknown item or a missing source file, and stores the six slot fields at grant time because those are what later identifies whether a record describes the same declaration line. Verified with two hundred and seventy-nine contract tests across the package.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/workspace-trust-records.test.mjs"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-hooks/workspace-trust-records.ts",
+      "normalizedSha256": "9b25eea36b2e08004946ce035679ec328452c6cb97f3e53902193cbe9030b338",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored review flow registry, runtime admission, telemetry redaction and trust record creation, four modules covering the remaining review, admission, telemetry and record clauses. The registry settles a superseded flow immediately rather than leaving its promise hanging and keeps resolution idempotent so a timeout racing a decision cannot settle twice; same-generation comparison excludes the bundle digest because the digest belongs to snapshot contents and a changed digest must report a snapshot mismatch. The admission controller applies nine rules in a fixed order with a test for each precedence pair, marks itself activated even when the feature is disabled so the disabled reason is not masked by the not-activated rule, and compares a submitted security counter against the current counter rather than the counter seen at the last evaluation since a client may submit a stale revision. Telemetry redacts the workspace identity through a hash rather than truncation, because truncation would make distinct workspaces that share a prefix indistinguishable while a hash keeps them apart without exposing the path, and it admits only an allow-list of fields so commands, script content and source paths never reach the log. Trust record creation de-duplicates the approved item ids in first-seen order, fails loudly on an unknown item or a missing source file, and stores the six slot fields at grant time because those are what later identifies whether a record describes the same declaration line. Verified with two hundred and seventy-nine contract tests across the package.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/workspace-trust-records.test.mjs"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-hooks/tests/workspace-review-flow.test.mjs",
+      "normalizedSha256": "7996b0ef5daa0381103a2558851dd00da30f209847b1770a097f62d004ff62c4",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored review flow registry, runtime admission, telemetry redaction and trust record creation, four modules covering the remaining review, admission, telemetry and record clauses. The registry settles a superseded flow immediately rather than leaving its promise hanging and keeps resolution idempotent so a timeout racing a decision cannot settle twice; same-generation comparison excludes the bundle digest because the digest belongs to snapshot contents and a changed digest must report a snapshot mismatch. The admission controller applies nine rules in a fixed order with a test for each precedence pair, marks itself activated even when the feature is disabled so the disabled reason is not masked by the not-activated rule, and compares a submitted security counter against the current counter rather than the counter seen at the last evaluation since a client may submit a stale revision. Telemetry redacts the workspace identity through a hash rather than truncation, because truncation would make distinct workspaces that share a prefix indistinguishable while a hash keeps them apart without exposing the path, and it admits only an allow-list of fields so commands, script content and source paths never reach the log. Trust record creation de-duplicates the approved item ids in first-seen order, fails loudly on an unknown item or a missing source file, and stores the six slot fields at grant time because those are what later identifies whether a record describes the same declaration line. Verified with two hundred and seventy-nine contract tests across the package.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/workspace-trust-records.test.mjs"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-hooks/tests/workspace-runtime-admission.test.mjs",
+      "normalizedSha256": "c0a29a2dc984376baec2b5959bc9450c9f83a0f18ebc6c5efd13b40fccc8caba",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored review flow registry, runtime admission, telemetry redaction and trust record creation, four modules covering the remaining review, admission, telemetry and record clauses. The registry settles a superseded flow immediately rather than leaving its promise hanging and keeps resolution idempotent so a timeout racing a decision cannot settle twice; same-generation comparison excludes the bundle digest because the digest belongs to snapshot contents and a changed digest must report a snapshot mismatch. The admission controller applies nine rules in a fixed order with a test for each precedence pair, marks itself activated even when the feature is disabled so the disabled reason is not masked by the not-activated rule, and compares a submitted security counter against the current counter rather than the counter seen at the last evaluation since a client may submit a stale revision. Telemetry redacts the workspace identity through a hash rather than truncation, because truncation would make distinct workspaces that share a prefix indistinguishable while a hash keeps them apart without exposing the path, and it admits only an allow-list of fields so commands, script content and source paths never reach the log. Trust record creation de-duplicates the approved item ids in first-seen order, fails loudly on an unknown item or a missing source file, and stores the six slot fields at grant time because those are what later identifies whether a record describes the same declaration line. Verified with two hundred and seventy-nine contract tests across the package.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/workspace-trust-records.test.mjs"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-hooks/tests/workspace-telemetry.test.mjs",
+      "normalizedSha256": "3819d18e04c8f201de99bd3ff61b359479cdf2f0890de075f6b0469f431d90dd",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored review flow registry, runtime admission, telemetry redaction and trust record creation, four modules covering the remaining review, admission, telemetry and record clauses. The registry settles a superseded flow immediately rather than leaving its promise hanging and keeps resolution idempotent so a timeout racing a decision cannot settle twice; same-generation comparison excludes the bundle digest because the digest belongs to snapshot contents and a changed digest must report a snapshot mismatch. The admission controller applies nine rules in a fixed order with a test for each precedence pair, marks itself activated even when the feature is disabled so the disabled reason is not masked by the not-activated rule, and compares a submitted security counter against the current counter rather than the counter seen at the last evaluation since a client may submit a stale revision. Telemetry redacts the workspace identity through a hash rather than truncation, because truncation would make distinct workspaces that share a prefix indistinguishable while a hash keeps them apart without exposing the path, and it admits only an allow-list of fields so commands, script content and source paths never reach the log. Trust record creation de-duplicates the approved item ids in first-seen order, fails loudly on an unknown item or a missing source file, and stores the six slot fields at grant time because those are what later identifies whether a record describes the same declaration line. Verified with two hundred and seventy-nine contract tests across the package.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/workspace-trust-records.test.mjs"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-hooks/tests/workspace-trust-records.test.mjs",
+      "normalizedSha256": "35794803c9b1f371b678e3545c53c559542c423a167fdf90c83e621f196c79a6",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored review flow registry, runtime admission, telemetry redaction and trust record creation, four modules covering the remaining review, admission, telemetry and record clauses. The registry settles a superseded flow immediately rather than leaving its promise hanging and keeps resolution idempotent so a timeout racing a decision cannot settle twice; same-generation comparison excludes the bundle digest because the digest belongs to snapshot contents and a changed digest must report a snapshot mismatch. The admission controller applies nine rules in a fixed order with a test for each precedence pair, marks itself activated even when the feature is disabled so the disabled reason is not masked by the not-activated rule, and compares a submitted security counter against the current counter rather than the counter seen at the last evaluation since a client may submit a stale revision. Telemetry redacts the workspace identity through a hash rather than truncation, because truncation would make distinct workspaces that share a prefix indistinguishable while a hash keeps them apart without exposing the path, and it admits only an allow-list of fields so commands, script content and source paths never reach the log. Trust record creation de-duplicates the approved item ids in first-seen order, fails loudly on an unknown item or a missing source file, and stores the six slot fields at grant time because those are what later identifies whether a record describes the same declaration line. Verified with two hundred and seventy-nine contract tests across the package.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/workspace-trust-records.test.mjs"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-hooks/hook-input.ts",
+      "normalizedSha256": "b24c7a205fbe5db14ccf6b01de45c94cb6a88572adf1501d8032a1d37c411f2b",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored hook executor modules and their contract tests, re-registered after merging main, where taking the incoming reviews file silently dropped entries added on this branch. The input module merges the original fields with fixed aliases, tool fields and per-event aliases and writes a transcript whose contents depend on the event; environment overlay and variable expansion share one table so the two cannot drift, and skill variables raise instead of expanding to an empty string; execution maps both hook shapes onto the execution port and always cleans the temporary directory in a finally block; parsing treats unparseable stdout as no output because a hook printing a log line must not fail an action, while a shape mismatch does raise; the runner registers hooks from configuration and short-circuits on the first blocking verdict. These entries were lost because the reviews file was taken wholesale from the incoming side, and the consistency check still passed since the generated inventory was equally incomplete.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/hook-runner.test.mjs"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-hooks/hook-parse.ts",
+      "normalizedSha256": "02b03f7170204b4bbe850f1180d3e1b3a7bf8ec7dad7676e41ba7ce0753c7061",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored hook executor modules and their contract tests, re-registered after merging main, where taking the incoming reviews file silently dropped entries added on this branch. The input module merges the original fields with fixed aliases, tool fields and per-event aliases and writes a transcript whose contents depend on the event; environment overlay and variable expansion share one table so the two cannot drift, and skill variables raise instead of expanding to an empty string; execution maps both hook shapes onto the execution port and always cleans the temporary directory in a finally block; parsing treats unparseable stdout as no output because a hook printing a log line must not fail an action, while a shape mismatch does raise; the runner registers hooks from configuration and short-circuits on the first blocking verdict. These entries were lost because the reviews file was taken wholesale from the incoming side, and the consistency check still passed since the generated inventory was equally incomplete.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/hook-runner.test.mjs"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-hooks/hook-env.ts",
+      "normalizedSha256": "58a7decdb5fd90e28164e1c37d0a718d5d929baece20d15a2b870ffe077ee626",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored hook executor modules and their contract tests, re-registered after merging main, where taking the incoming reviews file silently dropped entries added on this branch. The input module merges the original fields with fixed aliases, tool fields and per-event aliases and writes a transcript whose contents depend on the event; environment overlay and variable expansion share one table so the two cannot drift, and skill variables raise instead of expanding to an empty string; execution maps both hook shapes onto the execution port and always cleans the temporary directory in a finally block; parsing treats unparseable stdout as no output because a hook printing a log line must not fail an action, while a shape mismatch does raise; the runner registers hooks from configuration and short-circuits on the first blocking verdict. These entries were lost because the reviews file was taken wholesale from the incoming side, and the consistency check still passed since the generated inventory was equally incomplete.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/hook-runner.test.mjs"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-hooks/hook-exec.ts",
+      "normalizedSha256": "bbdefb0a6b5b3025bfe4a0f6fee4426edaa0a865c3b886e357c269dc4e7a7849",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored hook executor modules and their contract tests, re-registered after merging main, where taking the incoming reviews file silently dropped entries added on this branch. The input module merges the original fields with fixed aliases, tool fields and per-event aliases and writes a transcript whose contents depend on the event; environment overlay and variable expansion share one table so the two cannot drift, and skill variables raise instead of expanding to an empty string; execution maps both hook shapes onto the execution port and always cleans the temporary directory in a finally block; parsing treats unparseable stdout as no output because a hook printing a log line must not fail an action, while a shape mismatch does raise; the runner registers hooks from configuration and short-circuits on the first blocking verdict. These entries were lost because the reviews file was taken wholesale from the incoming side, and the consistency check still passed since the generated inventory was equally incomplete.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/hook-runner.test.mjs"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-hooks/tests/hook-input.test.mjs",
+      "normalizedSha256": "9635a524e6d998b59bdaa8278eba3de5d8d3ad543af0e9ee5e023731dafbf7a5",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored hook executor modules and their contract tests, re-registered after merging main, where taking the incoming reviews file silently dropped entries added on this branch. The input module merges the original fields with fixed aliases, tool fields and per-event aliases and writes a transcript whose contents depend on the event; environment overlay and variable expansion share one table so the two cannot drift, and skill variables raise instead of expanding to an empty string; execution maps both hook shapes onto the execution port and always cleans the temporary directory in a finally block; parsing treats unparseable stdout as no output because a hook printing a log line must not fail an action, while a shape mismatch does raise; the runner registers hooks from configuration and short-circuits on the first blocking verdict. These entries were lost because the reviews file was taken wholesale from the incoming side, and the consistency check still passed since the generated inventory was equally incomplete.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/hook-runner.test.mjs"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-hooks/tests/hook-env.test.mjs",
+      "normalizedSha256": "c33f0172e88af4ca999b356b6c0ea6792f70d38f4d0d83e3d6c636b22791b418",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored hook executor modules and their contract tests, re-registered after merging main, where taking the incoming reviews file silently dropped entries added on this branch. The input module merges the original fields with fixed aliases, tool fields and per-event aliases and writes a transcript whose contents depend on the event; environment overlay and variable expansion share one table so the two cannot drift, and skill variables raise instead of expanding to an empty string; execution maps both hook shapes onto the execution port and always cleans the temporary directory in a finally block; parsing treats unparseable stdout as no output because a hook printing a log line must not fail an action, while a shape mismatch does raise; the runner registers hooks from configuration and short-circuits on the first blocking verdict. These entries were lost because the reviews file was taken wholesale from the incoming side, and the consistency check still passed since the generated inventory was equally incomplete.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/hook-runner.test.mjs"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-hooks/tests/hook-exec.test.mjs",
+      "normalizedSha256": "b43acb904fb8dff591682fea664059120573616ee9ca951ff8c30498fd292e85",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored hook executor modules and their contract tests, re-registered after merging main, where taking the incoming reviews file silently dropped entries added on this branch. The input module merges the original fields with fixed aliases, tool fields and per-event aliases and writes a transcript whose contents depend on the event; environment overlay and variable expansion share one table so the two cannot drift, and skill variables raise instead of expanding to an empty string; execution maps both hook shapes onto the execution port and always cleans the temporary directory in a finally block; parsing treats unparseable stdout as no output because a hook printing a log line must not fail an action, while a shape mismatch does raise; the runner registers hooks from configuration and short-circuits on the first blocking verdict. These entries were lost because the reviews file was taken wholesale from the incoming side, and the consistency check still passed since the generated inventory was equally incomplete.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/hook-runner.test.mjs"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-hooks/tests/hook-parse.test.mjs",
+      "normalizedSha256": "e4f244ab5637868c1fff1aac2fe06fdcbb0486db06d977dad20e1d2a10dbfaed",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored hook executor modules and their contract tests, re-registered after merging main, where taking the incoming reviews file silently dropped entries added on this branch. The input module merges the original fields with fixed aliases, tool fields and per-event aliases and writes a transcript whose contents depend on the event; environment overlay and variable expansion share one table so the two cannot drift, and skill variables raise instead of expanding to an empty string; execution maps both hook shapes onto the execution port and always cleans the temporary directory in a finally block; parsing treats unparseable stdout as no output because a hook printing a log line must not fail an action, while a shape mismatch does raise; the runner registers hooks from configuration and short-circuits on the first blocking verdict. These entries were lost because the reviews file was taken wholesale from the incoming side, and the consistency check still passed since the generated inventory was equally incomplete.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/hook-runner.test.mjs"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-hooks/tests/hook-runner.test.mjs",
+      "normalizedSha256": "ba82d077a0d4b0a9692b7f30bc37f50983ef4a68c563e4f5070d4a4d9f6905db",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored hook executor modules and their contract tests, re-registered after merging main, where taking the incoming reviews file silently dropped entries added on this branch. The input module merges the original fields with fixed aliases, tool fields and per-event aliases and writes a transcript whose contents depend on the event; environment overlay and variable expansion share one table so the two cannot drift, and skill variables raise instead of expanding to an empty string; execution maps both hook shapes onto the execution port and always cleans the temporary directory in a finally block; parsing treats unparseable stdout as no output because a hook printing a log line must not fail an action, while a shape mismatch does raise; the runner registers hooks from configuration and short-circuits on the first blocking verdict. These entries were lost because the reviews file was taken wholesale from the incoming side, and the consistency check still passed since the generated inventory was equally incomplete.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/tests/hook-runner.test.mjs"
       ]
     }
   ]
