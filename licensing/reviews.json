@@ -24058,7 +24058,7 @@
     },
     {
       "path": "apps/cli/packages/node-repl-host/package.json",
-      "normalizedSha256": "917ce5b6236ad4ccabfdbbf07ed18c3708359e3f1ba290e589cc06fae2e1011a",
+      "normalizedSha256": "6aaa9606432483920b3c7cdf61d6452f6b17673a05fc0d5b648168114a905991",
       "decision": "reviewed-retained",
       "nature": "functional-configuration",
       "license": "NOASSERTION",
