@@ -111787,6 +111787,17 @@
       ]
     },
     {
+      "path": "packages/services/src/system/sshConfigAlias.ts",
+      "normalizedSha256": "102e7b827cb2ec85c349a3b60103a2520c03afeefb557e09e43067e604ef0a61",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract-blind rewrite of services-04 sshConfigAlias: authored from the frozen interface, behavior contract, contract tests and dependency types; the replaced implementation was deleted before writing and never read. Old gate 35/35 (source and dist entries); stub replacement 35/35 all-fail. Max line containment 0.158, longest identical run 1, structural similarity 0.000 against the pinned upstream 872ad960 (normal mode), all below every acceptance threshold.",
+      "evidence": [
+        "specs/contracts/services-04/README.md",
+        "specs/contracts/services-04/known-differences.md"
+      ]
+    },
+    {
       "path": "packages/services/src/system/system-probe/contracts.ts",
       "normalizedSha256": "aa6f3a7cacfaa60116156f638f15a6fe1a8289d8266686a4e9b458a63b3591aa",
       "decision": "original",

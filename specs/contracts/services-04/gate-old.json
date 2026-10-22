@@ -1,8 +1,8 @@
 {
   "contract": "services-04",
-  "commit": "a6b26e73e7909466b765ea5aefea2fb868a23b0d",
+  "commit": "fc6de3e7878b2cca4b46874da27d2bf92adaa767",
   "node": "v24.14.0",
-  "generatedAt": "2026-10-22T08:41:30.397Z",
+  "generatedAt": "2026-10-22T18:13:45.376Z",
   "runner": "scripts/contract-gate.mjs",
   "testFiles": [
     "specs/contracts/services-04/tests/dependencies.test.mjs",
@@ -22,7 +22,7 @@
       "fail": 0,
       "skipped": 0,
       "todo": 0,
-      "outputTail": "  ✔ C2 tsc 可执行文件存在 (30.9783ms)\n  ✔ C3 项目引用类型检查通过（根级 tsc -b） (197.6021ms)\n  ✔ C4 46 个文件都有编译产物（.d.ts） (5.6031ms)\n  ✔ C5 冻结统计自洽（文件/行/字节/导出） (0.4575ms)\n  ✔ C6 导出面与 interface.md 逐模块一致（typecheck 视角的交叉校验） (45.5896ms)\n✔ typecheck（source 入口） (4538.1816ms)\nℹ tests 35\nℹ suites 4\nℹ pass 35\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 16723.8413"
+      "outputTail": "  ✔ C2 tsc 可执行文件存在 (42.362ms)\n  ✔ C3 项目引用类型检查通过（根级 tsc -b） (235.1486ms)\n  ✔ C4 46 个文件都有编译产物（.d.ts） (7.2373ms)\n  ✔ C5 冻结统计自洽（文件/行/字节/导出） (0.693ms)\n  ✔ C6 导出面与 interface.md 逐模块一致（typecheck 视角的交叉校验） (67.5011ms)\n✔ typecheck（source 入口） (5659.3154ms)\nℹ tests 35\nℹ suites 4\nℹ pass 35\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 18838.687"
     },
     "dist": {
       "exitCode": 0,
@@ -34,7 +34,7 @@
       "fail": 0,
       "skipped": 0,
       "todo": 0,
-      "outputTail": "  ✔ C2 tsc 可执行文件存在 (15.6374ms)\n  ✔ C3 项目引用类型检查通过（根级 tsc -b） (208.2815ms)\n  ✔ C4 46 个文件都有编译产物（.d.ts） (5.1311ms)\n  ✔ C5 冻结统计自洽（文件/行/字节/导出） (0.5102ms)\n  ✔ C6 导出面与 interface.md 逐模块一致（typecheck 视角的交叉校验） (49.0723ms)\n✔ typecheck（dist 入口） (4125.8528ms)\nℹ tests 35\nℹ suites 4\nℹ pass 35\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 24142.5103",
+      "outputTail": "  ✔ C2 tsc 可执行文件存在 (13.6624ms)\n  ✔ C3 项目引用类型检查通过（根级 tsc -b） (197.4102ms)\n  ✔ C4 46 个文件都有编译产物（.d.ts） (5.2982ms)\n  ✔ C5 冻结统计自洽（文件/行/字节/导出） (0.4926ms)\n  ✔ C6 导出面与 interface.md 逐模块一致（typecheck 视角的交叉校验） (50.1503ms)\n✔ typecheck（dist 入口） (3811.7323ms)\nℹ tests 35\nℹ suites 4\nℹ pass 35\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 27012.0072",
       "environment": {
         "KNORVIA_SVC04_ENTRY": "dist"
       },
