@@ -327,3 +327,11 @@ export * from "./pluginStoreOrdering.js";
 export * from "./session-debug.js";
 export * from "./theme-preference.js";
 export { redactFeedbackText } from "./feedbackPrivacy.js";
+
+// 2026-10-23 移入：输出整形与运行环境探测。
+// 原先在 core/src/output.ts / core/src/environment.ts，而消费者是 @knorvia/cli；
+// core 会随 kernel-switch 删除，所以提到这里。
+// 注意 shared-types 是纯类型包（零运行期值），放不下这些函数，故放 shared。
+export { color, formatJson, supportsColor } from "./output.js";
+export type { JsonValue } from "./output.js";
+export { getRuntimeInfo } from "./environment.js";

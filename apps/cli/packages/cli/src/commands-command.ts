@@ -1,4 +1,4 @@
-import { formatJson } from "@knorvia/core";
+import { formatJson } from "@knorvia/shared";
 import type { Logger } from "@knorvia/contracts";
 import type { GlobalOptions, RunContext } from "@knorvia/shared-types";
 import type {

@@ -1,5 +1,6 @@
 import { extname } from "node:path";
-import { formatJson, type PresentationSurface } from "@knorvia/core";
+import { type PresentationSurface } from "@knorvia/shared-types";
+import { formatJson } from "@knorvia/shared";
 import type { RunContext, GlobalOptions } from "@knorvia/shared-types";
 import { loadBootstrapModule } from "./bootstrap-loader.js";
 import {

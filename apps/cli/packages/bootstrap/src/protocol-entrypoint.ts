@@ -15,7 +15,7 @@ import {
 import type { SqliteSessionStore } from "@knorvia/adapters/storage";
 import { traceContextToLogContext, createRootTraceContext } from "@knorvia/contracts";
 import type { McpPort, ModelSelection } from "@knorvia/contracts";
-import type { PresentationSurface } from "@knorvia/core";
+import type { PresentationSurface } from "@knorvia/shared-types";
 import type { RunKnorviaProtocolAgentOptions, KnorviaAppOptions } from "./app/types.js";
 import { createKnorviaApp } from "./app/create-app.js";
 import {

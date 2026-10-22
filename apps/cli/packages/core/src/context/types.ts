@@ -41,7 +41,12 @@ export type ContextInjectionTarget = "system" | "meta_user";
 
 export type ContextCacheHint = "stable" | "dynamic";
 
-export type PresentationSurface = "terminal" | "knorvia_desktop";
+// 2026-10-23 移出：`PresentationSurface` 已提到 `@knorvia/shared-types`。
+// 它是纯字面量联合类型，而 core / cli / bootstrap 三方都要引用；
+// core 会随 kernel-switch 删除，所以提到纯类型包让两侧稳定依赖。
+// 这里既转发（保持 `@knorvia/core` 导出面不变），也 import 供本文件下文使用。
+export type { PresentationSurface } from "@knorvia/shared-types";
+import type { PresentationSurface } from "@knorvia/shared-types";
 
 // section 形状：名称、来源、注入位置、缓存提示与三份正文度量。
 export interface ContextSection {
