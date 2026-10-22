@@ -143607,7 +143607,7 @@
     },
     {
       "path": "specs/knorvia-builtin-kernel-dsh.md",
-      "normalizedSha256": "74b0b90e0e5d4d1b838880f54236786b9226e5c02c66f447e003cb1ce08dcc3e",
+      "normalizedSha256": "2f0d50189922e17976a1b36239a3d048b340f2adecff6d74797e8d6ec6a8cdc6",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored product specification written on 2026-10-17 for the decision to build the built-in kernel on DeepSeek Harness as a pinned dependency and to restructure the project into internal plugins. It describes Knorvia rules, ownership and acceptance in its own words and reproduces no upstream source text.",
