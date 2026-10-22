@@ -1,8 +1,8 @@
 {
   "contract": "services-04",
-  "commit": "6f31645fd09a848ad0afdad94811a2a2f1c1b738",
-  "node": "v24.14.0",
-  "generatedAt": "2026-10-22T03:50:20.277Z",
+  "commit": "26e07844a797c08a83340b8f62ada9c492d0a474",
+  "node": "v26.3.0",
+  "generatedAt": "2026-10-22T04:14:33.736Z",
   "runner": "scripts/contract-gate.mjs",
   "testFiles": [
     "specs/contracts/services-04/tests/dependencies.test.mjs",
@@ -22,7 +22,7 @@
       "fail": 0,
       "skipped": 0,
       "todo": 0,
-      "outputTail": "  ✔ C2 tsc 可执行文件存在 (30.7628ms)\n  ✔ C3 项目引用类型检查通过（根级 tsc -b） (2095.6166ms)\n  ✔ C4 46 个文件都有编译产物（.d.ts） (7.3674ms)\n  ✔ C5 冻结统计自洽（文件/行/字节/导出） (0.4895ms)\n  ✔ C6 导出面与 interface.md 逐模块一致（typecheck 视角的交叉校验） (36.3402ms)\n✔ typecheck（source 入口） (5798.7001ms)\nℹ tests 35\nℹ suites 4\nℹ pass 35\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 17233.4902"
+      "outputTail": "  ✔ C2 tsc 可执行文件存在 (39.8164ms)\n  ✔ C3 项目引用类型检查通过（根级 tsc -b） (249.9788ms)\n  ✔ C4 46 个文件都有编译产物（.d.ts） (7.2679ms)\n  ✔ C5 冻结统计自洽（文件/行/字节/导出） (0.5618ms)\n  ✔ C6 导出面与 interface.md 逐模块一致（typecheck 视角的交叉校验） (47.2839ms)\n✔ typecheck（source 入口） (5671.5315ms)\nℹ tests 35\nℹ suites 4\nℹ pass 35\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 32450.2806"
     },
     "dist": {
       "exitCode": 0,
@@ -34,7 +34,7 @@
       "fail": 0,
       "skipped": 0,
       "todo": 0,
-      "outputTail": "  ✔ C2 tsc 可执行文件存在 (14.3706ms)\n  ✔ C3 项目引用类型检查通过（根级 tsc -b） (1187.7932ms)\n  ✔ C4 46 个文件都有编译产物（.d.ts） (4.8717ms)\n  ✔ C5 冻结统计自洽（文件/行/字节/导出） (7.7113ms)\n  ✔ C6 导出面与 interface.md 逐模块一致（typecheck 视角的交叉校验） (511.0546ms)\n✔ typecheck（dist 入口） (18183.7332ms)\nℹ tests 35\nℹ suites 4\nℹ pass 35\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 37326.206",
+      "outputTail": "  ✔ C2 tsc 可执行文件存在 (22.103ms)\n  ✔ C3 项目引用类型检查通过（根级 tsc -b） (313.435ms)\n  ✔ C4 46 个文件都有编译产物（.d.ts） (6.9041ms)\n  ✔ C5 冻结统计自洽（文件/行/字节/导出） (0.5547ms)\n  ✔ C6 导出面与 interface.md 逐模块一致（typecheck 视角的交叉校验） (55.3764ms)\n✔ typecheck（dist 入口） (6093.9013ms)\nℹ tests 35\nℹ suites 4\nℹ pass 35\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 22694.0067",
       "environment": {
         "KNORVIA_SVC04_ENTRY": "dist"
       },
@@ -48,7 +48,305 @@
     "fail": 35,
     "allFail": true,
     "exitCode": 1,
-    "outputTail": "  + ]\n  - []\n  \n      at ensureLoadable (file:///D:/knorvia%20studio%E5%BC%80%E5%8F%91/wt/exec-m3-svc04/specs/contracts/services-04/tests/load-guard.mjs:38:10)\n      at async TestContext.<anonymous> (file:///D:/knorvia%20studio%E5%BC%80%E5%8F%91/wt/exec-m3-svc04/specs/contracts/services-04/tests/typecheck.test.mjs:147:5)\n      at async Test.run (node:internal/test_runner/test:1125:7)\n      at async Suite.processPendingSubtests (node:internal/test_runner/test:787:7) {\n    generatedMessage: false,\n    code: 'ERR_ASSERTION',\n    actual: [ 'accessor.ts: not implemented: services-04', 'collection.ts: not implemented: services-04', 'dataLocationOwner.ts: not implemented: services-04', 'descriptors.ts: not implemented: services-04', 'memoryDiagnostics.ts: not implemented: services-04', 'paths.ts: not implemented: services-04', 'storage-startup.ts: not implemented: services-04', 'subagents/subagentMarkdown.ts: not implemented: services-04', 'subagents/subagentModelSelection.ts: not implemented: services-04', 'subagents/subagentServiceFiles.ts: not implemented: services-04', 'subagents/subagentServicePlugins.ts: not implemented: services-04', 'subagents/subagentServiceState.ts: not implemented: services-04', 'subagents/subagentStorage.ts: not implemented: services-04', 'subagents/subagents.ts: not implemented: services-04', 'subagents/subagentsService.ts: not implemented: services-04', 'system/integratedTerminalShells.ts: not implemented: services-04', 'system/ssh-alias/configuration.ts: not implemented: services-04', 'system/ssh-alias/fallback.ts: not implemented: services-04', 'system/ssh-alias/query.ts: not implemented: services-04', 'system/ssh-alias/tokens.ts: not implemented: services-04', 'system/sshConfigAlias.ts: not implemented: services-04', 'system/system-probe/contracts.ts: not implemented: services-04', 'system/system-probe/defaultAdapters.ts: not implemented: services-04', 'system/system-probe/targetLifecycle.ts: not implemented: services-04', 'system/system.ts: not implemented: services-04', 'system/systemService.ts: not implemented: services-04', 'system/systemServiceOwner.ts: not implemented: services-04', 'terminal/terminal.ts: not implemented: services-04', 'terminal/terminalProfile.ts: not implemented: services-04', 'terminal/terminalProfileMacOs.ts: not implemented: services-04', 'terminal/terminalProfileMacOsDecode.ts: not implemented: services-04', 'terminal/terminalProfileMacOsPlist.ts: not implemented: services-04', 'terminal/terminalProfilePortableFormats.ts: not implemented: services-04', 'terminal/terminalProfilePortablePlan.ts: not implemented: services-04', 'terminal/terminalProfilePortableRead.ts: not implemented: services-04', 'terminal/terminalProfileTypes.ts: not implemented: services-04', 'terminal/terminalService.ts: not implemented: services-04', 'terminal/terminalServiceInstanceOwner.ts: not implemented: services-04', 'terminal/terminalServiceLaunchPlan.ts: not implemented: services-04', 'usage-stats/usageStats.ts: not implemented: services-04', 'usage-stats/usageStatsService.ts: not implemented: services-04', 'window-controller/node.ts: not implemented: services-04', 'window-controller/windowController.ts: not implemented: services-04', 'window-controller/windowHostControllerProjection.ts: not implemented: services-04', 'window-controller/windowHostControllerService.ts: not implemented: services-04', 'window-controller/windowHostSessionsIndexObserver.ts: not implemented: services-04' ],\n    expected: [],\n    operator: 'deepStrictEqual',\n    diff: 'simple'\n  }"
+    "outputTail": "  + ]\n  - []\n  \n      at ensureLoadable (file:///D:/knorvia%20studio%E5%BC%80%E5%8F%91/wt/exec-m3-svc04/specs/contracts/services-04/tests/load-guard.mjs:38:10)\n      at async TestContext.<anonymous> (file:///D:/knorvia%20studio%E5%BC%80%E5%8F%91/wt/exec-m3-svc04/specs/contracts/services-04/tests/typecheck.test.mjs:147:5)\n      at async Test.run (node:internal/test_runner/test:1389:7)\n      at async Suite.processPendingSubtests (node:internal/test_runner/test:960:7) {\n    generatedMessage: false,\n    code: 'ERR_ASSERTION',\n    actual: [ 'accessor.ts: not implemented: services-04', 'collection.ts: not implemented: services-04', 'dataLocationOwner.ts: not implemented: services-04', 'descriptors.ts: not implemented: services-04', 'memoryDiagnostics.ts: not implemented: services-04', 'paths.ts: not implemented: services-04', 'storage-startup.ts: not implemented: services-04', 'subagents/subagentMarkdown.ts: not implemented: services-04', 'subagents/subagentModelSelection.ts: not implemented: services-04', 'subagents/subagentServiceFiles.ts: not implemented: services-04', 'subagents/subagentServicePlugins.ts: not implemented: services-04', 'subagents/subagentServiceState.ts: not implemented: services-04', 'subagents/subagentStorage.ts: not implemented: services-04', 'subagents/subagents.ts: not implemented: services-04', 'subagents/subagentsService.ts: not implemented: services-04', 'system/integratedTerminalShells.ts: not implemented: services-04', 'system/ssh-alias/configuration.ts: not implemented: services-04', 'system/ssh-alias/fallback.ts: not implemented: services-04', 'system/ssh-alias/query.ts: not implemented: services-04', 'system/ssh-alias/tokens.ts: not implemented: services-04', 'system/sshConfigAlias.ts: not implemented: services-04', 'system/system-probe/contracts.ts: not implemented: services-04', 'system/system-probe/defaultAdapters.ts: not implemented: services-04', 'system/system-probe/targetLifecycle.ts: not implemented: services-04', 'system/system.ts: not implemented: services-04', 'system/systemService.ts: not implemented: services-04', 'system/systemServiceOwner.ts: not implemented: services-04', 'terminal/terminal.ts: not implemented: services-04', 'terminal/terminalProfile.ts: not implemented: services-04', 'terminal/terminalProfileMacOs.ts: not implemented: services-04', 'terminal/terminalProfileMacOsDecode.ts: not implemented: services-04', 'terminal/terminalProfileMacOsPlist.ts: not implemented: services-04', 'terminal/terminalProfilePortableFormats.ts: not implemented: services-04', 'terminal/terminalProfilePortablePlan.ts: not implemented: services-04', 'terminal/terminalProfilePortableRead.ts: not implemented: services-04', 'terminal/terminalProfileTypes.ts: not implemented: services-04', 'terminal/terminalService.ts: not implemented: services-04', 'terminal/terminalServiceInstanceOwner.ts: not implemented: services-04', 'terminal/terminalServiceLaunchPlan.ts: not implemented: services-04', 'usage-stats/usageStats.ts: not implemented: services-04', 'usage-stats/usageStatsService.ts: not implemented: services-04', 'window-controller/node.ts: not implemented: services-04', 'window-controller/windowController.ts: not implemented: services-04', 'window-controller/windowHostControllerProjection.ts: not implemented: services-04', 'window-controller/windowHostControllerService.ts: not implemented: services-04', 'window-controller/windowHostSessionsIndexObserver.ts: not implemented: services-04' ],\n    expected: [],\n    operator: 'deepStrictEqual',\n    diff: 'simple'\n  }"
   },
-  "pass": true
+  "pass": true,
+  "failureKinds": {
+    "ranAt": "2026-10-22T04:14:54.967Z",
+    "gateSummary": {
+      "replacedFiles": 46,
+      "tests": 35,
+      "pass": 0,
+      "fail": 35,
+      "allFail": true
+    },
+    "classifiedCases": 35,
+    "loadFailures": 35,
+    "assertionFailures": 0,
+    "other": 0,
+    "perCase": [
+      {
+        "key": "specs/contracts/services-04/tests/dependencies.test.mjs::B0 全部 46 个实现文件必须可加载（运行期守卫前置）",
+        "file": "specs/contracts/services-04/tests/dependencies.test.mjs",
+        "title": "B0 全部 46 个实现文件必须可加载（运行期守卫前置）",
+        "kind": "loadFailure",
+        "firstErrorLine": "AssertionError [ERR_ASSERTION]: 以下模块无法加载（静态断言不能替代运行期可用性）：",
+        "atLine": "test at specs\\contracts\\services-04\\tests\\dependencies.test.mjs:73:3"
+      },
+      {
+        "key": "specs/contracts/services-04/tests/dependencies.test.mjs::B7 层内依赖不扩大：实测边 ⊆ 冻结的 64 条",
+        "file": "specs/contracts/services-04/tests/dependencies.test.mjs",
+        "title": "B7 层内依赖不扩大：实测边 ⊆ 冻结的 64 条",
+        "kind": "loadFailure",
+        "firstErrorLine": "AssertionError [ERR_ASSERTION]: 以下模块无法加载（静态断言不能替代运行期可用性）：",
+        "atLine": "test at specs\\contracts\\services-04\\tests\\dependencies.test.mjs:77:3"
+      },
+      {
+        "key": "specs/contracts/services-04/tests/dependencies.test.mjs::B7 层内依赖拓扑：汇聚点与叶子数量守恒",
+        "file": "specs/contracts/services-04/tests/dependencies.test.mjs",
+        "title": "B7 层内依赖拓扑：汇聚点与叶子数量守恒",
+        "kind": "loadFailure",
+        "firstErrorLine": "AssertionError [ERR_ASSERTION]: 以下模块无法加载（静态断言不能替代运行期可用性）：",
+        "atLine": "test at specs\\contracts\\services-04\\tests\\dependencies.test.mjs:90:3"
+      },
+      {
+        "key": "specs/contracts/services-04/tests/dependencies.test.mjs::B8 依赖方向：46 个文件不 import adapters/ 或 studio-runtime/adapters/",
+        "file": "specs/contracts/services-04/tests/dependencies.test.mjs",
+        "title": "B8 依赖方向：46 个文件不 import adapters/ 或 studio-runtime/adapters/",
+        "kind": "loadFailure",
+        "firstErrorLine": "AssertionError [ERR_ASSERTION]: 以下模块无法加载（静态断言不能替代运行期可用性）：",
+        "atLine": "test at specs\\contracts\\services-04\\tests\\dependencies.test.mjs:122:3"
+      },
+      {
+        "key": "specs/contracts/services-04/tests/dependencies.test.mjs::B8 跨包依赖：实际只有 3 个目标目录（agent 3 / session 4 / setting 1）",
+        "file": "specs/contracts/services-04/tests/dependencies.test.mjs",
+        "title": "B8 跨包依赖：实际只有 3 个目标目录（agent 3 / session 4 / setting 1）",
+        "kind": "loadFailure",
+        "firstErrorLine": "AssertionError [ERR_ASSERTION]: 以下模块无法加载（静态断言不能替代运行期可用性）：",
+        "atLine": "test at specs\\contracts\\services-04\\tests\\dependencies.test.mjs:135:3"
+      },
+      {
+        "key": "specs/contracts/services-04/tests/dependencies.test.mjs::B10 被引用面守恒：口径 A（直接引用）18 处，按层正确",
+        "file": "specs/contracts/services-04/tests/dependencies.test.mjs",
+        "title": "B10 被引用面守恒：口径 A（直接引用）18 处，按层正确",
+        "kind": "loadFailure",
+        "firstErrorLine": "AssertionError [ERR_ASSERTION]: 以下模块无法加载（静态断言不能替代运行期可用性）：",
+        "atLine": "test at specs\\contracts\\services-04\\tests\\dependencies.test.mjs:168:3"
+      },
+      {
+        "key": "specs/contracts/services-04/tests/dependencies.test.mjs::B10 被引用面守恒：口径 B（经聚合桶）379 个文件",
+        "file": "specs/contracts/services-04/tests/dependencies.test.mjs",
+        "title": "B10 被引用面守恒：口径 B（经聚合桶）379 个文件",
+        "kind": "loadFailure",
+        "firstErrorLine": "AssertionError [ERR_ASSERTION]: 以下模块无法加载（静态断言不能替代运行期可用性）：",
+        "atLine": "test at specs\\contracts\\services-04\\tests\\dependencies.test.mjs:196:3"
+      },
+      {
+        "key": "specs/contracts/services-04/tests/dependencies.test.mjs::B10 零直接引用的模块：38 个，且全部经聚合桶或层内依赖被使用（0 死代码）",
+        "file": "specs/contracts/services-04/tests/dependencies.test.mjs",
+        "title": "B10 零直接引用的模块：38 个，且全部经聚合桶或层内依赖被使用（0 死代码）",
+        "kind": "loadFailure",
+        "firstErrorLine": "AssertionError [ERR_ASSERTION]: 以下模块无法加载（静态断言不能替代运行期可用性）：",
+        "atLine": "test at specs\\contracts\\services-04\\tests\\dependencies.test.mjs:216:3"
+      },
+      {
+        "key": "specs/contracts/services-04/tests/dependencies.test.mjs::B10 子聚合桶 `window-controller/node.ts` 的性质（K-w）",
+        "file": "specs/contracts/services-04/tests/dependencies.test.mjs",
+        "title": "B10 子聚合桶 `window-controller/node.ts` 的性质（K-w）",
+        "kind": "loadFailure",
+        "firstErrorLine": "AssertionError [ERR_ASSERTION]: 以下模块无法加载（静态断言不能替代运行期可用性）：",
+        "atLine": "test at specs\\contracts\\services-04\\tests\\dependencies.test.mjs:255:3"
+      },
+      {
+        "key": "specs/contracts/services-04/tests/dependencies.test.mjs::B10 最重的 6 个模块签名不变（可加载 + 导出数一致）",
+        "file": "specs/contracts/services-04/tests/dependencies.test.mjs",
+        "title": "B10 最重的 6 个模块签名不变（可加载 + 导出数一致）",
+        "kind": "loadFailure",
+        "firstErrorLine": "Error: not implemented: services-04",
+        "atLine": "test at specs\\contracts\\services-04\\tests\\dependencies.test.mjs:300:3"
+      },
+      {
+        "key": "specs/contracts/services-04/tests/purity.test.mjs::B0 全部 46 个实现文件必须可加载（运行期守卫前置）",
+        "file": "specs/contracts/services-04/tests/purity.test.mjs",
+        "title": "B0 全部 46 个实现文件必须可加载（运行期守卫前置）",
+        "kind": "loadFailure",
+        "firstErrorLine": "AssertionError [ERR_ASSERTION]: 以下模块无法加载（静态断言不能替代运行期可用性）：",
+        "atLine": "test at specs\\contracts\\services-04\\tests\\purity.test.mjs:78:3"
+      },
+      {
+        "key": "specs/contracts/services-04/tests/purity.test.mjs::B4a 真 I/O 的目录白名单：fs / child_process / net 只允许出现在 4 组内",
+        "file": "specs/contracts/services-04/tests/purity.test.mjs",
+        "title": "B4a 真 I/O 的目录白名单：fs / child_process / net 只允许出现在 4 组内",
+        "kind": "loadFailure",
+        "firstErrorLine": "AssertionError [ERR_ASSERTION]: 以下模块无法加载（静态断言不能替代运行期可用性）：",
+        "atLine": "test at specs\\contracts\\services-04\\tests\\purity.test.mjs:82:3"
+      },
+      {
+        "key": "specs/contracts/services-04/tests/purity.test.mjs::B4b 纯工具模块不限制：node:path / os / util / crypto 可使用",
+        "file": "specs/contracts/services-04/tests/purity.test.mjs",
+        "title": "B4b 纯工具模块不限制：node:path / os / util / crypto 可使用",
+        "kind": "loadFailure",
+        "firstErrorLine": "AssertionError [ERR_ASSERTION]: 以下模块无法加载（静态断言不能替代运行期可用性）：",
+        "atLine": "test at specs\\contracts\\services-04\\tests\\purity.test.mjs:96:3"
+      },
+      {
+        "key": "specs/contracts/services-04/tests/purity.test.mjs::B4c 真 I/O 的文件数与分布冻结（14 个真 I/O + 6 个纯工具）",
+        "file": "specs/contracts/services-04/tests/purity.test.mjs",
+        "title": "B4c 真 I/O 的文件数与分布冻结（14 个真 I/O + 6 个纯工具）",
+        "kind": "loadFailure",
+        "firstErrorLine": "AssertionError [ERR_ASSERTION]: 以下模块无法加载（静态断言不能替代运行期可用性）：",
+        "atLine": "test at specs\\contracts\\services-04\\tests\\purity.test.mjs:108:3"
+      },
+      {
+        "key": "specs/contracts/services-04/tests/purity.test.mjs::B4d usage-stats 组零 I/O（最小组应保持最简）",
+        "file": "specs/contracts/services-04/tests/purity.test.mjs",
+        "title": "B4d usage-stats 组零 I/O（最小组应保持最简）",
+        "kind": "loadFailure",
+        "firstErrorLine": "AssertionError [ERR_ASSERTION]: 以下模块无法加载（静态断言不能替代运行期可用性）：",
+        "atLine": "test at specs\\contracts\\services-04\\tests\\purity.test.mjs:132:3"
+      },
+      {
+        "key": "specs/contracts/services-04/tests/purity.test.mjs::B5a 模块级副作用：顶层无 await（0 处）",
+        "file": "specs/contracts/services-04/tests/purity.test.mjs",
+        "title": "B5a 模块级副作用：顶层无 await（0 处）",
+        "kind": "loadFailure",
+        "firstErrorLine": "AssertionError [ERR_ASSERTION]: 以下模块无法加载（静态断言不能替代运行期可用性）：",
+        "atLine": "test at specs\\contracts\\services-04\\tests\\purity.test.mjs:144:3"
+      },
+      {
+        "key": "specs/contracts/services-04/tests/purity.test.mjs::B5b 模块级副作用：逐条冻结（6 处，新增即失败）",
+        "file": "specs/contracts/services-04/tests/purity.test.mjs",
+        "title": "B5b 模块级副作用：逐条冻结（6 处，新增即失败）",
+        "kind": "loadFailure",
+        "firstErrorLine": "AssertionError [ERR_ASSERTION]: 以下模块无法加载（静态断言不能替代运行期可用性）：",
+        "atLine": "test at specs\\contracts\\services-04\\tests\\purity.test.mjs:154:3"
+      },
+      {
+        "key": "specs/contracts/services-04/tests/purity.test.mjs::B5c process.env 读取：冻结 8 个文件清单（新增即失败）",
+        "file": "specs/contracts/services-04/tests/purity.test.mjs",
+        "title": "B5c process.env 读取：冻结 8 个文件清单（新增即失败）",
+        "kind": "loadFailure",
+        "firstErrorLine": "AssertionError [ERR_ASSERTION]: 以下模块无法加载（静态断言不能替代运行期可用性）：",
+        "atLine": "test at specs\\contracts\\services-04\\tests\\purity.test.mjs:182:3"
+      },
+      {
+        "key": "specs/contracts/services-04/tests/purity.test.mjs::B5d 技术债登记：dataLocationOwner.ts 的 3 处模块级 env 快照",
+        "file": "specs/contracts/services-04/tests/purity.test.mjs",
+        "title": "B5d 技术债登记：dataLocationOwner.ts 的 3 处模块级 env 快照",
+        "kind": "loadFailure",
+        "firstErrorLine": "AssertionError [ERR_ASSERTION]: 以下模块无法加载（静态断言不能替代运行期可用性）：",
+        "atLine": "test at specs\\contracts\\services-04\\tests\\purity.test.mjs:200:3"
+      },
+      {
+        "key": "specs/contracts/services-04/tests/purity.test.mjs::B6 无循环依赖（层内依赖图是 DAG）",
+        "file": "specs/contracts/services-04/tests/purity.test.mjs",
+        "title": "B6 无循环依赖（层内依赖图是 DAG）",
+        "kind": "loadFailure",
+        "firstErrorLine": "AssertionError [ERR_ASSERTION]: 以下模块无法加载（静态断言不能替代运行期可用性）：",
+        "atLine": "test at specs\\contracts\\services-04\\tests\\purity.test.mjs:226:3"
+      },
+      {
+        "key": "specs/contracts/services-04/tests/surface.test.mjs::B0 全部 46 个实现文件必须可加载（运行期守卫前置）",
+        "file": "specs/contracts/services-04/tests/surface.test.mjs",
+        "title": "B0 全部 46 个实现文件必须可加载（运行期守卫前置）",
+        "kind": "loadFailure",
+        "firstErrorLine": "AssertionError [ERR_ASSERTION]: 以下模块无法加载（静态断言不能替代运行期可用性）：",
+        "atLine": "test at specs\\contracts\\services-04\\tests\\surface.test.mjs:65:3"
+      },
+      {
+        "key": "specs/contracts/services-04/tests/surface.test.mjs::B1 范围：46 文件，分组与冻结值一致",
+        "file": "specs/contracts/services-04/tests/surface.test.mjs",
+        "title": "B1 范围：46 文件，分组与冻结值一致",
+        "kind": "loadFailure",
+        "firstErrorLine": "AssertionError [ERR_ASSERTION]: 以下模块无法加载（静态断言不能替代运行期可用性）：",
+        "atLine": "test at specs\\contracts\\services-04\\tests\\surface.test.mjs:69:3"
+      },
+      {
+        "key": "specs/contracts/services-04/tests/surface.test.mjs::B1 范围：行数/字节/分类与冻结值一致",
+        "file": "specs/contracts/services-04/tests/surface.test.mjs",
+        "title": "B1 范围：行数/字节/分类与冻结值一致",
+        "kind": "loadFailure",
+        "firstErrorLine": "AssertionError [ERR_ASSERTION]: 以下模块无法加载（静态断言不能替代运行期可用性）：",
+        "atLine": "test at specs\\contracts\\services-04\\tests\\surface.test.mjs:95:3"
+      },
+      {
+        "key": "specs/contracts/services-04/tests/surface.test.mjs::B2 分组：interface.md 覆盖 46 个模块，无遗漏无重复",
+        "file": "specs/contracts/services-04/tests/surface.test.mjs",
+        "title": "B2 分组：interface.md 覆盖 46 个模块，无遗漏无重复",
+        "kind": "loadFailure",
+        "firstErrorLine": "AssertionError [ERR_ASSERTION]: 以下模块无法加载（静态断言不能替代运行期可用性）：",
+        "atLine": "test at specs\\contracts\\services-04\\tests\\surface.test.mjs:113:3"
+      },
+      {
+        "key": "specs/contracts/services-04/tests/surface.test.mjs::B3 导出总数守恒：每个模块与 interface.md 逐条一致",
+        "file": "specs/contracts/services-04/tests/surface.test.mjs",
+        "title": "B3 导出总数守恒：每个模块与 interface.md 逐条一致",
+        "kind": "loadFailure",
+        "firstErrorLine": "AssertionError [ERR_ASSERTION]: 以下模块无法加载（静态断言不能替代运行期可用性）：",
+        "atLine": "test at specs\\contracts\\services-04\\tests\\surface.test.mjs:129:3"
+      },
+      {
+        "key": "specs/contracts/services-04/tests/surface.test.mjs::B6 + K-z 转发面完整性：聚合桶的每条转发都能在运行期取到",
+        "file": "specs/contracts/services-04/tests/surface.test.mjs",
+        "title": "B6 + K-z 转发面完整性：聚合桶的每条转发都能在运行期取到",
+        "kind": "loadFailure",
+        "firstErrorLine": "AssertionError [ERR_ASSERTION]: 以下模块无法加载（静态断言不能替代运行期可用性）：",
+        "atLine": "test at specs\\contracts\\services-04\\tests\\surface.test.mjs:147:3"
+      },
+      {
+        "key": "specs/contracts/services-04/tests/surface.test.mjs::K-z 聚合桶可加载：index.ts 与 node.ts 都能真实 import",
+        "file": "specs/contracts/services-04/tests/surface.test.mjs",
+        "title": "K-z 聚合桶可加载：index.ts 与 node.ts 都能真实 import",
+        "kind": "loadFailure",
+        "firstErrorLine": "Error: not implemented: services-04",
+        "atLine": "test at specs\\contracts\\services-04\\tests\\surface.test.mjs:206:3"
+      },
+      {
+        "key": "specs/contracts/services-04/tests/surface.test.mjs::K-y 第三方类型垫片：types/yazl.d.ts 登记但不属实现范围",
+        "file": "specs/contracts/services-04/tests/surface.test.mjs",
+        "title": "K-y 第三方类型垫片：types/yazl.d.ts 登记但不属实现范围",
+        "kind": "loadFailure",
+        "firstErrorLine": "AssertionError [ERR_ASSERTION]: 以下模块无法加载（静态断言不能替代运行期可用性）：",
+        "atLine": "test at specs\\contracts\\services-04\\tests\\surface.test.mjs:217:3"
+      },
+      {
+        "key": "specs/contracts/services-04/tests/typecheck.test.mjs::C0 桩检测：46 个文件必须是真实实现，不能是 import-and-throw 桩",
+        "file": "specs/contracts/services-04/tests/typecheck.test.mjs",
+        "title": "C0 桩检测：46 个文件必须是真实实现，不能是 import-and-throw 桩",
+        "kind": "loadFailure",
+        "firstErrorLine": "AssertionError [ERR_ASSERTION]: 检测到桩实现：",
+        "atLine": "test at specs\\contracts\\services-04\\tests\\typecheck.test.mjs:23:3"
+      },
+      {
+        "key": "specs/contracts/services-04/tests/typecheck.test.mjs::C1 聚合桶可加载（index.ts / node.ts）—— 转发链完整性的运行期证据",
+        "file": "specs/contracts/services-04/tests/typecheck.test.mjs",
+        "title": "C1 聚合桶可加载（index.ts / node.ts）—— 转发链完整性的运行期证据",
+        "kind": "loadFailure",
+        "firstErrorLine": "Error: not implemented: services-04",
+        "atLine": "test at specs\\contracts\\services-04\\tests\\typecheck.test.mjs:57:3"
+      },
+      {
+        "key": "specs/contracts/services-04/tests/typecheck.test.mjs::C2 tsc 可执行文件存在",
+        "file": "specs/contracts/services-04/tests/typecheck.test.mjs",
+        "title": "C2 tsc 可执行文件存在",
+        "kind": "loadFailure",
+        "firstErrorLine": "AssertionError [ERR_ASSERTION]: 以下模块无法加载（静态断言不能替代运行期可用性）：",
+        "atLine": "test at specs\\contracts\\services-04\\tests\\typecheck.test.mjs:73:3"
+      },
+      {
+        "key": "specs/contracts/services-04/tests/typecheck.test.mjs::C3 项目引用类型检查通过（根级 tsc -b）",
+        "file": "specs/contracts/services-04/tests/typecheck.test.mjs",
+        "title": "C3 项目引用类型检查通过（根级 tsc -b）",
+        "kind": "loadFailure",
+        "firstErrorLine": "AssertionError [ERR_ASSERTION]: 以下模块无法加载（静态断言不能替代运行期可用性）：",
+        "atLine": "test at specs\\contracts\\services-04\\tests\\typecheck.test.mjs:78:3"
+      },
+      {
+        "key": "specs/contracts/services-04/tests/typecheck.test.mjs::C4 46 个文件都有编译产物（.d.ts）",
+        "file": "specs/contracts/services-04/tests/typecheck.test.mjs",
+        "title": "C4 46 个文件都有编译产物（.d.ts）",
+        "kind": "loadFailure",
+        "firstErrorLine": "AssertionError [ERR_ASSERTION]: 以下模块无法加载（静态断言不能替代运行期可用性）：",
+        "atLine": "test at specs\\contracts\\services-04\\tests\\typecheck.test.mjs:112:3"
+      },
+      {
+        "key": "specs/contracts/services-04/tests/typecheck.test.mjs::C5 冻结统计自洽（文件/行/字节/导出）",
+        "file": "specs/contracts/services-04/tests/typecheck.test.mjs",
+        "title": "C5 冻结统计自洽（文件/行/字节/导出）",
+        "kind": "loadFailure",
+        "firstErrorLine": "AssertionError [ERR_ASSERTION]: 以下模块无法加载（静态断言不能替代运行期可用性）：",
+        "atLine": "test at specs\\contracts\\services-04\\tests\\typecheck.test.mjs:123:3"
+      },
+      {
+        "key": "specs/contracts/services-04/tests/typecheck.test.mjs::C6 导出面与 interface.md 逐模块一致（typecheck 视角的交叉校验）",
+        "file": "specs/contracts/services-04/tests/typecheck.test.mjs",
+        "title": "C6 导出面与 interface.md 逐模块一致（typecheck 视角的交叉校验）",
+        "kind": "loadFailure",
+        "firstErrorLine": "AssertionError [ERR_ASSERTION]: 以下模块无法加载（静态断言不能替代运行期可用性）：",
+        "atLine": "test at specs\\contracts\\services-04\\tests\\typecheck.test.mjs:146:3"
+      }
+    ],
+    "suiteEntries": [],
+    "limitation": "本脚本按「每个失败用例的首个错误行」归类；一个用例若同时含加载失败与断言失败，按加载失败计。`other` 类需人工复核。用例名从测试文件里提取（`test(\"...\")`），用于把 node:test 输出里的套件名（如 `surface（source 入口）`）从用例计数中排除。"
+  }
 }
