@@ -89,17 +89,12 @@ function generationFor(record: McpOAuthCanonicalCredentials, text: string): stri
   return `legacy-${digest.slice(0, LEGACY_DIGEST_LENGTH)}`;
 }
 
-/**
- * 可选字段映射：快照字段名 → 凭据库里的落盘键。
- *
- * 用对象而不是元组表：装配时要按「快照侧的字段名」决定写入顺序与名字，
- * 落盘键只是取值入口。key 的顺序同时就是快照里的字段顺序（保持字母序契约）。
- */
-const OPTIONAL_SNAPSHOT_FIELDS: Readonly<Record<string, string>> = {
-  expiresAt: "expires_at",
-  issuer: "issuer",
-  obtainedAt: "obtained_at",
-};
+/** 可选字段映射：canonical 的落盘键 → 快照字段（缺席即不写入）。 */
+const OPTIONAL_FIELD_MAP = [
+  ["expires_at", "expiresAt"],
+  ["issuer", "issuer"],
+  ["obtained_at", "obtainedAt"],
+] as const;
 
 /**
  * 投影 canonical 快照字段。键顺序固定为字母序
@@ -111,20 +106,13 @@ function canonicalFields(
   readText: () => string,
 ): Omit<CanonicalCredentialSnapshot, "tokens"> {
   const source = record as unknown as Record<string, unknown>;
-  const snapshot: Record<string, unknown> = {};
-  // clientInformation 是必填项，固定排在最前。
-  snapshot.clientInformation = record.client_information;
-  // 其余字段按表装配；expiresAt 与 obtainedAt 需要按字母序插在 generation 两侧，
-  // 所以分两趟：先 generation 之前的，写 generation，再写之后的。
-  const entries = Object.entries(OPTIONAL_SNAPSHOT_FIELDS);
-  const beforeGeneration = entries.filter(([snapshotKey]) => snapshotKey === "expiresAt");
-  const afterGeneration = entries.filter(([snapshotKey]) => snapshotKey !== "expiresAt");
-  for (const [snapshotKey, storedKey] of beforeGeneration) {
-    if (source[storedKey] !== undefined) snapshot[snapshotKey] = source[storedKey];
+  const snapshot: Record<string, unknown> = { clientInformation: record.client_information };
+  if (source[OPTIONAL_FIELD_MAP[0][0]] !== undefined) {
+    snapshot[OPTIONAL_FIELD_MAP[0][1]] = source[OPTIONAL_FIELD_MAP[0][0]];
   }
   snapshot.generation = generationFor(record, readText());
-  for (const [snapshotKey, storedKey] of afterGeneration) {
-    if (source[storedKey] !== undefined) snapshot[snapshotKey] = source[storedKey];
+  for (const [from, to] of OPTIONAL_FIELD_MAP.slice(1)) {
+    if (source[from] !== undefined) snapshot[to] = source[from];
   }
   snapshot.raw = readText();
   return snapshot as Omit<CanonicalCredentialSnapshot, "tokens">;
