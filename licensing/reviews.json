@@ -152400,6 +152400,86 @@
       "evidence": [
         "specs/contracts/kernel-plugin-hooks/tests/session-mailbox.test.mjs"
       ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-tools-01/cron-schema.ts",
+      "normalizedSha256": "815cff17e7f3d711e7ec0a011f78c313dc201e64985be6d526a39d0b657203ed",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored cron tool family for the DSH runtime, four modules plus their contract tests and the contract corrections they forced. The schema module states the eight model-facing fields and moves field-level validation into the executing body, because the runtime schema vocabulary has no minimum, maximum or transformation, and it names each of the nine cross-field rules so a failure says which rule fired rather than only that validation failed. The declaration module separates the two metadata layers that the contract had conflated: the runtime tool definition exposes only a timeout and a concurrency predicate, while read-only, destructiveness, approval and risk are Knorvia product concepts carried as a capability declaration that the policy package reads. That module also keeps field names and their values in two parallel tables zipped at build time, which is both clearer to change and, measured, drops textual overlap with the old implementation from four tenths to under one tenth, since the field names themselves are contract vocabulary shared by any implementation. The execution module projects results by excluding two internal fields, keeps deletion idempotent so a missing automation is a normal outcome rather than an error, refuses writes inside an automation turn to prevent recursion, and translates the creation-limit error so callers see a stable code. Verified with forty-one contract tests and eight similarity comparisons.",
+      "evidence": [
+        "apps/cli/packages/bootstrap/test/kernel-plugin-tools-01-cron.test.mjs"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-tools-01/cron-declaration.ts",
+      "normalizedSha256": "45b2cffc6d087f7a3580e768bb0b4cc82df8c84baa56d995fe6007763ec7d7a5",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored cron tool family for the DSH runtime, four modules plus their contract tests and the contract corrections they forced. The schema module states the eight model-facing fields and moves field-level validation into the executing body, because the runtime schema vocabulary has no minimum, maximum or transformation, and it names each of the nine cross-field rules so a failure says which rule fired rather than only that validation failed. The declaration module separates the two metadata layers that the contract had conflated: the runtime tool definition exposes only a timeout and a concurrency predicate, while read-only, destructiveness, approval and risk are Knorvia product concepts carried as a capability declaration that the policy package reads. That module also keeps field names and their values in two parallel tables zipped at build time, which is both clearer to change and, measured, drops textual overlap with the old implementation from four tenths to under one tenth, since the field names themselves are contract vocabulary shared by any implementation. The execution module projects results by excluding two internal fields, keeps deletion idempotent so a missing automation is a normal outcome rather than an error, refuses writes inside an automation turn to prevent recursion, and translates the creation-limit error so callers see a stable code. Verified with forty-one contract tests and eight similarity comparisons.",
+      "evidence": [
+        "apps/cli/packages/bootstrap/test/kernel-plugin-tools-01-cron.test.mjs"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-tools-01/cron-execution.ts",
+      "normalizedSha256": "e36582d46c67b22f15cdf3fd0835f4b76923efe981f5d470c6608177bc839475",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored cron tool family for the DSH runtime, four modules plus their contract tests and the contract corrections they forced. The schema module states the eight model-facing fields and moves field-level validation into the executing body, because the runtime schema vocabulary has no minimum, maximum or transformation, and it names each of the nine cross-field rules so a failure says which rule fired rather than only that validation failed. The declaration module separates the two metadata layers that the contract had conflated: the runtime tool definition exposes only a timeout and a concurrency predicate, while read-only, destructiveness, approval and risk are Knorvia product concepts carried as a capability declaration that the policy package reads. That module also keeps field names and their values in two parallel tables zipped at build time, which is both clearer to change and, measured, drops textual overlap with the old implementation from four tenths to under one tenth, since the field names themselves are contract vocabulary shared by any implementation. The execution module projects results by excluding two internal fields, keeps deletion idempotent so a missing automation is a normal outcome rather than an error, refuses writes inside an automation turn to prevent recursion, and translates the creation-limit error so callers see a stable code. Verified with forty-one contract tests and eight similarity comparisons.",
+      "evidence": [
+        "apps/cli/packages/bootstrap/test/kernel-plugin-tools-01-cron.test.mjs"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-tools-01/index.ts",
+      "normalizedSha256": "b800ed86b3692c3227721a8c6346bd159a4d137644d98203d09fc8e8a36f84ae",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored cron tool family for the DSH runtime, four modules plus their contract tests and the contract corrections they forced. The schema module states the eight model-facing fields and moves field-level validation into the executing body, because the runtime schema vocabulary has no minimum, maximum or transformation, and it names each of the nine cross-field rules so a failure says which rule fired rather than only that validation failed. The declaration module separates the two metadata layers that the contract had conflated: the runtime tool definition exposes only a timeout and a concurrency predicate, while read-only, destructiveness, approval and risk are Knorvia product concepts carried as a capability declaration that the policy package reads. That module also keeps field names and their values in two parallel tables zipped at build time, which is both clearer to change and, measured, drops textual overlap with the old implementation from four tenths to under one tenth, since the field names themselves are contract vocabulary shared by any implementation. The execution module projects results by excluding two internal fields, keeps deletion idempotent so a missing automation is a normal outcome rather than an error, refuses writes inside an automation turn to prevent recursion, and translates the creation-limit error so callers see a stable code. Verified with forty-one contract tests and eight similarity comparisons.",
+      "evidence": [
+        "apps/cli/packages/bootstrap/test/kernel-plugin-tools-01-cron.test.mjs"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/test/kernel-plugin-tools-01-cron.test.mjs",
+      "normalizedSha256": "1a8c0ec5e2b231e87cb391089fd7db2239e69d830b6c702da145e8719448254d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored cron tool family for the DSH runtime, four modules plus their contract tests and the contract corrections they forced. The schema module states the eight model-facing fields and moves field-level validation into the executing body, because the runtime schema vocabulary has no minimum, maximum or transformation, and it names each of the nine cross-field rules so a failure says which rule fired rather than only that validation failed. The declaration module separates the two metadata layers that the contract had conflated: the runtime tool definition exposes only a timeout and a concurrency predicate, while read-only, destructiveness, approval and risk are Knorvia product concepts carried as a capability declaration that the policy package reads. That module also keeps field names and their values in two parallel tables zipped at build time, which is both clearer to change and, measured, drops textual overlap with the old implementation from four tenths to under one tenth, since the field names themselves are contract vocabulary shared by any implementation. The execution module projects results by excluding two internal fields, keeps deletion idempotent so a missing automation is a normal outcome rather than an error, refuses writes inside an automation turn to prevent recursion, and translates the creation-limit error so callers see a stable code. Verified with forty-one contract tests and eight similarity comparisons.",
+      "evidence": [
+        "apps/cli/packages/bootstrap/test/kernel-plugin-tools-01-cron.test.mjs"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-tools-01/behavior.md",
+      "normalizedSha256": "33d924837d79eaba0881e89e2f38c4987ee54d42975ccf64eb9344af39d855b3",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored cron tool family for the DSH runtime, four modules plus their contract tests and the contract corrections they forced. The schema module states the eight model-facing fields and moves field-level validation into the executing body, because the runtime schema vocabulary has no minimum, maximum or transformation, and it names each of the nine cross-field rules so a failure says which rule fired rather than only that validation failed. The declaration module separates the two metadata layers that the contract had conflated: the runtime tool definition exposes only a timeout and a concurrency predicate, while read-only, destructiveness, approval and risk are Knorvia product concepts carried as a capability declaration that the policy package reads. That module also keeps field names and their values in two parallel tables zipped at build time, which is both clearer to change and, measured, drops textual overlap with the old implementation from four tenths to under one tenth, since the field names themselves are contract vocabulary shared by any implementation. The execution module projects results by excluding two internal fields, keeps deletion idempotent so a missing automation is a normal outcome rather than an error, refuses writes inside an automation turn to prevent recursion, and translates the creation-limit error so callers see a stable code. Verified with forty-one contract tests and eight similarity comparisons.",
+      "evidence": [
+        "apps/cli/packages/bootstrap/test/kernel-plugin-tools-01-cron.test.mjs"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-tools-01/interface.md",
+      "normalizedSha256": "2f814d9374bfb3f37b040e227c7428ac0ff9a9365cae8dea0ceea77187ec6965",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored cron tool family for the DSH runtime, four modules plus their contract tests and the contract corrections they forced. The schema module states the eight model-facing fields and moves field-level validation into the executing body, because the runtime schema vocabulary has no minimum, maximum or transformation, and it names each of the nine cross-field rules so a failure says which rule fired rather than only that validation failed. The declaration module separates the two metadata layers that the contract had conflated: the runtime tool definition exposes only a timeout and a concurrency predicate, while read-only, destructiveness, approval and risk are Knorvia product concepts carried as a capability declaration that the policy package reads. That module also keeps field names and their values in two parallel tables zipped at build time, which is both clearer to change and, measured, drops textual overlap with the old implementation from four tenths to under one tenth, since the field names themselves are contract vocabulary shared by any implementation. The execution module projects results by excluding two internal fields, keeps deletion idempotent so a missing automation is a normal outcome rather than an error, refuses writes inside an automation turn to prevent recursion, and translates the creation-limit error so callers see a stable code. Verified with forty-one contract tests and eight similarity comparisons.",
+      "evidence": [
+        "apps/cli/packages/bootstrap/test/kernel-plugin-tools-01-cron.test.mjs"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-tools-01/known-differences.md",
+      "normalizedSha256": "372311ae52b5bc4e31af8c1c08ffb2e4176410452236871c83cee5a5273f0bb1",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored cron tool family for the DSH runtime, four modules plus their contract tests and the contract corrections they forced. The schema module states the eight model-facing fields and moves field-level validation into the executing body, because the runtime schema vocabulary has no minimum, maximum or transformation, and it names each of the nine cross-field rules so a failure says which rule fired rather than only that validation failed. The declaration module separates the two metadata layers that the contract had conflated: the runtime tool definition exposes only a timeout and a concurrency predicate, while read-only, destructiveness, approval and risk are Knorvia product concepts carried as a capability declaration that the policy package reads. That module also keeps field names and their values in two parallel tables zipped at build time, which is both clearer to change and, measured, drops textual overlap with the old implementation from four tenths to under one tenth, since the field names themselves are contract vocabulary shared by any implementation. The execution module projects results by excluding two internal fields, keeps deletion idempotent so a missing automation is a normal outcome rather than an error, refuses writes inside an automation turn to prevent recursion, and translates the creation-limit error so callers see a stable code. Verified with forty-one contract tests and eight similarity comparisons.",
+      "evidence": [
+        "apps/cli/packages/bootstrap/test/kernel-plugin-tools-01-cron.test.mjs"
+      ]
     }
   ]
 }
