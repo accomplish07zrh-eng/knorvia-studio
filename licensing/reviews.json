@@ -150323,6 +150323,30 @@
       "license": "Apache-2.0",
       "basis": "Knorvia-authored hooks plugin implementation, fifth mount point. The stop mount treats a denial as a request to continue, because at the point where the turn is about to close, refusing to close and asking to continue are the same statement; it expresses that by steering a user message, which the runtime reads as fresh input that runs another step. Allowance, approval requests and no opinion all leave the turn to close, since none of them has a meaning at that boundary. The handler deliberately returns no bail value so that other listeners registered at the same point still run, which keeps the aggregation equivalent to the old behaviour even though the runtime visits every listener instead of short-circuiting on the first objection; that difference is already registered. Verified with nine contract tests driving a real cordis context through the serial dispatch, covering continuation, quiet closure for each non-denial verdict, field mapping, the multi-listener aggregation, the absence of a bail value, disposal, and the injected message shape.",
       "evidence": ["specs/contracts/kernel-plugin-hooks/tests/turn-stopping.test.mjs"]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-hooks/result-observer.ts",
+      "normalizedSha256": "54b7b979476b1e1cb5697d1af5d763b896dcce5e7e5002f5fa88c105c248f9a6",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored hooks plugin implementation, sixth mount point, which is observation only. The tool-result event carries no decision, so this module records tool name, call identity, failure flag, content block count and failure message, and produces nothing. It wraps the observer call in its own guard because the event bus does not contain listener exceptions: the runtime documentation promises containment, but that promise belongs to the runtime, not to the bus, which was measured by throwing from a listener and seeing the error reach the caller. Since observation failing must never affect tool execution, the module absorbs those errors itself rather than relying on a guarantee that does not hold at this layer. It also leaves its inputs untouched. Verified with seven contract tests covering success and failure field mapping, swallowed observer errors, multiple listeners, absent optional fields, disposal, and input immutability.",
+      "evidence": ["specs/contracts/kernel-plugin-hooks/tests/result-observer.test.mjs"]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-hooks/tests/probe7.test.mjs",
+      "normalizedSha256": "74ef916b112124e0aa0c79d436eba9b6795151676bf269d175b90b247dad94b5",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored hooks plugin implementation, sixth mount point, which is observation only. The tool-result event carries no decision, so this module records tool name, call identity, failure flag, content block count and failure message, and produces nothing. It wraps the observer call in its own guard because the event bus does not contain listener exceptions: the runtime documentation promises containment, but that promise belongs to the runtime, not to the bus, which was measured by throwing from a listener and seeing the error reach the caller. Since observation failing must never affect tool execution, the module absorbs those errors itself rather than relying on a guarantee that does not hold at this layer. It also leaves its inputs untouched. Verified with seven contract tests covering success and failure field mapping, swallowed observer errors, multiple listeners, absent optional fields, disposal, and input immutability.",
+      "evidence": ["specs/contracts/kernel-plugin-hooks/tests/result-observer.test.mjs"]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-hooks/tests/result-observer.test.mjs",
+      "normalizedSha256": "ef2fffff0c4f58e26d6b533827281626fc153886a419170dfdcc51fa7973507f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored hooks plugin implementation, sixth mount point, which is observation only. The tool-result event carries no decision, so this module records tool name, call identity, failure flag, content block count and failure message, and produces nothing. It wraps the observer call in its own guard because the event bus does not contain listener exceptions: the runtime documentation promises containment, but that promise belongs to the runtime, not to the bus, which was measured by throwing from a listener and seeing the error reach the caller. Since observation failing must never affect tool execution, the module absorbs those errors itself rather than relying on a guarantee that does not hold at this layer. It also leaves its inputs untouched. Verified with seven contract tests covering success and failure field mapping, swallowed observer errors, multiple listeners, absent optional fields, disposal, and input immutability.",
+      "evidence": ["specs/contracts/kernel-plugin-hooks/tests/result-observer.test.mjs"]
     }
   ]
 }
