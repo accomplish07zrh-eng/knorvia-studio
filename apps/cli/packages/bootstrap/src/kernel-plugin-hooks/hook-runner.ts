@@ -33,6 +33,10 @@ export interface RegisteredHook {
   readonly matcher?: string;
   readonly timeoutMs: number;
   readonly maxOutputBytes: number;
+  /** 来源文件的规范路径（B6.3；workspace 项才可能有）。 */
+  readonly sourcePath?: string;
+  /** 该条的状态说明（B6.3；用于 UI 展示「为什么没运行」）。 */
+  readonly statusMessage?: string;
 }
 
 /** 一个事件下的一条 matcher 配置。 */
