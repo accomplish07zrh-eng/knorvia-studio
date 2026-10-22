@@ -196,12 +196,66 @@ node specs/contracts/kernel-plugin-rewind/tests/run-gate.mjs --engine dsh
 
 ### 6.2 数据契约兼容（K3 / K8，两个高危项）
 
-- [ ] **`contentHash` 与旧实现逐字节一致**：用旧实现产出的 hash 样本，断言新实现输出相同
-- [ ] **事件类型与 payload 兼容**：用旧实现写的事件样本，断言新实现能正确解析
-      （`CheckpointCreated` / `RewindTriggered` / `SESSION_ENTRY_WORKSPACE_*`）
+#### K3 `contentHash` 三条边界必须全断言
+
+```ts
+// ① null → 字面量 "missing"（不是 sha256("")、不是空串）
+assert.equal(contentHash(null), "missing");
+
+// ② 空字符串 ≠ null（这是最容易被混淆的边界）
+assert.equal(contentHash(""), "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
+
+// ③ 普通内容的已知定值
+assert.equal(
+  contentHash("abc"),
+  "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad",
+);
+```
+
+**⚠️ 只测 ③ 会漏掉最危险的情形**：
+若新实现把 `null` 也送去 hash → 得到 `sha256("")` 而不是 `"missing"`
+→ **所有「文件已删除」的检查点比对都会失败**。
+
+- [ ] `contentHash(null) === "missing"`
+- [ ] `contentHash("") === sha256("")`（与 `null` 严格区分）
+- [ ] `contentHash("abc")` 等于已知定值
+- [ ] 读取文件内容时**显式传 UTF-8**（不依赖 `FileSystemPort` 默认编码）
+- [ ] `contentHash` 允许直接 `import { createHash } from "node:crypto"`
+      （AGENTS.md 禁止清单是 `fetch`/`http`/`fs`/`child_process`/`process.env`，**不含 crypto**）
+
+#### K8 事件类型与 payload 兼容
+
+- [ ] 四类标识逐字匹配：`CheckpointCreated` / `RewindTriggered` /
+      `SESSION_ENTRY_WORKSPACE_CHECKPOINT` / `SESSION_ENTRY_WORKSPACE_FILE_REWIND`
+- [ ] **不合格的历史事件返回 `null`（跳过），不抛错** ——
+      与旧实现的可观测行为一致（若改成抛错，一条脏数据会让整个列表失败）
+
+#### 样本来源与复制要求
+
+**6 个夹具共 31 个 sha256 样本**（`core/test/` 下）：
+
+| 夹具                                                   |        大小 | sha256 样本数 |
+| ------------------------------------------------------ | ----------: | ------------: |
+| `runtime-file-rewind-baseline-20261003.json`           | 42,958 字节 |             3 |
+| `runtime-file-rewind-boundary-proof-20261003.mjs`      |  7,252 字节 |             5 |
+| `runtime-rewind-baseline-20261003.json`                | 80,822 字节 |             6 |
+| `runtime-rewind-current-20261003.json`                 |  1,431 字节 |            12 |
+| `runtime-rewind-safety-20261003.test.mjs`              |  2,815 字节 |             2 |
+| `runtime-workspace-checkpoints-baseline-20261003.json` | 24,873 字节 |             3 |
+
+**⚠️ 这些夹具会随 `core` 删除** → 本包必须**复制副本**到
+`bootstrap/test/fixtures/kernel-plugin-rewind/`（不是引用），并在副本 README 注明：
+
+```
+样本来源：apps/cli/packages/core/test/<file>（已随 core 删除，本包保留副本）
+用途：K3 / K8 的数据契约兼容断言
+```
+
+**⚠️ 而「`"missing"` 字面量在 6 个夹具里零出现」** ——
+说明现有夹具**不覆盖「文件不存在」场景**，
+所以 K3 的 `null → "missing"` 断言必须靠**定值断言**（见上面 ①），不能只靠夹具。
 
 **⚠️ 这两项不能只靠「代码看起来对」** —— 必须用**旧实现产出的真实样本**做断言。
-样本来源：从 `core/test/` 的既有夹具里提取（不新建样本，用已存在的事实）。
 
 ### 6.3 装配期不变量（组合根负责，本包断言）
 
