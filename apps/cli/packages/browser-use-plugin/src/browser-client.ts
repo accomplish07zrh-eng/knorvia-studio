@@ -1,4 +1,4 @@
-import { setupBrowserRuntime as attachBrowserClient } from "@knorvia/core/browser-client";
+import { setupBrowserRuntime as attachBrowserClient } from "@knorvia/browser-client";
 import { readNodeReplBrowserRuntimeBridge } from "@knorvia/node-repl-host/runtime-bridge";
 
 /** 插件只负责连接宿主与现有 SDK；宿主决定当前调用是否可以操作浏览器。 */
