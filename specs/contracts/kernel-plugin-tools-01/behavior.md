@@ -60,28 +60,56 @@ DSH 的 `ValueSchemaSpec` **只有** `type` / `enum` / `const` 与四个注解�
 
 **断言**：传 `{ cron, delayMinutes: null }` → 成功创建（按绝对 cron 处理），端口被调用一次。
 
-### B5 审批声明
+### B5 两层元数据与审批归属（2026-10-23 实测修正）
 
-四个工具的元数据：
+**⚠️ 修正说明**：本节原写「四个工具的元数据：`readOnly` / `needsApproval`」——
+**暗示这些字段放在 DSH 的 `DefineToolOptions` 里**。实测并非如此，必须分两层：
 
-| 工具         | `readOnly` | `needsApproval` |
-| ------------ | :--------: | :-------------: |
-| `CronCreate` |     ❌     |       ✅        |
-| `CronList`   |     ✅     |       ❌        |
-| `CronUpdate` |     ❌     |       ✅        |
-| `CronDelete` |     ❌     |       ✅        |
+**第一层：DSH 工具定义**（`@deepseek-ai/dsh-tools` 的 `DefineToolOptions`）
 
-**⚠️ 审批的**执行**由 DSH 的 `tools/pre-execute` 与 `dsh-user-approval` 承担**
-（缺应答者时 `ask` 降级为拒绝）。**本包只声明 `needsApproval`，不实现审批流。**
+| 字段                                                                                                           | 存在 | 本包取值                                  |
+| -------------------------------------------------------------------------------------------------------------- | :--: | ----------------------------------------- |
+| `timeoutMs`                                                                                                    |  ✅  | `30_000`（四个工具相同）                  |
+| `isConcurrencySafe`                                                                                            |  ✅  | `CronList` → `true`；三个写工具 → `false` |
+| `readOnly` / `destructive` / `needsApproval` / `sideEffectScope` / `riskLevel` / `maxOutputBytes` / `guidance` |  ❌  | **DSH 无这些字段**                        |
 
-**断言**：四个工具的 `needsApproval` 取值与上表一致。
+**第二层：Knorvia 能力声明**（`ToolCapabilityDeclaration`，纯数据）
 
-### B6 无 DSH 品牌泄漏
+`kernel-plugin-policy/tool-catalogue.ts` 的注释逐字说明了为什么需要第二层：
 
-工具 `description`、`guidance`、结果内容里**不得**出现
+> 「DSH 的 `ToolSchema` 只是 JSON Schema，**不含** `readOnly` / `destructive` /
+> `sideEffectScope` 语义 —— **那些是 Knorvia 的产品概念**，
+> DSH 侧 schema 只用于参数校验，不参与权限判定（K8）。」
+
+所以本包为四个工具提供能力声明（`readOnly` / `destructive` / `needsApproval` 等），
+由 `kernel-plugin-policy` 的 `resolveCapability(toolName, declaration)` 读取。
+
+**四个工具的能力声明**：
+
+| 工具         | `readOnly` | `destructive` | `needsApproval` | `sideEffectScope` | `riskLevel` |
+| ------------ | :--------: | :-----------: | :-------------: | ----------------- | ----------- |
+| `CronCreate` |     ❌     |      ❌       |       ✅        | `workspace`       | `medium`    |
+| `CronList`   |     ✅     |      ❌       |       ❌        | `none`            | `low`       |
+| `CronUpdate` |     ❌     |      ❌       |       ✅        | `workspace`       | `medium`    |
+| `CronDelete` |     ❌     |      ❌       |       ✅        | `workspace`       | `medium`    |
+
+**⚠️ 审批的**执行**仍由 DSH 承担**（`tools/pre-execute` + `dsh-user-approval`，
+缺应答者时 `ask` 降级为拒绝）。本包只**声明**，不实现审批流。
+
+**断言**（修正后）：
+① 四个工具的 `timeoutMs` 都是 `30_000`；
+② `CronList.isConcurrencySafe(...)` 返回 `true`，三个写工具返回 `false`；
+③ 四个工具的**能力声明**取值与上表一致（`CRON_TOOL_CAPABILITIES` 导出可断言）。
+
+### B6 无 DSH 品牌泄漏（修正）
+
+工具 `description` 与结果内容里**不得**出现
 `DeepSeek Harness`、`powered by DeepSeek`、`@deepseek-ai/` 包名。
 
-**断言**：逐个工具取 description，正则检查无上述字样。
+**⚠️ 修正**：原写「`description`、`guidance`」—— DSH **无 `guidance` 字段**，
+指引内容只能合入 `description`，所以断言只看 `description`。
+
+**断言**：逐个工具取 `description`，正则检查无上述字样。
 
 ## B. `CronCreate` 的九条交叉约束
 

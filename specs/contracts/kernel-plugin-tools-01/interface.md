@@ -51,16 +51,35 @@ export interface KernelPluginToolsConfig {
 | `CronUpdate` |  ❌  |   ✅   | `id` + 上述 8 个字段（全部可选）                                                                     | `{ automation, message }`  |
 | `CronDelete` |  ❌  |   ✅   | `id`                                                                                                 | `{ deleted, id, message }` |
 
-**元数据取值**（四个工具除 `readOnly` / `needsApproval` 外相同）：
+**元数据分两层**（2026-10-23 实测修正 —— 原表把两层混在一起）：
 
-| 字段              | 取值                                                  |
-| ----------------- | ----------------------------------------------------- |
-| `destructive`     | `false`（删除是删除一条调度记录，不是删用户数据）     |
-| `concurrentSafe`  | `false`（两个并发 `CronUpdate` 会互相覆盖同一条记录） |
-| `sideEffectScope` | `"workspace"`                                         |
-| `riskLevel`       | `"medium"`                                            |
-| `timeoutMs`       | `30_000`                                              |
-| `maxOutputBytes`  | `32_000`                                              |
+### 第一层：DSH 工具定义（`DefineToolOptions` 的真实字段）
+
+| 字段                | 取值                                                  |
+| ------------------- | ----------------------------------------------------- |
+| `timeoutMs`         | `30_000`（四个工具相同）                              |
+| `isConcurrencySafe` | `CronList` → `() => true`；三个写工具 → `() => false` |
+
+**⚠️ DSH 的 `DefineToolOptions` 只有 `timeoutMs` 与 `isConcurrencySafe` 两个语义字段**；
+`readOnly` / `destructive` / `needsApproval` / `sideEffectScope` / `riskLevel` /
+`maxOutputBytes` / `guidance` **在 DSH 里都不存在**（实测 `lib/types/schema.d.ts`）。
+
+### 第二层：Knorvia 能力声明（`ToolCapabilityDeclaration`，纯数据）
+
+由 `kernel-plugin-policy` 的 `resolveCapability(toolName, declaration)` 读取。
+依据：`tool-catalogue.ts` 的注释逐字说明「DSH 的 `ToolSchema` 只是 JSON Schema，
+不含 `readOnly` / `destructive` / `sideEffectScope` 语义 —— 那些是 Knorvia 的产品概念」。
+
+| 字段              | 取值                                                   |
+| ----------------- | ------------------------------------------------------ |
+| `readOnly`        | `CronList` → `true`；其余 → `false`                    |
+| `destructive`     | 全部 `false`（删除是删除一条调度记录，不是删用户数据） |
+| `needsApproval`   | `CronList` → `false`；其余 → `true`                    |
+| `sideEffectScope` | `CronList` → `"none"`；其余 → `"workspace"`            |
+| `riskLevel`       | `CronList` → `"low"`；其余 → `"medium"`                |
+
+**⚠️ `maxOutputBytes` 本包不声明** —— 输出预算由 DSH 的 `dsh-output-retention`
+与 `dsh-spill` 承担（见 README §二 4 的映射表）。
 
 ## 三、导出清单（供测试与宿主使用）
 
