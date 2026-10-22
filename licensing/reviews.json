@@ -150379,6 +150379,30 @@
       "license": "Apache-2.0",
       "basis": "Knorvia-authored DSH event probes. Each probe drives a real cordis context to establish one fact the implementation depends on before any mount point is written: where the continuation argument sits, whether entering a step replaces or appends messages, whether an approval request is claimed or delegated, whether a frozen tool result can be replaced, whether the event bus contains listener exceptions, and whether an asynchronous listener can veto session creation. They live in their own directory rather than beside the contract tests because some deliberately demonstrate a wrong call shape and one leaves an asynchronous rejection, and a mixed run would let those records gate the contract suite. Their findings are summarised in the accompanying notes file so the conclusions survive even if the probes are later simplified.",
       "evidence": ["specs/contracts/kernel-plugin-hooks/tests/probes/probe-findings.md"]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/file-system.port.ts",
+      "normalizedSha256": "db5cdaf347852d24f5f794c1c65a56b399162610db185e1dbbeb404e6fff9bd9",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored filesystem port extension. The hook plugin must create a uniquely named temporary directory for each hook input and must remove that tree idempotently when the hook finishes, but the port previously offered neither: it could create a named directory and delete a file, not mint a unique temp directory nor remove a tree. The two methods follow the ports existing request-and-options shape. Creating uses the platform mkdtemp so uniqueness is guaranteed by the kernel rather than by a check-then-create race. Removing is recursive and treats a missing directory as success by default, because cleanup can run more than once and must not throw on the second call, which the hook contract requires. Both are implemented on the node adapter with its existing error normalisation and fault-injection hooks. Verified with six contract tests covering location, uniqueness across calls, recursive removal of a populated tree, repeat removal, absent directory with the default, and absent directory with the strict setting.",
+      "evidence": ["specs/contracts/kernel-plugin-hooks/tests/fs-port-temp-directory.test.mjs"]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/fs/index.ts",
+      "normalizedSha256": "709031e95ae2489fdbfd2f7e2f451f7a27fa26e2f61d3b24451c5f1382bcab67",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored filesystem port extension. The hook plugin must create a uniquely named temporary directory for each hook input and must remove that tree idempotently when the hook finishes, but the port previously offered neither: it could create a named directory and delete a file, not mint a unique temp directory nor remove a tree. The two methods follow the ports existing request-and-options shape. Creating uses the platform mkdtemp so uniqueness is guaranteed by the kernel rather than by a check-then-create race. Removing is recursive and treats a missing directory as success by default, because cleanup can run more than once and must not throw on the second call, which the hook contract requires. Both are implemented on the node adapter with its existing error normalisation and fault-injection hooks. Verified with six contract tests covering location, uniqueness across calls, recursive removal of a populated tree, repeat removal, absent directory with the default, and absent directory with the strict setting.",
+      "evidence": ["specs/contracts/kernel-plugin-hooks/tests/fs-port-temp-directory.test.mjs"]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-hooks/tests/fs-port-temp-directory.test.mjs",
+      "normalizedSha256": "61f36398a580ee571698fea6dee25a5681dbd8dcaa4ec423f8af1876843025f1",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored filesystem port extension. The hook plugin must create a uniquely named temporary directory for each hook input and must remove that tree idempotently when the hook finishes, but the port previously offered neither: it could create a named directory and delete a file, not mint a unique temp directory nor remove a tree. The two methods follow the ports existing request-and-options shape. Creating uses the platform mkdtemp so uniqueness is guaranteed by the kernel rather than by a check-then-create race. Removing is recursive and treats a missing directory as success by default, because cleanup can run more than once and must not throw on the second call, which the hook contract requires. Both are implemented on the node adapter with its existing error normalisation and fault-injection hooks. Verified with six contract tests covering location, uniqueness across calls, recursive removal of a populated tree, repeat removal, absent directory with the default, and absent directory with the strict setting.",
+      "evidence": ["specs/contracts/kernel-plugin-hooks/tests/fs-port-temp-directory.test.mjs"]
     }
   ]
 }
