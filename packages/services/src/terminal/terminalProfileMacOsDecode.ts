@@ -220,29 +220,21 @@ function projectTheme(
   profile: RecordValue,
   app: TerminalProfileMacOsApp,
 ): TerminalThemeProfile | undefined {
-  const entries: Array<[keyof TerminalThemeProfile, string]> = [];
-  for (const [target, names] of fields[app]) {
-    for (const name of names) {
-      const decoded = colorOf(profile[name]);
-      if (decoded !== undefined) {
-        entries.push([target, decoded]);
-        break;
-      }
-    }
-  }
-  return entries.length === 0 ? undefined : Object.fromEntries(entries);
+  // 每个目标字段取其候选键里第一个能解析出颜色的；找不到就不出现在结果里。
+  const resolved = fields[app].flatMap(([target, names]): Array<[keyof TerminalThemeProfile, string]> => {
+    const match = names.map((name) => colorOf(profile[name])).find((value) => value !== undefined);
+    return match === undefined ? [] : [[target, match]];
+  });
+  return resolved.length === 0 ? undefined : Object.fromEntries(resolved);
 }
 
 // ── 候选档案：两种 app 的「从 plist 定位到具体档案对象」规则。
 
 /** macOS Terminal：先 Startup 后 Default，两者都可能指向命名档案。 */
 function* macTerminalCandidates(plist: RecordValue): Generator<RecordValue> {
-  for (const reference of ["Startup Window Settings", "Default Window Settings"]) {
-    const name = asText(plist[reference]);
-    if (name !== undefined) {
-      const settings = plist[name];
-      if (asRecord(settings)) yield settings;
-    }
+  const references = ["Startup Window Settings", "Default Window Settings"];
+  for (const settings of references.map((reference) => plist[asText(plist[reference]) ?? ""])) {
+    if (asRecord(settings)) yield settings;
   }
 }
 
@@ -254,9 +246,8 @@ function* itermCandidates(plist: RecordValue): Generator<RecordValue> {
     (value: unknown) => asRecord(value) && value["Default Bookmark"] === true,
   );
   if (preferred !== undefined) yield preferred as RecordValue;
-  for (const value of bookmarks) {
-    if (value !== preferred && asRecord(value)) yield value;
-  }
+  const rest = bookmarks.filter((value) => value !== preferred && asRecord(value));
+  yield* rest as RecordValue[];
 }
 
 /** 按 app 选择候选来源。 */
