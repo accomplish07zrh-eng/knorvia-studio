@@ -150139,6 +150139,94 @@
         "third-party/upstream/f29b60ea39a2132e3baa98927c2d473b349a54143da44a0c6762b243e6459452.txt",
         "https://registry.npmjs.org/quickjs-wasi/2.2.0"
       ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-tools-01/index.ts",
+      "normalizedSha256": "80417d991e536537e1cabac2b211d79f18906a74b333fb5b25ed4387bebff22c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored cron tool family for the DSH kernel: four scheduled-automation tools registered through the public tool runtime, with the nine cross-field constraints and the field-level checks expressed as named assertions, a metadata factory so the four declarations differ only in their read-write flags, and a projection that hides the two host-scheduling fields the model must not see.",
+      "evidence": ["specs/contracts/kernel-plugin-tools-01/README.md"]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-tools-01/cron-declaration.ts",
+      "normalizedSha256": "3ec2688de86c70a9bebf598813e04bdc156796f199fc7bc71150d65908b52152",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored cron tool family for the DSH kernel: four scheduled-automation tools registered through the public tool runtime, with the nine cross-field constraints and the field-level checks expressed as named assertions, a metadata factory so the four declarations differ only in their read-write flags, and a projection that hides the two host-scheduling fields the model must not see.",
+      "evidence": ["specs/contracts/kernel-plugin-tools-01/README.md"]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-tools-01/cron-execution.ts",
+      "normalizedSha256": "69648cc65d0ab3e6e1b998834c95e56c912470d0bf5a9f803ce540c101360119",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored cron tool family for the DSH kernel: four scheduled-automation tools registered through the public tool runtime, with the nine cross-field constraints and the field-level checks expressed as named assertions, a metadata factory so the four declarations differ only in their read-write flags, and a projection that hides the two host-scheduling fields the model must not see.",
+      "evidence": ["specs/contracts/kernel-plugin-tools-01/README.md"]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-tools-01/cron-schema.ts",
+      "normalizedSha256": "bee89362021cdcbb3ab27394fbcfcd899bf0c4f68eaf128e8842f8892e6fc190",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored cron tool family for the DSH kernel: four scheduled-automation tools registered through the public tool runtime, with the nine cross-field constraints and the field-level checks expressed as named assertions, a metadata factory so the four declarations differ only in their read-write flags, and a projection that hides the two host-scheduling fields the model must not see.",
+      "evidence": ["specs/contracts/kernel-plugin-tools-01/README.md"]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/test/kernel-plugin-tools-01-cron.test.ts",
+      "normalizedSha256": "21e687e53399c1ebe3fc22319b140f3ffaf33af5d9cd32b23e9322440b4246c4",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contract test for the cron tool family: it asserts the registered tool set, the parameter field sets, the nine cross-field constraints by name, the field-level checks that DSH schema cannot express, the projection that hides host-scheduling fields, and the failure paths, all through the public plugin entry.",
+      "evidence": ["specs/contracts/kernel-plugin-tools-01/behavior.md"]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-tools-01/README.md",
+      "normalizedSha256": "9d3c580cd22a8ca1f85bfc56a4dab7f9a720a330cc37b42d6b7fcd837edc2456",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contract for the cron tool family of the DSH kernel plugin: it freezes the nine tools gap analysis, the DSH tool pipeline facts, the mapping from the old executor files to DSH services, and the scoring mode with the dual baseline.",
+      "evidence": ["docs/knorvia-independent-replacement-plan.md"]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-tools-01/behavior.md",
+      "normalizedSha256": "0ddcab7cc18b1fb6fea0eeee2e55e7e5e3333285df338ebe3fc74716fe4dc825",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored behavior entries for the cron tool family: registration surface, parameter shapes, the nine named cross-field constraints, projection rules, and the failure paths that must not degrade into silent success.",
+      "evidence": ["specs/contracts/kernel-plugin-tools-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-tools-01/interface.md",
+      "normalizedSha256": "a14b5859119ad0ea5c3c2c250933193c1477eadfb4090879f2d043720fc6786b",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contract document for the cron tool family: it freezes the tool surface, the differences from the old implementation, the caller boundaries and the acceptance results including the constraints that DSH schema cannot express.",
+      "evidence": ["specs/contracts/kernel-plugin-tools-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-tools-01/known-differences.md",
+      "normalizedSha256": "9414319f3f4427781aeafad85b5c7548ffff6adda66563c16b3c5217450d15b8",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contract document for the cron tool family: it freezes the tool surface, the differences from the old implementation, the caller boundaries and the acceptance results including the constraints that DSH schema cannot express.",
+      "evidence": ["specs/contracts/kernel-plugin-tools-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-tools-01/callers.md",
+      "normalizedSha256": "f6fb5a0eb246abf83ecec6ff1bd16fa425de813b8b071f201b8438580f7db386",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contract document for the cron tool family: it freezes the tool surface, the differences from the old implementation, the caller boundaries and the acceptance results including the constraints that DSH schema cannot express.",
+      "evidence": ["specs/contracts/kernel-plugin-tools-01/README.md"]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-tools-01/acceptance.md",
+      "normalizedSha256": "bc487ab9b04af617a855fda6a69528461d6835907239bd06a3a92966a0b7d5ee",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored contract document for the cron tool family: it freezes the tool surface, the differences from the old implementation, the caller boundaries and the acceptance results including the constraints that DSH schema cannot express.",
+      "evidence": ["specs/contracts/kernel-plugin-tools-01/README.md"]
     }
   ]
 }
