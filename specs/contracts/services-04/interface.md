@@ -12,7 +12,7 @@
 
 与 `services-03`（`studio-runtime/domain` 的**纯逻辑层**）不同，本层**允许 I/O** ——
 
-实测 46 个文件里有 45 处 `node:*` 内置依赖（`fs` / `child_process` / `path` / `os` 等）。
+实测 46 个文件里有 45 处内置模块依赖（文件系统、子进程、路径、操作系统等）。
 
 但按插件化结构要求，**I/O 必须通过注入的依赖获取，不在模块级创建**（见 `behavior.md` B3）。
 
@@ -49,24 +49,24 @@
 
 ### 1. `terminalProfileMacOsDecode.ts` — `palette`（16 项 ANSI 颜色名）
 
-| # | 值 | 外部格式出处 |
-| :-: | :--- | :--- |
-| 0 | `black` | iTerm2 动态配置 `Ansi 0 Color` |
-| 1 | `red` | `Ansi 1 Color` |
-| 2 | `green` | `Ansi 2 Color` |
-| 3 | `yellow` | `Ansi 3 Color` |
-| 4 | `blue` | `Ansi 4 Color` |
-| 5 | `magenta` | `Ansi 5 Color` |
-| 6 | `cyan` | `Ansi 6 Color` |
-| 7 | `white` | `Ansi 7 Color` |
-| 8 | `brightBlack` | `Ansi 8 Color` |
-| 9 | `brightRed` | `Ansi 9 Color` |
-| 10 | `brightGreen` | `Ansi 10 Color` |
-| 11 | `brightYellow` | `Ansi 11 Color` |
-| 12 | `brightBlue` | `Ansi 12 Color` |
-| 13 | `brightMagenta` | `Ansi 13 Color` |
-| 14 | `brightCyan` | `Ansi 14 Color` |
-| 15 | `brightWhite` | `Ansi 15 Color` |
+|  #  | 值              | 外部格式出处                   |
+| :-: | :-------------- | :----------------------------- |
+|  0  | `black`         | iTerm2 动态配置 `Ansi 0 Color` |
+|  1  | `red`           | `Ansi 1 Color`                 |
+|  2  | `green`         | `Ansi 2 Color`                 |
+|  3  | `yellow`        | `Ansi 3 Color`                 |
+|  4  | `blue`          | `Ansi 4 Color`                 |
+|  5  | `magenta`       | `Ansi 5 Color`                 |
+|  6  | `cyan`          | `Ansi 6 Color`                 |
+|  7  | `white`         | `Ansi 7 Color`                 |
+|  8  | `brightBlack`   | `Ansi 8 Color`                 |
+|  9  | `brightRed`     | `Ansi 9 Color`                 |
+| 10  | `brightGreen`   | `Ansi 10 Color`                |
+| 11  | `brightYellow`  | `Ansi 11 Color`                |
+| 12  | `brightBlue`    | `Ansi 12 Color`                |
+| 13  | `brightMagenta` | `Ansi 13 Color`                |
+| 14  | `brightCyan`    | `Ansi 14 Color`                |
+| 15  | `brightWhite`   | `Ansi 15 Color`                |
 
 **外部格式出处**：iTerm2 动态配置文件（Dynamic Profiles）的 `Ansi <n> Color` 键；
 下标 0–15 与 ANSI 终端颜色名（normal 8 + bright 8）的对应关系由 ANSI X3.64 / ECMA-48
@@ -75,16 +75,17 @@
 
 ### 2. `terminalProfileMacOsDecode.ts` — `fields`（plist 键名表）
 
-| 目标字段 | iTerm2 键名 | Apple Terminal 键名 |
-| :--- | :--- | :--- |
-| `foreground` | `Foreground Color` | `TextColor` |
-| `background` | `Background Color` | `BackgroundColor` |
-| `cursor` | `Cursor Color` | `CursorColor` |
-| `cursorAccent` | `Cursor Text Color` | — |
-| `selectionBackground` | `Selection Color` | `SelectionColor` |
-| `black` … `brightWhite`（16 项） | `Ansi <n> Color` / `ANSI <n> Color` | `ANSI<Name>Color` |
+| 目标字段                         | iTerm2 键名                         | Apple Terminal 键名 |
+| :------------------------------- | :---------------------------------- | :------------------ |
+| `foreground`                     | `Foreground Color`                  | `TextColor`         |
+| `background`                     | `Background Color`                  | `BackgroundColor`   |
+| `cursor`                         | `Cursor Color`                      | `CursorColor`       |
+| `cursorAccent`                   | `Cursor Text Color`                 | —                   |
+| `selectionBackground`            | `Selection Color`                   | `SelectionColor`    |
+| `black` … `brightWhite`（16 项） | `Ansi <n> Color` / `ANSI <n> Color` | `ANSI<Name>Color`   |
 
 **外部格式出处**：
+
 - **iTerm2**：动态配置文件的 `Foreground Color` / `Background Color` / `Cursor Color` /
   `Cursor Text Color` / `Selection Color` / `Ansi <n> Color` 键名；
 - **Apple Terminal**：`.terminal` 属性列表（plist）的 `TextColor` / `BackgroundColor` /
@@ -110,15 +111,16 @@ macOS 上可执行文件搜索路径列表。**外部格式出处**：
 
 ### 5. 其余小常量（各 1–4 行）
 
-| 文件 | const | 性质 |
-| :--- | :--- | :--- |
-| `terminalProfileMacOs.ts` | `applications` | macOS Terminal.app / iTerm2 的公开 bundle 标识 |
-| `system/systemService.ts` | `DEFAULT_PROBE_TIMEOUT_MS` / `DEFAULT_PROBE_ATTEMPTS` / `MAX_PROBE_ATTEMPTS` / `DEFAULT_PROBE_PORT` | 探测默认参数（数值由本合同的 `behavior.md` 冻结） |
-| `window-controller/windowHostSessionsIndexObserver.ts` | `SUBSCRIBER_SCOPE` / `MAX_STAGED_WIRES` | 订阅范围标识与暂存上限 |
-| `paths.ts` | `KNORVIA_WINDOWS_APP_INSTALL_DIR_ENV` | 环境变量名（产品自身的 `KNORVIA_` 前缀约定） |
-| `subagents/subagentServiceFiles.ts` | `builtInNames` | 内置子 Agent 名列表 |
+| 文件                                                   | const                                                                                               | 性质                                              |
+| :----------------------------------------------------- | :-------------------------------------------------------------------------------------------------- | :------------------------------------------------ |
+| `terminalProfileMacOs.ts`                              | `applications`                                                                                      | macOS Terminal.app / iTerm2 的公开 bundle 标识    |
+| `system/systemService.ts`                              | `DEFAULT_PROBE_TIMEOUT_MS` / `DEFAULT_PROBE_ATTEMPTS` / `MAX_PROBE_ATTEMPTS` / `DEFAULT_PROBE_PORT` | 探测默认参数（数值由本合同的 `behavior.md` 冻结） |
+| `window-controller/windowHostSessionsIndexObserver.ts` | `SUBSCRIBER_SCOPE` / `MAX_STAGED_WIRES`                                                             | 订阅范围标识与暂存上限                            |
+| `paths.ts`                                             | `KNORVIA_WINDOWS_APP_INSTALL_DIR_ENV`                                                               | 环境变量名（产品自身的 `KNORVIA_` 前缀约定）      |
+| `subagents/subagentServiceFiles.ts`                    | `builtInNames`                                                                                      | 内置子 Agent 名列表                               |
 
 **⚠️ 声明模式的计分口径**（`--declaration --interface specs/contracts/services-04/interface.md`）：
+
 1. 先整块剔除上述 `isPureDataConst` 验证通过的 const 块；
 2. 再剔除「含本节所列名字的行」；
 3. 剩余解析/解码逻辑**照常按 normal 模式门槛计分**（containment < 0.20 / run < 8 / structural < 0.40）。
