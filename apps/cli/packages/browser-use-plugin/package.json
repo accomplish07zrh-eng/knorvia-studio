@@ -14,13 +14,13 @@
     "lint": "oxlint src --no-ignore"
   },
   "dependencies": {
+    "@knorvia/browser-client": "workspace:*",
     "@knorvia/contracts": "workspace:*",
     "@knorvia/core": "workspace:*",
     "@knorvia/node-repl-host": "workspace:*",
     "@knorvia/shared": "workspace:*",
     "@modelcontextprotocol/server": "2.0.0",
-    "zod": "4.6.5",
-    "@knorvia/browser-client": "workspace:*"
+    "zod": "4.6.5"
   },
   "devDependencies": {
     "@knorvia/adapters": "workspace:*",
