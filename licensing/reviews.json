@@ -151312,10 +151312,10 @@
     },
     {
       "path": "specs/contracts/kernel-plugin-hooks/acceptance.md",
-      "normalizedSha256": "068c5e4bee2bde38c904b85a3224cdd11877172e79528ad6fd818897555aa7e3",
+      "normalizedSha256": "c25b4535c19b046ecaeee6fa1142b8edbd583a18ee711b1dea9a9165bd42aec3",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored workspace trust layer and its acceptance record. The policy provider owns state per instance with no global singleton, validates before writing so an invalid policy cannot leave a half-updated state, and notifies only on actual change; identity keys live in a Map because the identity is caller-supplied text and prototype keys would otherwise pollute the table. The trust coordinator keeps a monotonic security revision per workspace, registering a workspace as known when its revision is read, because a workspace that was only ever read would otherwise be missed when a default policy change must bump every known workspace and its interface would stay silently stale; composite keys are joined with a NUL separator since both parts may contain colons. The registration module admits workspace hooks only when admission allows, uses resolved timeouts and output limits, and inserts project hooks before the first non-user configured hook without ever preceding a user hook; the declaration digest covers only the fields that identify a declaration and excludes tuning values, so raising a timeout does not force re-trusting. The acceptance table now lists eleven implemented clause groups and the remaining two, stating completion as a fraction of clause groups.",
+      "basis": "Knorvia-authored review flow registry and runtime admission, two modules covering the review and admission clauses, plus the acceptance table update that adds the trust evaluation, review flow and runtime admission rows. The registry manages a pending flow as a promise plus a deadline: superseding settles the old flow immediately instead of leaving it hanging, resolution is idempotent so a timeout racing a decision cannot settle twice, and the public state is a getter returning a fresh object so a caller cannot mutate internal state and always sees the current value. Same-generation comparison deliberately excludes the bundle digest, because the digest belongs to the snapshot contents and a changed digest must report a snapshot mismatch rather than a superseded flow. The admission controller applies nine rules in a fixed order and each precedence pair has its own test; it marks itself activated even when the feature is disabled, because otherwise the not-activated rule would fire first and mask the disabled reason, and it compares a submitted security counter against the current counter rather than the counter seen at the last evaluation, since a client may submit a stale revision. Telemetry is deduplicated by a key combining the event, reason, bundle digest and source. Verified with fifty-one contract tests.",
       "evidence": [
         "specs/contracts/kernel-plugin-hooks/acceptance.md"
       ]
@@ -152069,6 +152069,46 @@
       "basis": "Knorvia-authored trust evaluation module, the safety core that decides whether a workspace hook may run. It applies seven rules in a fixed order where the first match wins, and the order itself is part of the logic: a denied policy beats a stored record, a corrupt store beats the allow-trusted-only mode, a stored record beats a revocation marker, and a revocation beats a stale slot. Each precedence pair has its own test that constructs a case where both conditions hold, because testing single matches would not detect a reordering. Same-slot detection requires the same workspace, a different digest and six equal slot fields, and records missing any of those fields are excluded rather than treated as matching, so an older record shape cannot be mistaken for a current slot. Admission maps only the trusted-persistent state to admitted, including pending approval as blocked, and the runnable formula additionally requires the declaration to be enabled and the policy not to deny. The fail-closed policy used when the policy provider misbehaves denies rather than falling back to the default, since the default permits running and would turn an error into an allowance. Verified with twenty-two contract tests.",
       "evidence": [
         "specs/contracts/kernel-plugin-hooks/tests/workspace-trust-evaluation.test.mjs"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-hooks/workspace-review-flow.ts",
+      "normalizedSha256": "61b0e11e57d5cb47ab8906bcca3610ac038e83407919461715f7a9059287ab9b",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored review flow registry and runtime admission, two modules covering the review and admission clauses, plus the acceptance table update that adds the trust evaluation, review flow and runtime admission rows. The registry manages a pending flow as a promise plus a deadline: superseding settles the old flow immediately instead of leaving it hanging, resolution is idempotent so a timeout racing a decision cannot settle twice, and the public state is a getter returning a fresh object so a caller cannot mutate internal state and always sees the current value. Same-generation comparison deliberately excludes the bundle digest, because the digest belongs to the snapshot contents and a changed digest must report a snapshot mismatch rather than a superseded flow. The admission controller applies nine rules in a fixed order and each precedence pair has its own test; it marks itself activated even when the feature is disabled, because otherwise the not-activated rule would fire first and mask the disabled reason, and it compares a submitted security counter against the current counter rather than the counter seen at the last evaluation, since a client may submit a stale revision. Telemetry is deduplicated by a key combining the event, reason, bundle digest and source. Verified with fifty-one contract tests.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-hooks/workspace-runtime-admission.ts",
+      "normalizedSha256": "6978285eedaa1cf79f3774b22ae85fc361b4d016ba143306661c507be55c156c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored review flow registry and runtime admission, two modules covering the review and admission clauses, plus the acceptance table update that adds the trust evaluation, review flow and runtime admission rows. The registry manages a pending flow as a promise plus a deadline: superseding settles the old flow immediately instead of leaving it hanging, resolution is idempotent so a timeout racing a decision cannot settle twice, and the public state is a getter returning a fresh object so a caller cannot mutate internal state and always sees the current value. Same-generation comparison deliberately excludes the bundle digest, because the digest belongs to the snapshot contents and a changed digest must report a snapshot mismatch rather than a superseded flow. The admission controller applies nine rules in a fixed order and each precedence pair has its own test; it marks itself activated even when the feature is disabled, because otherwise the not-activated rule would fire first and mask the disabled reason, and it compares a submitted security counter against the current counter rather than the counter seen at the last evaluation, since a client may submit a stale revision. Telemetry is deduplicated by a key combining the event, reason, bundle digest and source. Verified with fifty-one contract tests.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-hooks/tests/workspace-review-flow.test.mjs",
+      "normalizedSha256": "7996b0ef5daa0381103a2558851dd00da30f209847b1770a097f62d004ff62c4",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored review flow registry and runtime admission, two modules covering the review and admission clauses, plus the acceptance table update that adds the trust evaluation, review flow and runtime admission rows. The registry manages a pending flow as a promise plus a deadline: superseding settles the old flow immediately instead of leaving it hanging, resolution is idempotent so a timeout racing a decision cannot settle twice, and the public state is a getter returning a fresh object so a caller cannot mutate internal state and always sees the current value. Same-generation comparison deliberately excludes the bundle digest, because the digest belongs to the snapshot contents and a changed digest must report a snapshot mismatch rather than a superseded flow. The admission controller applies nine rules in a fixed order and each precedence pair has its own test; it marks itself activated even when the feature is disabled, because otherwise the not-activated rule would fire first and mask the disabled reason, and it compares a submitted security counter against the current counter rather than the counter seen at the last evaluation, since a client may submit a stale revision. Telemetry is deduplicated by a key combining the event, reason, bundle digest and source. Verified with fifty-one contract tests.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-hooks/tests/workspace-runtime-admission.test.mjs",
+      "normalizedSha256": "c0a29a2dc984376baec2b5959bc9450c9f83a0f18ebc6c5efd13b40fccc8caba",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored review flow registry and runtime admission, two modules covering the review and admission clauses, plus the acceptance table update that adds the trust evaluation, review flow and runtime admission rows. The registry manages a pending flow as a promise plus a deadline: superseding settles the old flow immediately instead of leaving it hanging, resolution is idempotent so a timeout racing a decision cannot settle twice, and the public state is a getter returning a fresh object so a caller cannot mutate internal state and always sees the current value. Same-generation comparison deliberately excludes the bundle digest, because the digest belongs to the snapshot contents and a changed digest must report a snapshot mismatch rather than a superseded flow. The admission controller applies nine rules in a fixed order and each precedence pair has its own test; it marks itself activated even when the feature is disabled, because otherwise the not-activated rule would fire first and mask the disabled reason, and it compares a submitted security counter against the current counter rather than the counter seen at the last evaluation, since a client may submit a stale revision. Telemetry is deduplicated by a key combining the event, reason, bundle digest and source. Verified with fifty-one contract tests.",
+      "evidence": [
+        "specs/contracts/kernel-plugin-hooks/acceptance.md"
       ]
     }
   ]
