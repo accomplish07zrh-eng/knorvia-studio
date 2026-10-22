@@ -150227,6 +150227,30 @@
       "license": "Apache-2.0",
       "basis": "Knorvia-authored hooks plugin implementation, first mount point. The verdict module turns a hook permission decision into one of four outcomes and keeps the no-opinion case distinct from an explicit allow, because delegating to the next listener and asserting permission are different statements. A hook that supplies no decision is treated as having no opinion rather than as failing, since hook output is user script and a malformed result means that hook expressed nothing, not that the plugin is misconfigured. The pre-tool mount point maps those outcomes onto the tool runtime decision shape and delegates when there is no opinion, which is the common path. It carries the abort signal through unchanged because the runtime rechecks cancellation after asynchronous listeners settle, and it does not read or modify permission mode state, which belongs to the policy package. Verified with ten contract tests driving a real cordis context through the tool pre-execute waterfall, covering delegation, denial with a reason, approval requests, explicit allowance, input field mapping, short-circuiting, non-short-circuiting delegation, and listener disposal.",
       "evidence": ["specs/contracts/kernel-plugin-hooks/tests/pre-tool-use.test.mjs"]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-hooks/permission-request.ts",
+      "normalizedSha256": "2c75ec29fc0a0003ccf9f703d9d506cb870a347ab094e4028d405055faec4d8f",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored hooks plugin implementation, second mount point. The permission request mount maps hook verdicts onto the four approval outcomes the runtime defines. An allow becomes a one-time allowance because the runtime has no permanent-allow outcome, a deny becomes rejection, and a request for approval delegates rather than claiming the request: this event is itself the request for approval, so answering it with another request would either loop or consume the user opportunity without asking anyone. Absence of a verdict also delegates, preserving the chance for a downstream answerer to decide. The handler passes the abort signal through unchanged and tolerates every optional field being absent, since the runtime declares them optional. Verified with eight contract tests driving a real cordis context through the approval waterfall, covering all four outcomes, field mapping, absent optional fields, claiming without delegating, and listener disposal.",
+      "evidence": ["specs/contracts/kernel-plugin-hooks/tests/permission-request.test.mjs"]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-hooks/tests/probe3.test.mjs",
+      "normalizedSha256": "6448f82ee4e93810e5d5f91647daa2e4c792408aaecb1ed642316b5c6556a6c8",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored hooks plugin implementation, second mount point. The permission request mount maps hook verdicts onto the four approval outcomes the runtime defines. An allow becomes a one-time allowance because the runtime has no permanent-allow outcome, a deny becomes rejection, and a request for approval delegates rather than claiming the request: this event is itself the request for approval, so answering it with another request would either loop or consume the user opportunity without asking anyone. Absence of a verdict also delegates, preserving the chance for a downstream answerer to decide. The handler passes the abort signal through unchanged and tolerates every optional field being absent, since the runtime declares them optional. Verified with eight contract tests driving a real cordis context through the approval waterfall, covering all four outcomes, field mapping, absent optional fields, claiming without delegating, and listener disposal.",
+      "evidence": ["specs/contracts/kernel-plugin-hooks/tests/permission-request.test.mjs"]
+    },
+    {
+      "path": "specs/contracts/kernel-plugin-hooks/tests/permission-request.test.mjs",
+      "normalizedSha256": "bb3165581a92fbd47e2b955d3bfd7ab8477adb468518a5bdbc665d8c959bbb81",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored hooks plugin implementation, second mount point. The permission request mount maps hook verdicts onto the four approval outcomes the runtime defines. An allow becomes a one-time allowance because the runtime has no permanent-allow outcome, a deny becomes rejection, and a request for approval delegates rather than claiming the request: this event is itself the request for approval, so answering it with another request would either loop or consume the user opportunity without asking anyone. Absence of a verdict also delegates, preserving the chance for a downstream answerer to decide. The handler passes the abort signal through unchanged and tolerates every optional field being absent, since the runtime declares them optional. Verified with eight contract tests driving a real cordis context through the approval waterfall, covering all four outcomes, field mapping, absent optional fields, claiming without delegating, and listener disposal.",
+      "evidence": ["specs/contracts/kernel-plugin-hooks/tests/permission-request.test.mjs"]
     }
   ]
 }
