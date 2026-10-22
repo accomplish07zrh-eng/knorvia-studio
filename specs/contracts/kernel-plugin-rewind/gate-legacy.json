@@ -4,8 +4,8 @@
   "engine": "legacy",
   "scope": "Offline contract tests over the public plugin entry with in-memory port doubles. Does not cover the real filesystem, the real artifact store, or a real session fork.",
   "testFile": "apps/cli/packages/bootstrap/test/kernel-plugin-rewind.test.ts",
-  "commit": "d613cdae",
-  "ranAt": "2026-10-22T05:57:43.857Z",
+  "commit": "dbd65ac8",
+  "ranAt": "2026-10-22T17:51:22.277Z",
   "node": "v24.14.0",
   "totals": {
     "tests": 34,
