@@ -1042,7 +1042,6 @@ export interface EmbeddedBrowserWheelBoundaryPayload {
 // ─────────────────────────────────────────────。
 
 // Electron `<webview>`（partition=persist:knorvia-coding-plan）的 `sendToHost` / `ipc-message` 频道。 官网页通过 preload 注入的 window.knorviaBridge 调用，不经过 main process。。
-const channelValueTable4 = {} as const; // 频道字面值表
 export const CodingPlanWebviewChannels = {
   // 常量面
   PurchaseComplete:
