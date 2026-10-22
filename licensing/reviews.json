@@ -12506,7 +12506,7 @@
     },
     {
       "path": "apps/cli/packages/core/src/permission/prepared-request.ts",
-      "normalizedSha256": "2c050585dff1a1426af14b7e9b9358be491ad3c8181c082b052c80ad2442c2a1",
+      "normalizedSha256": "6d801d198c5b72501d5486668f5f37b05f9cb223ba100e33e5d4610f073406b3",
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "New single lifecycle cell owns prepared/active/finished state, one result, cancellation observer and activation-scoped deadline. Protocol projections reference that owner, while cancelled preparation waits suppress late registration. No second accepted-answer store is introduced. Prior source was accessed; no no-access clean-room claim is made. This decision is limited to the new required prepare/publish/activate lifecycle, one owner for completion and cancellation, and explicitly bound client adapters. Public records, fixed reason strings, policy exceptions and standard Promise/Map behavior are compatibility constraints, not claimed inventions. Renaming, splitting, helper extraction and test success alone do not establish independent provenance. The registry, inherited protocol mappings, stored-state restoration, public types, input recheck, subagent routing, HookRunner, rule persistence and adjacent implementations retain their applicable licensing. This is not a whole-product MIT determination.",
@@ -152077,6 +152077,28 @@
       "basis": "Knorvia-authored hook executor modules and their contract tests, re-registered after merging main, where taking the incoming reviews file silently dropped entries added on this branch. The input module merges the original fields with fixed aliases, tool fields and per-event aliases and writes a transcript whose contents depend on the event; environment overlay and variable expansion share one table so the two cannot drift, and skill variables raise instead of expanding to an empty string; execution maps both hook shapes onto the execution port and always cleans the temporary directory in a finally block; parsing treats unparseable stdout as no output because a hook printing a log line must not fail an action, while a shape mismatch does raise; the runner registers hooks from configuration and short-circuits on the first blocking verdict. These entries were lost because the reviews file was taken wholesale from the incoming side, and the consistency check still passed since the generated inventory was equally incomplete.",
       "evidence": [
         "specs/contracts/kernel-plugin-hooks/tests/hook-runner.test.mjs"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/permission-core/src/index.ts",
+      "normalizedSha256": "2b854f1210c2313879f5169fe171b276a6b34d47aef5afd2c5e90011edb593d3",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Public entry for the extracted permission-preparation package. The implementation originally lived in core/src/permission/prepared-request.ts, and its consumers span four packages: the core permission broker and runtime, the bootstrap protocol interaction layer, the CLI headless and TUI permission paths, and the TUI permission surface. Since core is removed with the kernel switch, the module had to move somewhere all four could depend on. It could not go into the shared package, because contracts already depends on shared while this module depends on contract types, which would close a cycle; it could not go into contracts, because that package is a declaration-only surface while this module holds a class with timers and cancellation. A standalone package that depends only on contracts cannot be depended on by contracts in return, so it is cycle-free by construction. This file re-exports the four symbols the lifecycle exposes and carries no logic itself.",
+      "evidence": [
+        "specs/knorvia-builtin-kernel-dsh.md",
+        "apps/cli/packages/contracts/package.json"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/permission-core/src/prepared-request.ts",
+      "normalizedSha256": "2c050585dff1a1426af14b7e9b9358be491ad3c8181c082b052c80ad2442c2a1",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "The one-request permission preparation lifecycle: a handle that moves from prepared to active to finished, owning the result promise, the optional timeout, the abort listener and the disposal path so that exactly one outcome is delivered. It moved unchanged in behaviour out of core, with only its import path adjusted. The module also carries the three helpers that operate on such a handle: activating a prepared request and awaiting its result, projecting one handle onto a protocol-facing shape while sharing activation and disposal with the original owner, and awaiting preparation in a way that a late continuation cannot start notification after cancellation. Keeping all four together preserves the invariant that the lifecycle has a single owner rather than being split across packages.",
+      "evidence": [
+        "specs/knorvia-builtin-kernel-dsh.md",
+        "apps/cli/packages/contracts/src/interfaces"
       ]
     }
   ]
