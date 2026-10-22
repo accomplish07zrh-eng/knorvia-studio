@@ -16,7 +16,8 @@
     "build": "tsc",
     "clean": "node ../../scripts/clean-dist.mjs",
     "typecheck": "tsc --noEmit",
-    "lint": "oxlint src --no-ignore"
+    "lint": "oxlint src --no-ignore",
+    "test": "node --experimental-test-module-mocks --import tsx --test --test-timeout=60000 test/*.test.ts"
   },
   "dependencies": {
     "@knorvia/contracts": "workspace:*"
