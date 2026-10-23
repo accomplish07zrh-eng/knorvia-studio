@@ -112211,6 +112211,18 @@
       ]
     },
     {
+      "path": "packages/services/src/terminal/terminalServiceLaunchPlan.ts",
+      "normalizedSha256": "b7d26665ee5f771b8e10e61d6d3b61560b5712bc543c9507f80d53ac7c877751",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract-blind rewrite of services-04 terminal/terminalServiceLaunchPlan: authored by an executor that never read the replaced implementation, from the frozen interface, the contract tests and dependency types only. Old gate 35/35 (source and dist entries); stub replacement 35/35 all-fail. Scored in BOTH modes and passing each: normal mode max line containment 0.183, longest identical run 5, structural similarity 0.040; declaration mode containment 0.091, longest identical run 1, structural similarity 0.030 (5 stripped pure-data blocks, 33 residual lines) against the pinned upstream 872ad960. Behavior verified by the full services functional suite: 1827 tests, 1815 pass and 6 fail, where every failure is the pre-existing creation-polish ComfyUI fixture timing flake under parallel CPU load (that file passes 11/11 when run alone, and the 14 terminal-related test files pass 368/368), so the rewrite introduced no behavioral regression.",
+      "evidence": [
+        "specs/contracts/services-04/README.md",
+        "specs/contracts/services-04/interface.md",
+        "packages/services/test"
+      ]
+    },
+    {
       "path": "packages/services/src/usage-stats/SCOPE-EVIDENCE-20261002.md",
       "normalizedSha256": "342fc1ce8fb62f9cf5e15457740d0176319fa23854fddec1f02b1b15a5d0c936",
       "decision": "original",
