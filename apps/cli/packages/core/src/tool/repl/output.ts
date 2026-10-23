@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2026 Knorvia contributors
 import type { JsOutput, ModelMessageContent, ModelMessageContentBlock } from "@knorvia/contracts";
-import type { NodeReplRunResult } from "../../repl/session-contract.js";
+import type { NodeReplRunResult } from "@knorvia/repl-core";
 
 export function toolOutput(run: NodeReplRunResult, paths: string[]): JsOutput {
   const output: JsOutput =
