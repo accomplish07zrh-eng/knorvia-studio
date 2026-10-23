@@ -152258,6 +152258,16 @@
       "evidence": [
         "specs/knorvia-builtin-kernel-dsh.md"
       ]
+    },
+    {
+      "path": "scripts/verify-dsh-core-independence.mjs",
+      "normalizedSha256": "1194709c34ab6aa251adf1dd3fcd6ccdb1fd766795415451c2f839668699e2b9",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Gate that proves the new engine path (KNORVIA_KERNEL_ENGINE=dsh, which loads only @knorvia/bootstrap/kernel and never the app/ layer) no longer imports @knorvia/core. Deleting the old core package is the closing step of kernel-switch, and it is only safe once this check reports zero violations. The script walks the import graph from bootstrap/src/kernel/index.ts, resolving relative paths, dynamic import() calls and package subpath exports, and matches from \"<spec>\" anywhere in a file so multi-line import tails are not missed. Exits 1 when any violation remains, so it can serve as a pre-merge gate.",
+      "evidence": [
+        "specs/knorvia-builtin-kernel-dsh.md"
+      ]
     }
   ]
 }
