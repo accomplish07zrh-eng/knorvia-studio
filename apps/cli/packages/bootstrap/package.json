@@ -119,6 +119,7 @@
     "@knorvia/shared": "workspace:*",
     "@knorvia/telemetry": "workspace:*",
     "diff": "^9.0.0",
+    "yaml": "^2.9.0",
     "zod": "4.6.5"
   },
   "devDependencies": {
