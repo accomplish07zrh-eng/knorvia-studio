@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2026 Knorvia contributors
-import type { NodeReplSession } from "@knorvia/core/repl";
+import type { NodeReplSession } from "@knorvia/repl-core";
 import type { BrowserCommand, BrowserCommandResult } from "@knorvia/shared/browser-use";
 import type { CallToolResult } from "@modelcontextprotocol/server";
 import { CUA_APP_ASSOCIATIONS_META_KEY } from "@knorvia/cua/host-display-contract";
