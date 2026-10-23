@@ -100,7 +100,16 @@ export function decideForStop(output: HookJSONOutput): { continue: boolean } | u
 // 信任策略层（B10–B16 的公开面）
 export function createWorkspaceHookTrustPolicy(...): WorkspaceHookTrustPolicy;
 export function evaluateWorkspaceHookTrust(...): WorkspaceHookTrustEvaluation;
+
+// telemetry 的两个纯函数（B15；`tests/workspace-telemetry.test.mjs` 已要求，本清单此前漏列）
+export function digestSummary(value: string): string;
+export function workspaceIdentitySummary(value: string): string;
 ```
+
+**⚠️ 为什么后两条要写在这里**：`tests/workspace-telemetry.test.mjs` 从公开入口取
+`digestSummary` 与 `workspaceIdentitySummary` 并断言其行为（B15.6 的「≤12 原样，>12 截断」、
+B15 的隐私摘要形状）。**合同测试是可执行的契约**，所以这两个导出属于契约面；
+本清单此前漏列，属于文档滞后，已补。
 
 **约束**：`index.ts` 只做装配与导出，不含具体逻辑（沿用各 M2 包的组织方式）。
 
