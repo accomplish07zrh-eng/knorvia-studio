@@ -1,6 +1,6 @@
 import { resolve } from "node:path";
 import { workspaceHookPolicySchema } from "@knorvia/contracts";
-import type { WorkspaceHookPolicyProvider } from "@knorvia/core";
+import type { WorkspaceHookPolicyProvider } from "./workspace-hook-policy-provider.js";
 import {
   knorviaWorkspaceHookTrustGrantParamsSchema,
   knorviaWorkspaceHookTrustGrantReasonCodeSchema,

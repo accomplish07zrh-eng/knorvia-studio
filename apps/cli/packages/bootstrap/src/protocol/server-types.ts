@@ -11,7 +11,7 @@ import {
   type TraceContext,
 } from "@knorvia/contracts";
 import type { McpTelemetryTracker } from "@knorvia/adapters";
-import type { WorkspaceHookPolicyProvider } from "@knorvia/core";
+import type { WorkspaceHookPolicyProvider } from "./workspace-hook-policy-provider.js";
 import type { AccountProviderConfigSnapshot } from "@knorvia/provider";
 import {
   knorviaProtocolErrorCodes,
