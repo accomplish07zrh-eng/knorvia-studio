@@ -2,7 +2,7 @@
 // Copyright (c) 2026 Knorvia contributors
 import { addAbortListener } from "node:events";
 import { Worker } from "node:worker_threads";
-import type { NodeReplRunResult } from "@knorvia/core/repl";
+import type { NodeReplRunResult } from "@knorvia/repl-core";
 import { WORKER_KIND, type NodeReplExecuteInput } from "./executor.js";
 
 type Outcome = { ok: true; result: NodeReplRunResult } | { ok: false; error: unknown };

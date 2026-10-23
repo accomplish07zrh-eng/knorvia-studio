@@ -327,3 +327,27 @@ export * from "./pluginStoreOrdering.js";
 export * from "./session-debug.js";
 export * from "./theme-preference.js";
 export { redactFeedbackText } from "./feedbackPrivacy.js";
+
+// 2026-10-23 移入：输出整形与运行环境探测。
+// 原先在 core/src/output.ts / core/src/environment.ts，而消费者是 @knorvia/cli；
+// core 会随 kernel-switch 删除，所以提到这里。
+export { color, formatJson, supportsColor } from "./output.js";
+export type { JsonValue } from "./output.js";
+export { getRuntimeInfo } from "./environment.js";
+// `RuntimeInfo` 的类型与实现同源（都在 environment.ts）。
+// `shared-types` 转发这里的定义 —— `apps/cli → packages` 是仓库常态方向。
+export type { RuntimeInfo } from "./environment.js";
+
+/**
+ * 当前的呈现面。
+ *
+ * 2026-10-23 从 `core/src/context/types.ts` 移来。
+ *
+ * **为什么放在这里而不是 `@knorvia/shared-types`**：
+ * `shared-types` 位于 `apps/cli/packages/` 下，而 `packages/*` 层按设计不依赖
+ * `apps/cli/*` 层（根 `typecheck` 的 `tsc -b` 列表只含 `packages/*`）。
+ * 让本包反向依赖它会让 CI 的类型检查解析失败。
+ * 而本包本就承载大量类型与工具（`WorkspacePurpose` / `KnorviaEnv` 等），
+ * 且同批移出的 `formatJson` 等函数也在本包 —— 放在一起更内聚。
+ */
+export type PresentationSurface = "terminal" | "knorvia_desktop";

@@ -1,6 +1,6 @@
 import { SessionEventType, createPartId, createToolCallId, type MessageId } from "../deps.js";
 import type { AgentRuntimeInternal } from "../internal.js";
-import { consumeBrowserTurnState } from "../../repl/browser-turn-state.js";
+import { consumeBrowserTurnState } from "@knorvia/repl-core";
 import {
   createToolResultDisplay,
   MAX_NODE_REPL_DISPLAY_IMAGE_BASE64_BYTES,
