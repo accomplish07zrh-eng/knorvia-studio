@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2026 Knorvia contributors
 import { isAbsolute, resolve } from "node:path";
-import type { NodeReplRunResult } from "../../repl/session-contract.js";
+import type { NodeReplRunResult } from "@knorvia/repl-core";
 import type { ToolExecutionContext } from "../types.js";
 
 const extensions: Readonly<Record<string, string>> = {

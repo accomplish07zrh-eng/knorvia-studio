@@ -27,9 +27,12 @@
     "lint:fix": "oxlint --fix src --no-ignore"
   },
   "dependencies": {
+    "@knorvia/browser-client": "workspace:*",
     "@knorvia/contracts": "workspace:*",
     "@knorvia/cua": "workspace:*",
     "@knorvia/dynamic-workflow": "workspace:*",
+    "@knorvia/permission-core": "workspace:*",
+    "@knorvia/repl-core": "workspace:*",
     "@knorvia/shared": "workspace:*",
     "@knorvia/shared-types": "workspace:*",
     "cheerio": "^1.0.0",

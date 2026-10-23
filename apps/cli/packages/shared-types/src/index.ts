@@ -52,15 +52,12 @@ export type GlobalOptions = {
 };
 
 /** 运行环境的只读快照，用于诊断与打包自检。 */
-export type RuntimeInfo = {
-  arch: NodeJS.Architecture;
-  cwd: string;
-  execPath: string;
-  node: string;
-  platform: NodeJS.Platform;
-  sea: boolean;
-  versions: NodeJS.ProcessVersions;
-};
+// 2026-10-23 移出：`RuntimeInfo` 的定义已提到 `@knorvia/shared`。
+// 原因：`getRuntimeInfo` 的实现搬到了那里（它要读 `process` 与 `node:sea`，
+// 放不进纯类型包），而类型与实现应当同源。
+// `apps/cli → packages` 是仓库的常态依赖方向（9 个 apps/cli 包已依赖 packages/*），
+// 所以这里转发不引入反向依赖。
+export type { RuntimeInfo } from "@knorvia/shared";
 
 /**
  * 回合输入携带的一条附件。

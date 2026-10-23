@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2026 Knorvia contributors
-import type { NodeReplRequestMeta } from "@knorvia/core/repl";
+import type { NodeReplRequestMeta } from "@knorvia/repl-core";
 import { BROWSER_UNAVAILABLE_IN_SUBAGENT_MESSAGE } from "./runtime-bridge.js";
 
 export const CUA_UNAVAILABLE_IN_SUBAGENT_MESSAGE = "Computer Use is not available in subagent";

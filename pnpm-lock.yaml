@@ -548,6 +548,9 @@ importers:
 
   apps/cli/packages/core:
     dependencies:
+      '@knorvia/browser-client':
+        specifier: workspace:*
+        version: link:../browser-client
       '@knorvia/contracts':
         specifier: workspace:*
         version: link:../contracts
@@ -557,6 +560,12 @@ importers:
       '@knorvia/dynamic-workflow':
         specifier: workspace:*
         version: link:../dynamic-workflow
+      '@knorvia/permission-core':
+        specifier: workspace:*
+        version: link:../permission-core
+      '@knorvia/repl-core':
+        specifier: workspace:*
+        version: link:../repl-core
       '@knorvia/shared':
         specifier: workspace:*
         version: link:../../../../packages/shared
@@ -631,6 +640,9 @@ importers:
       '@knorvia/cua':
         specifier: workspace:*
         version: link:../../../../packages/cua
+      '@knorvia/repl-core':
+        specifier: workspace:*
+        version: link:../repl-core
       '@knorvia/shared':
         specifier: workspace:*
         version: link:../../../../packages/shared
@@ -654,7 +666,37 @@ importers:
         specifier: ^5.9.0
         version: 5.9.3
 
+  apps/cli/packages/permission-core:
+    dependencies:
+      '@knorvia/contracts':
+        specifier: workspace:*
+        version: link:../contracts
+    devDependencies:
+      '@types/node':
+        specifier: ^24.0.0
+        version: 24.12.2
+      typescript:
+        specifier: ^5.9.0
+        version: 5.9.3
+
+  apps/cli/packages/repl-core:
+    dependencies:
+      '@knorvia/contracts':
+        specifier: workspace:*
+        version: link:../contracts
+    devDependencies:
+      '@types/node':
+        specifier: ^24.0.0
+        version: 24.12.2
+      typescript:
+        specifier: ^5.9.0
+        version: 5.9.3
+
   apps/cli/packages/shared-types:
+    dependencies:
+      '@knorvia/shared':
+        specifier: workspace:*
+        version: link:../../../../packages/shared
     devDependencies:
       '@types/node':
         specifier: ^24.0.0

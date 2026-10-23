@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2026 Knorvia contributors
-import type { NodeReplSession } from "@knorvia/core/repl";
+import type { NodeReplSession } from "@knorvia/repl-core";
 import type { CallToolResult } from "@modelcontextprotocol/server";
 import { ExecutionBinding, type ActiveNodeReplCall } from "./execution-binding.js";
 import { brokerCall, callContext } from "./ipc.js";
