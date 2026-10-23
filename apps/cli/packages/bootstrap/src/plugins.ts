@@ -59,7 +59,10 @@ import {
   OFFICIAL_NODE_REPL_HOST_PLUGIN_NAME,
   OFFICIAL_PLUGIN_DEFINITIONS,
 } from "./app/official-plugin-definitions.js";
-import { getCliStorageRoot, getPluginStorageRoot } from "./app/paths.js";
+// 2026-10-23 kernel-switch 前置：改指 `./app/storage-paths.js` 而不是 `./app/paths.js`。
+// 后者含 `getProjectMemoryRoot`（依赖 @knorvia/core），而本文件经由
+// `kernel-bridge/legacy/domain-handlers.ts` 在**新引擎路径上**，必须零 core 依赖。
+import { getCliStorageRoot, getPluginStorageRoot } from "./app/storage-paths.js";
 import { withPluginStorageLock } from "./lib/plugin-storage-lock.js";
 
 export interface ResolveKnorviaPluginsOptions {
