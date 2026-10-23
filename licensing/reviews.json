@@ -112185,6 +112185,18 @@
       ]
     },
     {
+      "path": "packages/services/src/terminal/terminalProfileMacOsDecode.ts",
+      "normalizedSha256": "b96e5739ba632805f5b5884e94e72be82d54bbbee728e0528c558f50dcf38b65",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored macOS terminal profile decoder (no upstream counterpart: upstream is null). Re-registration: this file reached its declared-mode score in #299, but the review entry was lost during a later merge of main, so it is recorded here again. Old gate 35/35 (source and dist entries); stub replacement 35/35 all-fail. Scored in both modes: declaration mode PASS with max line containment 0.167, longest identical run 1, structural similarity 0.000 (4 stripped pure-data blocks, 48 residual lines); normal mode does not pass (containment 0.340, longest identical run 28) because the file is declaration-heavy — the planbook scores such files in declaration mode. Behavior verified by the full services functional suite (1827 tests); terminal-profile tests pass 165/166 with the single failure being the pre-existing manual differential harness that requires an external baseline module path.",
+      "evidence": [
+        "specs/contracts/services-04/interface.md",
+        "specs/contracts/services-04/README.md",
+        "packages/services/test"
+      ]
+    },
+    {
       "path": "packages/services/src/terminal/terminalProfilePortableFormats.ts",
       "normalizedSha256": "e507c2aaf2107fa7a84fd9859a3c68a168df64206c2db2e196c4a2dda98a7e71",
       "decision": "original",
