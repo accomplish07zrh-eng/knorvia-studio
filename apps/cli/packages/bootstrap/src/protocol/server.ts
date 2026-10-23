@@ -6,7 +6,7 @@ import {
   knorviaWorkspaceHookTrustGrantParamsSchema,
 } from "@knorvia/shared";
 import type { BrowserControlPort } from "@knorvia/contracts";
-import { InMemoryWorkspaceHookPolicyProvider } from "@knorvia/core";
+import { InMemoryWorkspaceHookPolicyProvider } from "./workspace-hook-policy-provider.js";
 import {
   V4_METHODS,
   V4_NOTIFICATIONS,
