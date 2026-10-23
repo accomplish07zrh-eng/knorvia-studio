@@ -112077,6 +112077,18 @@
       ]
     },
     {
+      "path": "packages/services/src/subagents/subagentServicePlugins.ts",
+      "normalizedSha256": "b9ba76542cdd027dde9e4db726307395f1d94ad977477e35465df1b124ec7bc9",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract-blind rewrite of services-04 subagents/subagentServicePlugins: authored from the frozen interface, the contract tests and dependency types; the candidate file was written to completion before any comparison run. Disclosure: during a baseline comparison the executor used `git stash`, which restored the replaced implementation at the same path and a later read of that path returned the old text. That read happened after the candidate was finalized and nothing was changed in response to it; the independently re-measured similarity below confirms the structure differs. Baseline comparison was redone with a detached second worktree so the candidate path was never touched. Old gate 35/35 (source and dist entries); stub replacement 35/35 all-fail. Scored in BOTH modes and passing each: normal mode max line containment 0.149, longest identical run 6, structural similarity 0.014; declaration mode containment 0.184, longest identical run 2, structural similarity 0.000 (4 stripped pure-data blocks, 76 residual lines) against the pinned upstream 872ad960. Behavior verified by the full services functional suite: 1827 tests with 4 failures, all concurrent-load flakes - creation-polish, creation-verify-job and studio-integrated-runtime each pass when run alone (11/11, 5/5, 1/1) and the git-consumer pair also fails on unmodified main. A pristine baseline run in a separate worktree failed 16 with this candidate's failure set as a subset, so the rewrite introduced no behavioral regression.",
+      "evidence": [
+        "specs/contracts/services-04/README.md",
+        "specs/contracts/services-04/interface.md",
+        "packages/services/test"
+      ]
+    },
+    {
       "path": "packages/services/src/system/SHELL-EVIDENCE-20261002.md",
       "normalizedSha256": "51e1c0b00af1c3b2f6c06469debc697e07f4f335e8f0ee7ecd1beaf557a1940e",
       "decision": "original",
