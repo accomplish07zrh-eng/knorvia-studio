@@ -16239,160 +16239,6 @@
       ]
     },
     {
-      "path": "apps/cli/packages/core/test/browser-api-policy.test.ts",
-      "normalizedSha256": "fbfef16c86896b3aea5c02d23fd6f08858ac74fb8ad487183b1fa1e703c880cd",
-      "decision": "original",
-      "license": "MIT",
-      "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": [
-        "specs/knorvia-browser-sdk.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
-    },
-    {
-      "path": "apps/cli/packages/core/test/browser-capabilities-dialogs.test.ts",
-      "normalizedSha256": "aa652444ecd60cac56d52ffd907bc6c10aaff49436daa49c35ef9f5dec853803",
-      "decision": "original",
-      "license": "MIT",
-      "basis": "Independent browser object and registry implementation from public declarations, BrowserControlPort schemas and black-box compatibility scenarios. Pure command factories, private scoped state and explicit connection/registry ownership replace the old facade body. API names and protocol shapes remain for interoperability. Prior source exposure is disclosed; no no-access clean-room claim.",
-      "evidence": [
-        "specs/knorvia-browser-facade.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
-    },
-    {
-      "path": "apps/cli/packages/core/test/browser-documentation.test.ts",
-      "normalizedSha256": "6ac1217fd4f17df8b8a7b605e230dc1cd475ccbff3cd52f09e21edf39e280aad",
-      "decision": "original",
-      "license": "MIT",
-      "basis": "Independent documentation loading, rendering, guidance and tests from public interfaces and observed lookup/aggregation behavior. File access checks both logical and physical directory containment; document conditions use declared supported APIs. New guidance is organized around verified browser operations. Prior source exposure is disclosed; no clean-room claim.",
-      "evidence": [
-        "specs/knorvia-browser-sdk.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
-    },
-    {
-      "path": "apps/cli/packages/core/test/browser-interface-surface.test.ts",
-      "normalizedSha256": "7ba89ec6cb0e8eba8d62a8de921efe50e057628b363f0500bfa1ef9de1f3aec8",
-      "decision": "original",
-      "license": "MIT",
-      "basis": "Independent browser object and registry implementation from public declarations, BrowserControlPort schemas and black-box compatibility scenarios. Pure command factories, private scoped state and explicit connection/registry ownership replace the old facade body. API names and protocol shapes remain for interoperability. Prior source exposure is disclosed; no no-access clean-room claim.",
-      "evidence": [
-        "specs/knorvia-browser-facade.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
-    },
-    {
-      "path": "apps/cli/packages/core/test/browser-playwright-actions.test.ts",
-      "normalizedSha256": "a1df94ac1e64581c3026a26454c48dbbf426ca5db8fea48d3bad15168f7d6de0",
-      "decision": "original",
-      "license": "MIT",
-      "basis": "Independently implemented from public TypeScript contracts, protocol action schemas and black-box compatibility tests. Private state, composable selector/transport helpers and the single API catalog replace the old monolithic client. Compatibility names/signatures are retained; baseline validation and async ordering were tested before acceptance. Prior exposure to upstream source is disclosed; this is not a no-access clean-room claim.",
-      "evidence": [
-        "specs/knorvia-browser-playwright.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
-    },
-    {
-      "path": "apps/cli/packages/core/test/browser-playwright-runtime.test.ts",
-      "normalizedSha256": "078af01d4069f0112870516ce2caaece0e6c75562b673fd834414f0aa3b72195",
-      "decision": "original",
-      "license": "MIT",
-      "basis": "Independently implemented from public TypeScript contracts, protocol action schemas and black-box compatibility tests. Private state, composable selector/transport helpers and the single API catalog replace the old monolithic client. Compatibility names/signatures are retained; baseline validation and async ordering were tested before acceptance. Prior exposure to upstream source is disclosed; this is not a no-access clean-room claim.",
-      "evidence": [
-        "specs/knorvia-browser-playwright.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
-    },
-    {
-      "path": "apps/cli/packages/core/test/browser-playwright-selectors.test.ts",
-      "normalizedSha256": "91f95e76b01f023b31905849d4e65bc3e32c1da78d5100782a693a7b0860f692",
-      "decision": "original",
-      "license": "MIT",
-      "basis": "Independently implemented from public TypeScript contracts, protocol action schemas and black-box compatibility tests. Private state, composable selector/transport helpers and the single API catalog replace the old monolithic client. Compatibility names/signatures are retained; baseline validation and async ordering were tested before acceptance. Prior exposure to upstream source is disclosed; this is not a no-access clean-room claim.",
-      "evidence": [
-        "specs/knorvia-browser-playwright.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
-    },
-    {
-      "path": "apps/cli/packages/core/test/browser-playwright-validation.test.ts",
-      "normalizedSha256": "47b6e698b6b1d8d70cbe240470e45f7c04c68381e5a83c456ac8c429d3a473ba",
-      "decision": "original",
-      "license": "MIT",
-      "basis": "Independently implemented from public TypeScript contracts, protocol action schemas and black-box compatibility tests. Private state, composable selector/transport helpers and the single API catalog replace the old monolithic client. Compatibility names/signatures are retained; baseline validation and async ordering were tested before acceptance. Prior exposure to upstream source is disclosed; this is not a no-access clean-room claim.",
-      "evidence": [
-        "specs/knorvia-browser-playwright.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
-    },
-    {
-      "path": "apps/cli/packages/core/test/browser-registry-contract.test.ts",
-      "normalizedSha256": "a84388bd41f3a86a1ea2eabe2dc8912ad1007d59b2148122971f5deea3855b97",
-      "decision": "original",
-      "license": "MIT",
-      "basis": "Independent browser object and registry implementation from public declarations, BrowserControlPort schemas and black-box compatibility scenarios. Pure command factories, private scoped state and explicit connection/registry ownership replace the old facade body. API names and protocol shapes remain for interoperability. Prior source exposure is disclosed; no no-access clean-room claim.",
-      "evidence": [
-        "specs/knorvia-browser-facade.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
-    },
-    {
-      "path": "apps/cli/packages/core/test/browser-result.test.ts",
-      "normalizedSha256": "c7c6e1c2804b4da6268bb858e955927be6c7641e3a8c51727a7ebc13c3e2dbeb",
-      "decision": "original",
-      "license": "MIT",
-      "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": [
-        "specs/knorvia-browser-sdk.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
-    },
-    {
-      "path": "apps/cli/packages/core/test/browser-runtime-installation.test.ts",
-      "normalizedSha256": "014a025b07cd13c926862f4c39f08f9a4df577695c7dcf4fa6509f170890cedc",
-      "decision": "original",
-      "license": "MIT",
-      "basis": "Independent runtime installation and compatibility exports from documented namespace/document routing behavior. Namespace construction, provider delegation and browser view installation are separated. The previous Computer Use provider retains its receiver; behavior and legacy failure were verified with offline tests. Public API names are retained. Prior source exposure is disclosed; no no-access clean-room claim.",
-      "evidence": [
-        "specs/knorvia-browser-runtime-installation.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
-    },
-    {
-      "path": "apps/cli/packages/core/test/browser-selection.test.ts",
-      "normalizedSha256": "0d91fea471a580a950a1be69024f7cfe626cf9c28ec5fdb32bcb4f0c6d191384",
-      "decision": "original",
-      "license": "MIT",
-      "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": [
-        "specs/knorvia-browser-sdk.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
-    },
-    {
-      "path": "apps/cli/packages/core/test/browser-tab-contract.test.ts",
-      "normalizedSha256": "416da7d7b56a5e732ef1b28a74e68aea9719aa2f226b063aad73b4ed4396b79c",
-      "decision": "original",
-      "license": "MIT",
-      "basis": "Independent browser object and registry implementation from public declarations, BrowserControlPort schemas and black-box compatibility scenarios. Pure command factories, private scoped state and explicit connection/registry ownership replace the old facade body. API names and protocol shapes remain for interoperability. Prior source exposure is disclosed; no no-access clean-room claim.",
-      "evidence": [
-        "specs/knorvia-browser-facade.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
-    },
-    {
-      "path": "apps/cli/packages/core/test/browser-turn-state.test.ts",
-      "normalizedSha256": "d5df42132f84abab7360cbec28f8a1169a5a0f44b7f44e12581a4d55d4de7e40",
-      "decision": "original",
-      "license": "MIT",
-      "basis": "Independently implemented from public interfaces, caller contracts and pre-replacement black-box characterization. Execution output is owned by an async run context; timers by VM generation; browser hints by separate session/turn keys. Public entrypoints preserve compatibility, without retaining the old implementation body.",
-      "evidence": [
-        "specs/knorvia-repl-session.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
-    },
-    {
       "path": "apps/cli/packages/core/test/candidates/task-registry-20261003/registry-waits.ts",
       "normalizedSha256": "234729ce198ce0111d102307e7394e9157a40cd9db112a5ddb5b5628ffb9ddbe",
       "decision": "original",
@@ -18818,28 +18664,6 @@
       ]
     },
     {
-      "path": "apps/cli/packages/core/test/repl-cell-compiler.test.ts",
-      "normalizedSha256": "69699b2331004dc770ca69c6ab598b351389c6442ea2322321d26d154e56cc2e",
-      "decision": "original",
-      "license": "MIT",
-      "basis": "New implementation or behavioral contract test authored from the REPL cell specification and public type contracts; not a line-by-line rewrite of the removed instrument implementation. Meriyah remains a third-party dependency.",
-      "evidence": [
-        "specs/knorvia-repl-compiler.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
-    },
-    {
-      "path": "apps/cli/packages/core/test/repl-session.test.ts",
-      "normalizedSha256": "4a2f504e7277ec36eecc130565a546a622b16deab14c2e40516a19d295d3bd36",
-      "decision": "original",
-      "license": "MIT",
-      "basis": "Independently implemented from public interfaces, caller contracts and pre-replacement black-box characterization. Execution output is owned by an async run context; timers by VM generation; browser hints by separate session/turn keys. Public entrypoints preserve compatibility, without retaining the old implementation body.",
-      "evidence": [
-        "specs/knorvia-repl-session.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
-    },
-    {
       "path": "apps/cli/packages/core/test/repl-tool-artifacts.test.ts",
       "normalizedSha256": "84028687c37308e7b5577429aaae75a6740ca6cac435d46c4e4a81af1544731b",
       "decision": "original",
@@ -18852,7 +18676,7 @@
     },
     {
       "path": "apps/cli/packages/core/test/repl-tool-fixture.ts",
-      "normalizedSha256": "6c044dd8b2c6abd85114825ad10aac126150d51d6a2f77a90128aa38fd4cc915",
+      "normalizedSha256": "3b8237ef1ffb7f102d6e0f9f2892cce4e9dc166ddf5015e32fbe4bd1194a5aa1",
       "decision": "original",
       "license": "MIT",
       "basis": "New offline handler fixture retains the real VM/session while substituting only browser runtime installation, with synthetic contexts, deterministic Promise gates and automatic session cleanup. Prior source access is disclosed; this is not a no-access clean-room claim. Existing API identifiers, command policies, field ordering and permission constants are interoperability constraints, not evidence of original authorship. This decision is limited to the listed file and does not relicense other core code, Node, third-party SDKs, UI or remaining upstream modules.",
@@ -134985,7 +134809,7 @@
     },
     {
       "path": "specs/contracts/apps-cli-packages-02/tests/shared-i18n.test.mjs",
-      "normalizedSha256": "50fff242c0dc50b5a1651dd63ae7bf0e16aee1904e46d85d93303a331da66018",
+      "normalizedSha256": "e6479aaa4003d38366fd823c9a1bdb663b572dc229f340ae56bd1629ec431f2f",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored apps-cli-packages-02 contract artifact for the five M2 replacement packages (dynamic-workflow-runtime, i18n, telemetry, shared-types, node-repl-host). Written from the measured licensing/current-files.json scope, direct reading of the current implementations and the frozen public surfaces; no upstream or inherited implementation was copied or line-by-line rewritten. The behavior contract runs against the old implementation through source and dist entries and fails against interface-only stubs.",
@@ -152269,6 +152093,36 @@
       "basis": "Knorvia-authored contract for the second tool group, recovered from a patch and corrected against the runtime before merging. The contract covers four tools: two that manage off-peak windows, one that reads a session context projection, and one that enters plan mode by calling the plan-mode controller. Verification against the published types confirmed three of the four assumptions and corrected one: the plan-mode controller does return the four documented outcomes, the session projection registry and the off-peak port both exist, and guidance text is genuinely a deployment configuration of the plan-mode service rather than a tool field. The metadata section had inherited the same mistaken assumption as the sibling tool contract, treating read-only, destructiveness, approval and risk as tool definition fields, so it is now split into the runtime definition layer that exposes only a timeout and a concurrency predicate, and the capability declaration layer that carries the product semantics. The guidance distinction is recorded as a difference, because it is the one place in this contract where the word does not refer to a tool field.",
       "evidence": [
         "specs/contracts/kernel-plugin-tools-02/known-differences.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/repl-core/test/browser-turn-state.test.ts",
+      "normalizedSha256": "c9add2fe5576cbc1654e1bd9e086ebe5778f7c0861ba588ee4535b31c579b843",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Contract test for the browser turn-state helpers that track screenshots and tool results within one turn. Moved here from core/test because the implementation moved into this package with the REPL runtime extraction; the assertions themselves are unchanged, only the import path now points at the sibling src file instead of the old core path. Keeping it beside the implementation is what lets the package own its own regression coverage rather than leaving a test behind in a package that no longer contains the code.",
+      "evidence": [
+        "specs/knorvia-repl-session.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/repl-core/test/repl-cell-compiler.test.ts",
+      "normalizedSha256": "cdf46c3af5de4fd6629f4d6c4980725fa15731191209ac0e224d5a141f5640d3",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Contract test for compiling a submitted cell into an executable form and running it through the executor. Moved here together with the compiler and executor it exercises, because those files now live in this package; the only edit is the import path. Leaving the test in core would have left it importing a directory that no longer exists there.",
+      "evidence": [
+        "specs/knorvia-repl-session.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/repl-core/test/repl-session.test.ts",
+      "normalizedSha256": "8c723e3a0a1d60c21eb603e816830003c28cce1ac3492dd11cd75e1bfb44a103",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Contract test for the REPL session object itself: VM admission, cell ordering, reset semantics and output accumulation. Moved here with the session runtime it covers. The session is the package's central export, so its regression test belongs beside it rather than in the package the code was extracted from.",
+      "evidence": [
+        "specs/knorvia-repl-session.md"
       ]
     }
   ]

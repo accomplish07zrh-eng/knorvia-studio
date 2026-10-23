@@ -7,7 +7,7 @@ import {
   recordBrowserTurnToolResult,
   consumeBrowserTurnState,
   clearBrowserTurnState,
-} from "../src/repl/browser-turn-state.js";
+} from "../src/browser-turn-state.js";
 
 const session = (value: string) => value as SessionId;
 const turn = (value: string) => value as TurnId;

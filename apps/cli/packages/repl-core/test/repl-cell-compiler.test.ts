@@ -3,8 +3,8 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { createContext } from "node:vm";
-import { IifeContextExecutor } from "../src/repl/executors.js";
-import { compileReplCell } from "../src/repl/cell-compiler.js";
+import { IifeContextExecutor } from "../src/executors.js";
+import { compileReplCell } from "../src/cell-compiler.js";
 
 function session(globals: Record<string, unknown> = {}) {
   const context = createContext(globals);
