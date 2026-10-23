@@ -24036,9 +24036,9 @@
       "normalizedSha256": "fd4dc7a6c08e8f13897cfbe9937e9e2fe7c5b0cea02ea18dbcfa7a9491e242c0",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Moves one plain data interface out of the kernel core into the shared types package, as the first measured step of the kernel switch. The interface describes a single attachment on a turn input and references no other type, so it is the only one of the candidate symbols whose dependency closure is empty; the four neighbouring types each pull in further core types and cannot move until those move. Because the description crosses input collection, the protocol boundary and the model request, and those three live in different packages, the type has to live where all three can reach it. The core keeps a re-export so its existing consumers need no simultaneous change, while the six consumers in the application layer now import from the definition site, so deleting the core will not break them. Re-registered after merging main, which had moved RuntimeInfo out of the same file; both changes are kept and the interface now follows the forwarded RuntimeInfo.",
+      "basis": "Moves one plain data interface out of the kernel core into the shared types package, as the first measured step of the kernel switch. The interface describes a single attachment on a turn input and references no other type, so it is the only one of the candidate symbols whose dependency closure is empty; the four neighbouring types each pull in further core types and cannot move until those move. Because the description crosses input collection, the protocol boundary and the model request, and those three live in different packages, the type has to live where all three can reach it. The core keeps a re-export so its existing consumers need no simultaneous change, while the six consumers in the application layer now import from the definition site, so deleting the core will not break them. Re-registered after merging main, which had moved RuntimeInfo out of the same index file and inlined the remote session path repair next to one of the consumers; both of main changes are kept.",
       "evidence": [
-        "apps/cli/packages/core/test/browser-turn-state.test.ts"
+        "packages/shared/src/index.ts"
       ]
     },
     {
@@ -152213,9 +152213,9 @@
       "normalizedSha256": "d6d4545f9b52090a9f45760abc5887508b366f55d88c2f0aa81711381e5b8e86",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Moves one plain data interface out of the kernel core into the shared types package, as the first measured step of the kernel switch. The interface describes a single attachment on a turn input and references no other type, so it is the only one of the candidate symbols whose dependency closure is empty; the four neighbouring types each pull in further core types and cannot move until those move. Because the description crosses input collection, the protocol boundary and the model request, and those three live in different packages, the type has to live where all three can reach it. The core keeps a re-export so its existing consumers need no simultaneous change, while the six consumers in the application layer now import from the definition site, so deleting the core will not break them. Re-registered after merging main, which had moved RuntimeInfo out of the same file; both changes are kept and the interface now follows the forwarded RuntimeInfo.",
+      "basis": "Moves one plain data interface out of the kernel core into the shared types package, as the first measured step of the kernel switch. The interface describes a single attachment on a turn input and references no other type, so it is the only one of the candidate symbols whose dependency closure is empty; the four neighbouring types each pull in further core types and cannot move until those move. Because the description crosses input collection, the protocol boundary and the model request, and those three live in different packages, the type has to live where all three can reach it. The core keeps a re-export so its existing consumers need no simultaneous change, while the six consumers in the application layer now import from the definition site, so deleting the core will not break them. Re-registered after merging main, which had moved RuntimeInfo out of the same index file and inlined the remote session path repair next to one of the consumers; both of main changes are kept.",
       "evidence": [
-        "apps/cli/packages/core/test/browser-turn-state.test.ts"
+        "packages/shared/src/index.ts"
       ]
     },
     {
@@ -152223,9 +152223,9 @@
       "normalizedSha256": "deba6829f80e1bfbb5df7e13ee601b497c2f9f302164e9d695102e4cc080e5a4",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Moves one plain data interface out of the kernel core into the shared types package, as the first measured step of the kernel switch. The interface describes a single attachment on a turn input and references no other type, so it is the only one of the candidate symbols whose dependency closure is empty; the four neighbouring types each pull in further core types and cannot move until those move. Because the description crosses input collection, the protocol boundary and the model request, and those three live in different packages, the type has to live where all three can reach it. The core keeps a re-export so its existing consumers need no simultaneous change, while the six consumers in the application layer now import from the definition site, so deleting the core will not break them. Re-registered after merging main, which had moved RuntimeInfo out of the same file; both changes are kept and the interface now follows the forwarded RuntimeInfo.",
+      "basis": "Moves one plain data interface out of the kernel core into the shared types package, as the first measured step of the kernel switch. The interface describes a single attachment on a turn input and references no other type, so it is the only one of the candidate symbols whose dependency closure is empty; the four neighbouring types each pull in further core types and cannot move until those move. Because the description crosses input collection, the protocol boundary and the model request, and those three live in different packages, the type has to live where all three can reach it. The core keeps a re-export so its existing consumers need no simultaneous change, while the six consumers in the application layer now import from the definition site, so deleting the core will not break them. Re-registered after merging main, which had moved RuntimeInfo out of the same index file and inlined the remote session path repair next to one of the consumers; both of main changes are kept.",
       "evidence": [
-        "apps/cli/packages/core/test/browser-turn-state.test.ts"
+        "packages/shared/src/index.ts"
       ]
     },
     {
@@ -152233,9 +152233,9 @@
       "normalizedSha256": "e96db042008fb313a9db92b0b4324a084347fd8d6789e04948a63f5d34dac8ef",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Moves one plain data interface out of the kernel core into the shared types package, as the first measured step of the kernel switch. The interface describes a single attachment on a turn input and references no other type, so it is the only one of the candidate symbols whose dependency closure is empty; the four neighbouring types each pull in further core types and cannot move until those move. Because the description crosses input collection, the protocol boundary and the model request, and those three live in different packages, the type has to live where all three can reach it. The core keeps a re-export so its existing consumers need no simultaneous change, while the six consumers in the application layer now import from the definition site, so deleting the core will not break them. Re-registered after merging main, which had moved RuntimeInfo out of the same file; both changes are kept and the interface now follows the forwarded RuntimeInfo.",
+      "basis": "Moves one plain data interface out of the kernel core into the shared types package, as the first measured step of the kernel switch. The interface describes a single attachment on a turn input and references no other type, so it is the only one of the candidate symbols whose dependency closure is empty; the four neighbouring types each pull in further core types and cannot move until those move. Because the description crosses input collection, the protocol boundary and the model request, and those three live in different packages, the type has to live where all three can reach it. The core keeps a re-export so its existing consumers need no simultaneous change, while the six consumers in the application layer now import from the definition site, so deleting the core will not break them. Re-registered after merging main, which had moved RuntimeInfo out of the same index file and inlined the remote session path repair next to one of the consumers; both of main changes are kept.",
       "evidence": [
-        "apps/cli/packages/core/test/browser-turn-state.test.ts"
+        "packages/shared/src/index.ts"
       ]
     },
     {
@@ -152243,9 +152243,9 @@
       "normalizedSha256": "f8f649462ea5a66e0255db35c39591f5e4e24275e34f751512eac8cd55eb34a8",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Moves one plain data interface out of the kernel core into the shared types package, as the first measured step of the kernel switch. The interface describes a single attachment on a turn input and references no other type, so it is the only one of the candidate symbols whose dependency closure is empty; the four neighbouring types each pull in further core types and cannot move until those move. Because the description crosses input collection, the protocol boundary and the model request, and those three live in different packages, the type has to live where all three can reach it. The core keeps a re-export so its existing consumers need no simultaneous change, while the six consumers in the application layer now import from the definition site, so deleting the core will not break them. Re-registered after merging main, which had moved RuntimeInfo out of the same file; both changes are kept and the interface now follows the forwarded RuntimeInfo.",
+      "basis": "Moves one plain data interface out of the kernel core into the shared types package, as the first measured step of the kernel switch. The interface describes a single attachment on a turn input and references no other type, so it is the only one of the candidate symbols whose dependency closure is empty; the four neighbouring types each pull in further core types and cannot move until those move. Because the description crosses input collection, the protocol boundary and the model request, and those three live in different packages, the type has to live where all three can reach it. The core keeps a re-export so its existing consumers need no simultaneous change, while the six consumers in the application layer now import from the definition site, so deleting the core will not break them. Re-registered after merging main, which had moved RuntimeInfo out of the same index file and inlined the remote session path repair next to one of the consumers; both of main changes are kept.",
       "evidence": [
-        "apps/cli/packages/core/test/browser-turn-state.test.ts"
+        "packages/shared/src/index.ts"
       ]
     },
     {
@@ -152253,9 +152253,9 @@
       "normalizedSha256": "df1459979b2ee59cf05be61c65d3fed369a1c526fcf8ce849fba71409fe1da2d",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Moves one plain data interface out of the kernel core into the shared types package, as the first measured step of the kernel switch. The interface describes a single attachment on a turn input and references no other type, so it is the only one of the candidate symbols whose dependency closure is empty; the four neighbouring types each pull in further core types and cannot move until those move. Because the description crosses input collection, the protocol boundary and the model request, and those three live in different packages, the type has to live where all three can reach it. The core keeps a re-export so its existing consumers need no simultaneous change, while the six consumers in the application layer now import from the definition site, so deleting the core will not break them. Re-registered after merging main, which had moved RuntimeInfo out of the same file; both changes are kept and the interface now follows the forwarded RuntimeInfo.",
+      "basis": "Moves one plain data interface out of the kernel core into the shared types package, as the first measured step of the kernel switch. The interface describes a single attachment on a turn input and references no other type, so it is the only one of the candidate symbols whose dependency closure is empty; the four neighbouring types each pull in further core types and cannot move until those move. Because the description crosses input collection, the protocol boundary and the model request, and those three live in different packages, the type has to live where all three can reach it. The core keeps a re-export so its existing consumers need no simultaneous change, while the six consumers in the application layer now import from the definition site, so deleting the core will not break them. Re-registered after merging main, which had moved RuntimeInfo out of the same index file and inlined the remote session path repair next to one of the consumers; both of main changes are kept.",
       "evidence": [
-        "apps/cli/packages/core/test/browser-turn-state.test.ts"
+        "packages/shared/src/index.ts"
       ]
     },
     {
@@ -152263,9 +152263,9 @@
       "normalizedSha256": "47561ce133b3764efd24c81136fa85ea3312557fec0f0522d14e218b1fc03cfa",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Moves one plain data interface out of the kernel core into the shared types package, as the first measured step of the kernel switch. The interface describes a single attachment on a turn input and references no other type, so it is the only one of the candidate symbols whose dependency closure is empty; the four neighbouring types each pull in further core types and cannot move until those move. Because the description crosses input collection, the protocol boundary and the model request, and those three live in different packages, the type has to live where all three can reach it. The core keeps a re-export so its existing consumers need no simultaneous change, while the six consumers in the application layer now import from the definition site, so deleting the core will not break them. Re-registered after merging main, which had moved RuntimeInfo out of the same file; both changes are kept and the interface now follows the forwarded RuntimeInfo.",
+      "basis": "Moves one plain data interface out of the kernel core into the shared types package, as the first measured step of the kernel switch. The interface describes a single attachment on a turn input and references no other type, so it is the only one of the candidate symbols whose dependency closure is empty; the four neighbouring types each pull in further core types and cannot move until those move. Because the description crosses input collection, the protocol boundary and the model request, and those three live in different packages, the type has to live where all three can reach it. The core keeps a re-export so its existing consumers need no simultaneous change, while the six consumers in the application layer now import from the definition site, so deleting the core will not break them. Re-registered after merging main, which had moved RuntimeInfo out of the same index file and inlined the remote session path repair next to one of the consumers; both of main changes are kept.",
       "evidence": [
-        "apps/cli/packages/core/test/browser-turn-state.test.ts"
+        "packages/shared/src/index.ts"
       ]
     },
     {
@@ -152273,19 +152273,19 @@
       "normalizedSha256": "b64a375242f05a596f6134b3da946f4287152aa285be30cd69fb9dd09ffe00ce",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Moves one plain data interface out of the kernel core into the shared types package, as the first measured step of the kernel switch. The interface describes a single attachment on a turn input and references no other type, so it is the only one of the candidate symbols whose dependency closure is empty; the four neighbouring types each pull in further core types and cannot move until those move. Because the description crosses input collection, the protocol boundary and the model request, and those three live in different packages, the type has to live where all three can reach it. The core keeps a re-export so its existing consumers need no simultaneous change, while the six consumers in the application layer now import from the definition site, so deleting the core will not break them. Re-registered after merging main, which had moved RuntimeInfo out of the same file; both changes are kept and the interface now follows the forwarded RuntimeInfo.",
+      "basis": "Moves one plain data interface out of the kernel core into the shared types package, as the first measured step of the kernel switch. The interface describes a single attachment on a turn input and references no other type, so it is the only one of the candidate symbols whose dependency closure is empty; the four neighbouring types each pull in further core types and cannot move until those move. Because the description crosses input collection, the protocol boundary and the model request, and those three live in different packages, the type has to live where all three can reach it. The core keeps a re-export so its existing consumers need no simultaneous change, while the six consumers in the application layer now import from the definition site, so deleting the core will not break them. Re-registered after merging main, which had moved RuntimeInfo out of the same index file and inlined the remote session path repair next to one of the consumers; both of main changes are kept.",
       "evidence": [
-        "apps/cli/packages/core/test/browser-turn-state.test.ts"
+        "packages/shared/src/index.ts"
       ]
     },
     {
       "path": "apps/cli/packages/bootstrap/src/protocol/server-operations.ts",
-      "normalizedSha256": "d0f65cab4c934dacce33402fb041b0e34d2596883c17dab81f6f7d979a027af1",
+      "normalizedSha256": "623b883bc86da0754f7e29be96b6ab3fe64a3c4fb1d13253b2dcb7bde1df51c8",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Moves one plain data interface out of the kernel core into the shared types package, as the first measured step of the kernel switch. The interface describes a single attachment on a turn input and references no other type, so it is the only one of the candidate symbols whose dependency closure is empty; the four neighbouring types each pull in further core types and cannot move until those move. Because the description crosses input collection, the protocol boundary and the model request, and those three live in different packages, the type has to live where all three can reach it. The core keeps a re-export so its existing consumers need no simultaneous change, while the six consumers in the application layer now import from the definition site, so deleting the core will not break them. Re-registered after merging main, which had moved RuntimeInfo out of the same file; both changes are kept and the interface now follows the forwarded RuntimeInfo.",
+      "basis": "Moves one plain data interface out of the kernel core into the shared types package, as the first measured step of the kernel switch. The interface describes a single attachment on a turn input and references no other type, so it is the only one of the candidate symbols whose dependency closure is empty; the four neighbouring types each pull in further core types and cannot move until those move. Because the description crosses input collection, the protocol boundary and the model request, and those three live in different packages, the type has to live where all three can reach it. The core keeps a re-export so its existing consumers need no simultaneous change, while the six consumers in the application layer now import from the definition site, so deleting the core will not break them. Re-registered after merging main, which had moved RuntimeInfo out of the same index file and inlined the remote session path repair next to one of the consumers; both of main changes are kept.",
       "evidence": [
-        "apps/cli/packages/core/test/browser-turn-state.test.ts"
+        "packages/shared/src/index.ts"
       ]
     }
   ]

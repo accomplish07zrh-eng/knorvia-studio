@@ -8,8 +8,11 @@ import { resolveEffectiveBashShellSelection } from "@knorvia/adapters/exec";
 import { inputIntentMetadata } from "../protocol-v4/commands/input-intent.js";
 import { createModelExecutionContext } from "./model-execution.js";
 import type { SendInputOptions } from "../app/types.js";
-import { repairPersistedRemoteSessionPaths } from "@knorvia/core";
+// `TurnAttachment` 的定义在 `@knorvia/shared-types`（纯类型包），直接指向定义处，
+// 这样删掉 core 之后仍然可用。而 `repairPersistedRemoteSessionPaths` 的实现已被
+// main 内联到本包的 `./remote-session-path-repair.js`（它原本经 core 转发）。
 import type { TurnAttachment } from "@knorvia/shared-types";
+import { repairPersistedRemoteSessionPaths } from "./remote-session-path-repair.js";
 import {
   CoreErrorType,
   SESSION_ENTRY_TARGET_COMPLETION_VERIFICATION,
