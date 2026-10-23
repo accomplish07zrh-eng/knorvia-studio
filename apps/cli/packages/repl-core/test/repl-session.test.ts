@@ -7,7 +7,7 @@ import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { pathToFileURL } from "node:url";
-import { NodeReplSession } from "../src/repl/node-repl-session.js";
+import { NodeReplSession } from "../src/node-repl-session.js";
 
 test("session retains bindings, returns structured errors and scopes logs to one call", async () => {
   const session = new NodeReplSession();

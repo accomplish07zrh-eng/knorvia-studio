@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 // 工具批：声明序落账，执行可并行，记录按声明序收口。取消检查点先攒后抛。
 import { createRuntimeToolResultEntry } from "../../../agent/message-history.js";
-import { recordBrowserTurnToolResult } from "../../../repl/browser-turn-state.js";
+import { recordBrowserTurnToolResult } from "@knorvia/repl-core";
 import {
   TurnMachineImpl,
   createPartId,

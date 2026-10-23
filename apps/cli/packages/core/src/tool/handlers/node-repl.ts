@@ -9,6 +9,11 @@ import {
   type SessionId,
 } from "@knorvia/contracts";
 import type { ToolEntry } from "../types.js";
+// 这 4 个符号来自 `tool/repl/`（REPL 工具的 handler 层），**不是** `repl-core`：
+//   · saveBrowserScreenshots / jsDescription / formatJsModelContent / toolOutput
+//     → tool/repl 的 artifacts / description / output
+//   · REPL_TIMEOUT / ReplToolSessions → tool/repl/session-registry
+// `tool/repl/` 留在 core 内（它是 REPL 工具的实现，不是共享运行时）。
 import { saveBrowserScreenshots } from "../repl/artifacts.js";
 import { jsDescription } from "../repl/description.js";
 import { formatJsModelContent, toolOutput } from "../repl/output.js";
