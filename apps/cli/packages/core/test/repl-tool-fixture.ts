@@ -4,11 +4,15 @@ import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
 import { mock, type TestContext } from "node:test";
 import type { BrowserControlPort, JsOutput } from "@knorvia/contracts";
-import type { BrowserRuntimeOptions } from "../src/browser-client/runtime-installation.js";
+// 2026-10-23：`setupBrowserRuntime` / `BrowserRuntimeOptions` 已随 #302 迁到独立包
+// `@knorvia/browser-client`，core 内的重复副本（`src/browser-client/`）已删除。
+// 所以这里的类型与 mock 目标都改指独立包 —— mock 要拦的是 `session-registry.ts`
+// 实际 import 的那个模块，否则拦截不生效。
+import type { BrowserRuntimeOptions } from "@knorvia/browser-client";
 import type { ToolExecutionContext } from "../src/tool/types.js";
 
 export const installations: BrowserRuntimeOptions[] = [];
-mock.module(new URL("../src/browser-client/index.ts", import.meta.url).href, {
+mock.module("@knorvia/browser-client", {
   namedExports: {
     setupBrowserRuntime(options: BrowserRuntimeOptions) {
       installations.push(options);

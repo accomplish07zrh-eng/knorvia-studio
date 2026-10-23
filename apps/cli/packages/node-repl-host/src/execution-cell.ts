@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2026 Knorvia contributors
 import { resolve } from "node:path";
-import { NodeReplSession, type NodeReplRunResult } from "@knorvia/core/repl";
+import { NodeReplSession, type NodeReplRunResult } from "@knorvia/repl-core";
 import { createBrowserBridgeGlobals } from "./browser-bridge.js";
 import { createComputerUseBridgeGlobals } from "./cua-bridge.js";
 import type { ActiveNodeReplCall } from "./execution-binding.js";
