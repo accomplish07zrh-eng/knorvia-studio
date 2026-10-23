@@ -61,3 +61,24 @@ export type RuntimeInfo = {
   sea: boolean;
   versions: NodeJS.ProcessVersions;
 };
+
+/**
+ * 回合输入携带的一条附件。
+ *
+ * 纯数据描述：**不引用任何其他类型**，所以可以放在这个纯类型包里。
+ * 它跨越「输入采集 → 协议边界 → 模型请求」三层，而这三层分属不同包，
+ * 因此描述它的类型必须住在它们都够得着的地方。
+ *
+ * `sourceKind` 目前只有一个取值：`clipboard-text` 表示 UI 长粘贴落盘生成的
+ * 临时附件 —— 这类附件在模型请求里只保留路径引用，不重复携带内容。
+ */
+export interface TurnAttachment {
+  type: "file" | "image" | "video" | "pdf" | "url";
+  path?: string;
+  content?: string;
+  sourceKind?: "clipboard-text";
+  /** 展示元信息；缺省时由 basename / 扩展名推断。不参与内容解析。 */
+  filename?: string;
+  mimeType?: string;
+  sizeBytes?: number;
+}

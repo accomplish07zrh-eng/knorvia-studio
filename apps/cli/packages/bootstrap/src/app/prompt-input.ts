@@ -1,6 +1,6 @@
 import { createHash } from "node:crypto";
 import { isArtifactUri } from "@knorvia/shared";
-import type { TurnAttachment } from "@knorvia/core";
+import type { TurnAttachment } from "@knorvia/shared-types";
 import type {
   InputHistoryAttachment,
   InputHistoryEntry,

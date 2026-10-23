@@ -8,7 +8,8 @@ import { resolveEffectiveBashShellSelection } from "@knorvia/adapters/exec";
 import { inputIntentMetadata } from "../protocol-v4/commands/input-intent.js";
 import { createModelExecutionContext } from "./model-execution.js";
 import type { SendInputOptions } from "../app/types.js";
-import { repairPersistedRemoteSessionPaths, type TurnAttachment } from "@knorvia/core";
+import { repairPersistedRemoteSessionPaths } from "@knorvia/core";
+import type { TurnAttachment } from "@knorvia/shared-types";
 import {
   CoreErrorType,
   SESSION_ENTRY_TARGET_COMPLETION_VERIFICATION,
