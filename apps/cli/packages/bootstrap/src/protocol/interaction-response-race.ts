@@ -8,7 +8,7 @@
 // 二、**每次失败单独唤醒**：若用户已开始重试，必须继续等新那次的提交，不能用旧通知放行；
 // 三、**注册失败要先把结果置为拒绝再抛**，避免 owner 永久悬挂。
 
-import { PermissionPreparation } from "@knorvia/core";
+import { PermissionPreparation } from "@knorvia/permission-core";
 import type {
   V4InteractionAnswer,
   V4InteractionRegistrationOptions,
