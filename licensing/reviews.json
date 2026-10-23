@@ -151282,12 +151282,12 @@
     },
     {
       "path": "specs/contracts/kernel-plugin-hooks/interface.md",
-      "normalizedSha256": "9ad0bd9350b74142ddf169d86d101f2fbc5aa8a4f9638354546a70b5d678d5e5",
+      "normalizedSha256": "24c5a50d490f2f2948af0db8d09905f97413ad2af073e556f6f0efb73600a157",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored M2 access-package contract for the hooks plugin. This revision records the verification evidence behind the reuse claims: every contract type the plugin intends to reuse was confirmed to already exist in the contracts package, so the plugin adds no new type definitions there, and every DSH package it depends on was confirmed to be already declared by the bootstrap package, so implementation needs no new dependencies. It also records which dispatch mode each of the seven extension points uses, since the mode is what decides whether a hook can block: waterfall points can decline to delegate, the serial point short-circuits on the first bail value, and the emit point accepts only a synchronous throw as a veto, which is why an asynchronous hook cannot prevent a session from being created.",
+      "basis": "Contract correction for the hooks plugin export list. The executable contract tests already read two telemetry helper functions from the public entry point and assert their behaviour, but the written export list omitted them, so the document lagged behind the tests. The list now names both functions with their signatures and states why they belong to the contract surface: the tests are the executable half of the contract, and a reader working from the document alone would not know to implement them. No implementation changes accompany this correction, since the functions already exist and already satisfy the tests.",
       "evidence": [
-        "specs/contracts/kernel-plugin-hooks/interface.md"
+        "specs/contracts/kernel-plugin-hooks/tests/workspace-telemetry.test.mjs"
       ]
     },
     {
