@@ -152221,7 +152221,7 @@
     },
     {
       "path": "apps/cli/packages/bootstrap/src/kernel-bridge/saved-workflows/index.ts",
-      "normalizedSha256": "01ae81828e64962cb133a5af5f9e63f68d792930c0f14ee3781eb8f6b5821501",
+      "normalizedSha256": "7c8335ae4f137165a776419add672ef79e0956edc3f08fd15e9e577da83500dc",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Barrel export for the saved-workflow readers and writers that kernel-bridge/legacy/domain-handlers.ts needs. Previously these came from @knorvia/core, but that file is on the new kernel path, so importing core there would keep the old package alive. Re-exports the definitions copied into this directory; it declares no behaviour of its own.",
@@ -152255,16 +152255,6 @@
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Validation of declared workflow arguments against their contract-declared types. Copied verbatim from core/tool/handlers/saved-workflows/args.ts; it imports only type declarations from @knorvia/contracts, so it is a pure type-directed check with no runtime coupling.",
-      "evidence": [
-        "specs/knorvia-builtin-kernel-dsh.md"
-      ]
-    },
-    {
-      "path": "apps/cli/packages/bootstrap/src/kernel-bridge/saved-workflows/plugin-reference-catalog.ts",
-      "normalizedSha256": "88b099384dae97f7a17bcf78f2abe190998afbeaec6df7e49f1f8f53eb38e507",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Builds the plugin reference catalog (skill and agent qualified names, MCP server names, conflicting plugin ids) from plugin metadata, plus a lookup helper. Copied verbatim from core/plugin-reference/catalog.ts; its only import is type declarations from @knorvia/contracts, so it is a pure transformation of its argument.",
       "evidence": [
         "specs/knorvia-builtin-kernel-dsh.md"
       ]
