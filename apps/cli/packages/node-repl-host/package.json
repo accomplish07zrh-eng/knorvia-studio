@@ -24,6 +24,7 @@
     "@knorvia/contracts": "workspace:*",
     "@knorvia/core": "workspace:*",
     "@knorvia/cua": "workspace:*",
+    "@knorvia/repl-core": "workspace:*",
     "@knorvia/shared": "workspace:*",
     "@modelcontextprotocol/server": "2.0.0",
     "zod": "^4.4.3"
