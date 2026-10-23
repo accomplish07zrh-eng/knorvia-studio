@@ -110690,6 +110690,18 @@
       ]
     },
     {
+      "path": "packages/services/src/system/system-probe/targetLifecycle.ts",
+      "normalizedSha256": "2894b77187f14a453c936167dcc181db5e5599e5b0e62b5920f53e6373d39ee8",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract-blind rewrite of services-04 system-probe/targetLifecycle: authored by an executor that never read the replaced implementation, from the frozen interface, the contract tests and dependency types only. Old gate 35/35 (source and dist entries); stub replacement 35/35 all-fail. Behavior verified by the full services functional suite: 1827 tests, 1811 pass and 10 fail, where every failure is the pre-existing creation-polish ComfyUI fixture timing flake (that file passes 11/11 when run alone), so the rewrite introduced no behavioral regression. Scored in both modes and passing each: normal mode max line containment 0.150, longest identical run 6, structural similarity 0.000; declaration mode residual-lines 5 with no upstream counterpart, containment 0.000, run 0, structural 0.000 against the pinned upstream 872ad960.",
+      "evidence": [
+        "specs/contracts/services-04/README.md",
+        "specs/contracts/services-04/known-differences.md",
+        "packages/services/test"
+      ]
+    },
+    {
       "path": "packages/services/src/terminal/SCOPE-EVIDENCE-20261002.md",
       "normalizedSha256": "ec95627b1bcc4e16d48c14cb22a2d11b38b51d7cc08d9da30e8b27d09150f7ef",
       "decision": "original",
