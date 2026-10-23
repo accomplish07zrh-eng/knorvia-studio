@@ -16,6 +16,9 @@
     "clean": "node ../../scripts/clean-dist.mjs",
     "typecheck": "tsc --noEmit"
   },
+  "dependencies": {
+    "@knorvia/shared": "workspace:*"
+  },
   "devDependencies": {
     "@types/node": "^24.0.0"
   }

@@ -5,7 +5,7 @@ import {
   KNORVIA_MCP_NODE_REPL_CUA_APP_META_KEY as APP,
 } from "@knorvia/contracts/mcp";
 import { CUA_APP_ASSOCIATIONS_META_KEY } from "@knorvia/cua/host-display-contract";
-import type { NodeReplRunResult, NodeReplStructuredResult } from "@knorvia/core/repl";
+import type { NodeReplRunResult, NodeReplStructuredResult } from "@knorvia/repl-core";
 import type { CallToolResult } from "@modelcontextprotocol/server";
 import { layoutResult, type ResultLayout } from "./result-layout.js";
 

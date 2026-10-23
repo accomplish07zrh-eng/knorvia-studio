@@ -14,7 +14,10 @@ const supportedTypeNames = [
   "GlobalOutputFormat",
   "JsonValue",
   "RunContext",
-  "RuntimeInfo",
+  // 2026-10-23 移出：`RuntimeInfo` 的定义已提到 `packages/shared`
+  // （它的实现 `getRuntimeInfo` 要读 process / node:sea，放不进纯类型包；
+  //   而 `apps/cli → packages` 是仓库常态方向，所以本包改为转发）。
+  // `PresentationSurface` 同样已移出到 `packages/shared`。
 ];
 
 test("B1 shared-types 运行期面为空且类型名固定", async () => {
@@ -50,13 +53,10 @@ test("B2 shared-types 结构与可选性", async () => {
     "locale?: GlobalLocale",
     "memoryBench?: boolean",
     "outputFormat?: GlobalOutputFormat",
-    "arch: NodeJS.Architecture",
-    "cwd: string",
-    "execPath: string",
-    "node: string",
-    "platform: NodeJS.Platform",
-    "sea: boolean",
-    "versions: NodeJS.ProcessVersions",
+    // 2026-10-23 移出：`RuntimeInfo` 的字段（arch / cwd / execPath / node /
+    // platform / sea / versions）已随类型定义提到 `packages/shared`。
+    // 它的实现 `getRuntimeInfo` 要读 process 与 node:sea，放不进纯类型包；
+    // 而 `apps/cli → packages` 是仓库常态方向，所以本包改为转发。
     "JsonValue[]",
   ]) {
     assert.ok(text.includes(fragment), `missing type fragment: ${fragment}`);
