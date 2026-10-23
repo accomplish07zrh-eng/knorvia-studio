@@ -61,7 +61,7 @@
     },
     {
       "path": ".github/workflows/studio-quality.yml",
-      "normalizedSha256": "bdcdadc5a79e0bbbc6d3d0cb46df667a9a4cb480971de990a133c0b283d100d8",
+      "normalizedSha256": "2bffbb23910890a00d8c915d1fc018ed0809ab5d855fa28f5ae10303460e3609",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Created by Knorvia commit 797a76e5 (2026-09-25) after the first snapshot 7619e41; not renamed or copied from an upstream path. Max normalized-line containment against fixed upstream 872ad960 is 0.00 (none), longest identical run 0 lines, below the 0.2 / 8-line thresholds. Bookkeeping review only; not a claim of independent replacement of any upstream implementation. Replacement wording in the commit describes the documented work, not this file's origin.",
@@ -9708,7 +9708,7 @@
     },
     {
       "path": "apps/cli/packages/bootstrap/src/kernel-bridge/legacy/domain-handlers.ts",
-      "normalizedSha256": "b11bd0a6607aaed73be477a6c4267bb5b53a6f7f8a31f9194a69f922b2468c35",
+      "normalizedSha256": "442afe22f762706b88749179759f9fcb0f1a5ad2daafe289734e85eb6e0c3bdb",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored handlers for the plugin, skill, MCP, saved-workflow, usage and account-config methods against contract v1 (behavior B5/B6). Directory and workflow facts come from the existing domain engines that survive the kernel switch, so this module only converts protocol parameters into domain calls and domain results back into protocol shapes; domain failures keep the old internal-error fold instead of inventing new codes. Written from specs/contracts/kernel-bridge-legacy/behavior.md and a recorded default-engine probe of every one of the 74 methods; the author read the replaced implementation for behavior, and no code was copied, renamed or rewritten line by line. Old gate 19/19, dsh gate 19/19, stub gate 0/19. Measured against the replaced protocol files and zai-org/ZCode@872ad960: max line containment 0.141, longest identical run 6, structural similarity 0.000.",
@@ -152207,6 +152207,66 @@
         "specs/contracts/services-04/README.md",
         "specs/contracts/services-04/interface.md",
         "packages/services/test"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/app/storage-paths.ts",
+      "normalizedSha256": "52dc91d37cb116b319ae229f716c7397e096ecb3fadf21bdbc09cf28a7b6bfab",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Pure path arithmetic for the CLI storage root, plugin directory, model I/O directory and project identifier. Split out of app/paths.ts because that file also held getProjectMemoryRoot, which depends on @knorvia/core; plugins.ts reaches this file through kernel-bridge/legacy/domain-handlers.ts, and that chain sits on the new kernel path, which must not touch @knorvia/core at all if the old core package is to be deleted. The functions themselves are unchanged copies of the previous definitions: only their module changed.",
+      "evidence": [
+        "specs/knorvia-builtin-kernel-dsh.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-bridge/saved-workflows/index.ts",
+      "normalizedSha256": "7c8335ae4f137165a776419add672ef79e0956edc3f08fd15e9e577da83500dc",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Barrel export for the saved-workflow readers and writers that kernel-bridge/legacy/domain-handlers.ts needs. Previously these came from @knorvia/core, but that file is on the new kernel path, so importing core there would keep the old package alive. Re-exports the definitions copied into this directory; it declares no behaviour of its own.",
+      "evidence": [
+        "specs/knorvia-builtin-kernel-dsh.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-bridge/saved-workflows/frontmatter.ts",
+      "normalizedSha256": "07e40701dc696516abcdd669fef3559ecc6a2d0c628fc6970dc0e26e5f6723ae",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Front-matter parsing and serialization for saved workflow files, including the sentinel marker and the typed parse-result shape. Copied verbatim from core/tool/handlers/saved-workflows/frontmatter.ts; it depends only on yaml and @knorvia/contracts, so it carries no core coupling of its own and can live on the new kernel path.",
+      "evidence": [
+        "specs/knorvia-builtin-kernel-dsh.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-bridge/saved-workflows/store.ts",
+      "normalizedSha256": "11d844cce3518ab9c981db8fd4fbb6bfdcfc0fe5607907b73eeaa7b822d8c31e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Filesystem store for saved workflows: listing, resolving, moving, shadow detection and root discovery across the user and project scopes. Copied verbatim from core/tool/handlers/saved-workflows/store.ts. Its only imports are node:fs, node:path, @knorvia/shared/node, @knorvia/contracts and the sibling frontmatter module, so moving it here removes the last core dependency from the new kernel path without changing behaviour.",
+      "evidence": [
+        "specs/knorvia-builtin-kernel-dsh.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-bridge/saved-workflows/args.ts",
+      "normalizedSha256": "503b270180f7682bab16a303262539882c42cfc2cbc11d060de1df11db8b08a9",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Validation of declared workflow arguments against their contract-declared types. Copied verbatim from core/tool/handlers/saved-workflows/args.ts; it imports only type declarations from @knorvia/contracts, so it is a pure type-directed check with no runtime coupling.",
+      "evidence": [
+        "specs/knorvia-builtin-kernel-dsh.md"
+      ]
+    },
+    {
+      "path": "scripts/verify-dsh-core-independence.mjs",
+      "normalizedSha256": "1194709c34ab6aa251adf1dd3fcd6ccdb1fd766795415451c2f839668699e2b9",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Gate that proves the new engine path (KNORVIA_KERNEL_ENGINE=dsh, which loads only @knorvia/bootstrap/kernel and never the app/ layer) no longer imports @knorvia/core. Deleting the old core package is the closing step of kernel-switch, and it is only safe once this check reports zero violations. The script walks the import graph from bootstrap/src/kernel/index.ts, resolving relative paths, dynamic import() calls and package subpath exports, and matches from \"<spec>\" anywhere in a file so multi-line import tails are not missed. Exits 1 when any violation remains, so it can serve as a pre-merge gate.",
+      "evidence": [
+        "specs/knorvia-builtin-kernel-dsh.md"
       ]
     }
   ]
