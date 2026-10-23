@@ -10468,6 +10468,56 @@
       ]
     },
     {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-tools-02/enter-plan-mode.ts",
+      "normalizedSha256": "5dd90880c312f4de520c6e206caaa7d6a8e5087f72e8724e68cc55cfa952f84e",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored implementation of the second tool group, five modules plus contract tests. The off-peak module validates that window boundaries arrive in pairs because a half-specified window leaves the scheduler unable to decide an interval, and it treats the port failure outcome as a first-class result rather than an exception, surfacing the stage, the category and the original code so the caller can translate it. The plan-mode entry module maps the controller four outcomes onto the tool result, keeping queued distinct from committed so the model knows the change has not taken effect, and raising on cancellation rather than reporting success, because a silent success would leave the model acting on a mode it is not in; it also reads the prior state before switching, since afterwards that information is gone. The session context module passes the todo projection through unchanged, preserving the null that marks the pre-first-write state rather than normalising it to an empty list. The guidance module carries two separate texts organised as criteria rather than as a script, covering the twenty-five entry items and the six exit failure modes, and each is a standalone export because the two contexts must not be confused. Verified with thirty-five contract tests and four similarity comparisons.",
+      "evidence": [
+        "apps/cli/packages/bootstrap/test/kernel-plugin-tools-02.test.mjs"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-tools-02/index.ts",
+      "normalizedSha256": "bda798943aa5a906ab51db3ac83dd6f7de3f80fef3ffe0f4dd8030722c809a69",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored implementation of the second tool group, five modules plus contract tests. The off-peak module validates that window boundaries arrive in pairs because a half-specified window leaves the scheduler unable to decide an interval, and it treats the port failure outcome as a first-class result rather than an exception, surfacing the stage, the category and the original code so the caller can translate it. The plan-mode entry module maps the controller four outcomes onto the tool result, keeping queued distinct from committed so the model knows the change has not taken effect, and raising on cancellation rather than reporting success, because a silent success would leave the model acting on a mode it is not in; it also reads the prior state before switching, since afterwards that information is gone. The session context module passes the todo projection through unchanged, preserving the null that marks the pre-first-write state rather than normalising it to an empty list. The guidance module carries two separate texts organised as criteria rather than as a script, covering the twenty-five entry items and the six exit failure modes, and each is a standalone export because the two contexts must not be confused. Verified with thirty-five contract tests and four similarity comparisons.",
+      "evidence": [
+        "apps/cli/packages/bootstrap/test/kernel-plugin-tools-02.test.mjs"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-tools-02/off-peak.ts",
+      "normalizedSha256": "d3f6f602c332c38a0ad24e8c13da4a977da865cbe36185f8e7874ac7b9995d44",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored implementation of the second tool group, five modules plus contract tests. The off-peak module validates that window boundaries arrive in pairs because a half-specified window leaves the scheduler unable to decide an interval, and it treats the port failure outcome as a first-class result rather than an exception, surfacing the stage, the category and the original code so the caller can translate it. The plan-mode entry module maps the controller four outcomes onto the tool result, keeping queued distinct from committed so the model knows the change has not taken effect, and raising on cancellation rather than reporting success, because a silent success would leave the model acting on a mode it is not in; it also reads the prior state before switching, since afterwards that information is gone. The session context module passes the todo projection through unchanged, preserving the null that marks the pre-first-write state rather than normalising it to an empty list. The guidance module carries two separate texts organised as criteria rather than as a script, covering the twenty-five entry items and the six exit failure modes, and each is a standalone export because the two contexts must not be confused. Verified with thirty-five contract tests and four similarity comparisons.",
+      "evidence": [
+        "apps/cli/packages/bootstrap/test/kernel-plugin-tools-02.test.mjs"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-tools-02/plan-mode-guidance.ts",
+      "normalizedSha256": "6751f60f3bcf260306717c2d45978ffb1b08ffdaa8ca79ae9b274af639bd724c",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored implementation of the second tool group, five modules plus contract tests. The off-peak module validates that window boundaries arrive in pairs because a half-specified window leaves the scheduler unable to decide an interval, and it treats the port failure outcome as a first-class result rather than an exception, surfacing the stage, the category and the original code so the caller can translate it. The plan-mode entry module maps the controller four outcomes onto the tool result, keeping queued distinct from committed so the model knows the change has not taken effect, and raising on cancellation rather than reporting success, because a silent success would leave the model acting on a mode it is not in; it also reads the prior state before switching, since afterwards that information is gone. The session context module passes the todo projection through unchanged, preserving the null that marks the pre-first-write state rather than normalising it to an empty list. The guidance module carries two separate texts organised as criteria rather than as a script, covering the twenty-five entry items and the six exit failure modes, and each is a standalone export because the two contexts must not be confused. Verified with thirty-five contract tests and four similarity comparisons.",
+      "evidence": [
+        "apps/cli/packages/bootstrap/test/kernel-plugin-tools-02.test.mjs"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/kernel-plugin-tools-02/session-context.ts",
+      "normalizedSha256": "e745e527d94f11a42a35ad9f2eafcb3047c46191e43b9a30d3f1c92482240c62",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored implementation of the second tool group, five modules plus contract tests. The off-peak module validates that window boundaries arrive in pairs because a half-specified window leaves the scheduler unable to decide an interval, and it treats the port failure outcome as a first-class result rather than an exception, surfacing the stage, the category and the original code so the caller can translate it. The plan-mode entry module maps the controller four outcomes onto the tool result, keeping queued distinct from committed so the model knows the change has not taken effect, and raising on cancellation rather than reporting success, because a silent success would leave the model acting on a mode it is not in; it also reads the prior state before switching, since afterwards that information is gone. The session context module passes the todo projection through unchanged, preserving the null that marks the pre-first-write state rather than normalising it to an empty list. The guidance module carries two separate texts organised as criteria rather than as a script, covering the twenty-five entry items and the six exit failure modes, and each is a standalone export because the two contexts must not be confused. Verified with thirty-five contract tests and four similarity comparisons.",
+      "evidence": [
+        "apps/cli/packages/bootstrap/test/kernel-plugin-tools-02.test.mjs"
+      ]
+    },
+    {
       "path": "apps/cli/packages/bootstrap/src/kernel/builtins-context.ts",
       "normalizedSha256": "23abfbd21fb3d79d6d9bf215e7e281a2e83816516f9155405992094f88cbca9a",
       "decision": "original",
@@ -10897,6 +10947,16 @@
       "basis": "Knorvia-authored cron tool family for the DSH runtime, four modules plus their contract tests and the contract corrections they forced. The schema module states the eight model-facing fields and moves field-level validation into the executing body, because the runtime schema vocabulary has no minimum, maximum or transformation, and it names each of the nine cross-field rules so a failure says which rule fired rather than only that validation failed. The declaration module separates the two metadata layers that the contract had conflated: the runtime tool definition exposes only a timeout and a concurrency predicate, while read-only, destructiveness, approval and risk are Knorvia product concepts carried as a capability declaration that the policy package reads. That module also keeps field names and their values in two parallel tables zipped at build time, which is both clearer to change and, measured, drops textual overlap with the old implementation from four tenths to under one tenth, since the field names themselves are contract vocabulary shared by any implementation. The execution module projects results by excluding two internal fields, keeps deletion idempotent so a missing automation is a normal outcome rather than an error, refuses writes inside an automation turn to prevent recursion, and translates the creation-limit error so callers see a stable code. Verified with forty-one contract tests and eight similarity comparisons.",
       "evidence": [
         "apps/cli/packages/bootstrap/test/kernel-plugin-tools-01-cron.test.mjs"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/test/kernel-plugin-tools-02.test.mjs",
+      "normalizedSha256": "0cac1c0fe1a31510f33592bd43ea00560d96949ad85e8570cab7551ed23dd1d7",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored implementation of the second tool group, five modules plus contract tests. The off-peak module validates that window boundaries arrive in pairs because a half-specified window leaves the scheduler unable to decide an interval, and it treats the port failure outcome as a first-class result rather than an exception, surfacing the stage, the category and the original code so the caller can translate it. The plan-mode entry module maps the controller four outcomes onto the tool result, keeping queued distinct from committed so the model knows the change has not taken effect, and raising on cancellation rather than reporting success, because a silent success would leave the model acting on a mode it is not in; it also reads the prior state before switching, since afterwards that information is gone. The session context module passes the todo projection through unchanged, preserving the null that marks the pre-first-write state rather than normalising it to an empty list. The guidance module carries two separate texts organised as criteria rather than as a script, covering the twenty-five entry items and the six exit failure modes, and each is a standalone export because the two contexts must not be confused. Verified with thirty-five contract tests and four similarity comparisons.",
+      "evidence": [
+        "apps/cli/packages/bootstrap/test/kernel-plugin-tools-02.test.mjs"
       ]
     },
     {
