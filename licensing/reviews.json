@@ -150681,7 +150681,7 @@
       "normalizedSha256": "24c5a50d490f2f2948af0db8d09905f97413ad2af073e556f6f0efb73600a157",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Contract correction for the hooks plugin export list. The executable contract tests already read two telemetry helper functions from the public entry point and assert their behaviour, but the written export list omitted them, so the document lagged behind the tests. The list now names both functions with their signatures and states why they belong to the contract surface: the tests are the executable half of the contract, and a reader working from the document alone would not know to implement them. No implementation changes accompany this correction, since the functions already exist and already satisfy the tests.",
+      "basis": "Contract correction for the hooks plugin export list. The executable contract tests already read two telemetry helper functions from the public entry point and assert their behaviour, but the written export list omitted them, so the document lagged behind the tests. The list now names both functions with their signatures and states why they belong to the contract surface: the tests are the executable half of the contract, and a reader working from the document alone would not know to implement them. No implementation changes accompany this correction, since the functions already exist and already satisfy the tests. Re-registered after merging main, because the shared review file took main side wholesale and dropped this entry.",
       "evidence": [
         "specs/contracts/kernel-plugin-hooks/tests/workspace-telemetry.test.mjs"
       ]
