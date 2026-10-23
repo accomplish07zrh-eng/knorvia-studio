@@ -152480,6 +152480,46 @@
       "evidence": [
         "apps/cli/packages/bootstrap/test/kernel-plugin-tools-01-cron.test.mjs"
       ]
+    },
+    {
+      "path": "packages/shared/src/project-memory-root.ts",
+      "normalizedSha256": "b05564d50aba9d6ee2de13fa09a8aaec52910531de4765e92cbbf42d38ecff84",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Moves one path and hash helper out of the kernel core into the shared package, as the second measured step of the kernel switch. The helper maps a workspace to its project memory directory and depends only on node:crypto and node:path, so its dependency closure is empty and it can move without dragging anything with it; this was established by reading every import in its source file rather than by assuming. The logic is carried over unchanged, including the platform branch that lowercases the path on Windows before hashing, because dropping it would make the same directory resolve to two different memory roots depending on how the path was spelled. The input type was previously unexported and is now exported, since callers outside the package need a name for it. The core keeps a re-export so its own internal consumer needs no simultaneous change, while the application layer consumer now imports from the shared package so deleting the core will not break it. Verified with a full build and the memory contract tests.",
+      "evidence": [
+        "apps/cli/packages/core/test/memory-origin-contract.test.ts"
+      ]
+    },
+    {
+      "path": "packages/shared/src/index.ts",
+      "normalizedSha256": "bc7a6e9a8439dded3083b259be1daf41a95d85d7510da10bc12deb746f3d1288",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Moves one path and hash helper out of the kernel core into the shared package, as the second measured step of the kernel switch. The helper maps a workspace to its project memory directory and depends only on node:crypto and node:path, so its dependency closure is empty and it can move without dragging anything with it; this was established by reading every import in its source file rather than by assuming. The logic is carried over unchanged, including the platform branch that lowercases the path on Windows before hashing, because dropping it would make the same directory resolve to two different memory roots depending on how the path was spelled. The input type was previously unexported and is now exported, since callers outside the package need a name for it. The core keeps a re-export so its own internal consumer needs no simultaneous change, while the application layer consumer now imports from the shared package so deleting the core will not break it. Verified with a full build and the memory contract tests.",
+      "evidence": [
+        "apps/cli/packages/core/test/memory-origin-contract.test.ts"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/memory/project-root.ts",
+      "normalizedSha256": "07852fa343e188e967292d49a282be18e876baa9b8398b02e0adc47895f1e699",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Moves one path and hash helper out of the kernel core into the shared package, as the second measured step of the kernel switch. The helper maps a workspace to its project memory directory and depends only on node:crypto and node:path, so its dependency closure is empty and it can move without dragging anything with it; this was established by reading every import in its source file rather than by assuming. The logic is carried over unchanged, including the platform branch that lowercases the path on Windows before hashing, because dropping it would make the same directory resolve to two different memory roots depending on how the path was spelled. The input type was previously unexported and is now exported, since callers outside the package need a name for it. The core keeps a re-export so its own internal consumer needs no simultaneous change, while the application layer consumer now imports from the shared package so deleting the core will not break it. Verified with a full build and the memory contract tests.",
+      "evidence": [
+        "apps/cli/packages/core/test/memory-origin-contract.test.ts"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/app/paths.ts",
+      "normalizedSha256": "4e5294a5dbee449d5a20da1cc4e585d5f2018a40833809ccc551857b2166ae62",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Moves one path and hash helper out of the kernel core into the shared package, as the second measured step of the kernel switch. The helper maps a workspace to its project memory directory and depends only on node:crypto and node:path, so its dependency closure is empty and it can move without dragging anything with it; this was established by reading every import in its source file rather than by assuming. The logic is carried over unchanged, including the platform branch that lowercases the path on Windows before hashing, because dropping it would make the same directory resolve to two different memory roots depending on how the path was spelled. The input type was previously unexported and is now exported, since callers outside the package need a name for it. The core keeps a re-export so its own internal consumer needs no simultaneous change, while the application layer consumer now imports from the shared package so deleting the core will not break it. Verified with a full build and the memory contract tests.",
+      "evidence": [
+        "apps/cli/packages/core/test/memory-origin-contract.test.ts"
+      ]
     }
   ]
 }

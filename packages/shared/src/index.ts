@@ -327,3 +327,4 @@ export * from "./pluginStoreOrdering.js";
 export * from "./session-debug.js";
 export * from "./theme-preference.js";
 export { redactFeedbackText } from "./feedbackPrivacy.js";
+export * from "./project-memory-root.js";
