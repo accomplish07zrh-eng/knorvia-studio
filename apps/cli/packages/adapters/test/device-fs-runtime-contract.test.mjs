@@ -24,7 +24,11 @@ const suites = [
   "lifecycle",
 ];
 for (const mode of ["source", "dist"]) {
-  test(`device/fs complete frozen contract: ${mode}`, { timeout: 60000 }, async (context) => {
+  // 与 scripts/test-studio.mjs 的 DEFAULT_TEST_TIMEOUT_MS（120 秒）对齐。
+  // 这里此前写 60000，低于仓库基线：本测试要跑完整的 device/fs 冻结契约
+  // （source 模式实测 40–54 秒），CI 全量并发时越线超时。
+  // 改回基线不是「放宽」，而是恢复统一标准。
+  test(`device/fs complete frozen contract: ${mode}`, { timeout: 120_000 }, async (context) => {
     const root = join(adapterRoot, mode === "source" ? "src" : "dist");
     await checkTextApi(root, mode);
     await checkRemainingApi(root, mode);
