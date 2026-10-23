@@ -154,18 +154,16 @@ export interface TurnErrorState {
   recoverable: boolean;
 }
 
-export interface TurnAttachment {
-  type: "file" | "image" | "video" | "pdf" | "url";
-  path?: string;
-  content?: string;
-  /** clipboard-text 是 UI 长粘贴落盘生成的临时附件，模型请求中只保留路径引用。 */
-  sourceKind?: "clipboard-text";
-  // 展示元信息（协议边界保真透传，TurnStarted 事件/v4 投影展示用；
-  // 缺省时由 basename/扩展名推断兜底）。不参与内容解析。
-  filename?: string;
-  mimeType?: string;
-  sizeBytes?: number;
-}
+/**
+ * 回合输入携带的一条附件。
+ *
+ * 定义已移出到 `@knorvia/shared-types` —— 因为它跨越「输入采集 → 协议边界 →
+ * 模型请求」三层，而这三层分属不同包，描述它的类型必须住在它们都够得着的地方。
+ * 这里保留转发，让现有 `@knorvia/core` 的消费方无需同时改动。
+ */
+export type { TurnAttachment } from "@knorvia/shared-types";
+// 本文件内也要用到这个名字（`createTurnState` 的参数类型），所以单独 import 一次。
+import type { TurnAttachment } from "@knorvia/shared-types";
 
 // ── 回合状态工厂 ──
 

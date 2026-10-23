@@ -11,7 +11,7 @@ import type { ModelSelection } from "@knorvia/shared";
 import { createModelExecutionContext } from "../../../protocol/model-execution.js";
 import type { SteerTurnOptions } from "../../../app/types.js";
 import { parseProviderQualifiedModelSelection } from "../../../app/provider-registry-selection.js";
-import type { TurnAttachment } from "@knorvia/core";
+import type { TurnAttachment } from "@knorvia/shared-types";
 import { mapAttachmentRefsToTurnAttachments } from "../attachment-refs.js";
 import { inputIntentMetadata } from "../input-intent.js";
 import { startPromptTurn, turnBackgroundAttributionOf } from "../prompt-turn.js";
