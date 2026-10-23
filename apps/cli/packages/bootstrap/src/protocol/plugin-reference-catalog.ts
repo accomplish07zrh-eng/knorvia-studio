@@ -12,7 +12,7 @@ import {
   type KnorviaPluginsResolveSuggestedReferenceResult,
 } from "@knorvia/shared";
 import type { PluginReferenceCatalogEntry } from "@knorvia/contracts";
-import { buildPluginReferenceCatalog } from "@knorvia/core";
+import { buildPluginReferenceCatalog } from "./plugin-reference-catalog-build.js";
 import {
   getKnorviaPluginsOverview,
   resolveKnorviaPlugins,
