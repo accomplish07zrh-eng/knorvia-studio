@@ -18,7 +18,7 @@ import {
 } from "../helpers/index.js";
 import type { AgentRuntimeInternal } from "../internal.js";
 import type { ActiveTurnStartReservation, ExecuteTurnOptions, TurnResult } from "../types.js";
-import { clearBrowserTurnState } from "../../repl/browser-turn-state.js";
+import { clearBrowserTurnState } from "@knorvia/repl-core";
 import { endWindowsComputerTurn } from "./windows-computer-turn-end.js";
 import { createTurnCommandOperation } from "./turn-command-operation.js";
 import { logUnhandled, type TurnCommandLifetime } from "./turn-command-state.js";
