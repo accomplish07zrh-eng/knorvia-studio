@@ -92,7 +92,10 @@ class FakeChild {
   }
 
   dispatch(event, ...args) {
-    for (const listener of [...this.listeners[event]]) listener(...args);
+    // 先快照再迭代：listener 自己可能调用 off() 改这个数组，
+    // 直接迭代会把「迭代中修改」暴露成跳过或重复投递。
+    // 用 slice() 而不是 [...arr]（后者会触发 oxlint 的 no-useless-spread）。
+    for (const listener of this.listeners[event].slice()) listener(...args);
   }
 }
 

@@ -111,13 +111,14 @@ macOS 上可执行文件搜索路径列表。**外部格式出处**：
 
 ### 5. 其余小常量（各 1–4 行）
 
-| 文件                                                   | const                                                                                               | 性质                                              |
-| :----------------------------------------------------- | :-------------------------------------------------------------------------------------------------- | :------------------------------------------------ |
-| `terminalProfileMacOs.ts`                              | `applications`                                                                                      | macOS Terminal.app / iTerm2 的公开 bundle 标识    |
-| `system/systemService.ts`                              | `DEFAULT_PROBE_TIMEOUT_MS` / `DEFAULT_PROBE_ATTEMPTS` / `MAX_PROBE_ATTEMPTS` / `DEFAULT_PROBE_PORT` | 探测默认参数（数值由本合同的 `behavior.md` 冻结） |
-| `window-controller/windowHostSessionsIndexObserver.ts` | `SUBSCRIBER_SCOPE` / `MAX_STAGED_WIRES`                                                             | 订阅范围标识与暂存上限                            |
-| `paths.ts`                                             | `KNORVIA_WINDOWS_APP_INSTALL_DIR_ENV`                                                               | 环境变量名（产品自身的 `KNORVIA_` 前缀约定）      |
-| `subagents/subagentServiceFiles.ts`                    | `builtInNames`                                                                                      | 内置子 Agent 名列表                               |
+| 文件                                                   | const                                                                                               | 性质                                                                                                                  |
+| :----------------------------------------------------- | :-------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------- |
+| `terminalProfileMacOs.ts`                              | `applications`                                                                                      | macOS Terminal.app / iTerm2 的公开 bundle 标识                                                                        |
+| `terminalProfilePortablePlan.ts`                       | `WINDOWS_TERMINAL_STORE_PRODUCTS`                                                                   | Microsoft Store 的公开包族名（稳定版 + 预览版），用于定位 `%LOCALAPPDATA%\Packages\<包族名>\LocalState\settings.json` |
+| `system/systemService.ts`                              | `DEFAULT_PROBE_TIMEOUT_MS` / `DEFAULT_PROBE_ATTEMPTS` / `MAX_PROBE_ATTEMPTS` / `DEFAULT_PROBE_PORT` | 探测默认参数（数值由本合同的 `behavior.md` 冻结）                                                                     |
+| `window-controller/windowHostSessionsIndexObserver.ts` | `SUBSCRIBER_SCOPE` / `MAX_STAGED_WIRES`                                                             | 订阅范围标识与暂存上限                                                                                                |
+| `paths.ts`                                             | `KNORVIA_WINDOWS_APP_INSTALL_DIR_ENV`                                                               | 环境变量名（产品自身的 `KNORVIA_` 前缀约定）                                                                          |
+| `subagents/subagentServiceFiles.ts`                    | `builtInNames`                                                                                      | 内置子 Agent 名列表                                                                                                   |
 
 **⚠️ 声明模式的计分口径**（`--declaration --interface specs/contracts/services-04/interface.md`）：
 
