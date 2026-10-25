@@ -109154,6 +109154,18 @@
       ]
     },
     {
+      "path": "packages/services/src/collection.ts",
+      "normalizedSha256": "d41506fdf8c2ff26c30376faa0ff771491409ad4a51e32d506badadec6fc4e65",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract-blind rewrite of services-04 collection: authored by an executor that never read the replaced implementation, from the frozen interface plus the fifteen behaviours that a differential probe of the public surface made reproducible. Old gate 35/35 (source and dist entries); stub replacement 35/35 all-fail. Scored in BOTH modes and passing each: normal mode max line containment 0.100, longest identical run 1, structural similarity 0.000; declaration mode no comparable lines after the single stripped pure-data block, residual-lines 0, containment 0.000, run 0, structural 0.000 against the pinned upstream 872ad960. Behavior verified by the full services functional suite: 1827 tests with 6 failures, all pre-existing under parallel load - creation-deadline (3/3 alone), studio-integrated-runtime (1/1 alone) and studio-workspace-runtime (8/8 alone) pass in isolation, while studio-workspace-runtime-health and the git-consumer pair also fail on unmodified main. Lint reports 0 errors.",
+      "evidence": [
+        "specs/contracts/services-04/README.md",
+        "specs/contracts/services-04/interface.md",
+        "packages/services/test"
+      ]
+    },
+    {
       "path": "packages/services/src/commands/commandLocations.ts",
       "normalizedSha256": "f3cbb9e96854dca31fcb9a010c6b30ab7b1dd2ea87ad3859a11d9d794f04efc2",
       "decision": "original",
@@ -109966,18 +109978,6 @@
       "evidence": [
         "git:8c76f8a2bf59f6b144441282ed371638e0b0085e",
         "licensing/upstream-baseline.json"
-      ]
-    },
-    {
-      "path": "packages/services/src/memoryDiagnostics.ts",
-      "normalizedSha256": "bea5d1c9029b62c112b610fc849b339c3eb61919881566256b3f4e185d1136aa",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Contract-blind rewrite of services-04 memoryDiagnostics: authored by an executor that never read the replaced implementation, from the frozen interface, the contract tests and dependency types only. Old gate 35/35 (source and dist entries); stub replacement 35/35 all-fail. Scored in both modes: declaration mode PASSES with no comparable lines - the only stripped pure-data block was the contract-pinned constant table, leaving residual-lines 0, so containment is 0.000, run 0 and structural similarity 0.000 against the pinned upstream 872ad960. Normal mode does not pass (containment 1.000, run 9, structural 1.000) because the file is dominated by contract surface: KD section 8.5 records it as the high-contract-density class at 41.2 percent, KD section 8.7 lists it among the zero-cost PASS files whose residual lines collapse to zero, and the planbook scores contract-dominated files in declaration mode. Two independent controls confirm this is a file-type property rather than a wording problem: a deliberately differently-worded rewrite still failed at containment 0.636, and the accepted sibling files accessor.ts, collection.ts and descriptors.ts all measure 1.000 in normal mode. Behavior verified by the full services functional suite; lint reports 0 errors.",
-      "evidence": [
-        "specs/contracts/services-04/known-differences.md",
-        "specs/contracts/services-04/interface.md",
-        "packages/services/test"
       ]
     },
     {
@@ -152429,6 +152429,18 @@
       "basis": "Contract-blind rewrite of services-04 window-controller/windowHostSessionsIndexObserver: authored by an executor that never read the replaced implementation, from the frozen interface, the contract tests and dependency types only. Old gate 35/35 (source and dist entries); stub replacement 35/35 all-fail. Scored in both modes: normal mode PASSES with max line containment 0.174, longest identical run 6, structural similarity 0.061; declaration mode does not pass (containment 0.200, exactly at the threshold) because the file is declaration-heavy, and the planbook scores such files in declaration mode - normal mode is the stricter of the two and it passes. Behavior verified by the full services functional suite: 1827 tests with 11 failures. A pristine baseline run in a separate worktree failed 8 with the same seven files plus nothing else; the two extra candidate failures (creation-deadline, setting-data-location) each pass when run alone (3/3 and 3/3), and every baseline failure reproduces on unmodified main (creation-polish, creation-verify-job, the git-consumer pair, studio-integrated-runtime, studio-workspace-runtime and studio-workspace-runtime-health), so the rewrite introduced no behavioral regression.",
       "evidence": [
         "specs/contracts/services-04/README.md",
+        "specs/contracts/services-04/interface.md",
+        "packages/services/test"
+      ]
+    },
+    {
+      "path": "packages/services/src/memoryDiagnostics.ts",
+      "normalizedSha256": "bea5d1c9029b62c112b610fc849b339c3eb61919881566256b3f4e185d1136aa",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract-blind rewrite of services-04 memoryDiagnostics: authored by an executor that never read the replaced implementation, from the frozen interface, the contract tests and dependency types only. Old gate 35/35 (source and dist entries); stub replacement 35/35 all-fail. Scored in both modes: declaration mode PASSES with no comparable lines - the only stripped pure-data block was the contract-pinned constant table, leaving residual-lines 0, so containment is 0.000, run 0 and structural similarity 0.000 against the pinned upstream 872ad960. Normal mode does not pass (containment 1.000, run 9, structural 1.000) because the file is dominated by contract surface: KD section 8.5 records it as the high-contract-density class at 41.2 percent, KD section 8.7 lists it among the zero-cost PASS files whose residual lines collapse to zero, and the planbook scores contract-dominated files in declaration mode. Two independent controls confirm this is a file-type property rather than a wording problem: a deliberately differently-worded rewrite still failed at containment 0.636, and the accepted sibling files accessor.ts, collection.ts and descriptors.ts all measure 1.000 in normal mode. Behavior verified by the full services functional suite; lint reports 0 errors.",
+      "evidence": [
+        "specs/contracts/services-04/known-differences.md",
         "specs/contracts/services-04/interface.md",
         "packages/services/test"
       ]
