@@ -30,5 +30,11 @@ jobs:
     uses: ./.github/workflows/studio-quality.yml
     with:
       runs-on: windows-latest
-      install-args: "--frozen-lockfile"
+      # 与 linux 一致：离线测试不依赖 Electron / native 模块。
+      # cpu-features 是 ssh2 的 optional dependency，缺失时 ssh2 走纯 JS 降级路径，
+      # 离线回归不建立真实 SSH 连接，因此不需要它。
+      # windows-latest 上并非每个 runner 都装了 Visual Studio：一旦跑安装脚本，
+      # cpu-features 的 node-gyp 会报 `gyp ERR! find VS` 而失败，并拖垮后续全部检查步骤
+      # （表现为 Offline Studio regression 失败，但根因在安装阶段）。
+      install-args: "--frozen-lockfile --ignore-scripts"
       timeout-minutes: 60

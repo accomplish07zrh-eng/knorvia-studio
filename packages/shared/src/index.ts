@@ -327,6 +327,7 @@ export * from "./pluginStoreOrdering.js";
 export * from "./session-debug.js";
 export * from "./theme-preference.js";
 export { redactFeedbackText } from "./feedbackPrivacy.js";
+export * from "./project-memory-root.js";
 
 // 2026-10-23 移入：输出整形与运行环境探测。
 // 原先在 core/src/output.ts / core/src/environment.ts，而消费者是 @knorvia/cli；

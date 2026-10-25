@@ -400,6 +400,9 @@ importers:
       '@knorvia/i18n':
         specifier: workspace:*
         version: link:../i18n
+      '@knorvia/permission-core':
+        specifier: workspace:*
+        version: link:../permission-core
       '@knorvia/provider':
         specifier: workspace:*
         version: link:../../../../packages/provider
