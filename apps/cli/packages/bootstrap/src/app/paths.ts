@@ -1,19 +1,27 @@
-import { basename, join } from "node:path";
-import { createProjectId, type ProjectId } from "@knorvia/contracts";
+// SPDX-License-Identifier: Apache-2.0
+// Copyright (c) 2026 Knorvia Studio contributors
+// 项目记忆根目录的计算。
+//
+// 2026-10-23 kernel-switch 前置：本文件原先把「纯路径函数」与「依赖 core 的记忆根函数」
+// 混在一起，导致 `plugins.ts`（经由 `kernel-bridge/legacy/domain-handlers.ts` 在新引擎
+// 路径上）间接带上了 core 依赖。
+//
+// 现在纯路径函数已拆到 `./storage-paths.ts`（新引擎路径只用那些），本文件只保留
+// `getProjectMemoryRoot`。它原先从 `@knorvia/core` 取 `resolveProjectMemoryRoot`，
+// 而该符号后来（#325）已移到 `@knorvia/shared`，所以本文件现在**不再依赖 core**。
+//
+// 下面的再导出是为了不打断既有的 `app/paths.js` 引用方。
+
 import { resolveProjectMemoryRoot } from "@knorvia/shared";
 
-export function getCliStorageRoot(storageRoot: string): string {
-  return basename(storageRoot) === "cli" ? storageRoot : join(storageRoot, "cli");
-}
+export {
+  getCliStorageRoot,
+  getModelIoDir,
+  getPluginStorageRoot,
+  projectIdFromDirectory,
+} from "./storage-paths.js";
 
-export function getPluginStorageRoot(cliStorageRoot: string): string {
-  return join(cliStorageRoot, "plugins");
-}
-
-export function getModelIoDir(cliStorageRoot: string, isDevelopment: boolean): string {
-  return join(cliStorageRoot, isDevelopment ? "debug" : "rollout");
-}
-
+/** 项目记忆根目录：按 workspace 隔离，落在 CLI 存储根下。 */
 export function getProjectMemoryRoot(
   cliStorageRoot: string,
   workingDirectory: string,
@@ -24,14 +32,4 @@ export function getProjectMemoryRoot(
     workspaceIdentity,
     workspacePath: workingDirectory,
   });
-}
-
-export function projectIdFromDirectory(directory: string): ProjectId {
-  return createProjectId(
-    directory
-      .toLowerCase()
-      .replace(/[^a-z0-9._-]+/g, "-")
-      .replace(/^-+|-+$/g, "")
-      .slice(0, 80) || "default",
-  );
 }

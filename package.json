@@ -57,7 +57,8 @@
     "architecture:check": "node scripts/architecture/architecture-check.mjs check",
     "architecture:report": "node scripts/architecture/architecture-check.mjs report",
     "architecture:baseline:update": "node scripts/architecture/architecture-check.mjs baseline:update",
-    "architecture:context": "node scripts/architecture/architecture-check.mjs context"
+    "architecture:context": "node scripts/architecture/architecture-check.mjs context",
+    "kernel:dsh-independence": "node scripts/verify-dsh-core-independence.mjs"
   },
   "dependencies": {
     "border-beam": "^1.0.1",

@@ -109,6 +109,15 @@ jobs:
         id: architecture
         run: pnpm architecture:check
 
+      # kernel-switch 的收尾动作是「删 core + 删 legacy 路径 + 切换默认引擎」。
+      # 其中「删 core」的前提是新引擎路径（KNORVIA_KERNEL_ENGINE=dsh →
+      # @knorvia/bootstrap/kernel，不加载 app/ 层）完全不依赖 @knorvia/core。
+      # 这个门禁把该前提变成可自动验证的检查：违规数 > 0 时退出码 1。
+      # 纯静态扫描（335 个文件，约 1 秒），与 architecture check 同属静态检查，故放在这里。
+      - name: DSH path independence from core
+        id: dsh-core-independence
+        run: pnpm kernel:dsh-independence
+
       - name: Build CLI packages used by offline tests
         id: build-cli
         run: pnpm build:cli-packages

@@ -1,1 +1,7 @@
 node scripts/verify-provenance.mjs
+
+# kernel-switch 前置：新引擎路径（dsh）必须不依赖旧运行时包 @knorvia/core，
+# 否则「删 core」会打断新引擎。纯静态扫描（约 1 秒），违规时退出码 1。
+# CI 里也有一道同样的门禁（studio-quality.yml 的「DSH path independence from core」），
+# 这里放一份是为了在 push 阶段就发现，不必等 CI。
+node scripts/verify-dsh-core-independence.mjs

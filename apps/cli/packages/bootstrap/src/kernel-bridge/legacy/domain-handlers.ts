@@ -3,8 +3,15 @@
 // kernel-bridge-legacy：目录类与账户类方法（plugins / skills / mcp / workflows / usage / provider）。
 //
 // 事实源全部是既有领域模块（`bootstrap/src/plugins.ts`、`skills.ts`，
-// `@knorvia/core` 的已保存工作流 codec）。它们不随 kernel-switch 删除（规格「现有包的去向」
-// 只删旧运行时端口），因此这里直接调用；本文件只做「协议参数 → 领域调用 → 协议结果」转换。
+// `@knorvia/shared/saved-workflows` 的已保存工作流 codec）。它们不随 kernel-switch 删除
+// （规格「现有包的去向」只删旧运行时端口），因此这里直接调用；
+// 本文件只做「协议参数 → 领域调用 → 协议结果」转换。
+//
+// 2026-10-23 kernel-switch 前置：已保存工作流的 6 个符号原先从 `@knorvia/core` 导入。
+// 但本文件在**新引擎路径上**（`kernel/process.ts` 动态 import `kernel-bridge/entry.js`），
+// 而新引擎路径必须零 `@knorvia/core` 依赖，否则「删 core」会打断新引擎。
+// 那些实现只依赖 node:fs / node:path / yaml / @knorvia/contracts / @knorvia/shared/node，
+// 零 core 内部依赖，所以整体提到 `@knorvia/shared/saved-workflows`，这里改指新位置。
 
 import { rm, writeFile } from "node:fs/promises";
 import {
@@ -14,7 +21,7 @@ import {
   resolveSavedWorkflow,
   savedWorkflowRoot,
   serializeSavedWorkflow,
-} from "@knorvia/core";
+} from "../saved-workflows/index.js";
 import { resolveKnorviaPlugins } from "../../plugins.js";
 import { listKnorviaSkills } from "../../skills.js";
 import { getPluginOverview, listPluginCatalog, toProtocolDiagnostic } from "./plugin-catalog.js";
