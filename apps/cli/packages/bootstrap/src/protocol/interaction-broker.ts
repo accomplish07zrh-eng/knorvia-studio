@@ -4,7 +4,7 @@ import {
   awaitPermissionPreparation,
   mapPreparedPermission,
   PermissionPreparation,
-} from "@knorvia/core";
+} from "@knorvia/permission-core";
 import {
   ASK_USER_QUESTION_TOOL_NAME,
   AskUserQuestionInputSchema,
