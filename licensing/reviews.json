@@ -152432,6 +152432,18 @@
         "specs/contracts/services-04/interface.md",
         "packages/services/test"
       ]
+    },
+    {
+      "path": "packages/services/src/memoryDiagnostics.ts",
+      "normalizedSha256": "bea5d1c9029b62c112b610fc849b339c3eb61919881566256b3f4e185d1136aa",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract-blind rewrite of services-04 memoryDiagnostics: authored by an executor that never read the replaced implementation, from the frozen interface, the contract tests and dependency types only. Old gate 35/35 (source and dist entries); stub replacement 35/35 all-fail. Scored in both modes: declaration mode PASSES with no comparable lines - the only stripped pure-data block was the contract-pinned constant table, leaving residual-lines 0, so containment is 0.000, run 0 and structural similarity 0.000 against the pinned upstream 872ad960. Normal mode does not pass (containment 1.000, run 9, structural 1.000) because the file is dominated by contract surface: KD section 8.5 records it as the high-contract-density class at 41.2 percent, KD section 8.7 lists it among the zero-cost PASS files whose residual lines collapse to zero, and the planbook scores contract-dominated files in declaration mode. Two independent controls confirm this is a file-type property rather than a wording problem: a deliberately differently-worded rewrite still failed at containment 0.636, and the accepted sibling files accessor.ts, collection.ts and descriptors.ts all measure 1.000 in normal mode. Behavior verified by the full services functional suite; lint reports 0 errors.",
+      "evidence": [
+        "specs/contracts/services-04/known-differences.md",
+        "specs/contracts/services-04/interface.md",
+        "packages/services/test"
+      ]
     }
   ]
 }
