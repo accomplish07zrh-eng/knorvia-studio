@@ -109969,6 +109969,18 @@
       ]
     },
     {
+      "path": "packages/services/src/memoryDiagnostics.ts",
+      "normalizedSha256": "bea5d1c9029b62c112b610fc849b339c3eb61919881566256b3f4e185d1136aa",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract-blind rewrite of services-04 memoryDiagnostics: authored by an executor that never read the replaced implementation, from the frozen interface, the contract tests and dependency types only. Old gate 35/35 (source and dist entries); stub replacement 35/35 all-fail. Scored in both modes: declaration mode PASSES with no comparable lines - the only stripped pure-data block was the contract-pinned constant table, leaving residual-lines 0, so containment is 0.000, run 0 and structural similarity 0.000 against the pinned upstream 872ad960. Normal mode does not pass (containment 1.000, run 9, structural 1.000) because the file is dominated by contract surface: KD section 8.5 records it as the high-contract-density class at 41.2 percent, KD section 8.7 lists it among the zero-cost PASS files whose residual lines collapse to zero, and the planbook scores contract-dominated files in declaration mode. Two independent controls confirm this is a file-type property rather than a wording problem: a deliberately differently-worded rewrite still failed at containment 0.636, and the accepted sibling files accessor.ts, collection.ts and descriptors.ts all measure 1.000 in normal mode. Behavior verified by the full services functional suite; lint reports 0 errors.",
+      "evidence": [
+        "specs/contracts/services-04/known-differences.md",
+        "specs/contracts/services-04/interface.md",
+        "packages/services/test"
+      ]
+    },
+    {
       "path": "packages/services/src/model-provider/PACKET-EXPOSURE-20261002.md",
       "normalizedSha256": "de0963210116785e328f4fae2897d91547259edb081d0cc717a342e20b0f0c25",
       "decision": "original",
@@ -111668,6 +111680,18 @@
       "evidence": [
         "specs/contracts/services-04/README.md",
         "specs/contracts/services-04/known-differences.md"
+      ]
+    },
+    {
+      "path": "packages/services/src/subagents/subagentServicePlugins.ts",
+      "normalizedSha256": "b9ba76542cdd027dde9e4db726307395f1d94ad977477e35465df1b124ec7bc9",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract-blind rewrite of services-04 subagents/subagentServicePlugins: authored from the frozen interface, the contract tests and dependency types; the candidate file was written to completion before any comparison run. Disclosure: during a baseline comparison the executor used `git stash`, which restored the replaced implementation at the same path and a later read of that path returned the old text. That read happened after the candidate was finalized and nothing was changed in response to it; the independently re-measured similarity below confirms the structure differs. Baseline comparison was redone with a detached second worktree so the candidate path was never touched. Old gate 35/35 (source and dist entries); stub replacement 35/35 all-fail. Scored in BOTH modes and passing each: normal mode max line containment 0.149, longest identical run 6, structural similarity 0.014; declaration mode containment 0.184, longest identical run 2, structural similarity 0.000 (4 stripped pure-data blocks, 76 residual lines) against the pinned upstream 872ad960. Behavior verified by the full services functional suite: 1827 tests with 4 failures, all concurrent-load flakes - creation-polish, creation-verify-job and studio-integrated-runtime each pass when run alone (11/11, 5/5, 1/1) and the git-consumer pair also fails on unmodified main. A pristine baseline run in a separate worktree failed 16 with this candidate's failure set as a subset, so the rewrite introduced no behavioral regression.",
+      "evidence": [
+        "specs/contracts/services-04/README.md",
+        "specs/contracts/services-04/interface.md",
+        "packages/services/test"
       ]
     },
     {
@@ -152395,18 +152419,6 @@
       "evidence": [
         "third-party/upstream/f29b60ea39a2132e3baa98927c2d473b349a54143da44a0c6762b243e6459452.txt",
         "https://registry.npmjs.org/quickjs-wasi/2.2.0"
-      ]
-    },
-    {
-      "path": "packages/services/src/subagents/subagentServicePlugins.ts",
-      "normalizedSha256": "b9ba76542cdd027dde9e4db726307395f1d94ad977477e35465df1b124ec7bc9",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Contract-blind rewrite of services-04 subagents/subagentServicePlugins: authored from the frozen interface, the contract tests and dependency types; the candidate file was written to completion before any comparison run. Disclosure: during a baseline comparison the executor used `git stash`, which restored the replaced implementation at the same path and a later read of that path returned the old text. That read happened after the candidate was finalized and nothing was changed in response to it; the independently re-measured similarity below confirms the structure differs. Baseline comparison was redone with a detached second worktree so the candidate path was never touched. Old gate 35/35 (source and dist entries); stub replacement 35/35 all-fail. Scored in BOTH modes and passing each: normal mode max line containment 0.149, longest identical run 6, structural similarity 0.014; declaration mode containment 0.184, longest identical run 2, structural similarity 0.000 (4 stripped pure-data blocks, 76 residual lines) against the pinned upstream 872ad960. Behavior verified by the full services functional suite: 1827 tests with 4 failures, all concurrent-load flakes - creation-polish, creation-verify-job and studio-integrated-runtime each pass when run alone (11/11, 5/5, 1/1) and the git-consumer pair also fails on unmodified main. A pristine baseline run in a separate worktree failed 16 with this candidate's failure set as a subset, so the rewrite introduced no behavioral regression.",
-      "evidence": [
-        "specs/contracts/services-04/README.md",
-        "specs/contracts/services-04/interface.md",
-        "packages/services/test"
       ]
     }
   ]
