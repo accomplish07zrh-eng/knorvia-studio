@@ -15,8 +15,12 @@ third-party/runtime/*.txt -text -whitespace
 third-party/inventory.json linguist-generated=true
 licensing/upstream-baseline.json linguist-generated=true
 # current-files.json 是 provenance:report 的生成物：merge 时取当前分支版本避免冲突，
-# 随后重跑 provenance:report 即按 reviews.json 完整重建。reviews.json 是真源，不能自动合并。
+# 随后重跑 provenance:report 即按 reviews.json 完整重建。
 licensing/current-files.json merge=ours linguist-generated=true
+# reviews.json 是人工登记的真源，不能用 merge=ours（会静默丢掉 main 侧刚合的登记）。
+# 改用按 path 取并集的专用 driver：两侧登记都保留，同 path 以 ours 为准。
+# 合并后仍必须跑 provenance:report（重建 current-files.json + 清理已删文件的悬空登记）。
+licensing/reviews.json merge=union-reviews
 licensing/evidence/*.json linguist-generated=true
 
 # 冻结来源、API 摘录与原检查输出由 evidence:check 校验原字节，不作平台换行转换。
