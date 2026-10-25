@@ -133302,6 +133302,18 @@
       ]
     },
     {
+      "path": "scripts/provenance/merge-reviews-driver.mjs",
+      "normalizedSha256": "1fe2517be1b1465771d717ca5cab4310718e00f39af2bf0bdac4e8c1c3899d44",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Newly written git merge driver for licensing/reviews.json: union by path. Previously every merge main needed a hand-rolled structural merge of reviews.json (over ten times in one day), while merge=ours would silently drop the registrations main had just merged. This driver keeps both sides, ours wins on the same path; provenance:report is still required afterwards to rebuild current-files.json and prune dangling records.",
+      "evidence": [
+        "licensing/current-files.json",
+        "scripts/provenance/merge-reviews-driver.mjs",
+        ".gitattributes"
+      ]
+    },
+    {
       "path": "scripts/provenance/model.mjs",
       "normalizedSha256": "c76d7a1be7aae1e9135ca966a03269044f5dacf7b3e53711bf79f1e4f7448d87",
       "decision": "original",
