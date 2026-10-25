@@ -1,3 +1,4 @@
+/* eslint-disable max-lines -- 投影状态、V4 帧与离线替换属于同一个一致性边界。 */
 // 窗口宿主 Controller 的列表投影。
 //
 // 设计取舍：
