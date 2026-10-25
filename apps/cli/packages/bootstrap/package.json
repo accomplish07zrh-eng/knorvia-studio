@@ -114,6 +114,7 @@
     "@knorvia/dynamic-workflow": "workspace:*",
     "@knorvia/dynamic-workflow-runtime": "workspace:*",
     "@knorvia/i18n": "workspace:*",
+    "@knorvia/permission-core": "workspace:*",
     "@knorvia/provider": "workspace:*",
     "@knorvia/provider-node": "workspace:*",
     "@knorvia/shared": "workspace:*",
