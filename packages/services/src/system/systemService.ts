@@ -1,200 +1,167 @@
-import { createSystemServiceOwner } from "./systemServiceOwner.js";
+// SPDX-License-Identifier: Apache-2.0
+// 系统服务装配层。
+//
+// 分工：本文件只负责「把请求变成可执行计划」与「把响应体读成判定」，
+// socket / HTTP 的真实调用、超时与重试由 systemServiceOwner 完成。
+// 因此这里没有任何 I/O import，也不读环境变量。
 
 import type {
+  IntranetProbeRequest,
   IntranetProbeResult,
   IntranetProbeServiceResponse,
-  IntranetProbeServiceTarget,
   IntranetProbeTarget,
-  IntranetProbeTcpTarget,
 } from "@knorvia/shared";
 import type { ISystemService } from "./system.js";
+import type { ProbeTarget } from "./systemServiceOwner.js";
+import { createSystemServiceOwner } from "./systemServiceOwner.js";
 
-const DEFAULT_PROBE_TIMEOUT_MS = 800;
+// 装配参数与策略形状由 owner 定义：这里复用而不是另抄一份字段表，
+// 避免「多一层同名类型」后两边悄悄漂移。
+type CreateSystemServiceOptions = Parameters<typeof createSystemServiceOwner>[0];
+type ProbePolicy = Parameters<typeof createSystemServiceOwner>[1];
+
+/** 单次探测耗时下限：低于它的超时会被抬上来，防止一次抖动就被判成不可达。 */
+const DEFAULT_PROBE_TIMEOUT_MS = 100;
+
+/** 未指定重试次数时用的值。 */
 const DEFAULT_PROBE_ATTEMPTS = 2;
+
+/** 重试次数上限：调用方给再大的数字也截到这里。 */
 const MAX_PROBE_ATTEMPTS = 3;
+
+/** 未指定端口时的缺省值：SSH，内网机器最基本的连通证据。 */
 const DEFAULT_PROBE_PORT = 22;
 
-interface NormalizedProbeTarget {
-  kind: "tcp";
-  targetId: string;
-  host: string;
-  port: number;
-  timeoutMs: number;
+/** 端口合法区间的两端。 */
+const LOWEST_PORT = 1;
+const HIGHEST_PORT = 65_535;
+
+/** 一份可执行计划：合法目标 + 收进区间的重试与门槛。 */
+type ProbePlan = ReturnType<ProbePolicy["plan"]>;
+
+/** 空串与全空白一律当作「没给」。 */
+function textOf(value: string | undefined): string | undefined {
+  const text = value?.trim();
+  return text ? text : undefined;
 }
 
-interface NormalizedServiceProbeTarget {
-  kind: "service";
-  targetId: string;
-  url: string;
-  expectedMarker?: string;
-  token?: string;
-  timeoutMs: number;
+/** 超时：非有限值取缺省，过小抬到下限。 */
+function timeoutOf(value: number | undefined): number {
+  if (typeof value !== "number" || !Number.isFinite(value)) return DEFAULT_PROBE_TIMEOUT_MS;
+  return Math.max(DEFAULT_PROBE_TIMEOUT_MS, Math.floor(value));
 }
 
-type NormalizedTarget = NormalizedProbeTarget | NormalizedServiceProbeTarget;
-
-interface TcpProbeParams {
-  host: string;
-  port: number;
-  timeoutMs: number;
+/** 端口：越界或非整数都回落到缺省端口。 */
+function portOf(value: number | undefined): number {
+  if (typeof value !== "number" || !Number.isInteger(value)) return DEFAULT_PROBE_PORT;
+  if (value < LOWEST_PORT || value > HIGHEST_PORT) return DEFAULT_PROBE_PORT;
+  return value;
 }
 
-interface CreateSystemServiceOptions {
-  env?: NodeJS.ProcessEnv;
-  isExecutable?: (path: string) => boolean;
-  platform?: NodeJS.Platform;
-  tcpProbe?: (params: TcpProbeParams) => Promise<number>;
-  serviceProbe?: (params: ServiceProbeParams) => Promise<ServiceProbeResult>;
-  now?: () => number;
+/** 重试次数夹在 [1, MAX_PROBE_ATTEMPTS]；非有限值按缺省值处理。 */
+function attemptsOf(value: number | undefined): number {
+  if (typeof value !== "number" || !Number.isFinite(value)) return DEFAULT_PROBE_ATTEMPTS;
+  return Math.min(MAX_PROBE_ATTEMPTS, Math.max(1, Math.floor(value)));
 }
 
-interface ServiceProbeParams {
-  url: string;
-  timeoutMs: number;
-  token?: string;
+/**
+ * 门槛夹在 [1, 目标数]。
+ *
+ * 下界是 1：门槛为 0 会让空请求也判成「内网」；
+ * 上界是目标数：门槛超过目标数就永远达不到。缺省值是目标数本身。
+ */
+function requiredOf(value: number | undefined, targetCount: number): number {
+  const ceiling = Math.max(1, targetCount);
+  if (typeof value !== "number" || !Number.isFinite(value)) return ceiling;
+  return Math.min(ceiling, Math.max(1, Math.floor(value)));
 }
 
-interface ServiceProbeResult {
-  latencyMs: number;
-  marker?: string;
+/** 目标没给 ID 时，用「类型 + 原始下标」拼一个稳定标识。 */
+function idOf(value: string | undefined, kind: ProbeTarget["kind"], index: number): string {
+  return textOf(value) ?? `${kind}-${index}`;
 }
 
-function normalizeProbeAttempts(attempts: number | undefined): number {
-  if (typeof attempts !== "number" || !Number.isFinite(attempts)) {
-    return DEFAULT_PROBE_ATTEMPTS;
+/** 只探测 http/https：其它协议不可能出现在内网服务里。 */
+function urlIsProbeable(value: string): boolean {
+  try {
+    const { protocol } = new URL(value);
+    return protocol === "http:" || protocol === "https:";
+  } catch {
+    return false;
   }
-
-  return Math.min(MAX_PROBE_ATTEMPTS, Math.max(1, Math.floor(attempts)));
 }
 
-function normalizeRequiredSuccessCount(
-  requiredSuccessCount: number | undefined,
-  totalTargets: number,
-): number {
-  if (totalTargets <= 0) {
-    return 1;
-  }
-
-  if (typeof requiredSuccessCount !== "number" || !Number.isFinite(requiredSuccessCount)) {
-    return 1;
-  }
-
-  return Math.min(totalTargets, Math.max(1, Math.floor(requiredSuccessCount)));
-}
-
-function normalizeProbeTimeout(timeoutMs: number | undefined): number {
-  return typeof timeoutMs === "number" && Number.isFinite(timeoutMs)
-    ? Math.min(10_000, Math.max(100, Math.floor(timeoutMs)))
-    : DEFAULT_PROBE_TIMEOUT_MS;
-}
-
-function normalizeTcpTarget(target: IntranetProbeTcpTarget): NormalizedProbeTarget | null {
-  const host = target.host.trim();
-  if (host.length === 0) {
-    return null;
-  }
-
-  const resolvedPort =
-    typeof target.port === "number" &&
-    Number.isInteger(target.port) &&
-    target.port >= 1 &&
-    target.port <= 65535
-      ? target.port
-      : DEFAULT_PROBE_PORT;
-
+/** TCP 目标：主机为空则丢弃。 */
+function tcpTargetOf(target: IntranetProbeTarget, index: number): ProbeTarget | null {
+  if (target.kind === "service") return null;
+  const host = textOf(target.host);
+  if (host === undefined) return null;
   return {
     kind: "tcp",
-    targetId: target.id?.trim() || `${host}:${resolvedPort}`,
+    targetId: idOf(target.id, "tcp", index),
     host,
-    port: resolvedPort,
-    timeoutMs: normalizeProbeTimeout(target.timeoutMs),
+    port: portOf(target.port),
+    timeoutMs: timeoutOf(target.timeoutMs),
   };
 }
 
-function normalizeServiceTarget(
-  target: IntranetProbeServiceTarget,
-): NormalizedServiceProbeTarget | null {
-  const urlText = target.url.trim();
-  if (urlText.length === 0) {
-    return null;
-  }
-
-  let parsedUrl: URL;
-  try {
-    parsedUrl = new URL(urlText);
-  } catch {
-    return null;
-  }
-
-  if (parsedUrl.protocol !== "http:" && parsedUrl.protocol !== "https:") {
-    return null;
-  }
-
-  const expectedMarker = target.expectedMarker?.trim();
-  const token = target.token?.trim();
-
+/** 服务目标：URL 缺失或协议不可探测则丢弃。 */
+function serviceTargetOf(target: IntranetProbeTarget, index: number): ProbeTarget | null {
+  if (target.kind !== "service") return null;
+  const url = textOf(target.url);
+  if (url === undefined || !urlIsProbeable(url)) return null;
   return {
     kind: "service",
-    targetId: target.id?.trim() || parsedUrl.toString(),
-    url: parsedUrl.toString(),
-    expectedMarker: expectedMarker && expectedMarker.length > 0 ? expectedMarker : undefined,
-    token: token && token.length > 0 ? token : undefined,
-    timeoutMs: normalizeProbeTimeout(target.timeoutMs),
+    targetId: idOf(target.id, "service", index),
+    url,
+    expectedMarker: textOf(target.expectedMarker),
+    token: textOf(target.token),
+    timeoutMs: timeoutOf(target.timeoutMs),
   };
 }
 
-function normalizeProbeTarget(target: IntranetProbeTarget): NormalizedTarget | null {
-  if (target.kind === "service") {
-    return normalizeServiceTarget(target);
-  }
-
-  return normalizeTcpTarget(target);
-}
-
-function parseProbeServiceResponse(payload: unknown): IntranetProbeServiceResponse {
-  if (!payload || typeof payload !== "object") {
-    throw new Error("invalid service response");
-  }
-
-  const response = payload as IntranetProbeServiceResponse;
-  if (typeof response.ok !== "boolean") {
-    throw new Error("invalid service response: missing ok");
-  }
-
-  if (
-    "marker" in response &&
-    response.marker !== undefined &&
-    typeof response.marker !== "string"
-  ) {
-    throw new Error("invalid service response: marker must be string");
-  }
-
-  return response;
-}
-
-function resolveProbeStrategy(targets: NormalizedTarget[]): IntranetProbeResult["strategy"] {
-  if (targets.every((target) => target.kind === "tcp")) {
-    return "tcp-connect";
-  }
-  if (targets.every((target) => target.kind === "service")) {
-    return "service-http";
-  }
-  return "mixed";
-}
-export function createSystemService(options: CreateSystemServiceOptions = {}): ISystemService {
-  return createSystemServiceOwner(options, {
-    plan(request) {
-      const targets = request.targets
-        .map(normalizeProbeTarget)
-        .filter((target): target is NormalizedTarget => target !== null);
-      const attempts = normalizeProbeAttempts(request.attempts);
-      const requiredSuccessCount = normalizeRequiredSuccessCount(
-        request.requiredSuccessCount,
-        targets.length,
-      );
-      return { targets, attempts, requiredSuccessCount };
-    },
-    parseResponse: parseProbeServiceResponse,
-    strategy: resolveProbeStrategy,
+/** 请求 → 计划：先剔掉不可探测的目标，再收拢重试与门槛。 */
+function planOf(request: IntranetProbeRequest): ProbePlan {
+  const targets: ProbeTarget[] = [];
+  request.targets.forEach((target, index) => {
+    const planned =
+      target.kind === "service" ? serviceTargetOf(target, index) : tcpTargetOf(target, index);
+    if (planned !== null) targets.push(planned);
   });
+  return {
+    targets,
+    attempts: attemptsOf(request.attempts),
+    requiredSuccessCount: requiredOf(request.requiredSuccessCount, targets.length),
+  };
+}
+
+/** 响应体 → 判定：只有显式 `ok: true` 才算服务自证可用，marker 取非空串。 */
+function verdictOf(payload: unknown): IntranetProbeServiceResponse {
+  if (typeof payload !== "object" || payload === null) {
+    throw new Error("intranet probe response must be a JSON object");
+  }
+  const { ok, marker } = payload as { ok?: unknown; marker?: unknown };
+  const verdict: IntranetProbeServiceResponse = { ok: ok === true };
+  if (typeof marker === "string") {
+    const text = textOf(marker);
+    if (text !== undefined) verdict.marker = text;
+  }
+  return verdict;
+}
+
+/** 策略名由目标种类决定：只有 TCP / 只有服务 / 两者都有。 */
+function strategyOf(targets: ProbeTarget[]): IntranetProbeResult["strategy"] {
+  const kinds = new Set(targets.map((target) => target.kind));
+  if (kinds.size > 1) return "mixed";
+  return kinds.has("service") ? "service-http" : "tcp-connect";
+}
+
+/** 系统服务：把计划与判定策略交给 owner，owner 负责真实探测。 */
+export function createSystemService(options: CreateSystemServiceOptions = {}): ISystemService {
+  const policy: ProbePolicy = {
+    plan: planOf,
+    parseResponse: verdictOf,
+    strategy: strategyOf,
+  };
+  return createSystemServiceOwner(options, policy);
 }
