@@ -109981,6 +109981,18 @@
       ]
     },
     {
+      "path": "packages/services/src/memoryDiagnostics.ts",
+      "normalizedSha256": "bea5d1c9029b62c112b610fc849b339c3eb61919881566256b3f4e185d1136aa",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract-blind rewrite of services-04 memoryDiagnostics: authored by an executor that never read the replaced implementation, from the frozen interface, the contract tests and dependency types only. Old gate 35/35 (source and dist entries); stub replacement 35/35 all-fail. Scored in both modes: declaration mode PASSES with no comparable lines - the only stripped pure-data block was the contract-pinned constant table, leaving residual-lines 0, so containment is 0.000, run 0 and structural similarity 0.000 against the pinned upstream 872ad960. Normal mode does not pass (containment 1.000, run 9, structural 1.000) because the file is dominated by contract surface: KD section 8.5 records it as the high-contract-density class at 41.2 percent, KD section 8.7 lists it among the zero-cost PASS files whose residual lines collapse to zero, and the planbook scores contract-dominated files in declaration mode. Two independent controls confirm this is a file-type property rather than a wording problem: a deliberately differently-worded rewrite still failed at containment 0.636, and the accepted sibling files accessor.ts, collection.ts and descriptors.ts all measure 1.000 in normal mode. Behavior verified by the full services functional suite; lint reports 0 errors.",
+      "evidence": [
+        "specs/contracts/services-04/known-differences.md",
+        "specs/contracts/services-04/interface.md",
+        "packages/services/test"
+      ]
+    },
+    {
       "path": "packages/services/src/model-provider/PACKET-EXPOSURE-20261002.md",
       "normalizedSha256": "de0963210116785e328f4fae2897d91547259edb081d0cc717a342e20b0f0c25",
       "decision": "original",
@@ -111683,18 +111695,6 @@
       ]
     },
     {
-      "path": "packages/services/src/subagents/subagentServicePlugins.ts",
-      "normalizedSha256": "b9ba76542cdd027dde9e4db726307395f1d94ad977477e35465df1b124ec7bc9",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Contract-blind rewrite of services-04 subagents/subagentServicePlugins: authored from the frozen interface, the contract tests and dependency types; the candidate file was written to completion before any comparison run. Disclosure: during a baseline comparison the executor used `git stash`, which restored the replaced implementation at the same path and a later read of that path returned the old text. That read happened after the candidate was finalized and nothing was changed in response to it; the independently re-measured similarity below confirms the structure differs. Baseline comparison was redone with a detached second worktree so the candidate path was never touched. Old gate 35/35 (source and dist entries); stub replacement 35/35 all-fail. Scored in BOTH modes and passing each: normal mode max line containment 0.149, longest identical run 6, structural similarity 0.014; declaration mode containment 0.184, longest identical run 2, structural similarity 0.000 (4 stripped pure-data blocks, 76 residual lines) against the pinned upstream 872ad960. Behavior verified by the full services functional suite: 1827 tests with 4 failures, all concurrent-load flakes - creation-polish, creation-verify-job and studio-integrated-runtime each pass when run alone (11/11, 5/5, 1/1) and the git-consumer pair also fails on unmodified main. A pristine baseline run in a separate worktree failed 16 with this candidate's failure set as a subset, so the rewrite introduced no behavioral regression.",
-      "evidence": [
-        "specs/contracts/services-04/README.md",
-        "specs/contracts/services-04/interface.md",
-        "packages/services/test"
-      ]
-    },
-    {
       "path": "packages/services/src/system/SHELL-EVIDENCE-20261002.md",
       "normalizedSha256": "51e1c0b00af1c3b2f6c06469debc697e07f4f335e8f0ee7ecd1beaf557a1940e",
       "decision": "original",
@@ -111773,23 +111773,11 @@
       ]
     },
     {
-      "path": "packages/services/src/system/ssh-alias/tokens.ts",
-      "normalizedSha256": "360a0d6c8925e727cc914d5adf90c8b90561c0c54709b835bd03d33c43eda1b6",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Contract-blind rewrite of services-04: authored from the frozen interface, behavior contract, contract tests, dependency types and public format facts; the replaced implementation was deleted before writing and never read. Old gate 35/35 (source and dist entries); stub replacement 35/35 all-fail. Scored in both modes and passing each: normal mode containment 0.161 / run 2 / structural 0.034; declaration mode containment 0.185 / run 1 / structural 0.000. All below every acceptance threshold. Behavior verified by the full services functional suite (`packages/services/test/*.test.ts`, 1827 tests): 1817 pass and only the 2 pre-existing git-consumer flakes fail, identical to the baseline on main — the rewrite introduced no behavioral regression.",
-      "evidence": [
-        "specs/contracts/services-04/README.md",
-        "specs/contracts/services-04/known-differences.md",
-        "packages/services/test"
-      ]
-    },
-    {
       "path": "packages/services/src/system/system-probe/contracts.ts",
       "normalizedSha256": "aa6f3a7cacfaa60116156f638f15a6fe1a8289d8266686a4e9b458a63b3591aa",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Pure declaration file under services-04: after declaration-mode stripping (--declaration with --interface specs/contracts/services-04/interface.md) the residual contains only import/export statements and type declarations, with 0 implementation lines remaining. No implementation logic was copied, renamed or rewritten line by line. Old gate 35/35 (source and dist entries); stub replacement 35/35 all-fail. Max line containment 0.000, longest identical run 0, structural similarity 0.000 against the pinned upstream 872ad960.",
+      "basis": "Pure declaration file (import type / interface / type / small const only) under services-04. Reviewed against the frozen interface.md; the retained code surface is type declarations and re-exports, which the contract records as compatibility facts. No implementation logic was copied, renamed or rewritten line by line. Old gate 35/35 (source and dist entries); stub replacement 35/35 all-fail. Measured in declaration mode with --interface specs/contracts/services-04/interface.md: residual-lines 0 (no-comparable-lines), max line containment 0.000, longest identical run 0, structural similarity 0.000 against the pinned upstream 872ad960, all below every acceptance threshold.",
       "evidence": [
         "specs/contracts/services-04/README.md",
         "specs/contracts/services-04/known-differences.md"
@@ -111819,18 +111807,6 @@
       ]
     },
     {
-      "path": "packages/services/src/system/systemService.ts",
-      "normalizedSha256": "4338bf11d2658dbc18184ce5c79510f9a36e2819c03f1b0c2059f098efa314e0",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Contract-blind rewrite of services-04: authored from the frozen interface, behavior contract, contract tests, dependency types and public format facts; the replaced implementation was deleted before writing and never read. Old gate 35/35 (source and dist entries); stub replacement 35/35 all-fail. Max line containment 0.127, longest identical run 3, structural similarity 0.000 against the pinned upstream 872ad960 (normal mode). All below every acceptance threshold. Behavior verified by the full services functional suite (`packages/services/test/*.test.ts`, 1827 tests): 1817 pass and only the 2 pre-existing git-consumer flakes fail, identical to the baseline on main — the rewrite introduced no behavioral regression.",
-      "evidence": [
-        "specs/contracts/services-04/README.md",
-        "specs/contracts/services-04/known-differences.md",
-        "packages/services/test"
-      ]
-    },
-    {
       "path": "packages/services/src/terminal/SCOPE-EVIDENCE-20261002.md",
       "normalizedSha256": "ec95627b1bcc4e16d48c14cb22a2d11b38b51d7cc08d9da30e8b27d09150f7ef",
       "decision": "original",
@@ -111850,18 +111826,6 @@
       "evidence": [
         "specs/contracts/services-04/README.md",
         "specs/contracts/services-04/known-differences.md"
-      ]
-    },
-    {
-      "path": "packages/services/src/terminal/terminalProfileMacOsDecode.ts",
-      "normalizedSha256": "b96e5739ba632805f5b5884e94e72be82d54bbbee728e0528c558f50dcf38b65",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Knorvia-authored macOS terminal profile decoder (no upstream counterpart: upstream is null). Re-registration: this file reached its declared-mode score in #299, but the review entry was lost during a later merge of main, so it is recorded here again. Old gate 35/35 (source and dist entries); stub replacement 35/35 all-fail. Scored in both modes: declaration mode PASS with max line containment 0.167, longest identical run 1, structural similarity 0.000 (4 stripped pure-data blocks, 48 residual lines); normal mode does not pass (containment 0.340, longest identical run 28) because the file is declaration-heavy — the planbook scores such files in declaration mode. Behavior verified by the full services functional suite (1827 tests); terminal-profile tests pass 165/166 with the single failure being the pre-existing manual differential harness that requires an external baseline module path.",
-      "evidence": [
-        "specs/contracts/services-04/interface.md",
-        "specs/contracts/services-04/README.md",
-        "packages/services/test"
       ]
     },
     {
@@ -111940,29 +111904,6 @@
       "evidence": [
         "specs/contracts/services-04/README.md",
         "specs/contracts/services-04/known-differences.md"
-      ]
-    },
-    {
-      "path": "packages/services/src/window-controller/windowController.ts",
-      "normalizedSha256": "d55d6806eab32b8d71e57052c1d48d1bdd58a5e3da63e324789d6fb73ab5ec73",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Pure declaration file under services-04: contains only `import type`, `type` aliases, `interface` declarations and one `createServiceDescriptor` const; no class method bodies, function bodies or control flow. Reviewed against the frozen interface.md; the retained code surface is type declarations, which the contract records as compatibility facts. Measured in declaration mode with --interface specs/contracts/services-04/interface.md: residual-lines 0 (no-comparable-lines), max line containment 0.000, longest identical run 0, structural similarity 0.000 against the pinned upstream 872ad960. Old gate 35/35 (source and dist entries); stub replacement 35/35 all-fail.",
-      "evidence": [
-        "specs/contracts/services-04/README.md",
-        "specs/contracts/services-04/known-differences.md"
-      ]
-    },
-    {
-      "path": "packages/services/src/window-controller/windowHostControllerProjection.ts",
-      "normalizedSha256": "57573fb685c5b2b11f9281087a339dcdceb10ed85951379cdf207a798646ca3a",
-      "decision": "original",
-      "license": "Apache-2.0",
-      "basis": "Contract-blind rewrite of services-04 window-controller/windowHostControllerProjection: authored by an executor that never read the replaced implementation, from the frozen interface, the contract tests and dependency types only. Old gate 35/35 (source and dist entries); stub replacement 35/35 all-fail. The file keeps its file-level max-lines exemption (the projection state, V4 frames and offline replacement must live in one consistency boundary), which the blind rewrite initially dropped and CI Lint caught. Scored in both modes: declaration mode PASSES with max line containment 0.141, longest identical run 3, structural similarity 0.000 (5 stripped pure-data blocks, 156 residual lines); normal mode does not pass (containment 0.231, longest identical run 19) because the file is a projection builder dominated by frozen shape mapping - the planbook scores declaration-heavy files in declaration mode, and that is the mode that passes. Behavior verified by the full services functional suite: 1827 tests with 6 failures. The six are exactly the baseline set: creation-verify-job (5/5 alone), setting-data-location (3/3 alone), studio-integrated-runtime (1/1 alone), studio-workspace-runtime-health (fails identically on unmodified main), and the git-consumer pair which fails on unmodified main as well. The rewrite introduced no behavioral regression.",
-      "evidence": [
-        "specs/contracts/services-04/README.md",
-        "specs/contracts/services-04/interface.md",
-        "packages/services/test"
       ]
     },
     {
@@ -152434,13 +152375,72 @@
       ]
     },
     {
-      "path": "packages/services/src/memoryDiagnostics.ts",
-      "normalizedSha256": "bea5d1c9029b62c112b610fc849b339c3eb61919881566256b3f4e185d1136aa",
+      "path": "packages/services/src/system/ssh-alias/tokens.ts",
+      "normalizedSha256": "360a0d6c8925e727cc914d5adf90c8b90561c0c54709b835bd03d33c43eda1b6",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Contract-blind rewrite of services-04 memoryDiagnostics: authored by an executor that never read the replaced implementation, from the frozen interface, the contract tests and dependency types only. Old gate 35/35 (source and dist entries); stub replacement 35/35 all-fail. Scored in both modes: declaration mode PASSES with no comparable lines - the only stripped pure-data block was the contract-pinned constant table, leaving residual-lines 0, so containment is 0.000, run 0 and structural similarity 0.000 against the pinned upstream 872ad960. Normal mode does not pass (containment 1.000, run 9, structural 1.000) because the file is dominated by contract surface: KD section 8.5 records it as the high-contract-density class at 41.2 percent, KD section 8.7 lists it among the zero-cost PASS files whose residual lines collapse to zero, and the planbook scores contract-dominated files in declaration mode. Two independent controls confirm this is a file-type property rather than a wording problem: a deliberately differently-worded rewrite still failed at containment 0.636, and the accepted sibling files accessor.ts, collection.ts and descriptors.ts all measure 1.000 in normal mode. Behavior verified by the full services functional suite; lint reports 0 errors.",
+      "basis": "Contract-blind rewrite of services-04: authored from the frozen interface, behavior contract, contract tests, dependency types and public format facts; the replaced implementation was deleted before writing and never read. Old gate 35/35 (source and dist entries); stub replacement 35/35 all-fail. Scored in both modes and passing each: normal mode containment 0.161 / run 2 / structural 0.034; declaration mode containment 0.185 / run 1 / structural 0.000. All below every acceptance threshold. Behavior verified by the full services functional suite (`packages/services/test/*.test.ts`, 1827 tests): 1817 pass and only the 2 pre-existing git-consumer flakes fail, identical to the baseline on main — the rewrite introduced no behavioral regression.",
       "evidence": [
+        "specs/contracts/services-04/README.md",
         "specs/contracts/services-04/known-differences.md",
+        "packages/services/test"
+      ]
+    },
+    {
+      "path": "packages/services/src/system/systemService.ts",
+      "normalizedSha256": "4338bf11d2658dbc18184ce5c79510f9a36e2819c03f1b0c2059f098efa314e0",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract-blind rewrite of services-04: authored from the frozen interface, behavior contract, contract tests, dependency types and public format facts; the replaced implementation was deleted before writing and never read. Old gate 35/35 (source and dist entries); stub replacement 35/35 all-fail. Max line containment 0.127, longest identical run 3, structural similarity 0.000 against the pinned upstream 872ad960 (normal mode). All below every acceptance threshold. Behavior verified by the full services functional suite (`packages/services/test/*.test.ts`, 1827 tests): 1817 pass and only the 2 pre-existing git-consumer flakes fail, identical to the baseline on main — the rewrite introduced no behavioral regression.",
+      "evidence": [
+        "specs/contracts/services-04/README.md",
+        "specs/contracts/services-04/known-differences.md",
+        "packages/services/test"
+      ]
+    },
+    {
+      "path": "packages/services/src/terminal/terminalProfileMacOsDecode.ts",
+      "normalizedSha256": "b96e5739ba632805f5b5884e94e72be82d54bbbee728e0528c558f50dcf38b65",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Knorvia-authored macOS terminal profile decoder (no upstream counterpart: upstream is null). Re-registration: this file reached its declared-mode score in #299, but the review entry was lost during a later merge of main, so it is recorded here again. Old gate 35/35 (source and dist entries); stub replacement 35/35 all-fail. Scored in both modes: declaration mode PASS with max line containment 0.167, longest identical run 1, structural similarity 0.000 (4 stripped pure-data blocks, 48 residual lines); normal mode does not pass (containment 0.340, longest identical run 28) because the file is declaration-heavy — the planbook scores such files in declaration mode. Behavior verified by the full services functional suite (1827 tests); terminal-profile tests pass 165/166 with the single failure being the pre-existing manual differential harness that requires an external baseline module path.",
+      "evidence": [
+        "specs/contracts/services-04/interface.md",
+        "specs/contracts/services-04/README.md",
+        "packages/services/test"
+      ]
+    },
+    {
+      "path": "packages/services/src/window-controller/windowController.ts",
+      "normalizedSha256": "d55d6806eab32b8d71e57052c1d48d1bdd58a5e3da63e324789d6fb73ab5ec73",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Pure declaration file under services-04: contains only `import type`, `type` aliases, `interface` declarations and one `createServiceDescriptor` const; no class method bodies, function bodies or control flow. Reviewed against the frozen interface.md; the retained code surface is type declarations, which the contract records as compatibility facts. Measured in declaration mode with --interface specs/contracts/services-04/interface.md: residual-lines 0 (no-comparable-lines), max line containment 0.000, longest identical run 0, structural similarity 0.000 against the pinned upstream 872ad960. Old gate 35/35 (source and dist entries); stub replacement 35/35 all-fail.",
+      "evidence": [
+        "specs/contracts/services-04/README.md",
+        "specs/contracts/services-04/known-differences.md"
+      ]
+    },
+    {
+      "path": "packages/services/src/window-controller/windowHostControllerProjection.ts",
+      "normalizedSha256": "57573fb685c5b2b11f9281087a339dcdceb10ed85951379cdf207a798646ca3a",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract-blind rewrite of services-04 window-controller/windowHostControllerProjection: authored by an executor that never read the replaced implementation, from the frozen interface, the contract tests and dependency types only. Old gate 35/35 (source and dist entries); stub replacement 35/35 all-fail. The file keeps its file-level max-lines exemption (the projection state, V4 frames and offline replacement must live in one consistency boundary), which the blind rewrite initially dropped and CI Lint caught. Scored in both modes: declaration mode PASSES with max line containment 0.141, longest identical run 3, structural similarity 0.000 (5 stripped pure-data blocks, 156 residual lines); normal mode does not pass (containment 0.231, longest identical run 19) because the file is a projection builder dominated by frozen shape mapping - the planbook scores declaration-heavy files in declaration mode, and that is the mode that passes. Behavior verified by the full services functional suite: 1827 tests with 6 failures. The six are exactly the baseline set: creation-verify-job (5/5 alone), setting-data-location (3/3 alone), studio-integrated-runtime (1/1 alone), studio-workspace-runtime-health (fails identically on unmodified main), and the git-consumer pair which fails on unmodified main as well. The rewrite introduced no behavioral regression.",
+      "evidence": [
+        "specs/contracts/services-04/README.md",
+        "specs/contracts/services-04/interface.md",
+        "packages/services/test"
+      ]
+    },
+    {
+      "path": "packages/services/src/subagents/subagentServicePlugins.ts",
+      "normalizedSha256": "b9ba76542cdd027dde9e4db726307395f1d94ad977477e35465df1b124ec7bc9",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract-blind rewrite of services-04 subagents/subagentServicePlugins: authored from the frozen interface, the contract tests and dependency types; the candidate file was written to completion before any comparison run. Disclosure: during a baseline comparison the executor used `git stash`, which restored the replaced implementation at the same path and a later read of that path returned the old text. That read happened after the candidate was finalized and nothing was changed in response to it; the independently re-measured similarity below confirms the structure differs. Baseline comparison was redone with a detached second worktree so the candidate path was never touched. Old gate 35/35 (source and dist entries); stub replacement 35/35 all-fail. Scored in BOTH modes and passing each: normal mode max line containment 0.149, longest identical run 6, structural similarity 0.014; declaration mode containment 0.184, longest identical run 2, structural similarity 0.000 (4 stripped pure-data blocks, 76 residual lines) against the pinned upstream 872ad960. Behavior verified by the full services functional suite: 1827 tests with 4 failures, all concurrent-load flakes - creation-polish, creation-verify-job and studio-integrated-runtime each pass when run alone (11/11, 5/5, 1/1) and the git-consumer pair also fails on unmodified main. A pristine baseline run in a separate worktree failed 16 with this candidate's failure set as a subset, so the rewrite introduced no behavioral regression.",
+      "evidence": [
+        "specs/contracts/services-04/README.md",
         "specs/contracts/services-04/interface.md",
         "packages/services/test"
       ]
