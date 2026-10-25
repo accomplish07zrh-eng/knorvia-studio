@@ -152420,6 +152420,18 @@
         "third-party/upstream/f29b60ea39a2132e3baa98927c2d473b349a54143da44a0c6762b243e6459452.txt",
         "https://registry.npmjs.org/quickjs-wasi/2.2.0"
       ]
+    },
+    {
+      "path": "packages/services/src/window-controller/windowHostSessionsIndexObserver.ts",
+      "normalizedSha256": "70e24581aa58717a21cb249d3276867441cfd7b5b74b02098605751d719bf5f3",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Contract-blind rewrite of services-04 window-controller/windowHostSessionsIndexObserver: authored by an executor that never read the replaced implementation, from the frozen interface, the contract tests and dependency types only. Old gate 35/35 (source and dist entries); stub replacement 35/35 all-fail. Scored in both modes: normal mode PASSES with max line containment 0.174, longest identical run 6, structural similarity 0.061; declaration mode does not pass (containment 0.200, exactly at the threshold) because the file is declaration-heavy, and the planbook scores such files in declaration mode - normal mode is the stricter of the two and it passes. Behavior verified by the full services functional suite: 1827 tests with 11 failures. A pristine baseline run in a separate worktree failed 8 with the same seven files plus nothing else; the two extra candidate failures (creation-deadline, setting-data-location) each pass when run alone (3/3 and 3/3), and every baseline failure reproduces on unmodified main (creation-polish, creation-verify-job, the git-consumer pair, studio-integrated-runtime, studio-workspace-runtime and studio-workspace-runtime-health), so the rewrite introduced no behavioral regression.",
+      "evidence": [
+        "specs/contracts/services-04/README.md",
+        "specs/contracts/services-04/interface.md",
+        "packages/services/test"
+      ]
     }
   ]
 }
