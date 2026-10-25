@@ -2,7 +2,7 @@
 //
 // 与 skills/referenceCatalog 同一条先例：不带 sessionId，每次调用现扫目录——挂载时快照会漏掉
 // 用户手改 / 模型刚 SaveWorkflow 落盘的文件。
-// 解析器与序列化器只从 @knorvia/core 取：这里不解析 frontmatter，也不拼 YAML。
+// 解析器与序列化器只从同目录的 saved-workflow-store 取：这里不解析 frontmatter，也不拼 YAML。
 //
 // 全局作用域：五个方法的 params 收可选 `scope`（缺省
 // `project`）。`global` 时改按本机全局根（`~/.knorvia-studio/workflows/`）操作，`workspace` 只是**载体**——
@@ -17,7 +17,7 @@ import {
   savedWorkflowRoot,
   serializeSavedWorkflow,
   type SavedWorkflowResolveFailure,
-} from "@knorvia/core";
+} from "./saved-workflow-store.js";
 import {
   KNORVIA_WORKFLOWS_RUNS_MAX_LIMIT,
   knorviaWorkflowsDeleteParamsSchema,
