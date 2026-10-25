@@ -1,30 +1,37 @@
-import type { IDisposable } from "@knorvia/rpc";
+// SPDX-License-Identifier: Apache-2.0
+// Window Host 的被动 sessions-index 观察者。
+//
+// 它把 workspace 级列表帧折成一份完整 `SessionSummary[]` 交给 Controller 投影，自己
+// 不持久化任何东西，也不启动 Agent：订阅一律走 `existing-only`，缺少 runtime 时停在
+// dormant，等生命周期通知再试。物理帧在 ACK 之前有界暂存，因为 CLI 的初始快照
+// 常常早于 subscribe 的 RPC response 抵达。
+import { resolveWorkspaceKey } from "@knorvia/shared";
+import {
+  TopicWireFrameAssembler,
+  sessionsIndexTopic,
+  sessionsIndexTopicFrameSchema,
+  type SessionSummary,
+  type SessionsIndexTopicFrame,
+  type SessionsIndexTopicWireCandidate,
+  type TopicWireAssemblyEvent,
+} from "@knorvia/shared/protocol-v4";
 import {
   KNORVIA_AGENT_RUNTIME_UNAVAILABLE_CODE,
   type IKnorviaAgentService,
 } from "../agent/agent.js";
-import {
-  PROTOCOL_V4_LIMITS,
-  sessionsIndexTopic,
-  sessionsIndexTopicFrameSchema,
-  TopicWireFrameAssembler,
-  type SessionsIndexTopicFrame,
-  type SessionsIndexTopicWireCandidate,
-  type SessionSummary,
-} from "@knorvia/shared/protocol-v4";
 
-const SUBSCRIBER_SCOPE = "window-controller";
-const MAX_STAGED_WIRES = 1_024;
-const MAX_STAGED_BYTES = 32 * 1024 * 1024;
-
-type SessionsIndexAgentService = Pick<
+/** 观察者只依赖 sessions-index 通道面；不要在这里扩面。 */
+type SessionsIndexChannel = Pick<
   IKnorviaAgentService,
   | "subscribeSessionsIndexV4"
   | "resyncSessionsIndexV4"
   | "unsubscribeSessionsIndexV4"
   | "onDynamicSessionsIndexFrame"
   | "onAgentRuntimeRestarted"
-> &
+>;
+
+/** 生命周期是可选面：旧 service 没有它时退回到 `onAgentRuntimeRestarted`。 */
+type SessionsIndexAgentService = SessionsIndexChannel &
   Partial<Pick<IKnorviaAgentService, "onAgentRuntimeLifecycle">>;
 
 export interface WindowHostSessionsIndexObserver {
@@ -32,331 +39,361 @@ export interface WindowHostSessionsIndexObserver {
   dispose(): void;
 }
 
-function isRuntimeUnavailableError(error: unknown): boolean {
-  return (
-    typeof error === "object" &&
-    error !== null &&
-    (error as { code?: unknown }).code === KNORVIA_AGENT_RUNTIME_UNAVAILABLE_CODE
-  );
+/**
+ * 订阅者作用域后缀。CLI 侧按 (connectionId, topic) 替换重订阅，host 进程内多个消费者
+ * （task-index syncer、侧栏、本观察者）订阅同一 topic 时必须各自命名，否则会互相顶掉
+ * 对方的订阅代际。
+ */
+const SUBSCRIBER_SCOPE = "window-host-sessions-index";
+
+/**
+ * ACK 之前最多暂存这么多条物理帧。越界不能「保留前 N 条」——那会得到一个看似可用、
+ * 实际缺片的初始批次，只能整批作废并重新订阅。
+ */
+const MAX_STAGED_WIRES = 1_024;
+
+/** 与 `IDisposable` 结构相同的本地别名，避免为一处释放句柄引入额外依赖。 */
+interface Disposable {
+  dispose(): void;
 }
 
-function encodedBytes(value: unknown): number {
-  return new TextEncoder().encode(JSON.stringify(value)).byteLength;
+/** 已确认的订阅水位。没有 base 时不允许把增量帧直接套到列表上。 */
+interface Cursor {
+  subscriptionId: string;
+  logEpoch: string;
+  seq: number;
+  hasBase: boolean;
+}
+
+/** ACK 窗口内的暂存批次；overflow 一旦置位，整批不再接收。 */
+interface StagedBatch {
+  wires: SessionsIndexTopicWireCandidate[];
+  overflow: boolean;
 }
 
 /**
- * Window Host 的被动 sessions-index 观察器。它只使用 existing-only，缺少 runtime 时保持
- * dormant；ACK 前 physical wire 有界暂存，避免初始 snapshot 早于 RPC response 时丢失。
+ * 观察者的全部可变所有权集中在一处：订阅水位、ACK 暂存、runtime 代际与事件句柄。
+ * 分散成十几个顶层 `let` 时，`dispose()` 很难证明「每个句柄都被释放」。
  */
+interface ObserverState {
+  cursor: Cursor | null;
+  batch: StagedBatch | null;
+  dormant: boolean;
+  disposed: boolean;
+  generation: number;
+  opening: boolean;
+  queued: boolean;
+  resync: object | null;
+  runtimeGeneration: number | null;
+  frames: Disposable | null;
+  lifecycle: Disposable | null;
+  restarts: Disposable | null;
+}
+
+/** 从任意抛出物上读协议错误码；非对象一律当作无码。 */
+function codeOf(error: unknown): unknown {
+  return typeof error === "object" && error !== null
+    ? (error as { code?: unknown }).code
+    : undefined;
+}
+
 export function createWindowHostSessionsIndexObserver(options: {
   agentService: SessionsIndexAgentService;
   target: { workspacePath: string; workspaceIdentity?: string };
   onSessionsChange: (sessions: SessionSummary[]) => void;
   onError?: (error: unknown) => void;
 }): WindowHostSessionsIndexObserver {
-  const workspace = {
-    workspacePath: options.target.workspacePath,
-    ...(options.target.workspaceIdentity
-      ? { workspaceIdentity: options.target.workspaceIdentity }
-      : {}),
-  };
-  const workspaceKey = options.target.workspaceIdentity?.trim() || options.target.workspacePath;
+  const { agentService, target, onSessionsChange, onError } = options;
+  const workspaceKey = resolveWorkspaceKey(target);
   const topic = sessionsIndexTopic(workspaceKey);
+  const assembler = new TopicWireFrameAssembler<SessionsIndexTopicFrame>(
+    sessionsIndexTopicFrameSchema,
+  );
+  // 列表本体：每次变更整体交给 Controller 做行级 diff，观察者自己不做增量记账。
   const summaries = new Map<string, SessionSummary>();
-  const assembler = new TopicWireFrameAssembler(sessionsIndexTopicFrameSchema);
-  let activeSubscriptionId: string | null = null;
-  let cursor: { logEpoch: string; seq: number } | null = null;
-  let disposed = false;
-  let generation = 0;
-  let startPromise: Promise<void> | null = null;
-  let restartAfterPending = false;
-  let dormant = false;
-  let recovering = false;
-  let stagedWires: SessionsIndexTopicWireCandidate[] = [];
-  let stagedBytes = 0;
-  let stagingOverflowed = false;
-  let assemblyTimer: ReturnType<typeof setTimeout> | null = null;
-  let recoveryTimer: ReturnType<typeof setTimeout> | null = null;
-
-  const publish = (): void => {
-    options.onSessionsChange(Array.from(summaries.values()));
+  const state: ObserverState = {
+    cursor: null,
+    batch: null,
+    dormant: false,
+    disposed: false,
+    generation: 0,
+    opening: false,
+    queued: false,
+    resync: null,
+    runtimeGeneration: null,
+    frames: null,
+    lifecycle: null,
+    restarts: null,
   };
 
-  const clearAssemblyTimer = (): void => {
-    if (assemblyTimer) clearTimeout(assemblyTimer);
-    assemblyTimer = null;
-  };
+  function report(error: unknown): void {
+    try {
+      onError?.(error);
+    } catch {
+      // 已经处在失败路径上，错误回调自己再抛不能反向打断状态机。
+    }
+  }
 
-  const clearRecoveryTimer = (): void => {
-    if (recoveryTimer) clearTimeout(recoveryTimer);
-    recoveryTimer = null;
-  };
+  function publish(): void {
+    try {
+      onSessionsChange([...summaries.values()]);
+    } catch (error) {
+      report(error);
+    }
+  }
 
-  const scheduleAssemblyExpiry = (): void => {
-    clearAssemblyTimer();
-    const nextExpiryAt = assembler.nextExpiryAt;
-    if (nextExpiryAt === null) return;
-    assemblyTimer = setTimeout(
-      () => {
-        assemblyTimer = null;
-        const faults = assembler.expire(Date.now()).filter((event) => event.kind === "fault");
-        if (faults.length > 0) requestRecovery();
-        scheduleAssemblyExpiry();
-      },
-      Math.max(0, nextExpiryAt - Date.now()),
-    );
-    assemblyTimer.unref?.();
-  };
+  /** 退订只做尽力而为：runtime 换代后 route 已不存在，清理失败不能反向影响本地状态。 */
+  function releaseRemote(subscriptionId: string | null): void {
+    if (subscriptionId === null) return;
+    try {
+      void agentService
+        .unsubscribeSessionsIndexV4({
+          ...target,
+          subscriptionId,
+          runtimePolicy: "existing-only",
+        })
+        .catch(() => undefined);
+    } catch {
+      // 同步抛错同样是清理失败，交给下一次订阅覆盖。
+    }
+  }
 
-  const applyFrame = (frame: SessionsIndexTopicFrame): void => {
-    if (frame.payload.kind === "snapshot") {
+  /** 丢掉本地订阅所有权；不发布、不清空已经展示的列表。 */
+  function release(): string | null {
+    const previous = state.cursor?.subscriptionId ?? null;
+    state.cursor = null;
+    state.batch = null;
+    state.resync = null;
+    assembler.clear();
+    return previous;
+  }
+
+  function recycle(): void {
+    if (state.disposed) return;
+    releaseRemote(release());
+    void start();
+  }
+
+  function acceptFrame(frame: SessionsIndexTopicFrame): void {
+    const active = state.cursor;
+    if (active === null || frame.subscriptionId !== active.subscriptionId) return;
+    const payload = frame.payload;
+    if (payload.kind === "snapshot") {
       summaries.clear();
-      for (const session of frame.payload.snapshot.sessions) {
-        summaries.set(session.sessionId, session);
-      }
-      cursor = { logEpoch: frame.payload.snapshot.logEpoch, seq: frame.toSeq };
-      recovering = false;
-      clearRecoveryTimer();
+      for (const summary of payload.snapshot.sessions) summaries.set(summary.sessionId, summary);
+      state.cursor = {
+        subscriptionId: active.subscriptionId,
+        logEpoch: payload.snapshot.logEpoch,
+        seq: frame.toSeq,
+        hasBase: true,
+      };
       publish();
       return;
     }
-    if (!cursor || frame.fromSeq !== cursor.seq) {
-      requestRecovery();
+    if (!active.hasBase) {
+      // 增量先于快照到达是允许的时序；没有 base 只能向 CLI 要一次补帧。
+      requestResync();
       return;
     }
-    for (const delta of frame.payload.deltas) {
+    if (frame.toSeq <= active.seq) return;
+    if (frame.fromSeq !== active.seq) {
+      requestResync();
+      return;
+    }
+    for (const delta of payload.deltas) {
       if (delta.op === "session.upserted") summaries.set(delta.session.sessionId, delta.session);
       else summaries.delete(delta.sessionId);
     }
-    cursor = { ...cursor, seq: frame.toSeq };
+    state.cursor = { ...active, seq: frame.toSeq };
     publish();
-  };
+  }
 
-  const acceptOwnedWire = (wire: SessionsIndexTopicWireCandidate): void => {
-    if (
-      !activeSubscriptionId ||
-      wire.topic !== topic ||
-      wire.subscriptionId !== activeSubscriptionId
-    ) {
-      return;
-    }
-    const events = assembler.accept(wire);
-    let faulted = false;
+  function handleAssembly(events: TopicWireAssemblyEvent<SessionsIndexTopicFrame>[]): void {
     for (const event of events) {
-      if (event.kind === "fault") faulted = true;
-      else applyFrame(event.frame);
-    }
-    if (faulted) requestRecovery();
-    scheduleAssemblyExpiry();
-  };
-
-  const stageOrAcceptWire = (wire: SessionsIndexTopicWireCandidate): void => {
-    if (disposed || wire.topic !== topic) return;
-    if (activeSubscriptionId) {
-      acceptOwnedWire(wire);
+      if (event.kind === "complete") {
+        acceptFrame(event.frame);
+        continue;
+      }
+      report(new Error(`sessions-index 物理帧装配失败 reason=${event.fault.reasonCode}`));
+      // 该 route 已 fail-closed：继续等同一 subscriptionId 只会永久等不到，换新订阅取快照。
+      recycle();
       return;
     }
-    if (stagingOverflowed) return;
-    const bytes = encodedBytes(wire);
-    if (
-      bytes > MAX_STAGED_BYTES ||
-      stagedWires.length + 1 > MAX_STAGED_WIRES ||
-      stagedBytes + bytes > MAX_STAGED_BYTES
-    ) {
-      // 初始 frame 可早于 subscribe ACK；截断头部会留下可通过类型校验但缺片的
-      // snapshot。越界时必须整批作废，待 ACK 后取消该订阅并等待下一次 runtime lifecycle。
-      stagedWires = [];
-      stagedBytes = 0;
-      stagingOverflowed = true;
+  }
+
+  function receive(wire: SessionsIndexTopicWireCandidate): void {
+    if (state.disposed || wire.topic !== topic) return;
+    const pending = state.batch;
+    if (pending !== null) {
+      if (pending.overflow) return;
+      if (pending.wires.length >= MAX_STAGED_WIRES) {
+        pending.wires.length = 0;
+        pending.overflow = true;
+        return;
+      }
+      pending.wires.push(wire);
       return;
     }
-    stagedWires.push(wire);
-    stagedBytes += bytes;
-  };
+    const active = state.cursor;
+    if (active === null || wire.subscriptionId !== active.subscriptionId) return;
+    // assembler.accept 会顺带回收已超时的半成品，因此这里不需要单独的到期定时器。
+    handleAssembly(assembler.accept(wire));
+  }
 
-  function requestRecovery(): void {
-    const subscriptionId = activeSubscriptionId;
-    if (disposed || recovering || !subscriptionId) return;
-    recovering = true;
-    assembler.abort(topic, subscriptionId);
-    void options.agentService
+  /**
+   * same-subscription 补帧：base 可信时从水位续传，否则强制要快照。ACK 只代表 CLI
+   * 受理，真正的补帧随后按同一 subscriptionId 到达，因此这里不改本地水位。
+   */
+  function requestResync(): void {
+    const active = state.cursor;
+    if (state.disposed || active === null || state.resync !== null) return;
+    const token = {};
+    state.resync = token;
+    const base = active.hasBase ? { logEpoch: active.logEpoch, seq: active.seq } : null;
+    void agentService
       .resyncSessionsIndexV4({
-        ...workspace,
-        subscriptionId,
-        base: cursor,
-        forceSnapshot: true,
+        ...target,
+        subscriptionId: active.subscriptionId,
+        base,
+        ...(base === null ? { forceSnapshot: true } : {}),
         runtimePolicy: "existing-only",
       })
-      .then(() => {
-        if (disposed || activeSubscriptionId !== subscriptionId || !recovering) return;
-        clearRecoveryTimer();
-        recoveryTimer = setTimeout(() => {
-          recoveryTimer = null;
-          if (!disposed && activeSubscriptionId === subscriptionId && recovering) {
-            resubscribeAfterRecovery();
-          }
-        }, PROTOCOL_V4_LIMITS.logicalFrameAssemblyTimeoutMs);
-        recoveryTimer.unref?.();
+      .then((result) => {
+        if (state.disposed || state.cursor !== active) return;
+        // ACK 指向别的代际时，本地水位已经对不上，只能重新订阅。
+        if (result.ack.subscriptionId !== active.subscriptionId) recycle();
       })
       .catch((error) => {
-        recovering = false;
-        if (!isRuntimeUnavailableError(error)) {
-          options.onError?.(error);
-          resubscribeAfterRecovery();
+        if (state.disposed || state.cursor !== active) return;
+        if (codeOf(error) === KNORVIA_AGENT_RUNTIME_UNAVAILABLE_CODE) {
+          state.dormant = true;
+          releaseRemote(release());
+          return;
         }
+        report(error);
+        // 续传本身失败时同一订阅没有别的补救手段，回到「新订阅拿快照」。
+        recycle();
+      })
+      .finally(() => {
+        if (state.resync === token) state.resync = null;
       });
   }
 
-  function resubscribeAfterRecovery(): void {
-    const previousSubscriptionId = activeSubscriptionId;
-    generation += 1;
-    activeSubscriptionId = null;
-    cursor = null;
-    recovering = false;
-    stagedWires = [];
-    stagedBytes = 0;
-    stagingOverflowed = false;
-    assembler.clear();
-    clearAssemblyTimer();
-    clearRecoveryTimer();
-    if (previousSubscriptionId) {
-      void options.agentService
-        .unsubscribeSessionsIndexV4({
-          ...workspace,
-          subscriptionId: previousSubscriptionId,
-          runtimePolicy: "existing-only",
-        })
-        .catch(() => {});
-    }
-    if (startPromise) restartAfterPending = true;
-    else void start();
-  }
-
-  const frameSubscription =
-    options.agentService.onDynamicSessionsIndexFrame(workspace)(stageOrAcceptWire);
-
-  const invalidateRuntime = (): void => {
-    generation += 1;
-    activeSubscriptionId = null;
-    cursor = null;
-    recovering = false;
-    stagedWires = [];
-    stagedBytes = 0;
-    stagingOverflowed = false;
-    assembler.clear();
-    clearAssemblyTimer();
-    clearRecoveryTimer();
-    summaries.clear();
-    publish();
-  };
-
-  let lifecycleSubscription: IDisposable | undefined;
-  let restartSubscription: IDisposable | undefined;
-  if (options.agentService.onAgentRuntimeLifecycle) {
-    lifecycleSubscription = options.agentService.onAgentRuntimeLifecycle((event) => {
-      if (event.workspaceKey !== workspaceKey) return;
-      if (event.state === "unavailable") {
-        dormant = true;
-        invalidateRuntime();
+  /**
+   * 一轮订阅。失败不在这里重试：Controller 每次列表刷新都会再调 `start()`，
+   * 而 `cursor` 仍为 null，天然构成下一次尝试的入口。
+   */
+  async function subscribeOnce(generation: number): Promise<void> {
+    const pending: StagedBatch = { wires: [], overflow: false };
+    state.batch = pending;
+    try {
+      const result = await agentService.subscribeSessionsIndexV4({
+        ...target,
+        visibility: "background",
+        subscriberScope: SUBSCRIBER_SCOPE,
+        runtimePolicy: "existing-only",
+      });
+      if (state.disposed || generation !== state.generation) {
+        // 迟到 ACK：本地不登记，顺手退订，避免 CLI 侧留下无主订阅。
+        releaseRemote(result.ack.subscriptionId);
         return;
       }
-      const wasDormant = dormant;
-      dormant = false;
-      if (startPromise) {
-        // 同一次 existing-only subscribe 可能在 ACK 前发布 available；这不是旧 runtime
-        // 换代。只有先观察到 unavailable 的 pending 才需要在当前请求收口后重订阅。
-        if (wasDormant) restartAfterPending = true;
-      } else if (!activeSubscriptionId) void start();
-    });
-  } else {
-    restartSubscription = options.agentService.onAgentRuntimeRestarted((event) => {
-      if (event.workspaceKey !== workspaceKey) return;
-      invalidateRuntime();
-      if (startPromise) restartAfterPending = true;
-      else void start();
-    });
+      state.batch = null;
+      if (pending.overflow) {
+        releaseRemote(result.ack.subscriptionId);
+        report(new Error("sessions-index 初始帧暂存越界，已放弃该订阅"));
+        return;
+      }
+      state.cursor = {
+        subscriptionId: result.ack.subscriptionId,
+        logEpoch: result.ack.logEpoch,
+        seq: 0,
+        hasBase: false,
+      };
+      assembler.clear();
+      // 只回放属于本次 ACK 的帧；同 topic 的旧代际帧在这里被丢掉。
+      for (const wire of pending.wires) receive(wire);
+    } catch (error) {
+      state.batch = null;
+      if (state.disposed || generation !== state.generation) return;
+      if (codeOf(error) === KNORVIA_AGENT_RUNTIME_UNAVAILABLE_CODE) {
+        // existing-only 的预期结果：没有 runtime 就不订阅，等生命周期通知再试。
+        state.dormant = true;
+        return;
+      }
+      report(error);
+    }
   }
 
   async function start(): Promise<void> {
-    if (disposed || dormant || activeSubscriptionId) return;
-    if (startPromise) return startPromise;
-    const subscribeGeneration = generation;
-    stagedWires = [];
-    stagedBytes = 0;
-    stagingOverflowed = false;
-    // 先把 pending ownership 写入 startPromise，再进入 subscribe；Agent 可能在 RPC Promise
-    // 返回前同步发布 runtime available，不能让 lifecycle callback 递归进入第二次 start。
-    const pending = Promise.resolve().then(async () => {
-      try {
-        const result = await options.agentService.subscribeSessionsIndexV4({
-          ...workspace,
-          visibility: "background",
-          subscriberScope: SUBSCRIBER_SCOPE,
-          runtimePolicy: "existing-only",
-        });
-        if (disposed || subscribeGeneration !== generation || stagingOverflowed) {
-          void options.agentService
-            .unsubscribeSessionsIndexV4({
-              ...workspace,
-              subscriptionId: result.ack.subscriptionId,
-              runtimePolicy: "existing-only",
-            })
-            .catch(() => {});
-          if (stagingOverflowed) {
-            options.onError?.(new Error("fault.subscription.initialFrameStagingOverflow"));
-          }
-          return;
-        }
-        activeSubscriptionId = result.ack.subscriptionId;
-        const initialWires = stagedWires;
-        stagedWires = [];
-        stagedBytes = 0;
-        for (const wire of initialWires) acceptOwnedWire(wire);
-      } catch (error) {
-        if (!disposed && isRuntimeUnavailableError(error)) {
-          // 有 lifecycle 的新 Host 等 available 再订阅，避免每次列表查询都重复打 dormant RPC。
-          dormant = Boolean(options.agentService.onAgentRuntimeLifecycle);
-        } else if (!disposed) {
-          options.onError?.(error);
-        }
-      }
-    });
-    startPromise = pending;
+    if (state.disposed) return;
+    ensureWired();
+    if (state.dormant || state.cursor !== null) return;
+    if (state.opening) {
+      // 在途订阅结束前不发第二条 RPC，但要让本轮结束后立刻重来。
+      state.queued = true;
+      return;
+    }
+    state.opening = true;
     try {
-      await pending;
+      do {
+        state.queued = false;
+        await subscribeOnce(++state.generation);
+      } while (state.queued && !state.disposed && !state.dormant && state.cursor === null);
     } finally {
-      if (startPromise === pending) startPromise = null;
-      if (restartAfterPending && !disposed && !activeSubscriptionId) {
-        restartAfterPending = false;
-        void start();
-      }
+      state.opening = false;
     }
   }
 
-  return {
-    start,
-    dispose() {
-      if (disposed) return;
-      disposed = true;
-      generation += 1;
-      const subscriptionId = activeSubscriptionId;
-      activeSubscriptionId = null;
-      frameSubscription.dispose();
-      lifecycleSubscription?.dispose();
-      restartSubscription?.dispose();
-      clearAssemblyTimer();
-      clearRecoveryTimer();
-      assembler.clear();
-      stagedWires = [];
-      if (subscriptionId) {
-        void options.agentService
-          .unsubscribeSessionsIndexV4({
-            ...workspace,
-            subscriptionId,
-            runtimePolicy: "existing-only",
-          })
-          .catch(() => {});
-      }
-    },
-  };
+  function ensureWired(): void {
+    state.frames ??= agentService.onDynamicSessionsIndexFrame(target)((wire) => {
+      receive(wire);
+    });
+    if (state.lifecycle !== null || state.restarts !== null) return;
+    const onLifecycle = agentService.onAgentRuntimeLifecycle;
+    if (onLifecycle !== undefined) {
+      state.lifecycle = onLifecycle((event) => {
+        if (state.disposed || event.workspaceKey !== workspaceKey) return;
+        if (event.state === "unavailable") {
+          // runtime 已退出：本地订阅随之失效，停在 dormant 等下一次 available。
+          state.dormant = true;
+          state.runtimeGeneration = null;
+          releaseRemote(release());
+          return;
+        }
+        const next = event.runtimeIdentity.generation;
+        // available 不是「旧 ownership 失效」的信号：冷启动时它会在 ACK 之前到达，
+        // 只有 generation 真的换了才必须重建订阅。
+        const changed = state.runtimeGeneration !== null && state.runtimeGeneration !== next;
+        state.runtimeGeneration = next;
+        state.dormant = false;
+        if (changed) recycle();
+        else void start();
+      });
+      return;
+    }
+    // 没有生命周期面时，进程换代是唯一可观测的重建点。
+    state.restarts = agentService.onAgentRuntimeRestarted((event) => {
+      if (state.disposed || event.workspaceKey !== workspaceKey) return;
+      state.dormant = false;
+      recycle();
+    });
+  }
+
+  function dispose(): void {
+    if (state.disposed) return;
+    state.disposed = true;
+    // 推进代际，让在途的 subscribe/resync 回调直接作废。
+    state.generation += 1;
+    releaseRemote(release());
+    state.frames?.dispose();
+    state.frames = null;
+    state.lifecycle?.dispose();
+    state.lifecycle = null;
+    state.restarts?.dispose();
+    state.restarts = null;
+    summaries.clear();
+  }
+
+  return { start, dispose };
 }
