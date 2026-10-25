@@ -1,6 +1,6 @@
 import { basename, join } from "node:path";
 import { createProjectId, type ProjectId } from "@knorvia/contracts";
-import { resolveProjectMemoryRoot } from "@knorvia/core";
+import { resolveProjectMemoryRoot } from "@knorvia/shared";
 
 export function getCliStorageRoot(storageRoot: string): string {
   return basename(storageRoot) === "cli" ? storageRoot : join(storageRoot, "cli");
