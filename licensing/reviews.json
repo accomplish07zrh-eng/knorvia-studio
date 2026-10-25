@@ -143393,7 +143393,7 @@
     },
     {
       "path": "specs/contracts/services-01/tests/cua-permission-broker-2.test.mjs",
-      "normalizedSha256": "7ca124508deafd375dfbcacd186df68458ff5b0602e0f80525a49e53a6587463",
+      "normalizedSha256": "9f8b1f669f854098871c2c1a64006bf88326bc78c378cfb76098902b5d14f7ed",
       "decision": "original",
       "license": "Apache-2.0",
       "basis": "Knorvia-authored services-01 contract test for @knorvia/services. Black-box tests asserting public behavior and interface surface through public entries and module paths in both source and dist modes.",
