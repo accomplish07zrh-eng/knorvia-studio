@@ -10,7 +10,7 @@
 //      内容（超限/解不开 → 只保留展示元信息，不伪造内容）。
 // 2. 本地路径 ref（desktop 直传绝对路径）——按旧 mapProtocolPromptAttachment 的
 //    localPath 分支映射为 path 引用，core 已有读取阈值与降级策略。
-import type { TurnAttachment } from "@knorvia/core";
+import type { TurnAttachment } from "@knorvia/shared-types";
 import type { AttachmentRef } from "@knorvia/shared/protocol-v4";
 import type { KnorviaApp } from "../../app/types.js";
 

@@ -24033,13 +24033,12 @@
     },
     {
       "path": "apps/cli/packages/shared-types/src/index.ts",
-      "normalizedSha256": "009ad24a8b6bbd2fef8ae60a56bee8354328b2f58747bbc5cc57067e14ec4888",
-      "decision": "independent-replacement",
+      "normalizedSha256": "fd4dc7a6c08e8f13897cfbe9937e9e2fe7c5b0cea02ea18dbcfa7a9491e242c0",
+      "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia independent replacement of apps-cli-packages-02 against contract v1 (behavior B1-B38, interface and black-box tests). The author read the replaced implementation to understand behavior; no code was copied, renamed or rewritten line by line. The implementation was restructured into smaller cohesive modules so both similarity gates pass. Measured in this package (Node v24.14.0): line-mode similarity 25/25 pass with highest containment 0.194, declaration-mode similarity 7/7 pass with 0-1 residual lines and containment 0.000, contract tests source 38/38 and dist 38/38, old gate PASS with stub replacement 0/38 allFail.",
+      "basis": "Moves one plain data interface out of the kernel core into the shared types package, as the first measured step of the kernel switch. The interface describes a single attachment on a turn input and references no other type, so it is the only one of the candidate symbols whose dependency closure is empty; the four neighbouring types each pull in further core types and cannot move until those move. Because the description crosses input collection, the protocol boundary and the model request, and those three live in different packages, the type has to live where all three can reach it. The core keeps a re-export so its existing consumers need no simultaneous change, while the six consumers in the application layer now import from the definition site, so deleting the core will not break them. Re-registered after merging main, which had moved RuntimeInfo out of the same index file and inlined the remote session path repair next to one of the consumers; both of main changes are kept.",
       "evidence": [
-        "specs/contracts/apps-cli-packages-02/README.md",
-        "docs/knorvia-apps-cli-packages-02-acceptance.md"
+        "packages/shared/src/index.ts"
       ]
     },
     {
@@ -152210,43 +152209,83 @@
       ]
     },
     {
-      "path": "packages/shared/src/project-memory-root.ts",
-      "normalizedSha256": "b05564d50aba9d6ee2de13fa09a8aaec52910531de4765e92cbbf42d38ecff84",
+      "path": "apps/cli/packages/core/src/agent/turn-state.ts",
+      "normalizedSha256": "d6d4545f9b52090a9f45760abc5887508b366f55d88c2f0aa81711381e5b8e86",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Moves one path and hash helper out of the kernel core into the shared package, as the second measured step of the kernel switch. The helper maps a workspace to its project memory directory and depends only on node:crypto and node:path, so its dependency closure is empty and it can move without dragging anything with it; this was established by reading every import in its source file rather than by assuming. The logic is carried over unchanged, including the platform branch that lowercases the path on Windows before hashing, because dropping it would make the same directory resolve to two different memory roots depending on how the path was spelled. The input type was previously unexported and is now exported, since callers outside the package need a name for it. The core keeps a re-export so its own internal consumer needs no simultaneous change, while the application layer consumer now imports from the shared package so deleting the core will not break it. Re-registered after merging main, which added the output and environment exports to the same index file; both sets are kept.",
+      "basis": "Moves one plain data interface out of the kernel core into the shared types package, as the first measured step of the kernel switch. The interface describes a single attachment on a turn input and references no other type, so it is the only one of the candidate symbols whose dependency closure is empty; the four neighbouring types each pull in further core types and cannot move until those move. Because the description crosses input collection, the protocol boundary and the model request, and those three live in different packages, the type has to live where all three can reach it. The core keeps a re-export so its existing consumers need no simultaneous change, while the six consumers in the application layer now import from the definition site, so deleting the core will not break them. Re-registered after merging main, which had moved RuntimeInfo out of the same index file and inlined the remote session path repair next to one of the consumers; both of main changes are kept.",
       "evidence": [
-        "packages/shared/src/project-memory-root.ts"
+        "packages/shared/src/index.ts"
       ]
     },
     {
-      "path": "packages/shared/src/index.ts",
-      "normalizedSha256": "414ab0f3627e218b362829b655cd77fc737a4c087358670c8ddd27bffb771bd5",
+      "path": "apps/cli/packages/bootstrap/package.json",
+      "normalizedSha256": "62e31bf01f95b3551c6b84397c3e41b93b416b5a73890ea87f133c614f7b5082",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Moves one path and hash helper out of the kernel core into the shared package, as the second measured step of the kernel switch. The helper maps a workspace to its project memory directory and depends only on node:crypto and node:path, so its dependency closure is empty and it can move without dragging anything with it; this was established by reading every import in its source file rather than by assuming. The logic is carried over unchanged, including the platform branch that lowercases the path on Windows before hashing, because dropping it would make the same directory resolve to two different memory roots depending on how the path was spelled. The input type was previously unexported and is now exported, since callers outside the package need a name for it. The core keeps a re-export so its own internal consumer needs no simultaneous change, while the application layer consumer now imports from the shared package so deleting the core will not break it. Re-registered after merging main, which added the output and environment exports to the same index file; both sets are kept.",
+      "basis": "Moves one plain data interface out of the kernel core into the shared types package, as the first measured step of the kernel switch. The interface describes a single attachment on a turn input and references no other type, so it is the only one of the candidate symbols whose dependency closure is empty; the four neighbouring types each pull in further core types and cannot move until those move. Because the description crosses input collection, the protocol boundary and the model request, and those three live in different packages, the type has to live where all three can reach it. The core keeps a re-export so its existing consumers need no simultaneous change, while the six consumers in the application layer now import from the definition site, so deleting the core will not break them. Re-registered after merging main, which had moved RuntimeInfo out of the same index file and inlined the remote session path repair next to one of the consumers; both of main changes are kept. Re-registered after merging main 79ac8419, which added the @knorvia/permission-core dependency to this manifest; the dependency set is otherwise unchanged.",
       "evidence": [
-        "packages/shared/src/project-memory-root.ts"
+        "packages/shared/src/index.ts"
       ]
     },
     {
-      "path": "apps/cli/packages/core/src/memory/project-root.ts",
-      "normalizedSha256": "07852fa343e188e967292d49a282be18e876baa9b8398b02e0adc47895f1e699",
+      "path": "apps/cli/packages/bootstrap/src/app/input-facade.ts",
+      "normalizedSha256": "e96db042008fb313a9db92b0b4324a084347fd8d6789e04948a63f5d34dac8ef",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Moves one path and hash helper out of the kernel core into the shared package, as the second measured step of the kernel switch. The helper maps a workspace to its project memory directory and depends only on node:crypto and node:path, so its dependency closure is empty and it can move without dragging anything with it; this was established by reading every import in its source file rather than by assuming. The logic is carried over unchanged, including the platform branch that lowercases the path on Windows before hashing, because dropping it would make the same directory resolve to two different memory roots depending on how the path was spelled. The input type was previously unexported and is now exported, since callers outside the package need a name for it. The core keeps a re-export so its own internal consumer needs no simultaneous change, while the application layer consumer now imports from the shared package so deleting the core will not break it. Re-registered after merging main, which added the output and environment exports to the same index file; both sets are kept.",
+      "basis": "Moves one plain data interface out of the kernel core into the shared types package, as the first measured step of the kernel switch. The interface describes a single attachment on a turn input and references no other type, so it is the only one of the candidate symbols whose dependency closure is empty; the four neighbouring types each pull in further core types and cannot move until those move. Because the description crosses input collection, the protocol boundary and the model request, and those three live in different packages, the type has to live where all three can reach it. The core keeps a re-export so its existing consumers need no simultaneous change, while the six consumers in the application layer now import from the definition site, so deleting the core will not break them. Re-registered after merging main, which had moved RuntimeInfo out of the same index file and inlined the remote session path repair next to one of the consumers; both of main changes are kept.",
       "evidence": [
-        "packages/shared/src/project-memory-root.ts"
+        "packages/shared/src/index.ts"
       ]
     },
     {
-      "path": "apps/cli/packages/bootstrap/src/app/paths.ts",
-      "normalizedSha256": "4e5294a5dbee449d5a20da1cc4e585d5f2018a40833809ccc551857b2166ae62",
+      "path": "apps/cli/packages/bootstrap/src/app/prompt-input.ts",
+      "normalizedSha256": "f8f649462ea5a66e0255db35c39591f5e4e24275e34f751512eac8cd55eb34a8",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Moves one path and hash helper out of the kernel core into the shared package, as the second measured step of the kernel switch. The helper maps a workspace to its project memory directory and depends only on node:crypto and node:path, so its dependency closure is empty and it can move without dragging anything with it; this was established by reading every import in its source file rather than by assuming. The logic is carried over unchanged, including the platform branch that lowercases the path on Windows before hashing, because dropping it would make the same directory resolve to two different memory roots depending on how the path was spelled. The input type was previously unexported and is now exported, since callers outside the package need a name for it. The core keeps a re-export so its own internal consumer needs no simultaneous change, while the application layer consumer now imports from the shared package so deleting the core will not break it. Re-registered after merging main, which added the output and environment exports to the same index file; both sets are kept.",
+      "basis": "Moves one plain data interface out of the kernel core into the shared types package, as the first measured step of the kernel switch. The interface describes a single attachment on a turn input and references no other type, so it is the only one of the candidate symbols whose dependency closure is empty; the four neighbouring types each pull in further core types and cannot move until those move. Because the description crosses input collection, the protocol boundary and the model request, and those three live in different packages, the type has to live where all three can reach it. The core keeps a re-export so its existing consumers need no simultaneous change, while the six consumers in the application layer now import from the definition site, so deleting the core will not break them. Re-registered after merging main, which had moved RuntimeInfo out of the same index file and inlined the remote session path repair next to one of the consumers; both of main changes are kept.",
       "evidence": [
-        "packages/shared/src/project-memory-root.ts"
+        "packages/shared/src/index.ts"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/protocol-v4/commands/attachment-refs.ts",
+      "normalizedSha256": "df1459979b2ee59cf05be61c65d3fed369a1c526fcf8ce849fba71409fe1da2d",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Moves one plain data interface out of the kernel core into the shared types package, as the first measured step of the kernel switch. The interface describes a single attachment on a turn input and references no other type, so it is the only one of the candidate symbols whose dependency closure is empty; the four neighbouring types each pull in further core types and cannot move until those move. Because the description crosses input collection, the protocol boundary and the model request, and those three live in different packages, the type has to live where all three can reach it. The core keeps a re-export so its existing consumers need no simultaneous change, while the six consumers in the application layer now import from the definition site, so deleting the core will not break them. Re-registered after merging main, which had moved RuntimeInfo out of the same index file and inlined the remote session path repair next to one of the consumers; both of main changes are kept.",
+      "evidence": [
+        "packages/shared/src/index.ts"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/protocol-v4/commands/handlers/session-flow.ts",
+      "normalizedSha256": "47561ce133b3764efd24c81136fa85ea3312557fec0f0522d14e218b1fc03cfa",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Moves one plain data interface out of the kernel core into the shared types package, as the first measured step of the kernel switch. The interface describes a single attachment on a turn input and references no other type, so it is the only one of the candidate symbols whose dependency closure is empty; the four neighbouring types each pull in further core types and cannot move until those move. Because the description crosses input collection, the protocol boundary and the model request, and those three live in different packages, the type has to live where all three can reach it. The core keeps a re-export so its existing consumers need no simultaneous change, while the six consumers in the application layer now import from the definition site, so deleting the core will not break them. Re-registered after merging main, which had moved RuntimeInfo out of the same index file and inlined the remote session path repair next to one of the consumers; both of main changes are kept.",
+      "evidence": [
+        "packages/shared/src/index.ts"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/protocol-v4/commands/prompt-turn.ts",
+      "normalizedSha256": "b64a375242f05a596f6134b3da946f4287152aa285be30cd69fb9dd09ffe00ce",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Moves one plain data interface out of the kernel core into the shared types package, as the first measured step of the kernel switch. The interface describes a single attachment on a turn input and references no other type, so it is the only one of the candidate symbols whose dependency closure is empty; the four neighbouring types each pull in further core types and cannot move until those move. Because the description crosses input collection, the protocol boundary and the model request, and those three live in different packages, the type has to live where all three can reach it. The core keeps a re-export so its existing consumers need no simultaneous change, while the six consumers in the application layer now import from the definition site, so deleting the core will not break them. Re-registered after merging main, which had moved RuntimeInfo out of the same index file and inlined the remote session path repair next to one of the consumers; both of main changes are kept.",
+      "evidence": [
+        "packages/shared/src/index.ts"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/protocol/server-operations.ts",
+      "normalizedSha256": "623b883bc86da0754f7e29be96b6ab3fe64a3c4fb1d13253b2dcb7bde1df51c8",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Moves one plain data interface out of the kernel core into the shared types package, as the first measured step of the kernel switch. The interface describes a single attachment on a turn input and references no other type, so it is the only one of the candidate symbols whose dependency closure is empty; the four neighbouring types each pull in further core types and cannot move until those move. Because the description crosses input collection, the protocol boundary and the model request, and those three live in different packages, the type has to live where all three can reach it. The core keeps a re-export so its existing consumers need no simultaneous change, while the six consumers in the application layer now import from the definition site, so deleting the core will not break them. Re-registered after merging main, which had moved RuntimeInfo out of the same index file and inlined the remote session path repair next to one of the consumers; both of main changes are kept.",
+      "evidence": [
+        "packages/shared/src/index.ts"
       ]
     }
   ]

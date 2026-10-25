@@ -1,4 +1,5 @@
-import type { AgentRuntime, TurnAttachment, TurnResult } from "@knorvia/core";
+import type { AgentRuntime, TurnResult } from "@knorvia/core";
+import type { TurnAttachment } from "@knorvia/shared-types";
 import {
   SessionEventType,
   traceContextToLogContext,
