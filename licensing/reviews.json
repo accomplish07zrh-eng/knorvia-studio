@@ -109155,13 +109155,14 @@
     },
     {
       "path": "packages/services/src/collection.ts",
-      "normalizedSha256": "39b25ae1637739ef7f75aa330df0d917006d0bb417a972ad6dc0953a2e115394",
+      "normalizedSha256": "d41506fdf8c2ff26c30376faa0ff771491409ad4a51e32d506badadec6fc4e65",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Pure declaration file (import type / interface / type / small const only) under services-04. Reviewed against the frozen interface.md; the retained code surface is type declarations and re-exports, which the contract records as compatibility facts. No implementation logic was copied, renamed or rewritten line by line. Old gate 35/35 (source and dist entries); stub replacement 35/35 all-fail. Measured in declaration mode with --interface specs/contracts/services-04/interface.md: residual-lines 0 (no-comparable-lines), max line containment 0.000, longest identical run 0, structural similarity 0.000 against the pinned upstream 872ad960, all below every acceptance threshold.",
+      "basis": "Contract-blind rewrite of services-04 collection: authored by an executor that never read the replaced implementation, from the frozen interface plus the fifteen behaviours that a differential probe of the public surface made reproducible. Old gate 35/35 (source and dist entries); stub replacement 35/35 all-fail. Scored in BOTH modes and passing each: normal mode max line containment 0.100, longest identical run 1, structural similarity 0.000; declaration mode no comparable lines after the single stripped pure-data block, residual-lines 0, containment 0.000, run 0, structural 0.000 against the pinned upstream 872ad960. Behavior verified by the full services functional suite: 1827 tests with 6 failures, all pre-existing under parallel load - creation-deadline (3/3 alone), studio-integrated-runtime (1/1 alone) and studio-workspace-runtime (8/8 alone) pass in isolation, while studio-workspace-runtime-health and the git-consumer pair also fail on unmodified main. Lint reports 0 errors.",
       "evidence": [
         "specs/contracts/services-04/README.md",
-        "specs/contracts/services-04/known-differences.md"
+        "specs/contracts/services-04/interface.md",
+        "packages/services/test"
       ]
     },
     {
