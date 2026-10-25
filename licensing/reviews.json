@@ -9600,6 +9600,16 @@
       ]
     },
     {
+      "path": "apps/cli/packages/bootstrap/src/app/paths.ts",
+      "normalizedSha256": "4e5294a5dbee449d5a20da1cc4e585d5f2018a40833809ccc551857b2166ae62",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Moves one path and hash helper out of the kernel core into the shared package, as the second measured step of the kernel switch. The helper maps a workspace to its project memory directory and depends only on node:crypto and node:path, so its dependency closure is empty and it can move without dragging anything with it; this was established by reading every import in its source file rather than by assuming. The logic is carried over unchanged, including the platform branch that lowercases the path on Windows before hashing, because dropping it would make the same directory resolve to two different memory roots depending on how the path was spelled. The input type was previously unexported and is now exported, since callers outside the package need a name for it. The core keeps a re-export so its own internal consumer needs no simultaneous change, while the application layer consumer now imports from the shared package so deleting the core will not break it. Re-registered after merging main, which added the output and environment exports to the same index file; both sets are kept.",
+      "evidence": [
+        "packages/shared/src/project-memory-root.ts"
+      ]
+    },
+    {
       "path": "apps/cli/packages/bootstrap/src/kernel-bridge/bridge-engine.ts",
       "normalizedSha256": "b2ca455cc002ee2967f24d95e5fc3e3a43c896ede55966be7af2d04b5f7c746f",
       "decision": "original",
@@ -10809,10 +10819,10 @@
     },
     {
       "path": "apps/cli/packages/bootstrap/src/protocol/interaction-response-race.ts",
-      "normalizedSha256": "db50b97ba9825f7f75f2e6719863e0d2684b0243e5cad88747abb03002fbff9e",
+      "normalizedSha256": "7e5849eb2f4d731a5b755e7103e3ddf116520f6aa0a3f44c3d1004d134679d85",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "New prepared protocol coordinator shares the lifecycle owner with registry and RPC completions. It cancels uncooperative RPC without waiting, closes superseded registrations and gates legacy completion behind a currently claimed full-access commit; failed attempts release only their own wakeup. Mapping and persisted input formats remain delegated. Prior source was accessed; no no-access clean-room claim is made. This decision is limited to the new required prepare/publish/activate lifecycle, one owner for completion and cancellation, and explicitly bound client adapters. Public records, fixed reason strings, policy exceptions and standard Promise/Map behavior are compatibility constraints, not claimed inventions. Renaming, splitting, helper extraction and test success alone do not establish independent provenance. The registry, inherited protocol mappings, stored-state restoration, public types, input recheck, subagent routing, HookRunner, rule persistence and adjacent implementations retain their applicable licensing. This is not a whole-product MIT determination. Similarity gate re-measured 2026-10-21 against the pinned upstream baseline 872ad960de7ec172591f7e1952f7849229f94521: max line containment 0.311, longest identical run 5, structural similarity 0.333, declaration-mode containment 0.280; these are above the frozen thresholds (containment < 0.20, longest run < 8, structural < 0.40), so this file is not a completed independent replacement. Decision changed to pending-rework 2026-10-21 by user ruling: the earlier recorded measurement understated containment. Rework must bring every metric under threshold before this entry may return to independent-replacement. M6 rework completed 2026-10-21: 七个位置参数**保持不变**（三处调用方与测试都按位置传参），只重构内部：取消错误的构造抽成 cancelledError、提交门收成 CommitGate、fullAccess 的包装抽成 wrapFullAccess、策略装配抽成 buildPolicy、状态收进 PrepareState。时序语义逐条保留：提交失败先唤醒等待者再抛、每次失败单独换新 Promise、注册失败先置拒绝再抛. Re-measured against the same fixed upstream baseline in normal mode: max normalized-line containment 0.193 (was 0.311), longest identical run 5 (was 5) — all gates pass.",
+      "basis": "New prepared protocol coordinator shares the lifecycle owner with registry and RPC completions. It cancels uncooperative RPC without waiting, closes superseded registrations and gates legacy completion behind a currently claimed full-access commit; failed attempts release only their own wakeup. Mapping and persisted input formats remain delegated. Prior source was accessed; no no-access clean-room claim is made. This decision is limited to the new required prepare/publish/activate lifecycle, one owner for completion and cancellation, and explicitly bound client adapters. Public records, fixed reason strings, policy exceptions and standard Promise/Map behavior are compatibility constraints, not claimed inventions. Renaming, splitting, helper extraction and test success alone do not establish independent provenance. The registry, inherited protocol mappings, stored-state restoration, public types, input recheck, subagent routing, HookRunner, rule persistence and adjacent implementations retain their applicable licensing. This is not a whole-product MIT determination. Similarity gate re-measured 2026-10-21 against the pinned upstream baseline 872ad960de7ec172591f7e1952f7849229f94521: max line containment 0.311, longest identical run 5, structural similarity 0.333, declaration-mode containment 0.280; these are above the frozen thresholds (containment < 0.20, longest run < 8, structural < 0.40), so this file is not a completed independent replacement. Decision changed to pending-rework 2026-10-21 by user ruling: the earlier recorded measurement understated containment. Rework must bring every metric under threshold before this entry may return to independent-replacement. M6 rework completed 2026-10-21: 七个位置参数**保持不变**（三处调用方与测试都按位置传参），只重构内部：取消错误的构造抽成 cancelledError、提交门收成 CommitGate、fullAccess 的包装抽成 wrapFullAccess、策略装配抽成 buildPolicy、状态收进 PrepareState。时序语义逐条保留：提交失败先唤醒等待者再抛、每次失败单独换新 Promise、注册失败先置拒绝再抛. Re-measured against the same fixed upstream baseline in normal mode: max normalized-line containment 0.193 (was 0.311), longest identical run 5 (was 5) — all gates pass. Kernel-switch prep 2026-10-23: PermissionPreparation now imported from @knorvia/permission-core instead of @knorvia/core; no logic changed.",
       "evidence": [
         "specs/knorvia-permission-readiness.md",
         "docs/knorvia-permission-readiness-acceptance.md"
@@ -13271,6 +13281,16 @@
         "licensing/current-files.json",
         "docs/knorvia-m02-registration-2026-10-11.md",
         "scripts/provenance/similarity.mjs"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/memory/project-root.ts",
+      "normalizedSha256": "07852fa343e188e967292d49a282be18e876baa9b8398b02e0adc47895f1e699",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Moves one path and hash helper out of the kernel core into the shared package, as the second measured step of the kernel switch. The helper maps a workspace to its project memory directory and depends only on node:crypto and node:path, so its dependency closure is empty and it can move without dragging anything with it; this was established by reading every import in its source file rather than by assuming. The logic is carried over unchanged, including the platform branch that lowercases the path on Windows before hashing, because dropping it would make the same directory resolve to two different memory roots depending on how the path was spelled. The input type was previously unexported and is now exported, since callers outside the package need a name for it. The core keeps a re-export so its own internal consumer needs no simultaneous change, while the application layer consumer now imports from the shared package so deleting the core will not break it. Re-registered after merging main, which added the output and environment exports to the same index file; both sets are kept.",
+      "evidence": [
+        "packages/shared/src/project-memory-root.ts"
       ]
     },
     {
@@ -114838,6 +114858,16 @@
       ]
     },
     {
+      "path": "packages/shared/src/index.ts",
+      "normalizedSha256": "414ab0f3627e218b362829b655cd77fc737a4c087358670c8ddd27bffb771bd5",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Moves one path and hash helper out of the kernel core into the shared package, as the second measured step of the kernel switch. The helper maps a workspace to its project memory directory and depends only on node:crypto and node:path, so its dependency closure is empty and it can move without dragging anything with it; this was established by reading every import in its source file rather than by assuming. The logic is carried over unchanged, including the platform branch that lowercases the path on Windows before hashing, because dropping it would make the same directory resolve to two different memory roots depending on how the path was spelled. The input type was previously unexported and is now exported, since callers outside the package need a name for it. The core keeps a re-export so its own internal consumer needs no simultaneous change, while the application layer consumer now imports from the shared package so deleting the core will not break it. Re-registered after merging main, which added the output and environment exports to the same index file; both sets are kept.",
+      "evidence": [
+        "packages/shared/src/project-memory-root.ts"
+      ]
+    },
+    {
       "path": "packages/shared/src/internal-s02/platform-browser-view.ts",
       "normalizedSha256": "9eb8d26c251a8f82908c5ba97cc95beb474c03139299579fc6cd16f9e1749b8c",
       "decision": "original",
@@ -115143,6 +115173,16 @@
       "evidence": [
         "specs/contracts/shared-03/README.md",
         "docs/knorvia-shared-03-acceptance.md"
+      ]
+    },
+    {
+      "path": "packages/shared/src/project-memory-root.ts",
+      "normalizedSha256": "b05564d50aba9d6ee2de13fa09a8aaec52910531de4765e92cbbf42d38ecff84",
+      "decision": "original",
+      "license": "Apache-2.0",
+      "basis": "Moves one path and hash helper out of the kernel core into the shared package, as the second measured step of the kernel switch. The helper maps a workspace to its project memory directory and depends only on node:crypto and node:path, so its dependency closure is empty and it can move without dragging anything with it; this was established by reading every import in its source file rather than by assuming. The logic is carried over unchanged, including the platform branch that lowercases the path on Windows before hashing, because dropping it would make the same directory resolve to two different memory roots depending on how the path was spelled. The input type was previously unexported and is now exported, since callers outside the package need a name for it. The core keeps a re-export so its own internal consumer needs no simultaneous change, while the application layer consumer now imports from the shared package so deleting the core will not break it. Re-registered after merging main, which added the output and environment exports to the same index file; both sets are kept.",
+      "evidence": [
+        "packages/shared/src/project-memory-root.ts"
       ]
     },
     {
@@ -141399,12 +141439,12 @@
     },
     {
       "path": "specs/contracts/kernel-plugin-hooks/interface.md",
-      "normalizedSha256": "9ad0bd9350b74142ddf169d86d101f2fbc5aa8a4f9638354546a70b5d678d5e5",
+      "normalizedSha256": "24c5a50d490f2f2948af0db8d09905f97413ad2af073e556f6f0efb73600a157",
       "decision": "original",
       "license": "Apache-2.0",
-      "basis": "Knorvia-authored M2 access-package contract for the hooks plugin. This revision records the verification evidence behind the reuse claims: every contract type the plugin intends to reuse was confirmed to already exist in the contracts package, so the plugin adds no new type definitions there, and every DSH package it depends on was confirmed to be already declared by the bootstrap package, so implementation needs no new dependencies. It also records which dispatch mode each of the seven extension points uses, since the mode is what decides whether a hook can block: waterfall points can decline to delegate, the serial point short-circuits on the first bail value, and the emit point accepts only a synchronous throw as a veto, which is why an asynchronous hook cannot prevent a session from being created.",
+      "basis": "Contract correction for the hooks plugin export list. The executable contract tests already read two telemetry helper functions from the public entry point and assert their behaviour, but the written export list omitted them, so the document lagged behind the tests. The list now names both functions with their signatures and states why they belong to the contract surface: the tests are the executable half of the contract, and a reader working from the document alone would not know to implement them. No implementation changes accompany this correction, since the functions already exist and already satisfy the tests. Re-registered after merging main, because the shared review file took main side wholesale and dropped this entry.",
       "evidence": [
-        "specs/contracts/kernel-plugin-hooks/interface.md"
+        "specs/contracts/kernel-plugin-hooks/tests/workspace-telemetry.test.mjs"
       ]
     },
     {
